@@ -4,16 +4,14 @@ import { Field } from 'redux-form';
 import {
   FormattedMessage,
   FormattedDate,
+  useIntl,
 } from 'react-intl';
 import {
   sortBy
 } from 'lodash';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import {
-  IntlConsumer,
-  useStripes,
-} from '@folio/stripes/core';
+import { useStripes } from '@folio/stripes/core';
 import {
   Pane,
   PaneCloseLink,
@@ -36,6 +34,7 @@ const SettingsAccessStatusTypes = ({
   kbId,
 }) => {
   const stripes = useStripes();
+  const intl = useIntl();
 
   const MAX_ACCESS_STATUS_TYPES_COUNT = 15;
 
@@ -227,40 +226,37 @@ const SettingsAccessStatusTypes = ({
         </FormattedMessage>
       )}
     >
-      <IntlConsumer>
-        {intl => (
-          <EditableList
-            editable={isListEditable}
-            actionProps={actionProps}
-            columnMapping={{
-              name: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.type' }),
-              description: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.description' }),
-              lastUpdated: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.lastUpdated' }),
-              records: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.records' }),
-            }}
-            contentData={sortedItems}
-            createButtonLabel={intl.formatMessage({ id: 'ui-eholdings.new' })}
-            fieldComponents={{
-              name: item => renderField(item, nameValidation),
-              description: item => renderField(item, descriptionValidation),
-            }}
-            formatter={formatter}
-            label={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' })}
-            onCreate={onCreateItem}
-            onDelete={showConfirmDialog}
-            onUpdate={onUpdateItem}
-            readOnlyFields={['lastUpdated', 'records']}
-            visibleFields={['name', 'description', 'lastUpdated', 'records']}
-            actionSuppression={{
-              delete: accessType => accessType.usageNumber || !canDelete,
-              edit: () => !canCreateAndEdit,
-            }}
-          />
-        )}
-      </IntlConsumer>
+      <EditableList
+        editable={isListEditable}
+        actionProps={actionProps}
+        columnMapping={{
+          name: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.type' }),
+          description: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.description' }),
+          lastUpdated: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.lastUpdated' }),
+          records: intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.records' }),
+        }}
+        contentData={sortedItems}
+        createButtonLabel={intl.formatMessage({ id: 'ui-eholdings.new' })}
+        fieldComponents={{
+          name: item => renderField(item, nameValidation),
+          description: item => renderField(item, descriptionValidation),
+        }}
+        formatter={formatter}
+        label={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' })}
+        onCreate={onCreateItem}
+        onDelete={showConfirmDialog}
+        onUpdate={onUpdateItem}
+        readOnlyFields={['lastUpdated', 'records']}
+        visibleFields={['name', 'description', 'lastUpdated', 'records']}
+        actionSuppression={{
+          delete: accessType => accessType.usageNumber || !canDelete,
+          edit: () => !canCreateAndEdit,
+        }}
+      />
       <ConfirmationModal
         id="delete-access-status-type-confirmation-modal"
         heading={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete" />}
+        ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.delete' })}
         message={
           <SafeHTMLMessage
             id="ui-eholdings.settings.accessStatusTypes.delete.description"

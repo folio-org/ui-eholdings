@@ -6,7 +6,10 @@ import {
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
 import { withStripes } from '@folio/stripes-core';
 import {
@@ -79,6 +82,9 @@ class CustomPackageEdit extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     model: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -270,6 +276,7 @@ class CustomPackageEdit extends Component {
       provider,
       onCancel,
       accessStatusTypes,
+      intl,
     } = this.props;
 
     const {
@@ -440,6 +447,7 @@ class CustomPackageEdit extends Component {
               size="small"
               label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
               id="eholdings-package-confirmation-modal"
+              aria-label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
               footer={(
                 <ModalFooter>
                   <Button
@@ -470,4 +478,4 @@ class CustomPackageEdit extends Component {
   }
 }
 
-export default withStripes(CustomPackageEdit);
+export default withStripes(injectIntl(CustomPackageEdit));

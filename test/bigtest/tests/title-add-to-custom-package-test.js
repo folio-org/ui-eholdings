@@ -55,11 +55,16 @@ describe('TitleShowAddToCustomPackage', () => {
   describe('clicking the add to custom package button', () => {
     beforeEach(async () => {
       await TitleShowPage.clickAddToCustomPackageButton();
-      a11yResults = await axe.run();
     });
 
-    it('should not have any a11y issues', () => {
-      expect(a11yResults.violations).to.be.empty;
+    describe('waiting for axe to run', () => {
+      beforeEach(async () => {
+        a11yResults = await axe.run();
+      });
+
+      it('should not have any a11y issues', () => {
+        expect(a11yResults.violations).to.be.empty;
+      });
     });
 
     it('shows the modal for adding a custom package', () => {
@@ -79,11 +84,16 @@ describe('TitleShowAddToCustomPackage', () => {
     describe('clicking submit', () => {
       beforeEach(async () => {
         await TitleShowPage.customPackageModal.submit();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows an error with no selected package', () => {
@@ -102,11 +112,16 @@ describe('TitleShowAddToCustomPackage', () => {
         await new Promise(r => setTimeout(r, 1000));
         await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
         await TitleShowPage.customPackageModal.submit();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('disables the submit button', () => {
@@ -134,11 +149,16 @@ describe('TitleShowAddToCustomPackage', () => {
         await TitleShowPage.customPackageModal.packageSelection.expandAndClick(0);
         await TitleShowPage.customPackageModal.fillUrl('http://my.url');
         await TitleShowPage.customPackageModal.submit();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('Redirects to the newly created resource with the specified URL', function () {

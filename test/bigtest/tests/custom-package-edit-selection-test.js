@@ -64,12 +64,16 @@ describe('CustomPackageEditSelection', () => {
         await PackageEditPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
-
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows the deletion confirmation modal', () => {
@@ -304,12 +308,16 @@ describe('CustomPackageEditSelection', () => {
         await PackageEditPage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.removeFromHoldings.click();
-
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows the deselection confirmation modal', () => {

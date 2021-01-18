@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import {
   isEqual,
 } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
 import {
   Button,
@@ -38,6 +41,9 @@ export const filterCountFromQuery = ({ q, sort, filter }) => {
 class SearchModal extends React.PureComponent {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
     listType: PropTypes.string,
     onFilter: PropTypes.func,
     onSearch: PropTypes.func,
@@ -184,6 +190,7 @@ class SearchModal extends React.PureComponent {
       listType,
       tagsModel,
       accessTypes,
+      intl,
     } = this.props;
 
     const {
@@ -215,6 +222,7 @@ class SearchModal extends React.PureComponent {
                 <FormattedMessage id={`ui-eholdings.filter.filterType.${listType}`} />
               </span>
             )}
+            aria-label={intl.formatMessage({ id: `ui-eholdings.filter.filterType.${listType}` })}
             onClose={this.close}
             id="eholdings-details-view-search-modal"
             closeOnBackgroundClick
@@ -266,4 +274,4 @@ class SearchModal extends React.PureComponent {
   }
 }
 
-export default SearchModal;
+export default injectIntl(SearchModal);

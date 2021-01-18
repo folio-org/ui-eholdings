@@ -5,6 +5,9 @@ import { accessTypesReduxStateShape } from '../../constants';
 export default {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   closeSelectionModal: PropTypes.func.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   getFooter: PropTypes.func.isRequired,
   getSectionHeader: PropTypes.func.isRequired,
   handelDeleteConfirmation: PropTypes.func.isRequired,
