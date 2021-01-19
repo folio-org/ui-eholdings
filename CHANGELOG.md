@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [5.0.5] (IN PROGRESS)
+
+* Fixed incorrect Custom Labels max value length error message for en_US locale.
+
 ## [5.0.4] (https://github.com/folio-org/ui-eholdings/tree/v5.0.4) (2021-01-12)
 
 * Increase Settings Custom Labels display label max length to 200. (UIEH-985)
