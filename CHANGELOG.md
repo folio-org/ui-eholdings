@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [5.0.5] (IN PROGRESS)
+## [5.0.5] (https://github.com/folio-org/ui-eholdings/tree/v5.0.5) (2021-01-19)
 
 * Fixed incorrect Custom Labels max value length error message for en_US locale.
 
