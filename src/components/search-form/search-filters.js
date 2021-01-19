@@ -42,7 +42,7 @@ export default function SearchFilters({
             displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
             onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
             id={`filter-${searchType}-${name}`}
-            headerProps={{ role: 'tab' }}
+            className={styles['search-filter-accordion']}
           >
             <div
               role="radiogroup"
