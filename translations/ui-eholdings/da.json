@@ -239,7 +239,7 @@
     "server.errors.kbRequired": "The eHoldings package requires a knowledge base to be present for proper operation.",
     "server.errors.installBackend": "Please install an appropriate backend module with your instance of OKAPI.",
     "search.apply": "Apply",
-    "search.addNew": "New",
+    "search.addNew": "Ny",
     "search.loading": "Loading...",
     "search.searchAndFilter": "Search & filter",
     "search.enterQuery": "Enter a query to show search results.",
@@ -250,8 +250,8 @@
     "date.endDate": "End date",
     "selected": "Selected",
     "notSelected": "Not selected",
-    "addToHoldings": "Add to holdings",
-    "addAllToHoldings": "Add all titles to holdings",
+    "addToHoldings": "Tilføj til beholdingspost",
+    "addAllToHoldings": "Tilføj alle titler til beholdingspost",
     "saving": "Saving",
     "submit": "Submit",
     "save": "Save",
@@ -420,5 +420,6 @@
     "agreements.unassignModal.cancel": "Cancel",
     "agreements.unassignModal.unassign": "Unassign",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
-    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}"
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
 }
