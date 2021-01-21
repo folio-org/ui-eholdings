@@ -111,7 +111,7 @@ const AgreementsList = ({
     actions: agreement => (
       <Tooltip
         text={<FormattedMessage id="ui-eholdings.agreements.unlink" />}
-        id='unassign-agreement-tooltip'
+        id={`unassign-agreement-${agreement.id}-tooltip`}
       >
         {({ ref, ariaIds }) => (
           <IconButton
