@@ -68,9 +68,12 @@ describe('CustomPackageEditVisibility', () => {
       });
 
       describe('clicking cancel', () => {
+        beforeEach(async () => {
+          await PackageEditPage.toggleIsVisible().clickBackButton();
+        });
+
         describe('waiting for aXe to run', () => {
           beforeEach(async () => {
-            await PackageEditPage.toggleIsVisible().clickBackButton();
             a11yResults = await axe.run();
           });
 

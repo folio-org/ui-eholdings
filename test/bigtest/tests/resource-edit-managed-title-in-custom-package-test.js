@@ -138,7 +138,6 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
       describe('confirming the deselection', () => {
         beforeEach(async () => {
           await ResourceEditPage.modal.confirmDeselection();
-          a11yResults = await axe.run();
         });
 
         describe('waiting for axe to run', () => {
