@@ -421,5 +421,5 @@
     "agreements.unassignModal.unassign": "Cancelar atribuição",
     "permission.settings.custom-labels.all": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizadas",
     "contributorType.narrator": "{count, plural, one {Narrador} other {Narradores}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Configurações (eHoldings): Pode atribuir / cancelar a atribuição de um usuário de uma KB"
 }
