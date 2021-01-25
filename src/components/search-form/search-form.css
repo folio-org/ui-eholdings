@@ -11,14 +11,8 @@
   padding-left: 0;
 }
 
-.search-filters {
-  & section {
-    margin-bottom: 1em;
-  }
-
-  & [role="tabpanel"] {
-    padding-left: 1rem;
-  }
+.search-filter-accordion {
+  margin-bottom: 1em;
 }
 
 .tags-search-warning {
