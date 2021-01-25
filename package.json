@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -23,7 +23,7 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
-    "@folio/stripes": "^5.0.0",
+    "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^1.18.0",
     "axe-core": "^4.0.2",
     "babel-eslint": "^10.0.3",
@@ -40,10 +40,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-intl": "^5.8.0",
-    "react-redux": "^5.0.7",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^2.5.0",
-    "redux": "^3.0.0",
+    "redux": "^4.0.5",
     "rxjs": "^5.0.0",
     "sinon": "^6.3.5",
     "stylelint": "^9.5.0",
@@ -70,7 +70,7 @@
     "redux-observable": "^0.15.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^5.0.0",
+    "@folio/stripes": "^6.0.0",
     "react": "*",
     "react-intl": "^5.8.0",
     "react-router": "^5.2.0",

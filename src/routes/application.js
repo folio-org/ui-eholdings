@@ -95,13 +95,13 @@ class ApplicationRoute extends Component {
 export default connect(
   (store) => {
     const {
-      eholdings: { data },
-      discovery: { interfaces = {} },
+      eholdings,
+      discovery,
     } = store;
 
     return {
-      status: createResolver(data).find('statuses', 'status'),
-      interfaces,
+      status: createResolver(eholdings?.data || {}).find('statuses', 'status'),
+      interfaces: discovery?.interfaces || {},
       kbCredentials: selectPropFromData(store, 'kbCredentials'),
     };
   }, {

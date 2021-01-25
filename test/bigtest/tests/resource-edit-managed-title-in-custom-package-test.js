@@ -76,12 +76,16 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
         await ResourcePage
           .actionsDropDown.clickDropDownButton()
           .dropDownMenu.clickRemoveFromHoldings();
-
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for axe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('shows the confirmation modal', () => {
@@ -134,11 +138,16 @@ describe('ResourceEditManagedTitleInCustomPackage', () => {
       describe('confirming the deselection', () => {
         beforeEach(async () => {
           await ResourceEditPage.modal.confirmDeselection();
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for axe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         it('shows a toasts with an error message', () => {

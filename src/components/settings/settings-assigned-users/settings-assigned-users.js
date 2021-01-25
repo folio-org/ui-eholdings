@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import { Pluggable } from '@folio/stripes/core';
@@ -48,6 +51,8 @@ const SettingsAssignedUsers = ({
   alreadyAssignedMessageDisplayed,
   hideAlreadyAssignedMessage,
 }) => {
+  const intl = useIntl();
+
   const [
     userToBeUnassigned,
     setUserToBeUnassigned
@@ -159,6 +164,7 @@ const SettingsAssignedUsers = ({
         id="unassignConfirmationModal"
         open
         label={<FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.title" />}
+        aria-label={intl.formatMessage({ id: 'ui-eholdings.settings.assignedUsers.confirmationModal.title' })}
         footer={(
           <ModalFooter>
             <Button

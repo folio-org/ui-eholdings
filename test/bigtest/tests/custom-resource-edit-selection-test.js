@@ -77,12 +77,16 @@ describe('CustomResourceHoldingSelection', () => {
           await ResourceEditPage
             .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
-
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for aXe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         describe('confirmation modal', () => {
@@ -100,12 +104,16 @@ describe('CustomResourceHoldingSelection', () => {
           await ResourceEditPage
             .actionsDropDown.clickDropDownButton()
             .dropDownMenu.clickRemoveFromHoldings();
-
-          a11yResults = await axe.run();
         });
 
-        it('should not have any a11y issues', () => {
-          expect(a11yResults.violations).to.be.empty;
+        describe('waiting for aXe to run', () => {
+          beforeEach(async () => {
+            a11yResults = await axe.run();
+          });
+
+          it('should not have any a11y issues', () => {
+            expect(a11yResults.violations).to.be.empty;
+          });
         });
 
         describe('confirmation modal', () => {

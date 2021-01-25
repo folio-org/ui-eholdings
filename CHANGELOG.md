@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [5.1.0] (IN PROGRESS)
+## [6.0.0] (IN PROGRESS)
 
 * Increase Settings Custom Labels display label max length to 200. (UIEH-985)
 * Increase Custom Labels value max length to 500. (UIEH-985)
@@ -14,6 +14,7 @@
 * Update focus behavior on Result list pane. (UIEH-1001)
 * Add assign/unassign user from KB permissions. (UIEH-1018) 
 * Fix "Required ARIA parent role not present: tablist" error. (UIEH-926)
+* Update `stripes` to v6. (UIEH-1019)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

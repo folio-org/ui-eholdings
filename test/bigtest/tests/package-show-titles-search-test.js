@@ -125,11 +125,16 @@ describe('Package Show Title Search', () => {
     describe('when the search modal is open', () => {
       beforeEach(async () => {
         await PackageShowPage.clickListSearch();
-        a11yResults = await axe.run();
       });
 
-      it('should not have any a11y issues', () => {
-        expect(a11yResults.violations).to.be.empty;
+      describe('waiting for aXe to run', () => {
+        beforeEach(async () => {
+          a11yResults = await axe.run();
+        });
+
+        it('should not have any a11y issues', () => {
+          expect(a11yResults.violations).to.be.empty;
+        });
       });
 
       it('all filter accordions should be collapsed', () => {

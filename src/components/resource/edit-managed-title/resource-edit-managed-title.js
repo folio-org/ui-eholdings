@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
 import hasIn from 'lodash/hasIn';
 import update from 'lodash/fp/update';
@@ -182,6 +185,7 @@ class ResourceEditManagedTitle extends Component {
       getFooter,
       getSectionHeader,
       renderCoverageDates,
+      intl,
     } = this.props;
 
     const {
@@ -335,6 +339,7 @@ class ResourceEditManagedTitle extends Component {
               size="small"
               label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
               id="eholdings-resource-confirmation-modal"
+              aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
               footer={(
                 <ModalFooter>
                   <Button
@@ -365,4 +370,4 @@ class ResourceEditManagedTitle extends Component {
   }
 }
 
-export default withStripes(ResourceEditManagedTitle);
+export default withStripes(injectIntl(ResourceEditManagedTitle));
