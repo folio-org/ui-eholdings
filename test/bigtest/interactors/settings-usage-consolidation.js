@@ -2,7 +2,6 @@ import {
   clickable,
   interactor,
   property,
-  scoped,
 } from '@bigtest/interactor';
 
 import Select from './select';
