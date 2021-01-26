@@ -17,6 +17,7 @@ import { selectPropFromData } from '../redux/selectors';
 import {
   clearUsageConsolidationErrors as clearUsageConsolidationErrorsAction,
   getUsageConsolidation as getUsageConsolidationAction,
+  getUsageConsolidationKey as getUsageConsolidationKeyAction,
   patchUsageConsolidation as patchUsageConsolidationAction,
   postUsageConsolidation as postUsageConsolidationAction,
   getCurrencies as getCurrenciesAction,
@@ -32,6 +33,7 @@ const propTypes = {
   }),
   getCurrencies: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
+  getUsageConsolidationKey: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -48,6 +50,7 @@ const SettingsUsageConsolidationRoute = ({
   currencies,
   getCurrencies,
   getUsageConsolidation,
+  getUsageConsolidationKey,
   match: { params: { kbId } },
   patchUsageConsolidation,
   postUsageConsolidation,
@@ -58,6 +61,7 @@ const SettingsUsageConsolidationRoute = ({
   const {
     data: usageConsolidationData,
     isLoading,
+    isLoaded,
   } = usageConsolidation;
 
   if (!stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view')) {
@@ -67,6 +71,12 @@ const SettingsUsageConsolidationRoute = ({
   useEffect(() => {
     getUsageConsolidation(kbId);
   }, [getUsageConsolidation, kbId]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      getUsageConsolidationKey(kbId);
+    }
+  }, [getUsageConsolidationKey, kbId, isLoaded]);
 
   useEffect(() => {
     getCurrencies();
@@ -121,6 +131,7 @@ export default connect(
   }), {
     clearUsageConsolidationErrors: clearUsageConsolidationErrorsAction,
     getUsageConsolidation: getUsageConsolidationAction,
+    getUsageConsolidationKey: getUsageConsolidationKeyAction,
     patchUsageConsolidation: patchUsageConsolidationAction,
     postUsageConsolidation: postUsageConsolidationAction,
     getCurrencies: getCurrenciesAction,
