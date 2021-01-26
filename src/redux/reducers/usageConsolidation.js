@@ -61,7 +61,7 @@ const handlers = {
       ...payload.attributes,
     },
   }),
-  [GET_USAGE_CONSOLIDATION_FAILURE]: (state, { payload }) => ({
+  [GET_USAGE_CONSOLIDATION_KEY_FAILURE]: (state, { payload }) => ({
     ...state,
     isKeyLoading: false,
     isKeyLoaded: false,

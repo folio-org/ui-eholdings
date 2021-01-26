@@ -1116,6 +1116,15 @@ export default function config() {
     }
   }));
 
+  this.get('/kb-credentials/:credId/uc/key', () => ({
+    'id': '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    'type': 'ucSettingsKey',
+    'attributes': {
+      'credentialsId': '80898dee-449f-44dd-9c8e-37d5eb469b1d',
+      'customerKey': '1234-5678-90'
+    },
+  }));
+
   this.get('/uc', () => ({
     id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
     type: 'ucSettings',

@@ -34,6 +34,26 @@ describe('With usage consolidation available to a customer', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationIdField.isPresent).to.be.true;
     });
 
+    describe('usage condolidation id show hide password', () => {
+      it('should show show/hide button', () => {
+        expect(SettingsUsageConsolidationPage.usageConsolidationIdField.isShowHideButtonPresent).to.be.true;
+      });
+
+      it('should show encrypted key by default', () => {
+        expect(SettingsUsageConsolidationPage.usageConsolidationIdField.customerKeyInput.type).to.equal('password');
+      });
+
+      describe('when clicking on show key button', () => {
+        beforeEach(async () => {
+          await SettingsUsageConsolidationPage.usageConsolidationIdField.clickShowHideButton();
+        });
+
+        it('should show value of key', () => {
+          expect(SettingsUsageConsolidationPage.usageConsolidationIdField.customerKeyInput.type).to.equal('text');
+        });
+      });
+    });
+
     it('should show usage consolidation start month field', () => {
       expect(SettingsUsageConsolidationPage.usageConsolidationStartMonthField.isPresent).to.be.true;
     });
@@ -104,6 +124,19 @@ describe('With usage consolidation available to a customer', () => {
           expect(SettingsUsageConsolidationPage.saveButtonDisabled).to.be.true;
         });
       });
+    });
+  });
+
+  describe('when usage consolidation key could not be loaded', () => {
+    beforeEach(async function () {
+      this.server.get('/kb-credentials/:credId/uc/key', 500);
+
+      this.visit('/settings/eholdings/2/usage-consolidation');
+      await wait(1000);
+    });
+
+    it('should not show show/hide button', () => {
+      expect(SettingsUsageConsolidationPage.usageConsolidationIdField.isShowHideButtonPresent).to.be.false;
     });
   });
 
