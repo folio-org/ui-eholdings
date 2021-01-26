@@ -13,6 +13,9 @@ const UsageConsolidationReduxStateShape = PropTypes.shape({
   data: UsageConsolidationShape.isRequired,
   errors: PropTypes.array.isRequired,
   isFailed: PropTypes.bool.isRequired,
+  isKeyFailed: PropTypes.bool.isRequired,
+  isKeyLoaded: PropTypes.bool.isRequired,
+  isKeyLoading: PropTypes.bool.isRequired,
   isLoaded: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
 });

@@ -21,6 +21,17 @@ export default {
 
     return doRequest(url, params);
   },
+  getUsageConsolidationKey: (okapi, credentialId) => {
+    const method = 'GET';
+    const url = createUrl(okapi.url, `${getApiUrl(credentialId)}/key`);
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
+
+    return doRequest(url, params);
+  },
   postUsageConsolidation: (okapi, credentialId, data) => {
     const method = 'POST';
     const url = `${okapi.url}${getApiUrl(credentialId)}`;
