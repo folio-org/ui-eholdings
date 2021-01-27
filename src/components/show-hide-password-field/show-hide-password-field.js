@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
 } from 'react-intl';
+import { Field } from 'react-final-form';
 
 import {
   Button,
@@ -14,7 +15,6 @@ import {
 import css from './show-hide-password-field.css';
 
 const propTypes = {
-  field: PropTypes.node.isRequired,
   hideButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   isHiddenBeDefault: PropTypes.bool,
   showButton: PropTypes.bool,
@@ -29,7 +29,6 @@ const defaultProps = {
 };
 
 const ShowHidePasswordField = ({
-  field: Field,
   isHiddenBeDefault,
   showButtonLabel,
   hideButtonLabel,

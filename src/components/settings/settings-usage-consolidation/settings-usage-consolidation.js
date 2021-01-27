@@ -140,7 +140,6 @@ const SettingsUsageConsolidation = ({
             id="eholdings-settings-usage-consolidation-id"
             name="customerKey"
             required
-            field={Field}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
             parse={parseUsageConsolidationId}

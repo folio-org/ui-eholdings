@@ -25,6 +25,7 @@
 * Hide Usage Consolidation accordion when Package/Title/Resource is not selected. (UIEH-1000)
 * Settings - Usage Consolidation: Display a successful toast notification. (UIEH-1010)
 * Updated `stripes` to v6. (UIEH-1019)
+* Settings > eholdings > Usage Consolidation: Display a Show/Hide ID toggle. (UIEH-1022)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
