@@ -6,6 +6,9 @@ import {
   CLEAR_USAGE_CONSOLIDATION_ERRORS,
   GET_USAGE_CONSOLIDATION_FAILURE,
   GET_USAGE_CONSOLIDATION,
+  GET_USAGE_CONSOLIDATION_KEY,
+  GET_USAGE_CONSOLIDATION_KEY_SUCCESS,
+  GET_USAGE_CONSOLIDATION_KEY_FAILURE,
   PATCH_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_SUCCESS,
   POST_USAGE_CONSOLIDATION_FAILURE,
@@ -21,6 +24,9 @@ describe('(reducer) usageConsolidation', () => {
       isLoaded: false,
       isFailed: false,
       hasSaved: false,
+      isKeyLoading: false,
+      isKeyLoaded: false,
+      isKeyFailed: false,
     });
   });
 
@@ -48,6 +54,9 @@ describe('(reducer) usageConsolidation', () => {
       data: {},
       errors: [],
       isLoading: true,
+      isKeyLoading: false,
+      isKeyLoaded: false,
+      isKeyFailed: false,
     };
     const action = {
       type: GET_USAGE_CONSOLIDATION_FAILURE,
@@ -58,7 +67,82 @@ describe('(reducer) usageConsolidation', () => {
       isLoading: false,
       isLoaded: false,
       isFailed: true,
+      isKeyLoading: false,
+      isKeyLoaded: false,
+      isKeyFailed: false,
       hasSaved: false,
+      errors: [{ title: 'error' }],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle GET_USAGE_CONSOLIDATION_KEY', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isKeyLoading: false,
+      isKeyLoaded: false,
+      isKeyFailed: false,
+    };
+    const action = { type: GET_USAGE_CONSOLIDATION_KEY };
+    const expectedState = {
+      data: {},
+      errors: [],
+      isKeyLoading: true,
+      isKeyLoaded: false,
+      isKeyFailed: false,
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle GET_USAGE_CONSOLIDATION_KEY_SUCCESS', () => {
+    const actualState = {
+      data: {
+        customerKey: '****',
+        customerId: '5678',
+      },
+      errors: [],
+      isKeyLoading: true,
+    };
+    const action = {
+      type: GET_USAGE_CONSOLIDATION_KEY_SUCCESS,
+      payload: {
+        attributes: {
+          customerKey: '1234',
+        },
+      },
+    };
+    const expectedState = {
+      data: {
+        customerKey: '1234',
+        customerId: '5678',
+      },
+      isKeyLoading: false,
+      isKeyLoaded: true,
+      isKeyFailed: false,
+      errors: [],
+    };
+
+    expect(usageConsolidation(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle GET_USAGE_CONSOLIDATION_KEY_FAILURE', () => {
+    const actualState = {
+      data: {},
+      errors: [],
+      isKeyLoading: true,
+    };
+    const action = {
+      type: GET_USAGE_CONSOLIDATION_KEY_FAILURE,
+      payload: { errors: { title: 'error' } },
+    };
+    const expectedState = {
+      data: {},
+      isKeyLoading: false,
+      isKeyLoaded: false,
+      isKeyFailed: true,
       errors: [{ title: 'error' }],
     };
 

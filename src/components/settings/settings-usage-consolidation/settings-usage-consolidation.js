@@ -17,11 +17,11 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 import {
-  TextField,
   Select,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
+import ShowHidePasswordField from '../../show-hide-password-field';
 import {
   platformTypes,
   usageConsolidation as ucReduxStateShape,
@@ -136,17 +136,17 @@ const SettingsUsageConsolidation = ({
           title={<FormattedMessage id="ui-eholdings.settings.usageConsolidation" />}
           toasts={toasts}
         >
-          <Field
+          <ShowHidePasswordField
             id="eholdings-settings-usage-consolidation-id"
             name="customerKey"
-            type="password"
-            autoComplete="new-password"
             required
-            component={TextField}
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
             parse={parseUsageConsolidationId}
             disabled={disabled}
+            showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.show" />}
+            hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.hide" />}
+            showButton={usageConsolidation.isKeyLoaded}
           />
           <Field
             id="eholdings-settings-usage-consolidation-month"

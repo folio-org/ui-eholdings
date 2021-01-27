@@ -274,6 +274,8 @@
     "settings.usageConsolidation.id": "Usage consolidation ID",
     "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
     "settings.usageConsolidation.id.validation.invalid": "Invalid Usage Consolidation ID. Please enter a valid ID.",
+    "settings.usageConsolidation.id.show": "Show ID",
+    "settings.usageConsolidation.id.hide": "Hide ID",
     "settings.usageConsolidation.saved": "Usage Consolidation settings are updated.",
     "settings.usageConsolidation.startMonth": "Start month for usage statistics",
     "settings.usageConsolidation.currency": "Currency",
@@ -292,6 +294,9 @@
 
     "actionMenu.cancelEditing": "Cancel editing",
     "actionMenu.edit": "Edit",
+
+    "showHidePasswordField.show": "Show",
+    "showHidePasswordField.hide": "Hide",
 
     "label.author": "Author",
     "label.editor": "Editor",
