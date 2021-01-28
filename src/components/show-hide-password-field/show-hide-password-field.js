@@ -16,26 +16,26 @@ import css from './show-hide-password-field.css';
 
 const propTypes = {
   hideButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  isHiddenBeDefault: PropTypes.bool,
+  isHiddenByDefault: PropTypes.bool,
   showButton: PropTypes.bool,
   showButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 const defaultProps = {
-  isHiddenBeDefault: true,
+  isHiddenByDefault: true,
   showButton: true,
   showButtonLabel: <FormattedMessage id="ui-eholdings.showHidePasswordField.show" />,
   hideButtonLabel: <FormattedMessage id="ui-eholdings.showHidePasswordField.hide" />,
 };
 
 const ShowHidePasswordField = ({
-  isHiddenBeDefault,
+  isHiddenByDefault,
   showButtonLabel,
   hideButtonLabel,
   showButton,
   ...rest
 }) => {
-  const [isPasswordHidden, setIsPasswordHidden] = useState(isHiddenBeDefault);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(isHiddenByDefault);
 
   const handleButtonClick = () => {
     setIsPasswordHidden(cur => !cur);
@@ -45,7 +45,6 @@ const ShowHidePasswordField = ({
     <div className={css.showHidePasswordField}>
       <Field
         type={isPasswordHidden ? 'password' : 'text'}
-        autoComplete="new-password"
         component={TextField}
         className={css.showHideTextField}
         marginBottom0
