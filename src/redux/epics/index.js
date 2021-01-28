@@ -8,6 +8,7 @@ export { default as createAttachAccessTypeEpic } from './attach-access-type';
 export { default as createDeleteAccessTypeEpic } from './delete-access-type';
 export { default as createUpdateAccessTypeEpic } from './update-access-type';
 export { default as createGetKbCredentialsEpic } from './get-kb-credentials';
+export { default as createGetKbCredentialsKeyEpic } from './get-kb-credentials-key';
 export { default as createPostKbCredentialsEpic } from './post-kb-credentials';
 export { default as createPatchKBCredentialsEpic } from './patch-kb-credentials';
 export { default as createDeleteKbCredentialsEpic } from './delete-kb-credentials';

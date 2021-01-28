@@ -2,6 +2,7 @@ import {
   GET_KB_CREDENTIALS,
   GET_KB_CREDENTIALS_SUCCESS,
   GET_KB_CREDENTIALS_FAILURE,
+  GET_KB_CREDENTIALS_KEY_SUCCESS,
   POST_KB_CREDENTIALS,
   POST_KB_CREDENTIALS_SUCCESS,
   POST_KB_CREDENTIALS_FAILURE,
@@ -22,7 +23,9 @@ const initialState = {
   isLoading: false,
   isUpdating: false,
   hasLoaded: false,
+  hasKeyLoaded: false,
   hasFailed: false,
+  hasKeyFailed: false,
   hasUpdated: false,
   hasSaved: false,
   hasDeleted: false,
@@ -55,6 +58,25 @@ const handlers = {
       errors: formatErrors(errors),
     };
   },
+
+  [GET_KB_CREDENTIALS_KEY_SUCCESS]: (state, action) => ({
+    ...state,
+    items: state.items.map(kbCredential => {
+      return kbCredential.id === action.payload.id
+        ? {
+          ...kbCredential,
+          attributes: {
+            ...kbCredential.attributes,
+            ...action.payload.attributes,
+          },
+          meta: {
+            ...kbCredential.meta,
+            isKeyLoaded: true,
+          }
+        }
+        : kbCredential;
+    }),
+  }),
 
   [POST_KB_CREDENTIALS]: state => ({
     ...state,
@@ -125,6 +147,7 @@ const handlers = {
             ...credential.attributes,
             ...action.payload.attributes,
           },
+          meta: action.payload.meta,
         }
         : credential;
     }),
