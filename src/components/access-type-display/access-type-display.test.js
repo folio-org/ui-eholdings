@@ -2,19 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import AccessTypeDisplay from './access-type-display';
-/*
-jest.mock('@folio/stripes/components', () => ({
-  ...jest.requireActual('@folio/stripes/components'),
-  KeyValue: jest.fn(({ label, children }) => (
-    <>
-      {label}
-      {children}
-    </>
-  )),
-  NoValue: message => <span>{message}</span>,
-}));
-*/
-const renderAccessTypeDisplay = ({ accessTypeId, accessStatusTypes } = {}) => render(
+
+const renderAccessTypeDisplay = ({ accessTypeId, accessStatusTypes }) => render(
   <AccessTypeDisplay
     accessTypeId={accessTypeId}
     accessStatusTypes={accessStatusTypes}
@@ -25,14 +14,35 @@ describe('Given Access Type Display', () => {
   let accessTypeId;
   let accessStatusTypes;
 
-  beforeEach(() => {
-    accessTypeId = '1';
-    accessStatusTypes = [{ id: '1', name: 'name1' }];
+  describe('when access type presented', () => {
+    beforeEach(() => {
+      accessTypeId = 'id1';
+      accessStatusTypes = [{ id: 'id1', name: 'name1' }];
+    });
+
+    it('should display correct access type label', () => {
+      const { getByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
+
+      expect(getByText('ui-eholdings.settings.accessStatusTypes.type')).toBeDefined();
+    });
+
+    it('should display selected access type', () => {
+      const { getByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
+
+      expect(getByText('name1')).toBeDefined();
+    });
   });
 
-  it('should display selected acces type', () => {
-    const { getByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
+  describe('when access type did not found', () => {
+    beforeEach(() => {
+      accessTypeId = '';
+      accessStatusTypes = [{ id: 'id1', name: 'name1' }];
+    });
 
-    expect(getByText()).toBeDefined();
+    it('should display selected access type', () => {
+      const { getByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
+
+      expect(getByText('ui-eholdings.accessType.novalue')).toBeDefined();
+    });
   });
 });
