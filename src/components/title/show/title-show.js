@@ -28,11 +28,14 @@ import {
   Modal,
   ModalFooter,
 } from '@folio/stripes/components';
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import { processErrors } from '../../utilities';
 import {
   listTypes,
   entityTypes,
+  DOMAIN_NAME,
+  paths,
   costPerUse as costPerUseShape,
 } from '../../../constants';
 import DetailsView from '../../details-view';
@@ -79,6 +82,7 @@ class TitleShow extends Component {
     this.state = {
       showCustomPackageModal: false,
       sections: {
+        titleShowNotes: true,
         titleShowTags: true,
         titleShowTitleInformation: true,
         titleShowPackages: true,
@@ -349,6 +353,18 @@ class TitleShow extends Component {
                   </Button>
                 </div>
               </Accordion>
+
+              <NotesSmartAccordion
+                id="titleShowNotes"
+                open={sections.titleShowNotes}
+                onToggle={this.handleSectionToggle}
+                domainName={DOMAIN_NAME}
+                entityName={model.name}
+                entityType={entityTypes.PACKAGE}
+                entityId={model.id}
+                pathToNoteCreate={paths.NOTE_CREATE}
+                pathToNoteDetails={paths.NOTES}
+              />
 
               {showUsageConsolidation && (
                 <UsageConsolidationAccordion
