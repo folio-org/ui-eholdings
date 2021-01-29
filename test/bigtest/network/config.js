@@ -861,7 +861,7 @@ export default function config() {
           'url': '',
           'customerId': ''
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -879,7 +879,7 @@ export default function config() {
           'url': 'YYYY',
           'customerId': 'ZZZZ'
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -897,7 +897,7 @@ export default function config() {
           'url': 'YYYY',
           'customerId': 'ZZZZ'
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -919,7 +919,32 @@ export default function config() {
     };
   });
 
-  this.patch('/kb-credentials/:id', () => new Response(204));
+  this.get('/kb-credentials/:id/key', {
+    id : '2',
+    type : 'kbCredentialsKey',
+    attributes : {
+      apiKey : 'test-api-key'
+    },
+  });
+
+  this.patch('/kb-credentials/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return {
+      data: {
+        ...body.data,
+        meta: {
+          'createdDate': '2020-03-17T15:22:04.098',
+          'updatedDate': '2020-03-17T15:23:04.098+0000',
+          'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+          'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+          'createdByUsername': 'john_doe',
+          'updatedByUsername': 'jane_doe'
+        },
+      },
+    };
+  });
+
   this.delete('/kb-credentials/:id', () => new Response(204));
 
   // Current root proxy

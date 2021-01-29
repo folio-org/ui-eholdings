@@ -139,6 +139,7 @@ const SettingsUsageConsolidation = ({
           <ShowHidePasswordField
             id="eholdings-settings-usage-consolidation-id"
             name="customerKey"
+            autoComplete="new-password"
             required
             label={usageConsolidationIdLabel}
             aria-label={usageConsolidationIdLabel}
