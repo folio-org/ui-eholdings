@@ -12,7 +12,7 @@ import {
 } from '@bigtest/interactor';
 
 import Toast from './toast';
-import ShowHidePasswordField from '../interactors/show-hide-password-field';
+import ShowHidePasswordField from './show-hide-password-field';
 import { hasClassBeginningWith } from './helpers';
 
 @interactor class DeleteConfirmationModal {
