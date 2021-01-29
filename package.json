@@ -8,8 +8,9 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output dist",
-    "test:e2e": "stripes test karma",
-    "test": "jest --ci --coverage",
+    "test": "yarn run test:jest && yarn run test:bigtest",
+    "test:jest": "jest --ci --coverage",
+    "test:bigtest": "stripes test karma",
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
     "stylelint": "stylelint \"src/**/*.css\""
