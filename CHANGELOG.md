@@ -26,6 +26,7 @@
 * Settings - Usage Consolidation: Display a successful toast notification. (UIEH-1010)
 * Updated `stripes` to v6. (UIEH-1019)
 * Settings > eholdings > Usage Consolidation: Display a Show/Hide ID toggle. (UIEH-1022)
+* Settings > eholdings > Show/Hide API key toggle. (UIEH-1023)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 

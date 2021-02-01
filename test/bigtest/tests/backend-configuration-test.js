@@ -232,8 +232,28 @@ describe('backend configuration', () => {
         expect(SettingsPage.rmapiBaseUrl).to.not.equal('');
       });
 
-      it('field for the ebsco RM API key appears with text as password hidden', () => {
-        expect(SettingsPage.apiKeyInputType).to.equal('password');
+      it('should show usage consolidation id field', () => {
+        expect(SettingsPage.apiKeyField.isPresent).to.be.true;
+      });
+
+      describe('usage condolidation id show hide password', () => {
+        it('should show show/hide button', () => {
+          expect(SettingsPage.apiKeyField.isShowHideButtonPresent).to.be.true;
+        });
+
+        it('should show encrypted key by default', () => {
+          expect(SettingsPage.apiKeyField.customerKeyInput.type).to.equal('password');
+        });
+
+        describe('when clicking on show key button', () => {
+          beforeEach(async () => {
+            await SettingsPage.apiKeyField.clickShowHideButton();
+          });
+
+          it('should show value of key', () => {
+            expect(SettingsPage.apiKeyField.customerKeyInput.type).to.equal('text');
+          });
+        });
       });
 
       describe('the page always', () => {
@@ -282,22 +302,16 @@ describe('backend configuration', () => {
 
       describe('filling in complete data', () => {
         beforeEach(async () => {
+          await ApplicationPage.whenLoaded();
+          await SettingsPage.whenApiKeyLoaded();
           await SettingsPage
             .fillCustomerId('some-customer-id')
             .fillApiKey('some-api-key')
             .chooseRMAPIUrl('https://sandbox.ebsco.io');
-
-          await ApplicationPage.whenLoaded();
-          a11yResults = await axe.run({
-            rules: {
-              'color-contrast': { enabled: false },
-            },
-          });
         });
 
         describe('waiting for axe to run', () => {
           beforeEach(async () => {
-            await ApplicationPage.whenLoaded();
             a11yResults = await axe.run({
               rules: {
                 'color-contrast': { enabled: false },
@@ -325,10 +339,6 @@ describe('backend configuration', () => {
           });
 
           describe('when the changes succeed', () => {
-            it('disables the save button', () => {
-              expect(SettingsPage.saveButtonDisabled).to.be.true;
-            });
-
             it('should show a success toast', () => {
               expect(SettingsPage.toast.successText).to.eq('KB settings updated');
             });
@@ -394,9 +404,21 @@ describe('backend configuration', () => {
 
           it('reverts the changes', () => {
             expect(SettingsPage.customerId).to.equal('ZZZZ');
-            expect(SettingsPage.apiKey).to.equal('XXXX');
+            expect(SettingsPage.apiKey).to.equal('test-api-key');
           });
         });
+      });
+    });
+
+    describe('when usage consolidation key could not be loaded', () => {
+      beforeEach(async function () {
+        this.server.get('/kb-credentials/:credId/key', 500);
+
+        this.visit('/settings/eholdings/knowledge-base/2');
+      });
+
+      it('should not show show/hide button', () => {
+        expect(SettingsPage.apiKeyField.isShowHideButtonPresent).to.be.false;
       });
     });
   });

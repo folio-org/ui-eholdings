@@ -13,6 +13,7 @@ import {
 import { cloneDeep } from 'lodash';
 
 import {
+  getKbCredentialsKey as getKbCredentialsKeyAction,
   postKBCredentials as postKBCredentialsAction,
   patchKBCredentials as patchKBCredentialsAction,
   deleteKBCredentials as deleteKBCredentialsAction,
@@ -31,6 +32,7 @@ class SettingsKnowledgeBaseRoute extends Component {
     confirmPatchKBCredentials: PropTypes.func.isRequired,
     confirmPostKBCredentials: PropTypes.func.isRequired,
     deleteKBCredentials: PropTypes.func.isRequired,
+    getKbCredentialsKey: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     intl: PropTypes.object.isRequired,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
@@ -44,7 +46,6 @@ class SettingsKnowledgeBaseRoute extends Component {
     isCreateMode: this.props.location.pathname === '/settings/eholdings/knowledge-base/new',
     currentKBName: this.getCurrentKBName(),
   }
-
 
   componentDidUpdate(prevProps) {
     const {
@@ -63,6 +64,12 @@ class SettingsKnowledgeBaseRoute extends Component {
       this.setState({
         isCreateMode: pathname === '/settings/eholdings/knowledge-base/new',
       });
+
+      this.loadCurrentConfigKey();
+    }
+
+    if (!prevProps.kbCredentials.hasLoaded && kbCredentials.hasLoaded) {
+      this.loadCurrentConfigKey();
     }
 
     if (kbCredentials.hasUpdated) {
@@ -94,6 +101,13 @@ class SettingsKnowledgeBaseRoute extends Component {
         });
       }
       confirmDeleteKBCredentials();
+    }
+  }
+
+  loadCurrentConfigKey() {
+    const config = this.getCurrentKBData();
+    if (config && !config.meta.isKeyLoaded) {
+      this.props.getKbCredentialsKey(config.id);
     }
   }
 
@@ -199,6 +213,7 @@ export default connect(
     kbCredentials: selectPropFromData(store, 'kbCredentials'),
   }),
   {
+    getKbCredentialsKey: getKbCredentialsKeyAction,
     postKBCredentials: postKBCredentialsAction,
     patchKBCredentials: patchKBCredentialsAction,
     deleteKBCredentials: deleteKBCredentialsAction,

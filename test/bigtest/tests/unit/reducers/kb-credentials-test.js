@@ -6,6 +6,7 @@ import {
   GET_KB_CREDENTIALS,
   GET_KB_CREDENTIALS_SUCCESS,
   GET_KB_CREDENTIALS_FAILURE,
+  GET_KB_CREDENTIALS_KEY_SUCCESS,
   POST_KB_CREDENTIALS,
   POST_KB_CREDENTIALS_SUCCESS,
   POST_KB_CREDENTIALS_FAILURE,
@@ -87,6 +88,44 @@ describe('(reducer) kbCredentials', () => {
       errors: [
         { title: 'error' },
       ],
+    };
+
+    expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle GET_KB_CREDENTIALS_KEY_SUCCESS', () => {
+    const actualState = {
+      items: [{
+        id: '1',
+        attributes: {
+          url: 'some-url',
+          apiKey: '****',
+        },
+        meta: {},
+      }],
+    };
+
+    const action = {
+      type: GET_KB_CREDENTIALS_KEY_SUCCESS,
+      payload: {
+        id: '1',
+        attributes: {
+          apiKey: 'some-key',
+        },
+      },
+    };
+
+    const expectedState = {
+      items: [{
+        id: '1',
+        attributes: {
+          url: 'some-url',
+          apiKey: 'some-key',
+        },
+        meta: {
+          isKeyLoaded: true,
+        },
+      }],
     };
 
     expect(kbCredentials(actualState, action)).to.deep.equal(expectedState);
