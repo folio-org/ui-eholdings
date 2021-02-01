@@ -2,6 +2,7 @@ import {
   GET_KB_CREDENTIALS,
   GET_KB_CREDENTIALS_SUCCESS,
   GET_KB_CREDENTIALS_FAILURE,
+  GET_KB_CREDENTIALS_KEY,
   GET_KB_CREDENTIALS_KEY_SUCCESS,
   POST_KB_CREDENTIALS,
   POST_KB_CREDENTIALS_SUCCESS,
@@ -23,6 +24,7 @@ const initialState = {
   isLoading: false,
   isUpdating: false,
   hasLoaded: false,
+  isKeyLoading: false,
   hasKeyLoaded: false,
   hasFailed: false,
   hasKeyFailed: false,
@@ -59,8 +61,16 @@ const handlers = {
     };
   },
 
+  [GET_KB_CREDENTIALS_KEY]: (state) => ({
+    ...state,
+    isKeyLoading: true,
+    hasKeyLoaded: false,
+  }),
+
   [GET_KB_CREDENTIALS_KEY_SUCCESS]: (state, action) => ({
     ...state,
+    isKeyLoading: false,
+    hasKeyLoaded: true,
     items: state.items.map(kbCredential => {
       return kbCredential.id === action.payload.id
         ? {

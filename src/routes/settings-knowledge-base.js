@@ -1,4 +1,8 @@
-import React, { Component } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -8,10 +12,11 @@ import {
 } from '@folio/stripes/core';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 import { cloneDeep } from 'lodash';
 
+import View from '../components/settings/settings-knowledge-base';
 import {
   getKbCredentialsKey as getKbCredentialsKeyAction,
   postKBCredentials as postKBCredentialsAction,
@@ -24,130 +29,73 @@ import {
 import { selectPropFromData } from '../redux/selectors';
 import { KbCredentials } from '../constants';
 
-import View from '../components/settings/settings-knowledge-base';
+const propTypes = {
+  confirmDeleteKBCredentials: PropTypes.func.isRequired,
+  confirmPatchKBCredentials: PropTypes.func.isRequired,
+  confirmPostKBCredentials: PropTypes.func.isRequired,
+  deleteKBCredentials: PropTypes.func.isRequired,
+  getKbCredentialsKey: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
+  kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
+  location: ReactRouterPropTypes.location.isRequired,
+  match: PropTypes.object.isRequired,
+  patchKBCredentials: PropTypes.func.isRequired,
+  postKBCredentials: PropTypes.func.isRequired,
+};
 
-class SettingsKnowledgeBaseRoute extends Component {
-  static propTypes = {
-    confirmDeleteKBCredentials: PropTypes.func.isRequired,
-    confirmPatchKBCredentials: PropTypes.func.isRequired,
-    confirmPostKBCredentials: PropTypes.func.isRequired,
-    deleteKBCredentials: PropTypes.func.isRequired,
-    getKbCredentialsKey: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    intl: PropTypes.object.isRequired,
-    kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: PropTypes.object.isRequired,
-    patchKBCredentials: PropTypes.func.isRequired,
-    postKBCredentials: PropTypes.func.isRequired,
+const SettingsKnowledgeBaseRoute = ({
+  confirmDeleteKBCredentials,
+  confirmPatchKBCredentials,
+  confirmPostKBCredentials,
+  deleteKBCredentials,
+  getKbCredentialsKey,
+  history,
+  kbCredentials,
+  location,
+  match,
+  patchKBCredentials,
+  postKBCredentials,
+}) => {
+  const intl = useIntl();
+  const callout = useContext(CalloutContext);
+
+  const getCurrentKBData = () => {
+    return kbCredentials.items.find(cred => cred.id === match.params.kbId);
   };
 
-  state = {
-    isCreateMode: this.props.location.pathname === '/settings/eholdings/knowledge-base/new',
-    currentKBName: this.getCurrentKBName(),
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getCurrentKBName = () => {
+    return getCurrentKBData()?.attributes.name;
+  };
 
-  componentDidUpdate(prevProps) {
+  const [isCreateMode, setIsCreateMode] = useState(location.pathname === '/settings/eholdings/knowledge-base/new');
+  const [currentKBName, setCurrentKBName] = useState(getCurrentKBName());
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const loadCurrentConfigKey = () => {
+    const config = getCurrentKBData();
+    if (config && !config.meta.isKeyLoaded && !kbCredentials.isKeyLoading) {
+      getKbCredentialsKey(config.id);
+    }
+  };
+
+  const getCurrentConfig = () => {
     const {
-      kbCredentials,
-      confirmPatchKBCredentials,
-      confirmPostKBCredentials,
-      confirmDeleteKBCredentials,
-      location: { pathname },
-      history,
-    } = this.props;
+      items,
+      hasSaved,
+    } = kbCredentials;
 
-    const { currentKBName } = this.state;
-
-    if (prevProps.location.pathname !== pathname) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        isCreateMode: pathname === '/settings/eholdings/knowledge-base/new',
-      });
-
-      this.loadCurrentConfigKey();
-    }
-
-    if (!prevProps.kbCredentials.hasLoaded && kbCredentials.hasLoaded) {
-      this.loadCurrentConfigKey();
-    }
-
-    if (kbCredentials.hasUpdated) {
-      confirmPatchKBCredentials();
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ currentKBName: this.getCurrentKBName() });
-    }
-
-    if (kbCredentials.hasSaved) {
-      confirmPostKBCredentials();
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ currentKBName: this.getCurrentKBName() });
-    }
-
-    if (kbCredentials.hasDeleted) {
-      history.replace('/settings/eholdings');
-
-      if (this.sendDeleteSuccessCallout) {
-        this.sendDeleteSuccessCallout({
-          type: 'success',
-          message: (
-            <span data-test-kb-deleted-notification>
-              <FormattedMessage
-                id="ui-eholdings.settings.kb.delete.toast"
-                values={{ kbName: currentKBName }}
-              />
-            </span>
-          ),
-        });
-      }
-      confirmDeleteKBCredentials();
-    }
-  }
-
-  loadCurrentConfigKey() {
-    const config = this.getCurrentKBData();
-    if (config && !config.meta.isKeyLoaded) {
-      this.props.getKbCredentialsKey(config.id);
-    }
-  }
-
-  getCurrentKBData() {
-    const {
-      kbCredentials,
-      match,
-    } = this.props;
-
-    return kbCredentials.items.find(cred => cred.id === match.params.kbId);
-  }
-
-  getCurrentKBName() {
-    return this.getCurrentKBData()?.attributes.name;
-  }
-
-  getCurrentConfig() {
-    const {
-      kbCredentials: {
-        items,
-        hasSaved,
-      }
-    } = this.props;
-
-    if (this.state.isCreateMode) {
+    if (isCreateMode) {
       return hasSaved ? items[items.length - 1] : { type: 'kbCredentials', attributes: {} };
     }
 
-    const config = this.getCurrentKBData();
+    const config = getCurrentKBData();
 
     return config ? { ...config } : null;
-  }
+  };
 
-  updateConfig = ({ url, customerId, apiKey, name }) => {
-    const {
-      postKBCredentials,
-      patchKBCredentials
-    } = this.props;
-
-    const { meta, ...currentConfig } = this.getCurrentConfig();
+  const updateConfig = ({ url, customerId, apiKey, name }) => {
+    const { meta, ...currentConfig } = getCurrentConfig();
 
     const config = cloneDeep(currentConfig);
     config.attributes = {
@@ -160,53 +108,84 @@ class SettingsKnowledgeBaseRoute extends Component {
       config.attributes.apiKey = apiKey;
     }
 
-    if (this.state.isCreateMode) {
+    if (isCreateMode) {
       postKBCredentials({ data: config });
     } else {
       patchKBCredentials(config, config.id);
     }
   };
 
-  deleteKBCredentials = kbID => {
-    this.setState({
-      currentKBName: this.getCurrentKBName(),
-    });
-    this.props.deleteKBCredentials(kbID);
+  const handleDeleteKBCredentials = kbID => {
+    setCurrentKBName(getCurrentKBName());
+    deleteKBCredentials(kbID);
   };
 
-  render() {
-    const {
-      kbCredentials,
-      intl,
-    } = this.props;
+  useEffect(() => {
+    // eslint-disable-next-line react/no-did-update-set-state
+    setIsCreateMode(location.pathname === '/settings/eholdings/knowledge-base/new');
+    loadCurrentConfigKey();
+  }, [location.pathname, loadCurrentConfigKey]);
 
-    return (
-      <CalloutContext.Consumer>
-        {(context) => {
-          if (context) {
-            this.sendDeleteSuccessCallout = context.sendCallout;
-          }
+  useEffect(() => {
+    if (kbCredentials.hasLoaded) {
+      loadCurrentConfigKey();
+    }
+  }, [kbCredentials.hasLoaded, loadCurrentConfigKey]);
 
-          return (
-            <TitleManager
-              page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
-              record={intl.formatMessage({ id: 'ui-eholdings.settings.kb' })}
-            >
-              <View
-                kbCredentials={kbCredentials}
-                config={this.getCurrentConfig()}
-                onSubmit={this.updateConfig}
-                isCreateMode={this.state.isCreateMode}
-                onDelete={this.deleteKBCredentials}
-                currentKBName={this.getCurrentKBName()}
+  useEffect(() => {
+    if (kbCredentials.hasUpdated) {
+      confirmPatchKBCredentials();
+      setCurrentKBName(getCurrentKBName());
+    }
+  }, [kbCredentials.hasUpdated, confirmPatchKBCredentials, getCurrentKBName]);
+
+  useEffect(() => {
+    if (kbCredentials.hasSaved) {
+      confirmPostKBCredentials();
+      setCurrentKBName(getCurrentKBName());
+    }
+  }, [kbCredentials.hasSaved, confirmPostKBCredentials, getCurrentKBName]);
+
+  useEffect(() => {
+    if (kbCredentials.hasDeleted) {
+      history.replace('/settings/eholdings');
+
+      if (callout) {
+        callout.sendCallout({
+          type: 'success',
+          message: (
+            <span data-test-kb-deleted-notification>
+              <FormattedMessage
+                id="ui-eholdings.settings.kb.delete.toast"
+                values={{ kbName: currentKBName }}
               />
-            </TitleManager>
-          );
-        }}
-      </CalloutContext.Consumer>
-    );
-  }
-}
+            </span>
+          ),
+        });
+      }
+
+      confirmDeleteKBCredentials();
+    }
+  }, [kbCredentials.hasDeleted, confirmDeleteKBCredentials, callout, history, currentKBName]);
+
+  return (
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+      record={intl.formatMessage({ id: 'ui-eholdings.settings.kb' })}
+    >
+      <View
+        kbCredentials={kbCredentials}
+        config={getCurrentConfig()}
+        onSubmit={updateConfig}
+        isCreateMode={isCreateMode}
+        onDelete={handleDeleteKBCredentials}
+        currentKBName={getCurrentKBName()}
+      />
+    </TitleManager>
+  );
+};
+
+SettingsKnowledgeBaseRoute.propTypes = propTypes;
 
 export default connect(
   (store) => ({
@@ -221,4 +200,4 @@ export default connect(
     confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
     confirmPostKBCredentials: confirmPostKBCredentialsAction,
   }
-)(injectIntl(SettingsKnowledgeBaseRoute));
+)(SettingsKnowledgeBaseRoute);
