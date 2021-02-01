@@ -15,6 +15,7 @@
 * Add assign/unassign user from KB permissions. (UIEH-1018) 
 * Fix "Required ARIA parent role not present: tablist" error. (UIEH-926)
 * Update `stripes` to v6. (UIEH-1019)
+* Add PERSONAL_DATA_DISCLOSURE.md. (UIEH-1031)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
