@@ -421,5 +421,5 @@
     "agreements.unassignModal.unassign": "取消分配",
     "permission.settings.custom-labels.all": "设置（电子馆藏）：可以创建、编辑、查看和删除自定义标签",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "设置（电子馆藏）：可以从KB中分配/取消分配用户"
 }
