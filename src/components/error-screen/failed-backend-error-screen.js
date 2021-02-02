@@ -1,7 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { KeyValue } from '@folio/stripes/components';
+import {
+  KeyValue,
+  TextLink,
+  Icon,
+} from '@folio/stripes/components';
 import styles from './error-screen.css';
 
 export default function FailedBackendErrorScreen() {
@@ -11,14 +15,21 @@ export default function FailedBackendErrorScreen() {
         <h1><FormattedMessage id="ui-eholdings.server.errors.failedBackend" /></h1>
       </KeyValue>
       <p>
-        <FormattedMessage
-          id="ui-eholdings.server.errors.errorDuringFetch"
-          values={{
-            a: chunks => (
-              <a href="https://connect.ebsco.com">{chunks}</a>
-            ),
-          }}
-        />
+        <FormattedMessage id="ui-eholdings.server.errors.errorDuringFetch" />
+        <TextLink
+          className={styles['ebsco-connect-link']}
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://connect.ebsco.com"
+        >
+          <Icon
+            icon="external-link"
+            iconPosition="end"
+            iconRootClass={styles['ebsco-connect-link-icon']}
+          >
+            <FormattedMessage id="ui-eholdings.server.errors.errorDuringFetch.ebscoConnect" />
+          </Icon>
+        </TextLink>
       </p>
     </div>
   );

@@ -364,7 +364,8 @@
     "validate.errors.token.length": "Tokens must be 500 characters or less.",
 
     "server.errors.failedBackend": "eHoldings app is unavailable at this time.",
-    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect",
     "server.errors.kbNotConfigured": "Knowledge base not configured",
     "server.errors.detectedUnconfiguredKb": "The eHoldings application detected the presence of a knowledge base, but the knowledge base does not appear to be configured.",
     "server.errors.configureKbLinkMsg": "Please configure the knowledge base with your credentials in {link}.",

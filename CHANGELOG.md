@@ -16,6 +16,7 @@
 * Fix "Required ARIA parent role not present: tablist" error. (UIEH-926)
 * Update `stripes` to v6. (UIEH-1019)
 * Add PERSONAL_DATA_DISCLOSURE.md. (UIEH-1031)
+* Updates to eHoldings back-end error EBSCO connect link. (UIEH-964)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
