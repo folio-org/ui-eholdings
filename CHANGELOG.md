@@ -17,6 +17,7 @@
 * Update `stripes` to v6. (UIEH-1019)
 * Add PERSONAL_DATA_DISCLOSURE.md. (UIEH-1031)
 * Updates to eHoldings back-end error EBSCO connect link. (UIEH-964)
+* Update `stripes-cli` to v2.
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
