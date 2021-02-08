@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "Az egyedi URL-ek legfeljebb 600 karakter hosszúak lehetnek.",
     "validate.errors.customUrl.include": "Az URL-nek tartalmaznia kell a http:// vagy a https:// előtagot",
     "server.errors.failedBackend": "Nem sikerült lekérni a konfigurációs adatokat",
-    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
     "server.errors.kbNotConfigured": "A tudásbázis nincs beállítva",
     "server.errors.detectedUnconfiguredKb": "Az e-Állomány alkalmazás észlelte a tudásbázis meglétét, de a tudásbázis úgy tűnik, nincs konfigurálva.",
     "server.errors.configureKbLinkMsg": "Kérjük, állítsa be a tudásbázist a hitelesítő adataival: {link}.",
@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "Unassign",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }

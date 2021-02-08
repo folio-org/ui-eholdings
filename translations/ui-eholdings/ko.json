@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "할당 해제",
     "permission.settings.custom-labels.all": "설정 (eHoldings) : 커스텀 레이블을 만들고, 편집, 보고, 삭제할 수 있습니다.",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }

@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "Unassign",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }
