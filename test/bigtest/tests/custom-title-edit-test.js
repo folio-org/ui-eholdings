@@ -296,11 +296,11 @@ describe('CustomTitleEdit', () => {
         });
 
         it('reflects the new edition', () => {
-          expect(TitleShowPage.edition).to.equal('testing edition again');
+          expect(TitleShowPage.edition.value.text).to.equal('testing edition again');
         });
 
         it('reflects the new publisher', () => {
-          expect(TitleShowPage.publisherName).to.equal('Not So Awesome Publisher');
+          expect(TitleShowPage.publisherName.value.text).to.equal('Not So Awesome Publisher');
         });
 
         it('reflects the new contributor', () => {
@@ -313,11 +313,11 @@ describe('CustomTitleEdit', () => {
         });
 
         it('shows the new description', () => {
-          expect(TitleShowPage.descriptionText).to.equal('What a super helpful description. Wow.');
+          expect(TitleShowPage.descriptionText.value.text).to.equal('What a super helpful description. Wow.');
         });
 
         it('shows YES for peer reviewed', () => {
-          expect(TitleShowPage.peerReviewedStatus).to.equal('Yes');
+          expect(TitleShowPage.peerReviewedStatus.value.text).to.equal('Yes');
         });
 
         it('shows a success toast message', () => {
