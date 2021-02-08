@@ -134,7 +134,7 @@ describe('TitleCreate', () => {
 
       it('redirects to the new title show page with the specified edition', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.edition).to.equal('My Edition');
+        expect(TitleShowPage.edition.value.text).to.equal('My Edition');
       });
     });
 
@@ -149,7 +149,7 @@ describe('TitleCreate', () => {
 
       it('redirects to the new title show page with the specified publisher', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.publisherName).to.equal('Me');
+        expect(TitleShowPage.publisherName.value.text).to.equal('Me');
       });
     });
 
@@ -164,7 +164,7 @@ describe('TitleCreate', () => {
 
       it('redirects to the new package with the specified content type', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.publicationType).to.equal('Book');
+        expect(TitleShowPage.publicationType.value.text).to.equal('Book');
       });
     });
 
@@ -194,7 +194,7 @@ describe('TitleCreate', () => {
 
       it('redirects to the new package with the specified description', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.descriptionText).to.equal('This is my title');
+        expect(TitleShowPage.descriptionText.value.text).to.equal('This is my title');
       });
     });
 
@@ -224,7 +224,7 @@ describe('TitleCreate', () => {
 
       it('redirects to the new package with the specified content type', function () {
         expect(this.location.pathname).to.match(/^\/eholdings\/titles\/\d{1,}/);
-        expect(TitleShowPage.peerReviewedStatus).to.equal('Yes');
+        expect(TitleShowPage.peerReviewedStatus.value.text).to.equal('Yes');
       });
     });
 

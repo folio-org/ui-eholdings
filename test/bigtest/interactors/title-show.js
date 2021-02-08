@@ -10,6 +10,8 @@ import {
   is
 } from '@bigtest/interactor';
 
+import KeyValueInteractor from '@folio/stripes-components/lib/KeyValue/tests/interactor';
+
 import { getComputedStyle } from './helpers';
 
 import Toast from './toast';
@@ -25,11 +27,11 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
   paneTitle = text('[data-test-eholdings-details-view-pane-title]');
   titleName = text('[data-test-eholdings-details-view-name="title"]');
   nameHasFocus = is('[data-test-eholdings-details-view-name="title"]', ':focus');
-  edition = text('[data-test-eholdings-title-show-edition]');
-  publisherName = text('[data-test-eholdings-title-show-publisher-name]');
-  publicationType = text('[data-test-eholdings-title-show-publication-type]');
+  edition = new KeyValueInteractor('[data-test-eholdings-title-show-edition]');
+  publisherName = new KeyValueInteractor('[data-test-eholdings-title-show-publisher-name]');
+  publicationType = new KeyValueInteractor('[data-test-eholdings-title-show-publication-type]');
   hasPublicationType = isPresent('[data-test-eholdings-title-show-publication-type]');
-  subjectsList = text('[data-test-eholdings-title-show-subjects-list]');
+  subjectsList = new KeyValueInteractor('[data-test-eholdings-title-show-subjects-list]');
   hasSubjectsList = isPresent('[data-test-eholdings-title-show-subjects-list]');
   hasBackButton = isPresent('[data-test-eholdings-details-view-back-button]');
   hasCollapseAllButton = isPresent('[data-test-eholdings-details-view-collapse-all-button]');
@@ -41,8 +43,8 @@ import AddToCustomPackageModal from './add-to-custom-package-modal';
   detailsPaneScrollsHeight = property('[data-test-eholdings-detail-pane-contents]', 'scrollHeight');
   detailsPaneContentsHeight = property('[data-test-eholdings-detail-pane-contents]', 'offsetHeight');
   detailsPaneContentsOverFlowY = getComputedStyle('[data-test-eholdings-detail-pane-contents]', 'overflow-y');
-  peerReviewedStatus = text('[data-test-eholdings-peer-reviewed-field]');
-  descriptionText = text('[data-test-eholdings-description-field]');
+  peerReviewedStatus = new KeyValueInteractor('[data-test-eholdings-peer-reviewed-field]');
+  descriptionText = new KeyValueInteractor('[data-test-eholdings-description-field]');
   clickEditButton = clickable('[data-test-eholdings-title-edit-link]');
   hasEditButton = isPresent('[data-test-eholdings-title-edit-link]');
 
