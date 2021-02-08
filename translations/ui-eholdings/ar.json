@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "إلغاء تعيين",
     "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
     "contributorType.narrator": "{count, plural, zero {راوٍ} one {راوٍ} two {رواة} few {رواة} many {رواة} other {رواة}}",
-    "permission.settings.assignedUser": "الإعدادات (المقتنيات الإلكترونية): إمكانية تعيين/إلغاء تعيين مستخدم من قاعدة معرفة"
+    "permission.settings.assignedUser": "الإعدادات (المقتنيات الإلكترونية): إمكانية تعيين/إلغاء تعيين مستخدم من قاعدة معرفة",
+    "server.errors.errorDuringFetch.ebscoConnect": "اتصال إبسكو"
 }

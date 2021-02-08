@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "割り当て解除",
     "permission.settings.custom-labels.all": "設定（eholdings）：カスタムラベルを作成、編集、表示、および削除できます",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }

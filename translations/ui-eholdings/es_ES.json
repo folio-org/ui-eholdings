@@ -421,5 +421,6 @@
     "agreements.unassignModal.unassign": "Anular la asignación",
     "permission.settings.custom-labels.all": "Configuración (eholdings): puede crear, editar, ver y eliminar etiquetas personalizadas",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }
