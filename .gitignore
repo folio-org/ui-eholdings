@@ -6,3 +6,5 @@ artifacts
 coverage
 .DS_STORE
 /yarn-error.log
+yarn.lock
+junit.xml

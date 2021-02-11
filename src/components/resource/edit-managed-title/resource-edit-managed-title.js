@@ -78,7 +78,7 @@ class ResourceEditManagedTitle extends Component {
       coverageStatement,
       hasCoverageStatement,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
-      proxyId: matchingProxy?.id || proxy.id,
+      proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),
     };
   }

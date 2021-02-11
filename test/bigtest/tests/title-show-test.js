@@ -79,15 +79,15 @@ describe('TitleShow', () => {
     });
 
     it('displays the edition', () => {
-      expect(TitleShowPage.edition).to.equal('Cool Edition');
+      expect(TitleShowPage.edition.value.text).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {
-      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
+      expect(TitleShowPage.publisherName.value.text).to.equal('Cool Publisher');
     });
 
     it('displays the publication type', () => {
-      expect(TitleShowPage.publicationType).to.equal('Website');
+      expect(TitleShowPage.publicationType.value.text).to.equal('Website');
     });
 
     it('groups together identifiers of the same type and subtype', () => {
@@ -119,7 +119,7 @@ describe('TitleShow', () => {
     });
 
     it('displays the subjects list', () => {
-      expect(TitleShowPage.subjectsList).to.equal('Cool Subject 1; Cool Subject 2; Cool Subject 3');
+      expect(TitleShowPage.subjectsList.value.text).to.equal('Cool Subject 1; Cool Subject 2; Cool Subject 3');
     });
 
     it('displays a list of resources', () => {
@@ -222,11 +222,11 @@ describe('TitleShow', () => {
     });
 
     it('displays the edition', () => {
-      expect(TitleShowPage.edition).to.equal('Cool Edition');
+      expect(TitleShowPage.edition.value.text).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {
-      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
+      expect(TitleShowPage.publisherName.value.text).to.equal('Cool Publisher');
     });
 
     describe('the page always', () => {
@@ -275,15 +275,15 @@ describe('TitleShow', () => {
     });
 
     it('displays the edition', () => {
-      expect(TitleShowPage.edition).to.equal('Cool Edition');
+      expect(TitleShowPage.edition.value.text).to.equal('Cool Edition');
     });
 
     it('displays the publisher name', () => {
-      expect(TitleShowPage.publisherName).to.equal('Cool Publisher');
+      expect(TitleShowPage.publisherName.value.text).to.equal('Cool Publisher');
     });
 
     it('displays publication type without modification', () => {
-      expect(TitleShowPage.publicationType).to.equal('UnknownPublicationType');
+      expect(TitleShowPage.publicationType.value.text).to.equal('UnknownPublicationType');
     });
 
     describe('the page always', () => {

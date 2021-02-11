@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "Selecione um campo para pesquisar",
     "tags.filter": "Filtro de Tags",
     "resource.customLabels": "Etiquetas personalizadas",
-    "validate.errors.customLabels.length": "O valor excedeu o limite de 100 caracteres. Revise seu valor.",
+    "validate.errors.customLabels.length": "O valor excedeu {amount} caracteres. Por favor, revise seu valor.",
     "settings.customLabels.displayLabel": "Mostrar rótulo",
     "settings.customLabels.publicationFinder": "Mostrar no localizador de publicações",
     "settings.customLabels.textFinder": "Mostrar no localizador de texto completo",
@@ -419,5 +419,8 @@
     "agreements.unassignModal.description": "Tem certeza de que deseja cancelar a atribuição de <strong>{agreementName}</strong> de <strong>{recordName}</strong>? Depois de cancelar a atribuição, o contrato não será mais anexado a este registro.",
     "agreements.unassignModal.cancel": "Cancelar",
     "agreements.unassignModal.unassign": "Cancelar atribuição",
-    "permission.settings.custom-labels.all": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizadas"
+    "permission.settings.custom-labels.all": "Configurações (eholdings): Pode criar, editar, visualizar e excluir etiquetas personalizadas",
+    "contributorType.narrator": "{count, plural, one {Narrador} other {Narradores}}",
+    "permission.settings.assignedUser": "Configurações (eHoldings): Pode atribuir / cancelar a atribuição de um usuário de uma KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }

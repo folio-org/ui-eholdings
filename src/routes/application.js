@@ -42,7 +42,11 @@ class ApplicationRoute extends Component {
 
   constructor(props) {
     super(props);
-    props.getBackendStatus();
+
+    if (!props.showSettings) {
+      props.getBackendStatus();
+    }
+
     props.getKbCredentials();
   }
 
@@ -57,11 +61,11 @@ class ApplicationRoute extends Component {
 
     const hasMultipleKbCredentials = kbCredentials.items?.length > 1;
 
-    if (!version && !status.isLoading) {
+    if (!version && !status.isLoading && !showSettings) {
       return <NoBackendErrorScreen />;
     }
 
-    if (kbCredentials.isLoading && status.isLoading) {
+    if (kbCredentials.isLoading && (status.isLoading && !showSettings)) {
       return (
         <Icon
           id="kb-credentials-loading-spinner"
@@ -78,7 +82,7 @@ class ApplicationRoute extends Component {
       return <FailedBackendErrorScreen />;
     }
 
-    if (status.isLoaded && (!showSettings && !status.isConfigurationValid)) {
+    if (status.isLoaded && !status.isConfigurationValid) {
       return hasMultipleKbCredentials
         ? <UserNotAssignedToKbErrorScreen />
         : <InvalidBackendErrorScreen />;

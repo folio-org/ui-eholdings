@@ -23,3 +23,4 @@ export { default as usageConsolidation } from './usageConsolidationReduxStateSha
 export { default as sortOrders } from './sortOrders';
 export * from './filterConfigs';
 export * from './costPerUse';
+export * from './customLabels';

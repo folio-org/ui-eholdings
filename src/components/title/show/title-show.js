@@ -6,13 +6,10 @@ import {
 } from 'react-intl';
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
-
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
-
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-
 import qs from 'qs';
 
 import {
@@ -27,13 +24,19 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
+  Row,
+  Col,
 } from '@folio/stripes/components';
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+
 
 import { processErrors } from '../../utilities';
 import {
   listTypes,
   entityTypes,
   costPerUse as costPerUseShape,
+  DOMAIN_NAME,
+  paths,
 } from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -42,9 +45,10 @@ import IdentifiersList from '../../identifiers-list';
 import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
-import KeyValueColumns from '../../key-value-columns';
 import PackageFilterModal from './package-filter-modal';
 import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
+import QueryNotFound from '../../query-list/not-found';
+
 import styles from './title-show.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -74,8 +78,6 @@ class TitleShow extends Component {
   constructor(props) {
     super(props);
 
-    const filteredPackages = this.getFilteredPackagesFromParams();
-
     this.state = {
       showCustomPackageModal: false,
       sections: {
@@ -83,9 +85,11 @@ class TitleShow extends Component {
         titleShowTitleInformation: true,
         titleShowPackages: true,
         titleShowUsageConsolidation: false,
+        titleShowNotes: true,
       },
-      filteredPackages,
-      packageFilterApplied: !!filteredPackages.length,
+      filteredPackages: [],
+      countOfAppliedPackagesFilters: 0,
+      packageFilterApplied: false,
     };
   }
 
@@ -115,7 +119,7 @@ class TitleShow extends Component {
       : [];
   }
 
-  handlePackageFilterChange = selectedPackages => {
+  handlePackageFilterChange = (selectedPackages, countOfAppliedPackagesFilters) => {
     const {
       history,
       location,
@@ -130,7 +134,8 @@ class TitleShow extends Component {
 
     this.setState({
       filteredPackages: selectedPackages,
-      packageFilterApplied: !!selectedPackages.length,
+      countOfAppliedPackagesFilters,
+      packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
     history.replace({ search: newSearch }, { eholdings: true });
   }
@@ -222,6 +227,7 @@ class TitleShow extends Component {
       showCustomPackageModal,
       sections,
       filteredPackages,
+      countOfAppliedPackagesFilters,
       packageFilterApplied,
     } = this.state;
 
@@ -256,7 +262,7 @@ class TitleShow extends Component {
               allPackages={model.resources.records}
               selectedPackages={filteredPackages}
               onSubmit={this.handlePackageFilterChange}
-              filterCount={packageFilterApplied ? 1 : 0} // todo: implement actual filter counting to avoid hardcoding
+              filterCount={countOfAppliedPackagesFilters}
             />)
           }
           bodyContent={(
@@ -271,75 +277,83 @@ class TitleShow extends Component {
                 id="titleShowTitleInformation"
                 onToggle={this.handleSectionToggle}
               >
-                <KeyValueColumns>
-                  <div>
+                <Row>
+                  <Col
+                    md={6}
+                    sm={12}
+                    xs={12}
+                  >
                     <ContributorsList data={model.contributors} />
 
                     {model.edition && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.edition" />}>
-                        <div data-test-eholdings-title-show-edition>
-                          {model.edition}
-                        </div>
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.edition" />}
+                        data-test-eholdings-title-show-edition
+                      >
+                        {model.edition}
                       </KeyValue>
                     )}
 
                     {model.publisherName && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.publisherName" />}>
-                        <div data-test-eholdings-title-show-publisher-name>
-                          {model.publisherName}
-                        </div>
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.publisherName" />}
+                        data-test-eholdings-title-show-publisher-name
+                      >
+                        {model.publisherName}
                       </KeyValue>
                     )}
 
                     {model.publicationType && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.publicationType" />}>
-                        <div data-test-eholdings-title-show-publication-type>
-                          {model.publicationType}
-                        </div>
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.publicationType" />}
+                        data-test-eholdings-title-show-publication-type
+                      >
+                        {model.publicationType}
                       </KeyValue>
                     )}
 
                     <IdentifiersList data={model.identifiers} />
-
-                  </div>
-                  <div>
-
+                  </Col>
+                  <Col
+                    md={6}
+                    sm={12}
+                    xs={12}
+                  >
                     {model.subjects.length > 0 && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.subjects" />}>
-                        <div data-test-eholdings-title-show-subjects-list>
-                          {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                        </div>
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.subjects" />}
+                        data-test-eholdings-title-show-subjects-list
+                      >
+                        {model.subjects.map(subjectObj => subjectObj.subject).join('; ')}
                       </KeyValue>
                     )}
 
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}>
-                      <div data-test-eholdings-peer-reviewed-field>
-                        {model.isPeerReviewed
-                          ? <FormattedMessage id="ui-eholdings.yes" />
-                          : <FormattedMessage id="ui-eholdings.no" />
-                        }
-                      </div>
+                    <KeyValue
+                      label={<FormattedMessage id="ui-eholdings.title.peerReviewed" />}
+                      data-test-eholdings-peer-reviewed-field
+                    >
+                      {model.isPeerReviewed
+                        ? (<FormattedMessage id="ui-eholdings.yes" />)
+                        : (<FormattedMessage id="ui-eholdings.no" />)}
                     </KeyValue>
 
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.title.titleType" />}>
-                      <div data-test-eholdings-title-details-type>
-                        {model.isTitleCustom
-                          ? <FormattedMessage id="ui-eholdings.custom" />
-                          : <FormattedMessage id="ui-eholdings.managed" />
-                        }
-                      </div>
+                    <KeyValue
+                      label={<FormattedMessage id="ui-eholdings.title.titleType" />}
+                      data-test-eholdings-title-details-type
+                    >
+                      {model.isTitleCustom ? (<FormattedMessage id="ui-eholdings.custom" />) : (<FormattedMessage id="ui-eholdings.managed" />)}
                     </KeyValue>
 
                     {model.description && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.description" />}>
-                        <div data-test-eholdings-description-field>
-                          {model.description}
-                        </div>
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.description" />}
+                        data-test-eholdings-description-field
+                      >
+                        {model.description}
                       </KeyValue>
                     )}
-                  </div>
-                </KeyValueColumns>
-
+                  </Col>
+                </Row>
                 <div className={styles['add-to-custom-package-button']}>
                   <Button
                     data-test-eholdings-add-to-custom-package-button
@@ -349,6 +363,18 @@ class TitleShow extends Component {
                   </Button>
                 </div>
               </Accordion>
+
+              <NotesSmartAccordion
+                id="titleShowNotes"
+                open={sections.titleShowNotes}
+                onToggle={this.handleSectionToggle}
+                domainName={DOMAIN_NAME}
+                entityName={model.name}
+                entityType={entityTypes.TITLE}
+                entityId={model.id}
+                pathToNoteCreate={paths.NOTE_CREATE}
+                pathToNoteDetails={paths.NOTES}
+              />
 
               {showUsageConsolidation && (
                 <UsageConsolidationAccordion
@@ -368,25 +394,37 @@ class TitleShow extends Component {
           resultsLength={packageFilterApplied
             ? filteredPackages.length
             : model.resources.length}
-          renderList={scrollable => (
-            <ScrollView
-              itemHeight={ITEM_HEIGHT}
-              items={packageFilterApplied
-                ? filteredPackages
-                : model.resources}
-              scrollable={scrollable}
-              queryListName="title-packages"
-            >
-              {item => (
-                <SearchPackageListItem
-                  link={`/eholdings/resources/${item.id}`}
-                  packageName={item.packageName}
-                  item={item}
-                  headingLevel='h4'
-                />
-              )}
-            </ScrollView>
-          )}
+          renderList={scrollable => {
+            const items = packageFilterApplied
+              ? filteredPackages
+              : model.resources;
+
+            if (!items.length) {
+              return (
+                <QueryNotFound type="package-titles">
+                  <FormattedMessage id="ui-eholdings.notFound" />
+                </QueryNotFound>
+              );
+            }
+
+            return (
+              <ScrollView
+                itemHeight={ITEM_HEIGHT}
+                items={items}
+                scrollable={scrollable}
+                queryListName="title-packages"
+              >
+                {item => (
+                  <SearchPackageListItem
+                    link={`/eholdings/resources/${item.id}`}
+                    packageName={item.packageName}
+                    item={item}
+                    headingLevel='h4'
+                  />
+                )}
+              </ScrollView>
+            );
+          }}
         />
 
         <Modal

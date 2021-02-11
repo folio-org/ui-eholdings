@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "选择搜索字段",
     "tags.filter": "标签筛选",
     "resource.customLabels": "自定义标签",
-    "validate.errors.customLabels.length": "值已超过100个字符的限制。请修改值。",
+    "validate.errors.customLabels.length": "值已超过{amount}字符的限制。请修改您的值。",
     "settings.customLabels.displayLabel": "显示标签",
     "settings.customLabels.publicationFinder": "在出版物查找器上显示",
     "settings.customLabels.textFinder": "在全文查找器上显示",
@@ -414,10 +414,13 @@
     "permission.settings.custom-labels.view": "设置（电子馆藏）：可以查看自定义标签",
     "filter.search": "搜索",
     "label.tags": "标签： {tags}",
-    "agreements.unlink": "Unlink agreement from this record.",
-    "agreements.unassignModal.header": "Unassign an agreement from this record",
-    "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
-    "agreements.unassignModal.cancel": "Cancel",
-    "agreements.unassignModal.unassign": "Unassign",
-    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels"
+    "agreements.unlink": "从该记录取消协议的链接。",
+    "agreements.unassignModal.header": "由此记录取消分配协议",
+    "agreements.unassignModal.description": "确定要由<strong>{recordName} </strong> 取消分配<strong> {agreementName}</strong>？一旦取消分配，该协议将不再附加到该记录。",
+    "agreements.unassignModal.cancel": "取消",
+    "agreements.unassignModal.unassign": "取消分配",
+    "permission.settings.custom-labels.all": "设置（电子馆藏）：可以创建、编辑、查看和删除自定义标签",
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "permission.settings.assignedUser": "设置（电子馆藏）：可以从KB中分配/取消分配用户",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }
