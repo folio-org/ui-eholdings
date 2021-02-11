@@ -24,7 +24,7 @@ function ProxySelectField({ proxyTypes, inheritedProxyId }) {
         }}
       >
         {(message) => (
-          <option value={proxyType.id}>
+          <option value={proxyType.id.toLowerCase()}>
             {checkIfInherited(proxyType.id) ? message : `${proxyType.attributes.name}`}
           </option>
         )}

@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "Az egyedi URL-ek legfeljebb 600 karakter hosszúak lehetnek.",
     "validate.errors.customUrl.include": "Az URL-nek tartalmaznia kell a http:// vagy a https:// előtagot",
     "server.errors.failedBackend": "Nem sikerült lekérni a konfigurációs adatokat",
-    "server.errors.errorDuringFetch": "If the problem persist please contact your FOLIO system administrator or visit <a>EBSCO Connect</a>",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
     "server.errors.kbNotConfigured": "A tudásbázis nincs beállítva",
     "server.errors.detectedUnconfiguredKb": "Az e-Állomány alkalmazás észlelte a tudásbázis meglétét, de a tudásbázis úgy tűnik, nincs konfigurálva.",
     "server.errors.configureKbLinkMsg": "Kérjük, állítsa be a tudásbázist a hitelesítő adataival: {link}.",
@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "Select a field to search",
     "tags.filter": "Tags filter",
     "resource.customLabels": "Custom labels",
-    "validate.errors.customLabels.length": "Value has exceeded 100 character limit. Please revise your value.",
+    "validate.errors.customLabels.length": "Value has exceeded {amount} character limit. Please revise your value.",
     "settings.customLabels.displayLabel": "Display label",
     "settings.customLabels.publicationFinder": "Show on publication finder",
     "settings.customLabels.textFinder": "Show on full text finder",
@@ -419,5 +419,8 @@
     "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
     "agreements.unassignModal.cancel": "Cancel",
     "agreements.unassignModal.unassign": "Unassign",
-    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels"
+    "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
+    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+    "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect"
 }

@@ -137,6 +137,12 @@ class Settings extends Component {
                 <FormattedMessage id="ui-eholdings.settings.usageConsolidation" />
               </NavListItem>
             </IfPermission>
+
+            <IfPermission perm="ui-eholdings.settings.assignedUser">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+              </NavListItem>
+            </IfPermission>
           </div>
         </NavListSection>
       </NavList>
@@ -144,7 +150,16 @@ class Settings extends Component {
   }
 
   renderLastMenu() {
-    const { location: { pathname } } = this.props;
+    const {
+      location: {
+        pathname,
+      },
+      stripes,
+    } = this.props;
+
+    if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
+      return null;
+    }
 
     return (
       <Button

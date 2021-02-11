@@ -79,7 +79,7 @@ describe('CustomResourceEditProxy', () => {
     });
 
     it('has a select field value defaulted with current resource proxy value', () => {
-      expect(ResourceEditPage.proxySelectValue).to.equal('bigTestJS');
+      expect(ResourceEditPage.proxySelectValue).to.equal('bigtestjs');
     });
 
     describe('choosing another proxy from select', () => {

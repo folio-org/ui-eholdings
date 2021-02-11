@@ -7,6 +7,7 @@ import {
   FilterAccordionHeader,
   RadioButton
 } from '@folio/stripes/components';
+
 import styles from './search-form.css';
 
 export default function SearchFilters({
@@ -14,6 +15,7 @@ export default function SearchFilters({
   activeFilters = {},
   availableFilters,
   onUpdate,
+  closedByDefault,
   disabled,
 }) {
   return (
@@ -35,12 +37,12 @@ export default function SearchFilters({
               </span>
             }
             separator={false}
-            closedByDefault
+            closedByDefault={closedByDefault}
             header={FilterAccordionHeader}
             displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
             onClearFilter={() => onUpdate({ ...activeFilters, [name]: undefined })}
             id={`filter-${searchType}-${name}`}
-            headerProps={{ role: 'tab' }}
+            className={styles['search-filter-accordion']}
           >
             <div
               role="radiogroup"
@@ -82,6 +84,10 @@ export default function SearchFilters({
   );
 }
 
+SearchFilters.defaultProps = {
+  closedByDefault: true,
+};
+
 SearchFilters.propTypes = {
   activeFilters: PropTypes.object,
   availableFilters: PropTypes.arrayOf(PropTypes.shape({
@@ -93,6 +99,7 @@ SearchFilters.propTypes = {
       value: PropTypes.string.isRequired
     })).isRequired
   })).isRequired,
+  closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   searchType: PropTypes.string.isRequired

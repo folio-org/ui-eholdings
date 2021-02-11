@@ -4,18 +4,29 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import {
+  size,
+} from 'lodash';
 
 import {
+  Accordion,
+  FilterAccordionHeader,
   Modal,
   Button,
   ModalFooter,
   MultiSelection,
-  Label,
 } from '@folio/stripes/components';
 
 import useModalToggle from './use-modal-toggle';
 import usePackageFilterSelectOptions from './use-package-filter-select-options';
 import SearchBadge from '../../../search-modal/search-badge';
+import SearchFilters from '../../../search-form/search-filters';
+import {
+  searchTypes,
+  selectionStatusFilterConfig,
+  selectionStatusFilterOptions,
+  EBSCO_PROVIDER_ID,
+} from '../../../../constants';
 
 import css from './package-filter-modal.css';
 
@@ -46,6 +57,8 @@ const PackageFilterModal = ({
     allOptions,
     selectedOptions,
     setSelectedOptions,
+    searchFilters,
+    setSearchFilters,
   } = usePackageFilterSelectOptions(allPackages, selectedPackages);
 
   const handleFilterChange = value => {
@@ -55,13 +68,32 @@ const PackageFilterModal = ({
   const handleReset = () => {
     onSubmit([]);
     setSelectedOptions([]);
+    setSearchFilters({});
     toggleModal();
   };
 
   const handleSubmit = () => {
-    const newSelectedPackages = allPackages.filter(({ id: packageId }) => selectedOptions.some((({ value: optionId }) => packageId === optionId)));
+    const filterBySelectedStatus = ({ isSelected, providerId }) => {
+      if (!searchFilters.selected) {
+        return true;
+      }
 
-    onSubmit(newSelectedPackages);
+      return searchFilters.selected === selectionStatusFilterOptions.EBSCO
+        ? isSelected && providerId === EBSCO_PROVIDER_ID
+        : searchFilters.selected === isSelected.toString();
+    };
+
+    const newSelectedPackages = allPackages
+      .filter(
+        ({ id: packageId }) => (
+          !selectedOptions.length || selectedOptions.some((({ value: optionId }) => packageId === optionId))
+        )
+      )
+      .filter(filterBySelectedStatus);
+
+    const countOfAppliedPackagesFilters = !!selectedOptions.length + size(searchFilters);
+
+    onSubmit(newSelectedPackages, countOfAppliedPackagesFilters);
     toggleModal();
   };
 
@@ -86,6 +118,8 @@ const PackageFilterModal = ({
 
     const labelId = 'package-filter-modal-multiselection-label';
 
+    const clearSelectedOptions = () => setSelectedOptions([]);
+
     return (
       <Modal
         open
@@ -99,27 +133,48 @@ const PackageFilterModal = ({
         onClose={toggleModal}
         id="package-filter-modal"
       >
-        <Label id={labelId}>
-          <FormattedMessage id="ui-eholdings.label.packages" />
-        </Label>
-        <MultiSelection
-          autoFocus
-          dataOptions={allOptions}
-          onChange={handleFilterChange}
-          value={selectedOptions}
-          data-test-package-filter-select
-          id="packageFilterSelect"
-          ariaLabelledBy={labelId}
-          aria-label={<FormattedMessage id="ui-eholdings.label.packages" />}
-          tether={{
-            constraints: [
-              {
-                to: 'window',
-                attachment: 'together',
-              }
-            ]
-          }}
-        />
+        <div role="tablist">
+          <Accordion
+            id={labelId}
+            name={labelId}
+            label={<FormattedMessage id="ui-eholdings.label.packages" />}
+            separator={false}
+            closedByDefault={false}
+            header={FilterAccordionHeader}
+            displayClearButton={selectedOptions?.length}
+            onClearFilter={clearSelectedOptions}
+            headerProps={{
+              headingLevel: 2,
+              role: 'tab',
+            }}
+          >
+            <MultiSelection
+              autoFocus
+              dataOptions={allOptions}
+              onChange={handleFilterChange}
+              value={selectedOptions}
+              data-test-package-filter-select
+              id="packageFilterSelect"
+              ariaLabelledBy={labelId}
+              aria-label={<FormattedMessage id="ui-eholdings.label.packages" />}
+              tether={{
+                constraints: [
+                  {
+                    to: 'window',
+                    attachment: 'together',
+                  }
+                ]
+              }}
+            />
+          </Accordion>
+          <SearchFilters
+            searchType={searchTypes.PACKAGES}
+            activeFilters={searchFilters}
+            availableFilters={[selectionStatusFilterConfig]}
+            closedByDefault={false}
+            onUpdate={setSearchFilters}
+          />
+        </div>
       </Modal>
     );
   };

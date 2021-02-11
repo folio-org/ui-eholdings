@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import {
   KeyValue,
   NoValue,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
-import KeyValueColumns from '../key-value-columns';
+import styles from './custom-labels-show-section.css';
 
 export default class CustomLabelsShowSection extends Component {
   static propTypes = {
@@ -26,7 +28,7 @@ export default class CustomLabelsShowSection extends Component {
     } = this.props;
 
     return (
-      <KeyValueColumns>
+      <Row className={styles['custom-labels-show-section']}>
         {customLabels.map(({ attributes }) => {
           const {
             displayLabel,
@@ -35,15 +37,21 @@ export default class CustomLabelsShowSection extends Component {
           const value = userDefinedFields[`userDefinedField${id}`];
 
           return (
-            <KeyValue
-              data-test-eholdings-resource-custom-label
-              key={id}
-              label={displayLabel}
-              value={value || <NoValue />}
-            />
+            <Col
+              md={6}
+              sm={12}
+              xs={12}
+            >
+              <KeyValue
+                data-test-eholdings-resource-custom-label
+                key={id}
+                label={displayLabel}
+                value={value || <NoValue />}
+              />
+            </Col>
           );
         })}
-      </KeyValueColumns>
+      </Row>
     );
   }
 }

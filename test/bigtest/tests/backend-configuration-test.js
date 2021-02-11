@@ -1,6 +1,5 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
-import { Response } from 'miragejs';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import ApplicationPage from '../interactors/application';
@@ -268,13 +267,13 @@ describe('backend configuration', () => {
 
       describe('filling in invalid data', () => {
         beforeEach(async function () {
-          this.server.patch('/kb-credentials/2', () => {
-            return new Response(422, {}, {
-              errors: [{
-                title: 'Invalid KB API credentials',
-              }],
-            });
-          });
+          this.server.patch('/kb-credentials/2', {
+            errors: [{
+              title: 'Invalid KB API credentials',
+            }],
+          }, 422);
+
+          this.visit('/settings/eholdings/knowledge-base/2');
 
           await SettingsPage
             .fillCustomerId('totally-bogus-customer-id')

@@ -7,16 +7,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
-  TitleManager,
-  CalloutContext,
-} from '@folio/stripes/core';
-import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
 import { cloneDeep } from 'lodash';
 
+import {
+  TitleManager,
+  CalloutContext,
+  useStripes,
+} from '@folio/stripes/core';
+
 import View from '../components/settings/settings-knowledge-base';
+
+
 import {
   getKbCredentialsKey as getKbCredentialsKeyAction,
   postKBCredentials as postKBCredentialsAction,
@@ -56,6 +60,7 @@ const SettingsKnowledgeBaseRoute = ({
   patchKBCredentials,
   postKBCredentials,
 }) => {
+  const stripes = useStripes();
   const intl = useIntl();
   const callout = useContext(CalloutContext);
 
@@ -167,6 +172,10 @@ const SettingsKnowledgeBaseRoute = ({
       confirmDeleteKBCredentials();
     }
   }, [kbCredentials.hasDeleted, confirmDeleteKBCredentials, callout, history, currentKBName]);
+
+  if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
+    history.push('/settings/eholdings');
+  }
 
   return (
     <TitleManager

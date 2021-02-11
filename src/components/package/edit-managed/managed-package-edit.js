@@ -65,7 +65,7 @@ class ManagedPackageEdit extends Component {
       customCoverages: [{
         ...customCoverage,
       }],
-      proxyId: matchingProxy?.id || proxy.id,
+      proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       providerTokenValue: providerToken.value,
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
