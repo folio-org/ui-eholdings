@@ -30,6 +30,7 @@ import {
   paths,
   DOMAIN_NAME,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
@@ -37,7 +38,11 @@ import ExternalLink from '../external-link/external-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
 import CoverageDateList from '../coverage-date-list';
-import { AgreementsAccordion, CustomLabelsAccordion } from '../../features';
+import {
+  AgreementsAccordion,
+  CustomLabelsAccordion,
+  UsageConsolidationAccordion,
+} from '../../features';
 import {
   isBookPublicationType,
   isValidCoverageList,
@@ -56,6 +61,8 @@ import { CustomLabelsShowSection } from '../custom-labels-section';
 class ResourceShow extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+    fetchResourceCostPerUse: PropTypes.func.isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
     }).isRequired,
@@ -85,6 +92,7 @@ class ResourceShow extends Component {
         resourceShowCoverageSettings: true,
         resourceShowAgreements: true,
         resourceShowNotes: true,
+        resourceShowUsageConsolidation: false,
       },
     };
   }
@@ -217,6 +225,8 @@ class ResourceShow extends Component {
       updateFolioTags,
       stripes,
       accessStatusTypes,
+      fetchResourceCostPerUse,
+      costPerUse,
       intl,
     } = this.props;
 
@@ -253,6 +263,7 @@ class ResourceShow extends Component {
     const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
       || (!model.isSelected && isSelectInFlight);
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
+    const showUsageConsolidation = model.isSelected || (!model.isSelected && model.titleHasSelectedResources);
 
     // if coming from updating any value on managed title in a managed package
     // show a success toast
@@ -615,6 +626,17 @@ class ResourceShow extends Component {
                 pathToNoteCreate={paths.NOTE_CREATE}
                 pathToNoteDetails={paths.NOTES}
               />
+
+              {showUsageConsolidation && (
+                <UsageConsolidationAccordion
+                  id="resourceShowUsageConsolidation"
+                  isOpen={sections.resourceShowUsageConsolidation}
+                  onToggle={this.handleSectionToggle}
+                  onFilterSubmit={fetchResourceCostPerUse}
+                  recordType={entityTypes.RESOURCE}
+                  costPerUseData={costPerUse}
+                />
+              )}
             </>
           )}
         />

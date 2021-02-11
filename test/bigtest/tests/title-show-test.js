@@ -3,6 +3,7 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import TitleShowPage from '../interactors/title-show';
+// import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('TitleShow', () => {
   setupApplication();
@@ -16,7 +17,8 @@ describe('TitleShow', () => {
       name: 'Cool Title',
       edition: 'Cool Edition',
       publisherName: 'Cool Publisher',
-      publicationType: 'Website'
+      publicationType: 'Website',
+      hasSelectedResources: true,
     });
 
     title.subjects = [
@@ -144,6 +146,35 @@ describe('TitleShow', () => {
       it('toggles the button text to expand all', () => {
         expect(TitleShowPage.collapseAllButtonText).to.equal('Expand all');
       });
+    });
+
+    describe('usage & analysis section', () => {
+      it('should display usage & analysis accordion', () => {
+        expect(TitleShowPage.usageConsolidationSection.isAccordionPresent).to.be.true;
+      });
+
+      it('should display closed accordion by default', () => {
+        expect(TitleShowPage.usageConsolidationSection.accordion.isOpen).to.be.false;
+      });
+
+      it('should display year filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.yearDropdown.isPresent).to.be.true;
+      });
+
+      it('should display correct value for year filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.yearDropdown.value).to.equal(`${new Date().getFullYear()}`);
+      });
+
+      it('should display platform filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.platformTypeDropdown.isPresent).to.be.true;
+      });
+
+      it('should display correct value for platform filter', () => {
+        expect(TitleShowPage.usageConsolidationSection.filters.platformTypeDropdown.value).to.equal('publisher');
+      });
+
+      // TODO:: uncomment current tests after folio/stripes 5.1.0 will be available
+      // usageConsolidationInfoPopoverTests(TitleShowPage.usageConsolidationSection.infoPopover);
     });
   });
 

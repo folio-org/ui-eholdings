@@ -4,6 +4,9 @@ import axe from 'axe-core';
 import mirageOptions from '../network';
 
 const defaultInitialState = {
+  eholdings: {
+    data: {},
+  },
   discovery: {
     modules: {
       'mod-kb-ebsco-java-3.5.3-SNAPSHOT.246': 'kb-ebsco',

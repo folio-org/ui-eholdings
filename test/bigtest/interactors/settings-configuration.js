@@ -12,6 +12,7 @@ import {
 } from '@bigtest/interactor';
 
 import Toast from './toast';
+import ShowHidePasswordField from './show-hide-password-field';
 import { hasClassBeginningWith } from './helpers';
 
 @interactor class DeleteConfirmationModal {
@@ -57,12 +58,17 @@ import { hasClassBeginningWith } from './helpers';
     }
   });
 
+  apiKeyField = new ShowHidePasswordField('[class^="showHidePasswordField--"]');
   deleteButtonIsDisplayed = isPresent('[data-test-delete-kb-credentials]');
   clickDeleteButton = clickable('[data-test-delete-kb-credentials]');
   deleteNotification = new DeleteSuccessNotification('[data-test-kb-deleted-notification]');
   deleteConfirmationModal = new DeleteConfirmationModal('#delete-kb-confirmation-modal');
 
   toast = Toast;
+
+  whenApiKeyLoaded() {
+    return this.when(() => this.apiKeyField.isShowHideButtonPresent);
+  }
 }
 
 export default new SettingsPage('[data-test-eholdings-settings-kb]');

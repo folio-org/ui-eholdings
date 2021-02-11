@@ -42,6 +42,7 @@ import AccessTypeEditSection from '../../access-type-edit-section';
 import { accessTypesReduxStateShape } from '../../../constants';
 
 import styles from './managed-package-edit.css';
+import fieldsetStyles from '../../fieldset-styles.css';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -386,8 +387,14 @@ class ManagedPackageEdit extends Component {
                           >
                             <div className={styles['visibility-radios']}>
                               {initialValues.isVisible !== null ? (
-                                <fieldset data-test-eholdings-package-visibility-field>
-                                  <Headline tag="legend" size="small" margin="x-large">
+                                <fieldset
+                                  data-test-eholdings-package-visibility-field
+                                  className={fieldsetStyles.fieldset}
+                                >
+                                  <Headline
+                                    tag="legend"
+                                    className={fieldsetStyles.label}
+                                  >
                                     <FormattedMessage id="ui-eholdings.package.visibility" />
                                   </Headline>
 
@@ -427,8 +434,14 @@ class ManagedPackageEdit extends Component {
                             </div>
                             <div className={styles['title-management-radios']}>
                               {initialValues.allowKbToAddTitles !== null ? (
-                                <fieldset data-test-eholdings-allow-kb-to-add-titles-radios>
-                                  <Headline tag="legend" size="small" margin="x-large">
+                                <fieldset
+                                  data-test-eholdings-allow-kb-to-add-titles-radios
+                                  className={fieldsetStyles.fieldset}
+                                >
+                                  <Headline
+                                    tag="legend"
+                                    className={fieldsetStyles.label}
+                                  >
                                     <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
                                   </Headline>
 

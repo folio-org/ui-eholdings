@@ -57,7 +57,7 @@ describe('With list of root proxies available to a customer', () => {
       });
     });
 
-    describe('when fill mname field with more then 255 character', () => {
+    describe('when fill name field with more then 255 character', () => {
       beforeEach(async () => {
         await SettingsCreateKBPage.nameField.fillAndBlur((new Array(256)).fill('a').join('')); // 256 character
       });
