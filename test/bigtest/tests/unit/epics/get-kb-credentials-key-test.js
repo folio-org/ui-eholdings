@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { TestScheduler } from 'rxjs/Rx';
 
-import { createGetKbCredentialsEpic } from '../../../../../src/redux/epics';
+import { createGetKbCredentialsKeyEpic } from '../../../../../src/redux/epics';
 import {
   GET_KB_CREDENTIALS_KEY,
   GET_KB_CREDENTIALS_KEY_SUCCESS,
@@ -53,7 +53,7 @@ describe('(epic) getKBCredentialsKey', () => {
       }
     };
 
-    const output$ = createGetKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createGetKbCredentialsKeyEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
@@ -76,7 +76,7 @@ describe('(epic) getKBCredentialsKey', () => {
       }
     };
 
-    const output$ = createGetKbCredentialsEpic(dependencies)(action$, state$);
+    const output$ = createGetKbCredentialsKeyEpic(dependencies)(action$, state$);
 
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
