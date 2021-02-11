@@ -122,11 +122,18 @@ class DetailsView extends Component {
    * height, we have no need to handle any scroll behavior
    */
   handleLayout = () => {
+    const {
+      sections,
+      listSectionId,
+    } = this.props;
+
     if (this.$container && this.$sticky && this.$list) {
       const stickyHeight = Math.floor(this.$sticky.getBoundingClientRect().height);
       const containerHeight = Math.floor(this.$container.getBoundingClientRect().height);
 
-      this.shouldHandleScroll = stickyHeight >= containerHeight;
+      const isListAccordionOpen = sections && sections[listSectionId];
+
+      this.shouldHandleScroll = stickyHeight >= containerHeight && isListAccordionOpen;
 
       // the sticky wrapper needs an explicit height for child
       // elements with percentage-based heights
@@ -165,7 +172,7 @@ class DetailsView extends Component {
       const height = e.currentTarget.offsetHeight;
       const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
-      const bottomedOut = Math.abs(scrollHeight - (top + height)) < 1;
+      const bottomedOut = scrollHeight - (top + height) < 1;
 
       const listContainerHeight = this.$list.offsetHeight;
       const actualListItemsHeight = resultsLength * ITEM_HEIGHT;
@@ -174,6 +181,7 @@ class DetailsView extends Component {
       // if bottoming out, enable isSticky
       if (bottomedOut && !isSticky && isListScrollbarNeeded) {
         this.setState({ isSticky: true });
+        this.$sticky.scrollIntoView();
         // if not bottomed out, disable isSticky
       } else if (!bottomedOut && isSticky) {
         this.setState({ isSticky: false });
@@ -194,7 +202,7 @@ class DetailsView extends Component {
     const { isSticky } = this.state;
     const scrollingUp = e.deltaY < 0;
     const notInList = !this.$list.contains(e.target);
-    const listAtTop = this.$list.firstElementChild.scrollTop === 0;
+    const listAtTop = this.$list.firstElementChild?.scrollTop === 0;
 
     if (isSticky && scrollingUp && (notInList || listAtTop)) {
       // prevent scroll logic around bottoming out by scrolling up 1px
@@ -334,7 +342,7 @@ class DetailsView extends Component {
                     onToggle={onListToggle}
                     listType={listType}
                   >
-                    {renderList(isSticky)}
+                    {isListAccordionOpen ? renderList(isSticky) : null}
                   </Accordion>
                 )}
               </Measure>

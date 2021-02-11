@@ -34,6 +34,7 @@ import { processErrors } from '../../utilities';
 import {
   listTypes,
   entityTypes,
+  costPerUse as costPerUseShape,
   DOMAIN_NAME,
   paths,
 } from '../../../constants';
@@ -45,6 +46,7 @@ import ContributorsList from '../../contributors-list';
 import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import PackageFilterModal from './package-filter-modal';
+import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
 import QueryNotFound from '../../query-list/not-found';
 
 import styles from './title-show.css';
@@ -55,7 +57,9 @@ const ITEM_HEIGHT = 62;
 class TitleShow extends Component {
   static propTypes = {
     addCustomPackage: PropTypes.func.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     customPackages: PropTypes.object.isRequired,
+    fetchTitleCostPerUse: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
@@ -79,6 +83,8 @@ class TitleShow extends Component {
       sections: {
         titleShowTags: true,
         titleShowTitleInformation: true,
+        titleShowPackages: true,
+        titleShowUsageConsolidation: false,
         titleShowNotes: true,
       },
       filteredPackages: [],
@@ -213,6 +219,8 @@ class TitleShow extends Component {
       model,
       addCustomPackage,
       request,
+      fetchTitleCostPerUse,
+      costPerUse,
       intl,
     } = this.props;
     const {
@@ -232,6 +240,8 @@ class TitleShow extends Component {
     };
     let submit;
     const submitAddToCustomPackage = (event) => submit(event);
+
+    const showUsageConsolidation = model.hasSelectedResources;
 
     return (
       <>
@@ -258,7 +268,11 @@ class TitleShow extends Component {
           bodyContent={(
             <>
               <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.title.titleInformation" /></Headline>}
+                label={(
+                  <Headline size="large" tag="h3">
+                    <FormattedMessage id="ui-eholdings.title.titleInformation" />
+                  </Headline>
+                )}
                 open={sections.titleShowTitleInformation}
                 id="titleShowTitleInformation"
                 onToggle={this.handleSectionToggle}
@@ -361,9 +375,22 @@ class TitleShow extends Component {
                 pathToNoteCreate={paths.NOTE_CREATE}
                 pathToNoteDetails={paths.NOTES}
               />
+
+              {showUsageConsolidation && (
+                <UsageConsolidationAccordion
+                  id="titleShowUsageConsolidation"
+                  isOpen={sections.titleShowUsageConsolidation}
+                  onToggle={this.handleSectionToggle}
+                  onFilterSubmit={fetchTitleCostPerUse}
+                  recordType={entityTypes.TITLE}
+                  costPerUseData={costPerUse}
+                  publicationType={model.publicationType}
+                />
+              )}
             </>
           )}
           listType={listTypes.PACKAGES}
+          onListToggle={this.handleSectionToggle}
           resultsLength={packageFilterApplied
             ? filteredPackages.length
             : model.resources.length}

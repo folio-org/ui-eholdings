@@ -1,0 +1,10 @@
+@import "@folio/stripes-components/lib/variables";
+
+.fieldset {
+  margin-bottom: var(--control-margin-bottom);
+}
+
+.label {
+  font-size: 1.05rem; /* like Label component font-size from `stripes-components` */
+  margin-bottom: 0;
+}
