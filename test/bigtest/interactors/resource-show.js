@@ -19,6 +19,7 @@ import ResourceDropDownMenu from './resource-drop-down-menu';
 import NavigationModal from './navigation-modal';
 import ResourceShowDeselectionModal from './resource-show-deselection-modal';
 import UnassignAgreementModal from './unassign-agreement-modal';
+import ResourceUsageConsolidation from './resource-usage-consolidation';
 
 @interactor class ResourceShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="resource"]');
@@ -122,6 +123,8 @@ import UnassignAgreementModal from './unassign-agreement-modal';
   });
 
   agreementsSection = new AgreementsAccordion('#resourceShowAgreements');
+
+  usageConsolidationSection = new ResourceUsageConsolidation();
 
   customLabelsAccordion = new AccordionInteractor('#resourceShowCustomLabels');
   customLabels = collection('[data-test-eholdings-resource-custom-label]', CustomLabel);

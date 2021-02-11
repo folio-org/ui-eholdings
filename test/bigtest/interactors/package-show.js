@@ -28,6 +28,7 @@ import ActionsDropDown from './actions-drop-down';
 import PackageDropDownMenu from './package-drop-down-menu';
 import PackageModal from './package-modal';
 import PackageSelectionModal from './package-selection-modal';
+import PackageUsageConsolidation from './package-usage-consolidation';
 
 @interactor class PackageShowPage {
   isLoaded = isPresent('[data-test-eholdings-details-view-name="package"]');
@@ -72,6 +73,7 @@ import PackageSelectionModal from './package-selection-modal';
   searchModalBadge = new SearchBadge('[data-test-eholdings-search-modal-badge]');
   isAccessTypeSectionPresent = isPresent('[data-test-eholdings-details-access-type]');
   accessType = text('[data-test-eholdings-details-access-type]');
+  usageConsolidation = new PackageUsageConsolidation();
 
   detailPaneMouseWheel = triggerable('[data-test-eholdings-detail-pane-contents]', 'wheel', {
     bubbles: true,

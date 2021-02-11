@@ -4,6 +4,8 @@ import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { Headline, RadioButton } from '@folio/stripes/components';
 
+import fieldsetStyles from '../../../fieldset-styles.css';
+
 class VisibilityField extends Component {
   static propTypes = {
     disabled: PropTypes.oneOfType([
@@ -19,8 +21,12 @@ class VisibilityField extends Component {
     return (
       <fieldset
         data-test-eholdings-resource-visibility-field
+        className={fieldsetStyles.fieldset}
       >
-        <Headline tag="legend" size="small" margin="x-large">
+        <Headline
+          tag="legend"
+          className={fieldsetStyles.label}
+        >
           <FormattedMessage id="ui-eholdings.label.showToPatrons" />
         </Headline>
 

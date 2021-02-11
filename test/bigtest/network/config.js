@@ -861,7 +861,7 @@ export default function config() {
           'url': '',
           'customerId': ''
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -879,7 +879,7 @@ export default function config() {
           'url': 'YYYY',
           'customerId': 'ZZZZ'
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -897,7 +897,7 @@ export default function config() {
           'url': 'YYYY',
           'customerId': 'ZZZZ'
         },
-        'metadata': {
+        'meta': {
           'createdDate': '2020-03-17T15:22:04.098',
           'updatedDate': '2020-03-17T15:23:04.098+0000',
           'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
@@ -916,10 +916,43 @@ export default function config() {
     return {
       attributes,
       id: random.uuid(),
+      meta: {
+        'createdDate': '2020-03-17T15:22:04.098',
+        'updatedDate': '2020-03-17T15:23:04.098+0000',
+        'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+        'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+        'createdByUsername': 'john_doe',
+        'updatedByUsername': 'jane_doe'
+      },
     };
   });
 
-  this.patch('/kb-credentials/:id', () => new Response(204));
+  this.get('/kb-credentials/:id/key', {
+    id : '2',
+    type : 'kbCredentialsKey',
+    attributes : {
+      apiKey : 'test-api-key'
+    },
+  });
+
+  this.patch('/kb-credentials/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+
+    return {
+      data: {
+        ...body.data,
+        meta: {
+          'createdDate': '2020-03-17T15:22:04.098',
+          'updatedDate': '2020-03-17T15:23:04.098+0000',
+          'createdByUserId': '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+          'updatedByUserId': '6893f51f-b40c-479d-bd78-1704ab5b802b',
+          'createdByUsername': 'john_doe',
+          'updatedByUsername': 'jane_doe'
+        },
+      },
+    };
+  });
+
   this.delete('/kb-credentials/:id', () => new Response(204));
 
   // Current root proxy
@@ -1095,4 +1128,304 @@ export default function config() {
 
     return body;
   });
+
+  this.get('/kb-credentials/:credId/uc', () => ({
+    id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    type: 'ucSettings',
+    attributes: {
+      credentialsId: '80898dee-449f-44dd-9c8e-37d5eb469b1d',
+      customerKey: '****************************************',
+      startMonth: 'mar',
+      currency: 'USD',
+      platformType: 'publisher',
+    },
+    metadata: {
+      createdDate: '2020-03-17T15:22:04.098',
+      updatedDate: '2020-03-17T15:23:04.098+0000',
+      createdByUserId: '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+      updatedByUserId: '6893f51f-b40c-479d-bd78-1704ab5b802b',
+      createdByUsername: 'john_doe',
+      updatedByUsername: 'jane_doe',
+    }
+  }));
+
+  this.get('/kb-credentials/:credId/uc/key', () => ({
+    'id': '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    'type': 'ucSettingsKey',
+    'attributes': {
+      'credentialsId': '80898dee-449f-44dd-9c8e-37d5eb469b1d',
+      'customerKey': '1234-5678-90'
+    },
+  }));
+
+  this.get('/uc', () => ({
+    id: '2ffa1940-2cf6-48b1-8cc9-5e539c61d93f',
+    type: 'ucSettings',
+    attributes: {
+      credentialsId: '80898dee-449f-44dd-9c8e-37d5eb469b1d',
+      customerKey: '****************************************',
+      startMonth: 'mar',
+      currency: 'USD',
+      platformType: 'publisher',
+      metricType: 'Total Item Requests',
+    },
+    metadata: {
+      createdDate: '2020-03-17T15:22:04.098',
+      updatedDate: '2020-03-17T15:23:04.098+0000',
+      createdByUserId: '1f8f660e-7dc9-4f6f-828f-96284c68a250',
+      updatedByUserId: '6893f51f-b40c-479d-bd78-1704ab5b802b',
+      createdByUsername: 'john_doe',
+      updatedByUsername: 'jane_doe',
+    }
+  }));
+
+  this.get('/currencies', () => ({
+    data: [{
+      id: 'AFN',
+      type: 'currencies',
+      attributes: {
+        code: 'AFN',
+        description: 'Afghan Afghani',
+      },
+    }, {
+      id: 'ALL',
+      type: 'currencies',
+      attributes: {
+        code: 'ALL',
+        description: 'Albanian Lek',
+      },
+    }, {
+      id: 'USD',
+      type: 'currencies',
+      attributes: {
+        code: 'USD',
+        description: 'United State Dollar',
+      },
+    }],
+  }));
+
+  this.post('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
+  this.patch('/kb-credentials/:credId/uc', (_schema, request) => JSON.parse(request.requestBody));
+
+  this.get('/packages/:packageId/costperuse', () => ({
+    'packageId': '58-473',
+    'type': 'packageCostPerUse',
+    'attributes': {
+      'analysis': {
+        'publisherPlatforms': {
+          'cost': 1201,
+          'usage': 35913,
+          'costPerUse': 0.0334,
+        }
+      },
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
+    },
+  }));
+
+  this.get('/packages/:id/resources/costperuse', () => ({
+    'data': [{
+      'resourceId': '58-473-356',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'Abacus',
+        'publicationType': 'Journal',
+        'percent': 0.08677172462134165,
+        'cost': 1.042165,
+        'usage': 127,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-491',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'About Campus',
+        'publicationType': 'Journal',
+        'percent': 15.4,
+        'usage': 23,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230757',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report',
+        'publicationType': 'Journal',
+        'percent': 15.6,
+        'usage': 0,
+        'costPerUse': 0.008206023622047243
+      }
+    }, {
+      'resourceId': '58-473-1230759',
+      'type': 'resourceCostPerUseItem',
+      'attributes': {
+        'name': 'AAHE-ERIC/Higher Education Research Report 2',
+        'publicationType': 'Journal',
+        'percent': 0,
+        'usage': 200,
+        'costPerUse': 0.008206023622047243
+      }
+    }],
+    'parameters': {
+      'startMonth': 'jan',
+      'currency': 'USD'
+    },
+    'meta': {
+      'totalResults': 3
+    },
+    'jsonapi': {
+      'version': '1.0'
+    }
+  }));
+
+  this.get('/titles/:titleId/costperuse', () => ({
+    'titleId': '185972',
+    'type': 'titleCostPerUse',
+    'attributes': {
+      'usage': {
+        'platforms': [{
+          'name': 'Wiley Online Library',
+          'isPublisherPlatform': true,
+          'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
+          'total': 22
+        }],
+        'totals': {
+          'publisher': {
+            'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
+            'total': 22
+          }
+        }
+      },
+      'analysis': {
+        'holdingsSummary': [{
+          'packageId': '58-2121943',
+          'resourceId': '58-2121943-185972',
+          'packageName': 'Wiley Database Model (BIBSAM)',
+          'coverages': [{
+            'beginCoverage': '1998-01-01',
+            'endCoverage': '2000-01-01'
+          }, {
+            'beginCoverage': '2001-01-01',
+            'endCoverage': '2003-01-01',
+          }],
+          'embargoPeriod': {
+            'embargoValue': 10,
+            'embargoUnit': 'Days',
+          },
+          'cost': 1030.145,
+          'usage': 22,
+          'costPerUse': 50.123
+        }, {
+          'packageId': '58-3172012',
+          'resourceId': '58-3172012-185972',
+          'packageName': 'Wiley Online Library Database Model 2019',
+          'coverages': [{
+            'beginCoverage': '1997-01-01',
+            'endCoverage': ''
+          }],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }, {
+          'packageId': '58-3517631',
+          'resourceId': '58-3517631-185972',
+          'packageName': 'Wiley Online Library Full Collection 2020',
+          'coverages': [{
+            'beginCoverage': '1997-01-01',
+            'endCoverage': ''
+          }],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }, {
+          'packageId': '22-3123003',
+          'resourceId': '22-3123003-185972',
+          'packageName': 'Agricultural & Environmental Science Database (DRAA)',
+          'coverageStatement': '',
+          'coverages': [],
+          'embargoPeriod': {
+            'embargoValue': 0
+          },
+          'cost': 0.0,
+          'usage': 22,
+          'costPerUse': 0.0
+        }],
+      },
+      'parameters': {
+        'startMonth': 'jan',
+        'currency': 'USD',
+      },
+    }
+  }));
+
+  this.get('/resources/:resourceId/costperuse', () => ({
+    type: 'resourceCostPerUse',
+    attributes: {
+      usage: {
+        platforms: [
+          {
+            name: 'Wiley Online Library',
+            isPublisherPlatform: true,
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          {
+            name: 'EBSCOhost',
+            isPublisherPlatform: false,
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+        ],
+        totals: {
+          publisher: {
+            counts: [0, 1, 3, 1, 3, 1, 16, 1, null, null, null, null],
+            total: 26,
+          },
+          nonPublisher: {
+            counts: [2, null, 1, null, null, null, 3, 4, null, null, null, null],
+            total: 10,
+          },
+          all: {
+            counts: [2, 1, 4, 1, 3, 1, 19, 5, null, null, null, null],
+            total: 36,
+          },
+        },
+      },
+      analysis: {
+        publisherPlatforms: {
+          cost: 100.0,
+          usage: 26,
+          costPerUse: 3.8461538461538463
+        },
+        nonPublisherPlatforms: {
+          cost: 100.0,
+          usage: 10,
+          costPerUse: 10.0
+        },
+        allPlatforms: {
+          cost: 100.0,
+          usage: 36,
+          costPerUse: 2.7777777777777777,
+        },
+      },
+      parameters: {
+        startMonth: 'jan',
+        currency: 'USD',
+      },
+    },
+  }));
+
+  this.get('/packages/:packageId/resources/costperuse/export', () => `
+    Title, Type, Cost, Usage, Cost per use, % of usage
+    Writings of Professor B. B. Edwards,Book,500.00,2225,0.22,16
+    The Seasons and the Symphony,Streaming Video,800.00,4544, 0.18,20
+  `);
 }

@@ -22,8 +22,10 @@ const CredentialShape = PropTypes.shape({
 const KbCredentialsReduxStateShape = PropTypes.shape({
   errors: PropTypes.array.isRequired,
   hasFailed: PropTypes.bool.isRequired,
+  hasKeyLoaded: PropTypes.bool.isRequired,
   hasLoaded: PropTypes.bool.isRequired,
   hasUpdated: PropTypes.bool.isRequired,
+  isKeyLoading: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isUpdating: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(CredentialShape).isRequired,
