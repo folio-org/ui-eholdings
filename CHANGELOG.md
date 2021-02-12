@@ -44,6 +44,7 @@
 * Update `stripes-cli` to v2.
 * Added Notes accordion to Title Show page. (UIEH-1033)
 * Support `eholdings` interface version `3.0`.
+* Support erm interface v4.0
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
