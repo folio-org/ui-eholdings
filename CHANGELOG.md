@@ -1,7 +1,31 @@
 # Change history for ui-eholdings
 
 ## [6.0.0] (IN PROGRESS)
-
+* Settings - Usage Consolidation - Currency. (UIEH-965)
+* Settings - Usage Consolidation - Start month for usage statistics. (UIEH-966)
+* Settings - Usage Consolidation - Usage consolidation ID. (UIEH-968)
+* Package Record: Display Usage & Analysis Accordion (UIEH-941)
+* Added Usage Consolidation Filters to Package Show page. (UIEH-942, UIEH-973)
+* Title+Package Record: Display Usage & Analysis Accordion. (UIEH-949)
+* Added Usage Consolidation Summary table to Package Show page. (UIEH-945)
+* Added Usage Consolidation Filters to Resource Show page. (UIEH-951)
+* Title Record: Display Usage & Analysis Accordion. (UIEH-950)
+* Settings: Usage Consolidation: Permissions. (UIEH-938)
+* Added Usage Consolidation Summary table to Resource Show page. (UIEH-952)
+* Title Record: Display Holdings summary table. (UIEH-999)
+* Add info popover for Usage Consolidation Accordion. (UIEH-993)
+* Edit Package/Resource record: Field labels text size is too small. (UIEH-1003)
+* Add Full text request usage table to Resource/Title Show page. (UIEH-953, UIEH-997)
+* Add Usage Consolidation Titles table to Package Show page. (UIEH-948)
+* Fix Usage Consolidation currency setting not updating. (UIEH-1009)
+* Clear Usage Consolidation data when leaving Package/Title/Resource View page. (UIEH-1013)
+* Package Show page | Export Titles. (UIEH-946)
+* Display Usage data metric selection for Total usage on Summary table. (UIEH-994)
+* Remove Actions button dropdown from Title/Resource Summary Table. (UIEH-1014)
+* Hide Usage Consolidation accordion when Package/Title/Resource is not selected. (UIEH-1000)
+* Settings - Usage Consolidation: Display a successful toast notification. (UIEH-1010)
+* Settings > eholdings > Usage Consolidation: Display a Show/Hide ID toggle. (UIEH-1022)
+* Settings > eholdings > Show/Hide API key toggle. (UIEH-1023)
 * Increase Settings Custom Labels display label max length to 200. (UIEH-985)
 * Increase Custom Labels value max length to 500. (UIEH-985)
 * Fix routing issues when visiting Note Edit page. (UIEH-991)
@@ -19,6 +43,7 @@
 * Updates to eHoldings back-end error EBSCO connect link. (UIEH-964)
 * Update `stripes-cli` to v2.
 * Added Notes accordion to Title Show page. (UIEH-1033)
+* Support `eholdings` interface version `3.0`.
 * Support erm interface v4.0
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)

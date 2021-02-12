@@ -18,6 +18,17 @@ export default {
 
     return doRequest(url, params);
   },
+  getCredentialsKey(okapi, credsId) {
+    const method = 'GET';
+    const url = `${okapi.url}${API_URL}/${credsId}/key`;
+
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
+
+    return doRequest(url, params);
+  },
   createCredentials(okapi, credentials) {
     const method = 'POST';
     const url = `${okapi.url}${API_URL}`;

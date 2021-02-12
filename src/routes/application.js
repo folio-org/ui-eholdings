@@ -74,7 +74,7 @@ class ApplicationRoute extends Component {
       );
     }
 
-    if (status.request.isRejected) {
+    if (status.request.isRejected && !showSettings) {
       if (status.request.status === httpResponseCodes.API_LIMIT_EXCEEDED) {
         return <ApiLimitExceededErrorScreen />;
       }

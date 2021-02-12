@@ -34,6 +34,7 @@ class Resource {
   identifiers = [];
   isTitleCustom = false;
   isPeerReviewed = false;
+  titleHasSelectedResources = false;
   description = '';
   userDefinedField1 = '';
   userDefinedField2 = '';
@@ -76,6 +77,7 @@ class Resource {
         identifiers: this.identifiers,
         isTitleCustom: this.isTitleCustom,
         isPeerReviewed: this.isPeerReviewed,
+        titleHasSelectedResources: this.titleHasSelectedResources,
         description: this.description,
         userDefinedField1: this.userDefinedField1,
         userDefinedField2: this.userDefinedField2,

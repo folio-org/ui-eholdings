@@ -21,8 +21,9 @@ import {
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
-import { KbCredentials } from '../../../constants';
 import NavigationModal from '../../navigation-modal';
+import ShowHidePasswordField from '../../show-hide-password-field';
+import { KbCredentials } from '../../../constants';
 
 const focusOnErrors = createFocusDecorator();
 class SettingsKnowledgeBase extends Component {
@@ -234,6 +235,7 @@ class SettingsKnowledgeBase extends Component {
     const nameFieldLabel = intl.formatMessage({ id: 'ui-eholdings.name' });
     const customerIDFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.customerId' });
     const apiKeyFieldLabel = intl.formatMessage({ id: 'ui-eholdings.settings.kb.apiKey' });
+    const displayShowHidePasswordButton = config?.meta?.isKeyLoaded || isCreateMode;
 
     return (
       <Form
@@ -302,20 +304,20 @@ class SettingsKnowledgeBase extends Component {
                   </div>
 
                   <div data-test-eholdings-settings-apikey>
-                    <Field
-                      label={apiKeyFieldLabel}
+                    <ShowHidePasswordField
                       name="apiKey"
-                      component={TextField}
-                      type="password"
                       autoComplete="off"
                       validate={value => (
                         value ? null : <FormattedMessage id="ui-eholdings.validate.errors.settings.apiKey" />
                       )}
                       required
+                      label={apiKeyFieldLabel}
                       aria-label={apiKeyFieldLabel}
+                      showButtonLabel={<FormattedMessage id="ui-eholdings.settings.kb.apiKey.show" />}
+                      hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.kb.apiKey.hide" />}
+                      showButton={displayShowHidePasswordButton}
                     />
                   </div>
-
                   <p>
                     <FormattedMessage id="ui-eholdings.settings.kb.url.ebsco.customer.message" />
                   </p>

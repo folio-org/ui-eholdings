@@ -10,6 +10,9 @@ import {
   rootProxyApi,
   proxyTypesApi,
   userGroupsApi,
+  usageConsolidationApi,
+  currenciesApi,
+  costPerUseApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -41,6 +44,9 @@ import {
   proxyTypes,
   kbCredentialsUsers,
   userGroups,
+  usageConsolidation,
+  currencies,
+  costPerUse,
 } from './reducers';
 
 import {
@@ -54,6 +60,7 @@ import {
   createDeleteAccessTypeEpic,
   createUpdateAccessTypeEpic,
   createGetKbCredentialsEpic,
+  createGetKbCredentialsKeyEpic,
   createPostKbCredentialsEpic,
   createPatchKBCredentialsEpic,
   createDeleteKbCredentialsEpic,
@@ -66,6 +73,13 @@ import {
   createGetUserGroupsEpic,
   createGetAgreementLinesEpic,
   createDeleteAgreementLinesEpic,
+  createGetUsageConsolidationEpic,
+  createGetUsageConsolidationKeyEpic,
+  createPostUsageConsolidationEpic,
+  createPatchUsageConsolidationEpic,
+  createGetCurrenciesEpic,
+  createGetCostPerUseEpic,
+  createGetCostPerUsePackageTitlesEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -97,6 +111,9 @@ export const reducer = combineReducers({
       settingsRootProxy: rootProxy(currentState.settingsRootProxy, action),
       settingsProxyTypes: proxyTypes(currentState.settingsProxyTypes, action),
       userGroups: userGroups(currentState.userGroups, action),
+      usageConsolidation: usageConsolidation(currentState.usageConsolidation, action),
+      currencies: currencies(currentState.currencies, action),
+      costPerUse: costPerUse(currentState.costPerUse, action),
     };
   }
 });
@@ -115,6 +132,7 @@ export const epics = combineEpics(
   createDeleteAccessTypeEpic({ accessTypesApi }),
   createUpdateAccessTypeEpic({ accessTypesApi }),
   createGetKbCredentialsEpic({ knowledgeBaseApi }),
+  createGetKbCredentialsKeyEpic({ knowledgeBaseApi }),
   createPostKbCredentialsEpic({ knowledgeBaseApi }),
   createPatchKBCredentialsEpic({ knowledgeBaseApi }),
   createDeleteKbCredentialsEpic({ knowledgeBaseApi }),
@@ -125,4 +143,11 @@ export const epics = combineEpics(
   createUpdateRootProxyEpic({ rootProxyApi }),
   createGetProxyTypesEpic({ proxyTypesApi }),
   createGetUserGroupsEpic({ userGroupsApi }),
+  createGetUsageConsolidationEpic({ usageConsolidationApi }),
+  createGetUsageConsolidationKeyEpic({ usageConsolidationApi }),
+  createPostUsageConsolidationEpic({ usageConsolidationApi }),
+  createPatchUsageConsolidationEpic({ usageConsolidationApi }),
+  createGetCurrenciesEpic({ currenciesApi }),
+  createGetCostPerUseEpic({ costPerUseApi }),
+  createGetCostPerUsePackageTitlesEpic({ costPerUseApi }),
 );

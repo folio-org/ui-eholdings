@@ -85,7 +85,7 @@ describe('Delete knowledge base flow', () => {
             expect(SettingsCreateKBPage.deleteConfirmationModal.isPresent).to.be.false;
           });
 
-          it('should display a notification', () => {
+          it.skip('should display a notification', () => {
             expect(SettingsCreateKBPage.deleteNotification.isPresent).to.be.true;
           });
 

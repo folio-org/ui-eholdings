@@ -36,6 +36,7 @@ import {
   DOMAIN_NAME,
   paths,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../../../constants';
 import {
   processErrors,
@@ -54,15 +55,22 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import AccessType from '../../access-type-display';
-import { AgreementsAccordion } from '../../../features';
+import {
+  AgreementsAccordion,
+  UsageConsolidationAccordion,
+} from '../../../features';
 import QueryNotFound from '../../query-list/not-found';
 
 const ITEM_HEIGHT = 62;
+const MAX_EXPORT_TITLE_LIMIT = 200000;
 
 class PackageShow extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     addPackageToHoldings: PropTypes.func.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+    fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
+    fetchPackageCostPerUse: PropTypes.func.isRequired,
     fetchPackageTitles: PropTypes.func.isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
@@ -70,6 +78,7 @@ class PackageShow extends Component {
     isDestroyed: PropTypes.bool,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
+    loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     packageTitles: PropTypes.object.isRequired,
@@ -101,6 +110,7 @@ class PackageShow extends Component {
         packageShowAgreements: true,
         packageShowTitles: true,
         packageShowNotes: true,
+        packageShowUsageConsolidation: false,
       },
     };
   }
@@ -208,7 +218,6 @@ class PackageShow extends Component {
       />
     );
   }
-
 
   renderPackageSettings() {
     const {
@@ -321,6 +330,10 @@ class PackageShow extends Component {
       tagsModel,
       updateFolioTags,
       stripes,
+      fetchPackageCostPerUse,
+      fetchCostPerUsePackageTitles,
+      loadMoreCostPerUsePackageTitles,
+      costPerUse,
     } = this.props;
 
     const {
@@ -516,6 +529,22 @@ class PackageShow extends Component {
           pathToNoteCreate={paths.NOTE_CREATE}
           pathToNoteDetails={paths.NOTES}
         />
+
+        {packageSelected && (
+          <UsageConsolidationAccordion
+            id="packageShowUsageConsolidation"
+            isOpen={sections.packageShowUsageConsolidation}
+            onToggle={this.handleSectionToggle}
+            onFilterSubmit={fetchPackageCostPerUse}
+            onViewTitles={fetchCostPerUsePackageTitles}
+            onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
+            recordType={entityTypes.PACKAGE}
+            recordId={model.id}
+            recordName={model.name}
+            costPerUseData={costPerUse}
+            isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
+          />
+        )}
       </>
     );
   }

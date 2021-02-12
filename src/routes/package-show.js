@@ -15,12 +15,18 @@ import Package from '../redux/package';
 import Provider from '../redux/provider';
 import Resource from '../redux/resource';
 import { selectPropFromData } from '../redux/selectors';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import {
+  getAccessTypes as getAccessTypesAction,
+  getCostPerUse as getCostPerUseAction,
+  getCostPerUsePackageTitles as getCostPerUsePackageTitlesAction,
+  clearCostPerUseData as clearCostPerUseDataAction,
+} from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
 import {
   listTypes,
   accessTypesReduxStateShape,
+  costPerUse as costPerUseShape,
 } from '../constants';
 
 import View from '../components/package/show';
@@ -29,8 +35,12 @@ import SearchModal from '../components/search-modal';
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
+    clearCostPerUseData: PropTypes.func.isRequired,
+    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
+    getCostPerUse: PropTypes.func.isRequired,
+    getCostPerUsePackageTitles: PropTypes.func.isRequired,
     getPackage: PropTypes.func.isRequired,
     getPackageTitles: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
@@ -149,6 +159,10 @@ class PackageShowRoute extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearCostPerUseData();
+  }
+
   getTitleResults() {
     const { match, resolver } = this.props;
     const { pkgSearchParams } = this.state;
@@ -231,6 +245,28 @@ class PackageShowRoute extends Component {
     return searchType;
   }
 
+  fetchPackageCostPerUse = (filterData) => {
+    const {
+      getCostPerUse,
+      model: { id },
+    } = this.props;
+
+    getCostPerUse(listTypes.PACKAGES, id, filterData);
+  }
+
+  fetchCostPerUsePackageTitles = (filterData, loadMore = false) => {
+    const {
+      getCostPerUsePackageTitles,
+      model: { id },
+    } = this.props;
+
+    getCostPerUsePackageTitles(id, filterData, loadMore);
+  }
+
+  loadMoreCostPerUsePackageTitles = (filterData) => {
+    this.fetchCostPerUsePackageTitles(filterData, true);
+  }
+
   handleEdit = () => {
     const {
       history,
@@ -258,6 +294,7 @@ class PackageShowRoute extends Component {
       proxyTypes,
       updateFolioTags,
       accessStatusTypes,
+      costPerUse,
     } = this.props;
     const {
       pkgSearchParams,
@@ -274,6 +311,9 @@ class PackageShowRoute extends Component {
           proxyTypes={proxyTypes}
           provider={provider}
           fetchPackageTitles={this.fetchPackageTitles}
+          fetchPackageCostPerUse={this.fetchPackageCostPerUse}
+          fetchCostPerUsePackageTitles={this.fetchCostPerUsePackageTitles}
+          loadMoreCostPerUsePackageTitles={this.loadMoreCostPerUsePackageTitles}
           toggleSelected={this.toggleSelected}
           addPackageToHoldings={this.addPackageToHoldings}
           toggleHidden={this.toggleHidden}
@@ -281,6 +321,7 @@ class PackageShowRoute extends Component {
           toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
           onEdit={this.handleEdit}
           accessStatusTypes={accessStatusTypes}
+          costPerUse={costPerUse}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved
@@ -328,6 +369,7 @@ export default connect(
       tagsModel: resolver.query('tags'),
       resolver,
       accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
+      costPerUse: selectPropFromData(store, 'costPerUse'),
     };
   },
   {
@@ -342,5 +384,8 @@ export default connect(
     destroyPackage: model => Package.destroy(model),
     removeUpdateRequests: () => Package.removeRequests('update'),
     getAccessTypes: getAccessTypesAction,
+    getCostPerUse: getCostPerUseAction,
+    getCostPerUsePackageTitles: getCostPerUsePackageTitlesAction,
+    clearCostPerUseData: clearCostPerUseDataAction,
   }
 )(PackageShowRoute);
