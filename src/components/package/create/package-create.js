@@ -11,6 +11,8 @@ import {
   Pane,
   Paneset,
   PaneFooter,
+  HasCommand,
+  checkScope,
 } from '@folio/stripes/components';
 
 import DetailsViewSection from '../../details-view-section';
@@ -23,6 +25,7 @@ import AccessTypeEditSection from '../../access-type-edit-section';
 import Toaster from '../../toaster';
 
 import { accessTypesReduxStateShape } from '../../../constants';
+import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
 
 import styles from './package-create.css';
 
@@ -43,6 +46,15 @@ export default class PackageCreate extends Component {
     removeCreateRequests: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired
   };
+
+  createFormRef = React.createRef();
+
+  shortcuts = [
+    {
+      name: 'save',
+      handler: (e) => handleSaveKeyFormSubmit(e, this.createFormRef),
+    },
+  ];
 
   componentWillUnmount() {
     this.props.removeCreateRequests();
@@ -113,53 +125,62 @@ export default class PackageCreate extends Component {
     } = this.props;
 
     return (
-      <Form
-        initialValues={initialValues}
-        decorators={[focusOnErrors]}
-        mutators={{ ...arrayMutators }}
-        onSubmit={onSubmit}
-        render={({ handleSubmit, pristine, form: { reset } }) => (
-          <div data-test-eholdings-package-create>
-            <Toaster
-              position="bottom"
-              toasts={request.errors.map(({ title }, index) => ({
-                id: `error-${request.timestamp}-${index}`,
-                message: title,
-                type: 'error'
-              }))}
-            />
-            <Paneset>
-              <Pane
+      <HasCommand
+        commands={this.shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <Form
+          initialValues={initialValues}
+          decorators={[focusOnErrors]}
+          mutators={{ ...arrayMutators }}
+          onSubmit={onSubmit}
+          render={({ handleSubmit, pristine, form: { reset } }) => (
+            <div data-test-eholdings-package-create>
+              <Toaster
+                position="bottom"
+                toasts={request.errors.map(({ title }, index) => ({
+                  id: `error-${request.timestamp}-${index}`,
+                  message: title,
+                  type: 'error'
+                }))}
+              />
+              <form
+                ref={this.createFormRef}
                 onSubmit={handleSubmit}
-                tagName="form"
-                defaultWidth="fill"
-                paneTitle={paneTitle}
-                firstMenu={this.getFirstMenu()}
-                footer={this.getFooter(pristine, reset)}
                 noValidate
               >
-                <div className={styles['package-create-form-container']}>
-                  <DetailsViewSection
-                    label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
-                    separator={false}
+                <Paneset>
+                  <Pane
+                    defaultWidth="fill"
+                    paneTitle={paneTitle}
+                    firstMenu={this.getFirstMenu()}
+                    footer={this.getFooter(pristine, reset)}
                   >
-                    <NameField />
-                    <ContentTypeField />
-                    <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                  </DetailsViewSection>
-                  <DetailsViewSection
-                    label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
-                  >
-                    <CoverageFields />
-                  </DetailsViewSection>
-                </div>
-              </Pane>
-            </Paneset>
+                    <div className={styles['package-create-form-container']}>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.package.packageInformation" />}
+                        separator={false}
+                      >
+                        <NameField />
+                        <ContentTypeField />
+                        <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                      </DetailsViewSection>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}
+                      >
+                        <CoverageFields />
+                      </DetailsViewSection>
+                    </div>
+                  </Pane>
+                </Paneset>
+              </form>
 
-            <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
-          </div>
-        )}
-      />
+              <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
+            </div>
+          )}
+        />
+      </HasCommand>
     );
   }
 }

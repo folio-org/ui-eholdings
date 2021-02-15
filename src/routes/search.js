@@ -429,7 +429,7 @@ class SearchRoute extends Component {
    */
   render() {
     const {
-      location,
+      history,
       tagsModel,
       accessTypes,
     } = this.props;
@@ -468,7 +468,7 @@ class SearchRoute extends Component {
                 totalResults={results.length}
                 isLoading={!results.hasLoaded}
                 updateFilters={this.updateFilters}
-                location={location}
+                history={history}
                 searchForm={(
                   <SearchForm
                     sort={sort}

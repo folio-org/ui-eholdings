@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -10,9 +11,10 @@ import {
   Pane,
   Paneset,
   PaneFooter,
+  HasCommand,
+  checkScope,
 } from '@folio/stripes/components';
 
-import { FormattedMessage } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import EditionField from '../_fields/edition';
@@ -25,6 +27,9 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+
+import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
+
 import styles from './title-create.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -38,6 +43,15 @@ export default class TitleCreate extends Component {
     removeCreateRequests: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
   };
+
+  createFormRef = React.createRef();
+
+  shortcuts = [
+    {
+      name: 'save',
+      handler: (e) => handleSaveKeyFormSubmit(e, this.createFormRef),
+    },
+  ];
 
   componentWillUnmount() {
     this.props.removeCreateRequests();
@@ -111,7 +125,12 @@ export default class TitleCreate extends Component {
     }));
 
     return (
-      <div data-test-eholdings-title-create>
+      <HasCommand
+        commands={this.shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
+        <div data-test-eholdings-title-create>
         <Toaster
           position="bottom"
           toasts={request.errors.map(({ title }, index) => ({
@@ -128,16 +147,17 @@ export default class TitleCreate extends Component {
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           render={({ handleSubmit, pristine, form: { reset } }) => (
-            <>
+            <form
+              ref={this.createFormRef}
+              onSubmit={handleSubmit}
+              noValidate
+            >
               <Paneset>
                 <Pane
-                  onSubmit={handleSubmit}
-                  tagName="form"
                   defaultWidth="fill"
                   paneTitle={paneTitle}
                   firstMenu={this.renderFirstMenu()}
                   footer={this.getFooter(pristine, reset)}
-                  noValidate
                 >
                   <div className={styles['title-create-form-container']}>
                     <DetailsViewSection
@@ -163,10 +183,11 @@ export default class TitleCreate extends Component {
               </Paneset>
 
               <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
-            </>
+            </form>
           )}
         />
       </div>
+      </HasCommand>
     );
   }
 }

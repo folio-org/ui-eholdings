@@ -1,12 +1,26 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
 
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
+import {
+  CommandList,
+  HasCommand,
+  checkScope,
+} from '@folio/stripes/components';
+import { keyboardCommands } from '@folio/stripes-erm-components';
 
-import { Route, Switch } from './router';
-import { reducer, epics } from './redux';
+import {
+  Route,
+  Switch,
+} from './router';
+import {
+  reducer,
+  epics,
+} from './redux';
 
 import ApplicationRoute from './routes/application';
 import SettingsRoute from './routes/settings-route';
@@ -64,6 +78,24 @@ class EHoldings extends Component {
     history.replace(currentURL, {});
   }
 
+  focusSearchField = () => {
+    const { history, stripes } = this.props;
+    const el = document.getElementById('eholdings-search');
+
+    if (el) {
+      el.focus();
+    } else {
+      history.push(stripes.home);
+    }
+  };
+
+  shortcuts = [
+    {
+      name: 'search',
+      handler: this.focusSearchField
+    },
+  ];
+
   render() {
     const {
       showSettings,
@@ -82,24 +114,32 @@ class EHoldings extends Component {
         </Route>
       )
       : (
-        <Route path={rootPath} component={ApplicationRoute}>
-          <Switch>
-            <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
-            <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
-            <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
-            <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
-            <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
-            <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
-            <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
-            <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
-            <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
-            <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
-            <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
-            <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
-            <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
-            <Route path={`${rootPath}/`} exact component={SearchRoute} />
-          </Switch>
-        </Route>
+        <CommandList commands={keyboardCommands}>
+          <HasCommand
+            commands={this.shortcuts}
+            isWithinScope={checkScope}
+            scope={document.body}
+          >
+            <Route path={rootPath} component={ApplicationRoute}>
+              <Switch>
+                <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
+                <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
+                <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
+                <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
+                <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
+                <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
+                <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+                <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
+                <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
+                <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
+                <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
+                <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
+                <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
+                <Route path={`${rootPath}/`} exact component={SearchRoute} />
+              </Switch>
+            </Route>
+          </HasCommand>
+        </CommandList>
       );
   }
 }

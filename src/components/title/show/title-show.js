@@ -14,7 +14,6 @@ import qs from 'qs';
 
 import {
   withStripes,
-  IfPermission,
 } from '@folio/stripes-core';
 
 import {
@@ -26,6 +25,9 @@ import {
   ModalFooter,
   Row,
   Col,
+  HasCommand,
+  checkScope,
+  expandAllFunction,
 } from '@folio/stripes/components';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
@@ -93,6 +95,18 @@ class TitleShow extends Component {
     };
   }
 
+  hasEditPermission = () => {
+    const {
+      model,
+      onEdit,
+      stripes,
+    } = this.props;
+
+    const hasEditPerm = stripes.hasPerm('ui-eholdings.records.edit');
+
+    return !!(onEdit && model.isTitleCustom && hasEditPerm);
+  };
+
   componentDidUpdate(prevProps) {
     if (!prevProps.model.isLoaded && this.props.model.isLoaded) {
       const filteredPackages = this.getFilteredPackagesFromParams();
@@ -142,23 +156,20 @@ class TitleShow extends Component {
 
   get lastMenu() {
     const {
-      model,
       onEdit,
     } = this.props;
 
-    if (!onEdit || !model.isTitleCustom) return null;
+    if (!this.hasEditPermission()) return null;
 
     return (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <Button
-          data-test-eholdings-title-edit-link
-          buttonStyle="primary"
-          onClick={onEdit}
-          marginBottom0
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-      </IfPermission>
+      <Button
+        data-test-eholdings-title-edit-link
+        buttonStyle="primary"
+        onClick={onEdit}
+        marginBottom0
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -214,6 +225,48 @@ class TitleShow extends Component {
     this.setState(next);
   }
 
+  openEditPackage = () => {
+    const { onEdit } = this.props;
+
+    if (this.hasEditPermission()) {
+      onEdit();
+    }
+  };
+
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const newSections = expandAllFunction(curState.sections, expand);
+      return {
+        sections: newSections
+      };
+    });
+  };
+
+  expandAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(true);
+  };
+
+  collapseAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(false);
+  };
+
+  shortcuts = [
+    {
+      name: 'edit',
+      handler: this.openEditPackage,
+    },
+    {
+      name: 'expandAllSections',
+      handler: this.expandAllSections,
+    },
+    {
+      name: 'collapseAllSections',
+      handler: this.collapseAllSections,
+    }
+  ];
+
   render() {
     const {
       model,
@@ -244,7 +297,11 @@ class TitleShow extends Component {
     const showUsageConsolidation = model.hasSelectedResources;
 
     return (
-      <>
+      <HasCommand
+        commands={this.shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
         <Toaster toasts={this.toasts} position="bottom" />
         <DetailsView
           type="title"
@@ -470,8 +527,7 @@ class TitleShow extends Component {
             }}
           />
         </Modal>
-
-      </>
+      </HasCommand>
     );
   }
 }

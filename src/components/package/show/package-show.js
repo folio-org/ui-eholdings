@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedDate,
@@ -27,6 +29,9 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
+  HasCommand,
+  checkScope,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -162,6 +167,15 @@ class PackageShow extends Component {
     this.setState(next);
   }
 
+  hasEditPermission = () => {
+    const { stripes } = this.props;
+    const { packageSelected } = this.state;
+
+    const hasEditPerm = stripes.hasPerm('ui-eholdings.records.edit');
+
+    return !!(hasEditPerm && packageSelected);
+  };
+
   getActionMenu = () => {
     const {
       stripes,
@@ -177,11 +191,10 @@ class PackageShow extends Component {
       : 'ui-eholdings.package-title.select-unselect';
 
     const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
-    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
     const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
-    const canEdit = hasEditPermission && packageSelected;
+    const canEdit = this.hasEditPermission();
     const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
 
     if (!isMenuNeeded) return null;
@@ -679,6 +692,48 @@ class PackageShow extends Component {
     );
   }
 
+  openEditPackage = () => {
+    const { onEdit } = this.props;
+
+    if (this.hasEditPermission()) {
+      onEdit();
+    }
+  };
+
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const newSections = expandAllFunction(curState.sections, expand);
+      return {
+        sections: newSections
+      };
+    });
+  };
+
+  expandAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(true);
+  };
+
+  collapseAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(false);
+  };
+
+  shortcuts = [
+    {
+      name: 'edit',
+      handler: this.openEditPackage,
+    },
+    {
+      name: 'expandAllSections',
+      handler: this.expandAllSections,
+    },
+    {
+      name: 'collapseAllSections',
+      handler: this.collapseAllSections,
+    }
+  ];
+
   render() {
     const {
       model,
@@ -745,7 +800,11 @@ class PackageShow extends Component {
     }
 
     return (
-      <div>
+      <HasCommand
+        commands={this.shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
         <Toaster
           toasts={toasts}
           position="bottom"
@@ -796,7 +855,7 @@ class PackageShow extends Component {
         </Modal>
         {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
-      </div>
+      </HasCommand>
     );
   }
 }

@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedNumber,
@@ -13,15 +15,16 @@ import {
   withStripes,
   IfPermission,
 } from '@folio/stripes-core';
-
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-
 import {
   Accordion,
   Button,
   Headline,
   Icon,
   KeyValue,
+  HasCommand,
+  checkScope,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
@@ -73,6 +76,8 @@ class ProviderShow extends Component {
     };
   }
 
+  editPermissionName = "ui-eholdings.records.edit";
+
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
@@ -103,7 +108,7 @@ class ProviderShow extends Component {
     const { onEdit } = this.props;
 
     return (
-      <IfPermission perm="ui-eholdings.records.edit">
+      <IfPermission perm={this.editPermissionName}>
         <Button
           data-test-eholdings-provider-edit-link
           buttonStyle="primary"
@@ -280,6 +285,53 @@ class ProviderShow extends Component {
     );
   }
 
+  openEditProvider = () => {
+    const {
+      stripes,
+      onEdit,
+    } = this.props;
+
+    const editPermission = stripes.hasPerm(this.editPermissionName);
+
+    if (editPermission) {
+      onEdit();
+    }
+  };
+
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const newSections = expandAllFunction(curState.sections, expand);
+      return {
+        sections: newSections
+      };
+    });
+  };
+
+  expandAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(true);
+  };
+
+  collapseAllSections = (e) => {
+    e.preventDefault();
+    this.toggleAllSections(false);
+  };
+
+  shortcuts = [
+    {
+      name: 'edit',
+      handler: this.openEditProvider,
+    },
+    {
+      name: 'expandAllSections',
+      handler: this.expandAllSections,
+    },
+    {
+      name: 'collapseAllSections',
+      handler: this.collapseAllSections,
+    }
+  ];
+
   render() {
     const {
       listType,
@@ -291,7 +343,11 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <>
+      <HasCommand
+        commands={this.shortcuts}
+        isWithinScope={checkScope}
+        scope={document.body}
+      >
         <Toaster
           toasts={this.toasts}
           position="bottom"
@@ -314,7 +370,7 @@ class ProviderShow extends Component {
           ariaRole="tablist"
           bodyAriaRole="tab"
         />
-      </>
+      </HasCommand>
     );
   }
 }
