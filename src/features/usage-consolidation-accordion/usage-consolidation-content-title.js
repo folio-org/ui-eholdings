@@ -14,7 +14,6 @@ import {
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
-import UsageColumnHeader from './summary-table/usage-column-header';
 import {
   formatCoverageYear,
   formatCoverageFullDate,
