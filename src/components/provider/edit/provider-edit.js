@@ -13,15 +13,16 @@ import {
   checkScope,
 } from '@folio/stripes/components';
 
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+  handleSaveKeyFormSubmit,
+} from '../../utilities';
 import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
-
-import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
 
 const focusOnErrors = createFocusDecorator();
 

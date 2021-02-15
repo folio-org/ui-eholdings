@@ -25,7 +25,7 @@ import AccessTypeEditSection from '../../access-type-edit-section';
 import Toaster from '../../toaster';
 
 import { accessTypesReduxStateShape } from '../../../constants';
-import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
+import { handleSaveKeyFormSubmit } from '../../utilities';
 
 import styles from './package-create.css';
 
@@ -47,6 +47,10 @@ export default class PackageCreate extends Component {
     request: PropTypes.object.isRequired
   };
 
+  componentWillUnmount() {
+    this.props.removeCreateRequests();
+  }
+
   createFormRef = React.createRef();
 
   shortcuts = [
@@ -55,10 +59,6 @@ export default class PackageCreate extends Component {
       handler: (e) => handleSaveKeyFormSubmit(e, this.createFormRef),
     },
   ];
-
-  componentWillUnmount() {
-    this.props.removeCreateRequests();
-  }
 
   getFooter = (pristine, reset) => {
     const { request } = this.props;

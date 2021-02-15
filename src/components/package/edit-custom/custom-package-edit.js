@@ -31,8 +31,8 @@ import {
   getAccessTypeId,
   getProxyTypesRecords,
   getProxyTypeById,
+  handleSaveKeyFormSubmit,
 } from '../../utilities';
-import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
 
 import DetailsView from '../../details-view';
 import NameField from '../_fields/name';

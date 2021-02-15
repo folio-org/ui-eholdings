@@ -25,7 +25,7 @@ import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 
-import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
+import { handleSaveKeyFormSubmit } from '../../utilities';
 
 const focusOnErrors = createFocusDecorator();
 

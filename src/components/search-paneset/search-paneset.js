@@ -41,6 +41,9 @@ class SearchPaneset extends Component {
     resultsType: PropTypes.string,
     resultsView: PropTypes.node,
     searchForm: PropTypes.node,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    }).isRequired,
     totalResults: PropTypes.number,
     updateFilters: PropTypes.func.isRequired
   };
@@ -54,7 +57,7 @@ class SearchPaneset extends Component {
     this.state = {};
   }
 
-  createDeletePermissionName = "ui-eholdings.titles-packages.create-delete";
+  createDeletePermissionName = 'ui-eholdings.titles-packages.create-delete';
 
   isPackageOrTitle = (resultsType) => !!(resultsType === searchTypes.PACKAGES || resultsType === searchTypes.TITLES);
 

@@ -76,7 +76,7 @@ class ProviderShow extends Component {
     };
   }
 
-  editPermissionName = "ui-eholdings.records.edit";
+  editPermissionName = 'ui-eholdings.records.edit';
 
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);

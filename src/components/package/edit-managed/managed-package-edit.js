@@ -30,8 +30,8 @@ import {
   getAccessTypeId,
   getProxyTypesRecords,
   getProxyTypeById,
+  handleSaveKeyFormSubmit,
 } from '../../utilities';
-import { handleSaveKeyFormSubmit } from '../../shortcut-utilities';
 
 import DetailsView from '../../details-view';
 import CoverageFields from '../_fields/custom-coverage';

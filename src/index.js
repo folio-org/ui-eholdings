@@ -12,6 +12,7 @@ import {
   checkScope,
 } from '@folio/stripes/components';
 import { keyboardCommands } from '@folio/stripes-erm-components';
+import { stripesShape } from '@folio/stripes/core';
 
 import {
   Route,
@@ -55,7 +56,8 @@ class EHoldings extends Component {
       addEpic: PropTypes.func.isRequired,
       addReducer: PropTypes.func.isRequired,
     }),
-    showSettings: PropTypes.bool
+    showSettings: PropTypes.bool,
+    stripes: stripesShape.isRequired,
   };
 
   constructor(props) {

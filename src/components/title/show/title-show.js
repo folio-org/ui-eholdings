@@ -95,6 +95,17 @@ class TitleShow extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.model.isLoaded && this.props.model.isLoaded) {
+      const filteredPackages = this.getFilteredPackagesFromParams();
+
+      this.setState({ // eslint-disable-line react/no-did-update-set-state
+        filteredPackages,
+        packageFilterApplied: !!filteredPackages.length,
+      });
+    }
+  }
+
   hasEditPermission = () => {
     const {
       model,
@@ -106,17 +117,6 @@ class TitleShow extends Component {
 
     return !!(onEdit && model.isTitleCustom && hasEditPerm);
   };
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.model.isLoaded && this.props.model.isLoaded) {
-      const filteredPackages = this.getFilteredPackagesFromParams();
-
-      this.setState({ // eslint-disable-line react/no-did-update-set-state
-        filteredPackages,
-        packageFilterApplied: !!filteredPackages.length,
-      });
-    }
-  }
 
   getFilteredPackagesFromParams = () => {
     const {
