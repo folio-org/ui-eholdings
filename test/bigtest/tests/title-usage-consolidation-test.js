@@ -111,16 +111,12 @@ describe('TitleShowUsageConsolidation', () => {
           expect(TitleShowPage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
         });
 
-        it('should show five columns in Summary table', () => {
-          expect(TitleShowPage.usageConsolidationSection.content.summaryTable.columnCount).to.be.equal(5);
+        it('should show correct number of columns in Summary table', () => {
+          expect(TitleShowPage.usageConsolidationSection.content.summaryTable.columnCount).to.be.equal(3);
         });
 
         it('should show Cost data in correct format', () => {
           expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(1).cells(2).content).to.equal('$1,030.14 (USD)');
-        });
-
-        it('should show CostPerUse data in correct format', () => {
-          expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(1).cells(4).content).to.equal('$50.12 (USD)');
         });
 
         it('should by default sort rows by Package Name in ascending order', () => {
@@ -234,7 +230,7 @@ describe('TitleShowUsageConsolidation', () => {
               'embargoPeriod': {
                 'embargoValue': 0
               },
-              'cost': 0.0,
+              'cost': null,
               'usage': null,
               'costPerUse': 0.0
             }],
@@ -256,8 +252,8 @@ describe('TitleShowUsageConsolidation', () => {
       expect(TitleShowPage.usageConsolidationSection.content.summaryTable.isPresent).to.be.true;
     });
 
-    it('should show Usage in correct format', () => {
-      expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(0).cells(3).content).to.equal('-');
+    it('should show Cost in correct format', () => {
+      expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('-');
     });
   });
 
@@ -292,7 +288,7 @@ describe('TitleShowUsageConsolidation', () => {
               'embargoPeriod': {
                 'embargoValue': 0
               },
-              'cost': 10.0,
+              'cost': 0,
               'usage': 0,
               'costPerUse': 0.01
             }],
@@ -315,7 +311,7 @@ describe('TitleShowUsageConsolidation', () => {
     });
 
     it('should show Usage in correct format', () => {
-      expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(0).cells(3).content).to.equal('0');
+      expect(TitleShowPage.usageConsolidationSection.content.summaryTable.rows(0).cells(2).content).to.equal('$0 (USD)');
     });
   });
 

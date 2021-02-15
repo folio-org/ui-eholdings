@@ -14,7 +14,6 @@ import {
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
-import UsageColumnHeader from './summary-table/usage-column-header';
 import {
   formatCoverageYear,
   formatCoverageFullDate,
@@ -113,6 +112,7 @@ const UsageConsolidationContentTitle = ({
 
       return (
         <List
+          marginBottom0
           items={coverageDates}
           listClass={styles.coverageDatesList}
         />
@@ -148,24 +148,18 @@ const UsageConsolidationContentTitle = ({
     }) : [];
 
   const customProperties = {
-    visibleColumns: ['packageName', 'coverage', 'cost', 'usage', 'costPerUse'],
+    visibleColumns: ['packageName', 'coverage', 'cost'],
     columnMapping: {
       packageName: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.packageName' }),
       coverage: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.coverage' }),
-      usage: (props) => (
-        <UsageColumnHeader
-          {...props}
-          label={intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.title.usage' })}
-        />
-      ),
+      usage: null,
+      costPerUse: null,
       cost: 'ui-eholdings.usageConsolidation.summary.titleCost',
     },
     columnWidths: {
-      packageName: '33%',
-      coverage: '33%',
-      cost: '12%',
-      usage: '10%',
-      costPerUse: '12%',
+      packageName: '43%',
+      coverage: '39%',
+      cost: '18%',
     },
     formatter,
   };

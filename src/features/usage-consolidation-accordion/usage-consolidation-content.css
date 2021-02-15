@@ -1,7 +1,13 @@
 @import "@folio/stripes-components/lib/sharedStyles/form.css";
 
-.coverageDatesList:nth-child(odd) {
-  background-color: transparent;
+.coverageDatesList {
+  &:nth-child(odd) {
+    background-color: transparent;
+  }
+
+  & li {
+    margin-bottom: 0;
+  }
 }
 
 .limit-error {
