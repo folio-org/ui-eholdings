@@ -48,7 +48,7 @@
     "usageConsolidation.summary.exportTitles.limit": "Exceeds 200,000 export title limit",
     "usageConsolidation.infoPopover.content": "Access to cost and usage information for the packages and titles that are a part of your library's holdings.",
     "usageConsolidation.infoPopover.buttonLabel": "Learn more",
-    "usageConsolidation.fullTextRequestUsageTable": "Full test request by platform usage",
+    "usageConsolidation.fullTextRequestUsageTable": "Full text requests by platform usage",
     "usageConsolidation.fullTextRequestUsageTable.header.platform": "Platform",
     "usageConsolidation.fullTextRequestUsageTable.header.jan": "Jan",
     "usageConsolidation.fullTextRequestUsageTable.header.feb": "Feb",
