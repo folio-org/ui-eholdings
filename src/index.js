@@ -10,8 +10,8 @@ import {
   CommandList,
   HasCommand,
   checkScope,
+  defaultKeyboardShortcuts,
 } from '@folio/stripes/components';
-import { keyboardCommands } from '@folio/stripes-erm-components';
 import { stripesShape } from '@folio/stripes/core';
 
 import {
@@ -81,11 +81,14 @@ class EHoldings extends Component {
   }
 
   focusSearchField = () => {
-    const { history, stripes } = this.props;
-    const el = document.getElementById('eholdings-search');
+    const {
+      history,
+      stripes,
+    } = this.props;
+    const searchElement = document.getElementById('eholdings-search');
 
-    if (el) {
-      el.focus();
+    if (searchElement) {
+      searchElement.focus();
     } else {
       history.push(stripes.home);
     }
@@ -116,7 +119,7 @@ class EHoldings extends Component {
         </Route>
       )
       : (
-        <CommandList commands={keyboardCommands}>
+        <CommandList commands={defaultKeyboardShortcuts}>
           <HasCommand
             commands={this.shortcuts}
             isWithinScope={checkScope}

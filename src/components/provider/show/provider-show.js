@@ -32,6 +32,7 @@ import {
   entityTypes,
   DOMAIN_NAME,
   paths,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 
 import DetailsView from '../../details-view';
@@ -76,8 +77,6 @@ class ProviderShow extends Component {
     };
   }
 
-  editPermissionName = 'ui-eholdings.records.edit';
-
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
@@ -108,7 +107,7 @@ class ProviderShow extends Component {
     const { onEdit } = this.props;
 
     return (
-      <IfPermission perm={this.editPermissionName}>
+      <IfPermission perm={RECORDS_EDIT_PERMISSION}>
         <Button
           data-test-eholdings-provider-edit-link
           buttonStyle="primary"
@@ -291,9 +290,9 @@ class ProviderShow extends Component {
       onEdit,
     } = this.props;
 
-    const editPermission = stripes.hasPerm(this.editPermissionName);
+    const isEditPermission = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
 
-    if (editPermission) {
+    if (isEditPermission) {
       onEdit();
     }
   };

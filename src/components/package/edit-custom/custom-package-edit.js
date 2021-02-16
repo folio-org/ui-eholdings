@@ -44,7 +44,10 @@ import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import AccessTypeEditSection from '../../access-type-edit-section';
 
-import { accessTypesReduxStateShape } from '../../../constants';
+import {
+  accessTypesReduxStateShape,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
+} from '../../../constants';
 
 import styles from './custom-package-edit.css';
 
@@ -153,7 +156,7 @@ class CustomPackageEdit extends Component {
   shortcuts = [
     {
       name: 'save',
-      handler: (e) => handleSaveKeyFormSubmit(e, this.editFormRef),
+      handler: handleSaveKeyFormSubmit(this.editFormRef),
     },
   ];
 
@@ -227,7 +230,7 @@ class CustomPackageEdit extends Component {
   getActionMenu = () => {
     const { packageSelected } = this.state;
     const { stripes } = this.props;
-    const hasDeletePermission = stripes.hasPerm('ui-eholdings.titles-packages.create-delete');
+    const hasDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
     if (!hasDeletePermission || !packageSelected) return null;
 

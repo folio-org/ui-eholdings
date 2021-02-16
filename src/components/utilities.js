@@ -282,7 +282,7 @@ export const combineMCLProps = defaultProps => customProps => {
   };
 };
 
-export const handleSaveKeyFormSubmit = (event, formRef) => {
+export const handleSaveKeyFormSubmit = (event) => (formRef) => {
   const submitEvent = new Event('submit');
 
   event.preventDefault();

@@ -53,7 +53,7 @@ export default class TitleCreate extends Component {
   shortcuts = [
     {
       name: 'save',
-      handler: (e) => handleSaveKeyFormSubmit(e, this.createFormRef),
+      handler: handleSaveKeyFormSubmit(this.createFormRef),
     },
   ];
 

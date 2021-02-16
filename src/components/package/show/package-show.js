@@ -42,6 +42,9 @@ import {
   paths,
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
+  PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 import {
   processErrors,
@@ -171,7 +174,7 @@ class PackageShow extends Component {
     const { stripes } = this.props;
     const { packageSelected } = this.state;
 
-    const hasEditPerm = stripes.hasPerm('ui-eholdings.records.edit');
+    const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
 
     return !!(hasEditPerm && packageSelected);
   };
@@ -187,11 +190,11 @@ class PackageShow extends Component {
     const { packageSelected } = this.state;
 
     const requiredRemovingPermission = isCustom
-      ? 'ui-eholdings.titles-packages.create-delete'
-      : 'ui-eholdings.package-title.select-unselect';
+      ? TITLES_PACKAGES_CREATE_DELETE_PERMISSION
+      : PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION;
 
     const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
-    const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+    const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
     const canEdit = this.hasEditPermission();
@@ -630,7 +633,7 @@ class PackageShow extends Component {
       : 'addPackageToHoldings';
 
     return (
-      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+      <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
         <Button
           data-test-eholdings-package-add-to-holdings-action
           buttonStyle="dropdownItem fullWidth"
@@ -702,10 +705,8 @@ class PackageShow extends Component {
 
   toggleAllSections = (expand) => {
     this.setState((curState) => {
-      const newSections = expandAllFunction(curState.sections, expand);
-      return {
-        sections: newSections
-      };
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
     });
   };
 

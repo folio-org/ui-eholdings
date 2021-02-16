@@ -39,6 +39,7 @@ import {
   costPerUse as costPerUseShape,
   DOMAIN_NAME,
   paths,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -109,13 +110,12 @@ class TitleShow extends Component {
   hasEditPermission = () => {
     const {
       model,
-      onEdit,
       stripes,
     } = this.props;
 
-    const hasEditPerm = stripes.hasPerm('ui-eholdings.records.edit');
+    const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
 
-    return !!(onEdit && model.isTitleCustom && hasEditPerm);
+    return !!(model.isTitleCustom && hasEditPerm);
   };
 
   getFilteredPackagesFromParams = () => {
@@ -235,10 +235,8 @@ class TitleShow extends Component {
 
   toggleAllSections = (expand) => {
     this.setState((curState) => {
-      const newSections = expandAllFunction(curState.sections, expand);
-      return {
-        sections: newSections
-      };
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
     });
   };
 

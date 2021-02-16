@@ -28,6 +28,7 @@ import styles from './search-paneset.css';
 import {
   searchTypes,
   APP_ICON_NAME,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
 } from '../../constants';
 
 class SearchPaneset extends Component {
@@ -57,9 +58,11 @@ class SearchPaneset extends Component {
     this.state = {};
   }
 
-  createDeletePermissionName = 'ui-eholdings.titles-packages.create-delete';
+  isPackageOrTitle = () => {
+    const { resultsType } = this.props;
 
-  isPackageOrTitle = (resultsType) => !!(resultsType === searchTypes.PACKAGES || resultsType === searchTypes.TITLES);
+    return resultsType !== searchTypes.PROVIDERS
+  };
 
   openCreateNewEntity = () => {
     const {
@@ -68,12 +71,12 @@ class SearchPaneset extends Component {
       resultsType,
     } = this.props;
 
-    const createDeletePermission = stripes.hasPerm(this.createDeletePermissionName);
+    const createDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
-    if (this.isPackageOrTitle(resultsType) && createDeletePermission) {
+    if (this.isPackageOrTitle() && createDeletePermission) {
       history.push({
         pathname: `/eholdings/${resultsType}/new`,
-        state: { eholdings: true }
+        state: { eholdings: true },
       });
     }
   };
@@ -91,7 +94,7 @@ class SearchPaneset extends Component {
 
   renderNewButton = () => {
     return (
-      <IfPermission perm={this.createDeletePermissionName}>
+      <IfPermission perm={TITLES_PACKAGES_CREATE_DELETE_PERMISSION}>
         <Button
           data-test-eholdings-search-new-button
           buttonStyle="primary"
@@ -137,7 +140,6 @@ class SearchPaneset extends Component {
       searchForm,
       resultsLabel,
       resultPaneTitle,
-      resultsType,
       resultsView,
       totalResults,
       isLoading,
@@ -146,7 +148,7 @@ class SearchPaneset extends Component {
 
     let newButton = (<PaneMenu />);
 
-    if (this.isPackageOrTitle(resultsType)) {
+    if (this.isPackageOrTitle()) {
       newButton = this.renderNewButton();
     }
 

@@ -31,6 +31,9 @@ import {
   DOMAIN_NAME,
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
+  PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION,
+  RECORDS_EDIT_PERMISSION,
 } from '../../constants';
 import DetailsView from '../details-view';
 import InternalLink from '../internal-link';
@@ -143,9 +146,9 @@ class ResourceShow extends Component {
     } = this.props;
     const { resourceSelected } = this.state;
 
-    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-    const hasCreateAndDeletePermission = stripes.hasPerm('ui-eholdings.titles-packages.create-delete');
-    const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+    const hasEditPermission = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+    const hasCreateAndDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
+    const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
     const canEdit = (hasEditPermission || hasCreateAndDeletePermission) && resourceSelected;
     const canSelectAndUnselect = hasSelectionPermission || hasCreateAndDeletePermission;
     const isMenuNeeded = canEdit || hasSelectionPermission;
@@ -332,7 +335,7 @@ class ResourceShow extends Component {
                   <br />
                   {
                     addToEholdingsButtonIsAvailable && (
-                      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+                      <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
                         <Button
                           buttonStyle="primary"
                           onClick={this.handleHoldingStatus}

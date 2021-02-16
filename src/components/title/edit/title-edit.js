@@ -43,7 +43,7 @@ export default class TitleEdit extends Component {
   shortcuts = [
     {
       name: 'save',
-      handler: (e) => handleSaveKeyFormSubmit(e, this.editFormRef),
+      handler: handleSaveKeyFormSubmit(this.editFormRef),
     },
   ];
 

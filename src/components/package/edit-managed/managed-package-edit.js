@@ -156,7 +156,7 @@ class ManagedPackageEdit extends Component {
   shortcuts = [
     {
       name: 'save',
-      handler: (e) => handleSaveKeyFormSubmit(e, this.editFormRef),
+      handler: handleSaveKeyFormSubmit(this.editFormRef),
     },
   ];
 
