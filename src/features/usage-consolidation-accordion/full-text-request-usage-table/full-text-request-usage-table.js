@@ -223,7 +223,6 @@ const FullTextRequestUsageTable = ({
         columnMapping={columnMapping}
         columnWidths={columnWidths}
         formatter={formatter}
-        isEmptyData={intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.summary.title.noData' })}
         onHeaderClick={onHeaderClick}
         sortedColumn={sortedColumn}
         sortDirection={sortOrder}

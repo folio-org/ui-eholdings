@@ -242,7 +242,7 @@ describe('PackageShowUsageConsolidation', () => {
     });
 
     it('should show correct error text', () => {
-      expect(PackageShowPage.usageConsolidation.content.usageConsolidationErrorText).to.equal('Unable to provide summary information');
+      expect(PackageShowPage.usageConsolidation.content.usageConsolidationErrorText).to.equal('Unable to provide summary information.');
     });
   });
 
@@ -352,7 +352,7 @@ describe('PackageShowUsageConsolidation', () => {
 
     it('should show correct error text', () => {
       expect(PackageShowPage.usageConsolidation.content.usageConsolidationErrorText)
-        .to.equal(`This package contains no cost or usage data for ${new Date().getFullYear()}`);
+        .to.equal(`This package contains no cost or usage data for ${new Date().getFullYear()}.`);
     });
   });
 
