@@ -61,7 +61,7 @@ class SearchPaneset extends Component {
   isPackageOrTitle = () => {
     const { resultsType } = this.props;
 
-    return resultsType !== searchTypes.PROVIDERS
+    return resultsType !== searchTypes.PROVIDERS;
   };
 
   openCreateNewEntity = () => {
