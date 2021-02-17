@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
-import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import {
   formatCoverageYear,
@@ -164,12 +163,7 @@ const UsageConsolidationContentTitle = ({
     formatter,
   };
 
-  return noCostPerUseAvailable ? (
-    <NoCostPerUseAvailable
-      entityType={entityTypes.TITLE}
-      year={year}
-    />
-  ) : (
+  return (
     <>
       <SummaryTable
         id="titleUsageConsolidationSummary"
@@ -183,6 +177,7 @@ const UsageConsolidationContentTitle = ({
         costPerUseData={costPerUseData}
         year={year}
         metricType={metricType}
+        noCostPerUseAvailable={noCostPerUseAvailable}
       />
       <FullTextRequestUsageTable
         usageData={data.attributes.usage}

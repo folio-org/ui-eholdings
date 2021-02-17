@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import SummaryTable from './summary-table';
-import NoCostPerUseAvailable from './no-cost-per-use-available';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
@@ -27,6 +26,7 @@ const UsageConsolidationContentResource = ({
   ...rest
 }) => {
   const data = costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE];
+
   if (!data) {
     return null;
   }
@@ -55,30 +55,25 @@ const UsageConsolidationContentResource = ({
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
   };
 
-  return noCostPerUseAvailable
-    ? (
-      <NoCostPerUseAvailable
+  return (
+    <>
+      <SummaryTable
+        id="resourceUsageConsolidationSummary"
         entityType={entityTypes.RESOURCE}
+        customProperties={customProperties}
+        costPerUseType={costPerUseTypes.RESOURCE_COST_PER_USE}
+        costPerUseData={costPerUseData}
+        noCostPerUseAvailable={noCostPerUseAvailable}
         year={year}
+        {...rest}
       />
-    ) : (
-      <>
-        <SummaryTable
-          id="resourceUsageConsolidationSummary"
-          entityType={entityTypes.RESOURCE}
-          customProperties={customProperties}
-          costPerUseType={costPerUseTypes.RESOURCE_COST_PER_USE}
-          costPerUseData={costPerUseData}
-          year={year}
-          {...rest}
-        />
-        <FullTextRequestUsageTable
-          usageData={data.attributes.usage}
-          platformType={platformType}
-          startMonth={startMonth}
-        />
-      </>
-    );
+      <FullTextRequestUsageTable
+        usageData={data.attributes.usage}
+        platformType={platformType}
+        startMonth={startMonth}
+      />
+    </>
+  );
 };
 
 UsageConsolidationContentResource.propTypes = propTypes;
