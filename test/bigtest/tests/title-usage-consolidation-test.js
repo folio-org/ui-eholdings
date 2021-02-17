@@ -195,7 +195,7 @@ describe('TitleShowUsageConsolidation', () => {
     });
 
     it('should show correct error text', () => {
-      expect(TitleShowPage.usageConsolidationSection.content.usageConsolidationErrorText).to.equal('Unable to provide summary information');
+      expect(TitleShowPage.usageConsolidationSection.content.usageConsolidationErrorText).to.equal('Unable to provide summary information.');
     });
   });
 
@@ -357,7 +357,7 @@ describe('TitleShowUsageConsolidation', () => {
 
     it('should show correct error text', () => {
       expect(TitleShowPage.usageConsolidationSection.content.usageConsolidationErrorText)
-        .to.equal(`This title contains no cost or usage data for ${new Date().getFullYear()}`);
+        .to.equal(`This title contains no cost or usage data for ${new Date().getFullYear()}.`);
     });
   });
 
