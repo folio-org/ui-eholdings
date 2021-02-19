@@ -225,7 +225,7 @@ class TitleShow extends Component {
     this.setState(next);
   }
 
-  openEditPackage = () => {
+  openEditTitle = () => { // NOSONAR
     const { onEdit } = this.props;
 
     if (this.hasEditPermission()) {
@@ -233,19 +233,19 @@ class TitleShow extends Component {
     }
   };
 
-  toggleAllSections = (expand) => {
+  toggleAllSections = (expand) => { // NOSONAR
     this.setState((curState) => {
       const sections = expandAllFunction(curState.sections, expand);
       return { sections };
     });
   };
 
-  expandAllSections = (e) => {
+  expandAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(true);
   };
 
-  collapseAllSections = (e) => {
+  collapseAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(false);
   };
@@ -253,7 +253,7 @@ class TitleShow extends Component {
   shortcuts = [
     {
       name: 'edit',
-      handler: this.openEditPackage,
+      handler: this.openEditTitle,
     },
     {
       name: 'expandAllSections',

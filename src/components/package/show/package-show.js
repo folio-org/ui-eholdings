@@ -695,7 +695,7 @@ class PackageShow extends Component {
     );
   }
 
-  openEditPackage = () => {
+  openEditPackage = () => { // NOSONAR
     const { onEdit } = this.props;
 
     if (this.hasEditPermission()) {
@@ -703,19 +703,19 @@ class PackageShow extends Component {
     }
   };
 
-  toggleAllSections = (expand) => {
+  toggleAllSections = (expand) => { // NOSONAR
     this.setState((curState) => {
       const sections = expandAllFunction(curState.sections, expand);
       return { sections };
     });
   };
 
-  expandAllSections = (e) => {
+  expandAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(true);
   };
 
-  collapseAllSections = (e) => {
+  collapseAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(false);
   };

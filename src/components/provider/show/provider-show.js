@@ -13,7 +13,6 @@ import hasIn from 'lodash/fp/hasIn';
 
 import {
   withStripes,
-  IfPermission,
 } from '@folio/stripes-core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
@@ -77,6 +76,12 @@ class ProviderShow extends Component {
     };
   }
 
+  hasEditPermission = () => {
+    const { stripes } = this.props;
+
+    return stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+  };
+
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
@@ -106,17 +111,17 @@ class ProviderShow extends Component {
   renderLastMenu() {
     const { onEdit } = this.props;
 
+    if (!this.hasEditPermission()) return null;
+
     return (
-      <IfPermission perm={RECORDS_EDIT_PERMISSION}>
-        <Button
-          data-test-eholdings-provider-edit-link
-          buttonStyle="primary"
-          onClick={onEdit}
-          marginBottom0
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-      </IfPermission>
+      <Button
+        data-test-eholdings-provider-edit-link
+        buttonStyle="primary"
+        onClick={onEdit}
+        marginBottom0
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -284,20 +289,17 @@ class ProviderShow extends Component {
     );
   }
 
-  openEditProvider = () => {
+  openEditProvider = () => { // NOSONAR
     const {
-      stripes,
       onEdit,
     } = this.props;
 
-    const isEditPermission = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
-
-    if (isEditPermission) {
+    if (this.hasEditPermission()) {
       onEdit();
     }
   };
 
-  toggleAllSections = (expand) => {
+  toggleAllSections = (expand) => { // NOSONAR
     this.setState((curState) => {
       const newSections = expandAllFunction(curState.sections, expand);
       return {
@@ -306,12 +308,12 @@ class ProviderShow extends Component {
     });
   };
 
-  expandAllSections = (e) => {
+  expandAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(true);
   };
 
-  collapseAllSections = (e) => {
+  collapseAllSections = (e) => { // NOSONAR
     e.preventDefault();
     this.toggleAllSections(false);
   };
