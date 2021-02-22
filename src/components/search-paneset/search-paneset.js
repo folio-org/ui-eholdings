@@ -15,13 +15,13 @@ import {
   PaneMenu,
   Pane,
   Paneset,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
 } from '@folio/stripes/smart-components';
+
+import WithKeyShortcuts from '../with-key-shortcuts';
 
 import styles from './search-paneset.css';
 
@@ -80,13 +80,6 @@ class SearchPaneset extends Component {
       });
     }
   };
-
-  shortcuts = [
-    {
-      name: 'new',
-      handler: this.openCreateNewEntity,
-    },
-  ];
 
   toggleFilters = () => {
     this.props.updateFilters(hideFilters => !hideFilters);
@@ -165,11 +158,7 @@ class SearchPaneset extends Component {
     }
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts openCreateNewEntity={this.openCreateNewEntity}>
         <Paneset>
           {!hideFilters &&
             <Pane
@@ -214,7 +203,7 @@ class SearchPaneset extends Component {
             )}
           </Pane>
         </Paneset>
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

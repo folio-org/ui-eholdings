@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -21,8 +23,6 @@ import {
   ModalFooter,
   RadioButton,
   PaneFooter,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 
 import {
@@ -30,7 +30,6 @@ import {
   getAccessTypeId,
   getProxyTypesRecords,
   getProxyTypeById,
-  handleSaveKeyFormSubmit,
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
@@ -41,6 +40,7 @@ import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
 import AccessTypeEditSection from '../../access-type-edit-section';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 import { accessTypesReduxStateShape } from '../../../constants';
 
@@ -152,13 +152,6 @@ class ManagedPackageEdit extends Component {
   }
 
   editFormRef = React.createRef();
-
-  shortcuts = [
-    {
-      name: 'save',
-      handler: handleSaveKeyFormSubmit(this.editFormRef),
-    },
-  ];
 
   handleDeselectionAction = () => {
     this.setState({
@@ -347,11 +340,7 @@ class ManagedPackageEdit extends Component {
     const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts formRef={this.editFormRef.current}>
         <Form
           onSubmit={this.handleOnSubmit}
           decorators={[focusOnErrors]}
@@ -579,7 +568,7 @@ class ManagedPackageEdit extends Component {
             </div>
           )}
         />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

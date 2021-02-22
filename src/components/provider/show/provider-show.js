@@ -21,8 +21,6 @@ import {
   Headline,
   Icon,
   KeyValue,
-  HasCommand,
-  checkScope,
   expandAllFunction,
 } from '@folio/stripes/components';
 
@@ -42,6 +40,7 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import QueryNotFound from '../../query-list/not-found';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 const ITEM_HEIGHT = 62;
 
@@ -289,49 +288,12 @@ class ProviderShow extends Component {
     );
   }
 
-  openEditProvider = () => { // NOSONAR
-    const {
-      onEdit,
-    } = this.props;
-
-    if (this.hasEditPermission()) {
-      onEdit();
-    }
-  };
-
-  toggleAllSections = (expand) => { // NOSONAR
+  toggleAllSections = (expand) => {
     this.setState((curState) => {
-      const newSections = expandAllFunction(curState.sections, expand);
-      return {
-        sections: newSections
-      };
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
     });
   };
-
-  expandAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(true);
-  };
-
-  collapseAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(false);
-  };
-
-  shortcuts = [
-    {
-      name: 'edit',
-      handler: this.openEditProvider,
-    },
-    {
-      name: 'expandAllSections',
-      handler: this.expandAllSections,
-    },
-    {
-      name: 'collapseAllSections',
-      handler: this.collapseAllSections,
-    }
-  ];
 
   render() {
     const {
@@ -344,10 +306,10 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
+      <WithKeyShortcuts
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        ifPermission={this.hasEditPermission()}
       >
         <Toaster
           toasts={this.toasts}
@@ -371,7 +333,7 @@ class ProviderShow extends Component {
           ariaRole="tablist"
           bodyAriaRole="tab"
         />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

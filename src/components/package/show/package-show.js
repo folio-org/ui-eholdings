@@ -29,8 +29,6 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
-  HasCommand,
-  checkScope,
   expandAllFunction,
 } from '@folio/stripes/components';
 
@@ -68,6 +66,7 @@ import {
   UsageConsolidationAccordion,
 } from '../../../features';
 import QueryNotFound from '../../query-list/not-found';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
@@ -695,45 +694,12 @@ class PackageShow extends Component {
     );
   }
 
-  openEditPackage = () => { // NOSONAR
-    const { onEdit } = this.props;
-
-    if (this.hasEditPermission()) {
-      onEdit();
-    }
-  };
-
-  toggleAllSections = (expand) => { // NOSONAR
+  toggleAllSections = (expand) => {
     this.setState((curState) => {
       const sections = expandAllFunction(curState.sections, expand);
       return { sections };
     });
   };
-
-  expandAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(true);
-  };
-
-  collapseAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(false);
-  };
-
-  shortcuts = [
-    {
-      name: 'edit',
-      handler: this.openEditPackage,
-    },
-    {
-      name: 'expandAllSections',
-      handler: this.expandAllSections,
-    },
-    {
-      name: 'collapseAllSections',
-      handler: this.collapseAllSections,
-    }
-  ];
 
   render() {
     const {
@@ -801,10 +767,10 @@ class PackageShow extends Component {
     }
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
+      <WithKeyShortcuts
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        isPermission={this.hasEditPermission()}
       >
         <Toaster
           toasts={toasts}
@@ -856,7 +822,7 @@ class PackageShow extends Component {
         </Modal>
         {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

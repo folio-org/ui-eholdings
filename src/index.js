@@ -8,8 +8,6 @@ import { hot } from 'react-hot-loader';
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 import {
   CommandList,
-  HasCommand,
-  checkScope,
   defaultKeyboardShortcuts,
 } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
@@ -46,6 +44,8 @@ import SettingsRootProxyRoute from './routes/settings-root-proxy';
 import SettingsAccessStatusTypesRoute from './routes/settings-access-status-types';
 import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
+
+import WithKeyShortcuts from './components/with-key-shortcuts';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -94,13 +94,6 @@ class EHoldings extends Component {
     }
   };
 
-  shortcuts = [
-    {
-      name: 'search',
-      handler: this.focusSearchField
-    },
-  ];
-
   render() {
     const {
       showSettings,
@@ -120,11 +113,7 @@ class EHoldings extends Component {
       )
       : (
         <CommandList commands={defaultKeyboardShortcuts}>
-          <HasCommand
-            commands={this.shortcuts}
-            isWithinScope={checkScope}
-            scope={document.body}
-          >
+          <WithKeyShortcuts focusSearchField={this.focusSearchField}>
             <Route path={rootPath} component={ApplicationRoute}>
               <Switch>
                 <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
@@ -143,7 +132,7 @@ class EHoldings extends Component {
                 <Route path={`${rootPath}/`} exact component={SearchRoute} />
               </Switch>
             </Route>
-          </HasCommand>
+          </WithKeyShortcuts>
         </CommandList>
       );
   }

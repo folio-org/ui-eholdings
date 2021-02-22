@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
@@ -9,13 +11,10 @@ import {
   Headline,
   PaneFooter,
   Icon,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 
 import {
   processErrors,
-  handleSaveKeyFormSubmit,
 } from '../../utilities';
 import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
@@ -23,6 +22,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -36,13 +36,6 @@ export default class ProviderEdit extends Component {
   };
 
   editFormRef = React.createRef();
-
-  shortcuts = [
-    {
-      name: 'save',
-      handler: handleSaveKeyFormSubmit(this.editFormRef),
-    },
-  ];
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;
@@ -92,11 +85,7 @@ export default class ProviderEdit extends Component {
     const hasTokenValue = model.providerToken && model.providerToken.value;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts formRef={this.editFormRef.current}>
         <Form
           decorators={[focusOnErrors]}
           onSubmit={onSubmit}
@@ -164,7 +153,7 @@ export default class ProviderEdit extends Component {
             </>
           )}
         />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

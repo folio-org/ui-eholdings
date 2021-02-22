@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -11,8 +13,6 @@ import {
   Pane,
   Paneset,
   PaneFooter,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 
 import DetailsViewSection from '../../details-view-section';
@@ -27,8 +27,7 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-
-import { handleSaveKeyFormSubmit } from '../../utilities';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 import styles from './title-create.css';
 
@@ -49,13 +48,6 @@ export default class TitleCreate extends Component {
   }
 
   createFormRef = React.createRef();
-
-  shortcuts = [
-    {
-      name: 'save',
-      handler: handleSaveKeyFormSubmit(this.createFormRef),
-    },
-  ];
 
   renderFirstMenu = () => {
     const { onCancel } = this.props;
@@ -125,11 +117,7 @@ export default class TitleCreate extends Component {
     }));
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts formRef={this.createFormRef.current}>
         <div data-test-eholdings-title-create>
           <Toaster
             position="bottom"
@@ -187,7 +175,7 @@ export default class TitleCreate extends Component {
             )}
           />
         </div>
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

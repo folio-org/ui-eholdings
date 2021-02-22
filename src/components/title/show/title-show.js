@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -25,8 +27,6 @@ import {
   ModalFooter,
   Row,
   Col,
-  HasCommand,
-  checkScope,
   expandAllFunction,
 } from '@folio/stripes/components';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
@@ -51,6 +51,7 @@ import Toaster from '../../toaster';
 import PackageFilterModal from './package-filter-modal';
 import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
 import QueryNotFound from '../../query-list/not-found';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 import styles from './title-show.css';
 
@@ -225,45 +226,12 @@ class TitleShow extends Component {
     this.setState(next);
   }
 
-  openEditTitle = () => { // NOSONAR
-    const { onEdit } = this.props;
-
-    if (this.hasEditPermission()) {
-      onEdit();
-    }
-  };
-
-  toggleAllSections = (expand) => { // NOSONAR
+  toggleAllSections = (expand) => {
     this.setState((curState) => {
       const sections = expandAllFunction(curState.sections, expand);
       return { sections };
     });
   };
-
-  expandAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(true);
-  };
-
-  collapseAllSections = (e) => { // NOSONAR
-    e.preventDefault();
-    this.toggleAllSections(false);
-  };
-
-  shortcuts = [
-    {
-      name: 'edit',
-      handler: this.openEditTitle,
-    },
-    {
-      name: 'expandAllSections',
-      handler: this.expandAllSections,
-    },
-    {
-      name: 'collapseAllSections',
-      handler: this.collapseAllSections,
-    }
-  ];
 
   render() {
     const {
@@ -295,10 +263,10 @@ class TitleShow extends Component {
     const showUsageConsolidation = model.hasSelectedResources;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
+      <WithKeyShortcuts
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        ifPermission={this.hasEditPermission()}
       >
         <Toaster toasts={this.toasts} position="bottom" />
         <DetailsView
@@ -525,7 +493,7 @@ class TitleShow extends Component {
             }}
           />
         </Modal>
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

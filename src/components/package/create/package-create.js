@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -11,8 +13,6 @@ import {
   Pane,
   Paneset,
   PaneFooter,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 
 import DetailsViewSection from '../../details-view-section';
@@ -23,9 +23,9 @@ import NavigationModal from '../../navigation-modal';
 import AccessTypeEditSection from '../../access-type-edit-section';
 
 import Toaster from '../../toaster';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 import { accessTypesReduxStateShape } from '../../../constants';
-import { handleSaveKeyFormSubmit } from '../../utilities';
 
 import styles from './package-create.css';
 
@@ -52,13 +52,6 @@ export default class PackageCreate extends Component {
   }
 
   createFormRef = React.createRef();
-
-  shortcuts = [
-    {
-      name: 'save',
-      handler: handleSaveKeyFormSubmit(this.createFormRef),
-    },
-  ];
 
   getFooter = (pristine, reset) => {
     const { request } = this.props;
@@ -125,11 +118,7 @@ export default class PackageCreate extends Component {
     } = this.props;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts formRef={this.createFormRef.current}>
         <Form
           initialValues={initialValues}
           decorators={[focusOnErrors]}
@@ -180,7 +169,7 @@ export default class PackageCreate extends Component {
             </div>
           )}
         />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }

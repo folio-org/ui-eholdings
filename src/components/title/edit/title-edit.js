@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -8,8 +10,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Button,
   PaneFooter,
-  HasCommand,
-  checkScope,
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
@@ -24,8 +24,7 @@ import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-
-import { handleSaveKeyFormSubmit } from '../../utilities';
+import WithKeyShortcuts from '../../with-key-shortcuts';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -39,13 +38,6 @@ export default class TitleEdit extends Component {
   };
 
   editFormRef = React.createRef();
-
-  shortcuts = [
-    {
-      name: 'save',
-      handler: handleSaveKeyFormSubmit(this.editFormRef),
-    },
-  ];
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;
@@ -92,11 +84,7 @@ export default class TitleEdit extends Component {
     } = this.props;
 
     return (
-      <HasCommand
-        commands={this.shortcuts}
-        isWithinScope={checkScope}
-        scope={document.body}
-      >
+      <WithKeyShortcuts formRef={this.editFormRef.current}>
         <Toaster
           position="bottom"
           toasts={updateRequest.errors.map(({ title }, index) => ({
@@ -147,7 +135,7 @@ export default class TitleEdit extends Component {
             </>
           )}
         />
-      </HasCommand>
+      </WithKeyShortcuts>
     );
   }
 }
