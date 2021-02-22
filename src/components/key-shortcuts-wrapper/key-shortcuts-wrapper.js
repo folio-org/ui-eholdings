@@ -11,7 +11,7 @@ import {
 
 import { handleSaveKeyFormSubmit } from '../utilities';
 
-const WithKeyShortcuts = ({
+const KeyShortcutsWrapper = ({
   children,
   toggleAllSections,
   onEdit,
@@ -104,7 +104,7 @@ const WithKeyShortcuts = ({
   );
 };
 
-WithKeyShortcuts.propTypes = {
+KeyShortcutsWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   focusSearchField: PropTypes.func,
   formRef: PropTypes.object,
@@ -114,4 +114,4 @@ WithKeyShortcuts.propTypes = {
   toggleAllSections: PropTypes.func,
 };
 
-export default WithKeyShortcuts;
+export default KeyShortcutsWrapper;

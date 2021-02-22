@@ -27,7 +27,7 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import styles from './title-create.css';
 
@@ -117,7 +117,7 @@ export default class TitleCreate extends Component {
     }));
 
     return (
-      <WithKeyShortcuts formRef={this.createFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.createFormRef.current}>
         <div data-test-eholdings-title-create>
           <Toaster
             position="bottom"
@@ -175,7 +175,7 @@ export default class TitleCreate extends Component {
             )}
           />
         </div>
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

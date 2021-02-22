@@ -66,7 +66,7 @@ import {
   UsageConsolidationAccordion,
 } from '../../../features';
 import QueryNotFound from '../../query-list/not-found';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
@@ -767,7 +767,7 @@ class PackageShow extends Component {
     }
 
     return (
-      <WithKeyShortcuts
+      <KeyShortcutsWrapper
         toggleAllSections={this.toggleAllSections}
         onEdit={this.props.onEdit}
         isPermission={this.hasEditPermission()}
@@ -822,7 +822,7 @@ class PackageShow extends Component {
         </Modal>
         {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

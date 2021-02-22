@@ -40,7 +40,7 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import AccessTypeEditSection from '../../access-type-edit-section';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import {
   accessTypesReduxStateShape,
@@ -294,7 +294,7 @@ class CustomPackageEdit extends Component {
     const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
-      <WithKeyShortcuts formRef={this.editFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
         <Form
           onSubmit={this.handleOnSubmit}
           decorators={[focusOnErrors]}
@@ -484,7 +484,7 @@ class CustomPackageEdit extends Component {
             </div>
           )}
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

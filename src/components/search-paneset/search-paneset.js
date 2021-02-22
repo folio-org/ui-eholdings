@@ -21,7 +21,7 @@ import {
   ExpandFilterPaneButton,
 } from '@folio/stripes/smart-components';
 
-import WithKeyShortcuts from '../with-key-shortcuts';
+import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
 
 import styles from './search-paneset.css';
 
@@ -158,7 +158,7 @@ class SearchPaneset extends Component {
     }
 
     return (
-      <WithKeyShortcuts openCreateNewEntity={this.openCreateNewEntity}>
+      <KeyShortcutsWrapper openCreateNewEntity={this.openCreateNewEntity}>
         <Paneset>
           {!hideFilters &&
             <Pane
@@ -203,7 +203,7 @@ class SearchPaneset extends Component {
             )}
           </Pane>
         </Paneset>
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

@@ -23,7 +23,7 @@ import NavigationModal from '../../navigation-modal';
 import AccessTypeEditSection from '../../access-type-edit-section';
 
 import Toaster from '../../toaster';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import { accessTypesReduxStateShape } from '../../../constants';
 
@@ -118,7 +118,7 @@ export default class PackageCreate extends Component {
     } = this.props;
 
     return (
-      <WithKeyShortcuts formRef={this.createFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.createFormRef.current}>
         <Form
           initialValues={initialValues}
           decorators={[focusOnErrors]}
@@ -169,7 +169,7 @@ export default class PackageCreate extends Component {
             </div>
           )}
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

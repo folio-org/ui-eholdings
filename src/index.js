@@ -45,7 +45,7 @@ import SettingsAccessStatusTypesRoute from './routes/settings-access-status-type
 import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
 
-import WithKeyShortcuts from './components/with-key-shortcuts';
+import KeyShortcutsWrapper from './components/key-shortcuts-wrapper';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -113,7 +113,7 @@ class EHoldings extends Component {
       )
       : (
         <CommandList commands={defaultKeyboardShortcuts}>
-          <WithKeyShortcuts focusSearchField={this.focusSearchField}>
+          <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
             <Route path={rootPath} component={ApplicationRoute}>
               <Switch>
                 <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
@@ -132,7 +132,7 @@ class EHoldings extends Component {
                 <Route path={`${rootPath}/`} exact component={SearchRoute} />
               </Switch>
             </Route>
-          </WithKeyShortcuts>
+          </KeyShortcutsWrapper>
         </CommandList>
       );
   }

@@ -40,7 +40,7 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import QueryNotFound from '../../query-list/not-found';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 
@@ -306,7 +306,7 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <WithKeyShortcuts
+      <KeyShortcutsWrapper
         toggleAllSections={this.toggleAllSections}
         onEdit={this.props.onEdit}
         ifPermission={this.hasEditPermission()}
@@ -333,7 +333,7 @@ class ProviderShow extends Component {
           ariaRole="tablist"
           bodyAriaRole="tab"
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

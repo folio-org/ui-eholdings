@@ -40,7 +40,7 @@ import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
 import AccessTypeEditSection from '../../access-type-edit-section';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import { accessTypesReduxStateShape } from '../../../constants';
 
@@ -340,7 +340,7 @@ class ManagedPackageEdit extends Component {
     const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
     return (
-      <WithKeyShortcuts formRef={this.editFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
         <Form
           onSubmit={this.handleOnSubmit}
           decorators={[focusOnErrors]}
@@ -568,7 +568,7 @@ class ManagedPackageEdit extends Component {
             </div>
           )}
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

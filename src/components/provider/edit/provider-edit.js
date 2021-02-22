@@ -22,7 +22,7 @@ import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -85,7 +85,7 @@ export default class ProviderEdit extends Component {
     const hasTokenValue = model.providerToken && model.providerToken.value;
 
     return (
-      <WithKeyShortcuts formRef={this.editFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
         <Form
           decorators={[focusOnErrors]}
           onSubmit={onSubmit}
@@ -153,7 +153,7 @@ export default class ProviderEdit extends Component {
             </>
           )}
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

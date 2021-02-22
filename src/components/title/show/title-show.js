@@ -51,7 +51,7 @@ import Toaster from '../../toaster';
 import PackageFilterModal from './package-filter-modal';
 import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
 import QueryNotFound from '../../query-list/not-found';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import styles from './title-show.css';
 
@@ -263,7 +263,7 @@ class TitleShow extends Component {
     const showUsageConsolidation = model.hasSelectedResources;
 
     return (
-      <WithKeyShortcuts
+      <KeyShortcutsWrapper
         toggleAllSections={this.toggleAllSections}
         onEdit={this.props.onEdit}
         ifPermission={this.hasEditPermission()}
@@ -493,7 +493,7 @@ class TitleShow extends Component {
             }}
           />
         </Modal>
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }

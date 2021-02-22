@@ -24,7 +24,7 @@ import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import WithKeyShortcuts from '../../with-key-shortcuts';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -84,7 +84,7 @@ export default class TitleEdit extends Component {
     } = this.props;
 
     return (
-      <WithKeyShortcuts formRef={this.editFormRef.current}>
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
         <Toaster
           position="bottom"
           toasts={updateRequest.errors.map(({ title }, index) => ({
@@ -135,7 +135,7 @@ export default class TitleEdit extends Component {
             </>
           )}
         />
-      </WithKeyShortcuts>
+      </KeyShortcutsWrapper>
     );
   }
 }
