@@ -57,7 +57,7 @@
     "provider.totalPackages": "Total packages",
     "provider.resultsNotFound": "No se encontraron proveedores.",
     "provider.noPackagesSelected": "Add any package from this provider to holdings to customize provider settings.",
-    "provider.toast.isFreshlySaved": "Provider saved.",
+    "provider.toast.isFreshlySaved": "Updates saved. Note: A proxy update may take a few minutes and may require refreshing page.",
     "resource.modal.header": "Remove title from holdings?",
     "resource.show.modal.header": "Remove resource from holdings?",
     "resource.modal.buttonWorking": "Removing...",
