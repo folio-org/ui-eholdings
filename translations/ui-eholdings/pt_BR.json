@@ -460,7 +460,7 @@
     "usageConsolidation.infoPopover.content": "Access to cost and usage information for the packages and titles that are a part of your library's holdings.",
     "usageConsolidation.infoPopover.buttonLabel": "Saiba mais",
     "usageConsolidation.fullTextRequestUsageTable": "Full text requests by platform usage",
-    "usageConsolidation.fullTextRequestUsageTable.header.platform": "Platform",
+    "usageConsolidation.fullTextRequestUsageTable.header.platform": "Plataforma",
     "usageConsolidation.fullTextRequestUsageTable.header.jan": "Jan",
     "usageConsolidation.fullTextRequestUsageTable.header.feb": "Fev",
     "usageConsolidation.fullTextRequestUsageTable.header.mar": "Mar",
