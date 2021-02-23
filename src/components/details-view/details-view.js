@@ -133,6 +133,10 @@ class DetailsView extends Component {
 
       const isListAccordionOpen = sections && sections[listSectionId];
 
+      if (!isListAccordionOpen && this.state.isSticky) {
+        this.setState({ isSticky: false });
+      }
+
       this.shouldHandleScroll = stickyHeight >= containerHeight && isListAccordionOpen;
 
       // the sticky wrapper needs an explicit height for child

@@ -48,6 +48,7 @@
 * Fix typos in Full text requests table title. (UIEH-1039)
 * Title record: Usage & analysis > Summary Table > Remove Usage and CostPerUse columns. (UIEH-1040)
 * Fix message for empty cost and usage data in Resource Usage Consolidation Accordion. (UIEH-1041)
+* Fix Package/Title/Provider scroll disappearing when an accordion is collapsed. (UIEH-1026)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
