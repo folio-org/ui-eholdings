@@ -31,7 +31,6 @@ import {
   getProxyTypeById,
 } from '../../utilities';
 
-
 import DetailsView from '../../details-view';
 import NameField from '../_fields/name';
 import CoverageFields from '../_fields/custom-coverage';
@@ -41,8 +40,12 @@ import Toaster from '../../toaster';
 import SelectionStatus from '../selection-status';
 import ProxySelectField from '../../proxy-select';
 import AccessTypeEditSection from '../../access-type-edit-section';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
-import { accessTypesReduxStateShape } from '../../../constants';
+import {
+  accessTypesReduxStateShape,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
+} from '../../../constants';
 
 import styles from './custom-package-edit.css';
 
@@ -146,6 +149,8 @@ class CustomPackageEdit extends Component {
     };
   }
 
+  editFormRef = React.createRef();
+
   handleDeleteAction = () => {
     this.setState({
       formValues: {
@@ -216,7 +221,7 @@ class CustomPackageEdit extends Component {
   getActionMenu = () => {
     const { packageSelected } = this.state;
     const { stripes } = this.props;
-    const hasDeletePermission = stripes.hasPerm('ui-eholdings.titles-packages.create-delete');
+    const hasDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
     if (!hasDeletePermission || !packageSelected) return null;
 
@@ -289,191 +294,197 @@ class CustomPackageEdit extends Component {
     const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
-      <Form
-        onSubmit={this.handleOnSubmit}
-        decorators={[focusOnErrors]}
-        mutators={{ ...arrayMutators }}
-        initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
-            <Toaster toasts={processErrors(model)} position="bottom" />
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-            >
-              <DetailsView
-                type="package"
-                model={model}
-                paneTitle={model.name}
-                actionMenu={this.getActionMenu()}
-                handleExpandAll={this.toggleAllSections}
-                sections={sections}
-                ariaRole="tablist"
-                bodyAriaRole="tab"
-                footer={this.getFooter(pristine, reset)}
-                bodyContent={(
-                  <>
-                    <Accordion
-                      label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
-                      open={sections.packageHoldingStatus}
-                      id="packageHoldingStatus"
-                      onToggle={this.toggleSection}
-                    >
-                      <SelectionStatus
-                        model={model}
-                        onAddToHoldings={this.props.addPackageToHoldings}
-                      />
-                    </Accordion>
-
-                    <Accordion
-                      label={this.getSectionHeader('ui-eholdings.label.packageInformation')}
-                      open={sections.packageInfo}
-                      id="packageInfo"
-                      onToggle={this.toggleSection}
-                    >
-                      {packageSelected
-                        ? <NameField />
-                        : (
-                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
-                            <div data-test-eholdings-package-readonly-name-field>
-                              {model.name}
-                            </div>
-                          </KeyValue>
-                        )}
-
-                      {packageSelected
-                        ? <ContentTypeField />
-                        : (
-                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                            <div data-test-eholdings-package-details-readonly-content-type>
-                              {model.contentType}
-                            </div>
-                          </KeyValue>
-                        )}
-                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                    </Accordion>
-
-                    <Accordion
-                      label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
-                      open={sections.packageSettings}
-                      id="packageSettings"
-                      onToggle={this.toggleSection}
-                    >
-                      {packageSelected ? (
-                        <div className={styles['visibility-radios']}>
-                          {initialValues.isVisible !== null ? (
-                            <fieldset
-                              data-test-eholdings-package-visibility-field
-                              className={styles['visibility-radios']}
-                            >
-                              <Headline tag="legend" size="small" margin="x-large">
-                                <FormattedMessage id="ui-eholdings.package.visibility" />
-                              </Headline>
-
-                              <Field
-                                component={RadioButton}
-                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                label={<FormattedMessage id="ui-eholdings.yes" />}
-                                name="isVisible"
-                                parse={value => value === 'true'}
-                                type="radio"
-                                value="true"
-                              />
-
-                              <Field
-                                component={RadioButton}
-                                format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                label={
-                                  <FormattedMessage
-                                    id="ui-eholdings.package.visibility.no"
-                                    values={{ visibilityMessage }}
-                                  />
-                                }
-                                name="isVisible"
-                                parse={value => value === 'true'}
-                                type="radio"
-                                value="false"
-                              />
-
-                            </fieldset>
-                          ) : (
-                            <div
-                              data-test-eholdings-package-details-visibility
-                              htmlFor="managed-package-details-visibility-switch"
-                            >
-                              <Icon icon="spinner-ellipsis" />
-                            </div>
-                          )}
-                          {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
-                            <div data-test-eholdings-package-proxy-select-field>
-                              <ProxySelectField
-                                proxyTypes={proxyTypes}
-                                inheritedProxyId={provider.proxy.id}
-                              />
-                            </div>
-                          ) : (
-                            <Icon icon="spinner-ellipsis" />
-                          )}
-                        </div>
-                      ) : (
-                        <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
-                      )}
-                    </Accordion>
-
-                    <Accordion
-                      label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
-                      open={sections.packageCoverageSettings}
-                      id="packageCoverageSettings"
-                      onToggle={this.toggleSection}
-                    >
-                      {packageSelected ? (
-                        <CoverageFields
-                          initial={initialValues.customCoverages}
-                        />
-                      ) : (
-                        <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-                      )}
-                    </Accordion>
-                  </>
-                )}
-                onCancel={onCancel}
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
+        <Form
+          onSubmit={this.handleOnSubmit}
+          decorators={[focusOnErrors]}
+          mutators={{ ...arrayMutators }}
+          initialValues={initialValues}
+          render={({ handleSubmit, pristine, form: { change, reset } }) => (
+            <div>
+              <Toaster
+                toasts={processErrors(model)}
+                position="bottom"
               />
-            </form>
+              <form
+                ref={this.editFormRef}
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <DetailsView
+                  type="package"
+                  model={model}
+                  paneTitle={model.name}
+                  actionMenu={this.getActionMenu()}
+                  handleExpandAll={this.toggleAllSections}
+                  sections={sections}
+                  ariaRole="tablist"
+                  bodyAriaRole="tab"
+                  footer={this.getFooter(pristine, reset)}
+                  bodyContent={(
+                    <>
+                      <Accordion
+                        label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
+                        open={sections.packageHoldingStatus}
+                        id="packageHoldingStatus"
+                        onToggle={this.toggleSection}
+                      >
+                        <SelectionStatus
+                          model={model}
+                          onAddToHoldings={this.props.addPackageToHoldings}
+                        />
+                      </Accordion>
 
-            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+                      <Accordion
+                        label={this.getSectionHeader('ui-eholdings.label.packageInformation')}
+                        open={sections.packageInfo}
+                        id="packageInfo"
+                        onToggle={this.toggleSection}
+                      >
+                        {packageSelected
+                          ? <NameField />
+                          : (
+                            <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
+                              <div data-test-eholdings-package-readonly-name-field>
+                                {model.name}
+                              </div>
+                            </KeyValue>
+                          )}
 
-            <Modal
-              open={showSelectionModal}
-              size="small"
-              label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
-              id="eholdings-package-confirmation-modal"
-              aria-label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
-              footer={(
-                <ModalFooter>
-                  <Button
-                    data-test-eholdings-package-deselection-confirmation-modal-yes
-                    buttonStyle="primary"
-                    disabled={model.destroy.isPending}
-                    onClick={this.commitSelectionToggle}
-                  >
-                    {(model.destroy.isPending ?
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" /> :
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />)}
-                  </Button>
-                  <Button
-                    data-test-eholdings-package-deselection-confirmation-modal-no
-                    onClick={() => this.cancelSelectionToggle(change)}
-                  >
-                    <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
-                  </Button>
-                </ModalFooter>
-              )}
-            >
-              <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
-            </Modal>
-          </div>
-        )}
-      />
+                        {packageSelected
+                          ? <ContentTypeField />
+                          : (
+                            <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+                              <div data-test-eholdings-package-details-readonly-content-type>
+                                {model.contentType}
+                              </div>
+                            </KeyValue>
+                          )}
+                        <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                      </Accordion>
+
+                      <Accordion
+                        label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
+                        open={sections.packageSettings}
+                        id="packageSettings"
+                        onToggle={this.toggleSection}
+                      >
+                        {packageSelected ? (
+                          <div className={styles['visibility-radios']}>
+                            {initialValues.isVisible !== null ? (
+                              <fieldset
+                                data-test-eholdings-package-visibility-field
+                                className={styles['visibility-radios']}
+                              >
+                                <Headline tag="legend" size="small" margin="x-large">
+                                  <FormattedMessage id="ui-eholdings.package.visibility" />
+                                </Headline>
+
+                                <Field
+                                  component={RadioButton}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                  label={<FormattedMessage id="ui-eholdings.yes" />}
+                                  name="isVisible"
+                                  parse={value => value === 'true'}
+                                  type="radio"
+                                  value="true"
+                                />
+
+                                <Field
+                                  component={RadioButton}
+                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+                                  label={
+                                    <FormattedMessage
+                                      id="ui-eholdings.package.visibility.no"
+                                      values={{ visibilityMessage }}
+                                    />
+                                  }
+                                  name="isVisible"
+                                  parse={value => value === 'true'}
+                                  type="radio"
+                                  value="false"
+                                />
+
+                              </fieldset>
+                            ) : (
+                              <div
+                                data-test-eholdings-package-details-visibility
+                                htmlFor="managed-package-details-visibility-switch"
+                              >
+                                <Icon icon="spinner-ellipsis" />
+                              </div>
+                            )}
+                            {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
+                              <div data-test-eholdings-package-proxy-select-field>
+                                <ProxySelectField
+                                  proxyTypes={proxyTypes}
+                                  inheritedProxyId={provider.proxy.id}
+                                />
+                              </div>
+                            ) : (
+                              <Icon icon="spinner-ellipsis" />
+                            )}
+                          </div>
+                        ) : (
+                          <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
+                        )}
+                      </Accordion>
+
+                      <Accordion
+                        label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
+                        open={sections.packageCoverageSettings}
+                        id="packageCoverageSettings"
+                        onToggle={this.toggleSection}
+                      >
+                        {packageSelected ? (
+                          <CoverageFields
+                            initial={initialValues.customCoverages}
+                          />
+                        ) : (
+                          <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
+                        )}
+                      </Accordion>
+                    </>
+                  )}
+                  onCancel={onCancel}
+                />
+              </form>
+
+              <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+
+              <Modal
+                open={showSelectionModal}
+                size="small"
+                label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
+                id="eholdings-package-confirmation-modal"
+                aria-label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
+                footer={(
+                  <ModalFooter>
+                    <Button
+                      data-test-eholdings-package-deselection-confirmation-modal-yes
+                      buttonStyle="primary"
+                      disabled={model.destroy.isPending}
+                      onClick={this.commitSelectionToggle}
+                    >
+                      {(model.destroy.isPending ?
+                        <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" /> :
+                        <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />)}
+                    </Button>
+                    <Button
+                      data-test-eholdings-package-deselection-confirmation-modal-no
+                      onClick={() => this.cancelSelectionToggle(change)}
+                    >
+                      <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
+                    </Button>
+                  </ModalFooter>
+                )}
+              >
+                <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
+              </Modal>
+            </div>
+          )}
+        />
+      </KeyShortcutsWrapper>
     );
   }
 }

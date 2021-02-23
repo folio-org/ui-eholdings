@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -12,7 +15,6 @@ import {
   PaneFooter,
 } from '@folio/stripes/components';
 
-import { FormattedMessage } from 'react-intl';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import EditionField from '../_fields/edition';
@@ -25,6 +27,8 @@ import PublicationTypeField from '../_fields/publication-type';
 import PeerReviewedField from '../_fields/peer-reviewed';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+
 import styles from './title-create.css';
 
 const focusOnErrors = createFocusDecorator();
@@ -42,6 +46,8 @@ export default class TitleCreate extends Component {
   componentWillUnmount() {
     this.props.removeCreateRequests();
   }
+
+  createFormRef = React.createRef();
 
   renderFirstMenu = () => {
     const { onCancel } = this.props;
@@ -111,62 +117,65 @@ export default class TitleCreate extends Component {
     }));
 
     return (
-      <div data-test-eholdings-title-create>
-        <Toaster
-          position="bottom"
-          toasts={request.errors.map(({ title }, index) => ({
-            id: `error-${request.timestamp}-${index}`,
-            message: title,
-            type: 'error'
-          }))}
-        />
-        <Form
-          onSubmit={onSubmit}
-          initialValues={{
-            publicationType: 'Unspecified'
-          }}
-          decorators={[focusOnErrors]}
-          mutators={{ ...arrayMutators }}
-          render={({ handleSubmit, pristine, form: { reset } }) => (
-            <>
-              <Paneset>
-                <Pane
-                  onSubmit={handleSubmit}
-                  tagName="form"
-                  defaultWidth="fill"
-                  paneTitle={paneTitle}
-                  firstMenu={this.renderFirstMenu()}
-                  footer={this.getFooter(pristine, reset)}
-                  noValidate
-                >
-                  <div className={styles['title-create-form-container']}>
-                    <DetailsViewSection
-                      label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
-                      separator={false}
-                    >
-                      <NameField />
-                      <ContributorField />
-                      <EditionField />
-                      <PublisherNameField />
-                      <PublicationTypeField />
-                      <IdentifiersFields />
-                      <DescriptionField />
-                      <PeerReviewedField />
-                    </DetailsViewSection>
-                    <DetailsViewSection
-                      label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
-                    >
-                      <PackageSelectField options={packageOptions} />
-                    </DetailsViewSection>
-                  </div>
-                </Pane>
-              </Paneset>
+      <KeyShortcutsWrapper formRef={this.createFormRef.current}>
+        <div data-test-eholdings-title-create>
+          <Toaster
+            position="bottom"
+            toasts={request.errors.map(({ title }, index) => ({
+              id: `error-${request.timestamp}-${index}`,
+              message: title,
+              type: 'error'
+            }))}
+          />
+          <Form
+            onSubmit={onSubmit}
+            initialValues={{
+              publicationType: 'Unspecified'
+            }}
+            decorators={[focusOnErrors]}
+            mutators={{ ...arrayMutators }}
+            render={({ handleSubmit, pristine, form: { reset } }) => (
+              <form
+                ref={this.createFormRef}
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <Paneset>
+                  <Pane
+                    defaultWidth="fill"
+                    paneTitle={paneTitle}
+                    firstMenu={this.renderFirstMenu()}
+                    footer={this.getFooter(pristine, reset)}
+                  >
+                    <div className={styles['title-create-form-container']}>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.title.titleInformation" />}
+                        separator={false}
+                      >
+                        <NameField />
+                        <ContributorField />
+                        <EditionField />
+                        <PublisherNameField />
+                        <PublicationTypeField />
+                        <IdentifiersFields />
+                        <DescriptionField />
+                        <PeerReviewedField />
+                      </DetailsViewSection>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
+                      >
+                        <PackageSelectField options={packageOptions} />
+                      </DetailsViewSection>
+                    </div>
+                  </Pane>
+                </Paneset>
 
-              <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
-            </>
-          )}
-        />
-      </div>
+                <NavigationModal when={!pristine && !request.isPending && !request.isResolved} />
+              </form>
+            )}
+          />
+        </div>
+      </KeyShortcutsWrapper>
     );
   }
 }

@@ -33,6 +33,7 @@ const validSearchTypes = [
   searchTypes.PACKAGES,
   searchTypes.TITLES
 ];
+
 class SearchForm extends Component {
   static propTypes = {
     accessTypesStoreData: accessTypesReduxStateShape.isRequired,
@@ -434,6 +435,7 @@ class SearchForm extends Component {
                   <FormattedMessage id="ui-eholdings.search.enterYourSearch">
                     {(ariaLabel) => (
                       <SearchField
+                        id="eholdings-search"
                         name="search"
                         inputRef={this.searchField}
                         autoFocus

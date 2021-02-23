@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedDate,
@@ -27,6 +29,7 @@ import {
   KeyValue,
   Modal,
   ModalFooter,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -37,6 +40,9 @@ import {
   paths,
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
+  TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
+  PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 import {
   processErrors,
@@ -60,6 +66,7 @@ import {
   UsageConsolidationAccordion,
 } from '../../../features';
 import QueryNotFound from '../../query-list/not-found';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
@@ -162,6 +169,15 @@ class PackageShow extends Component {
     this.setState(next);
   }
 
+  hasEditPermission = () => {
+    const { stripes } = this.props;
+    const { packageSelected } = this.state;
+
+    const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+
+    return !!(hasEditPerm && packageSelected);
+  };
+
   getActionMenu = () => {
     const {
       stripes,
@@ -173,15 +189,14 @@ class PackageShow extends Component {
     const { packageSelected } = this.state;
 
     const requiredRemovingPermission = isCustom
-      ? 'ui-eholdings.titles-packages.create-delete'
-      : 'ui-eholdings.package-title.select-unselect';
+      ? TITLES_PACKAGES_CREATE_DELETE_PERMISSION
+      : PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION;
 
     const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
-    const hasEditPermission = stripes.hasPerm('ui-eholdings.records.edit');
-    const hasSelectionPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+    const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
-    const canEdit = hasEditPermission && packageSelected;
+    const canEdit = this.hasEditPermission();
     const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
 
     if (!isMenuNeeded) return null;
@@ -617,7 +632,7 @@ class PackageShow extends Component {
       : 'addPackageToHoldings';
 
     return (
-      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+      <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
         <Button
           data-test-eholdings-package-add-to-holdings-action
           buttonStyle="dropdownItem fullWidth"
@@ -678,6 +693,13 @@ class PackageShow extends Component {
       </Modal>
     );
   }
+
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
 
   render() {
     const {
@@ -745,7 +767,11 @@ class PackageShow extends Component {
     }
 
     return (
-      <div>
+      <KeyShortcutsWrapper
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        isPermission={this.hasEditPermission()}
+      >
         <Toaster
           toasts={toasts}
           position="bottom"
@@ -796,7 +822,7 @@ class PackageShow extends Component {
         </Modal>
         {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
         <NavigationModal when={isCoverageEditable} />
-      </div>
+      </KeyShortcutsWrapper>
     );
   }
 }

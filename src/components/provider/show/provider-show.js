@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedNumber,
@@ -11,17 +13,15 @@ import hasIn from 'lodash/fp/hasIn';
 
 import {
   withStripes,
-  IfPermission,
 } from '@folio/stripes-core';
-
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-
 import {
   Accordion,
   Button,
   Headline,
   Icon,
   KeyValue,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import { processErrors } from '../../utilities';
@@ -29,6 +29,7 @@ import {
   entityTypes,
   DOMAIN_NAME,
   paths,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 
 import DetailsView from '../../details-view';
@@ -39,6 +40,7 @@ import ProxyDisplay from '../../proxy-display';
 import TokenDisplay from '../../token-display';
 import TagsAccordion from '../../tags';
 import QueryNotFound from '../../query-list/not-found';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 
@@ -73,6 +75,12 @@ class ProviderShow extends Component {
     };
   }
 
+  hasEditPermission = () => {
+    const { stripes } = this.props;
+
+    return stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+  };
+
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
@@ -102,17 +110,17 @@ class ProviderShow extends Component {
   renderLastMenu() {
     const { onEdit } = this.props;
 
+    if (!this.hasEditPermission()) return null;
+
     return (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <Button
-          data-test-eholdings-provider-edit-link
-          buttonStyle="primary"
-          onClick={onEdit}
-          marginBottom0
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-      </IfPermission>
+      <Button
+        data-test-eholdings-provider-edit-link
+        buttonStyle="primary"
+        onClick={onEdit}
+        marginBottom0
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -280,6 +288,13 @@ class ProviderShow extends Component {
     );
   }
 
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
+
   render() {
     const {
       listType,
@@ -291,7 +306,11 @@ class ProviderShow extends Component {
     const { sections } = this.state;
 
     return (
-      <>
+      <KeyShortcutsWrapper
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        ifPermission={this.hasEditPermission()}
+      >
         <Toaster
           toasts={this.toasts}
           position="bottom"
@@ -314,7 +333,7 @@ class ProviderShow extends Component {
           ariaRole="tablist"
           bodyAriaRole="tab"
         />
-      </>
+      </KeyShortcutsWrapper>
     );
   }
 }

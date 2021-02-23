@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
@@ -14,7 +16,6 @@ import qs from 'qs';
 
 import {
   withStripes,
-  IfPermission,
 } from '@folio/stripes-core';
 
 import {
@@ -26,6 +27,7 @@ import {
   ModalFooter,
   Row,
   Col,
+  expandAllFunction,
 } from '@folio/stripes/components';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
@@ -37,6 +39,7 @@ import {
   costPerUse as costPerUseShape,
   DOMAIN_NAME,
   paths,
+  RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
 import DetailsView from '../../details-view';
 import ScrollView from '../../scroll-view';
@@ -48,6 +51,7 @@ import Toaster from '../../toaster';
 import PackageFilterModal from './package-filter-modal';
 import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
 import QueryNotFound from '../../query-list/not-found';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import styles from './title-show.css';
 
@@ -104,6 +108,17 @@ class TitleShow extends Component {
     }
   }
 
+  hasEditPermission = () => {
+    const {
+      model,
+      stripes,
+    } = this.props;
+
+    const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+
+    return !!(model.isTitleCustom && hasEditPerm);
+  };
+
   getFilteredPackagesFromParams = () => {
     const {
       location,
@@ -142,23 +157,20 @@ class TitleShow extends Component {
 
   get lastMenu() {
     const {
-      model,
       onEdit,
     } = this.props;
 
-    if (!onEdit || !model.isTitleCustom) return null;
+    if (!this.hasEditPermission()) return null;
 
     return (
-      <IfPermission perm="ui-eholdings.records.edit">
-        <Button
-          data-test-eholdings-title-edit-link
-          buttonStyle="primary"
-          onClick={onEdit}
-          marginBottom0
-        >
-          <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-        </Button>
-      </IfPermission>
+      <Button
+        data-test-eholdings-title-edit-link
+        buttonStyle="primary"
+        onClick={onEdit}
+        marginBottom0
+      >
+        <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+      </Button>
     );
   }
 
@@ -214,6 +226,13 @@ class TitleShow extends Component {
     this.setState(next);
   }
 
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
+
   render() {
     const {
       model,
@@ -244,7 +263,11 @@ class TitleShow extends Component {
     const showUsageConsolidation = model.hasSelectedResources;
 
     return (
-      <>
+      <KeyShortcutsWrapper
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        ifPermission={this.hasEditPermission()}
+      >
         <Toaster toasts={this.toasts} position="bottom" />
         <DetailsView
           type="title"
@@ -470,8 +493,7 @@ class TitleShow extends Component {
             }}
           />
         </Modal>
-
-      </>
+      </KeyShortcutsWrapper>
     );
   }
 }

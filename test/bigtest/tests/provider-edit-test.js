@@ -1,9 +1,15 @@
 import { expect } from 'chai';
-import { describe, beforeEach, it } from '@bigtest/mocha';
+import {
+  describe,
+  beforeEach,
+  it,
+} from '@bigtest/mocha';
 
 import setupApplication, { axe } from '../helpers/setup-application';
 import ProviderShowPage from '../interactors/provider-show';
 import ProviderEditPage from '../interactors/provider-edit';
+
+import translation from '../../../translations/ui-eholdings/en';
 
 describe('ProviderEdit', () => {
   setupApplication();
@@ -91,9 +97,8 @@ describe('ProviderEdit', () => {
           expect(ProviderShowPage.proxy).to.equal('Inherited - bigTestJS');
         });
 
-
         it('shows a success toast message', () => {
-          expect(ProviderShowPage.toast.successText).to.equal('Provider saved.');
+          expect(ProviderShowPage.toast.successText).to.equal(translation['provider.toast.isFreshlySaved']);
         });
       });
 

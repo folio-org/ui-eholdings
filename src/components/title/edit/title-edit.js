@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
-  PaneFooter
+  PaneFooter,
 } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
+
 import DetailsView from '../../details-view';
 import NameField from '../_fields/name';
 import EditionField from '../_fields/edition';
@@ -21,6 +24,7 @@ import PeerReviewedField from '../_fields/peer-reviewed';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -32,6 +36,8 @@ export default class TitleEdit extends Component {
     onSubmit: PropTypes.func.isRequired,
     updateRequest: PropTypes.object.isRequired,
   };
+
+  editFormRef = React.createRef();
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;
@@ -78,7 +84,7 @@ export default class TitleEdit extends Component {
     } = this.props;
 
     return (
-      <>
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
         <Toaster
           position="bottom"
           toasts={updateRequest.errors.map(({ title }, index) => ({
@@ -96,6 +102,7 @@ export default class TitleEdit extends Component {
           render={({ handleSubmit, pristine, form: { reset } }) => (
             <>
               <form
+                ref={this.editFormRef}
                 onSubmit={handleSubmit}
                 noValidate
               >
@@ -128,7 +135,7 @@ export default class TitleEdit extends Component {
             </>
           )}
         />
-      </>
+      </KeyShortcutsWrapper>
     );
   }
 }

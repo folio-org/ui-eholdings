@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import { FormattedMessage } from 'react-intl';
+
 import {
   Button,
   Headline,
@@ -10,13 +13,16 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
-import { processErrors } from '../../utilities';
+import {
+  processErrors,
+} from '../../utilities';
 import DetailsView from '../../details-view';
 import DetailsViewSection from '../../details-view-section';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import ProxySelectField from '../../proxy-select';
 import TokenField from '../../token';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const focusOnErrors = createFocusDecorator();
 
@@ -28,6 +34,8 @@ export default class ProviderEdit extends Component {
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired
   };
+
+  editFormRef = React.createRef();
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;
@@ -77,67 +85,75 @@ export default class ProviderEdit extends Component {
     const hasTokenValue = model.providerToken && model.providerToken.value;
 
     return (
-      <Form
-        decorators={[focusOnErrors]}
-        onSubmit={onSubmit}
-        initialValues={{
-          proxyId: model.proxy.id?.toLowerCase(),
-          providerTokenValue: model.providerToken.value
-        }}
-        render={({ handleSubmit, pristine, form: { reset } }) => (
-          <>
-            <Toaster toasts={processErrors(model)} position="bottom" />
-            <form onSubmit={handleSubmit}>
-              <DetailsView
-                type="provider"
-                model={model}
-                key={model.id}
-                paneTitle={model.name}
-                footer={this.getFooter(pristine, reset)}
-                bodyContent={(
-                  <>
-                    <DetailsViewSection
-                      label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
-                    >
-                      {model.packagesSelected > 0 ? (
-                        <div>
-                          {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
-                            <Icon icon="spinner-ellipsis" />
-                          ) : (
-                            <div data-test-eholdings-provider-proxy-select>
-                              <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={rootProxy.data.attributes.proxyTypeId} />
-                            </div>
-                          )}
-
-                          {supportsTokens && (
-                            <fieldset>
-                              <Headline tag="legend" id="provider-token-label">
-                                <FormattedMessage id="ui-eholdings.provider.token" />
-                              </Headline>
-                              <TokenField
-                                token={model.providerToken}
-                                tokenValue={hasTokenValue}
-                                type="provider"
-                                ariaLabelledBy="provider-token-label"
-                              />
-                            </fieldset>
-                          )}
-                        </div>
-                      ) : (
-                        <div data-test-eholdings-provider-package-not-selected>
-                          <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
-                        </div>
-                      )}
-                    </DetailsViewSection>
-                  </>
-                )}
-                onCancel={onCancel}
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
+        <Form
+          decorators={[focusOnErrors]}
+          onSubmit={onSubmit}
+          initialValues={{
+            proxyId: model.proxy.id?.toLowerCase(),
+            providerTokenValue: model.providerToken.value
+          }}
+          render={({ handleSubmit, pristine, form: { reset } }) => (
+            <>
+              <Toaster
+                toasts={processErrors(model)}
+                position="bottom"
               />
-            </form>
-            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
-          </>
-        )}
-      />
+              <form
+                ref={this.editFormRef}
+                onSubmit={handleSubmit}
+              >
+                <DetailsView
+                  type="provider"
+                  model={model}
+                  key={model.id}
+                  paneTitle={model.name}
+                  footer={this.getFooter(pristine, reset)}
+                  bodyContent={(
+                    <>
+                      <DetailsViewSection
+                        label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
+                      >
+                        {model.packagesSelected > 0 ? (
+                          <div>
+                            {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
+                              <Icon icon="spinner-ellipsis" />
+                            ) : (
+                              <div data-test-eholdings-provider-proxy-select>
+                                <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={rootProxy.data.attributes.proxyTypeId} />
+                              </div>
+                            )}
+
+                            {supportsTokens && (
+                              <fieldset>
+                                <Headline tag="legend" id="provider-token-label">
+                                  <FormattedMessage id="ui-eholdings.provider.token" />
+                                </Headline>
+                                <TokenField
+                                  token={model.providerToken}
+                                  tokenValue={hasTokenValue}
+                                  type="provider"
+                                  ariaLabelledBy="provider-token-label"
+                                />
+                              </fieldset>
+                            )}
+                          </div>
+                        ) : (
+                          <div data-test-eholdings-provider-package-not-selected>
+                            <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+                          </div>
+                        )}
+                      </DetailsViewSection>
+                    </>
+                  )}
+                  onCancel={onCancel}
+                />
+              </form>
+              <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+            </>
+          )}
+        />
+      </KeyShortcutsWrapper>
     );
   }
 }

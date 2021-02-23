@@ -24,3 +24,4 @@ export { default as sortOrders } from './sortOrders';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';
+export * from './permissionNames';

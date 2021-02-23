@@ -136,7 +136,7 @@
 
     "provider.token": "Provider token",
     "provider.noTokenSet": "No provider token has been set.",
-    "provider.toast.isFreshlySaved": "Provider saved.",
+    "provider.toast.isFreshlySaved": "Updates saved. Note: A proxy update may take a few minutes and may require refreshing page.",
     "provider.token.addToken": "Add a provider level token",
 
     "package.token": "Package token",

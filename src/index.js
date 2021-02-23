@@ -1,12 +1,25 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
 
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
+import {
+  CommandList,
+  defaultKeyboardShortcuts,
+} from '@folio/stripes/components';
+import { stripesShape } from '@folio/stripes/core';
 
-import { Route, Switch } from './router';
-import { reducer, epics } from './redux';
+import {
+  Route,
+  Switch,
+} from './router';
+import {
+  reducer,
+  epics,
+} from './redux';
 
 import ApplicationRoute from './routes/application';
 import SettingsRoute from './routes/settings-route';
@@ -32,6 +45,8 @@ import SettingsAccessStatusTypesRoute from './routes/settings-access-status-type
 import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
 
+import KeyShortcutsWrapper from './components/key-shortcuts-wrapper';
+
 class EHoldings extends Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
@@ -41,7 +56,8 @@ class EHoldings extends Component {
       addEpic: PropTypes.func.isRequired,
       addReducer: PropTypes.func.isRequired,
     }),
-    showSettings: PropTypes.bool
+    showSettings: PropTypes.bool,
+    stripes: stripesShape.isRequired,
   };
 
   constructor(props) {
@@ -64,6 +80,20 @@ class EHoldings extends Component {
     history.replace(currentURL, {});
   }
 
+  focusSearchField = () => {
+    const {
+      history,
+      stripes,
+    } = this.props;
+    const searchElement = document.getElementById('eholdings-search');
+
+    if (searchElement) {
+      searchElement.focus();
+    } else {
+      history.push(stripes.home);
+    }
+  };
+
   render() {
     const {
       showSettings,
@@ -82,24 +112,28 @@ class EHoldings extends Component {
         </Route>
       )
       : (
-        <Route path={rootPath} component={ApplicationRoute}>
-          <Switch>
-            <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
-            <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
-            <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
-            <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
-            <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
-            <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
-            <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
-            <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
-            <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
-            <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
-            <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
-            <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
-            <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
-            <Route path={`${rootPath}/`} exact component={SearchRoute} />
-          </Switch>
-        </Route>
+        <CommandList commands={defaultKeyboardShortcuts}>
+          <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
+            <Route path={rootPath} component={ApplicationRoute}>
+              <Switch>
+                <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
+                <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
+                <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
+                <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
+                <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
+                <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
+                <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+                <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
+                <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
+                <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
+                <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
+                <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
+                <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
+                <Route path={`${rootPath}/`} exact component={SearchRoute} />
+              </Switch>
+            </Route>
+          </KeyShortcutsWrapper>
+        </CommandList>
       );
   }
 }
