@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import SummaryTable from './summary-table';
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
@@ -55,7 +56,14 @@ const UsageConsolidationContentResource = ({
     columnMapping: { cost: 'ui-eholdings.usageConsolidation.summary.resourceCost' },
   };
 
-  return (
+  const isPlatformsDataEmpty = !data.attributes?.usage?.platforms.length;
+
+  return noCostPerUseAvailable && isPlatformsDataEmpty ? (
+    <NoCostPerUseAvailable
+      entityType={entityTypes.RESOURCE}
+      year={year}
+    />
+  ) : (
     <>
       <SummaryTable
         id="resourceUsageConsolidationSummary"

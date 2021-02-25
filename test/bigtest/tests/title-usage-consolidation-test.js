@@ -322,16 +322,11 @@ describe('TitleShowUsageConsolidation', () => {
         'type': 'titleCostPerUse',
         'attributes': {
           'usage': {
-            'platforms': [{
-              'name': 'Wiley Online Library',
-              'isPublisherPlatform' : true,
-              'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
-              'total': 22
-            }],
+            'platforms': [],
             'totals': {
               'publisher': {
-                'counts': [2, 6, 0, 3, 6, 2, 1, 2, null, null, null, null],
-                'total': 22
+                'counts': [],
+                'total': 0,
               }
             }
           },
