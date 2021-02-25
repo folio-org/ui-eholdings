@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormattedMessage,
   useIntl,
 } from 'react-intl';
 
@@ -25,7 +24,6 @@ const propTypes = {
   noCostPerUseAvailable: PropTypes.bool.isRequired,
   onExportTitles: PropTypes.func,
   onViewTitles: PropTypes.func,
-  year: PropTypes.number.isRequired,
 };
 
 const SummaryTable = ({
@@ -39,7 +37,6 @@ const SummaryTable = ({
   onExportTitles,
   isExportDisabled,
   noCostPerUseAvailable,
-  year,
   ...rest
 }) => {
   const intl = useIntl();
@@ -55,21 +52,15 @@ const SummaryTable = ({
     ? rest.contentData || [data?.attributes?.analysis]
     : [];
 
-  const emptyMessage = (
-    <div data-test-usage-consolidation-error>
-      <FormattedMessage
-        id={`ui-eholdings.usageConsolidation.summary.${entityType}.noData`}
-        values={{ year }}
-      />
-    </div>
-  );
+  if (!contentData.length) {
+    return null;
+  }
 
   return (
     <KeyValue>
       <MultiColumnList
         id={id}
         contentData={contentData}
-        isEmptyMessage={emptyMessage}
         {...getSummaryTableColumnProperties(intl, {
           currency,
           metricType,
