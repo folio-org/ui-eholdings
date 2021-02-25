@@ -22,6 +22,7 @@ import {
   ModalFooter,
   RadioButton,
   PaneFooter,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -150,6 +151,13 @@ class CustomPackageEdit extends Component {
   }
 
   editFormRef = React.createRef();
+
+  toggleAllSectionsForShortcut = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
 
   handleDeleteAction = () => {
     this.setState({
@@ -294,7 +302,10 @@ class CustomPackageEdit extends Component {
     const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
     return (
-      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
+      <KeyShortcutsWrapper
+        formRef={this.editFormRef.current}
+        toggleAllSections={this.toggleAllSectionsForShortcut}
+      >
         <Form
           onSubmit={this.handleOnSubmit}
           decorators={[focusOnErrors]}

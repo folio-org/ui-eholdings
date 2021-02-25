@@ -17,6 +17,7 @@ import {
   Icon,
   Modal,
   ModalFooter,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -45,6 +46,7 @@ import CoverageFields from '../_fields/resource-coverage-fields';
 import DetailsView from '../../details-view';
 import { CustomLabelsEditSection } from '../../custom-labels-section';
 import { CustomLabelsAccordion } from '../../../features';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import {
   historyActions,
@@ -99,6 +101,7 @@ class ResourceEditManagedTitle extends Component {
         resourceShowHoldingStatus: true,
         resourceShowSettings: true,
         resourceShowCoverageSettings: true,
+        resourceShowCustomLabels: true,
       },
     };
   }
@@ -128,6 +131,15 @@ class ResourceEditManagedTitle extends Component {
 
     return stateUpdates;
   }
+
+  editFormRef = React.createRef();
+
+  toggleAllSectionsForShortcut = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
 
   toggleSection = ({ id }) => {
     const newState = update(`sections.${id}`, value => !value, this.state);
@@ -203,49 +215,56 @@ class ResourceEditManagedTitle extends Component {
     const userDefinedFields = getUserDefinedFields(model);
 
     return (
-      <Form
-        onSubmit={handleOnSubmit}
-        decorators={[coverageStatementDecorator, focusOnErrors]}
-        mutators={{ ...arrayMutators }}
-        initialValuesEqual={() => true}
-        initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
-            <Toaster toasts={processErrors(model)} position="bottom" />
-            <form onSubmit={handleSubmit}>
-              <DetailsView
-                type="resource"
-                model={model}
-                paneTitle={model.title.name}
-                paneSub={model.package.name}
-                actionMenu={this.getActionMenu()}
-                handleExpandAll={this.toggleAllSections}
-                sections={sections}
-                footer={getFooter(pristine, reset)}
-                bodyContent={(
-                  <>
-                    <Accordion
-                      label={getSectionHeader('ui-eholdings.label.holdingStatus')}
-                      open={sections.resourceShowHoldingStatus}
-                      id="resourceShowHoldingStatus"
-                      onToggle={this.toggleSection}
-                    >
-                      <label
-                        data-test-eholdings-resource-holding-status
-                        htmlFor="managed-resource-holding-status"
+      <KeyShortcutsWrapper
+        formRef={this.editFormRef.current}
+        toggleAllSections={this.toggleAllSectionsForShortcut}
+      >
+        <Form
+          onSubmit={handleOnSubmit}
+          decorators={[coverageStatementDecorator, focusOnErrors]}
+          mutators={{ ...arrayMutators }}
+          initialValuesEqual={() => true}
+          initialValues={initialValues}
+          render={({ handleSubmit, pristine, form: { change, reset } }) => (
+            <div>
+              <Toaster toasts={processErrors(model)} position="bottom" />
+              <form
+                ref={this.editFormRef}
+                onSubmit={handleSubmit}
+              >
+                <DetailsView
+                  type="resource"
+                  model={model}
+                  paneTitle={model.title.name}
+                  paneSub={model.package.name}
+                  actionMenu={this.getActionMenu()}
+                  handleExpandAll={this.toggleAllSections}
+                  sections={sections}
+                  footer={getFooter(pristine, reset)}
+                  bodyContent={(
+                    <>
+                      <Accordion
+                        label={getSectionHeader('ui-eholdings.label.holdingStatus')}
+                        open={sections.resourceShowHoldingStatus}
+                        id="resourceShowHoldingStatus"
+                        onToggle={this.toggleSection}
                       >
-                        {model.update.isPending ? (
-                          <Icon icon='spinner-ellipsis' />
-                        )
-                          : (
-                            <Headline margin="none">
-                              {managedResourceSelected ?
-                                (<FormattedMessage id="ui-eholdings.selected" />)
-                                : (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                            </Headline>
-                          )}
-                        <br />
-                        {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
+                        <label
+                          data-test-eholdings-resource-holding-status
+                          htmlFor="managed-resource-holding-status"
+                        >
+                          {model.update.isPending ? (
+                            <Icon icon='spinner-ellipsis' />
+                          )
+                            : (
+                              <Headline margin="none">
+                                {managedResourceSelected ?
+                                  (<FormattedMessage id="ui-eholdings.selected" />)
+                                  : (<FormattedMessage id="ui-eholdings.notSelected" />)}
+                              </Headline>
+                            )}
+                          <br />
+                          {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
                           <IfPermission perm="ui-eholdings.package-title.select-unselect">
                             <Button
                               buttonStyle="primary"
@@ -256,11 +275,11 @@ class ResourceEditManagedTitle extends Component {
                               <FormattedMessage id="ui-eholdings.addToHoldings" />
                             </Button>
                           </IfPermission>
-                        )}
-                      </label>
-                    </Accordion>
+                          )}
+                        </label>
+                      </Accordion>
 
-                    {isSelected && (
+                      {isSelected && (
                       <CustomLabelsAccordion
                         id="resourceShowCustomLabels"
                         isOpen={sections.resourceShowCustomLabels}
@@ -268,9 +287,9 @@ class ResourceEditManagedTitle extends Component {
                         section={CustomLabelsEditSection}
                         userDefinedFields={userDefinedFields}
                       />
-                    )}
+                      )}
 
-                    {managedResourceSelected && (
+                      {managedResourceSelected && (
                       <Accordion
                         label={getSectionHeader('ui-eholdings.resource.resourceSettings')}
                         open={sections.resourceShowSettings}
@@ -290,82 +309,83 @@ class ResourceEditManagedTitle extends Component {
                           <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                         </div>
                       </Accordion>
-                    )}
-
-                    <Accordion
-                      label={getSectionHeader('ui-eholdings.label.coverageSettings')}
-                      open={sections.resourceShowCoverageSettings}
-                      id="resourceShowCoverageSettings"
-                      onToggle={this.toggleSection}
-                    >
-                      {managedResourceSelected ? (
-                        <>
-                          <Headline tag="h4">
-                            <FormattedMessage id="ui-eholdings.label.dates" />
-                          </Headline>
-                          <CoverageFields model={model} />
-
-                          <Headline tag="h4" id="coverage-display-label">
-                            <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
-                          </Headline>
-                          <CoverageStatementFields
-                            coverageDates={renderCoverageDates()}
-                            ariaLabelledBy="coverage-display-label"
-                          />
-
-                          <Headline tag="h4" id="embargo-period-label">
-                            <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
-                          </Headline>
-                          <CustomEmbargoFields
-                            ariaLabelledBy="embargo-period-label"
-                          />
-                        </>
-                      ) : (
-                        <p data-test-eholdings-resource-edit-settings-message>
-                          <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
-                        </p>
                       )}
-                    </Accordion>
-                  </>
+
+                      <Accordion
+                        label={getSectionHeader('ui-eholdings.label.coverageSettings')}
+                        open={sections.resourceShowCoverageSettings}
+                        id="resourceShowCoverageSettings"
+                        onToggle={this.toggleSection}
+                      >
+                        {managedResourceSelected ? (
+                          <>
+                            <Headline tag="h4">
+                              <FormattedMessage id="ui-eholdings.label.dates" />
+                            </Headline>
+                            <CoverageFields model={model} />
+
+                            <Headline tag="h4" id="coverage-display-label">
+                              <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
+                            </Headline>
+                            <CoverageStatementFields
+                              coverageDates={renderCoverageDates()}
+                              ariaLabelledBy="coverage-display-label"
+                            />
+
+                            <Headline tag="h4" id="embargo-period-label">
+                              <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
+                            </Headline>
+                            <CustomEmbargoFields
+                              ariaLabelledBy="embargo-period-label"
+                            />
+                          </>
+                        ) : (
+                          <p data-test-eholdings-resource-edit-settings-message>
+                            <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
+                          </p>
+                        )}
+                      </Accordion>
+                    </>
                 )}
-                onCancel={onCancel}
-              />
-            </form>
+                  onCancel={onCancel}
+                />
+              </form>
 
-            <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
+              <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
-            <Modal
-              open={showSelectionModal}
-              size="small"
-              label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
-              id="eholdings-resource-confirmation-modal"
-              aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
-              footer={(
-                <ModalFooter>
-                  <Button
-                    data-test-eholdings-resource-deselection-confirmation-modal-yes
-                    buttonStyle="primary"
-                    disabled={model.update.isPending}
-                    onClick={handelDeleteConfirmation}
-                  >
-                    {(model.update.isPending ?
-                      <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
-                      <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
-                  </Button>
-                  <Button
-                    data-test-eholdings-resource-deselection-confirmation-modal-no
-                    onClick={() => this.cancelSelectionToggle(change)}
-                  >
-                    <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
-                  </Button>
-                </ModalFooter>
+              <Modal
+                open={showSelectionModal}
+                size="small"
+                label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
+                id="eholdings-resource-confirmation-modal"
+                aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
+                footer={(
+                  <ModalFooter>
+                    <Button
+                      data-test-eholdings-resource-deselection-confirmation-modal-yes
+                      buttonStyle="primary"
+                      disabled={model.update.isPending}
+                      onClick={handelDeleteConfirmation}
+                    >
+                      {(model.update.isPending ?
+                        <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
+                        <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
+                    </Button>
+                    <Button
+                      data-test-eholdings-resource-deselection-confirmation-modal-no
+                      onClick={() => this.cancelSelectionToggle(change)}
+                    >
+                      <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
+                    </Button>
+                  </ModalFooter>
               )}
-            >
-              <FormattedMessage id="ui-eholdings.resource.modal.body" />
-            </Modal>
-          </div>
-        )}
-      />
+              >
+                <FormattedMessage id="ui-eholdings.resource.modal.body" />
+              </Modal>
+            </div>
+          )}
+        />
+      </KeyShortcutsWrapper>
     );
   }
 }

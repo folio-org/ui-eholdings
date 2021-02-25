@@ -21,7 +21,8 @@ import {
   Icon,
   KeyValue,
   Modal,
-  ModalFooter
+  ModalFooter,
+  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -60,6 +61,7 @@ import KeyValueColumns from '../key-value-columns';
 import ProxyDisplay from '../proxy-display';
 import AccessTypeDisplay from '../access-type-display';
 import { CustomLabelsShowSection } from '../custom-labels-section';
+import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -106,6 +108,16 @@ class ResourceShow extends Component {
       prevState;
   }
 
+  hasEditPermission = () => {
+    const { stripes } = this.props;
+    const { resourceSelected } = this.state;
+
+    const hasEditPermission = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
+    const hasCreateAndDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
+
+    return ((hasEditPermission || hasCreateAndDeletePermission) && resourceSelected);
+  };
+
   handleHoldingStatus = () => {
     if (this.props.model.isSelected) {
       this.setState({ showSelectionModal: true });
@@ -139,17 +151,21 @@ class ResourceShow extends Component {
     this.setState(next);
   }
 
+  toggleAllSections = (expand) => {
+    this.setState((curState) => {
+      const sections = expandAllFunction(curState.sections, expand);
+      return { sections };
+    });
+  };
+
   getActionMenu = () => {
     const {
       onEdit,
       stripes,
     } = this.props;
-    const { resourceSelected } = this.state;
-
-    const hasEditPermission = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
     const hasCreateAndDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
     const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
-    const canEdit = (hasEditPermission || hasCreateAndDeletePermission) && resourceSelected;
+    const canEdit = this.hasEditPermission();
     const canSelectAndUnselect = hasSelectionPermission || hasCreateAndDeletePermission;
     const isMenuNeeded = canEdit || hasSelectionPermission;
 
@@ -279,7 +295,11 @@ class ResourceShow extends Component {
     }
 
     return (
-      <>
+      <KeyShortcutsWrapper
+        toggleAllSections={this.toggleAllSections}
+        onEdit={this.props.onEdit}
+        isPermission={this.hasEditPermission()}
+      >
         <Toaster toasts={toasts} position="bottom" />
 
         <DetailsView
@@ -687,7 +707,7 @@ class ResourceShow extends Component {
               )
           }
         </Modal>
-      </>
+      </KeyShortcutsWrapper>
     );
   }
 }
