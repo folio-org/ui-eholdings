@@ -36,22 +36,31 @@ const KeyShortcutsWrapper = ({
     toggleAllSections(false);
   }, [toggleAllSections]);
 
+  const toggleSectionsShortcuts = useMemo(() => {
+    if (!toggleAllSections) return [];
+
+    return ([
+      {
+        name: 'expandAllSections',
+        handler: expandAllSections,
+      },
+      {
+        name: 'collapseAllSections',
+        handler: collapseAllSections,
+      },
+    ]);
+  }, [collapseAllSections, expandAllSections, toggleAllSections]);
+
   const editShortcuts = [
+    ...toggleSectionsShortcuts,
     {
       name: 'edit',
       handler: openEditEntity,
     },
-    {
-      name: 'expandAllSections',
-      handler: expandAllSections,
-    },
-    {
-      name: 'collapseAllSections',
-      handler: collapseAllSections,
-    },
   ];
 
   const saveShortcuts = [
+    ...toggleSectionsShortcuts,
     {
       name: 'save',
       handler: handleSaveKeyFormSubmit(formRef),
@@ -82,16 +91,8 @@ const KeyShortcutsWrapper = ({
     if (openCreateNewEntity) return createShortcuts;
 
     return [];
-  }, [
-    onEdit,
-    editShortcuts,
-    formRef,
-    saveShortcuts,
-    focusSearchField,
-    searchShortcuts,
-    openCreateNewEntity,
-    createShortcuts,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onEdit, formRef, focusSearchField, openCreateNewEntity]);
 
   return (
     <HasCommand

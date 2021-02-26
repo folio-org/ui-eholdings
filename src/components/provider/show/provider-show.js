@@ -309,7 +309,7 @@ class ProviderShow extends Component {
       <KeyShortcutsWrapper
         toggleAllSections={this.toggleAllSections}
         onEdit={this.props.onEdit}
-        ifPermission={this.hasEditPermission()}
+        isPermission={this.hasEditPermission()}
       >
         <Toaster
           toasts={this.toasts}
