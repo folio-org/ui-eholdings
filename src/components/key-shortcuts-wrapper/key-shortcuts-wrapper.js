@@ -36,16 +36,20 @@ const KeyShortcutsWrapper = ({
     toggleAllSections(false);
   }, [toggleAllSections]);
 
-  const toggleSectionsShortcuts = [
-    {
-      name: 'expandAllSections',
-      handler: expandAllSections,
-    },
-    {
-      name: 'collapseAllSections',
-      handler: collapseAllSections,
-    },
-  ];
+  const toggleSectionsShortcuts = useMemo(() => {
+    if (!toggleAllSections) return [];
+
+    return ([
+      {
+        name: 'expandAllSections',
+        handler: expandAllSections,
+      },
+      {
+        name: 'collapseAllSections',
+        handler: collapseAllSections,
+      },
+    ]);
+  }, [collapseAllSections, expandAllSections, toggleAllSections]);
 
   const editShortcuts = [
     ...toggleSectionsShortcuts,
