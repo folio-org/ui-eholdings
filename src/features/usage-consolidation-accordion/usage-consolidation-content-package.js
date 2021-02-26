@@ -11,6 +11,7 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import SummaryTable from './summary-table';
 import { DEFAULT_SUMMARY_TABLE_COLUMNS } from './summary-table/column-properties';
 import TitlesTable from './titles-table';
@@ -163,7 +164,12 @@ const UsageConsolidationContentPackage = ({
     },
   };
 
-  return (
+  return noCostPerUseAvailable ? (
+    <NoCostPerUseAvailable
+      entityType={entityTypes.PACKAGE}
+      year={year}
+    />
+  ) : (
     <>
       <SummaryTable
         id="packageUsageConsolidationSummary"
@@ -176,7 +182,6 @@ const UsageConsolidationContentPackage = ({
         isExportDisabled={isExportDisabled}
         metricType={metricType}
         noCostPerUseAvailable={noCostPerUseAvailable}
-        year={year}
       />
       <TitlesTable
         costPerUseData={costPerUseData}

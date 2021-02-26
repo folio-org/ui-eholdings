@@ -13,6 +13,7 @@ import {
 
 import FullTextRequestUsageTable from './full-text-request-usage-table';
 import SummaryTable from './summary-table';
+import NoCostPerUseAvailable from './no-cost-per-use-available';
 import {
   formatCoverageYear,
   formatCoverageFullDate,
@@ -163,7 +164,14 @@ const UsageConsolidationContentTitle = ({
     formatter,
   };
 
-  return (
+  const isPlatformsDataEmpty = !data.attributes?.usage?.platforms.length;
+
+  return noCostPerUseAvailable && isPlatformsDataEmpty ? (
+    <NoCostPerUseAvailable
+      entityType={entityTypes.TITLE}
+      year={year}
+    />
+  ) : (
     <>
       <SummaryTable
         id="titleUsageConsolidationSummary"
