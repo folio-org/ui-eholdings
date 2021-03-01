@@ -29,7 +29,6 @@ class Title {
       edition: this.edition,
       identifiers: this.identifiers,
       isPeerReviewed: this.isPeerReviewed,
-      hasSelectedResources: this.hasSelectedResources,
       name: this.name,
       publicationType: this.publicationType,
       publisherName: this.publisherName,
