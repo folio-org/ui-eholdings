@@ -39,7 +39,7 @@
     "package.visibility.notSelected": "إضافة الحزمة إلى المقتنيات لتخصيص إعدادات الحزمة",
     "package.create.custom": "حزمة مخصصة جديدة",
     "package.modalMessageHeader.isCustom": "حذف الحزمة المخصصة",
-    "package.modalMessageBody.isCustom": "هل أنت متأكد من أنك تريد حذف هذه الحزمة؟ بحذف هذه الحزمة، لن تعد متاحة للتحديد وسيتم فقدان جميع التخصيصات الخاصة بها. إذا كان العنوان يظهر في هذه الحزمة فقط، فلن يعد متاحًا للتحديد بعد ذلك.",
+    "package.modalMessageBody.isCustom": "هل أنت متأكد من أنك تريد حذف هذه الحزمة؟ بحذف هذه الحزمة، لن تعد متاحة للتحديد وسيتم فقد جميع التخصيصات الخاصة بها. إذا كان العنوان يظهر في هذه الحزمة فقط، فلن يعد متاحًا للتحديد بعد ذلك.",
     "package.modalMessageButtonConfirm.isCustom": "نعم، قم بالحذف",
     "package.modalMessageButtonWorking.isCustom": "جاري الحذف...",
     "package.modalMessageButtonCancel.isCustom": "لا، لا تقم بالحذف",
