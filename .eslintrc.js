@@ -26,6 +26,11 @@ module.exports = {
         "no-unused-expressions": "off",
         "react/prop-types": "off"
       }
+    }, {
+      files: ["test/jest/helpers/*"],
+      rules: {
+        "react/prop-types": "off"
+      }
     }
   ],
   rules: {
