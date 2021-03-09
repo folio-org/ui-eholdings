@@ -18,6 +18,16 @@ module.exports = {
     process: true,
     Promise: true
   },
+  overrides: [
+    {
+      files: ["**/*.test.js"],
+      rules: {
+        "max-classes-per-file": "off",
+        "no-unused-expressions": "off",
+        "react/prop-types": "off"
+      }
+    }
+  ],
   rules: {
     "arrow-body-style": "off",
     "comma-dangle": "off",

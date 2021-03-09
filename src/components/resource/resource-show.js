@@ -514,7 +514,7 @@ class ResourceShow extends Component {
                       )
                       : (
                         <ProxyDisplay
-                          model={model}
+                          proxy={model.proxy}
                           proxyTypes={proxyTypes}
                           inheritedProxyId={model.package.proxy.id}
                         />
