@@ -125,8 +125,12 @@ export default class PackageCreate extends Component {
           mutators={{ ...arrayMutators }}
           onSubmit={onSubmit}
           render={({ handleSubmit, pristine, form: { reset } }) => (
-            <div data-test-eholdings-package-create>
+            <div
+              data-test-eholdings-package-create
+              data-testid='data-test-eholdings-package-create'
+            >
               <Toaster
+                data-testid='data-test-eholdings-package-create-toaster'
                 position="bottom"
                 toasts={request.errors.map(({ title }, index) => ({
                   id: `error-${request.timestamp}-${index}`,
@@ -135,6 +139,7 @@ export default class PackageCreate extends Component {
                 }))}
               />
               <form
+                data-testid='data-test-eholdings-form'
                 ref={this.createFormRef}
                 onSubmit={handleSubmit}
                 noValidate
