@@ -121,7 +121,7 @@
     "permissionSets": [
       {
         "permissionName": "module.eholdings.enabled",
-        "displayName": "UI: eHoldings module is enabled",
+        "displayName": "eHoldings: Can view providers, packages, titles detail records",
         "visible": false,
         "subPermissions": [
           "kb-ebsco.all",
