@@ -38,13 +38,19 @@ const ProviderInformation = ({
     onToggle={onToggle}
   >
     <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
-      <div data-testid="provider-details-packages-selected">
+      <div
+        data-test-eholdings-provider-details-packages-selected
+        data-testid="provider-details-packages-selected"
+      >
         <FormattedNumber value={packagesSelected} />
       </div>
     </KeyValue>
 
     <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
-      <div data-testid="provider-details-packages-total">
+      <div
+        data-test-eholdings-provider-details-packages-total
+        data-testid="provider-details-packages-total"
+      >
         <FormattedNumber value={packagesTotal} />
       </div>
     </KeyValue>
