@@ -92,7 +92,6 @@ class DetailsView extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.handleLayout);
-    this.handleLayout();
 
     // if the heading exists on mount, focus it
     if (this.$heading.current) {
@@ -128,8 +127,8 @@ class DetailsView extends Component {
     } = this.props;
 
     if (this.$container && this.$sticky && this.$list) {
-      const stickyHeight = Math.floor(this.$sticky.getBoundingClientRect().height);
-      const containerHeight = Math.floor(this.$container.getBoundingClientRect().height);
+      const stickyHeight = this.$sticky.getBoundingClientRect().height;
+      const containerHeight = this.$container.getBoundingClientRect().height;
 
       const isListAccordionOpen = sections && sections[listSectionId];
 
@@ -137,7 +136,11 @@ class DetailsView extends Component {
         this.setState({ isSticky: false });
       }
 
-      this.shouldHandleScroll = stickyHeight >= containerHeight && isListAccordionOpen;
+      // make difference of +-1 pixel between heights to still count as equal values
+      const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < 1;
+      const stickyGreaterThanContainer = stickyHeight > containerHeight;
+
+      this.shouldHandleScroll = (stickyAndContainerAreEqual || stickyGreaterThanContainer) && isListAccordionOpen;
 
       // the sticky wrapper needs an explicit height for child
       // elements with percentage-based heights
@@ -173,7 +176,7 @@ class DetailsView extends Component {
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
       const top = e.currentTarget.scrollTop;
-      const height = e.currentTarget.offsetHeight;
+      const height = e.currentTarget.clientHeight;
       const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
       const bottomedOut = scrollHeight - (top + height) < 1;
