@@ -51,7 +51,10 @@ const PackageInformation = ({
         {
           model.contentType && (
             <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-              <div data-test-eholdings-package-details-content-type>
+              <div
+                data-test-eholdings-package-details-content-type
+                data-testid="package-details-content-type"
+              >
                 {model.contentType}
               </div>
             </KeyValue>
@@ -61,7 +64,10 @@ const PackageInformation = ({
         {
           model.packageType && (
             <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
-              <div data-test-eholdings-package-details-type>
+              <div
+                data-test-eholdings-package-details-type
+                data-testid="package-details-type"
+              >
                 {model.packageType}
               </div>
             </KeyValue>
@@ -71,13 +77,19 @@ const PackageInformation = ({
 
       <div>
         <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
-          <div data-test-eholdings-package-details-titles-selected>
+          <div
+            data-test-eholdings-package-details-titles-selected
+            data-testid="package-details-titles-selected"
+          >
             <FormattedNumber value={model.selectedCount} />
           </div>
         </KeyValue>
 
         <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
-          <div data-test-eholdings-package-details-titles-total>
+          <div
+            data-test-eholdings-package-details-titles-total
+            data-testid="package-details-titles-total"
+          >
             <FormattedNumber value={model.titleCount} />
           </div>
         </KeyValue>

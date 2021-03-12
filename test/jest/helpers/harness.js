@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 
@@ -9,10 +10,12 @@ const STRIPES = buildStripes();
 
 const Harness = ({ stripes, children }) => (
   <StripesContext.Provider value={stripes || STRIPES}>
-    <IntlProvider>
-      {children}
-    </IntlProvider>
+    <MemoryRouter>
+      <IntlProvider>
+        {children}
+      </IntlProvider>
+    </MemoryRouter>
   </StripesContext.Provider>
 );
 
-export default Intl;
+export default Harness;
