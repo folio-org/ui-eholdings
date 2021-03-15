@@ -54,6 +54,7 @@
 * Change displayed permission name for `module.eholdings.enabled`. (UIEH-1104)
 * Provider: Re-order accordions display. (UIEH-1044)
 * Change displayed permission name for `settings.eholdings.enabled`. (UIEH-1105)
+* Package Record | Change accordion order. (UIEH-1045)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
