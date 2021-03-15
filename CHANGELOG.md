@@ -51,6 +51,7 @@
 * Fix Package/Title/Provider scroll disappearing when an accordion is collapsed. (UIEH-1026)
 * Add FOLIO keyboard shortcuts to eholdings. (UIEH-979)
 * Fix cannot create a custom title. (UIEH-1103)
+* Fix Settings assign/usassign user permission. (UIEH-1106)
 * Update permission name for eholdings module. (UIEH-1104)
 * Provider: Re-order accordions display. (UIEH-1044)
 * Package Record | Change accordion order. (UIEH-1045)
