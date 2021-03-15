@@ -3,26 +3,30 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormattedNumber,
   FormattedMessage,
 } from 'react-intl';
 
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import hasIn from 'lodash/fp/hasIn';
 
 import {
   withStripes,
 } from '@folio/stripes-core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
-  Accordion,
   Button,
-  Headline,
-  Icon,
-  KeyValue,
   expandAllFunction,
 } from '@folio/stripes/components';
+
+import DetailsView from '../../details-view';
+import QueryList from '../../query-list';
+import SearchPackageListItem from '../../search-package-list-item';
+import Toaster from '../../toaster';
+import TagsAccordion from '../../tags';
+import QueryNotFound from '../../query-list/not-found';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+import ProviderInformation from './components/provider-information';
+import ProviderSettings from './components/provider-settings';
 
 import { processErrors } from '../../utilities';
 import {
@@ -31,16 +35,6 @@ import {
   paths,
   RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
-
-import DetailsView from '../../details-view';
-import QueryList from '../../query-list';
-import SearchPackageListItem from '../../search-package-list-item';
-import Toaster from '../../toaster';
-import ProxyDisplay from '../../proxy-display';
-import TokenDisplay from '../../token-display';
-import TagsAccordion from '../../tags';
-import QueryNotFound from '../../query-list/not-found';
-import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 
@@ -124,60 +118,28 @@ class ProviderShow extends Component {
     );
   }
 
-  renderProxy() {
-    const {
-      proxyTypes,
-      rootProxy,
-      model,
-    } = this.props;
-
-    const proxyIsLoading = !proxyTypes.request.isResolved || !rootProxy.request.isResolved || model.isLoading;
-
-    return proxyIsLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : (
-        <ProxyDisplay
-          model={model}
-          proxyTypes={proxyTypes}
-          inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
-        />
-      );
-  }
-
-  renderToken() {
-    const {
-      model,
-    } = this.props;
-
-    return model.isLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : (
-        <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-          <TokenDisplay
-            token={model.providerToken}
-            type="provider"
-          />
-        </KeyValue>
-      );
-  }
-
   getBodyContent() {
     const {
       model,
       tagsModel,
       updateFolioTags,
+      proxyTypes,
+      rootProxy,
     } = this.props;
 
     const {
       sections,
     } = this.state;
 
-    const hasProxy = hasIn('proxy.id', model);
-    const hasToken = hasIn('providerToken.prompt', model);
-    const hasProviderSettings = hasProxy || hasToken;
-
     return (
       <>
+        <ProviderInformation
+          isOpen={sections.providerShowProviderInformation}
+          onToggle={this.handleSectionToggle}
+          packagesSelected={model.packagesSelected}
+          packagesTotal={model.packagesTotal}
+        />
+
         <TagsAccordion
           id="providerShowTags"
           model={model}
@@ -187,52 +149,13 @@ class ProviderShow extends Component {
           updateFolioTags={updateFolioTags}
         />
 
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.provider.providerInformation" />
-            </Headline>
-          )}
-          open={sections.providerShowProviderInformation}
-          id="providerShowProviderInformation"
+        <ProviderSettings
+          isOpen={sections.providerShowProviderSettings}
           onToggle={this.handleSectionToggle}
-        >
-          <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
-            <div data-test-eholdings-provider-details-packages-selected>
-              <FormattedNumber value={model.packagesSelected} />
-            </div>
-          </KeyValue>
-
-          <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
-            <div data-test-eholdings-provider-details-packages-total>
-              <FormattedNumber value={model.packagesTotal} />
-            </div>
-          </KeyValue>
-        </Accordion>
-
-        {
-          hasProviderSettings && (
-            <Accordion
-              label={(
-                <Headline
-                  size="large"
-                  tag="h3"
-                >
-                  <FormattedMessage id="ui-eholdings.provider.providerSettings" />
-                </Headline>
-              )}
-              open={sections.providerShowProviderSettings}
-              id="providerShowProviderSettings"
-              onToggle={this.handleSectionToggle}
-            >
-              {hasProxy && this.renderProxy()}
-              {hasToken && this.renderToken()}
-            </Accordion>
-          )
-        }
+          model={model}
+          proxyTypes={proxyTypes}
+          rootProxy={rootProxy}
+        />
 
         <NotesSmartAccordion
           id="providerShowNotes"

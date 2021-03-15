@@ -292,7 +292,7 @@ class PackageShow extends Component {
           isProxyAvailable
             ? (
               <ProxyDisplay
-                model={model}
+                proxy={model.proxy}
                 proxyTypes={proxyTypes}
                 inheritedProxyId={provider.proxy && provider.proxy.id}
               />

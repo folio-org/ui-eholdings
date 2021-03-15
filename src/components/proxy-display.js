@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { KeyValue, Icon } from '@folio/stripes/components';
 
-export default function ProxyDisplay({ model, proxyTypes, inheritedProxyId }) {
+export default function ProxyDisplay({ proxy, proxyTypes, inheritedProxyId }) {
   const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
-  if (proxyTypesRecords && model.proxy && model.proxy.id && inheritedProxyId) {
-    const proxyId = model.proxy.id;
+  if (proxyTypesRecords && proxy && proxy.id && inheritedProxyId) {
+    const proxyId = proxy.id;
     const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
     const name = selectedValue.attributes.name;
     const checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
@@ -29,6 +29,6 @@ export default function ProxyDisplay({ model, proxyTypes, inheritedProxyId }) {
 }
 
 ProxyDisplay.propTypes = {
-  model: PropTypes.object.isRequired,
+  proxy: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired
 };
