@@ -51,8 +51,9 @@
 * Fix Package/Title/Provider scroll disappearing when an accordion is collapsed. (UIEH-1026)
 * Add FOLIO keyboard shortcuts to eholdings. (UIEH-979)
 * Fix cannot create a custom title. (UIEH-1103)
-* Update permission name for eholdings module. (UIEH-1104)
+* Change displayed permission name for `module.eholdings.enabled`. (UIEH-1104)
 * Provider: Re-order accordions display. (UIEH-1044)
+* Change displayed permission name for `settings.eholdings.enabled`. (UIEH-1105)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
