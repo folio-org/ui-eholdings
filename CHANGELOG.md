@@ -54,6 +54,7 @@
 * Fix Settings assign/usassign user permission. (UIEH-1106)
 * Update permission name for eholdings module. (UIEH-1104)
 * Provider: Re-order accordions display. (UIEH-1044)
+* Package Record | Change accordion order. (UIEH-1045)
 
 ## [5.0.0] (https://github.com/folio-org/ui-eholdings/tree/v5.0.0) (2020-10-15)
 
