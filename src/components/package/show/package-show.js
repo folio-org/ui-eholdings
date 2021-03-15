@@ -3,15 +3,12 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormattedDate,
-  FormattedNumber,
   FormattedMessage,
   injectIntl,
 } from 'react-intl';
 
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
-import hasIn from 'lodash/fp/hasIn';
 
 import {
   withStripes,
@@ -22,15 +19,28 @@ import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import {
-  Accordion,
   Button,
-  Headline,
-  Icon,
-  KeyValue,
   Modal,
   ModalFooter,
   expandAllFunction,
 } from '@folio/stripes/components';
+
+import DetailsView from '../../details-view';
+import QueryList from '../../query-list';
+import TitleListItem from '../../title-list-item';
+import NavigationModal from '../../navigation-modal';
+import Toaster from '../../toaster';
+import TagsAccordion from '../../tags';
+import {
+  AgreementsAccordion,
+  UsageConsolidationAccordion,
+} from '../../../features';
+import QueryNotFound from '../../query-list/not-found';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+import HoldingStatus from './components/holding-status';
+import PackageInformation from './components/package-information';
+import PackageSettings from './components/package-settings';
+import CoverageSettings from './components/coverage-settings';
 
 import {
   entityAuthorityTypes,
@@ -46,27 +56,7 @@ import {
 } from '../../../constants';
 import {
   processErrors,
-  getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../utilities';
-import DetailsView from '../../details-view';
-import QueryList from '../../query-list';
-import InternalLink from '../../internal-link';
-import TitleListItem from '../../title-list-item';
-import NavigationModal from '../../navigation-modal';
-import Toaster from '../../toaster';
-import SelectionStatus from '../selection-status';
-import KeyValueColumns from '../../key-value-columns';
-import ProxyDisplay from '../../proxy-display';
-import TokenDisplay from '../../token-display';
-import TagsAccordion from '../../tags';
-import AccessType from '../../access-type-display';
-import {
-  AgreementsAccordion,
-  UsageConsolidationAccordion,
-} from '../../../features';
-import QueryNotFound from '../../query-list/not-found';
-import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
@@ -217,128 +207,6 @@ class PackageShow extends Component {
     );
   };
 
-  renderAccessTypeDisplay() {
-    const { model, accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <AccessType
-        accessTypeId={getAccessTypeId(model)}
-        accessStatusTypes={formattedAccessTypes}
-      />
-    );
-  }
-
-  renderPackageSettings() {
-    const {
-      model,
-      proxyTypes,
-      provider,
-      accessStatusTypes,
-    } = this.props;
-
-    const {
-      packageAllowedToAddTitles,
-    } = this.state;
-
-    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-    const hasProxy = hasIn('proxy.id', model);
-    const hasProviderToken = hasIn('providerToken.prompt', provider);
-    const hasPackageToken = hasIn('packageToken.prompt', model);
-    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
-    const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
-
-    return (
-      <div>
-        <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
-          <div data-test-eholdings-package-details-visibility-status>
-            {
-              !model.visibilityData.isHidden
-                ? <FormattedMessage id="ui-eholdings.yes" />
-                : <FormattedMessage id="ui-eholdings.package.visibility.no" values={{ visibilityMessage }} />
-            }
-          </div>
-        </KeyValue>
-        {
-          !model.isCustom && (
-            <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
-              <div>
-                {
-                  packageAllowedToAddTitles !== null
-                    ? (
-                      <div data-test-eholdings-package-details-allow-add-new-titles>
-                        {packageAllowedToAddTitles ?
-                          (<FormattedMessage id="ui-eholdings.yes" />)
-                          :
-                          (<FormattedMessage id="ui-eholdings.no" />)}
-                      </div>
-                    )
-                    : (
-                      <div>
-                        <Icon icon="spinner-ellipsis" />
-                      </div>
-                    )
-                }
-              </div>
-            </KeyValue>
-          )
-        }
-        {
-          isProxyAvailable
-            ? (
-              <ProxyDisplay
-                proxy={model.proxy}
-                proxyTypes={proxyTypes}
-                inheritedProxyId={provider.proxy && provider.proxy.id}
-              />
-            )
-            : <Icon icon="spinner-ellipsis" />
-        }
-        {
-          <div data-test-eholdings-access-type>
-            {haveAccessTypesLoaded
-              ? this.renderAccessTypeDisplay()
-              : <Icon icon="spinner-ellipsis" />
-            }
-          </div>
-        }
-        {
-          hasProviderToken && (
-            provider.isLoading
-              ? <Icon icon="spinner-ellipsis" />
-              : (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                  <TokenDisplay
-                    token={provider.providerToken}
-                    type="provider"
-                  />
-                </KeyValue>
-              )
-          )
-        }
-        {
-          hasPackageToken && (
-            model.isLoading
-              ? <Icon icon="spinner-ellipsis" />
-              : (
-                <KeyValue label={<FormattedMessage id="ui-eholdings.package.token" />}>
-                  <TokenDisplay
-                    token={model.packageToken}
-                    type="package"
-                  />
-                </KeyValue>
-              )
-          )
-        }
-      </div>
-    );
-  }
-
   getBodyContent() {
     const {
       model,
@@ -349,15 +217,32 @@ class PackageShow extends Component {
       fetchCostPerUsePackageTitles,
       loadMoreCostPerUsePackageTitles,
       costPerUse,
+      proxyTypes,
+      provider,
+      accessStatusTypes,
     } = this.props;
 
     const {
       sections,
       packageSelected,
+      packageAllowedToAddTitles,
     } = this.state;
 
     return (
       <>
+        <HoldingStatus
+          isOpen={sections.packageShowHoldingStatus}
+          onToggle={this.handleSectionToggle}
+          onAddToHoldings={this.toggleSelectionConfirmationModal}
+          model={model}
+        />
+
+        <PackageInformation
+          isOpen={sections.packageShowInformation}
+          onToggle={this.handleSectionToggle}
+          model={model}
+        />
+
         <TagsAccordion
           id="packageShowTags"
           model={model}
@@ -367,161 +252,23 @@ class PackageShow extends Component {
           updateFolioTags={updateFolioTags}
         />
 
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.label.holdingStatus" />
-            </Headline>
-          )}
-          open={sections.packageShowHoldingStatus}
-          id="packageShowHoldingStatus"
+        <PackageSettings
+          isOpen={sections.packageShowSettings}
           onToggle={this.handleSectionToggle}
-        >
-          <SelectionStatus
-            model={model}
-            onAddToHoldings={this.toggleSelectionConfirmationModal}
-          />
-        </Accordion>
+          model={model}
+          proxyTypes={proxyTypes}
+          provider={provider}
+          accessStatusTypes={accessStatusTypes}
+          packageAllowedToAddTitles={packageAllowedToAddTitles}
+          packageSelected={packageSelected}
+        />
 
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.label.packageInformation" />
-            </Headline>
-          )}
-          open={sections.packageShowInformation}
-          id="packageShowInformation"
+        <CoverageSettings
+          isOpen={sections.packageShowCoverageSettings}
           onToggle={this.handleSectionToggle}
-        >
-          <KeyValueColumns>
-            <div>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
-                <div data-test-eholdings-package-details-provider>
-                  <InternalLink to={`/eholdings/providers/${model.providerId}`}>
-                    {model.providerName}
-                  </InternalLink>
-                </div>
-              </KeyValue>
-
-              {
-                model.contentType && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                    <div data-test-eholdings-package-details-content-type>
-                      {model.contentType}
-                    </div>
-                  </KeyValue>
-                )
-              }
-
-              {
-                model.packageType && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
-                    <div data-test-eholdings-package-details-type>
-                      {model.packageType}
-                    </div>
-                  </KeyValue>
-                )
-              }
-            </div>
-
-            <div>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
-                <div data-test-eholdings-package-details-titles-selected>
-                  <FormattedNumber value={model.selectedCount} />
-                </div>
-              </KeyValue>
-
-              <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
-                <div data-test-eholdings-package-details-titles-total>
-                  <FormattedNumber value={model.titleCount} />
-                </div>
-              </KeyValue>
-            </div>
-          </KeyValueColumns>
-        </Accordion>
-
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.package.packageSettings" />
-            </Headline>
-          )}
-          open={sections.packageShowSettings}
-          id="packageShowSettings"
-          onToggle={this.handleSectionToggle}
-        >
-          {
-            packageSelected
-              ? this.renderPackageSettings()
-              : <p><FormattedMessage id="ui-eholdings.package.visibility.notSelected" /></p>
-          }
-        </Accordion>
-
-        <Accordion
-          label={(
-            <Headline
-              size="large"
-              tag="h3"
-            >
-              <FormattedMessage id="ui-eholdings.package.coverageSettings" />
-            </Headline>
-          )}
-          closedByDefault={!packageSelected}
-          open={sections.packageShowCoverageSettings}
-          id="packageShowCoverageSettings"
-          onToggle={this.handleSectionToggle}
-        >
-          {
-            packageSelected
-              ? (
-                <div>
-                  {
-                    model.customCoverage.beginCoverage
-                      ? (
-                        <div>
-                          <KeyValue label={<FormattedMessage id="ui-eholdings.package.customCoverageDates" />}>
-                            <div data-test-eholdings-package-details-custom-coverage-display>
-                              <FormattedDate
-                                value={model.customCoverage.beginCoverage}
-                                timeZone="UTC"
-                                year="numeric"
-                                month="numeric"
-                                day="numeric"
-                              />
-                              &nbsp;-&nbsp;
-                              {
-                                (model.customCoverage.endCoverage)
-                                  ? (
-                                    <FormattedDate
-                                      value={model.customCoverage.endCoverage}
-                                      timeZone="UTC"
-                                      year="numeric"
-                                      month="numeric"
-                                      day="numeric"
-                                    />
-                                  )
-                                  : <FormattedMessage id="ui-eholdings.date.present" />
-                              }
-                            </div>
-                          </KeyValue>
-                        </div>
-                      )
-                      : <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSet" /></p>
-                  }
-                </div>
-              )
-              : <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-          }
-        </Accordion>
+          packageSelected={packageSelected}
+          customCoverage={model.customCoverage}
+        />
 
         <AgreementsAccordion
           id="packageShowAgreements"
