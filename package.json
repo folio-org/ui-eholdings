@@ -297,7 +297,8 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.users.all"
+          "kb-ebsco.kb-credentials.users.all",
+          "usergroups.collection.get"
         ]
       }
     ]

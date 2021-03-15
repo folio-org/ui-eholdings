@@ -129,15 +129,13 @@ class Settings extends Component {
               </NavListItem>
             </IfPermission>
 
+            <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
+              <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+            </NavListItem>
+
             <IfPermission perm="ui-eholdings.settings.usage-consolidation.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/usage-consolidation`}>
                 <FormattedMessage id="ui-eholdings.settings.usageConsolidation" />
-              </NavListItem>
-            </IfPermission>
-
-            <IfPermission perm="ui-eholdings.settings.assignedUser">
-              <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
-                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
               </NavListItem>
             </IfPermission>
           </div>
