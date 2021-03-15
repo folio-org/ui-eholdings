@@ -394,7 +394,7 @@
     "permission.settings.access-types.all": "Impostazioni (eHoldings): può creare, modificare, visualizzare ed eliminare i tipi di stato di accesso",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
     "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
-    "permission.app.enabled": "UI: eHoldings module is enabled",
+    "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
     "permission.settings.enabled": "Settings (eHoldings): display list of settings pages",
     "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
     "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
