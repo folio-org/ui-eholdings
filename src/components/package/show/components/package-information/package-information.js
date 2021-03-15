@@ -39,61 +39,57 @@ const PackageInformation = ({
     onToggle={onToggle}
   >
     <KeyValueColumns>
-      <div>
-        <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
-          <div data-test-eholdings-package-details-provider>
-            <InternalLink to={`/eholdings/providers/${model.providerId}`}>
-              {model.providerName}
-            </InternalLink>
-          </div>
-        </KeyValue>
+      <KeyValue label={<FormattedMessage id="ui-eholdings.package.provider" />}>
+        <div data-test-eholdings-package-details-provider>
+          <InternalLink to={`/eholdings/providers/${model.providerId}`}>
+            {model.providerName}
+          </InternalLink>
+        </div>
+      </KeyValue>
 
-        {
-          model.contentType && (
-            <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-              <div
-                data-test-eholdings-package-details-content-type
-                data-testid="package-details-content-type"
-              >
-                {model.contentType}
-              </div>
-            </KeyValue>
-          )
-        }
+      {
+        model.contentType && (
+          <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
+            <div
+              data-test-eholdings-package-details-content-type
+              data-testid="package-details-content-type"
+            >
+              {model.contentType}
+            </div>
+          </KeyValue>
+        )
+      }
 
-        {
-          model.packageType && (
-            <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
-              <div
-                data-test-eholdings-package-details-type
-                data-testid="package-details-type"
-              >
-                {model.packageType}
-              </div>
-            </KeyValue>
-          )
-        }
-      </div>
+      {
+        model.packageType && (
+          <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageType" />}>
+            <div
+              data-test-eholdings-package-details-type
+              data-testid="package-details-type"
+            >
+              {model.packageType}
+            </div>
+          </KeyValue>
+        )
+      }
 
-      <div>
-        <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
-          <div
-            data-test-eholdings-package-details-titles-selected
-            data-testid="package-details-titles-selected"
-          >
-            <FormattedNumber value={model.selectedCount} />
-          </div>
-        </KeyValue>
+      <KeyValue label={<FormattedMessage id="ui-eholdings.package.titlesSelected" />}>
+        <div
+          data-test-eholdings-package-details-titles-selected
+          data-testid="package-details-titles-selected"
+        >
+          <FormattedNumber value={model.selectedCount} />
+        </div>
+      </KeyValue>
 
-        <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
-          <div
-            data-test-eholdings-package-details-titles-total
-            data-testid="package-details-titles-total"
-          >
-            <FormattedNumber value={model.titleCount} />
-          </div>
-        </KeyValue>
-      </div>
+      <KeyValue label={<FormattedMessage id="ui-eholdings.package.totalTitles" />}>
+        <div
+          data-test-eholdings-package-details-titles-total
+          data-testid="package-details-titles-total"
+        >
+          <FormattedNumber value={model.titleCount} />
+        </div>
+      </KeyValue>
     </KeyValueColumns>
   </Accordion>
 );

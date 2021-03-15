@@ -69,7 +69,7 @@ const PackageSettings = ({
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
 
     return (
-      <div>
+      <>
         <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
           <div data-test-eholdings-package-details-visibility-status>
             {
@@ -82,24 +82,19 @@ const PackageSettings = ({
         {
           !model.isCustom && (
             <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
-              <div>
-                {
-                  packageAllowedToAddTitles !== null
-                    ? (
-                      <div data-test-eholdings-package-details-allow-add-new-titles>
-                        {packageAllowedToAddTitles ?
-                          (<FormattedMessage id="ui-eholdings.yes" />)
-                          :
-                          (<FormattedMessage id="ui-eholdings.no" />)}
-                      </div>
-                    )
-                    : (
-                      <div>
-                        <Icon icon="spinner-ellipsis" />
-                      </div>
-                    )
-                }
-              </div>
+              {
+                packageAllowedToAddTitles !== null
+                  ? (
+                    <div data-test-eholdings-package-details-allow-add-new-titles>
+                      {
+                        packageAllowedToAddTitles
+                          ? <FormattedMessage id="ui-eholdings.yes" />
+                          : <FormattedMessage id="ui-eholdings.no" />
+                      }
+                    </div>
+                  )
+                  : <Icon icon="spinner-ellipsis" />
+              }
             </KeyValue>
           )
         }
@@ -150,7 +145,7 @@ const PackageSettings = ({
               )
           )
         }
-      </div>
+      </>
     );
   };
 
