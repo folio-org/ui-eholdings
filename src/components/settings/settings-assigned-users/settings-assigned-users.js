@@ -4,9 +4,12 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
-import { Pluggable } from '@folio/stripes/core';
+import SafeHTMLMessage from '@folio/react-intl-safe-html';
+import {
+  IfPermission,
+  Pluggable,
+} from '@folio/stripes/core';
 import {
   Paneset,
   Pane,
@@ -79,22 +82,24 @@ const SettingsAssignedUsers = ({
           {pageTitle}
         </span>
       </Col>
-      <Col>
-        <Pluggable
-          type="find-user"
-          selectUser={handleSelectUser}
-          marginBottom0
-          renderTrigger={({ onClick }) => (
-            <Button
-              onClick={onClick}
-            >
-              <FormattedMessage id="ui-eholdings.settings.assignedUsers.pluginButtonMessage" />
-            </Button>
-          )}
-        >
-          <span>[find-user-plugin is not available]</span>
-        </Pluggable>
-      </Col>
+      <IfPermission perm="ui-eholdings.settings.assignedUser">
+        <Col>
+          <Pluggable
+            type="find-user"
+            selectUser={handleSelectUser}
+            marginBottom0
+            renderTrigger={({ onClick }) => (
+              <Button
+                onClick={onClick}
+              >
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers.pluginButtonMessage" />
+              </Button>
+            )}
+          >
+            <span>[find-user-plugin is not available]</span>
+          </Pluggable>
+        </Col>
+      </IfPermission>
     </Row>
   );
 
