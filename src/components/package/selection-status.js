@@ -11,7 +11,10 @@ import {
 
 export default function SelectionStatus({ model, onAddToHoldings }) {
   return (
-    <div data-test-eholdings-package-details-selected>
+    <div
+      data-test-eholdings-package-details-selected
+      data-testid="package-selection-status"
+    >
       <SelectionStatusMessage model={model} />
       <br />
       <IfPermission perm="ui-eholdings.package-title.select-unselect">

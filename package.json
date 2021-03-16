@@ -31,6 +31,7 @@
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^2.0.0",
+    "@folio/stripes-core": "^7.0.0",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
     "axe-core": "^4.0.2",
@@ -137,7 +138,7 @@
       },
       {
         "permissionName": "settings.eholdings.enabled",
-        "displayName": "Settings (eHoldings): display list of settings pages",
+        "displayName": "Settings (eHoldings): View settings",
         "visible": false,
         "subPermissions": [
           "module.eholdings.enabled",
@@ -297,7 +298,8 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.users.all"
+          "kb-ebsco.kb-credentials.users.all",
+          "usergroups.collection.get"
         ]
       }
     ]
