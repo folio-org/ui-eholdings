@@ -10,7 +10,10 @@ import {
 } from '@folio/stripes/components';
 
 import { getSummaryTableColumnProperties } from './column-properties';
-import { costPerUse as costPerUseShape } from '../../../constants';
+import {
+  costPerUse as costPerUseShape,
+  entityTypes,
+} from '../../../constants';
 
 const propTypes = {
   contentData: PropTypes.array,
@@ -56,8 +59,12 @@ const SummaryTable = ({
     return null;
   }
 
+  const label = entityType === entityTypes.TITLE
+    ? intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.holdingsSummary' })
+    : null;
+
   return (
-    <KeyValue>
+    <KeyValue label={label}>
       <MultiColumnList
         id={id}
         contentData={contentData}
