@@ -516,7 +516,7 @@
     "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}",
 
     "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
-    "permission.settings.enabled": "Settings (eHoldings): display list of settings pages",
+    "permission.settings.enabled": "Settings (eHoldings): View settings",
     "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
     "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
