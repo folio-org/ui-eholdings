@@ -53,7 +53,6 @@
 * Fix cannot create a custom title. (UIEH-1103)
 * Change displayed permission name for `module.eholdings.enabled`. (UIEH-1104)
 * Fix Settings assign/usassign user permission. (UIEH-1106)
-* Update permission name for eholdings module. (UIEH-1104)
 * Provider: Re-order accordions display. (UIEH-1044)
 * Change displayed permission name for `settings.eholdings.enabled`. (UIEH-1105)
 * Package Record | Change accordion order. (UIEH-1045)
