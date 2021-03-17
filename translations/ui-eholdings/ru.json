@@ -395,7 +395,7 @@
     "permission.settings.access-types.create-edit": "Настройки (фонд электронной библиотеки): Можно создавать, редактировать и просматривать типы статусов доступа",
     "permission.settings.access-types.view": "Настройки (фонд электронной библиотеки): Можно просматривать типы статусов доступа",
     "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
-    "permission.settings.enabled": "Settings (eHoldings): display list of settings pages",
+    "permission.settings.enabled": "Settings (eHoldings): View settings",
     "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
     "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
     "selectPackage.confirmationModal.confirmationButtonText": "Add package (all titles) to holdings",
@@ -500,5 +500,6 @@
     "showHidePasswordField.hide": "Hide",
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
-    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials"
+    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
+    "usageConsolidation.holdingsSummary": "Holdings Summary"
 }
