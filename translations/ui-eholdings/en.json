@@ -16,6 +16,7 @@
     "usageConsolidation.filters.year": "Year",
     "usageConsolidation.filters.platformType": "Platform",
     "usageConsolidation.filters.view": "View",
+    "usageConsolidation.holdingsSummary": "Holdings Summary",
     "usageConsolidation.summary.packageName": "Package",
     "usageConsolidation.summary.coverage": "Coverage",
     "usageConsolidation.summary.titleCost": "Cost",
