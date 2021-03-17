@@ -23,6 +23,8 @@ const cx = classNames.bind(styles);
 
 const ITEM_HEIGHT = 62;
 
+const SCROLL_CONTAINER_HEIGHT_GAP = 5;
+
 /**
  * This component will render a details view which includes the type
  * of resource and resource name, along with some body content, and an
@@ -137,7 +139,7 @@ class DetailsView extends Component {
       }
 
       // make difference of +-1 pixel between heights to still count as equal values
-      const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < 1;
+      const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < SCROLL_CONTAINER_HEIGHT_GAP;
       const stickyGreaterThanContainer = stickyHeight > containerHeight;
 
       this.shouldHandleScroll = (stickyAndContainerAreEqual || stickyGreaterThanContainer) && isListAccordionOpen;
