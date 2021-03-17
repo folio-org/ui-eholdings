@@ -500,5 +500,6 @@
     "showHidePasswordField.hide": "隐藏",
     "permission.costperuse.view": "电子馆藏：可以查看资源包、标题和资源的使用和分析数据",
     "permission.settings.usage-consolidation.view": "设置（电子馆藏）：查看使用合并API凭据",
-    "permission.settings.usage-consolidation.create-edit": "设置（电子馆藏）：创建、编辑和查看使用合并API凭据"
+    "permission.settings.usage-consolidation.create-edit": "设置（电子馆藏）：创建、编辑和查看使用合并API凭据",
+    "usageConsolidation.holdingsSummary": "Holdings Summary"
 }
