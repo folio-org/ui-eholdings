@@ -23,7 +23,7 @@ const cx = classNames.bind(styles);
 
 const ITEM_HEIGHT = 62;
 
-const SCROLL_CONTAINER_HEIGHT_GAP = 5;
+const SCROLL_CONTAINER_HEIGHT_GAP = 10;
 
 /**
  * This component will render a details view which includes the type
@@ -138,7 +138,7 @@ class DetailsView extends Component {
         this.setState({ isSticky: false });
       }
 
-      // make difference of +-1 pixel between heights to still count as equal values
+      // make difference of a few pixels between heights to still count as equal values
       const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < SCROLL_CONTAINER_HEIGHT_GAP;
       const stickyGreaterThanContainer = stickyHeight > containerHeight;
 
@@ -178,7 +178,7 @@ class DetailsView extends Component {
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
       const top = e.currentTarget.scrollTop;
-      const height = e.currentTarget.clientHeight;
+      const height = e.currentTarget.offsetHeight;
       const scrollHeight = e.currentTarget.scrollHeight;
       // these will be equal when scrolled all the way down
       const bottomedOut = scrollHeight - (top + height) < 1;
