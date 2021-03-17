@@ -130,7 +130,6 @@ export default class PackageCreate extends Component {
               data-testid='data-test-eholdings-package-create'
             >
               <Toaster
-                data-testid='data-test-eholdings-package-create-toaster'
                 position="bottom"
                 toasts={request.errors.map(({ title }, index) => ({
                   id: `error-${request.timestamp}-${index}`,
@@ -139,7 +138,6 @@ export default class PackageCreate extends Component {
                 }))}
               />
               <form
-                data-testid='data-test-eholdings-form'
                 ref={this.createFormRef}
                 onSubmit={handleSubmit}
                 noValidate

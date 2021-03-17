@@ -306,7 +306,10 @@ class DetailsView extends Component {
             </Headline>
           )}
           {sections && (
-            <div data-test-eholdings-details-view-collapse-all-button>
+            <div
+              data-test-eholdings-details-view-collapse-all-button
+              data-testid='data-test-eholdings-details-view-collapse-all-button'
+            >
               <ExpandAllButton
                 accordionStatus={sections}
                 onToggle={handleExpandAll}

@@ -8,7 +8,7 @@ jest.mock('@folio/stripes/core', () => {
     config: {},
     currency: 'USD',
     hasInterface: () => true,
-    hasPerm: jest.fn().mockReturnValue(true),
+    hasPerm: jest.fn(() => true),
     locale: 'en-US',
     logger: {
       log: () => { },

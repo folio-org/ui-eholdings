@@ -4,8 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   cleanup,
-  fireEvent,
-  act,
 } from '@testing-library/react';
 
 import {
@@ -13,13 +11,11 @@ import {
   defaultKeyboardShortcuts,
 } from '@folio/stripes-components';
 
-import { saveShortcut } from '../../../../test/jest/utilities';
-
 import PackageCreate from './index';
 
 const fakeOnSubmit = jest.fn();
 
-const renderPackageCreate = () => act(() => render(
+const renderPackageCreate = () => render(
   <MemoryRouter>
     <CommandList commands={defaultKeyboardShortcuts}>
       <PackageCreate
@@ -31,7 +27,7 @@ const renderPackageCreate = () => act(() => render(
       />
     </CommandList>
   </MemoryRouter>
-));
+);
 
 describe('PackageCreate', () => {
   afterEach(cleanup);
@@ -40,31 +36,6 @@ describe('PackageCreate', () => {
     const { getByTestId } = renderPackageCreate();
 
     expect(getByTestId('data-test-eholdings-package-create')).toBeDefined();
-  });
-
-  it('should render Package create page', () => {
-    const {
-      getByTestId,
-      getByLabelText,
-    } = renderPackageCreate();
-
-    const nameInput = getByLabelText('ui-eholdings.label.name');
-    const packageCreateDiv = getByTestId('data-test-eholdings-package-create');
-    const form = getByTestId('data-test-eholdings-form');
-
-    // form.onSubmit = fakeOnSubmit;
-
-    act(() => {
-      fireEvent.change(nameInput, {
-        target: {
-          value: 'Test'
-        }
-      });
-      saveShortcut(form);
-    });
-
-    expect(form.onSubmit).toHaveBeenCalled();
-    expect(fakeOnSubmit).toHaveBeenCalled();
   });
 });
 
