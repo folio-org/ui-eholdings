@@ -1,45 +1,49 @@
 import React from 'react';
 
-jest.mock('@folio/stripes/core', () => {
-  const STRIPES = {
-    actionNames: [],
-    clone: () => ({ ...STRIPES }),
-    connect: component => component,
-    config: {},
-    currency: 'USD',
-    hasInterface: () => true,
-    hasPerm: jest.fn(() => true),
-    locale: 'en-US',
-    logger: {
-      log: () => { },
-    },
-    okapi: {
-      tenant: 'diku',
-      url: 'https://folio-testing-okapi.dev.folio.org',
-    },
-    plugins: {},
-    setBindings: () => { },
-    setCurrency: () => { },
-    setLocale: () => { },
-    setSinglePlugin: () => { },
-    setTimezone: () => { },
-    setToken: () => { },
-    store: {
-      getState: () => { },
-      dispatch: () => { },
-      subscribe: () => { },
-      replaceReducer: () => { },
-    },
-    timezone: 'UTC',
+// eslint-disable-next-line import/prefer-default-export
+export const buildStripes = (otherProperties = {}) => ({
+  actionNames: [],
+  clone: buildStripes,
+  connect: component => component,
+  config: {},
+  currency: 'USD',
+  hasInterface: () => true,
+  hasPerm: jest.fn(() => true),
+  locale: 'en-US',
+  logger: {
+    log: () => { },
+  },
+  okapi: {
+    tenant: 'diku',
+    url: 'https://folio-testing-okapi.dev.folio.org',
+  },
+  plugins: {},
+  setBindings: () => { },
+  setCurrency: () => { },
+  setLocale: () => { },
+  setSinglePlugin: () => { },
+  setTimezone: () => { },
+  setToken: () => { },
+  store: {
+    getState: () => { },
+    dispatch: () => { },
+    subscribe: () => { },
+    replaceReducer: () => { },
+  },
+  timezone: 'UTC',
+  user: {
+    perms: {},
     user: {
-      perms: {},
-      user: {
-        id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
-        username: 'diku_admin',
-      },
+      id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
+      username: 'diku_admin',
     },
-    withOkapi: true,
-  };
+  },
+  withOkapi: true,
+  ...otherProperties,
+});
+
+jest.mock('@folio/stripes/core', () => {
+  const STRIPES = buildStripes();
 
   // eslint-disable-next-line react/prop-types
   const stripesConnect = (Component) => ({ mutator, resources, stripes, ...rest }) => {
@@ -80,6 +84,8 @@ jest.mock('@folio/stripes/core', () => {
 
   // eslint-disable-next-line react/prop-types
   const IfPermission = (props) => <>{props.children}</>;
+
+  STRIPES.connect = stripesConnect;
 
   return {
     ...jest.requireActual('@folio/stripes/core'),
