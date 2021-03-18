@@ -438,7 +438,7 @@
     "usageConsolidation.summary.totalUsage.infoPopover.resource": "Total usage is the sum of the titles' COUNTER {metricType} for a selected year and platform(s)",
     "usageConsolidation.summary.title.usage": "Uso",
     "usageConsolidation.summary.costPerUse": "Custo por uso",
-    "usageConsolidation.summary.error": "Unable to provide summary information.",
+    "usageConsolidation.summary.error": "Incapaz de fornecer informações resumidas.",
     "usageConsolidation.summary.package.noData": "Este pacote não contém dados de custo ou uso por {year}.",
     "usageConsolidation.summary.resource.noData": "Este título não contém custo ou dados de uso para {year} .",
     "usageConsolidation.summary.title.noData": "Este título não contém custo ou dados de uso para {year} .",
@@ -500,5 +500,6 @@
     "showHidePasswordField.hide": "Ocultar",
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
-    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials"
+    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
+    "usageConsolidation.holdingsSummary": "Resumo dos holdings"
 }

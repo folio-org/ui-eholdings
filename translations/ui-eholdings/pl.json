@@ -500,5 +500,6 @@
     "showHidePasswordField.hide": "Ukryj",
     "permission.costperuse.view": "eZasoby: może wyświetlać dane dotyczące użycia i analizy pakietów, tytułów i zasobów",
     "permission.settings.usage-consolidation.view": "Ustawienia (eZasoby): Wyświetlanie poświadczeń API Usage Consolidation",
-    "permission.settings.usage-consolidation.create-edit": "Ustawienia (eZasoby): Tworzenie, edycja i wyświetlanie poświadczeń API Usage Consolidation"
+    "permission.settings.usage-consolidation.create-edit": "Ustawienia (eZasoby): Tworzenie, edycja i wyświetlanie poświadczeń API Usage Consolidation",
+    "usageConsolidation.holdingsSummary": "Holdings Summary"
 }
