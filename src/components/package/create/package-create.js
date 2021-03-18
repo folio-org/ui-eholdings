@@ -127,7 +127,7 @@ export default class PackageCreate extends Component {
           render={({ handleSubmit, pristine, form: { reset } }) => (
             <div
               data-test-eholdings-package-create
-              data-testid='data-test-eholdings-package-create'
+              data-testid="data-test-eholdings-package-create"
             >
               <Toaster
                 position="bottom"
