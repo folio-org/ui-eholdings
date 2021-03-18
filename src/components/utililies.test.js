@@ -3,10 +3,10 @@ import { handleSaveKeyFormSubmit } from './utilities';
 describe('handleSaveKeyFormSubmit', () => {
   it('should dispatch Submit event', () => {
     const formRef = {
-      dispatchEvent: jest.fn((event) => event)
+      dispatchEvent: jest.fn((event) => event),
     };
     const event = {
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     };
 
     handleSaveKeyFormSubmit(formRef)(event);
