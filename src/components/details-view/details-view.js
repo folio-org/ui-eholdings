@@ -306,10 +306,7 @@ class DetailsView extends Component {
             </Headline>
           )}
           {sections && (
-            <div
-              data-test-eholdings-details-view-collapse-all-button
-              data-testid='data-test-eholdings-details-view-collapse-all-button'
-            >
+            <div data-test-eholdings-details-view-collapse-all-button>
               <ExpandAllButton
                 accordionStatus={sections}
                 onToggle={handleExpandAll}
@@ -397,10 +394,7 @@ class DetailsView extends Component {
     const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
     return (
-      <div
-        data-test-eholdings-details-view={type}
-        data-testid={`data-test-eholdings-details-view-${type}`}
-      >
+      <div data-test-eholdings-details-view={type}>
         <Paneset>
           <Pane
             id={paneIdFromTitle}

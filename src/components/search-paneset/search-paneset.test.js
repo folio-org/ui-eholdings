@@ -16,8 +16,8 @@ import SearchPaneset from './index';
 import { searchTypes } from '../../constants';
 import { openNewShortcut } from '../../../test/jest/utilities';
 
-const mockHistory = {
-  push: jest.fn()
+const historyMock = {
+  push: jest.fn(),
 };
 
 const renderSearchPaneset = ({
@@ -27,7 +27,7 @@ const renderSearchPaneset = ({
   <MemoryRouter>
     <CommandList commands={defaultKeyboardShortcuts}>
       <SearchPaneset
-        history={mockHistory}
+        history={historyMock}
         resultsType={resultsType}
         resultsLabel={label}
         isLoading={false}
@@ -59,7 +59,7 @@ describe('Search Paneset', () => {
 
     openNewShortcut(paneset);
 
-    expect(mockHistory.push).not.toHaveBeenCalled();
+    expect(historyMock.push).not.toHaveBeenCalled();
   });
 
   it('should call history push for Packages', () => {
@@ -71,7 +71,7 @@ describe('Search Paneset', () => {
 
     openNewShortcut(paneset);
 
-    expect(mockHistory.push).toHaveBeenCalled();
+    expect(historyMock.push).toHaveBeenCalled();
   });
 
   it('should call history push for Titles', () => {
@@ -83,6 +83,6 @@ describe('Search Paneset', () => {
 
     openNewShortcut(paneset);
 
-    expect(mockHistory.push).toHaveBeenCalled();
+    expect(historyMock.push).toHaveBeenCalled();
   });
 });
