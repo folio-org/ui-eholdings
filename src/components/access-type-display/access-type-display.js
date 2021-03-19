@@ -9,10 +9,16 @@ import {
 } from '../utilities';
 
 const propTypes = {
-  accessStatusTypes: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
+  accessStatusTypes: PropTypes.shape({
+    items: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        attributes: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+        }),
+        id: PropTypes.string.isRequired,
+      })),
+    }),
+  }).isRequired,
   accessTypeId: PropTypes.string.isRequired,
 };
 

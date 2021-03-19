@@ -18,7 +18,6 @@ import AccessTypeDisplay from '../../../../access-type-display';
 
 import {
   getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../../../../utilities';
 import {
   accessTypesReduxStateShape,
