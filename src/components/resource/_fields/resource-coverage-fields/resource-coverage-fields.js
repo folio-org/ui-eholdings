@@ -118,6 +118,7 @@ class ResourceCoverageFields extends Component {
             {managedCoveragesExist
               ? (
                 <CoverageDateList
+                  isManagedCoverage
                   coverageArray={model.managedCoverages}
                   isYearOnly={isBookPublicationType(model.publicationType)}
                 />

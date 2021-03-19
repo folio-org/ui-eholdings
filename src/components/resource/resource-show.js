@@ -8,23 +8,30 @@ import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
 import {
-  IfPermission,
   withStripes,
 } from '@folio/stripes-core';
-
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-
 import {
-  Accordion,
   Button,
-  Headline,
-  Icon,
-  KeyValue,
   Modal,
   ModalFooter,
   expandAllFunction,
 } from '@folio/stripes/components';
 
+import DetailsView from '../details-view';
+import {
+  AgreementsAccordion,
+  CustomLabelsAccordion,
+  UsageConsolidationAccordion,
+} from '../../features';
+import Toaster from '../toaster';
+import TagsAccordion from '../tags';
+import { CustomLabelsShowSection } from '../custom-labels-section';
+import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
+import HoldingStatus from './components/holding-status';
+import ResourceInformation from './components/resource-information';
+import ResourceSettings from './components/resource-settings';
+import CoverageSettings from './components/coverage-settings';
 import {
   entityAuthorityTypes,
   entityTypes,
@@ -36,32 +43,10 @@ import {
   PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION,
   RECORDS_EDIT_PERMISSION,
 } from '../../constants';
-import DetailsView from '../details-view';
-import InternalLink from '../internal-link';
-import ExternalLink from '../external-link/external-link';
-import IdentifiersList from '../identifiers-list';
-import ContributorsList from '../contributors-list';
-import CoverageDateList from '../coverage-date-list';
 import {
-  AgreementsAccordion,
-  CustomLabelsAccordion,
-  UsageConsolidationAccordion,
-} from '../../features';
-import {
-  isBookPublicationType,
-  isValidCoverageList,
   processErrors,
   getUserDefinedFields,
-  getAccessTypeId,
-  getAccessTypeIdsAndNames,
 } from '../utilities';
-import Toaster from '../toaster';
-import TagsAccordion from '../tags';
-import KeyValueColumns from '../key-value-columns';
-import ProxyDisplay from '../proxy-display';
-import AccessTypeDisplay from '../access-type-display';
-import { CustomLabelsShowSection } from '../custom-labels-section';
-import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
 
 class ResourceShow extends Component {
   static propTypes = {
@@ -218,35 +203,18 @@ class ResourceShow extends Component {
     );
   }
 
-  renderAccessTypeDisplay() {
-    const { model, accessStatusTypes } = this.props;
-
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <AccessTypeDisplay
-        accessTypeId={getAccessTypeId(model)}
-        accessStatusTypes={formattedAccessTypes}
-      />
-    );
-  }
-
   render() {
     const {
       model,
-      proxyTypes,
       isFreshlySaved,
       tagsModel,
       updateFolioTags,
       stripes,
-      accessStatusTypes,
       fetchResourceCostPerUse,
       costPerUse,
       intl,
+      accessStatusTypes,
+      proxyTypes,
     } = this.props;
 
     const {
@@ -258,30 +226,7 @@ class ResourceShow extends Component {
     const userDefinedFields = getUserDefinedFields(model);
     const showCustomLables = model.isTitleCustom || model.isSelected;
 
-    const isSelectInFlight = model.update.isPending && 'isSelected' in model.update.changedAttributes;
-    const visibilityMessage = model.package.visibilityData.isHidden ?
-      <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" /> :
-      model.visibilityData.reason && `(${model.visibilityData.reason})`;
-
-    const hasManagedCoverages = model.managedCoverages.length > 0 &&
-      isValidCoverageList(model.managedCoverages);
-    const hasManagedEmbargoPeriod = model.managedEmbargoPeriod &&
-      model.managedEmbargoPeriod.embargoUnit &&
-      model.managedEmbargoPeriod.embargoValue;
-    const hasCustomEmbargoPeriod = model.customEmbargoPeriod &&
-      model.customEmbargoPeriod.embargoUnit &&
-      model.customEmbargoPeriod.embargoValue;
-    const hasCustomCoverages = model.customCoverages.length > 0 &&
-      isValidCoverageList(model.customCoverages);
-    const hasInheritedProxy = model.package &&
-      model.package.proxy &&
-      model.package.proxy.id;
-    const isTokenNeeded = model.data.attributes && model.data.attributes.isTokenNeeded;
-
     const toasts = processErrors(model);
-    const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
-      || (!model.isSelected && isSelectInFlight);
-    const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
     const showUsageConsolidation = model.isSelected || (!model.isSelected && model.titleHasSelectedResources);
 
     // if coming from updating any value on managed title in a managed package
@@ -314,6 +259,19 @@ class ResourceShow extends Component {
           bodyAriaRole="tab"
           bodyContent={(
             <>
+              <HoldingStatus
+                isOpen={sections.resourceShowHoldingStatus}
+                onToggle={this.handleSectionToggle}
+                onAddToHoldings={this.handleHoldingStatus}
+                model={model}
+              />
+
+              <ResourceInformation
+                isOpen={sections.resourceShowInformation}
+                onToggle={this.handleSectionToggle}
+                model={model}
+              />
+
               <TagsAccordion
                 id="resourceShowTags"
                 model={model}
@@ -323,162 +281,21 @@ class ResourceShow extends Component {
                 updateFolioTags={updateFolioTags}
               />
 
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.holdingStatus" /></Headline>}
-                open={sections.resourceShowHoldingStatus}
-                id="resourceShowHoldingStatus"
+              <ResourceSettings
+                isOpen={sections.resourceShowSettings}
                 onToggle={this.handleSectionToggle}
-              >
-                <label
-                  data-test-eholdings-resource-show-selected
-                  htmlFor="resource-show-toggle-switch"
-                >
-                  {
-                    model.update.isPending
-                      ? (
-                        <Icon icon='spinner-ellipsis' />
-                      )
-                      : (
-                        <Headline margin="none">
-                          {
-                            resourceSelected
-                              ? (
-                                <FormattedMessage id="ui-eholdings.selected" />
-                              )
-                              : (
-                                <FormattedMessage id="ui-eholdings.notSelected" />
-                              )
-                          }
-                        </Headline>
-                      )
-                  }
-                  <br />
-                  {
-                    addToEholdingsButtonIsAvailable && (
-                      <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
-                        <Button
-                          buttonStyle="primary"
-                          onClick={this.handleHoldingStatus}
-                          disabled={model.destroy.isPending || isSelectInFlight}
-                          data-test-eholdings-resource-add-to-holdings-button
-                        >
-                          <FormattedMessage id="ui-eholdings.addToHoldings" />
-                        </Button>
-                      </IfPermission>
-                    )
-                  }
-                </label>
-              </Accordion>
+                model={model}
+                resourceSelected={resourceSelected}
+                accessStatusTypes={accessStatusTypes}
+                proxyTypes={proxyTypes}
+              />
 
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceInformation" /></Headline>}
-                open={sections.resourceShowInformation}
-                id="resourceShowInformation"
+              <CoverageSettings
+                isOpen={sections.resourceShowCoverageSettings}
                 onToggle={this.handleSectionToggle}
-              >
-                <KeyValueColumns>
-                  <div>
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
-                      <InternalLink to={`/eholdings/titles/${model.titleId}`}>
-                        {model.title.name}
-                      </InternalLink>
-                    </KeyValue>
-
-                    {model.title.edition && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.edition" />}>
-                        <div data-test-eholdings-resource-show-edition>
-                          {model.title.edition}
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    <ContributorsList data={model.title.contributors} />
-
-                    {model.title.publisherName && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.publisher" />}>
-                        <div data-test-eholdings-resource-show-publisher-name>
-                          {model.title.publisherName}
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    {model.title.publicationType && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.publicationType" />}>
-                        <div data-test-eholdings-resource-show-publication-type>
-                          {model.title.publicationType}
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    <IdentifiersList data={model.title.identifiers} />
-
-                    {model.title.subjects.length > 0 && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.subjects" />}>
-                        <div data-test-eholdings-resource-show-subjects-list>
-                          {model.title.subjects.map(subjectObj => subjectObj.subject).join('; ')}
-                        </div>
-                      </KeyValue>
-                    )}
-
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
-                      <div data-test-eholdings-peer-reviewed-field>
-                        {model.title.isPeerReviewed ?
-                          (<FormattedMessage id="ui-eholdings.yes" />) :
-                          (<FormattedMessage id="ui-eholdings.no" />)}
-                      </div>
-                    </KeyValue>
-
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
-                      <div data-test-eholdings-package-details-type>
-                        {model.title.isTitleCustom ?
-                          (<FormattedMessage id="ui-eholdings.custom" />) :
-                          (<FormattedMessage id="ui-eholdings.managed" />)}
-                      </div>
-                    </KeyValue>
-
-                    {model.title.description && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.label.description" />}>
-                        <div data-test-eholdings-description-field>
-                          {model.title.description}
-                        </div>
-                      </KeyValue>
-                    )}
-                  </div>
-                  <div>
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
-                      <div data-test-eholdings-resource-show-package-name>
-                        <InternalLink to={`/eholdings/packages/${model.packageId}`}>{model.package.name}</InternalLink>
-                      </div>
-                    </KeyValue>
-
-                    {isTokenNeeded && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.package.tokenNeed" />}>
-                        <Button
-                          data-test-add-token-button
-                          marginBottom0
-                          to={`/eholdings/packages/${model.packageId}/edit`}
-                        >
-                          <FormattedMessage id="ui-eholdings.package.addToken" />
-                        </Button>
-                      </KeyValue>
-                    )}
-
-                    <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
-                      <div data-test-eholdings-resource-show-provider-name>
-                        <InternalLink to={`/eholdings/providers/${model.providerId}`}>{model.package.providerName}</InternalLink>
-                      </div>
-                    </KeyValue>
-
-                    {model.package.contentType && (
-                      <KeyValue label={<FormattedMessage id="ui-eholdings.resource.packageContentType" />}>
-                        <div data-test-eholdings-resource-show-content-type>
-                          {model.package.contentType}
-                        </div>
-                      </KeyValue>
-                    )}
-                  </div>
-                </KeyValueColumns>
-              </Accordion>
+                model={model}
+                resourceSelected={resourceSelected}
+              />
 
               {showCustomLables &&
                 <CustomLabelsAccordion
@@ -488,145 +305,6 @@ class ResourceShow extends Component {
                   section={CustomLabelsShowSection}
                   userDefinedFields={userDefinedFields}
                 />}
-
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.resource.resourceSettings" /></Headline>}
-                open={sections.resourceShowSettings}
-                id="resourceShowSettings"
-                onToggle={this.handleSectionToggle}
-              >
-                <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
-                  <div data-test-eholdings-resource-show-visibility>
-                    {model.visibilityData.isHidden || !resourceSelected ?
-                      (<FormattedMessage
-                        id="ui-eholdings.package.visibility.no"
-                        values={{ visibilityMessage }}
-                      />) :
-                      (<FormattedMessage id="ui-eholdings.yes" />)}
-                  </div>
-                </KeyValue>
-
-                {
-                  hasInheritedProxy && (
-                    !proxyTypes.request.isResolved || model.isLoading
-                      ? (
-                        <Icon icon="spinner-ellipsis" />
-                      )
-                      : (
-                        <ProxyDisplay
-                          proxy={model.proxy}
-                          proxyTypes={proxyTypes}
-                          inheritedProxyId={model.package.proxy.id}
-                        />
-                      )
-                  )
-                }
-
-                {model.url && (
-                  <KeyValue label={model.title.isTitleCustom ?
-                    <FormattedMessage id="ui-eholdings.custom" />
-                    :
-                    <FormattedMessage id="ui-eholdings.managed" />}
-                  >
-                    <div data-test-eholdings-resource-show-url>
-                      <ExternalLink
-                        href={model.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {
-                  <div data-test-eholdings-access-type>
-                    {haveAccessTypesLoaded
-                      ? this.renderAccessTypeDisplay()
-                      : (
-                        <Icon icon="spinner-ellipsis" />
-                      )}
-                  </div>
-                }
-              </Accordion>
-
-              <Accordion
-                label={<Headline size="large" tag="h3"><FormattedMessage id="ui-eholdings.label.coverageSettings" /></Headline>}
-                open={sections.resourceShowCoverageSettings}
-                id="resourceShowCoverageSettings"
-                onToggle={this.handleSectionToggle}
-              >
-
-                {hasManagedCoverages && !hasCustomCoverages && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.coverageDates" />}>
-                    <div data-test-eholdings-resource-show-managed-coverage-list>
-                      <CoverageDateList
-                        coverageArray={model.managedCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {hasCustomCoverages && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageDates" />}>
-                    <div data-test-eholdings-resource-show-custom-coverage-list>
-                      <CoverageDateList
-                        coverageArray={model.customCoverages}
-                        isYearOnly={isBookPublicationType(model.publicationType)}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {model.coverageStatement && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.coverageStatement" />}>
-                    <div data-test-eholdings-resource-coverage-statement-display>
-                      {model.coverageStatement}
-                    </div>
-                  </KeyValue>
-                )}
-
-                {hasManagedEmbargoPeriod && !hasCustomEmbargoPeriod && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.managed.embargoPeriod" />}>
-                    <div data-test-eholdings-resource-show-managed-embargo-period>
-                      <FormattedMessage
-                        id={`ui-eholdings.resource.embargoUnit.${model.managedEmbargoPeriod.embargoUnit}`}
-                        values={{ value: model.managedEmbargoPeriod.embargoValue }}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {hasCustomEmbargoPeriod && (
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.label.custom.embargoPeriod" />}>
-                    <div data-test-eholdings-resource-custom-embargo-display>
-                      <FormattedMessage
-                        id={`ui-eholdings.resource.embargoUnit.${model.customEmbargoPeriod.embargoUnit}`}
-                        values={{ value: model.customEmbargoPeriod.embargoValue }}
-                      />
-                    </div>
-                  </KeyValue>
-                )}
-
-                {
-                  resourceSelected &&
-                  !hasManagedCoverages &&
-                  !hasCustomCoverages &&
-                  !model.coverageStatement &&
-                  !hasManagedEmbargoPeriod &&
-                  !hasCustomEmbargoPeriod && (
-                    <p data-test-eholdings-resource-not-selected-no-customization-message>
-                      <FormattedMessage id="ui-eholdings.resource.coverage.noCustomizations" />
-                    </p>
-                  )
-                }
-
-                {!resourceSelected && !hasManagedCoverages && !hasManagedEmbargoPeriod && (
-                  <p data-test-eholdings-resource-not-selected-coverage-message>
-                    <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
-                  </p>
-                )}
-              </Accordion>
 
               <AgreementsAccordion
                 id="resourceShowAgreements"

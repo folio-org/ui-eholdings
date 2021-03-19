@@ -14,7 +14,7 @@ import {
 
 import ProxyDisplay from '../../../../proxy-display';
 import TokenDisplay from '../../../../token-display';
-import AccessType from '../../../../access-type-display';
+import AccessTypeDisplay from '../../../../access-type-display';
 
 import {
   getAccessTypeId,
@@ -45,21 +45,6 @@ const PackageSettings = ({
   packageAllowedToAddTitles,
   packageSelected,
 }) => {
-  const renderAccessTypeDisplay = () => {
-    if (!accessStatusTypes?.items?.data?.length) {
-      return null;
-    }
-
-    const formattedAccessTypes = getAccessTypeIdsAndNames(accessStatusTypes.items.data);
-
-    return (
-      <AccessType
-        accessTypeId={getAccessTypeId(model)}
-        accessStatusTypes={formattedAccessTypes}
-      />
-    );
-  };
-
   const renderPackageSettings = () => {
     const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
     const hasProxy = hasIn('proxy.id', model);
@@ -112,7 +97,12 @@ const PackageSettings = ({
         {
           <div data-test-eholdings-access-type>
             {haveAccessTypesLoaded
-              ? renderAccessTypeDisplay()
+              ? (
+                <AccessTypeDisplay
+                  accessTypeId={getAccessTypeId(model)}
+                  accessStatusTypes={accessStatusTypes}
+                />
+              )
               : <Icon icon="spinner-ellipsis" />
             }
           </div>

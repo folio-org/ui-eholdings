@@ -141,9 +141,12 @@ export default class ResourceEdit extends Component {
           const { model } = this.props;
           const { customCoverages: customCoverageDateValues } = values;
           let coverageDates = model.managedCoverages;
-          if (customCoverageDateValues && customCoverageDateValues.length > 0) {
+
+          const customCoverageExists = customCoverageDateValues && customCoverageDateValues.length > 0;
+          if (customCoverageExists) {
             coverageDates = customCoverageDateValues;
           }
+
           const nonEmptyCoverageDates = coverageDates
             .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
           if (nonEmptyCoverageDates.length === 0) {
@@ -151,6 +154,7 @@ export default class ResourceEdit extends Component {
           }
           return (
             <CoverageDateList
+              isManagedCoverage={customCoverageExists}
               coverageArray={nonEmptyCoverageDates}
               isYearOnly={isBookPublicationType(model.publicationType)}
             />

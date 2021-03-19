@@ -17,7 +17,16 @@ describe('Given Access Type Display', () => {
   describe('when access type presented', () => {
     beforeEach(() => {
       accessTypeId = 'id1';
-      accessStatusTypes = [{ id: 'id1', name: 'name1' }];
+      accessStatusTypes = {
+        items: {
+          data: [{
+            id: 'id1',
+            attributes: {
+              name: 'name1',
+            },
+          }],
+        },
+      };
     });
 
     it('should display correct access type label', () => {
@@ -36,13 +45,39 @@ describe('Given Access Type Display', () => {
   describe('when access type did not found', () => {
     beforeEach(() => {
       accessTypeId = '';
-      accessStatusTypes = [{ id: 'id1', name: 'name1' }];
+      accessStatusTypes = {
+        items: {
+          data: [{
+            id: 'id1',
+            attributes: {
+              name: 'name1',
+            },
+          }],
+        },
+      };
     });
 
     it('should display selected access type', () => {
       const { getByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
 
       expect(getByText('ui-eholdings.accessType.novalue')).toBeDefined();
+    });
+  });
+
+  describe('when access types were not set up', () => {
+    beforeEach(() => {
+      accessTypeId = '';
+      accessStatusTypes = {
+        items: {
+          data: [],
+        },
+      };
+    });
+
+    it('should not display access type section', () => {
+      const { queryByText } = renderAccessTypeDisplay({ accessStatusTypes, accessTypeId });
+
+      expect(queryByText('ui-eholdings.settings.accessStatusTypes.type')).toBeNull();
     });
   });
 });
