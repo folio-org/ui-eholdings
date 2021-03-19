@@ -173,6 +173,7 @@ class SearchPaneset extends Component {
                 </PaneMenu>
               }
               data-test-eholdings-search-pane
+              data-testid="data-test-eholdings-search-pane"
             >
               {searchForm}
             </Pane>}

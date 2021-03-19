@@ -125,7 +125,10 @@ export default class PackageCreate extends Component {
           mutators={{ ...arrayMutators }}
           onSubmit={onSubmit}
           render={({ handleSubmit, pristine, form: { reset } }) => (
-            <div data-test-eholdings-package-create>
+            <div
+              data-test-eholdings-package-create
+              data-testid="data-test-eholdings-package-create"
+            >
               <Toaster
                 position="bottom"
                 toasts={request.errors.map(({ title }, index) => ({

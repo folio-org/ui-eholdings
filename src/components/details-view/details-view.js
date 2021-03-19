@@ -23,6 +23,8 @@ const cx = classNames.bind(styles);
 
 const ITEM_HEIGHT = 62;
 
+const SCROLL_CONTAINER_HEIGHT_GAP = 10;
+
 /**
  * This component will render a details view which includes the type
  * of resource and resource name, along with some body content, and an
@@ -92,7 +94,6 @@ class DetailsView extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.handleLayout);
-    this.handleLayout();
 
     // if the heading exists on mount, focus it
     if (this.$heading.current) {
@@ -128,8 +129,8 @@ class DetailsView extends Component {
     } = this.props;
 
     if (this.$container && this.$sticky && this.$list) {
-      const stickyHeight = Math.floor(this.$sticky.getBoundingClientRect().height);
-      const containerHeight = Math.floor(this.$container.getBoundingClientRect().height);
+      const stickyHeight = this.$sticky.getBoundingClientRect().height;
+      const containerHeight = this.$container.getBoundingClientRect().height;
 
       const isListAccordionOpen = sections && sections[listSectionId];
 
@@ -137,7 +138,11 @@ class DetailsView extends Component {
         this.setState({ isSticky: false });
       }
 
-      this.shouldHandleScroll = stickyHeight >= containerHeight && isListAccordionOpen;
+      // make difference of a few pixels between heights to still count as equal values
+      const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < SCROLL_CONTAINER_HEIGHT_GAP;
+      const stickyGreaterThanContainer = stickyHeight > containerHeight;
+
+      this.shouldHandleScroll = (stickyAndContainerAreEqual || stickyGreaterThanContainer) && isListAccordionOpen;
 
       // the sticky wrapper needs an explicit height for child
       // elements with percentage-based heights
