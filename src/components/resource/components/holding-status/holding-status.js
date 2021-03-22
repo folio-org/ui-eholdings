@@ -65,12 +65,8 @@ const HoldingStatus = ({
               <Headline margin="none">
                 {
                   resourceSelected
-                    ? (
-                      <FormattedMessage id="ui-eholdings.selected" />
-                    )
-                    : (
-                      <FormattedMessage id="ui-eholdings.notSelected" />
-                    )
+                    ? <FormattedMessage id="ui-eholdings.selected" />
+                    : <FormattedMessage id="ui-eholdings.notSelected" />
                 }
               </Headline>
             )

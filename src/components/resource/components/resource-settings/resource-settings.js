@@ -77,9 +77,7 @@ const ResourceSettings = ({
       {
         hasInheritedProxy && (
           !proxyTypes.request.isResolved || model.isLoading
-            ? (
-              <Icon icon="spinner-ellipsis" />
-            )
+            ? <Icon icon="spinner-ellipsis" />
             : (
               <ProxyDisplay
                 proxy={model.proxy}
@@ -91,10 +89,9 @@ const ResourceSettings = ({
       }
 
       {model.url && (
-        <KeyValue label={model.title.isTitleCustom ?
-          <FormattedMessage id="ui-eholdings.custom" />
-          :
-          <FormattedMessage id="ui-eholdings.managed" />}
+        <KeyValue label={model.title.isTitleCustom
+          ? <FormattedMessage id="ui-eholdings.custom" />
+          : <FormattedMessage id="ui-eholdings.managed" />}
         >
           <div data-test-eholdings-resource-show-url>
             <ExternalLink
@@ -115,9 +112,8 @@ const ResourceSettings = ({
                 accessStatusTypes={accessStatusTypes}
               />
             )
-            : (
-              <Icon icon="spinner-ellipsis" />
-            )}
+            : <Icon icon="spinner-ellipsis" />
+          }
         </div>
       }
     </Accordion>

@@ -32,7 +32,6 @@ function AccessTypeDisplay({ accessTypeId, accessStatusTypes }) {
   const selectedAccessType = formattedAccessTypes
     .find(accessType => accessType.id === accessTypeId)?.name || '';
 
-
   return (
     <KeyValue label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type" />}>
       <div data-test-eholdings-details-access-type>

@@ -9,9 +9,10 @@ import {
   Button,
   Headline,
   KeyValue,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
-import KeyValueColumns from '../../../key-value-columns';
 import InternalLink from '../../../internal-link';
 import IdentifiersList from '../../../identifiers-list';
 import ContributorsList from '../../../contributors-list';
@@ -40,8 +41,8 @@ const ResourceInformation = ({
       id="resourceShowInformation"
       onToggle={onToggle}
     >
-      <KeyValueColumns>
-        <div>
+      <Row>
+        <Col md={6}>
           <KeyValue label={<FormattedMessage id="ui-eholdings.label.title" />}>
             <InternalLink to={`/eholdings/titles/${model.titleId}`}>
               {model.title.name}
@@ -117,13 +118,11 @@ const ResourceInformation = ({
               </div>
             </KeyValue>
           )}
-        </div>
-        <div>
+        </Col>
+        <Col md={6}>
           <KeyValue label={<FormattedMessage id="ui-eholdings.label.package" />}>
             <div data-test-eholdings-resource-show-package-name>
-              <InternalLink
-                to={`/eholdings/packages/${model.packageId}`}
-              >
+              <InternalLink to={`/eholdings/packages/${model.packageId}`}>
                 {model.package.name}
               </InternalLink>
             </div>
@@ -143,9 +142,7 @@ const ResourceInformation = ({
 
           <KeyValue label={<FormattedMessage id="ui-eholdings.label.provider" />}>
             <div data-test-eholdings-resource-show-provider-name>
-              <InternalLink
-                to={`/eholdings/providers/${model.providerId}`}
-              >
+              <InternalLink to={`/eholdings/providers/${model.providerId}`}>
                 {model.package.providerName}
               </InternalLink>
             </div>
@@ -158,8 +155,8 @@ const ResourceInformation = ({
               </div>
             </KeyValue>
           )}
-        </div>
-      </KeyValueColumns>
+        </Col>
+      </Row>
     </Accordion>
   );
 };

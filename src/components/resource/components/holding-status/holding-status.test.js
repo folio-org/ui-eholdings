@@ -17,7 +17,7 @@ describe('Given HoldingStatus', () => {
   const defaultModel = {
     update: {
       isPending: false,
-      changedAttributes: {}
+      changedAttributes: {},
     },
     destroy: {
       isPending: false,
