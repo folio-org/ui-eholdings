@@ -264,6 +264,7 @@ class ResourceShow extends Component {
                 onToggle={this.handleSectionToggle}
                 onAddToHoldings={this.handleHoldingStatus}
                 model={model}
+                resourceSelected={resourceSelected}
               />
 
               <ResourceInformation
