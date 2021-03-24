@@ -46,6 +46,8 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.4.2",
     "jest-junit": "^12.0.0",
+    "karma": "^6.3.0",
+    "karma-chrome-launcher": "^3.1.0",
     "lodash": "^4.17.4",
     "miragejs": "^0.1.40",
     "mocha": "^5.2.0",

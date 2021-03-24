@@ -14,10 +14,10 @@ module.exports = (config) => {
       project: 'ui-eholdings'
     },
 
-    browserDisconnectTimeout: 3e5,
+    browserDisconnectTimeout: 4e5,
     browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 3e5,
-    captureTimeout: 3e5,
+    browserNoActivityTimeout: 4e5,
+    captureTimeout: 4e5,
 
     customLaunchers: {
       bs_safari_11: {

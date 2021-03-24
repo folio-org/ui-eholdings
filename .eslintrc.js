@@ -44,5 +44,5 @@ module.exports = {
     "react/sort-prop-types": ["error"],
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
   },
-  "plugins": ["jest"]
+  plugins: ["jest"]
 };
