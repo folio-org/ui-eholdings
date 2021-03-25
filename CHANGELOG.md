@@ -3,6 +3,7 @@
 ## [6.1.0] (IN PROGRESS)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
+* eholdings App: Consume {{FormattedDate}} and {{FormattedTime}} via stripes-component. (UIEH-970)
 
 ## [6.0.0] (https://github.com/folio-org/ui-eholdings/tree/v6.0.0) (2021-03-17)
 * Settings - Usage Consolidation - Currency. (UIEH-965)

@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 import queryString from 'qs';
 import {
@@ -6,9 +5,10 @@ import {
   pickBy,
 } from 'lodash';
 import {
-  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
+
+import { FormattedDate } from '@folio/stripes/components';
 
 import { searchTypes } from '../constants';
 
