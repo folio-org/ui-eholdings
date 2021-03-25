@@ -4,13 +4,21 @@ import React, {
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
+import { FormattedMessage } from 'react-intl';
 
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 import {
+  NavList,
+  NavListItem,
+  NavListSection,
   CommandList,
   defaultKeyboardShortcuts,
+  Icon,
 } from '@folio/stripes/components';
-import { stripesShape } from '@folio/stripes/core';
+import {
+  AppContextMenu,
+  stripesShape,
+} from '@folio/stripes/core';
 
 import {
   Route,
@@ -46,6 +54,8 @@ import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
 
 import KeyShortcutsWrapper from './components/key-shortcuts-wrapper';
+
+import css from './eholdings.css';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -112,28 +122,71 @@ class EHoldings extends Component {
         </Route>
       )
       : (
-        <CommandList commands={defaultKeyboardShortcuts}>
-          <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
-            <Route path={rootPath} component={ApplicationRoute}>
-              <Switch>
-                <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
-                <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
-                <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
-                <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
-                <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
-                <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
-                <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
-                <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
-                <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
-                <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
-                <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
-                <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
-                <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
-                <Route path={`${rootPath}/`} exact component={SearchRoute} />
-              </Switch>
-            </Route>
-          </KeyShortcutsWrapper>
-        </CommandList>
+        <>
+          <AppContextMenu>
+            {() => (
+              <NavList>
+                <NavListSection>
+                  <NavListItem
+                    id="eholdings-app-item"
+                    to="eholdings"
+                  >
+                    <FormattedMessage id="ui-eholdings.navigation.app" />
+                  </NavListItem>
+                  <NavListItem
+                    id="content-item"
+                    href="http://www.tfaforms.com/306425"
+                  >
+                    <Icon
+                      icon="external-link"
+                      iconPosition="end"
+                      iconClassName={css['icon-link']}
+                    >
+                      <FormattedMessage id="ui-eholdings.navigation.content" />
+                    </Icon>
+                  </NavListItem>
+                  <NavListItem
+                    id="system-status-item"
+                    href="https://status.ebsco.com/"
+                  >
+                    <Icon
+                      icon="external-link"
+                      iconPosition="end"
+                      iconClassName={css['icon-link']}
+                    >
+                      <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
+                    </Icon>
+                  </NavListItem>
+                  <NavListItem id="keyboard-shortcuts-item">
+                    <FormattedMessage id="ui-eholdings.navigation.keyboardShortcuts" />
+                  </NavListItem>
+                </NavListSection>
+              </NavList>
+            )}
+          </AppContextMenu>
+          <CommandList commands={defaultKeyboardShortcuts}>
+            <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
+              <Route path={rootPath} component={ApplicationRoute}>
+                <Switch>
+                  <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
+                  <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
+                  <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
+                  <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
+                  <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
+                  <Route path={`${rootPath}/titles/new`} exact component={TitleCreate} />
+                  <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+                  <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEdit} />
+                  <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
+                  <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />
+                  <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
+                  <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
+                  <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
+                  <Route path={`${rootPath}/`} exact component={SearchRoute} />
+                </Switch>
+              </Route>
+            </KeyShortcutsWrapper>
+          </CommandList>
+        </>
       );
   }
 }
