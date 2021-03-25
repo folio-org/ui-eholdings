@@ -8,7 +8,7 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output dist",
-    "test": "yarn run test:jest && yarn run test:bigtest",
+    "test": "yarn run test:jest",
     "test:jest": "jest --ci --coverage",
     "test:bigtest": "stripes test karma",
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
