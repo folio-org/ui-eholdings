@@ -30,20 +30,26 @@ class CoverageDateList extends React.Component {
   static propTypes = {
     coverageArray: PropTypes.arrayOf(containsNonEmptyObjectsWithStringValues),
     id: PropTypes.string,
-    isYearOnly: PropTypes.bool
+    isManagedCoverage: PropTypes.bool,
+    isYearOnly: PropTypes.bool,
   };
 
   render() {
     const {
       coverageArray,
       id,
-      isYearOnly
+      isYearOnly,
+      isManagedCoverage,
     } = this.props;
 
     const dateRanges = [...coverageArray].sort(compareCoveragesToBeSortedInDescOrder);
 
     return (
-      <div id={id} data-test-eholdings-display-coverage-list>
+      <div
+        id={id}
+        data-test-eholdings-display-coverage-list
+        data-testid={`coverage-list-${isManagedCoverage ? 'managed' : 'custom'}`}
+      >
         {
           dateRanges.map((coverageArrayObj, i) => (
             <Fragment key={i}>

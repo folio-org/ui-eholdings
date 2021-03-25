@@ -112,17 +112,4 @@ describe('Given PackageSettings', () => {
     component = renderPackageSettings();
     expect(component.getByText('Access type display')).toBeDefined();
   });
-
-  describe('when there are no access types configured', () => {
-    it('should not render access types display', () => {
-      component = renderPackageSettings({
-        accessStatusTypes: {
-          items: {
-            data: [],
-          },
-        },
-      });
-      expect(component.queryByText('Access type display')).toBeNull();
-    });
-  });
 });
