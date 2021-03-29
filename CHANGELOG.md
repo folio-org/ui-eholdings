@@ -2,6 +2,7 @@
 
 ## [6.1.0] (IN PROGRESS)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
+* Add app context menu dropdown. (UIEH-1108)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
