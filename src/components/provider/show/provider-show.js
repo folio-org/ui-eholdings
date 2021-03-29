@@ -11,7 +11,7 @@ import set from 'lodash/fp/set';
 
 import {
   withStripes,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,

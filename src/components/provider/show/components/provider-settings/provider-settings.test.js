@@ -120,4 +120,24 @@ describe('Given ProviderSettings', () => {
       expect(component.queryByTestId('proxy-spinner')).toBeDefined();
     });
   });
+
+  describe('when record has not token and proxy', () => {
+    it('should not render an accordion', () => {
+      component = renderProviderSettings({
+        model: {},
+      });
+
+      expect(component.queryByText('ui-eholdings.provider.providerSettings')).toBeNull();
+    });
+  });
+
+  describe('when model is loading', () => {
+    it('should render a spinner', () => {
+      component = renderProviderSettings({
+        model: { isLoading: true },
+      });
+
+      expect(component.queryByTestId('token-spinner')).toBeDefined();
+    });
+  });
 });
