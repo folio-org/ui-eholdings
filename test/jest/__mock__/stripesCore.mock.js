@@ -97,4 +97,3 @@ jest.mock('@folio/stripes/core', () => {
     AppContextMenu,
   };
 }, { virtual: true });
-

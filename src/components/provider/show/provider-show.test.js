@@ -1,20 +1,40 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import noop from 'lodash/noop';
 import {
   render,
   cleanup,
+  fireEvent,
 } from '@testing-library/react';
-
-import noop from 'lodash/noop';
 
 import ProviderShow from './provider-show';
 
+import { buildStripes } from '../../../../test/jest/__mock__/stripesCore.mock';
+import { collapseAllShortcut } from '../../../../test/jest/utilities';
+import Harness from '../../../../test/jest/helpers/harness';
 
-jest.mock('../../query-list', () => (<span>Query list</span>));
+const mockExpandAllFunction = jest.fn();
+
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  expandAllFunction: mockExpandAllFunction,
+}));
+
+jest.mock('@folio/stripes/smart-components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  NotesSmartAccordion: ({ open }) => open ? (<span>NotesSmartAccordion</span>) : null,
+}));
+
+jest.mock('./components/provider-information', () => ({ open }) => open ? (<span>ProviderInformation</span>) : null);
+
+jest.mock('./components/provider-settings', () => ({ open }) => open ? (<span>ProviderSettings</span>) : null);
+
+jest.mock('../../query-list', () => () => (<span>QueryList</span>));
+
+jest.mock('../../tags', () => ({ open }) => open ? (<span>TagsAccordion</span>) : null);
 
 const renderProviderShow = (props = {}) => render(
-  <MemoryRouter>
-<ProviderShow
+  <Harness>
+    <ProviderShow
       fetchPackages={noop}
       listType={'List type'}
       model={{
@@ -97,6 +117,8 @@ const renderProviderShow = (props = {}) => render(
           meta: {},
           errors: [],
         },
+        isLoaded: true,
+        isLoading: false,
       }}
       onEdit={noop}
       packages={{
@@ -144,7 +166,7 @@ const renderProviderShow = (props = {}) => render(
       updateFolioTags={noop}
       {...props}
     />
-  </MemoryRouter>
+  </Harness>
 );
 
 describe('Given ProviderShow', () => {
@@ -157,6 +179,51 @@ describe('Given ProviderShow', () => {
   it('should show pane title', () => {
     component = renderProviderShow();
 
-    expect(component.getByText('API DEV GOVERNMENT CUSTOMER')).toBeDefined();
+    expect(component.getAllByText('API DEV GOVERNMENT CUSTOMER')).toBeDefined();
+  });
+
+  it('should render QueryList', () => {
+    component = renderProviderShow();
+
+    expect(component.getByText('QueryList')).toBeDefined();
+  });
+
+  describe('when user has not edit permissions', () => {
+    it('should not render edit button', () => {
+      const stripes = buildStripes({
+        hasPerm: () => false,
+      });
+
+      component = renderProviderShow({ stripes });
+
+      expect(component.queryByTestId('provider-edit-link')).toBeNull();
+    });
+  });
+/*
+  describe('when use collapse all shortcut', () => {
+    it('should call expandAllFunction', async () => {
+      const { getByTestId } = renderProviderShow();
+      const div = getByTestId('provider-content');
+
+      collapseAllShortcut(div);
+
+      expect(mockExpandAllFunction).toHaveBeenCalled();
+    });
+  });
+*/
+  describe('when click on "Collapse All', () => {
+    it('should collapse all accordions', async () => {
+      const {
+        getByText,
+        queryByText,
+      } = renderProviderShow();
+  
+      fireEvent.click(getByText('stripes-components.collapseAll'));
+
+      expect(queryByText('ProviderInformation')).toBeNull();
+      expect(queryByText('ProviderSettings')).toBeNull();
+      expect(queryByText('NotesSmartAccordion')).toBeNull();
+      expect(queryByText('TagsAccordion')).toBeNull();
+    });
   });
 });

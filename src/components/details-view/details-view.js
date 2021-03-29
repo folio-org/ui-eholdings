@@ -399,7 +399,10 @@ class DetailsView extends Component {
     const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
     return (
-      <div data-test-eholdings-details-view={type}>
+      <div
+        data-test-eholdings-details-view={type}
+        data-testid="details-view"
+      >
         <Paneset>
           <Pane
             id={paneIdFromTitle}
