@@ -4,19 +4,13 @@ import React, {
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
-import { FormattedMessage } from 'react-intl';
 
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
 import {
-  NavList,
-  NavListItem,
-  NavListSection,
   CommandList,
   defaultKeyboardShortcuts,
-  Icon,
 } from '@folio/stripes/components';
 import {
-  AppContextMenu,
   stripesShape,
 } from '@folio/stripes/core';
 
@@ -54,8 +48,7 @@ import SettingsAssignedUsersRoute from './routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidation-route';
 
 import KeyShortcutsWrapper from './components/key-shortcuts-wrapper';
-
-import css from './eholdings.css';
+import EHoldingsAppContext from './components/eholdings-app-context';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -123,47 +116,7 @@ class EHoldings extends Component {
       )
       : (
         <>
-          <AppContextMenu>
-            {() => (
-              <NavList>
-                <NavListSection>
-                  <NavListItem
-                    id="eholdings-app-item"
-                    to="eholdings"
-                  >
-                    <FormattedMessage id="ui-eholdings.navigation.app" />
-                  </NavListItem>
-                  <NavListItem
-                    id="content-item"
-                    href="http://www.tfaforms.com/306425"
-                  >
-                    <Icon
-                      icon="external-link"
-                      iconPosition="end"
-                      iconClassName={css['icon-link']}
-                    >
-                      <FormattedMessage id="ui-eholdings.navigation.content" />
-                    </Icon>
-                  </NavListItem>
-                  <NavListItem
-                    id="system-status-item"
-                    href="https://status.ebsco.com/"
-                  >
-                    <Icon
-                      icon="external-link"
-                      iconPosition="end"
-                      iconClassName={css['icon-link']}
-                    >
-                      <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
-                    </Icon>
-                  </NavListItem>
-                  <NavListItem id="keyboard-shortcuts-item">
-                    <FormattedMessage id="ui-eholdings.navigation.keyboardShortcuts" />
-                  </NavListItem>
-                </NavListSection>
-              </NavList>
-            )}
-          </AppContextMenu>
+          <EHoldingsAppContext />
           <CommandList commands={defaultKeyboardShortcuts}>
             <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
               <Route path={rootPath} component={ApplicationRoute}>
