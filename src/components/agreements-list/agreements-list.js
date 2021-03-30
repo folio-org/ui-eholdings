@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
-  FormattedDate,
   useIntl,
 } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -12,6 +11,7 @@ import {
   Icon,
   IconButton,
   Tooltip,
+  FormattedDate,
 } from '@folio/stripes/components';
 
 import { TIME_ZONE } from '../../constants';

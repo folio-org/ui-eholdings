@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import {
   FormattedMessage,
-  FormattedDate,
   useIntl,
 } from 'react-intl';
 import {
@@ -18,8 +17,11 @@ import {
   NoValue,
   TextField,
   ConfirmationModal,
+  FormattedDate,
 } from '@folio/stripes/components';
-import { EditableList } from '@folio/stripes/smart-components';
+import {
+  EditableList,
+} from '@folio/stripes/smart-components';
 
 import Toaster from '../../toaster';
 

@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
-  FormattedDate,
 } from 'react-intl';
 
 import {
   Accordion,
   Headline,
   KeyValue,
+  FormattedDate,
 } from '@folio/stripes/components';
 
 const propTypes = {
