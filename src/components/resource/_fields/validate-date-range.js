@@ -1,10 +1,13 @@
 import React from 'react';
 import {
   FormattedMessage,
-  FormattedDate,
 } from 'react-intl';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 
-import moment from 'moment';
+import { FormattedDate } from '@folio/stripes/components';
+
+const moment = extendMoment(Moment);
 
 /**
    * Validator to ensure begin date is present and entered dates are valid
