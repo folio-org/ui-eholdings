@@ -6,9 +6,10 @@ import {
   pickBy,
 } from 'lodash';
 import {
-  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
+
+import { FormattedDate } from '@folio/stripes/components';
 
 import { searchTypes } from '../constants';
 
