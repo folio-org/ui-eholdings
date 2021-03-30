@@ -394,8 +394,8 @@
     "permission.settings.access-types.all": "设置（电子馆藏）：可以创建、编辑、查看和删除访问状态类型",
     "permission.settings.access-types.create-edit": "设置（电子馆藏）：可以创建、编辑和查看访问状态类型",
     "permission.settings.access-types.view": "设置（电子馆藏）：可以查看访问状态类型",
-    "permission.app.enabled": "UI：电子馆藏模块已启用",
-    "permission.settings.enabled": "设置（电子馆藏）：设置页面显示清单",
+    "permission.app.enabled": "电子馆藏：可以查看提供者、资源包、标题详细记录",
+    "permission.settings.enabled": "设置（电子馆藏）：查看设置",
     "selectPackage.confirmationModal.label": "将资源包中所有标题添加到馆藏",
     "selectPackage.confirmationModal.message": "选择此操作会将此包中<strong>所有标题添加</strong>到馆藏中。要继续执行此操作，请选择<strong>将资源包（所有标题）添加到馆藏</strong> 。",
     "selectPackage.confirmationModal.confirmationButtonText": "将资源包（所有标题）添加到馆藏",
@@ -501,5 +501,9 @@
     "permission.costperuse.view": "电子馆藏：可以查看资源包、标题和资源的使用和分析数据",
     "permission.settings.usage-consolidation.view": "设置（电子馆藏）：查看使用合并API凭据",
     "permission.settings.usage-consolidation.create-edit": "设置（电子馆藏）：创建、编辑和查看使用合并API凭据",
-    "usageConsolidation.holdingsSummary": "Holdings Summary"
+    "usageConsolidation.holdingsSummary": "馆藏摘要",
+    "navigation.app": "eholdings app",
+    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.systemStatus": "EBSCO System status",
+    "navigation.keyboardShortcuts": "Keyboard shortcuts"
 }

@@ -499,7 +499,11 @@
     "showHidePasswordField.show": "Mostrar",
     "showHidePasswordField.hide": "Ocultar",
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
-    "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
+    "permission.settings.usage-consolidation.view": "Configurações (eholdings): Exibir credenciais de API de consolidação de uso",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "usageConsolidation.holdingsSummary": "Resumo dos holdings"
+    "usageConsolidation.holdingsSummary": "Resumo dos holdings",
+    "navigation.app": "eholdings app",
+    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.systemStatus": "EBSCO System status",
+    "navigation.keyboardShortcuts": "Keyboard shortcuts"
 }
