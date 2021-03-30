@@ -213,7 +213,6 @@ class ProviderShow extends Component {
   }
 
   toggleAllSections = (expand) => {
-    console.log('asfasf');
     this.setState((curState) => {
       const sections = expandAllFunction(curState.sections, expand);
       return { sections };
