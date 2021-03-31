@@ -1,4 +1,3 @@
-import React from 'react';
 import { KeyValue } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import styles from './error-screen.css';

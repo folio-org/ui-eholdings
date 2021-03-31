@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -152,7 +150,7 @@ class ManagedPackageEdit extends Component {
     };
   }
 
-  editFormRef = React.createRef();
+  editFormRef = createRef();
 
   toggleAllSectionsForShortcut = (expand) => {
     this.setState((curState) => {

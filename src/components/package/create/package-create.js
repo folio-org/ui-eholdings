@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -51,7 +49,7 @@ export default class PackageCreate extends Component {
     this.props.removeCreateRequests();
   }
 
-  createFormRef = React.createRef();
+  createFormRef = createRef();
 
   getFooter = (pristine, reset) => {
     const { request } = this.props;

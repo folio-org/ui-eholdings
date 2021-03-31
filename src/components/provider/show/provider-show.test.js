@@ -1,4 +1,3 @@
-import React from 'react';
 import noop from 'lodash/noop';
 import {
   render,
@@ -14,7 +13,7 @@ import {
 import ProviderShow from './provider-show';
 import Harness from '../../../../test/jest/helpers/harness';
 import { collapseAllShortcut } from '../../../../test/jest/utilities';
-import { buildStripes } from '../../../../test/jest/__mock__/stripesCore.mock';
+import buildStripes from '../../../../test/jest/__mock__/stripesCore.mock';
 
 jest.mock('./components/provider-information', () => ({ isOpen, onToggle }) => (
   <>
