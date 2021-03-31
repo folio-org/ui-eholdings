@@ -515,7 +515,7 @@
     "notes.entityType.resource.pluralized": "{count} {count, plural, one {resource} other {resources}}",
     "notes.entityType.title.pluralized": "{count} {count, plural, one {title} other {titles}}",
 
-    "navigation.app": "eholdings app",
+    "navigation.app": "eholdings app Search",
     "navigation.content": "Submit a KB Content Inquiry",
     "navigation.systemStatus": "EBSCO System status",
     "navigation.keyboardShortcuts": "Keyboard shortcuts", 
