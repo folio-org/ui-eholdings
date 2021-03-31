@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   useIntl,
@@ -14,6 +17,7 @@ import {
   costPerUse as costPerUseShape,
   entityTypes,
 } from '../../../constants';
+import { getMCLFirstDataRow } from '../utilities';
 
 const propTypes = {
   contentData: PropTypes.array,
@@ -43,17 +47,26 @@ const SummaryTable = ({
   ...rest
 }) => {
   const intl = useIntl();
-  const data = costPerUseData.data[costPerUseType];
+  const summaryMCLRef = useRef(null);
 
-  if (!data) {
-    return null;
-  }
+  const data = costPerUseData.data[costPerUseType];
+  const { isLoaded } = costPerUseData;
 
   const currency = data?.attributes?.parameters?.currency;
 
   const contentData = !noCostPerUseAvailable
     ? rest.contentData || [data?.attributes?.analysis]
     : [];
+
+  useEffect(() => {
+    if (summaryMCLRef.current && isLoaded) {
+      getMCLFirstDataRow(summaryMCLRef.current).focus();
+    }
+  }, [summaryMCLRef, isLoaded]);
+
+  if (!data) {
+    return null;
+  }
 
   if (!contentData.length) {
     return null;
@@ -67,6 +80,7 @@ const SummaryTable = ({
     <KeyValue label={label}>
       <MultiColumnList
         id={id}
+        containerRef={summaryMCLRef}
         contentData={contentData}
         {...getSummaryTableColumnProperties(intl, {
           currency,

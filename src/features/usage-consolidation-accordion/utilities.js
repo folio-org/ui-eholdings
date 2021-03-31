@@ -29,3 +29,5 @@ export const formatValue = (value, callback) => {
 
   return callback ? callback(valueToFixed) : valueToFixed;
 };
+
+export const getMCLFirstDataRow = (MCLRef) => MCLRef.querySelector('div[data-row-inner="0"]');
