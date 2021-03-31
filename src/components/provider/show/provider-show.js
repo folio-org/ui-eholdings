@@ -11,7 +11,7 @@ import set from 'lodash/fp/set';
 
 import {
   withStripes,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -109,6 +109,7 @@ class ProviderShow extends Component {
     return (
       <Button
         data-test-eholdings-provider-edit-link
+        data-testid="provider-edit-link"
         buttonStyle="primary"
         onClick={onEdit}
         marginBottom0
@@ -234,28 +235,30 @@ class ProviderShow extends Component {
         onEdit={this.props.onEdit}
         isPermission={this.hasEditPermission()}
       >
-        <Toaster
-          toasts={this.toasts}
-          position="bottom"
-        />
-        <DetailsView
-          type="provider"
-          model={model}
-          key={model.id}
-          paneTitle={model.name}
-          sections={sections}
-          handleExpandAll={this.handleExpandAll}
-          bodyContent={this.getBodyContent()}
-          lastMenu={this.renderLastMenu()}
-          searchModal={searchModal}
-          listType={listType}
-          listSectionId="providerShowProviderList"
-          onListToggle={this.handleSectionToggle}
-          resultsLength={packages.length}
-          renderList={this.renderPackagesList}
-          ariaRole="tablist"
-          bodyAriaRole="tab"
-        />
+        <div data-testid='provider-content'>
+          <Toaster
+            toasts={this.toasts}
+            position="bottom"
+          />
+          <DetailsView
+            type="provider"
+            model={model}
+            key={model.id}
+            paneTitle={model.name}
+            sections={sections}
+            handleExpandAll={this.handleExpandAll}
+            bodyContent={this.getBodyContent()}
+            lastMenu={this.renderLastMenu()}
+            searchModal={searchModal}
+            listType={listType}
+            listSectionId="providerShowProviderList"
+            onListToggle={this.handleSectionToggle}
+            resultsLength={packages.length}
+            renderList={this.renderPackagesList}
+            ariaRole="tablist"
+            bodyAriaRole="tab"
+          />
+        </div>
       </KeyShortcutsWrapper>
     );
   }
