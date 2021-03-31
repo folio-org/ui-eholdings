@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -16,7 +16,7 @@ import Tags from './tags';
 import selectEntityTags from '../../redux/selectors/select-entity-tags';
 import { updateEntityTags as updateEntityTagsAction } from '../../redux/actions';
 
-class TagsAccordion extends React.Component {
+class TagsAccordion extends Component {
   static propTypes = {
     entityTags: PropTypes.arrayOf(PropTypes.string),
     headerProps: PropTypes.object,

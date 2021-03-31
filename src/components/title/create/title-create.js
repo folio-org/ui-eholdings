@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -47,7 +45,7 @@ export default class TitleCreate extends Component {
     this.props.removeCreateRequests();
   }
 
-  createFormRef = React.createRef();
+  createFormRef = createRef();
 
   renderFirstMenu = () => {
     const { onCancel } = this.props;

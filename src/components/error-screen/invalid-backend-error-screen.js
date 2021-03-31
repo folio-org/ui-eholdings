@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { KeyValue } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';

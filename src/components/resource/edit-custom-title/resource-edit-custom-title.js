@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import {
   Form,
 } from 'react-final-form';
@@ -136,7 +136,7 @@ class ResourceEditCustomTitle extends Component {
     return stateUpdates;
   }
 
-  editFormRef = React.createRef();
+  editFormRef = createRef();
 
   toggleAllSectionsForShortcut = (expand) => {
     this.setState((curState) => {

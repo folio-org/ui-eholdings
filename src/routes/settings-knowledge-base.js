@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
