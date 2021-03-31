@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
@@ -145,7 +145,7 @@ class SearchRoute extends Component {
     }
   }
 
-  $resultPaneTitle = React.createRef();
+  $resultPaneTitle = createRef();
 
   toggleFilter = filterName => () => {
     const filterToBeToggled = filterName === 'access-type'

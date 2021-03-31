@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@folio/stripes/components';

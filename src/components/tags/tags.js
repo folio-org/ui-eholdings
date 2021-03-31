@@ -3,13 +3,13 @@ import {
   difference,
   sortBy,
 } from 'lodash';
-import React from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { MultiSelection } from '@folio/stripes-components';
 
-export default class Tags extends React.Component {
+export default class Tags extends Component {
   static propTypes = {
     entityTags: PropTypes.arrayOf(PropTypes.string),
     model: PropTypes.object.isRequired,
