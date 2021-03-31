@@ -3,3 +3,7 @@
 .icon-link {
   color: var(--color-link);
 }
+
+.external-link:visited {
+  color: var(--color-text);
+}

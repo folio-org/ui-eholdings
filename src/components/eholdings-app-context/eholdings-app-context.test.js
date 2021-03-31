@@ -29,11 +29,5 @@ describe('Given Eholdings App Context', () => {
 
       expect(getByText('ui-eholdings.navigation.systemStatus')).toBeDefined();
     });
-
-    it('should render keyboard shortcuts link', () => {
-      const { getByText } = renderEHoldingsAppContext();
-
-      expect(getByText('ui-eholdings.navigation.keyboardShortcuts')).toBeDefined();
-    });
   });
 });

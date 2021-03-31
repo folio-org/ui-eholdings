@@ -24,32 +24,37 @@ const EHoldingsAppContext = () => (
           >
             <FormattedMessage id="ui-eholdings.navigation.app" />
           </NavListItem>
-          <NavListItem
-            id="content-item"
-            href="https://www.tfaforms.com/306425"
-          >
-            <Icon
-              icon="external-link"
-              iconPosition="end"
-              iconClassName={css['icon-link']}
+          <NavListItem id="content-item">
+            <a
+              href="https://www.tfaforms.com/306425"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={css['external-link']}
             >
-              <FormattedMessage id="ui-eholdings.navigation.content" />
-            </Icon>
+              <Icon
+                icon="external-link"
+                iconPosition="end"
+                iconClassName={css['icon-link']}
+              >
+                <FormattedMessage id="ui-eholdings.navigation.content" />
+              </Icon>
+            </a>
           </NavListItem>
-          <NavListItem
-            id="system-status-item"
-            href="https://status.ebsco.com/"
-          >
-            <Icon
-              icon="external-link"
-              iconPosition="end"
-              iconClassName={css['icon-link']}
+          <NavListItem id="system-status-item">
+            <a
+              href="https://status.ebsco.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={css['external-link']}
             >
-              <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
-            </Icon>
-          </NavListItem>
-          <NavListItem id="keyboard-shortcuts-item">
-            <FormattedMessage id="ui-eholdings.navigation.keyboardShortcuts" />
+              <Icon
+                icon="external-link"
+                iconPosition="end"
+                iconClassName={css['icon-link']}
+              >
+                <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
+              </Icon>
+            </a>
           </NavListItem>
         </NavListSection>
       </NavList>
