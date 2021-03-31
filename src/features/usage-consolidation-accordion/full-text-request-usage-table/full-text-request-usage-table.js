@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedNumber,
@@ -12,10 +16,12 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  entityTypes,
   platformTypes,
 } from '../../../constants';
 
 import styles from './full-text-request-usage-table.css';
+import { getMCLFirstDataRow } from '../utilities';
 
 const monthsNames = {
   JAN: 'jan',
@@ -33,12 +39,14 @@ const monthsNames = {
 };
 
 const propTypes = {
+  entityType: PropTypes.string,
   platformType: PropTypes.string.isRequired,
   startMonth: PropTypes.string.isRequired,
   usageData: PropTypes.object.isRequired,
 };
 
 const FullTextRequestUsageTable = ({
+  entityType,
   usageData,
   platformType,
   startMonth,
@@ -49,6 +57,7 @@ const FullTextRequestUsageTable = ({
   } = usageData;
 
   const intl = useIntl();
+  const fullTextRequestUsageMCLRef = useRef(null);
 
   const indexOfStartMonth = Object.values(monthsNames).indexOf(startMonth);
   const months = Object.values(monthsNames).slice(indexOfStartMonth);
@@ -68,6 +77,12 @@ const FullTextRequestUsageTable = ({
   const [sortedColumn, setSortedColumn] = useState(columnNames.PLATFORM);
   const [sortOrder, setSortOrder] = useState('ascending');
 
+  useEffect(() => {
+    if (fullTextRequestUsageMCLRef.current && entityType !== entityTypes.TITLE) {
+      getMCLFirstDataRow(fullTextRequestUsageMCLRef.current).focus();
+    }
+  }, [fullTextRequestUsageMCLRef, entityType]);
+
   const platformData = platforms.map(({ name, isPublisherPlatform, counts, total }) => {
     const countByMonth = counts.reduce((acc, value, index) => ({
       ...acc,
@@ -83,13 +98,9 @@ const FullTextRequestUsageTable = ({
   });
 
   const filteredPlatformData = platformData.filter(({ publisher }) => {
-    if ((publisher && platformType === platformTypes.PUBLISHER_ONLY) ||
+    return !!((publisher && platformType === platformTypes.PUBLISHER_ONLY) ||
       (!publisher && platformType === platformTypes.NON_PUBLISHER_ONLY) ||
-      (platformType === platformTypes.ALL)) {
-      return true;
-    }
-
-    return false;
+      (platformType === platformTypes.ALL));
   });
 
   const currentPlatforms = platformType === platformTypes.ALL
@@ -218,6 +229,7 @@ const FullTextRequestUsageTable = ({
     >
       <MultiColumnList
         id="fullTextRequestUsageTable"
+        containerRef={fullTextRequestUsageMCLRef}
         contentData={[...contentPlatformData, ...totalsData]}
         visibleColumns={visibleColumns}
         columnMapping={columnMapping}

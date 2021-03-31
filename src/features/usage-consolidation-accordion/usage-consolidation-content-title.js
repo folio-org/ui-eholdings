@@ -188,6 +188,7 @@ const UsageConsolidationContentTitle = ({
         noCostPerUseAvailable={noCostPerUseAvailable}
       />
       <FullTextRequestUsageTable
+        entityType={entityTypes.TITLE}
         usageData={data.attributes.usage}
         platformType={platformType}
         startMonth={startMonth}
