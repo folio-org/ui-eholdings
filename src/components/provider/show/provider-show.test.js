@@ -16,11 +16,6 @@ import Harness from '../../../../test/jest/helpers/harness';
 import { collapseAllShortcut } from '../../../../test/jest/utilities';
 import { buildStripes } from '../../../../test/jest/__mock__/stripesCore.mock';
 
-jest.mock('@folio/stripes/smart-components', () => ({
-  ...jest.requireActual('@folio/stripes/components'),
-  NotesSmartAccordion: ({ open }) => (open ? (<span>content of NotesSmartAccordion</span>) : null),
-}));
-
 jest.mock('./components/provider-information', () => ({ isOpen, onToggle }) => (
   <>
     <button
