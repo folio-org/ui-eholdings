@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
@@ -35,7 +33,7 @@ export default class ProviderEdit extends Component {
     rootProxy: PropTypes.object.isRequired
   };
 
-  editFormRef = React.createRef();
+  editFormRef = createRef();
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;

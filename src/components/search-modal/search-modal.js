@@ -1,4 +1,4 @@
-import React from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   isEqual,
@@ -38,7 +38,7 @@ export const filterCountFromQuery = ({ q, sort, filter }) => {
     .filter(Boolean).length;
 };
 
-class SearchModal extends React.PureComponent {
+class SearchModal extends PureComponent {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape,
     intl: PropTypes.shape({

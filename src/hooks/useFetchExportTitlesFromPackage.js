@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useStripes } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 

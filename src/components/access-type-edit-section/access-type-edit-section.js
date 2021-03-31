@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Icon } from '@folio/stripes/components';
 
 import AccessTypeField from '../access-type-select';

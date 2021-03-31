@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router';
@@ -90,7 +90,7 @@ class DetailsView extends Component {
   }
 
   // used to focus the heading when the model loads
-  $heading = React.createRef(); // eslint-disable-line react/sort-comp
+  $heading = createRef(); // eslint-disable-line react/sort-comp
 
   componentDidMount() {
     window.addEventListener('resize', this.handleLayout);

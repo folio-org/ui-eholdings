@@ -1,7 +1,7 @@
 import {
   sortBy
 } from 'lodash';
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
@@ -82,7 +82,7 @@ class SearchForm extends Component {
         accessTypesFilter: false,
       },
     };
-    this.searchField = React.createRef();
+    this.searchField = createRef();
   }
 
   componentDidUpdate(prevProps) {

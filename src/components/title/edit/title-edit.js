@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -37,7 +35,7 @@ export default class TitleEdit extends Component {
     updateRequest: PropTypes.object.isRequired,
   };
 
-  editFormRef = React.createRef();
+  editFormRef = createRef();
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;
