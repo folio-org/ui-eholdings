@@ -1,4 +1,4 @@
-export const buildStripes = (otherProperties = {}) => ({
+const buildStripes = (otherProperties = {}) => ({
   actionNames: [],
   clone: buildStripes,
   connect: component => component,
@@ -94,3 +94,5 @@ jest.mock('@folio/stripes/core', () => {
     AppContextMenu,
   };
 }, { virtual: true });
+
+export default buildStripes;

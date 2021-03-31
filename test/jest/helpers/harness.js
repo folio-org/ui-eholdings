@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 
 import IntlProvider from './intl';
-import { buildStripes } from '../__mock__/stripesCore.mock';
+import buildStripes from '../__mock__/stripesCore.mock';
 
 const STRIPES = buildStripes();
 

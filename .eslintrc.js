@@ -27,7 +27,7 @@ module.exports = {
         "react/prop-types": "off"
       }
     }, {
-      files: ["test/jest/helpers/*"],
+      files: ["test/jest/**/*"],
       rules: {
         "react/prop-types": "off"
       }
