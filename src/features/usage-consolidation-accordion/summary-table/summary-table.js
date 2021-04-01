@@ -64,10 +64,6 @@ const SummaryTable = ({
     }
   }, [summaryMCLRef, isLoaded]);
 
-  if (!data) {
-    return null;
-  }
-
   if (!contentData.length) {
     return null;
   }
