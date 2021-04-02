@@ -14,46 +14,45 @@ import css from './eholdings-app-context.css';
 
 const EHoldingsAppContext = () => (
   <AppContextMenu>
-    {() => (
+    {(handleToggle) => (
       <NavList>
         <NavListSection>
           <NavListItem
             id="eholdings-app-item"
-            to="eholdings"
+            to="/eholdings"
+            onClick={handleToggle}
           >
             <FormattedMessage id="ui-eholdings.navigation.app" />
           </NavListItem>
-          <NavListItem id="content-item">
-            <a
-              href="https://www.tfaforms.com/306425"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={css['external-link']}
+          <NavListItem
+            id="content-item"
+            href="https://www.tfaforms.com/306425"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleToggle}
+          >
+            <Icon
+              icon="external-link"
+              iconPosition="end"
+              iconClassName={css['icon-link']}
             >
-              <Icon
-                icon="external-link"
-                iconPosition="end"
-                iconClassName={css['icon-link']}
-              >
-                <FormattedMessage id="ui-eholdings.navigation.content" />
-              </Icon>
-            </a>
+              <FormattedMessage id="ui-eholdings.navigation.content" />
+            </Icon>
           </NavListItem>
-          <NavListItem id="system-status-item">
-            <a
-              href="https://status.ebsco.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={css['external-link']}
+          <NavListItem
+            id="system-status-item"
+            href="https://status.ebsco.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleToggle}
+          >
+            <Icon
+              icon="external-link"
+              iconPosition="end"
+              iconClassName={css['icon-link']}
             >
-              <Icon
-                icon="external-link"
-                iconPosition="end"
-                iconClassName={css['icon-link']}
-              >
-                <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
-              </Icon>
-            </a>
+              <FormattedMessage id="ui-eholdings.navigation.systemStatus" />
+            </Icon>
           </NavListItem>
         </NavListSection>
       </NavList>
