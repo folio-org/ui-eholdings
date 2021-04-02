@@ -495,11 +495,15 @@
     "settings.usageConsolidation.platformType": "Mostrar exibição padrão das estatísticas de uso da plataforma",
     "settings.usageConsolidation.platformType.all": "Todas as plataformas",
     "settings.usageConsolidation.platformType.publisher": "Somente plataformas editoriais",
-    "settings.usageConsolidation.platformType.nonPublisher": "Non-publisher platforms only",
+    "settings.usageConsolidation.platformType.nonPublisher": "Apenas plataformas de não editores",
     "showHidePasswordField.show": "Mostrar",
     "showHidePasswordField.hide": "Ocultar",
-    "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
-    "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
-    "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "usageConsolidation.holdingsSummary": "Resumo dos holdings"
+    "permission.costperuse.view": "eHoldings: Pode visualizar dados de uso e análise de pacotes, títulos e recursos",
+    "permission.settings.usage-consolidation.view": "Configurações (eholdings): Exibir credenciais de API de consolidação de uso",
+    "permission.settings.usage-consolidation.create-edit": "Configurações (eholdings): Criar, editar e visualizar as credenciais API de consolidação de uso",
+    "usageConsolidation.holdingsSummary": "Resumo dos holdings",
+    "navigation.app": "eholdings app Search",
+    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.systemStatus": "Status do sistema EBSCO",
+    "navigation.keyboardShortcuts": "Atalhos do teclado"
 }

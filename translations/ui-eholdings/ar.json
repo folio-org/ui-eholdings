@@ -501,5 +501,9 @@
     "permission.costperuse.view": "المقتنيات الإلكترونية: إمكانية عرض بيانات التحليل والاستخدام للحزم، والعناوين، والموارد",
     "permission.settings.usage-consolidation.view": "الإعدادت (المقتنيات الإلكترونية): اعرض بيانات اعتماد واجهة برمجة تطبيقات التوحيد",
     "permission.settings.usage-consolidation.create-edit": "الإعدادت (المقتنيات الإلكترونية): أنشئ، حرّر، واعرض بيانات اعتماد واجهة برمجة تطبيقات التوحيد",
-    "usageConsolidation.holdingsSummary": "ملخص المقتنيات"
+    "usageConsolidation.holdingsSummary": "ملخص المقتنيات",
+    "navigation.app": "تطبيق المقتنيات الإلكترونية",
+    "navigation.content": "تقديم استعلام محتوى قاعدة المعرفة",
+    "navigation.systemStatus": "حالة نظام EBSCO",
+    "navigation.keyboardShortcuts": "اختصارات لوحة المفاتيح"
 }
