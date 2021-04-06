@@ -206,7 +206,7 @@
     "navModal.unsavedChangesMsg": "A módosítások nincsenek mentve. Biztosan el akarja hagyni ezt az oldalt?",
     "validate.errors.customTitle.name": "Az egyedi címeket el kell nevezni.",
     "validate.errors.customTitle.name.length": "Kevesebb mint 400 karakter lehet.",
-    "validate.errors.title.description.length": "A beírt érték meghaladja az 1500 karakteres korlátozást. Adjon meg egy olyan értéket, amely nem haladja meg az 1500 karaktert.",
+    "validate.errors.title.description.length": "A beírt érték meghaladja az {amount} karakteres korlátozást. Adjon meg egy olyan értéket, amely nem haladja meg az {amount} karaktert.",
     "validate.errors.customPackage.name": "Az egyedi csomagokat el kell nevezni.",
     "validate.errors.customPackage.name.length": "Kevesebb mint {amount} karakter lehet.",
     "validate.errors.coverageStatement.length": "A nyilatkozat legfeljebb 350 karakter lehet.",

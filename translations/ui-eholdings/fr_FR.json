@@ -502,7 +502,7 @@
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
     "usageConsolidation.holdingsSummary": "Holdings Summary",
-    "navigation.app": "eholdings app Search",
+    "navigation.app": "Recherche d'application eholdings",
     "navigation.content": "Submit a KB Content Inquiry",
     "navigation.systemStatus": "État du système EBSCO",
     "navigation.keyboardShortcuts": "Raccourcis clavier"
