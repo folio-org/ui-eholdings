@@ -206,7 +206,7 @@
     "navModal.unsavedChangesMsg": "A módosítások nincsenek mentve. Biztosan el akarja hagyni ezt az oldalt?",
     "validate.errors.customTitle.name": "Az egyedi címeket el kell nevezni.",
     "validate.errors.customTitle.name.length": "Kevesebb mint 400 karakter lehet.",
-    "validate.errors.title.description.length": "A beírt érték meghaladja az 1500 karakteres korlátozást. Adjon meg egy olyan értéket, amely nem haladja meg az 1500 karaktert.",
+    "validate.errors.title.description.length": "A beírt érték meghaladja az {amount} karakteres korlátozást. Adjon meg egy olyan értéket, amely nem haladja meg az {amount} karaktert.",
     "validate.errors.customPackage.name": "Az egyedi csomagokat el kell nevezni.",
     "validate.errors.customPackage.name.length": "Kevesebb mint {amount} karakter lehet.",
     "validate.errors.coverageStatement.length": "A nyilatkozat legfeljebb 350 karakter lehet.",
@@ -501,5 +501,9 @@
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "usageConsolidation.holdingsSummary": "Holdings Summary"
+    "usageConsolidation.holdingsSummary": "Holdings Summary",
+    "navigation.app": "eholdings app Search",
+    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.systemStatus": "EBSCO System status",
+    "navigation.keyboardShortcuts": "Keyboard shortcuts"
 }

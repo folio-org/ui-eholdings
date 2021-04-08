@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
@@ -10,9 +8,6 @@ import {
   CommandList,
   defaultKeyboardShortcuts,
 } from '@folio/stripes/components';
-import {
-  stripesShape,
-} from '@folio/stripes/core';
 
 import {
   Route,
@@ -60,7 +55,6 @@ class EHoldings extends Component {
       addReducer: PropTypes.func.isRequired,
     }),
     showSettings: PropTypes.bool,
-    stripes: stripesShape.isRequired,
   };
 
   constructor(props) {
@@ -84,16 +78,13 @@ class EHoldings extends Component {
   }
 
   focusSearchField = () => {
-    const {
-      history,
-      stripes,
-    } = this.props;
+    const { history } = this.props;
     const searchElement = document.getElementById('eholdings-search');
 
     if (searchElement) {
       searchElement.focus();
     } else {
-      history.push(stripes.home);
+      history.push('/eholdings');
     }
   };
 

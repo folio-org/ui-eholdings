@@ -1,4 +1,3 @@
-import React from 'react';
 import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';

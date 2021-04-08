@@ -1,5 +1,3 @@
-import React from 'react';
-
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   KeyValue: jest.fn(({ label, children }) => (

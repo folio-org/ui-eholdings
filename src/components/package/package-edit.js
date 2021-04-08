@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from '@folio/stripes-components';
@@ -8,7 +8,7 @@ import CustomPackageEdit from './edit-custom';
 
 import { accessTypesReduxStateShape } from '../../constants';
 
-export default class PackageEdit extends React.Component {
+export default class PackageEdit extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     model: PropTypes.object.isRequired,

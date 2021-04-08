@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
@@ -132,7 +132,7 @@ class ResourceEditManagedTitle extends Component {
     return stateUpdates;
   }
 
-  editFormRef = React.createRef();
+  editFormRef = createRef();
 
   toggleAllSectionsForShortcut = (expand) => {
     this.setState((curState) => {

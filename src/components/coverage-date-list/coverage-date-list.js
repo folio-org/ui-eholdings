@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -26,7 +26,7 @@ const containsNonEmptyObjectsWithStringValues = (propValue, key, componentName, 
   return propTypeIsWrong ? error : null;
 };
 
-class CoverageDateList extends React.Component {
+class CoverageDateList extends Component {
   static propTypes = {
     coverageArray: PropTypes.arrayOf(containsNonEmptyObjectsWithStringValues),
     id: PropTypes.string,
