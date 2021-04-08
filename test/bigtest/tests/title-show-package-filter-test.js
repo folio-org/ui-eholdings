@@ -136,19 +136,6 @@ describe('TitleShow package filter flow', () => {
             expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.false;
           });
         });
-
-        describe('when status "Ordered through EBSCO" selected for selection filter', () => {
-          beforeEach(async () => {
-            await PackageFilterModal.selectionFilterEBSCO.clickAndBlur();
-          });
-
-          it('should select ebsco from selection status', () => {
-            expect(PackageFilterModal.selectionFilterAll.isChecked).to.be.false;
-            expect(PackageFilterModal.selectionFilterSelected.isChecked).to.be.false;
-            expect(PackageFilterModal.selectionFilterNotSelected.isChecked).to.be.false;
-            expect(PackageFilterModal.selectionFilterEBSCO.isChecked).to.be.true;
-          });
-        });
       });
 
       describe('and one package was selected', () => {

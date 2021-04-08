@@ -5,6 +5,7 @@
 * Add app context menu dropdown. (UIEH-1108)
 * eholdings App: Consume {{FormattedDate}} and {{FormattedTime}} via stripes-component. (UIEH-970)
 * Add tests on Jest+RTL for ProviderShow component. (UIEH-1093)
+* Remove the Ordered through EBSCO option from filters. (UIEH-1118)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)

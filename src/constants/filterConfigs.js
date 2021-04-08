@@ -35,7 +35,6 @@ export const selectionStatusFilterOptions = {
   ALL: 'all',
   TRUE: 'true',
   FALSE: 'false',
-  EBSCO: 'ebsco',
 };
 
 export const EBSCO_PROVIDER_ID = 19;
@@ -59,10 +58,6 @@ export const selectionStatusFilterConfig = {
       label: <FormattedMessage id="ui-eholdings.notSelected" />,
       value: selectionStatusFilterOptions.FALSE,
     },
-    {
-      label: <FormattedMessage id="ui-eholdings.filter.selectionStatus.orderedThroughEbsco" />,
-      value: selectionStatusFilterOptions.EBSCO,
-    }
   ]
 };
 
