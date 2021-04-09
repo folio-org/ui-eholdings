@@ -364,7 +364,6 @@
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
-    "filter.selectionStatus.orderedThroughEbsco": "Ordered through EBSCO",
     "filter.contentType.aggregated": "Aggregated Full Text",
     "filter.contentType.abstract": "Abstract and Index",
     "filter.contentType.ebook": "E-Book",
