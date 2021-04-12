@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "사용자 지정 URL은 600자 이하여야 합니다.",
     "validate.errors.customUrl.include": "URL에는 http:// 또는 https:// 가 포함되어야 합니다.",
     "server.errors.failedBackend": "현재 eHoldings 앱을 사용할 수 없습니다.",
-    "server.errors.errorDuringFetch": "문제가 지속되면 FOLIO 시스템 관리자에게 문의하거나 <a> EBSCO Connect </a> 에 방문하십시오.",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
     "server.errors.kbNotConfigured": "Knowledge base가 구성되지 않았습니다.",
     "server.errors.detectedUnconfiguredKb": "eHoldings 애플리케이션이 Knowledge base 존재를 감지했지만 Knowledge base가 구성된 것으로 보이지 않습니다.",
     "server.errors.configureKbLinkMsg": "{link} 에서 자격 증명으로 Knowledge base를 구성하십시오.",
