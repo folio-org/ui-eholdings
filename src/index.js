@@ -78,13 +78,13 @@ class EHoldings extends Component {
   }
 
   focusSearchField = () => {
-    const { history } = this.props;
+    const { history, location: { search } } = this.props;
     const searchElement = document.getElementById('eholdings-search');
 
     if (searchElement) {
       searchElement.focus();
     } else {
-      history.push('/eholdings');
+      history.push({ pathname: '/eholdings', search });
     }
   };
 
