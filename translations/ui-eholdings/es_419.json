@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "Las URLs personalizadas deben tener 600 caracteres o menos.",
     "validate.errors.customUrl.include": "La URL debe incluir http: // o https: //",
     "server.errors.failedBackend": "La aplicación eHoldings no está disponible en este momento.",
-    "server.errors.errorDuringFetch": "Si el problema persiste, comuníquese con el administrador del sistema FOLIO o visite <a> EBSCO Connect </a>",
+    "server.errors.errorDuringFetch": "Si el problema persiste, comuníquese con el administrador del sistema FOLIO o visite",
     "server.errors.kbNotConfigured": "Base de conocimiento no configurada",
     "server.errors.detectedUnconfiguredKb": "La aplicación eHoldings detectó la presencia de una base de conocimientos, pero la base de conocimientos no parece estar configurada.",
     "server.errors.configureKbLinkMsg": "Configure la base de conocimientos con sus credenciales en {link} .",

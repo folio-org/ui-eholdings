@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "自訂的 URL 必須為 600 個字元或更少。",
     "validate.errors.customUrl.include": "網址應包含 http:// 或 https://",
     "server.errors.failedBackend": "電子館藏 app 目前無法使用。",
-    "server.errors.errorDuringFetch": "如果問題仍然存在，請聯繫 FOLIO 系統管理員或訪問 <a> EBSCO Connect </a>",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
     "server.errors.kbNotConfigured": "知識庫尚未設定",
     "server.errors.detectedUnconfiguredKb": "電子館藏 app 偵測到知識庫的存在，但似乎沒有設定知識庫。",
     "server.errors.configureKbLinkMsg": "請使用 {link} 中的帳號密碼配置知識庫。",
@@ -502,7 +502,7 @@
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
     "usageConsolidation.holdingsSummary": "館藏摘要",
-    "navigation.app": "eholdings app Search",
+    "navigation.app": "電子館藏APP搜尋",
     "navigation.content": "送出知識庫內容查詢",
     "navigation.systemStatus": "EBSCO系統狀態",
     "navigation.keyboardShortcuts": "鍵盤快捷鍵"
