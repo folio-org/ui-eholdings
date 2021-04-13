@@ -1,5 +1,8 @@
 # Change history for ui-eholdings
 
+## [6.0.2] (IN PROGRESS)
+* Fix unable to change Knowledge base name. (UIEH-1122) 
+
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
 
