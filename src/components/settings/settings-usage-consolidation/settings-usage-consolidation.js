@@ -38,7 +38,7 @@ const propTypes = {
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
-const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';
+const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC API Credentials';
 
 const SettingsUsageConsolidation = ({
   clearUsageConsolidationErrors,
