@@ -157,7 +157,7 @@ const handlers = {
             ...credential.attributes,
             ...action.payload.attributes,
           },
-          meta: action.payload.meta,
+          meta: credential.meta,
         }
         : credential;
     }),
