@@ -9,6 +9,7 @@
 * Remove the Ordered through EBSCO option from filters. (UIEH-1118)
 * Package record: Show a message that proxy or token value may take some time to update. (UIEH-1116)
 * Fix unable to change Knowledge base name. (UIEH-1122) 
+* Fix error message for Usage consolidation usage id. (UIEH-1123)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
