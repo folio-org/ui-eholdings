@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [6.0.2] (IN PROGRESS)
+## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
 * Fix unable to change Knowledge base name. (UIEH-1122) 
 * Fix error message for Usage consolidation usage id. (UIEH-1123)
 
