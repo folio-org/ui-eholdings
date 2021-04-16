@@ -20,6 +20,8 @@ import {
   Button,
 } from '@folio/stripes/components';
 
+import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
+
 import css from './settings.css';
 
 class Settings extends Component {
@@ -49,8 +51,19 @@ class Settings extends Component {
     }).isRequired,
   }
 
+  hasEditPermissions = () => {
+    return this.props.stripes.hasPerm('ui-eholdings.settings.kb');
+  }
+
   handleKnowledgeBaseHeadingClick = (id) => {
     this.props.history.push(`/settings/eholdings/knowledge-base/${id}`);
+  }
+
+  goToCreateKnowledgeBasePage = () => {
+    this.props.history.push({
+      pathname: '/settings/eholdings/knowledge-base/new',
+      state: { eholdings: true }
+    });
   }
 
   renderKnowledgeBaseHeading(configuration) {
@@ -149,10 +162,9 @@ class Settings extends Component {
       location: {
         pathname,
       },
-      stripes,
     } = this.props;
 
-    if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
+    if (!this.hasEditPermissions()) {
       return null;
     }
 
@@ -162,10 +174,7 @@ class Settings extends Component {
         buttonStyle="primary"
         marginBottom0
         data-test-create-kb-configuration
-        to={{
-          pathname: '/settings/eholdings/knowledge-base/new',
-          state: { eholdings: true }
-        }}
+        onClick={this.goToCreateKnowledgeBasePage}
         disabled={pathname === '/settings/eholdings/knowledge-base/new'}
       >
         <FormattedMessage id="ui-eholdings.settings.kb.newButton" />
@@ -174,25 +183,34 @@ class Settings extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const {
+      children,
+      kbCredentials,
+    } = this.props;
 
     return (
       <>
-        <Pane
-          data-test-eholdings-settings-pane
-          defaultWidth="30%"
-          paneTitle={
-            <Headline margin="none">
-              <FormattedMessage id="ui-eholdings.meta.title" />
-            </Headline>
-          }
-          firstMenu={
-            <PaneBackLink to="/settings" />
-          }
-          lastMenu={this.renderLastMenu()}
+        <KeyShortcutsWrapper
+          openCreateNewEntity={this.goToCreateKnowledgeBasePage}
+          onEdit={() => this.handleKnowledgeBaseHeadingClick(kbCredentials[0]?.id)}
+          isPermission={this.hasEditPermissions()}
         >
-          {this.renderKnowledgeBaseConfigurations()}
-        </Pane>
+          <Pane
+            data-test-eholdings-settings-pane
+            defaultWidth="30%"
+            paneTitle={
+              <Headline margin="none">
+                <FormattedMessage id="ui-eholdings.meta.title" />
+              </Headline>
+            }
+            firstMenu={
+              <PaneBackLink to="/settings" />
+            }
+            lastMenu={this.renderLastMenu()}
+          >
+            {this.renderKnowledgeBaseConfigurations()}
+          </Pane>
+        </KeyShortcutsWrapper>
         {children}
       </>
     );
