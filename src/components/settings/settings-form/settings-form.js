@@ -47,6 +47,7 @@ export default class SettingsForm extends Component {
     const cancelButton = (
       <Button
         data-test-eholdings-settings-form-cancel-button
+        data-testid="settings-form-cancel-button"
         buttonStyle="default mega"
         disabled={updateIsPending || pristine}
         onClick={reset}
@@ -60,6 +61,7 @@ export default class SettingsForm extends Component {
       <Button
         buttonStyle="primary mega"
         data-test-eholdings-settings-form-save-button
+        data-testid="settings-form-save-button"
         disabled={updateIsPending || invalid || pristine}
         marginBottom0
         type="submit"

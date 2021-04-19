@@ -95,6 +95,7 @@ class Settings extends Component {
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <span
                 data-test-configuration-heading
+                data-testid={`kb-credentials-heading-${id}`}
                 ref={ref}
                 role="button"
                 className={css.listSectionHeader}
