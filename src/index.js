@@ -8,9 +8,6 @@ import {
   CommandList,
   defaultKeyboardShortcuts,
 } from '@folio/stripes/components';
-import {
-  stripesShape,
-} from '@folio/stripes/core';
 
 import {
   Route,
@@ -58,7 +55,6 @@ class EHoldings extends Component {
       addReducer: PropTypes.func.isRequired,
     }),
     showSettings: PropTypes.bool,
-    stripes: stripesShape.isRequired,
   };
 
   constructor(props) {
@@ -82,16 +78,13 @@ class EHoldings extends Component {
   }
 
   focusSearchField = () => {
-    const {
-      history,
-      stripes,
-    } = this.props;
+    const { history, location: { search } } = this.props;
     const searchElement = document.getElementById('eholdings-search');
 
     if (searchElement) {
       searchElement.focus();
     } else {
-      history.push(stripes.home);
+      history.push({ pathname: '/eholdings', search });
     }
   };
 

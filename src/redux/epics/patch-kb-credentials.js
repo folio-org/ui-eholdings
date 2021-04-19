@@ -15,15 +15,13 @@ export default ({ knowledgeBaseApi }) => (action$, store) => {
     .mergeMap(({ payload }) => {
       return knowledgeBaseApi
         .editCredentials(store.getState().okapi, { data: payload.data }, payload.credentialId)
-        .map((response) => {
+        .map(() => {
           return patchKBCredentialsSuccess({
             // here we're using data that comes from the form but not the response
             // because the response sends api key in an encrypted format. this differs from the
             // actual value of the key in form.
             // this difference causes the form to become dirty right after the update
-            // But we still need the actual metadata from response so we're adding it here
             ...payload.data,
-            meta: response.data.meta,
           });
         })
         .catch(errors => Observable.of(patchKBCredentialsFailure({ errors })));

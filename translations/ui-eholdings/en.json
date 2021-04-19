@@ -143,7 +143,7 @@
     "package.token": "Package token",
     "package.noTokenSet": "No package token has been set.",
     "package.tokenNeed": "Package Token need",
-    "package.toast.isFreshlySaved": "Package saved.",
+    "package.toast.isFreshlySaved": "Package saved. Note: A proxy or token update may take a few minutes and may require refreshing page.",
     "package.token.addToken": "Add a package level token",
 
     "resource.modal.header": "Remove title from holdings?",
@@ -364,7 +364,6 @@
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
-    "filter.selectionStatus.orderedThroughEbsco": "Ordered through EBSCO",
     "filter.contentType.aggregated": "Aggregated Full Text",
     "filter.contentType.abstract": "Abstract and Index",
     "filter.contentType.ebook": "E-Book",

@@ -230,7 +230,7 @@
     "validate.errors.customUrl.length": "カスタムURLは600文字以下にする必要があります。",
     "validate.errors.customUrl.include": "URLにはhttp://またはhttps://を含める必要があります",
     "server.errors.failedBackend": "電子所蔵アプリは現在ご利用いただけません。",
-    "server.errors.errorDuringFetch": "問題が解決しない場合は、FOLIOシステム管理者に連絡するか、 <a> EBSCO Connect </a>をご覧ください。",
+    "server.errors.errorDuringFetch": "If the problem persist, please contact your FOLIO system administrator or visit",
     "server.errors.kbNotConfigured": "ナレッジベースが構成されていません",
     "server.errors.detectedUnconfiguredKb": "電子所蔵アプリケーションはナレッジベースの存在を検出しましたが、ナレッジベースが構成されていないようです。",
     "server.errors.configureKbLinkMsg": "{link}の資格情報を使用してナレッジベースを構成してください。",

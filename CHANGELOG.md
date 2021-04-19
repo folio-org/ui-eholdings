@@ -5,7 +5,13 @@
 * Add app context menu dropdown. (UIEH-1108)
 * eholdings App: Consume {{FormattedDate}} and {{FormattedTime}} via stripes-component. (UIEH-970)
 * Add tests on Jest+RTL for ProviderShow component. (UIEH-1093)
+* Search shortcut should redirect to eHoldings search page. (UIEH-1111)
+* Remove the Ordered through EBSCO option from filters. (UIEH-1118)
+* Package record: Show a message that proxy or token value may take some time to update. (UIEH-1116)
 * Usage & analysis accordion focus issues. (UIEH-1110)
+
+## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
+* Fix unable to change Knowledge base name. (UIEH-1122)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
