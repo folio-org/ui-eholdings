@@ -224,10 +224,14 @@ const UsageConsolidationAccordion = ({
           onToggle={onToggle}
           headerProps={headerProps}
         >
-          <UsageConsolidationFilters
-            onSubmit={handleFiltersSubmit}
-            initialState={filtersInitialState}
-          />
+          {
+            isOpen && (
+              <UsageConsolidationFilters
+                onSubmit={handleFiltersSubmit}
+                initialState={filtersInitialState}
+              />
+            )
+          }
           {isCostPerUseDataLoading
             ? <Spinner />
             : renderContent()
