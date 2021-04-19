@@ -70,87 +70,107 @@ export default class ProviderEdit extends Component {
     );
   }
 
-  render() {
+  renderProxySelectField() {
     const {
-      model,
       proxyTypes,
       rootProxy,
-      onSubmit,
-      onCancel,
     } = this.props;
+
+    return (!proxyTypes.request.isResolved || !rootProxy.request.isResolved)
+      ? (
+        <Icon
+          icon="spinner-ellipsis"
+          data-testid="proxy-spinner"
+        />
+      )
+      : (
+        <div data-test-eholdings-provider-proxy-select>
+          <ProxySelectField
+            proxyTypes={proxyTypes}
+            inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
+          />
+        </div>
+      );
+  }
+
+  renderBodyContent() {
+    const { model } = this.props;
 
     const supportsTokens = model.providerToken && model.providerToken.prompt;
     const hasTokenValue = model.providerToken && model.providerToken.value;
 
     return (
-      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
-        <Form
-          decorators={[focusOnErrors]}
-          onSubmit={onSubmit}
-          initialValues={{
-            proxyId: model.proxy.id?.toLowerCase(),
-            providerTokenValue: model.providerToken.value
-          }}
-          render={({ handleSubmit, pristine, form: { reset } }) => (
-            <>
-              <Toaster
-                toasts={processErrors(model)}
-                position="bottom"
-              />
-              <form
-                ref={this.editFormRef}
-                onSubmit={handleSubmit}
-              >
-                <DetailsView
+      <DetailsViewSection
+        label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
+      >
+        {model.packagesSelected > 0 ? (
+          <>
+            {this.renderProxySelectField()}
+            {supportsTokens && (
+              <fieldset>
+                <Headline tag="legend" id="provider-token-label">
+                  <FormattedMessage id="ui-eholdings.provider.token" />
+                </Headline>
+                <TokenField
+                  token={model.providerToken}
+                  tokenValue={hasTokenValue}
                   type="provider"
-                  model={model}
-                  key={model.id}
-                  paneTitle={model.name}
-                  footer={this.getFooter(pristine, reset)}
-                  bodyContent={(
-                    <>
-                      <DetailsViewSection
-                        label={<FormattedMessage id="ui-eholdings.provider.providerSettings" />}
-                      >
-                        {model.packagesSelected > 0 ? (
-                          <div>
-                            {(!proxyTypes.request.isResolved || !rootProxy.request.isResolved) ? (
-                              <Icon icon="spinner-ellipsis" />
-                            ) : (
-                              <div data-test-eholdings-provider-proxy-select>
-                                <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={rootProxy.data.attributes.proxyTypeId} />
-                              </div>
-                            )}
-
-                            {supportsTokens && (
-                              <fieldset>
-                                <Headline tag="legend" id="provider-token-label">
-                                  <FormattedMessage id="ui-eholdings.provider.token" />
-                                </Headline>
-                                <TokenField
-                                  token={model.providerToken}
-                                  tokenValue={hasTokenValue}
-                                  type="provider"
-                                  ariaLabelledBy="provider-token-label"
-                                />
-                              </fieldset>
-                            )}
-                          </div>
-                        ) : (
-                          <div data-test-eholdings-provider-package-not-selected>
-                            <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
-                          </div>
-                        )}
-                      </DetailsViewSection>
-                    </>
-                  )}
-                  onCancel={onCancel}
+                  ariaLabelledBy="provider-token-label"
                 />
-              </form>
-              <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
-            </>
-          )}
-        />
+              </fieldset>
+            )}
+          </>
+        ) : (
+          <div data-test-eholdings-provider-package-not-selected>
+            <FormattedMessage id="ui-eholdings.provider.noPackagesSelected" />
+          </div>
+        )}
+      </DetailsViewSection>
+    );
+  }
+
+  render() {
+    const {
+      model,
+      onSubmit,
+      onCancel,
+    } = this.props;
+
+    return (
+      <KeyShortcutsWrapper formRef={this.editFormRef.current}>
+        <div data-testid="provider-edit">
+          <Form
+            decorators={[focusOnErrors]}
+            onSubmit={onSubmit}
+            initialValues={{
+              proxyId: model.proxy.id?.toLowerCase(),
+              providerTokenValue: model.providerToken.value
+            }}
+            render={({ handleSubmit, pristine, form: { reset } }) => (
+              <>
+                <Toaster
+                  toasts={processErrors(model)}
+                  position="bottom"
+                />
+                <form
+                  ref={this.editFormRef}
+                  onSubmit={handleSubmit}
+                >
+                  <DetailsView
+                    type="provider"
+                    model={model}
+                    key={model.id}
+                    paneTitle={model.name}
+                    footer={this.getFooter(pristine, reset)}
+                    bodyContent={this.renderBodyContent()}
+                    onCancel={onCancel}
+                  />
+                </form>
+                <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+              </>
+            )}
+          />
+        </div>
       </KeyShortcutsWrapper>
     );
   }

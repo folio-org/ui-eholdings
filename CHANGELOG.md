@@ -12,6 +12,7 @@
 
 ## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
 * Fix unable to change Knowledge base name. (UIEH-1122)
+* Add test on Jest+RTL for ProviderEdit component. (UIEH-1083)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
