@@ -69,7 +69,7 @@ class Settings extends Component {
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;
 
-    if (!this.props.stripes.hasPerm('ui-eholdings.settings.kb')) {
+    if (!this.hasEditPermissions()) {
       return (
         <FormattedMessage id="ui-eholdings.settings.kb">
           {(message) => (
@@ -183,17 +183,12 @@ class Settings extends Component {
   }
 
   render() {
-    const {
-      children,
-      kbCredentials,
-    } = this.props;
+    const { children } = this.props;
 
     return (
       <>
         <KeyShortcutsWrapper
           openCreateNewEntity={this.goToCreateKnowledgeBasePage}
-          onEdit={() => this.handleKnowledgeBaseHeadingClick(kbCredentials[0]?.id)}
-          isPermission={this.hasEditPermissions()}
         >
           <Pane
             data-test-eholdings-settings-pane
