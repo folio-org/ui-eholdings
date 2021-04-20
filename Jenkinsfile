@@ -3,4 +3,7 @@ buildNPM {
   runLint = 'yes'
   runTest = 'yes'
   runSonarqube = true
+  runScripts = [
+   ['formatjs-compile': ''],
+  ]
 }
