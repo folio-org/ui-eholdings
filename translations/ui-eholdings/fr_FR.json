@@ -501,7 +501,7 @@
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "usageConsolidation.holdingsSummary": "Holdings Summary",
+    "usageConsolidation.holdingsSummary": "Résumé des fonds documentaires",
     "navigation.app": "Recherche d'application eholdings",
     "navigation.content": "Submit a KB Content Inquiry",
     "navigation.systemStatus": "État du système EBSCO",
