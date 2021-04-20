@@ -79,15 +79,25 @@ const KeyShortcutsWrapper = ({
   ];
 
   const shortcuts = useMemo(() => {
-    if (onEdit) return editShortcuts;
+    let shortcutsArray = [];
 
-    if (formRef) return saveShortcuts;
+    if (onEdit) {
+      shortcutsArray = [...shortcutsArray, ...editShortcuts];
+    }
 
-    if (focusSearchField) return searchShortcuts;
+    if (formRef) {
+      shortcutsArray = [...shortcutsArray, ...saveShortcuts];
+    }
 
-    if (openCreateNewEntity) return createShortcuts;
+    if (focusSearchField) {
+      shortcutsArray = [...shortcutsArray, ...searchShortcuts];
+    }
 
-    return [];
+    if (openCreateNewEntity) {
+      shortcutsArray = [...shortcutsArray, ...createShortcuts];
+    }
+
+    return shortcutsArray;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onEdit, formRef, focusSearchField, openCreateNewEntity]);
 
