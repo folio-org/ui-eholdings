@@ -1,3 +1,7 @@
+import {
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   Form,
@@ -8,6 +12,7 @@ import {
   useIntl,
   FormattedMessage,
 } from 'react-intl';
+import { defer } from 'lodash';
 
 import {
   Select,
@@ -31,6 +36,14 @@ const UsageConsolidationFilters = ({
   initialState,
 }) => {
   const intl = useIntl();
+  const yearField = useRef(null);
+
+  useEffect(() => {
+    if (yearField.current) {
+      // use defer to avoid focus mismatch and set focus on select
+      defer(() => yearField.current.focus());
+    }
+  }, [yearField]);
 
   const currentYear = moment().year();
   const last5Years = new Array(5)
@@ -55,6 +68,7 @@ const UsageConsolidationFilters = ({
         <Row bottom="xs">
           <Col xs={3}>
             <Field
+              inputRef={yearField}
               name="year"
               type="text"
               component={Select}

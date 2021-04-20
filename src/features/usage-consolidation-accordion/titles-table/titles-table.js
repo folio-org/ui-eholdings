@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   useIntl,
@@ -19,6 +23,7 @@ import {
   costPerUseTypes,
   sortOrders,
 } from '../../../constants';
+import { getMCLFirstDataRow } from '../utilities';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -36,6 +41,7 @@ const TitlesTable = ({
 }) => {
   const intl = useIntl();
   const [page, setPage] = useState(DEFAULT_PAGE);
+  const titlesTableMCLRef = useRef(null);
 
   const handleSortChange = (newSortedColumn, newSortOrder) => {
     setPage(DEFAULT_PAGE);
@@ -69,6 +75,12 @@ const TitlesTable = ({
   const showLoadingMessage = isPackageTitlesLoading && !data;
   const hideTable = !isPackageTitlesLoading && !isPackageTitlesFailed && !data;
 
+  useEffect(() => {
+    if (titlesTableMCLRef.current && !isPackageTitlesLoading) {
+      getMCLFirstDataRow(titlesTableMCLRef.current).focus();
+    }
+  }, [titlesTableMCLRef, isPackageTitlesLoading]);
+
   if (showLoadingMessage) {
     return <LoadingMessage label="ui-eholdings.usageConsolidation.titles.loading" />;
   }
@@ -96,6 +108,7 @@ const TitlesTable = ({
         ? (
           <MultiColumnList
             id="packageUsageConsolidationTitles"
+            containerRef={titlesTableMCLRef}
             contentData={titlesContentData}
             formatter={{
               ...getCostPerUseFormatter(currency),

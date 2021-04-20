@@ -329,7 +329,7 @@
     "search.selectFieldToSearch": "검색 할 필드를 선택하세요.",
     "tags.filter": "태그 필터",
     "resource.customLabels": "커스텀 레이블",
-    "validate.errors.customLabels.length": "값이 100 글자 제한을 초과했습니다. 값을 수정하십시오.",
+    "validate.errors.customLabels.length": "Value has exceeded {amount} character limit. Please revise your value.",
     "settings.customLabels.displayLabel": "디스플레이 레이블",
     "settings.customLabels.publicationFinder": "Publication Finder에 출력",
     "settings.customLabels.textFinder": "Full Text Finder에 출력",
