@@ -20,6 +20,8 @@ import {
   Button,
 } from '@folio/stripes/components';
 
+import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
+
 import css from './settings.css';
 
 class Settings extends Component {
@@ -49,14 +51,25 @@ class Settings extends Component {
     }).isRequired,
   }
 
+  hasEditPermissions = () => {
+    return this.props.stripes.hasPerm('ui-eholdings.settings.kb');
+  }
+
   handleKnowledgeBaseHeadingClick = (id) => {
     this.props.history.push(`/settings/eholdings/knowledge-base/${id}`);
+  }
+
+  goToCreateKnowledgeBasePage = () => {
+    this.props.history.push({
+      pathname: '/settings/eholdings/knowledge-base/new',
+      state: { eholdings: true }
+    });
   }
 
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;
 
-    if (!this.props.stripes.hasPerm('ui-eholdings.settings.kb')) {
+    if (!this.hasEditPermissions()) {
       return (
         <FormattedMessage id="ui-eholdings.settings.kb">
           {(message) => (
@@ -82,6 +95,7 @@ class Settings extends Component {
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <span
                 data-test-configuration-heading
+                data-testid={`kb-credentials-heading-${id}`}
                 ref={ref}
                 role="button"
                 className={css.listSectionHeader}
@@ -149,10 +163,9 @@ class Settings extends Component {
       location: {
         pathname,
       },
-      stripes,
     } = this.props;
 
-    if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
+    if (!this.hasEditPermissions()) {
       return null;
     }
 
@@ -162,10 +175,7 @@ class Settings extends Component {
         buttonStyle="primary"
         marginBottom0
         data-test-create-kb-configuration
-        to={{
-          pathname: '/settings/eholdings/knowledge-base/new',
-          state: { eholdings: true }
-        }}
+        onClick={this.goToCreateKnowledgeBasePage}
         disabled={pathname === '/settings/eholdings/knowledge-base/new'}
       >
         <FormattedMessage id="ui-eholdings.settings.kb.newButton" />
@@ -178,21 +188,25 @@ class Settings extends Component {
 
     return (
       <>
-        <Pane
-          data-test-eholdings-settings-pane
-          defaultWidth="30%"
-          paneTitle={
-            <Headline margin="none">
-              <FormattedMessage id="ui-eholdings.meta.title" />
-            </Headline>
-          }
-          firstMenu={
-            <PaneBackLink to="/settings" />
-          }
-          lastMenu={this.renderLastMenu()}
+        <KeyShortcutsWrapper
+          openCreateNewEntity={this.goToCreateKnowledgeBasePage}
         >
-          {this.renderKnowledgeBaseConfigurations()}
-        </Pane>
+          <Pane
+            data-test-eholdings-settings-pane
+            defaultWidth="30%"
+            paneTitle={
+              <Headline margin="none">
+                <FormattedMessage id="ui-eholdings.meta.title" />
+              </Headline>
+            }
+            firstMenu={
+              <PaneBackLink to="/settings" />
+            }
+            lastMenu={this.renderLastMenu()}
+          >
+            {this.renderKnowledgeBaseConfigurations()}
+          </Pane>
+        </KeyShortcutsWrapper>
         {children}
       </>
     );

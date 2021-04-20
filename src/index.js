@@ -96,14 +96,16 @@ class EHoldings extends Component {
 
     return showSettings
       ? (
-        <Route path={rootPath} component={SettingsRoute}>
-          <Route path={`${rootPath}/knowledge-base/:kbId`} exact component={SettingsKnowledgeBaseRoute} />
-          <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
-          <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
-          <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
-          <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
-          <Route path={`${rootPath}/:kbId/usage-consolidation`} exact component={SettingsUsageConsolidationRoute} />
-        </Route>
+        <CommandList commands={defaultKeyboardShortcuts}>
+          <Route path={rootPath} component={SettingsRoute}>
+            <Route path={`${rootPath}/knowledge-base/:kbId`} exact component={SettingsKnowledgeBaseRoute} />
+            <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
+            <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
+            <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
+            <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
+            <Route path={`${rootPath}/:kbId/usage-consolidation`} exact component={SettingsUsageConsolidationRoute} />
+          </Route>
+        </CommandList>
       )
       : (
         <>

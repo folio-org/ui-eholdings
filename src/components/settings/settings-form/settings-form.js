@@ -1,4 +1,7 @@
-import { Component } from 'react';
+import {
+  Component,
+  createRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,7 +11,9 @@ import {
   PaneFooter,
   Button,
 } from '@folio/stripes/components';
+
 import Toaster from '../../toaster';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import css from './settings-form.css';
 
@@ -27,6 +32,8 @@ export default class SettingsForm extends Component {
     updateIsPending: PropTypes.bool,
   };
 
+  formRef = createRef();
+
   renderFooter() {
     const {
       formState: {
@@ -40,6 +47,7 @@ export default class SettingsForm extends Component {
     const cancelButton = (
       <Button
         data-test-eholdings-settings-form-cancel-button
+        data-testid="settings-form-cancel-button"
         buttonStyle="default mega"
         disabled={updateIsPending || pristine}
         onClick={reset}
@@ -53,6 +61,7 @@ export default class SettingsForm extends Component {
       <Button
         buttonStyle="primary mega"
         data-test-eholdings-settings-form-save-button
+        data-testid="settings-form-save-button"
         disabled={updateIsPending || invalid || pristine}
         marginBottom0
         type="submit"
@@ -80,35 +89,40 @@ export default class SettingsForm extends Component {
     } = this.props;
 
     return (
-      <form
-        className={css.SettingsForm}
-        onSubmit={formState.handleSubmit}
-        {...formProps}
+      <KeyShortcutsWrapper
+        formRef={this.formRef?.current}
       >
-        <Pane
-          paneTitle={title}
-          defaultWidth="fill"
-          firstMenu={(
-            <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
-              {ariaLabel => (
-                <PaneCloseLink
-                  ariaLabel={ariaLabel}
-                  to="/settings/eholdings"
-                />
-              )}
-            </FormattedMessage>
-          )}
-          lastMenu={lastMenu}
-          footer={this.renderFooter()}
+        <form
+          className={css.SettingsForm}
+          onSubmit={formState.handleSubmit}
+          ref={this.formRef}
+          {...formProps}
         >
-          <Toaster
-            position='bottom'
-            toasts={toasts}
-          />
+          <Pane
+            paneTitle={title}
+            defaultWidth="fill"
+            firstMenu={(
+              <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
+                {ariaLabel => (
+                  <PaneCloseLink
+                    ariaLabel={ariaLabel}
+                    to="/settings/eholdings"
+                  />
+                )}
+              </FormattedMessage>
+            )}
+            lastMenu={lastMenu}
+            footer={this.renderFooter()}
+          >
+            <Toaster
+              position='bottom'
+              toasts={toasts}
+            />
 
-          {children}
-        </Pane>
-      </form>
+            {children}
+          </Pane>
+        </form>
+      </KeyShortcutsWrapper>
     );
   }
 }

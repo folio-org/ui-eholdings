@@ -11,6 +11,7 @@
 * Usage & analysis accordion focus issues. (UIEH-1110)
 * Add test on Jest+RTL for ProviderEdit component. (UIEH-1083)
 * Compile translation files into AST format. (UIEH-1124)
+* Settings > eHoldings | Apply baseline keyboard shortcuts. (UIEH-1121)
 
 ## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
 * Fix unable to change Knowledge base name. (UIEH-1122)
