@@ -18,6 +18,7 @@ const toggleSelectedMock = jest.fn();
 
 const renderResourceShow = ({
   isSelected = true,
+  ...props
 } = {}) => render(
   <Harness>
     <CommandList commands={defaultKeyboardShortcuts}>
@@ -106,6 +107,7 @@ const renderResourceShow = ({
             errors: [],
           },
         }}
+        {...props}
       />
     </CommandList>
   </Harness>
@@ -166,6 +168,16 @@ describe('Given ResourceShow', () => {
       fireEvent.click(getByTestId('toggle-resource-holdings'));
 
       expect(toggleSelectedMock.mock.calls.length).toEqual(1);
+    });
+  });
+
+  describe('when resource is freshly saved', () => {
+    it('should display notification toast', () => {
+      const { getByText } = renderResourceShow({
+        isFreshlySaved: true,
+      });
+
+      expect(getByText('ui-eholdings.resource.toast.isFreshlySaved')).toBeDefined();
     });
   });
 });
