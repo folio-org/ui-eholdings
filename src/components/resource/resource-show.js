@@ -174,32 +174,22 @@ class ResourceShow extends Component {
   renderSelectionButton(onToggle) {
     const { resourceSelected } = this.state;
 
+    const selectionButtonMessage = resourceSelected
+      ? 'ui-eholdings.resource.actionMenu.removeHolding'
+      : 'ui-eholdings.resource.actionMenu.addHolding';
+
     return (
-      resourceSelected
-        ? (
-          <Button
-            data-test-eholdings-remove-resource-from-holdings
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleHoldingStatus();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
-          </Button>
-        )
-        : (
-          <Button
-            data-test-eholdings-add-resource-to-holdings
-            buttonStyle="dropdownItem fullWidth"
-            onClick={() => {
-              onToggle();
-              this.handleHoldingStatus();
-            }}
-          >
-            <FormattedMessage id="ui-eholdings.resource.actionMenu.addHolding" />
-          </Button>
-        )
+      <Button
+        data-test-eholdings-toggle-resource-holdings
+        data-testid="toggle-resource-holdings"
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          onToggle();
+          this.handleHoldingStatus();
+        }}
+      >
+        <FormattedMessage id={selectionButtonMessage} />
+      </Button>
     );
   }
 
@@ -348,11 +338,13 @@ class ResourceShow extends Component {
           size="small"
           label={<FormattedMessage id="ui-eholdings.resource.show.modal.header" />}
           id="eholdings-resource-deselection-confirmation-modal"
+          data-testid="selection-modal"
           aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.show.modal.header' })}
           footer={(
             <ModalFooter>
               <Button
                 data-test-eholdings-resource-deselection-confirmation-modal-yes
+                data-testid="resource-deselection-confirmation-yes"
                 buttonStyle="primary"
                 onClick={this.commitSelectionToggle}
               >
@@ -360,6 +352,7 @@ class ResourceShow extends Component {
               </Button>
               <Button
                 data-test-eholdings-resource-deselection-confirmation-modal-no
+                data-testid="resource-deselection-confirmation-no"
                 onClick={this.cancelSelectionToggle}
               >
                 <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
