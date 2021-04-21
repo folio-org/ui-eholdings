@@ -13,6 +13,9 @@
 * Compile translation files into AST format. (UIEH-1124)
 * Settings > eHoldings | Apply baseline keyboard shortcuts. (UIEH-1121)
 
+## [6.0.3] (https://github.com/folio-org/ui-eholdings/tree/v6.0.3) (2021-04-20)
+* Usage & analysis accordion focus issues. (UIEH-1110)
+
 ## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
 * Fix unable to change Knowledge base name. (UIEH-1122)
 
