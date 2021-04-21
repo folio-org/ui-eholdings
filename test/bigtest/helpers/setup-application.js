@@ -42,6 +42,7 @@ export default function setupApplication({
   hasAllPerms = true,
   permissions = {},
   initialState = defaultInitialState,
+  modules,
 } = {}) {
   setupStripesCore({
     mirageOptions: {
@@ -55,5 +56,6 @@ export default function setupApplication({
     },
     userLoggedIn: true,
     initialState,
+    modules,
   });
 }
