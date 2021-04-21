@@ -7,7 +7,7 @@ import PackageEditPage from '../interactors/package-edit';
 import { entityAuthorityTypes } from '../../../src/constants';
 // import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
-describe.only('ResourceShow', () => {
+describe('ResourceShow', () => {
   setupApplication({
     modules: [{
       type: 'app',
