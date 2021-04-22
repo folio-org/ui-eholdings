@@ -1,9 +1,9 @@
-import noop from 'lodash/noop';
 import {
   render,
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import noop from 'lodash/noop';
 
 import {
   CommandList,
@@ -33,50 +33,13 @@ const renderResourceShow = ({
             }],
           }
         }}
-        // costPerUse={{
-        //   data: {
-        //     resourceCostPerUse: {
-        //       type: 'resourceCostPerUse',
-        //       resourceId: '58-473-356',
-        //       attributes: {
-        //         usage: {
-        //           platforms: [{
-        //             name: 'Wiley Online Library',
-        //             isPublisherPlatform: true,
-        //             counts: [16, 1, null, null, null, null, null, null, null, null, null, null],
-        //             total: 17,
-        //           }],
-        //           totals: {
-        //             publisher: {
-        //               counts: [16, 1, null, null, null, null, null, null, null, null, null, null],
-        //               total: 17,
-        //             }
-        //           }
-        //         },
-        //         analysis: {
-        //           cost: 38.906603,
-        //           usage: 17,
-        //           costPerUse: 2.288623705882353,
-        //         },
-        //         parameters: {
-        //           startMonth: 'jan',
-        //           currency: 'UYU'
-        //         }
-        //       }
-        //     }
-        //   },
-        //   errors: [],
-        //   isFailed: false,
-        //   isLoaded: true,
-        //   isLoading: false,
-        // }}
-        fetchResourceCostPerUse={() => {}}
+        fetchResourceCostPerUse={noop}
         isFreshlySaved={false}
-        onEdit={() => {}}
+        onEdit={noop}
         proxyTypes={{}}
         tagsModel={{}}
         toggleSelected={toggleSelectedMock}
-        updateFolioTags={() => {}}
+        updateFolioTags={noop}
         model={{
           id: 'resource-id',
           name: 'resource-name',

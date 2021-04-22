@@ -2,6 +2,7 @@ import {
   render,
   cleanup,
 } from '@testing-library/react';
+import noop from 'lodash/noop';
 
 import CustomLabelsAccordion from './custom-labels-accordion';
 import Harness from '../../../test/jest/helpers/harness';
@@ -24,10 +25,10 @@ const renderCustomLabelsAccordion = ({
   >
     <CustomLabelsAccordion
       id="custom-labels"
-      getCustomLabels={() => {}}
-      onToggle={() => {}}
+      getCustomLabels={noop}
+      onToggle={noop}
       isOpen
-      updateFolioTags={() => {}}
+      updateFolioTags={noop}
       section={() => <div>Custom labels section</div>}
       {...props}
     />

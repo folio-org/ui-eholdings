@@ -2,6 +2,7 @@ import {
   render,
   cleanup,
 } from '@testing-library/react';
+import noop from 'lodash/noop';
 
 import TagsAccordion from './tags-accordion';
 import Harness from '../../../test/jest/helpers/harness';
@@ -31,14 +32,14 @@ const renderTagsAccordion = (props) => render(
         id: 'resource-id',
         isLoading: false,
       }}
-      onToggle={() => {}}
+      onToggle={noop}
       open
       tagsModel={{
         request: {
           isResolved: true,
         },
       }}
-      updateFolioTags={() => {}}
+      updateFolioTags={noop}
       {...props}
     />
   </Harness>

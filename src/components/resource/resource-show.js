@@ -1,7 +1,6 @@
 import {
   useState,
   useEffect,
-  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -161,6 +160,7 @@ const ResourceShow = ({
 
     if (!isMenuNeeded) return null;
 
+    // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
       <>
         {canEdit &&
