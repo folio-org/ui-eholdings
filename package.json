@@ -36,6 +36,7 @@
     "@formatjs/cli": "^4.2.7",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
+    "@testing-library/react-hooks": "^5.1.2",
     "axe-core": "^4.0.2",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^26.3.0",

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import update from 'lodash/fp/update';
 
 import { expandAllFunction } from '@folio/stripes/components';
 
@@ -7,8 +6,10 @@ export default function (initialSections) {
   const [sections, setSections] = useState(initialSections);
 
   const handleSectionToggle = ({ id }) => {
-    const next = update(`sections.${id}`, value => !value, { sections });
-    setSections(next.sections);
+    setSections({
+      ...sections,
+      [id]: !sections[id],
+    });
   };
 
   const handleExpandAll = (expandedSections) => {

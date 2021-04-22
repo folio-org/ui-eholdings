@@ -171,7 +171,7 @@ const ResourceShow = ({
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
           </Button>}
-        {canSelectAndUnselect && renderSelectionButton(onToggle, resourceSelected)}
+        {canSelectAndUnselect && renderSelectionButton(onToggle)}
       </>
     );
   };
