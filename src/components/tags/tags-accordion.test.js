@@ -7,22 +7,22 @@ import noop from 'lodash/noop';
 import TagsAccordion from './tags-accordion';
 import Harness from '../../../test/jest/helpers/harness';
 
+const resourceRecord = {
+  records: {
+    'resource-id': {
+      attributes: {
+        tags: {
+          tagList: ['tag-1', 'tag-2'],
+        },
+      },
+    },
+  },
+};
+
 const renderTagsAccordion = (props) => render(
   <Harness
     storeInitialState={{
-      data: {
-        resource: {
-          records: {
-            'resource-id': {
-              attributes: {
-                tags: {
-                  tagList: ['tag-1', 'tag-2']
-                }
-              }
-            }
-          }
-        }
-      }
+      data: { resource: resourceRecord },
     }}
   >
     <TagsAccordion

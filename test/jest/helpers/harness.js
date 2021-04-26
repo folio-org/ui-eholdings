@@ -1,7 +1,10 @@
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import {
+  createStore,
+  combineReducers,
+} from 'redux';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 

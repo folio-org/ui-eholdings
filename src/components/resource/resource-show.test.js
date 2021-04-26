@@ -31,7 +31,7 @@ const renderResourceShow = ({
                 name: 'access type',
               },
             }],
-          }
+          },
         }}
         fetchResourceCostPerUse={noop}
         isFreshlySaved={false}

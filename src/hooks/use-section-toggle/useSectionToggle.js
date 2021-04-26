@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { expandAllFunction } from '@folio/stripes/components';
 
-export default function (initialSections) {
+const useSectionToggle = (initialSections) => {
   const [sections, setSections] = useState(initialSections);
 
   const handleSectionToggle = ({ id }) => {
@@ -26,4 +26,6 @@ export default function (initialSections) {
     handleExpandAll,
     toggleAllSections,
   }];
-}
+};
+
+export default useSectionToggle;

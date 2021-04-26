@@ -188,7 +188,7 @@ const ResourceShow = ({
     toasts.push({
       id: `success-package-creation-${model.id}`,
       message: <FormattedMessage id="ui-eholdings.resource.toast.isFreshlySaved" />,
-      type: 'success'
+      type: 'success',
     });
   }
 
