@@ -57,7 +57,7 @@ class TagsAccordion extends Component {
         onToggle={onToggle}
         displayWhenClosed={
           <Badge sixe='small'>
-            <span>
+            <span data-testid="tags-accordion-tags-length">
               <FormattedNumber value={entityTags.length} />
             </span>
           </Badge>
@@ -65,7 +65,12 @@ class TagsAccordion extends Component {
         headerProps={headerProps}
       >
         {(!tagsModel.request.isResolved || model.isLoading)
-          ? <Icon icon="spinner-ellipsis" />
+          ? (
+            <Icon
+              data-testid="spinner"
+              icon="spinner-ellipsis"
+            />
+          )
           : (
             <Tags
               updateFolioTags={updateFolioTags}

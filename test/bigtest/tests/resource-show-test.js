@@ -8,7 +8,24 @@ import { entityAuthorityTypes } from '../../../src/constants';
 // import usageConsolidationInfoPopoverTests from './usage-consolidation-info-popover';
 
 describe('ResourceShow', () => {
-  setupApplication();
+  setupApplication({
+    modules: [{
+      type: 'app',
+      name: '@folio/ui-agreements',
+      displayName: 'dummy.title',
+      route: '/erm',
+      hasSettings: true,
+      module: () => <h1>Agreements</h1>,
+    }, {
+      type: 'app',
+      name: '@folio/ui-empty',
+      displayName: 'dummy.title',
+      route: '/',
+      hasSettings: true,
+      module: () => <h1>Empty</h1>,
+    }],
+  });
+
   let provider;
   let providerPackage;
   let resource;
