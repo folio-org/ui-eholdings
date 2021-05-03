@@ -433,9 +433,9 @@
     "usageConsolidation.summary.packageCost": "Custo do pacote",
     "usageConsolidation.summary.resourceCost": "Custo do recurso",
     "usageConsolidation.summary.totalUsage": "Uso total",
-    "usageConsolidation.summary.totalUsage.infoPopover.package": "Total usage is the sum of the selected titles' COUNTER {metricType} for a selected year and platform(s)",
-    "usageConsolidation.summary.totalUsage.infoPopover.title": "Total usage is the sum of the titles' COUNTER {metricType} for a selected year and platform(s)",
-    "usageConsolidation.summary.totalUsage.infoPopover.resource": "Total usage is the sum of the titles' COUNTER {metricType} for a selected year and platform(s)",
+    "usageConsolidation.summary.totalUsage.infoPopover.package": "O uso total é a soma do COUNTER {metricType} dos títulos selecionados para um ano e plataforma(s) selecionada(s)",
+    "usageConsolidation.summary.totalUsage.infoPopover.title": "O uso total é a soma do COUNTER {metricType} dos títulos para um ano e plataforma(s) selecionada(s)",
+    "usageConsolidation.summary.totalUsage.infoPopover.resource": "O uso total é a soma do COUNTER {metricType} dos títulos para um ano e plataforma(s) selecionada(s)",
     "usageConsolidation.summary.title.usage": "Uso",
     "usageConsolidation.summary.costPerUse": "Custo por uso",
     "usageConsolidation.summary.error": "Incapaz de fornecer informações resumidas.",
@@ -503,7 +503,7 @@
     "permission.settings.usage-consolidation.create-edit": "Configurações (eholdings): Criar, editar e visualizar as credenciais API de consolidação de uso",
     "usageConsolidation.holdingsSummary": "Resumo dos holdings",
     "navigation.app": "Pesquisa do aplicativo eholdings",
-    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.content": "Envie uma consulta de conteúdo da  KB",
     "navigation.systemStatus": "Status do sistema EBSCO",
     "navigation.keyboardShortcuts": "Atalhos do teclado"
 }
