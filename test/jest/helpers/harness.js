@@ -1,5 +1,10 @@
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import { Provider } from 'react-redux';
+import {
+  createStore,
+  combineReducers,
+} from 'redux';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 
@@ -10,14 +15,28 @@ const STRIPES = buildStripes();
 
 const defaultHistory = createMemoryHistory();
 
-const Harness = ({ stripes, children, history = defaultHistory }) => (
-  <StripesContext.Provider value={stripes || STRIPES}>
-    <Router history={history}>
-      <IntlProvider>
-        {children}
-      </IntlProvider>
-    </Router>
-  </StripesContext.Provider>
-);
+const defaultInitialState = {};
+
+const Harness = ({ stripes, children, history = defaultHistory, storeInitialState = defaultInitialState }) => {
+  const reducers = {
+    eholdings: () => storeInitialState,
+  };
+
+  const reducer = combineReducers(reducers);
+
+  const store = createStore(reducer);
+
+  return (
+    <StripesContext.Provider value={stripes || STRIPES}>
+      <Router history={history}>
+        <Provider store={store}>
+          <IntlProvider>
+            {children}
+          </IntlProvider>
+        </Provider>
+      </Router>
+    </StripesContext.Provider>
+  );
+};
 
 export default Harness;
