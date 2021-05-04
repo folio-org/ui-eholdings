@@ -85,7 +85,7 @@ describe('Given QuerySearchList', () => {
         });
 
         fireEvent.click(getByText('ui-eholdings.loadMore'));
-  
+
         expect(fetch).toHaveBeenCalledWith(2);
       });
     });
@@ -97,11 +97,31 @@ describe('Given QuerySearchList', () => {
         collection: {
           ...collection,
           totalResults: 50,
-          items: new Array(50).fill({ isRejected: false }),
+          items: new Array(50).fill({
+            isRejected: true,
+            error: [{ title: 'error' }],
+          }),
         },
       });
 
       expect(queryByText('ui-eholdings.loadMore')).toBeNull();
+    });
+  });
+
+  describe('when request returns the collection and items are not rejected', () => {
+    it('should handle renderItem', () => {
+      const renderItem = jest.fn();
+
+      renderQuerySearchList({
+        renderItem,
+        collection: {
+          ...collection,
+          totalResults: 1,
+          items: [{ isRejected: false }],
+        },
+      });
+
+      expect(renderItem).toHaveBeenCalled();
     });
   });
 });
