@@ -1,7 +1,7 @@
 import {
   getPackageTitlesFailure,
   GET_PACKAGE_TITLES_FAILURE,
-} from "../get-package-titles-failure";
+} from '../get-package-titles-failure';
 
 describe('getPackageTitlesFailureAction', () => {
   it('should return an action object', () => {

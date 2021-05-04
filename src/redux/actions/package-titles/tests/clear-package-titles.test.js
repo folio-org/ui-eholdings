@@ -1,7 +1,7 @@
 import {
   clearPackageTitles,
   CLEAR_PACKAGE_TITLES,
-} from "../clear-package-titles";
+} from '../clear-package-titles';
 
 describe('clearPackageTitlesAction', () => {
   it('should return an action object', () => {

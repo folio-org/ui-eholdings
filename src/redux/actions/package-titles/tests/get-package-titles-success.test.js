@@ -1,7 +1,7 @@
 import {
   getPackageTitlesSuccess,
   GET_PACKAGE_TITLES_SUCCESS,
-} from "../get-package-titles-success";
+} from '../get-package-titles-success';
 
 describe('getPackageTitlesSuccessAction', () => {
   it('should return an action object', () => {

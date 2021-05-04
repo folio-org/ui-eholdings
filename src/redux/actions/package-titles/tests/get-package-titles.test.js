@@ -1,7 +1,7 @@
 import {
   getPackageTitles,
   GET_PACKAGE_TITLES,
-} from "../get-package-titles";
+} from '../get-package-titles';
 
 describe('getPackageTitlesAction', () => {
   it('should return an action object', () => {

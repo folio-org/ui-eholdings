@@ -6,7 +6,7 @@ import {
   GET_PACKAGE_TITLES_SUCCESS,
 } from '../../actions';
 
-const initialState = {
+const state = {
   isLoading: false,
   hasLoaded: false,
   hasFailed: false,
@@ -19,8 +19,8 @@ describe('packageTitlesReducer', () => {
   it('should handle GET_PACKAGE_TITLES action', () => {
     const action = { type: GET_PACKAGE_TITLES };
 
-    expect(packageTitlesReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(packageTitlesReducer(state, action)).toEqual({
+      ...state,
       isLoading: true,
     });
   });
@@ -34,11 +34,11 @@ describe('packageTitlesReducer', () => {
       },
     };
 
-    expect(packageTitlesReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(packageTitlesReducer(state, action)).toEqual({
+      ...state,
       hasLoaded: true,
       totalResults: 2,
-      items: [...initialState.items, ...action.payload.data],
+      items: [...state.items, ...action.payload.data],
     });
   });
 
@@ -48,8 +48,8 @@ describe('packageTitlesReducer', () => {
       payload: ['error1'],
     };
 
-    expect(packageTitlesReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(packageTitlesReducer(state, action)).toEqual({
+      ...state,
       hasFailed: true,
       errors: [{ title: 'error1' }],
     });
@@ -58,9 +58,23 @@ describe('packageTitlesReducer', () => {
   it('should handle CLEAR_PACKAGE_TITLES action', () => {
     const action = { type: CLEAR_PACKAGE_TITLES };
 
-    expect(packageTitlesReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(packageTitlesReducer(state, action)).toEqual({
+      ...state,
       items: [],
+    });
+  });
+
+  describe('when handle other action', () => {
+    const action = { type: 'OTHER_ACTION' };
+
+    it('should return current state', () => {
+      expect(packageTitlesReducer(state, action)).toEqual(state);
+    });
+
+    describe('when state is empty', () => {
+      it('should return current state', () => {
+        expect(packageTitlesReducer(null, action)).toEqual(state);
+      });
     });
   });
 });

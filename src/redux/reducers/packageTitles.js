@@ -29,7 +29,7 @@ const handlers = {
     isLoading: false,
     hasLoaded: true,
     hasFailed: false,
-    items: [ ...state.items, ...payload.data],
+    items: [...state.items, ...payload.data],
     totalResults: payload.totalResults,
   }),
   [GET_PACKAGE_TITLES_FAILURE]: (state, action) => ({

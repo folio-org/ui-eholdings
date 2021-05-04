@@ -25,7 +25,6 @@ import {
 
 import DetailsView from '../../details-view';
 import QuerySearchList from '../../query-search-list';
-import QueryList from '../../query-list';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';

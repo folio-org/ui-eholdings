@@ -34,14 +34,14 @@ const QuerySearchList = ({
     totalLength,
     items,
     hasFailed,
-    error,
+    errors,
   } = collection;
   const length = items.length;
 
-  if (hasFailed && !collectionLength) {
+  if (hasFailed && !length) {
     return (
       <div className={styles.error}>
-        {error[0].title}
+        {errors[0].title}
       </div>
     );
   }
@@ -58,7 +58,7 @@ const QuerySearchList = ({
         <div className={styles['button-wrapper']}>
           <Button
             style={{ width: '75%', margin: '1rem auto' }}
-            onClick={() => { setPage(page + 1) }}
+            onClick={() => { setPage(page + 1); }}
           >
             <FormattedMessage id="ui-eholdings.loadMore" />
           </Button>
@@ -67,7 +67,7 @@ const QuerySearchList = ({
     }
 
     return null;
-  }
+  };
 
   return (
     <ScrollView
@@ -98,7 +98,7 @@ QuerySearchList.propTypes = {
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   fullWidth: PropTypes.bool,
-  itemHeight: PropTypes.number,
+  itemHeight: PropTypes.number.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
