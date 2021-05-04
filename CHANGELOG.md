@@ -12,6 +12,7 @@
 * Add test on Jest+RTL for ProviderEdit component. (UIEH-1083)
 * Compile translation files into AST format. (UIEH-1124)
 * Settings > eHoldings | Apply baseline keyboard shortcuts. (UIEH-1121)
+* View Packages Record > Titles Accordion | Apply Load more results feature. (UIEH-1004)
 
 ## [6.0.3] (https://github.com/folio-org/ui-eholdings/tree/v6.0.3) (2021-04-20)
 * Usage & analysis accordion focus issues. (UIEH-1110)

@@ -10,3 +10,4 @@ export { default as userGroupsApi } from './user-groups';
 export { default as usageConsolidationApi } from './usage-consolidation';
 export { default as currenciesApi } from './currencies';
 export { default as costPerUseApi } from './costperuse';
+export { default as packageTitlesApi } from './package-titles';

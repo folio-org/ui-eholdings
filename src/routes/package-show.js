@@ -4,6 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import queryString from 'qs';
 import isEqual from 'lodash/isEqual';
+import reduce from 'lodash/reduce';
 
 import { TitleManager } from '@folio/stripes/core';
 
@@ -20,6 +21,8 @@ import {
   getCostPerUse as getCostPerUseAction,
   getCostPerUsePackageTitles as getCostPerUsePackageTitlesAction,
   clearCostPerUseData as clearCostPerUseDataAction,
+  getPackageTitles as getPackageTitlesAction,
+  clearPackageTitles as clearPackageTitlesAction,
 } from '../redux/actions';
 import Tag from '../redux/tag';
 import { transformQueryParams } from '../components/utilities';
@@ -32,10 +35,14 @@ import {
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
 
+const PACKAGE_TITLE_COUNT = 100;
+const FIRST_PAGE = 1;
+
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     clearCostPerUseData: PropTypes.func.isRequired,
+    clearPackageTitles: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
@@ -78,12 +85,14 @@ class PackageShowRoute extends Component {
         q: filterTitles,
         sort,
         searchfield,
+        count: PACKAGE_TITLE_COUNT,
+        page: FIRST_PAGE,
         filter: {
           tags,
           type,
           selected,
           'access-type': accessType,
-        }
+        },
       },
       queryId: 0,
     };
@@ -155,23 +164,13 @@ class PackageShowRoute extends Component {
 
     if (pkgSearchParams !== prevState.pkgSearchParams) {
       const params = transformQueryParams('titles', pkgSearchParams);
-      getPackageTitles(packageId, { ...params });
+
+      getPackageTitles({ packageId, params });
     }
   }
 
   componentWillUnmount() {
     this.props.clearCostPerUseData();
-  }
-
-  getTitleResults() {
-    const { match, resolver } = this.props;
-    const { pkgSearchParams } = this.state;
-    const { packageId } = match.params;
-    const params = transformQueryParams('titles', pkgSearchParams);
-    const collection = resolver.query('resources', params, {
-      path: `${Package.pathFor(packageId)}/resources`
-    });
-    return collection;
   }
 
   /* This method is common between package-show and package-edit routes
@@ -216,7 +215,20 @@ class PackageShowRoute extends Component {
   }
 
   searchTitles = (pkgSearchParams) => {
-    const { location, history } = this.props;
+    const {
+      location,
+      history,
+      clearPackageTitles,
+    } = this.props;
+
+    const paramDifference = reduce(pkgSearchParams, (result, item, key) => {
+      return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
+    }, []);
+
+    if (paramDifference.length !== 1 && paramDifference[0] !== 'page') {
+      clearPackageTitles();
+    }
+
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
       ...qs,
@@ -235,8 +247,12 @@ class PackageShowRoute extends Component {
     }, { eholdings: true });
 
     this.setState(({ queryId }) => ({
-      pkgSearchParams,
-      queryId: (queryId + 1)
+      pkgSearchParams: {
+        pkgSearchParams,
+        count: PACKAGE_TITLE_COUNT,
+        page: pkgSearchParams?.page || FIRST_PAGE,
+      },
+      queryId: (queryId + 1),
     }));
   }
 
@@ -295,6 +311,7 @@ class PackageShowRoute extends Component {
       updateFolioTags,
       accessStatusTypes,
       costPerUse,
+      packageTitles,
     } = this.props;
     const {
       pkgSearchParams,
@@ -306,7 +323,7 @@ class PackageShowRoute extends Component {
         <View
           model={model}
           tagsModel={tagsModel}
-          packageTitles={this.getTitleResults()}
+          packageTitles={packageTitles}
           updateFolioTags={updateFolioTags}
           proxyTypes={proxyTypes}
           provider={provider}
@@ -370,11 +387,13 @@ export default connect(
       resolver,
       accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
       costPerUse: selectPropFromData(store, 'costPerUse'),
+      packageTitles: selectPropFromData(store, 'packageTitles'),
     };
   },
   {
     getPackage: id => Package.find(id, { include: ['accessType'] }),
-    getPackageTitles: (id, params) => Package.queryRelated(id, 'resources', params),
+    getPackageTitles: getPackageTitlesAction,
+    clearPackageTitles: clearPackageTitlesAction,
     getProxyTypes: () => ProxyType.query(),
     getTags: () => Tag.query(),
     getProvider: id => Provider.find(id),
