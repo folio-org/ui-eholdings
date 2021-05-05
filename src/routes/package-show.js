@@ -30,13 +30,12 @@ import {
   listTypes,
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
+  PAGE_SIZE,
+  FIRST_PAGE,
 } from '../constants';
 
 import View from '../components/package/show';
 import SearchModal from '../components/search-modal';
-
-const PACKAGE_TITLE_COUNT = 100;
-const FIRST_PAGE = 1;
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -88,7 +87,7 @@ class PackageShowRoute extends Component {
         q: filterTitles,
         sort,
         searchfield,
-        count: PACKAGE_TITLE_COUNT,
+        count: PAGE_SIZE,
         page: FIRST_PAGE,
         filter: {
           tags,
@@ -251,8 +250,8 @@ class PackageShowRoute extends Component {
 
     this.setState(({ queryId }) => ({
       pkgSearchParams: {
-        pkgSearchParams,
-        count: PACKAGE_TITLE_COUNT,
+        ...pkgSearchParams,
+        count: PAGE_SIZE,
         page: pkgSearchParams?.page || FIRST_PAGE,
       },
       queryId: (queryId + 1),

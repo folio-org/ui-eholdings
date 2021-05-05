@@ -9,6 +9,10 @@ import classnames from 'classnames/bind';
 import { Button } from '@folio/stripes/components';
 
 import ScrollView from '../scroll-view';
+import {
+  FIRST_PAGE,
+  PAGE_SIZE,
+} from '../../constants';
 
 import styles from './query-search-list.css';
 
@@ -24,7 +28,7 @@ const QuerySearchList = ({
   scrollable,
   type,
 }) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(FIRST_PAGE);
 
   useEffect(() => {
     fetch(page);
@@ -51,7 +55,7 @@ const QuerySearchList = ({
   }
 
   const getLoadMoreButton = () => {
-    const isUnloadedPagesPresent = (totalLength !== length) && !(length % 100);
+    const isUnloadedPagesPresent = (totalLength !== length) && !(length % PAGE_SIZE);
 
     if (isUnloadedPagesPresent) {
       return (
