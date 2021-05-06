@@ -51,3 +51,4 @@ export * from './confirm-unassign-agreement';
 export * from './usage-consolidation';
 export * from './currencies';
 export * from './costperuse';
+export * from './package-titles';

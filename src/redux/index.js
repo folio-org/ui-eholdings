@@ -13,6 +13,7 @@ import {
   usageConsolidationApi,
   currenciesApi,
   costPerUseApi,
+  packageTitlesApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -47,6 +48,7 @@ import {
   usageConsolidation,
   currencies,
   costPerUse,
+  packageTitles,
 } from './reducers';
 
 import {
@@ -80,6 +82,7 @@ import {
   createGetCurrenciesEpic,
   createGetCostPerUseEpic,
   createGetCostPerUsePackageTitlesEpic,
+  createGetPackageTitlesEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -114,6 +117,7 @@ export const reducer = combineReducers({
       usageConsolidation: usageConsolidation(currentState.usageConsolidation, action),
       currencies: currencies(currentState.currencies, action),
       costPerUse: costPerUse(currentState.costPerUse, action),
+      packageTitles: packageTitles(currentState.packageTitles, action),
     };
   }
 });
@@ -150,4 +154,5 @@ export const epics = combineEpics(
   createGetCurrenciesEpic({ currenciesApi }),
   createGetCostPerUseEpic({ costPerUseApi }),
   createGetCostPerUsePackageTitlesEpic({ costPerUseApi }),
+  createGetPackageTitlesEpic({ packageTitlesApi }),
 );
