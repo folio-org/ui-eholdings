@@ -24,7 +24,7 @@ import {
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
-import QueryList from '../../query-list';
+import QuerySearchList from '../../query-search-list';
 import TitleListItem from '../../title-list-item';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
@@ -312,8 +312,8 @@ class PackageShow extends Component {
   renderTitlesListItem = (item) => {
     return (
       <TitleListItem
-        item={item.content}
-        link={item.content && `/eholdings/resources/${item.content.id}`}
+        item={item.attributes}
+        link={item.attributes && `/eholdings/resources/${item.id}`}
         showSelected
         headingLevel='h4'
       />
@@ -327,11 +327,10 @@ class PackageShow extends Component {
     } = this.props;
 
     return (
-      <QueryList
+      <QuerySearchList
         type="package-titles"
         fetch={fetchPackageTitles}
         collection={packageTitles}
-        length={packageTitles.length}
         scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
         notFoundMessage={
@@ -454,6 +453,7 @@ class PackageShow extends Component {
       isNewRecord,
       isDestroyed,
       intl,
+      packageTitles,
     } = this.props;
 
     const {
@@ -534,7 +534,7 @@ class PackageShow extends Component {
           listType={listTypes.TITLES}
           listSectionId="packageShowTitles"
           onListToggle={this.handleSectionToggle}
-          resultsLength={model.resources.length}
+          resultsLength={packageTitles.totalResults}
           renderList={this.renderTitlesList}
           ariaRole="tablist"
           bodyAriaRole="tab"

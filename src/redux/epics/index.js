@@ -28,3 +28,4 @@ export { default as createPatchUsageConsolidationEpic } from './patch-usage-cons
 export { default as createGetCurrenciesEpic } from './get-currencies';
 export { default as createGetCostPerUseEpic } from './get-costperuse';
 export { default as createGetCostPerUsePackageTitlesEpic } from './get-cost-per-use-package-titles';
+export { default as createGetPackageTitlesEpic } from './get-package-titles';

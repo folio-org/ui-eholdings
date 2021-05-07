@@ -1,0 +1,26 @@
+@import '@folio/stripes-components/lib/variables';
+
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--error);
+
+  &.not-found {
+    color: #555;
+  }
+}
+
+.list-item {
+  height: 100%;
+
+  &.is-error {
+    color: var(--error);
+  }
+}
+
+.button-wrapper {
+  max-width: calc(var(--container-max-width) - 2rem);
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
