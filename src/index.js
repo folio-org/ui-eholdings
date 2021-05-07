@@ -4,10 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
 
 import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
-import {
-  CommandList,
-  defaultKeyboardShortcuts,
-} from '@folio/stripes/components';
+import { CommandList } from '@folio/stripes/components';
 
 import {
   Route,
@@ -44,6 +41,7 @@ import SettingsUsageConsolidationRoute from './routes/settings-usage-consolidati
 
 import KeyShortcutsWrapper from './components/key-shortcuts-wrapper';
 import EHoldingsAppContext from './components/eholdings-app-context';
+import { commands } from './commands';
 
 class EHoldings extends Component {
   static propTypes = {
@@ -96,7 +94,7 @@ class EHoldings extends Component {
 
     return showSettings
       ? (
-        <CommandList commands={defaultKeyboardShortcuts}>
+        <CommandList commands={commands}>
           <Route path={rootPath} component={SettingsRoute}>
             <Route path={`${rootPath}/knowledge-base/:kbId`} exact component={SettingsKnowledgeBaseRoute} />
             <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
@@ -109,8 +107,8 @@ class EHoldings extends Component {
       )
       : (
         <>
-          <EHoldingsAppContext />
-          <CommandList commands={defaultKeyboardShortcuts}>
+          <CommandList commands={commands}>
+            <EHoldingsAppContext />
             <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
               <Route path={rootPath} component={ApplicationRoute}>
                 <Switch>
