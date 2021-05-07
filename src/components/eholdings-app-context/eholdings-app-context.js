@@ -43,7 +43,6 @@ const EHoldingsAppContext = () => {
                 <FormattedMessage id="ui-eholdings.navigation.app" />
               </NavListItem>
               <NavListItem
-                id="keyboard-shortcuts-item"
                 onClick={() => setIsShortcutsModalOpen(true)}
               >
                 <FormattedMessage id="ui-eholdings.navigation.keyboardShortcuts" />
