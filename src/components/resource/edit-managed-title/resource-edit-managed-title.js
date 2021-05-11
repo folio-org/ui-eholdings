@@ -1,32 +1,41 @@
-import { createRef, Component } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
-  injectIntl,
 } from 'react-intl';
 
 import hasIn from 'lodash/hasIn';
-import update from 'lodash/fp/update';
 
 import {
-  Accordion,
   Button,
-  Headline,
-  Icon,
-  Modal,
-  ModalFooter,
-  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
-  IfPermission,
-  withStripes,
+  useStripes,
 } from '@folio/stripes-core';
 
-import resourceEditProptypes from '../recource-edit-proptypes';
+import { coverageStatementDecorator } from '../_fields/coverage-statement';
+import Toaster from '../../toaster';
+import { getEmbargoInitial } from '../_fields/custom-embargo';
+import NavigationModal from '../../navigation-modal';
+import DetailsView from '../../details-view';
+import { CustomLabelsEditSection } from '../../custom-labels-section';
+import { CustomLabelsAccordion } from '../../../features';
+import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+import SelectionModal from '../components/selection-modal';
+import CoverageSettings from '../components/edit/coverage-settings';
+import ResourceSettings from '../components/edit/resource-settings';
+import HoldingStatus from '../components/edit/holding-status';
+import { useSectionToggle } from '../../../hooks';
 
+import resourceEditProptypes from '../recource-edit-proptypes';
 import {
   processErrors,
   getUserDefinedFields,
@@ -34,20 +43,6 @@ import {
   getProxyTypesRecords,
   getProxyTypeById,
 } from '../../utilities';
-
-import CoverageStatementFields, { coverageStatementDecorator } from '../_fields/coverage-statement';
-import VisibilityField from '../_fields/visibility';
-import Toaster from '../../toaster';
-import CustomEmbargoFields, { getEmbargoInitial } from '../_fields/custom-embargo';
-import NavigationModal from '../../navigation-modal';
-import AccessTypeEditSection from '../../access-type-edit-section';
-import ProxySelectField from '../../proxy-select';
-import CoverageFields from '../_fields/resource-coverage-fields';
-import DetailsView from '../../details-view';
-import { CustomLabelsEditSection } from '../../custom-labels-section';
-import { CustomLabelsAccordion } from '../../../features';
-import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
-
 import {
   historyActions,
   coverageStatementExistenceStatuses,
@@ -55,8 +50,19 @@ import {
 
 const focusOnErrors = createFocusDecorator();
 
-class ResourceEditManagedTitle extends Component {
-  static getInitialValuesFromModel(model, proxyTypes) {
+const ResourceEditManagedTitle = ({
+  closeSelectionModal,
+  model,
+  proxyTypes,
+  accessStatusTypes,
+  onCancel,
+  showSelectionModal,
+  handelDeleteConfirmation,
+  handleOnSubmit,
+  getFooter,
+  getSectionHeader,
+}) => {
+  const getInitialValuesFromModel = useCallback(() => {
     const {
       isSelected,
       visibilityData,
@@ -83,311 +89,170 @@ class ResourceEditManagedTitle extends Component {
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),
     };
+  }, [model, proxyTypes]);
+
+  const stripes = useStripes();
+  const [sections, {
+    handleSectionToggle,
+    toggleAllSections,
+    handleExpandAll,
+  }] = useSectionToggle({
+    resourceShowHoldingStatus: true,
+    resourceShowSettings: true,
+    resourceShowCoverageSettings: true,
+    resourceShowCustomLabels: true,
+  });
+  const [managedResourceSelected, setManagedResourceSelected] = useState(model.isSelected);
+  const [initialValues, setInitialValues] = useState(getInitialValuesFromModel());
+  const editFormRef = useRef(null);
+
+  if (model.isSelected !== initialValues.isSelected) {
+    setInitialValues({
+      ...initialValues,
+      isSelected: model.isSelected,
+    });
+    setManagedResourceSelected(model.isSelected);
   }
 
-  static isProxyTypesLoaded(proxyTypes) {
-    return proxyTypes.request.isResolved;
-  }
-
-  static propTypes = resourceEditProptypes;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      managedResourceSelected: this.props.model.isSelected,
-      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
-      initialValues: ResourceEditManagedTitle.getInitialValuesFromModel(this.props.model, this.props.proxyTypes),
-      sections: {
-        resourceShowHoldingStatus: true,
-        resourceShowSettings: true,
-        resourceShowCoverageSettings: true,
-        resourceShowCustomLabels: true,
-      },
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { wasProxyTypesLoaded } = prevState;
-    const stateUpdates = {};
-
-    const { proxyTypes } = nextProps;
-    const isProxyTypesLoaded = ResourceEditManagedTitle.isProxyTypesLoaded(proxyTypes);
-
-    if (nextProps.model.isSelected !== prevState.initialValues.isSelected) {
-      Object.assign(stateUpdates, {
-        initialValues: {
-          isSelected: nextProps.model.isSelected
-        },
-        managedResourceSelected: nextProps.model.isSelected
-      });
+  useEffect(() => {
+    if (proxyTypes.request.isResolved) {
+      setInitialValues(getInitialValuesFromModel());
     }
+  }, [proxyTypes.request.isResolved, getInitialValuesFromModel]);
 
-    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
-      Object.assign(stateUpdates, {
-        initialValues: ResourceEditManagedTitle.getInitialValuesFromModel(nextProps.model, proxyTypes),
-        wasProxyTypesLoaded: true,
-      });
-    }
-
-    return stateUpdates;
-  }
-
-  editFormRef = createRef();
-
-  toggleAllSectionsForShortcut = (expand) => {
-    this.setState((curState) => {
-      const sections = expandAllFunction(curState.sections, expand);
-      return { sections };
+  const handleToggleResourceHoldings = (isSelected) => {
+    handleOnSubmit({
+      isSelected,
     });
   };
 
-  toggleSection = ({ id }) => {
-    const newState = update(`sections.${id}`, value => !value, this.state);
-    this.setState(newState);
+  const cancelSelectionToggle = () => {
+    closeSelectionModal();
+    setManagedResourceSelected(true);
   };
 
-  toggleAllSections = (sections) => {
-    this.setState({ sections });
-  };
-
-  handleRemoveResourceFromHoldings = () => {
-    this.props.handleOnSubmit({
-      isSelected: false
-    });
-  };
-
-  cancelSelectionToggle = () => {
-    this.props.closeSelectionModal();
-
-    this.setState({
-      managedResourceSelected: true,
-    });
-  };
-
-  getActionMenu = () => {
-    const { stripes } = this.props;
+  const getActionMenu = () => {
     const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
     if (!hasSelectPermission) return null;
 
+    // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
       <Button
         data-test-eholdings-remove-resource-from-holdings
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          this.handleRemoveResourceFromHoldings();
+          handleToggleResourceHoldings();
         }}
       >
         <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />
       </Button>
     );
-  }
+  };
 
-  render() {
-    const {
-      model,
-      proxyTypes,
-      accessStatusTypes,
-      onCancel,
-      model: { isSelected },
-      showSelectionModal,
-      handelDeleteConfirmation,
-      handleOnSubmit,
-      getFooter,
-      getSectionHeader,
-      renderCoverageDates,
-      intl,
-    } = this.props;
+  const isSelectInFlight = model.update.isPending && hasIn(model.update.changedAttributes, 'isSelected');
 
-    const {
-      managedResourceSelected,
-      sections,
-      initialValues,
-    } = this.state;
+  const userDefinedFields = getUserDefinedFields(model);
 
-    const isSelectInFlight = model.update.isPending && hasIn(model.update.changedAttributes, 'isSelected');
-    const hasInheritedProxy = hasIn(model, 'package.proxy.id');
-    const visibilityMessage = model.package.visibilityData.isHidden
-      ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
-      : model.visibilityData.reason && `(${model.visibilityData.reason})`;
+  return (
+    <KeyShortcutsWrapper
+      formRef={editFormRef.current}
+      toggleAllSections={toggleAllSections}
+    >
+      <Form
+        onSubmit={handleOnSubmit}
+        decorators={[coverageStatementDecorator, focusOnErrors]}
+        mutators={{
+          ...arrayMutators,
+          removeAll: ([name], state, { changeValue }) => {
+            changeValue(state, name, () => ([]));
+          },
+        }}
+        initialValuesEqual={() => true}
+        initialValues={initialValues}
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+          <div>
+            <Toaster toasts={processErrors(model)} position="bottom" />
+            <form
+              ref={editFormRef}
+              onSubmit={handleSubmit}
+            >
+              <DetailsView
+                type="resource"
+                model={model}
+                paneTitle={model.title.name}
+                paneSub={model.package.name}
+                actionMenu={getActionMenu()}
+                handleExpandAll={handleExpandAll}
+                sections={sections}
+                footer={getFooter(pristine, reset)}
+                onCancel={onCancel}
+                bodyContent={(
+                  <>
+                    <HoldingStatus
+                      isOpen={sections.resourceShowHoldingStatus}
+                      getSectionHeader={getSectionHeader}
+                      handleSectionToggle={handleSectionToggle}
+                      model={model}
+                      resourceIsCustom={false}
+                      resourceSelected={managedResourceSelected}
+                      isSelectInFlight={isSelectInFlight}
+                      handleToggleResourceHoldings={handleToggleResourceHoldings}
+                    />
 
-    const userDefinedFields = getUserDefinedFields(model);
-
-    return (
-      <KeyShortcutsWrapper
-        formRef={this.editFormRef.current}
-        toggleAllSections={this.toggleAllSectionsForShortcut}
-      >
-        <Form
-          onSubmit={handleOnSubmit}
-          decorators={[coverageStatementDecorator, focusOnErrors]}
-          mutators={{ ...arrayMutators }}
-          initialValuesEqual={() => true}
-          initialValues={initialValues}
-          render={({ handleSubmit, pristine, form: { change, reset } }) => (
-            <div>
-              <Toaster toasts={processErrors(model)} position="bottom" />
-              <form
-                ref={this.editFormRef}
-                onSubmit={handleSubmit}
-              >
-                <DetailsView
-                  type="resource"
-                  model={model}
-                  paneTitle={model.title.name}
-                  paneSub={model.package.name}
-                  actionMenu={this.getActionMenu()}
-                  handleExpandAll={this.toggleAllSections}
-                  sections={sections}
-                  footer={getFooter(pristine, reset)}
-                  bodyContent={(
-                    <>
-                      <Accordion
-                        label={getSectionHeader('ui-eholdings.label.holdingStatus')}
-                        open={sections.resourceShowHoldingStatus}
-                        id="resourceShowHoldingStatus"
-                        onToggle={this.toggleSection}
-                      >
-                        <label
-                          data-test-eholdings-resource-holding-status
-                          htmlFor="managed-resource-holding-status"
-                        >
-                          {model.update.isPending ? (
-                            <Icon icon='spinner-ellipsis' />
-                          )
-                            : (
-                              <Headline margin="none">
-                                {managedResourceSelected ?
-                                  (<FormattedMessage id="ui-eholdings.selected" />)
-                                  : (<FormattedMessage id="ui-eholdings.notSelected" />)}
-                              </Headline>
-                            )}
-                          <br />
-                          {((!managedResourceSelected && !isSelectInFlight) || (!this.props.model.isSelected && isSelectInFlight)) && (
-                          <IfPermission perm="ui-eholdings.package-title.select-unselect">
-                            <Button
-                              buttonStyle="primary"
-                              onClick={this.handleAddResourceToHoldings}
-                              disabled={isSelectInFlight}
-                              data-test-eholdings-resource-add-to-holdings-button
-                            >
-                              <FormattedMessage id="ui-eholdings.addToHoldings" />
-                            </Button>
-                          </IfPermission>
-                          )}
-                        </label>
-                      </Accordion>
-
-                      {isSelected && (
+                    {model.isSelected && (
                       <CustomLabelsAccordion
                         id="resourceShowCustomLabels"
                         isOpen={sections.resourceShowCustomLabels}
-                        onToggle={this.toggleSection}
+                        onToggle={handleSectionToggle}
                         section={CustomLabelsEditSection}
                         userDefinedFields={userDefinedFields}
                       />
-                      )}
+                    )}
 
-                      {managedResourceSelected && (
-                      <Accordion
-                        label={getSectionHeader('ui-eholdings.resource.resourceSettings')}
-                        open={sections.resourceShowSettings}
-                        id="resourceShowSettings"
-                        onToggle={this.toggleSection}
-                      >
-                        <VisibilityField disabled={visibilityMessage} />
-                        <div>
-                          {hasInheritedProxy && (
-                            (!proxyTypes.request.isResolved) ? (
-                              <Icon icon="spinner-ellipsis" />
-                            ) : (
-                              <div data-test-eholdings-resource-proxy-select>
-                                <ProxySelectField proxyTypes={proxyTypes} inheritedProxyId={model.package.proxy.id} />
-                              </div>
-                            ))}
-                          <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                        </div>
-                      </Accordion>
-                      )}
+                    {managedResourceSelected && (
+                      <ResourceSettings
+                        isOpen={sections.resourceShowSettings}
+                        getSectionHeader={getSectionHeader}
+                        handleSectionToggle={handleSectionToggle}
+                        proxyTypes={proxyTypes}
+                        model={model}
+                        accessStatusTypes={accessStatusTypes}
+                        resourceSelected={managedResourceSelected}
+                      />
+                    )}
 
-                      <Accordion
-                        label={getSectionHeader('ui-eholdings.label.coverageSettings')}
-                        open={sections.resourceShowCoverageSettings}
-                        id="resourceShowCoverageSettings"
-                        onToggle={this.toggleSection}
-                      >
-                        {managedResourceSelected ? (
-                          <>
-                            <Headline tag="h4">
-                              <FormattedMessage id="ui-eholdings.label.dates" />
-                            </Headline>
-                            <CoverageFields model={model} />
-
-                            <Headline tag="h4" id="coverage-display-label">
-                              <FormattedMessage id="ui-eholdings.label.coverageDisplay" />
-                            </Headline>
-                            <CoverageStatementFields
-                              coverageDates={renderCoverageDates()}
-                              ariaLabelledBy="coverage-display-label"
-                            />
-
-                            <Headline tag="h4" id="embargo-period-label">
-                              <FormattedMessage id="ui-eholdings.resource.embargoPeriod" />
-                            </Headline>
-                            <CustomEmbargoFields
-                              ariaLabelledBy="embargo-period-label"
-                            />
-                          </>
-                        ) : (
-                          <p data-test-eholdings-resource-edit-settings-message>
-                            <FormattedMessage id="ui-eholdings.resource.coverage.notSelected" />
-                          </p>
-                        )}
-                      </Accordion>
-                    </>
-                )}
-                  onCancel={onCancel}
-                />
-              </form>
-
-              <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
-
-              <Modal
-                open={showSelectionModal}
-                size="small"
-                label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
-                id="eholdings-resource-confirmation-modal"
-                aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
-                footer={(
-                  <ModalFooter>
-                    <Button
-                      data-test-eholdings-resource-deselection-confirmation-modal-yes
-                      buttonStyle="primary"
-                      disabled={model.update.isPending}
-                      onClick={handelDeleteConfirmation}
-                    >
-                      {(model.update.isPending ?
-                        <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
-                        <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
-                    </Button>
-                    <Button
-                      data-test-eholdings-resource-deselection-confirmation-modal-no
-                      onClick={() => this.cancelSelectionToggle(change)}
-                    >
-                      <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
-                    </Button>
-                  </ModalFooter>
+                    <CoverageSettings
+                      isOpen={sections.resourceShowCoverageSettings}
+                      getSectionHeader={getSectionHeader}
+                      handleSectionToggle={handleSectionToggle}
+                      resourceSelected={managedResourceSelected}
+                      model={model}
+                    />
+                  </>
               )}
-              >
-                <FormattedMessage id="ui-eholdings.resource.modal.body" />
-              </Modal>
-            </div>
-          )}
-        />
-      </KeyShortcutsWrapper>
-    );
-  }
-}
+              />
+            </form>
 
-export default withStripes(injectIntl(ResourceEditManagedTitle));
+            <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
+
+            <SelectionModal
+              showSelectionModal={showSelectionModal}
+              modelIsUpdating={model.update.isPending}
+              handelDeleteConfirmation={handelDeleteConfirmation}
+              cancelSelectionToggle={cancelSelectionToggle}
+              change={change}
+            >
+              <FormattedMessage id="ui-eholdings.resource.modal.body" />
+            </SelectionModal>
+          </div>
+        )}
+      />
+    </KeyShortcutsWrapper>
+  );
+};
+
+ResourceEditManagedTitle.propTypes = resourceEditProptypes;
+
+export default ResourceEditManagedTitle;

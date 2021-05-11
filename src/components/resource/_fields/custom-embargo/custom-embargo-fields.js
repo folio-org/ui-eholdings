@@ -67,6 +67,7 @@ export default class CustomEmbargoFields extends Component {
               validate={validateEmbargoUnit}
               placeholder={placeholder}
               aria-labelledby={ariaLabelledBy}
+              data-testid="custom-embargo-unit"
             >
               <FormattedMessage id="ui-eholdings.label.days">
                 {(message) => <option value="Days">{message}</option>}
@@ -104,6 +105,7 @@ export default class CustomEmbargoFields extends Component {
               autoFocus={!initialValues.length}
               validate={validateEmbargoValue}
               aria-labelledby={ariaLabelledBy}
+              data-testid="custom-embargo-value"
             />
           )}
         </FormattedMessage>
@@ -132,7 +134,10 @@ export default class CustomEmbargoFields extends Component {
 
   renderInputs(fields, initialValues) {
     return (
-      <div className={styles['custom-embargo-fields']}>
+      <div
+        className={styles['custom-embargo-fields']}
+        data-testid="custom-embargo-fields"
+      >
         {this.renderEmbargoValueField(fields, initialValues)}
         {this.renderEmbargoUnitField(fields)}
         {this.renderRemoveButton(fields)}

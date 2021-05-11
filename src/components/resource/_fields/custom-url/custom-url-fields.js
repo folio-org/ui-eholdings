@@ -20,15 +20,14 @@ function validate(value) {
 export default class CustomUrlFields extends Component {
   render() {
     return (
-      <div>
-        <div data-test-eholdings-custom-url-textfield>
-          <Field
-            name="customUrl"
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.customUrl" />}
-            validate={validate}
-          />
-        </div>
+      <div data-test-eholdings-custom-url-textfield>
+        <Field
+          name="customUrl"
+          component={TextField}
+          label={<FormattedMessage id="ui-eholdings.customUrl" />}
+          validate={validate}
+          data-testid="custom-url-field"
+        />
       </div>
     );
   }

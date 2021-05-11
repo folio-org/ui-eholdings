@@ -19,11 +19,11 @@ describe('Given CoverageSettings', () => {
   const defaultModel = {
     managedCoverages: [{
       beginCoverage: '2021-01-01',
-      endCoverage: '20201-01-31',
+      endCoverage: '2021-01-31',
     }],
     customCoverages: [{
-      beginCoverage: '20201-01-01',
-      endCoverage: '20201-01-31',
+      beginCoverage: '2021-01-01',
+      endCoverage: '2021-01-31',
     }],
     managedEmbargoPeriod: {
       embargoUnit: 'day',

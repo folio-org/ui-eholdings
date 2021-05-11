@@ -15,7 +15,6 @@ export default {
   model: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   proxyTypes: PropTypes.object.isRequired,
-  renderCoverageDates: PropTypes.func.isRequired,
   showSelectionModal: PropTypes.bool.isRequired,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
