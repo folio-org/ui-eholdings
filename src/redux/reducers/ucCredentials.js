@@ -71,7 +71,7 @@ const handlers = {
   },
 };
 
-export default function rootProxy(state, action) {
+export default function ucCredentials(state, action) {
   const currentState = state || initialState;
 
   return handlers[action.type]

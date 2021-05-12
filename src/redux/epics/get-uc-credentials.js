@@ -15,6 +15,5 @@ export default ({ ucCredentialsApi }) => (action$, store) => {
     .mergeMap(() => ucCredentialsApi
       .getUcCredentials(store.getState().okapi)
       .map(getUcCredentialsSuccess)
-      .catch(errors => Observable.of(getUcCredentialsFailure(errors)))
-    );
+      .catch(errors => Observable.of(getUcCredentialsFailure(errors))));
 };

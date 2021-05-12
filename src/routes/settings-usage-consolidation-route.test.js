@@ -20,8 +20,6 @@ import {
   ucCredentials,
 } from '../redux/reducers';
 
-jest.mock('../components/settings/settings-usage-consolidation', () => () => <span>SettingsUsageConsolidation</span>);
-
 const mockClearUsageConsolidationErrors = jest.fn();
 const mockGetUsageConsolidation = jest.fn();
 const mockGetUsageConsolidationKey = jest.fn();
@@ -84,12 +82,6 @@ describe('Given SettingsUsageConsolidationRoute', () => {
 
   afterEach(cleanup);
 
-  it('should render SettingsUsageConsolidation', () => {
-    const { getByText } = renderSettingsUsageConsolidationRoute(store);
-
-    expect(getByText('SettingsUsageConsolidation')).toBeDefined();
-  });
-
   it('should handle getUsageConsoldation', async () => {
     await act(async () => {
       await renderSettingsUsageConsolidationRoute(store, {
@@ -128,6 +120,35 @@ describe('Given SettingsUsageConsolidationRoute', () => {
     });
 
     expect(mockGetUsageConsolidationKey).toHaveBeenCalled();
+  });
+
+  describe('when click on save', () => {
+    it('test', async () => {
+      let getByTestId;
+
+      await act(async () => {
+        getByTestId = await renderSettingsUsageConsolidationRoute(store, {
+          updateUcCredentials: mockUpdateUcCredentials,
+        }).getByTestId;
+      });
+
+      const customerKey = getByTestId('field-customerKey');
+      const clientId = getByTestId('field-clientId');
+      const clientSecret = getByTestId('field-clientSecret');
+      const startMonth = getByTestId('field-startMonth');
+      const platformType = getByTestId('field-platformType');
+      const currency = getByTestId('field-currency');
+      const saveButton = getByTestId('settings-form-save-button');
+
+      await fireEvent.change(customerKey, { target: { value: '123' } });
+      await fireEvent.change(clientId, { target: { value: '123' } });
+      await fireEvent.change(clientSecret, { target: { value: '123' } });
+      fireEvent.blur(clientSecret);
+      console.log(saveButton);
+      await fireEvent.click(saveButton);
+      
+      expect(mockUpdateUcCredentials).toHaveBeenCalled();
+    });
   });
   */
 });

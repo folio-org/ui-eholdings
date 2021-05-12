@@ -133,7 +133,7 @@ const SettingsUsageConsolidationRoute = ({
     if (ucCredentials.isUpdated && ucCredentials.isPresent) {
       updateUsageConsolidation(formData);
     }
-  }, [ucCredentials, formData]);
+  }, [ucCredentials, formData, updateUsageConsolidation]);
 
   const onSubmit = (params, form) => {
     const {
@@ -141,7 +141,7 @@ const SettingsUsageConsolidationRoute = ({
       clientSecret,
     } = params;
     const { modified } = form.getState();
-
+    console.log('sdfsfsfsfd', modified);
     if (modified.clientId || modified.clientSecret) {
       updateUcCredentials({
         type: 'ucCredentials',
@@ -156,7 +156,7 @@ const SettingsUsageConsolidationRoute = ({
       updateUsageConsolidation(params);
     }
   };
-
+  console.log(currencies);
   return isLoading
     ? (
       <Icon

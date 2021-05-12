@@ -68,8 +68,8 @@ const SettingsUsageConsolidation = ({
   useEffect(() => {
     if (ucCredentials.isFailed) {
       const errorMessageId = ucCredentials.errors[0].title === INVALID_UC_CREDENTIALS
-        ? "ui-eholdings.settings.usageConsolidation.credentials.validation.invalid"
-        : "ui-eholdings.settings.usageConsolidation.credentials.systemError";
+        ? 'ui-eholdings.settings.usageConsolidation.credentials.validation.invalid'
+        : 'ui-eholdings.settings.usageConsolidation.credentials.systemError';
 
       setToasts(t => [...t, {
         id: `settings-uc-${Date.now()}`,
@@ -178,6 +178,7 @@ const SettingsUsageConsolidation = ({
             showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.show" />}
             hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.hide" />}
             showButton={usageConsolidation.isKeyLoaded}
+            data-testId="field-customerKey"
           />
           <Field
             id="eholdings-settings-usage-consolidation-client-id"
@@ -187,6 +188,7 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationClientId}
             required
+            data-testId="field-clientId"
           />
           <Field
             id="eholdings-settings-usage-consolidation-api-key"
@@ -196,6 +198,7 @@ const SettingsUsageConsolidation = ({
             component={TextField}
             label={usageConsolidationApiKey}
             required
+            data-testId="field-clientSecret"
           />
           <Field
             id="eholdings-settings-usage-consolidation-month"
@@ -204,6 +207,7 @@ const SettingsUsageConsolidation = ({
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
             disabled={disabled}
+            data-testId="field-startMonth"
           />
           <Field
             id="eholdings-settings-usage-consolidation-platform-type"
@@ -212,6 +216,7 @@ const SettingsUsageConsolidation = ({
             dataOptions={platformTypesDataOptions}
             label={usageConsolidationPlatformTypeLabel}
             disabled={disabled}
+            data-testId="field-platformType"
           />
           <Field
             id="eholdings-settings-usage-consolidation-currency"
@@ -221,6 +226,7 @@ const SettingsUsageConsolidation = ({
             label={currencyLabel}
             required
             disabled={disabled}
+            data-testId="field-currency"
           />
         </SettingsForm>
       )}
