@@ -1,6 +1,7 @@
 import {
   useEffect,
   useState,
+  useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -71,7 +72,7 @@ const SettingsUsageConsolidationRoute = ({
   usageConsolidation,
   history,
 }) => {
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({});
   const stripes = useStripes();
   const {
     data: usageConsolidationData,
@@ -101,7 +102,7 @@ const SettingsUsageConsolidationRoute = ({
     getUcCredentials();
   }, [getUcCredentials]);
 
-  const updateUsageConsolidation = params => {
+  const updateUsageConsolidation = useCallback(params => {
     const {
       credentialsId,
       ...updatedData
@@ -127,7 +128,13 @@ const SettingsUsageConsolidationRoute = ({
     } else {
       patchUsageConsolidation({ data, credentialsId });
     }
-  };
+  }, [
+    usageConsolidation.credentialsId,
+    usageConsolidation.customerKey,
+    kbId,
+    postUsageConsolidation,
+    patchUsageConsolidation,
+  ]);
 
   useEffect(() => {
     if (ucCredentials.isUpdated && ucCredentials.isPresent) {
@@ -141,7 +148,7 @@ const SettingsUsageConsolidationRoute = ({
       clientSecret,
     } = params;
     const { modified } = form.getState();
-    console.log('sdfsfsfsfd', modified);
+
     if (modified.clientId || modified.clientSecret) {
       updateUcCredentials({
         type: 'ucCredentials',
@@ -156,14 +163,9 @@ const SettingsUsageConsolidationRoute = ({
       updateUsageConsolidation(params);
     }
   };
-  console.log(currencies);
+
   return isLoading
-    ? (
-      <Icon
-        icon='spinner-ellipsis'
-        data-testid="proxy-spinner"
-      />
-    )
+    ? <Icon icon="spinner-ellipsis" />
     : (
       <View
         ucCredentials={ucCredentials}

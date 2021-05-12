@@ -36,7 +36,7 @@ const propTypes = {
     items: PropTypes.array.isRequired,
   }),
   onSubmit: PropTypes.func.isRequired,
-  ucCredentials: ucCredentialsReduxStateShape.isRequired,
+  ucCredentials: ucCredentialsReduxStateShape,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 

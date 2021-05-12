@@ -1,26 +1,16 @@
-import {
-  createStore,
-  combineReducers,
-} from 'redux';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import noop from 'lodash/noop';
 
 import {
   render,
   cleanup,
-  fireEvent,
   act,
+  fireEvent,
 } from '@testing-library/react';
 
 import SettingsUsageConsolidationRoute from './settings-usage-consolidation-route';
-import {
-  usageConsolidation,
-  currencies,
-  ucCredentials,
-} from '../redux/reducers';
+import Harness from '../../test/jest/helpers/harness';
 
-const mockClearUsageConsolidationErrors = jest.fn();
 const mockGetUsageConsolidation = jest.fn();
 const mockGetUsageConsolidationKey = jest.fn();
 const mockPatchUsageConsolidation = jest.fn();
@@ -31,7 +21,6 @@ const mockUpdateUcCredentials = jest.fn();
 
 jest.mock('../redux/actions', () => ({
   ...jest.requireActual('../redux/actions'),
-  clearUsageConsolidationErrors: mockClearUsageConsolidationErrors,
   getUsageConsolidation: mockGetUsageConsolidation,
   getUsageConsolidationKey: mockGetUsageConsolidationKey,
   patchUsageConsolidation: mockPatchUsageConsolidation,
@@ -41,17 +30,52 @@ jest.mock('../redux/actions', () => ({
   updateUcCredentials: mockUpdateUcCredentials,
 }));
 
-const createTestStore = () => createStore(
-  combineReducers({
-    ['eholdings.data.usageConsolidation']: usageConsolidation,
-    ['eholdings.data.currencies']: currencies,
-    ['eholdings.data.ucCredentials']: ucCredentials,
-  })
-);
+const currencies = {
+  isLoading: false,
+  items: [{
+    attributes: {
+      code: 'AFN',
+      description: 'Afghan Afghani',
+    },
+  }, {
+    attributes: {
+      code: 'ALL',
+      description: 'Albanian Lek',
+    },
+  }],
+  errors: [],
+};
+const ucCredentials = {
+  isPresent: false,
+  isLoading: false,
+  isFailed: false,
+  isUpdated: false,
+  errors: [],
+};
+const usageConsolidation = {
+  isLoading: false,
+  isLoaded: false,
+  isFailed: false,
+  isKeyLoading: false,
+  isKeyLoaded: false,
+  isKeyFailed: false,
+  hasSaved: false,
+  data: {},
+  errors: [],
+};
 
-const renderSettingsUsageConsolidationRoute = (store, props = {}) => render(
+const renderSettingsUsageConsolidationRoute = ({ harnessProps = {}, props = {} }) => render(
   <MemoryRouter>
-    <Provider store={store}>
+    <Harness
+      storeInitialState={{
+        data: {
+          currencies,
+          ucCredentials,
+          usageConsolidation,
+        },
+      }}
+      {...harnessProps}
+    >
       <SettingsUsageConsolidationRoute
         clearUsageConsolidationErrors={noop}
         getUsageConsolidation={noop}
@@ -61,41 +85,29 @@ const renderSettingsUsageConsolidationRoute = (store, props = {}) => render(
         getCurrencies={noop}
         getUcCredentials={noop}
         updateUcCredentials={noop}
-        history={{}}
-        match={{
-          params: {
-            kbId: 'id',
-          },
-        }}
         {...props}
       />
-    </Provider>
+    </Harness>
   </MemoryRouter>
 );
 
 describe('Given SettingsUsageConsolidationRoute', () => {
-  let store;
-
   beforeEach(() => {
-    store = createTestStore();
-  })
+    mockGetUsageConsolidation.mockClear();
+    mockGetUsageConsolidationKey.mockClear();
+    mockPatchUsageConsolidation.mockClear();
+    mockPostUsageConsolidation.mockClear();
+    mockGetCurrencies.mockClear();
+    mockGetUcCredentials.mockClear();
+    mockUpdateUcCredentials.mockClear();
+  });
 
   afterEach(cleanup);
 
-  it('should handle getUsageConsoldation', async () => {
-    await act(async () => {
-      await renderSettingsUsageConsolidationRoute(store, {
-        getUsageConsolidation: mockGetUsageConsolidation,
-      });
-    });
-
-    expect(mockGetUsageConsolidation).toHaveBeenCalled();
-  });
-
   it('should handle getCurrencies', async () => {
     await act(async () => {
-      await renderSettingsUsageConsolidationRoute(store, {
-        getCurrencies: mockGetCurrencies,
+      await renderSettingsUsageConsolidationRoute({
+        props: { getCurrencies: mockGetCurrencies },
       });
     });
 
@@ -104,51 +116,178 @@ describe('Given SettingsUsageConsolidationRoute', () => {
 
   it('should handle getUcCredentials', async () => {
     await act(async () => {
-      await renderSettingsUsageConsolidationRoute(store, {
-        getUcCredentials: mockGetUcCredentials,
+      await renderSettingsUsageConsolidationRoute({
+        props: { getUcCredentials: mockGetUcCredentials },
       });
     });
 
     expect(mockGetUcCredentials).toHaveBeenCalled();
   });
-  /*
-  it('should handle getUsageConsolidationKey', async () => {
-    await act(async () => {
-      await renderSettingsUsageConsolidationRoute(store, {
-        getUsageConsolidationKey: mockGetUsageConsolidationKey,
-      });
-    });
 
-    expect(mockGetUsageConsolidationKey).toHaveBeenCalled();
+  describe('when usage consolidation is loading', () => {
+    it('should show spinner', () => {
+      const { container } = renderSettingsUsageConsolidationRoute({
+        harnessProps: {
+          storeInitialState: {
+            data: {
+              currencies,
+              ucCredentials,
+              usageConsolidation: {
+                ...usageConsolidation,
+                isLoading: true,
+              },
+            },
+          },
+        },
+      });
+
+      expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
+    });
   });
 
-  describe('when click on save', () => {
-    it('test', async () => {
-      let getByTestId;
-
+  describe('when usage consolidation is loaded', () => {
+    it('should handle getUsageConsolidationKey', async () => {
       await act(async () => {
-        getByTestId = await renderSettingsUsageConsolidationRoute(store, {
-          updateUcCredentials: mockUpdateUcCredentials,
-        }).getByTestId;
+        await renderSettingsUsageConsolidationRoute({
+          props: { getUsageConsolidationKey: mockGetUsageConsolidationKey },
+          harnessProps: {
+            storeInitialState: {
+              data: {
+                currencies,
+                ucCredentials,
+                usageConsolidation: {
+                  ...usageConsolidation,
+                  isLoaded: true,
+                },
+              },
+            },
+          },
+        });
       });
 
-      const customerKey = getByTestId('field-customerKey');
-      const clientId = getByTestId('field-clientId');
-      const clientSecret = getByTestId('field-clientSecret');
-      const startMonth = getByTestId('field-startMonth');
-      const platformType = getByTestId('field-platformType');
-      const currency = getByTestId('field-currency');
-      const saveButton = getByTestId('settings-form-save-button');
-
-      await fireEvent.change(customerKey, { target: { value: '123' } });
-      await fireEvent.change(clientId, { target: { value: '123' } });
-      await fireEvent.change(clientSecret, { target: { value: '123' } });
-      fireEvent.blur(clientSecret);
-      console.log(saveButton);
-      await fireEvent.click(saveButton);
-      
-      expect(mockUpdateUcCredentials).toHaveBeenCalled();
+      expect(mockGetUsageConsolidationKey).toHaveBeenCalled();
     });
   });
-  */
+
+  describe('when the form was filled and click on save button', () => {
+    describe('when ucCredentials is not present', () => {
+      it('should handle updateUcCredentials', async () => {
+        let getByTestId;
+
+        await act(async () => {
+          getByTestId = await renderSettingsUsageConsolidationRoute({
+            props: { updateUcCredentials: mockUpdateUcCredentials },
+          }).getByTestId;
+        });
+
+        fireEvent.change(getByTestId('field-clientId'), { target: { value: '***' } });
+        fireEvent.change(getByTestId('field-clientSecret'), { target: { value: '***' } });
+        fireEvent.change(getByTestId('field-customerKey'), { target: { value: '123' } });
+        fireEvent.change(getByTestId('field-currency'), { target: { value: 'AFN' } });
+        fireEvent.click(getByTestId('settings-form-save-button'));
+
+        expect(mockUpdateUcCredentials).toHaveBeenCalledWith({
+          attributes: {
+            clientId: '***',
+            clientSecret: '***',
+          },
+          type: 'ucCredentials',
+        });
+      });
+    });
+
+    describe('when ucCredentials is present', () => {
+      it('should not handle updateUcCredentials', async () => {
+        let getByTestId;
+
+        await act(async () => {
+          getByTestId = await renderSettingsUsageConsolidationRoute({
+            props: { updateUcCredentials: mockUpdateUcCredentials },
+            harnessProps: {
+              storeInitialState: {
+                data: {
+                  currencies,
+                  ucCredentials: {
+                    ...ucCredentials,
+                    isPresent: true,
+                  },
+                  usageConsolidation,
+                },
+              },
+            },
+          }).getByTestId;
+        });
+
+        fireEvent.change(getByTestId('field-customerKey'), { target: { value: '123' } });
+        fireEvent.change(getByTestId('field-currency'), { target: { value: 'AFN' } });
+        fireEvent.click(getByTestId('settings-form-save-button'));
+
+        expect(mockUpdateUcCredentials).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when credentials id is not present', () => {
+      it('should handle postUsageConsolidation', async () => {
+        let getByTestId;
+
+        await act(async () => {
+          getByTestId = await renderSettingsUsageConsolidationRoute({
+            props: { postUsageConsolidation: mockPostUsageConsolidation },
+            harnessProps: {
+              storeInitialState: {
+                data: {
+                  currencies,
+                  ucCredentials: {
+                    ...ucCredentials,
+                    isPresent: true,
+                  },
+                  usageConsolidation: {
+                    ...usageConsolidation,
+                    data: { customerKey: '321' },
+                  },
+                },
+              },
+            },
+          }).getByTestId;
+        });
+
+        fireEvent.change(getByTestId('field-customerKey'), { target: { value: '123' } });
+        fireEvent.change(getByTestId('field-currency'), { target: { value: 'AFN' } });
+        fireEvent.click(getByTestId('settings-form-save-button'));
+
+        expect(mockPostUsageConsolidation).toHaveBeenCalled();
+      });
+    });
+
+    describe('when credentials id is present', () => {
+      it('should handle patchUsageConsolidation', async () => {
+        await act(async () => {
+          await renderSettingsUsageConsolidationRoute({
+            props: { patchUsageConsolidation: mockPatchUsageConsolidation },
+            harnessProps: {
+              storeInitialState: {
+                data: {
+                  currencies,
+                  ucCredentials: {
+                    ...ucCredentials,
+                    isPresent: true,
+                    isUpdated: true,
+                  },
+                  usageConsolidation: {
+                    ...usageConsolidation,
+                    data: {
+                      credentialsId: 'id',
+                      customerKey: '123',
+                    },
+                  },
+                },
+              },
+            },
+          });
+        });
+
+        expect(mockPatchUsageConsolidation).toHaveBeenCalled();
+      });
+    });
+  });
 });
