@@ -502,8 +502,8 @@
     "permission.settings.usage-consolidation.view": "设置（电子馆藏）：查看使用合并API凭据",
     "permission.settings.usage-consolidation.create-edit": "设置（电子馆藏）：创建、编辑和查看使用合并API凭据",
     "usageConsolidation.holdingsSummary": "馆藏摘要",
-    "navigation.app": "eholdings app Search",
-    "navigation.content": "Submit a KB Content Inquiry",
-    "navigation.systemStatus": "EBSCO System status",
-    "navigation.keyboardShortcuts": "Keyboard shortcuts"
+    "navigation.app": "电子馆藏应用搜索",
+    "navigation.content": "提交知识库内容查询",
+    "navigation.systemStatus": "EBSCO系统状态",
+    "navigation.keyboardShortcuts": "键盘快捷键"
 }
