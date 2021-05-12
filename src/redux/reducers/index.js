@@ -10,3 +10,4 @@ export { default as usageConsolidation } from './usageConsolidation';
 export { default as currencies } from './currencies';
 export { default as costPerUse } from './costPerUse';
 export { default as packageTitles } from './packageTitles';
+export { default as ucCredentials } from './ucCredentials';

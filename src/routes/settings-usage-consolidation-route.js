@@ -1,4 +1,7 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -21,8 +24,13 @@ import {
   patchUsageConsolidation as patchUsageConsolidationAction,
   postUsageConsolidation as postUsageConsolidationAction,
   getCurrencies as getCurrenciesAction,
+  getUcCredentials as getUcCredentialsAction,
+  updateUcCredentials as updateUcCredentialsAction,
 } from '../redux/actions';
-import { usageConsolidation as ucReduxStateShape } from '../constants';
+import {
+  usageConsolidation as ucReduxStateShape,
+  ucCredentialsReduxStateShape,
+} from '../constants';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -32,6 +40,7 @@ const propTypes = {
     items: PropTypes.array.isRequired,
   }),
   getCurrencies: PropTypes.func.isRequired,
+  getUcCredentials: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
   getUsageConsolidationKey: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
@@ -42,6 +51,8 @@ const propTypes = {
   }).isRequired,
   patchUsageConsolidation: PropTypes.func.isRequired,
   postUsageConsolidation: PropTypes.func.isRequired,
+  ucCredentials: ucCredentialsReduxStateShape,
+  updateUcCredentials: PropTypes.func.isRequired,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
@@ -49,14 +60,18 @@ const SettingsUsageConsolidationRoute = ({
   clearUsageConsolidationErrors,
   currencies,
   getCurrencies,
+  getUcCredentials,
   getUsageConsolidation,
   getUsageConsolidationKey,
   match: { params: { kbId } },
   patchUsageConsolidation,
   postUsageConsolidation,
+  ucCredentials,
+  updateUcCredentials,
   usageConsolidation,
   history,
 }) => {
+  const [formData, setFormData] = useState();
   const stripes = useStripes();
   const {
     data: usageConsolidationData,
@@ -81,6 +96,10 @@ const SettingsUsageConsolidationRoute = ({
   useEffect(() => {
     getCurrencies();
   }, [getCurrencies]);
+
+  useEffect(() => {
+    getUcCredentials();
+  }, [getUcCredentials]);
 
   const updateUsageConsolidation = params => {
     const {
@@ -110,12 +129,46 @@ const SettingsUsageConsolidationRoute = ({
     }
   };
 
+  useEffect(() => {
+    if (ucCredentials.isUpdated && ucCredentials.isPresent) {
+      updateUsageConsolidation(formData);
+    }
+  }, [ucCredentials, formData]);
+
+  const onSubmit = (params, form) => {
+    const {
+      clientId,
+      clientSecret,
+    } = params;
+    const { modified } = form.getState();
+
+    if (modified.clientId || modified.clientSecret) {
+      updateUcCredentials({
+        type: 'ucCredentials',
+        attributes: {
+          clientId,
+          clientSecret,
+        },
+      });
+
+      setFormData(params);
+    } else {
+      updateUsageConsolidation(params);
+    }
+  };
+
   return isLoading
-    ? <Icon icon='spinner-ellipsis' />
+    ? (
+      <Icon
+        icon='spinner-ellipsis'
+        data-testid="proxy-spinner"
+      />
+    )
     : (
       <View
+        ucCredentials={ucCredentials}
         usageConsolidation={usageConsolidation}
-        updateUsageConsolidation={updateUsageConsolidation}
+        onSubmit={onSubmit}
         clearUsageConsolidationErrors={clearUsageConsolidationErrors}
         currencies={currencies}
       />
@@ -128,6 +181,7 @@ export default connect(
   store => ({
     usageConsolidation: selectPropFromData(store, 'usageConsolidation'),
     currencies: selectPropFromData(store, 'currencies'),
+    ucCredentials: selectPropFromData(store, 'ucCredentials'),
   }), {
     clearUsageConsolidationErrors: clearUsageConsolidationErrorsAction,
     getUsageConsolidation: getUsageConsolidationAction,
@@ -135,5 +189,7 @@ export default connect(
     patchUsageConsolidation: patchUsageConsolidationAction,
     postUsageConsolidation: postUsageConsolidationAction,
     getCurrencies: getCurrenciesAction,
+    getUcCredentials: getUcCredentialsAction,
+    updateUcCredentials: updateUcCredentialsAction,
   }
 )(withRouter(SettingsUsageConsolidationRoute));
