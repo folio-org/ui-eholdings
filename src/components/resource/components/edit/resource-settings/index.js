@@ -1,1 +1,1 @@
-export { default } from './resource-settings';
+export { default } from './edit-resource-settings';

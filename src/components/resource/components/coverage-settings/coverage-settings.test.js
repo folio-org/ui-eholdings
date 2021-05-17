@@ -56,6 +56,7 @@ describe('Given CoverageSettings', () => {
 
   it('should render an accordion', () => {
     component = renderCoverageSettings();
+
     expect(component.getByText('ui-eholdings.label.coverageSettings')).toBeDefined();
   });
 

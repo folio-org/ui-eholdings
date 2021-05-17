@@ -1,1 +1,1 @@
-export { default } from './coverage-settings';
+export { default } from './edit-coverage-settings';

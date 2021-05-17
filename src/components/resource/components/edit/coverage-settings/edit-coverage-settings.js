@@ -50,6 +50,7 @@ const EditCoverageSettings = ({
           if (nonEmptyCoverageDates.length === 0) {
             return null;
           }
+
           return (
             <CoverageDateList
               isManagedCoverage={customCoverageExists}

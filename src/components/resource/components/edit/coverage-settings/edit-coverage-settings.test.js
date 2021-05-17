@@ -1,6 +1,7 @@
 import {
   render,
   cleanup,
+  fireEvent,
 } from '@testing-library/react';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -8,7 +9,7 @@ import createFocusDecorator from 'final-form-focus';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
 import { coverageStatementDecorator } from '../../../_fields/coverage-statement';
-import EditCoverageSettings from './coverage-settings';
+import EditCoverageSettings from './edit-coverage-settings';
 
 jest.mock('../../../../coverage-date-list', () => () => <div>Coverage date list</div>);
 
@@ -85,11 +86,13 @@ describe('Given EditCoverageSettings', () => {
 
   it('should render an accordion', () => {
     const { getByText } = renderCoverageSettings();
+
     expect(getByText('Section label')).toBeDefined();
   });
 
   it('should render CoverageDateList', () => {
     const { getAllByText } = renderCoverageSettings();
+
     expect(getAllByText('Coverage date list')).toBeDefined();
   });
 
@@ -117,37 +120,42 @@ describe('Given EditCoverageSettings', () => {
     });
   });
 
-  // describe('when editing and saving coverage dates', () => {
-  //   it('should call onSubmit', () => {
-  //     const {
-  //       getByLabelText,
-  //       getByText,
-  //     } = renderCoverageSettings();
+  describe('when editing and saving coverage dates', () => {
+    it('should call onSubmit', () => {
+      const {
+        getByLabelText,
+        getByText,
+      } = renderCoverageSettings();
 
-  //     const startDateInput = getByLabelText('ui-eholdings.date.startDate');
-  //     const endDateInput = getByLabelText('ui-eholdings.date.endDate');
+      const startDateInput = getByLabelText('ui-eholdings.date.startDate');
+      const endDateInput = getByLabelText('ui-eholdings.date.endDate');
 
-  //     fireEvent.change(startDateInput, { target: { value: '01/01/2021' } });
-  //     fireEvent.change(endDateInput, { target: { value: '01/21/2021' } });
-  //     fireEvent.click(getByText('Submit'));
-  //     expect(onSubmitMock).toBeCalled();
-  //   });
-  // });
+      fireEvent.change(startDateInput, { target: { value: '01/01/2021' } });
+      fireEvent.blur(startDateInput);
+      fireEvent.change(endDateInput, { target: { value: '01/21/2021' } });
+      fireEvent.blur(endDateInput);
+      fireEvent.click(getByText('Submit'));
 
-  // describe('when setting incorrect coverage dates', () => {
-  //   it('should show error message', () => {
-  //     const {
-  //       getByLabelText,
-  //       getByText,
-  //     } = renderCoverageSettings();
+      expect(onSubmitMock).toBeCalled();
+    });
+  });
 
-  //     const startDateInput = getByLabelText('ui-eholdings.date.startDate');
-  //     const endDateInput = getByLabelText('ui-eholdings.date.endDate');
+  describe('when setting incorrect coverage dates', () => {
+    it('should show error message', () => {
+      const {
+        getByLabelText,
+        getByText,
+      } = renderCoverageSettings();
 
-  //     fireEvent.change(startDateInput, { target: { value: '01/21/2021' } });
-  //     fireEvent.change(endDateInput, { target: { value: '01/01/2021' } });
+      const startDateInput = getByLabelText('ui-eholdings.date.startDate');
+      const endDateInput = getByLabelText('ui-eholdings.date.endDate');
 
-  //     expect(getByText('ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate')).toBeDefined();
-  //   });
-  // });
+      fireEvent.change(startDateInput, { target: { value: '01/21/2021' } });
+      fireEvent.blur(startDateInput);
+      fireEvent.change(endDateInput, { target: { value: '01/01/2021' } });
+      fireEvent.blur(endDateInput);
+
+      expect(getByText('ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate')).toBeDefined();
+    });
+  });
 });

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
 } from 'react-intl';
+import { noop } from 'lodash';
 
 import {
   Accordion,
@@ -55,6 +56,12 @@ const EditHoldingStatus = ({
     return null;
   };
 
+  const getSelectionStatusMessage = () => {
+    return resourceSelected
+      ? <FormattedMessage id="ui-eholdings.selected" />
+      : <FormattedMessage id="ui-eholdings.notSelected" />;
+  };
+
   return (
     <Accordion
       label={getSectionHeader('ui-eholdings.label.holdingStatus')}
@@ -71,10 +78,7 @@ const EditHoldingStatus = ({
         )
           : (
             <Headline margin="none">
-              {resourceSelected
-                ? <FormattedMessage id="ui-eholdings.selected" />
-                : <FormattedMessage id="ui-eholdings.notSelected" />
-              }
+              {getSelectionStatusMessage()}
             </Headline>
           )}
         <br />
@@ -87,7 +91,7 @@ const EditHoldingStatus = ({
 EditHoldingStatus.propTypes = propTypes;
 
 EditHoldingStatus.defaultProps = {
-  handleToggleResourceHoldings: () => {},
+  handleToggleResourceHoldings: noop,
   isSelectInFlight: false,
 };
 

@@ -1,1 +1,1 @@
-export { default } from './holding-status';
+export { default } from './edit-holding-status';

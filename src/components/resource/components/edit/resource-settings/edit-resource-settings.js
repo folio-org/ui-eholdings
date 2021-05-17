@@ -41,6 +41,21 @@ const EditResourceSettings = ({
     ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
     : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
+  const getAccordionContent = () => {
+    if (!proxyTypes.request.isResolved) {
+      return <Icon icon="spinner-ellipsis" />;
+    }
+
+    return (
+      <div data-test-eholdings-resource-proxy-select>
+        <ProxySelectField
+          proxyTypes={proxyTypes}
+          inheritedProxyId={model.package.proxy.id}
+        />
+      </div>
+    );
+  };
+
   return (
     <Accordion
       label={getSectionHeader('ui-eholdings.resource.resourceSettings')}
@@ -53,17 +68,7 @@ const EditResourceSettings = ({
           <>
             <VisibilityField disabled={visibilityMessage} />
             <div>
-              {hasInheritedProxy && (
-                (!proxyTypes.request.isResolved) ? (
-                  <Icon icon="spinner-ellipsis" />
-                ) : (
-                  <div data-test-eholdings-resource-proxy-select>
-                    <ProxySelectField
-                      proxyTypes={proxyTypes}
-                      inheritedProxyId={model.package.proxy.id}
-                    />
-                  </div>
-                ))}
+              {hasInheritedProxy && getAccordionContent()}
               {resourceIsCustom && <CustomUrlFields />}
               <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
             </div>

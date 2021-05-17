@@ -6,7 +6,7 @@ import {
 
 import Harness from '../../../../../../test/jest/helpers/harness';
 
-import HoldingStatus from './holding-status';
+import HoldingStatus from './edit-holding-status';
 
 describe('Given HoldingStatus', () => {
   const handleSectionToggleMock = jest.fn();
@@ -42,6 +42,7 @@ describe('Given HoldingStatus', () => {
 
   it('should render an accordion', () => {
     const { getByText } = renderHoldingStatus();
+
     expect(getByText('Holding status')).toBeDefined();
   });
 

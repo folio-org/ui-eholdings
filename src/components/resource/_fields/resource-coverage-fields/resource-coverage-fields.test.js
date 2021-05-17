@@ -68,17 +68,13 @@ describe('Given ResourceCoverageFields', () => {
 
   describe('when resource has custom coverages', () => {
     it('should render custom coverages select as checked', () => {
-      const {
-        getByLabelText,
-      } = renderResourceCoverageFields();
+      const { getByLabelText } = renderResourceCoverageFields();
 
       expect(getByLabelText('ui-eholdings.label.edit.custom.coverageDates')).toBeChecked();
     });
 
     it('should render correct coverage field data', () => {
-      const {
-        getByLabelText,
-      } = renderResourceCoverageFields();
+      const { getByLabelText } = renderResourceCoverageFields();
 
       expect(getByLabelText('ui-eholdings.date.startDate')).toHaveValue('02/01/2021');
       expect(getByLabelText('ui-eholdings.date.endDate')).toHaveValue('02/21/2021');

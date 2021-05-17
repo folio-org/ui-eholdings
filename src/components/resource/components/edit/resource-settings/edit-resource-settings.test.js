@@ -8,7 +8,7 @@ import arrayMutators from 'final-form-arrays';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
 
-import ResourceSettings from './resource-settings';
+import ResourceSettings from './edit-resource-settings';
 
 describe('Given ResourceSettings', () => {
   const onSubmitMock = jest.fn();
@@ -100,6 +100,7 @@ describe('Given ResourceSettings', () => {
 
   it('should render an accordion', () => {
     const { getByText } = renderResourceSettings();
+
     expect(getByText('Resource settings')).toBeDefined();
   });
 
