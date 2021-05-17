@@ -227,7 +227,7 @@ class PackageShowRoute extends Component {
       return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
     }, []);
 
-    if (paramDifference.length !== 1 && paramDifference[0] !== 'page') {
+    if (!(paramDifference.length === 1 && paramDifference[0] === 'page')) {
       clearPackageTitles();
     }
 
