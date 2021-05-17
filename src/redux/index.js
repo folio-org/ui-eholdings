@@ -14,6 +14,7 @@ import {
   currenciesApi,
   costPerUseApi,
   packageTitlesApi,
+  ucCredentialsApi,
 } from '../api';
 
 import Resolver from './resolver';
@@ -49,6 +50,7 @@ import {
   currencies,
   costPerUse,
   packageTitles,
+  ucCredentials,
 } from './reducers';
 
 import {
@@ -83,6 +85,8 @@ import {
   createGetCostPerUseEpic,
   createGetCostPerUsePackageTitlesEpic,
   createGetPackageTitlesEpic,
+  createGetUcCredentialsEpic,
+  createUpdateUcCredentialsEpic,
 } from './epics';
 
 export const createResolver = (state) => {
@@ -118,6 +122,7 @@ export const reducer = combineReducers({
       currencies: currencies(currentState.currencies, action),
       costPerUse: costPerUse(currentState.costPerUse, action),
       packageTitles: packageTitles(currentState.packageTitles, action),
+      ucCredentials: ucCredentials(currentState.ucCredentials, action),
     };
   }
 });
@@ -155,4 +160,6 @@ export const epics = combineEpics(
   createGetCostPerUseEpic({ costPerUseApi }),
   createGetCostPerUsePackageTitlesEpic({ costPerUseApi }),
   createGetPackageTitlesEpic({ packageTitlesApi }),
+  createGetUcCredentialsEpic({ ucCredentialsApi }),
+  createUpdateUcCredentialsEpic({ ucCredentialsApi }),
 );
