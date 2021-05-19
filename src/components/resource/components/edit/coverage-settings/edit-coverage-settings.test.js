@@ -131,7 +131,6 @@ describe('Given EditCoverageSettings', () => {
       const endDateInput = getByLabelText('ui-eholdings.date.endDate');
 
       fireEvent.change(startDateInput, { target: { value: '01/01/2021' } });
-      fireEvent.blur(startDateInput);
       fireEvent.change(endDateInput, { target: { value: '01/21/2021' } });
       fireEvent.blur(endDateInput);
       fireEvent.click(getByText('Submit'));
@@ -151,7 +150,6 @@ describe('Given EditCoverageSettings', () => {
       const endDateInput = getByLabelText('ui-eholdings.date.endDate');
 
       fireEvent.change(startDateInput, { target: { value: '01/21/2021' } });
-      fireEvent.blur(startDateInput);
       fireEvent.change(endDateInput, { target: { value: '01/01/2021' } });
       fireEvent.blur(endDateInput);
 

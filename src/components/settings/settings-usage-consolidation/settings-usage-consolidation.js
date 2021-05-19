@@ -15,6 +15,7 @@ import {
 } from '@folio/stripes/core';
 import {
   Select,
+  TextField,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
@@ -22,7 +23,10 @@ import ShowHidePasswordField from '../../show-hide-password-field';
 import {
   platformTypes,
   usageConsolidation as ucReduxStateShape,
+  ucCredentialsReduxStateShape,
 } from '../../../constants';
+
+import css from './settings-usage-consolidation.css';
 
 const propTypes = {
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
@@ -31,17 +35,20 @@ const propTypes = {
     isLoading: PropTypes.bool.isRequired,
     items: PropTypes.array.isRequired,
   }),
-  updateUsageConsolidation: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  ucCredentials: ucCredentialsReduxStateShape,
   usageConsolidation: ucReduxStateShape.UsageConsolidationReduxStateShape.isRequired,
 };
 
 const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';
+const INVALID_UC_CREDENTIALS = 'Invalid Usage Consolidation Credentials';
 
 const SettingsUsageConsolidation = ({
   clearUsageConsolidationErrors,
   currencies,
+  ucCredentials,
   usageConsolidation,
-  updateUsageConsolidation: onSubmit,
+  onSubmit,
 }) => {
   const [toasts, setToasts] = useState([]);
   const stripes = useStripes();
@@ -58,10 +65,26 @@ const SettingsUsageConsolidation = ({
     }
   }, [usageConsolidation.hasSaved]);
 
+  useEffect(() => {
+    if (ucCredentials.isFailed) {
+      const errorMessageId = ucCredentials.errors[0].title === INVALID_UC_CREDENTIALS
+        ? 'ui-eholdings.settings.usageConsolidation.credentials.validation.invalid'
+        : 'ui-eholdings.settings.usageConsolidation.credentials.systemError';
+
+      setToasts(t => [...t, {
+        id: `settings-uc-${Date.now()}`,
+        message: <FormattedMessage id={errorMessageId} />,
+        type: 'error',
+      }]);
+    }
+  }, [ucCredentials]);
+
   const usageConsolidationIdLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.id' });
   const usageConsolidationStartMonthLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.startMonth' });
   const currencyLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.currency' });
   const usageConsolidationPlatformTypeLabel = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.platformType' });
+  const usageConsolidationClientId = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.clientId' });
+  const usageConsolidationApiKey = formatMessage({ id: 'ui-eholdings.settings.usageConsolidation.apiKey' });
 
   const customerKeyIsInvalid = usageConsolidation.errors[0]?.title === INVALID_CUSTOMER_KEY_ERROR_MESSAGE;
 
@@ -120,10 +143,20 @@ const SettingsUsageConsolidation = ({
     value: platformType,
   }));
 
+  let initialValues = usageConsolidation.data;
+
+  if (ucCredentials.isPresent) {
+    initialValues = {
+      ...initialValues,
+      clientId: '***',
+      clientSecret: '***',
+    };
+  }
+
   return (
     <Form
       onSubmit={onSubmit}
-      initialValues={usageConsolidation.data}
+      initialValues={initialValues}
       validate={validate}
       render={formState => (
         <SettingsForm
@@ -145,6 +178,27 @@ const SettingsUsageConsolidation = ({
             showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.show" />}
             hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.id.hide" />}
             showButton={usageConsolidation.isKeyLoaded}
+            data-testId="field-customerKey"
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-client-id"
+            type="password"
+            name="clientId"
+            className={css.passwordField}
+            component={TextField}
+            label={usageConsolidationClientId}
+            required
+            data-testId="field-clientId"
+          />
+          <Field
+            id="eholdings-settings-usage-consolidation-api-key"
+            type="password"
+            name="clientSecret"
+            className={css.passwordField}
+            component={TextField}
+            label={usageConsolidationApiKey}
+            required
+            data-testId="field-clientSecret"
           />
           <Field
             id="eholdings-settings-usage-consolidation-month"
@@ -153,6 +207,7 @@ const SettingsUsageConsolidation = ({
             dataOptions={monthDataOptions}
             label={usageConsolidationStartMonthLabel}
             disabled={disabled}
+            data-testId="field-startMonth"
           />
           <Field
             id="eholdings-settings-usage-consolidation-platform-type"
@@ -161,6 +216,7 @@ const SettingsUsageConsolidation = ({
             dataOptions={platformTypesDataOptions}
             label={usageConsolidationPlatformTypeLabel}
             disabled={disabled}
+            data-testId="field-platformType"
           />
           <Field
             id="eholdings-settings-usage-consolidation-currency"
@@ -170,6 +226,7 @@ const SettingsUsageConsolidation = ({
             label={currencyLabel}
             required
             disabled={disabled}
+            data-testId="field-currency"
           />
         </SettingsForm>
       )}

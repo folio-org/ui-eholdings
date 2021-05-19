@@ -29,3 +29,5 @@ export { default as createGetCurrenciesEpic } from './get-currencies';
 export { default as createGetCostPerUseEpic } from './get-costperuse';
 export { default as createGetCostPerUsePackageTitlesEpic } from './get-cost-per-use-package-titles';
 export { default as createGetPackageTitlesEpic } from './get-package-titles';
+export { default as createGetUcCredentialsEpic } from './get-uc-credentials';
+export { default as createUpdateUcCredentialsEpic } from './update-uc-credentials';
