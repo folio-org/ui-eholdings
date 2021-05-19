@@ -109,6 +109,7 @@ export default class TitleEdit extends Component {
                   model={model}
                   paneTitle={model.name}
                   footer={this.getFooter(pristine, reset)}
+                  onCancel={onCancel}
                   bodyContent={(
                     <>
                       <DetailsViewSection
@@ -125,7 +126,6 @@ export default class TitleEdit extends Component {
                       </DetailsViewSection>
                     </>
                   )}
-                  onCancel={onCancel}
                 />
               </form>
 
