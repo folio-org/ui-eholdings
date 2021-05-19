@@ -143,7 +143,7 @@ const ResourceEditManagedTitle = ({
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          handleToggleResourceHoldings();
+          handleToggleResourceHoldings(false);
         }}
       >
         <FormattedMessage id="ui-eholdings.resource.actionMenu.removeHolding" />

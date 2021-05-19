@@ -11,7 +11,7 @@ const useStateCallback = (initialState) => {
 
   const setStateCallback = useCallback((_state, callback) => {
     callbackRef.current = callback; // store passed callback to ref
-    setState(state);
+    setState(_state);
   }, []);
 
   useEffect(() => {

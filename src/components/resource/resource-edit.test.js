@@ -145,6 +145,23 @@ describe('Given ResourceEdit', () => {
     expect(getByText('Holding status')).toBeDefined();
   });
 
+  describe('when clicking selection toggle button', () => {
+    it('should show selection modal', () => {
+      const {
+        getByText,
+      } = renderResourceEdit({
+        model: {
+          ...model,
+          isSelected: true,
+        },
+      });
+
+      fireEvent.click(getByText('ui-eholdings.resource.actionMenu.removeHolding'));
+
+      expect(getByText('ui-eholdings.resource.modal.header')).toBeDefined();
+    });
+  });
+
   describe('when resource is selected', () => {
     it('should render Custom labels accordion', () => {
       const { getByText } = renderResourceEdit({
@@ -184,6 +201,25 @@ describe('Given ResourceEdit', () => {
 
         expect(getByText('stripes-components.saveAndClose')).toBeEnabled();
         expect(getByText('stripes-components.cancel')).toBeEnabled();
+      });
+    });
+
+    describe('when clicking selection toggle button', () => {
+      it('should show selection modal', async () => {
+        const {
+          getByText,
+        } = renderResourceEdit({
+          model: {
+            ...model,
+            isTitleCustom: true,
+            isSelected: true,
+          },
+        });
+
+        fireEvent.click(getByText('ui-eholdings.resource.actionMenu.removeHolding'));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        expect(getByText('ui-eholdings.resource.modal.header')).toBeDefined();
       });
     });
   });
@@ -279,8 +315,8 @@ describe('Given ResourceEdit', () => {
         expect(getByText('Resource settings')).toBeDefined();
       });
 
-      describe('when editing a field', () => {
-        it('should enable form buttons', () => {
+      describe('when editing a field and saving', () => {
+        it('should call onSubmit', () => {
           const {
             getByText,
             getByLabelText,
@@ -293,10 +329,30 @@ describe('Given ResourceEdit', () => {
           });
 
           fireEvent.change(getByLabelText('Label 1'), { target: { value: '123' } });
+          fireEvent.click(getByText('stripes-components.saveAndClose'));
 
-          expect(getByText('stripes-components.saveAndClose')).toBeEnabled();
-          expect(getByText('stripes-components.cancel')).toBeEnabled();
+          expect(onSubmitMock).toBeCalled();
         });
+      });
+    });
+
+    describe('when resource is not selected and editing it and saving', () => {
+      it('should show selection modal', () => {
+        const {
+          getByText,
+          getByLabelText,
+        } = renderResourceEdit({
+          model: {
+            ...model,
+            isSelected: false,
+            isTitleCustom: true,
+          },
+        });
+
+        fireEvent.change(getByLabelText('Label 1'), { target: { value: '123' } });
+        fireEvent.click(getByText('stripes-components.saveAndClose'));
+
+        expect(getByText('ui-eholdings.resource.modal.header')).toBeDefined();
       });
     });
 
