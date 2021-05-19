@@ -91,6 +91,7 @@ class NavigationModal extends Component {
     return (
       <Modal
         id="navigation-modal"
+        data-testid="navigation-modal"
         size="small"
         open={this.state.openModal}
         label={label}

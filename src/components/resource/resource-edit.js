@@ -2,8 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { FormSpy } from 'react-final-form';
-
 import {
   Icon,
   Headline,
@@ -13,9 +11,7 @@ import {
 
 import ManagedResourceEdit from './edit-managed-title';
 import CustomResourceEdit from './edit-custom-title';
-import CoverageDateList from '../coverage-date-list';
 
-import { isBookPublicationType } from '../utilities';
 import { accessTypesReduxStateShape } from '../../constants';
 
 export default class ResourceEdit extends Component {
@@ -60,6 +56,7 @@ export default class ResourceEdit extends Component {
       ? this.renderRequestErrorMessage()
       : (
         <Icon
+          data-testid="spinner"
           icon="spinner-ellipsis"
           iconSize="small"
         />
@@ -88,7 +85,6 @@ export default class ResourceEdit extends Component {
         commitSelectionToggle={this.commitSelectionToggle}
         getSectionHeader={this.getSectionHeader}
         handleOnSubmit={this.handleOnSubmit}
-        renderCoverageDates={this.renderCoverageDates}
         getFooter={this.getFooter}
         model={model}
         {...props}
@@ -133,38 +129,6 @@ export default class ResourceEdit extends Component {
       showSelectionModal: false,
     });
   }
-
-  renderCoverageDates = () => {
-    return (
-      <FormSpy subscription={{ values: true }}>
-        {({ values }) => {
-          const { model } = this.props;
-          const { customCoverages: customCoverageDateValues } = values;
-          let coverageDates = model.managedCoverages;
-
-          const customCoverageExists = customCoverageDateValues && customCoverageDateValues.length > 0;
-
-          if (customCoverageExists) {
-            coverageDates = customCoverageDateValues;
-          }
-
-          const nonEmptyCoverageDates = coverageDates
-            .filter((currentCoverageDate) => Object.keys(currentCoverageDate).length !== 0);
-
-          if (nonEmptyCoverageDates.length === 0) {
-            return null;
-          }
-          return (
-            <CoverageDateList
-              isManagedCoverage={customCoverageExists}
-              coverageArray={nonEmptyCoverageDates}
-              isYearOnly={isBookPublicationType(model.publicationType)}
-            />
-          );
-        }}
-      </FormSpy>
-    );
-  };
 
   getFooter = (pristine, reset) => {
     const { model } = this.props;

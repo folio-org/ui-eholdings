@@ -17,6 +17,7 @@
 * App menu: Add Keyboard shortcuts item and display a list of keyboard shortcuts in a modal. (UIEH-1129)
 * Add ability to configure APIGEE. (UIEH-1112)
 * Add tests on Jest+RTL for TitleEdit component. (UIEH-1069)
+* Add Jest+RTL tests for ResourceEdit. (UIEH-1084)
 
 ## [6.0.3] (https://github.com/folio-org/ui-eholdings/tree/v6.0.3) (2021-04-20)
 * Usage & analysis accordion focus issues. (UIEH-1110)

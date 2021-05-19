@@ -23,7 +23,10 @@ function ProxySelectField({ proxyTypes, inheritedProxyId }) {
         }}
       >
         {(message) => (
-          <option value={proxyType.id.toLowerCase()}>
+          <option
+            value={proxyType.id.toLowerCase()}
+            data-testid="proxy-option"
+          >
             {checkIfInherited(proxyType.id) ? message : `${proxyType.attributes.name}`}
           </option>
         )}
@@ -38,6 +41,7 @@ function ProxySelectField({ proxyTypes, inheritedProxyId }) {
         component={Select}
         label={<FormattedMessage id="ui-eholdings.proxy" />}
         disabled={options.length < 2}
+        data-testid="proxy-select"
       >
         {options}
       </Field>

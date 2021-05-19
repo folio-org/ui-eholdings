@@ -35,8 +35,6 @@ import {
 
 import styles from './resource-coverage-fields.css';
 
-const COVERAGE_STATEMENT_ON_STATUS = 'on';
-
 class ResourceCoverageFields extends Component {
   static propTypes = {
     intl: PropTypes.object.isRequired,
@@ -91,13 +89,13 @@ class ResourceCoverageFields extends Component {
     const managedCoveragesExist = model.managedCoverages.length;
 
     const switchToManagedCoverages = (e) => {
-      if (e.target.value === COVERAGE_STATEMENT_ON_STATUS) {
+      if (e.target.checked) {
         fields.removeAll();
       }
     };
 
     const switchToCustomCoverages = (e) => {
-      if (e.target.value === COVERAGE_STATEMENT_ON_STATUS && !fields.length) {
+      if (e.target.checked && !fields.length) {
         fields.push({});
       }
     };
@@ -110,10 +108,12 @@ class ResourceCoverageFields extends Component {
             disabled={!managedCoveragesExist}
             checked={fields.length === 0 && managedCoveragesExist}
             onChange={switchToManagedCoverages}
+            value="managed-coverages"
           />
           <div
             className={styles['coverage-fields-category']}
             data-test-eholdings-resource-edit-managed-coverage-list
+            data-testid="resource-edit-managed-coverage-list"
           >
             {managedCoveragesExist
               ? (
@@ -131,6 +131,7 @@ class ResourceCoverageFields extends Component {
             label={<FormattedMessage id="ui-eholdings.label.edit.custom.coverageDates" />}
             checked={fields.length > 0}
             onChange={switchToCustomCoverages}
+            value="custom-coverages"
           />
           <div className={styles['coverage-fields-category']}>
             <RepeatableField
@@ -150,11 +151,12 @@ class ResourceCoverageFields extends Component {
 
   renderField = (dateRange, index) => {
     return (
-      <Row>
+      <Row data-testid="coverage-field">
         <Col
           md
           xs={12}
           data-test-eholdings-coverage-fields-date-range-begin
+          data-testid="coverage-fields-date-range-begin"
         >
           <Field
             name={`${dateRange}.beginCoverage`}
@@ -179,6 +181,7 @@ class ResourceCoverageFields extends Component {
           md
           xs={12}
           data-test-eholdings-coverage-fields-date-range-end
+          data-testid="coverage-fields-date-range-end"
         >
           <Field
             name={`${dateRange}.endCoverage`}
@@ -218,7 +221,10 @@ class ResourceCoverageFields extends Component {
       : this.renderManagedCoverageFields;
 
     return (
-      <div data-test-eholdings-resource-coverage-fields>
+      <div
+        data-test-eholdings-resource-coverage-fields
+        data-testid="resource-coverage-fields"
+      >
         <FieldArray
           component={renderCoverageFields}
           isEqual={isEqual}
