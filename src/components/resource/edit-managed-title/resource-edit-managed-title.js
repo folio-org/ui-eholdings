@@ -235,7 +235,10 @@ const ResourceEditManagedTitle = ({
               />
             </form>
 
-            <NavigationModal historyAction={historyActions.REPLACE} when={!pristine && !model.update.isPending && !model.update.isResolved} />
+            <NavigationModal
+              historyAction={historyActions.REPLACE}
+              when={!pristine && !model.update.isPending && !model.update.isResolved}
+            />
 
             <SelectionModal
               showSelectionModal={showSelectionModal}

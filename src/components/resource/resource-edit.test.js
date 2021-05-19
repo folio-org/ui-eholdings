@@ -7,22 +7,10 @@ import {
 import ResourceEdit from './resource-edit';
 import Harness from '../../../test/jest/helpers/harness';
 
-jest.mock('../../features', () => ({
-  CustomLabelsAccordion: () => (
-    <>
-      <span>Custom labels accordion</span>
-      <input
-        type="text"
-        data-testid="mock-input"
-        name="testName"
-      />
-    </>
-  ),
-}));
-
 jest.mock('./components/edit/coverage-settings', () => () => <div>Coverage settings</div>);
 jest.mock('./components/edit/resource-settings', () => () => <div>Resource settings</div>);
 jest.mock('./components/edit/holding-status', () => () => <div>Holding status</div>);
+jest.mock('../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
 
 const model = {
   id: '123356',
@@ -89,8 +77,25 @@ const model = {
 const onSubmitMock = jest.fn();
 const onCancelMock = jest.fn();
 
+const storeInitialState = {
+  data: {
+    customLabels: {
+      errors: [],
+      items: {
+        data: [{
+          type: 'customLabels',
+          attributes: {
+            id: 1,
+            displayLabel: 'Label 1',
+          },
+        }],
+      },
+    },
+  },
+};
+
 const renderResourceEdit = (props = {}) => render(
-  <Harness>
+  <Harness storeInitialState={storeInitialState}>
     <ResourceEdit
       onCancel={onCancelMock}
       onSubmit={onSubmitMock}
@@ -149,7 +154,7 @@ describe('Given ResourceEdit', () => {
         },
       });
 
-      expect(getByText('Custom labels accordion')).toBeDefined();
+      expect(getByText('ui-eholdings.resource.customLabels')).toBeDefined();
     });
 
     it('should render resource settings', () => {
@@ -167,7 +172,7 @@ describe('Given ResourceEdit', () => {
       it('should enable form buttons', () => {
         const {
           getByText,
-          getByTestId,
+          getByLabelText,
         } = renderResourceEdit({
           model: {
             ...model,
@@ -175,7 +180,7 @@ describe('Given ResourceEdit', () => {
           },
         });
 
-        fireEvent.change(getByTestId('mock-input'), { target: { value: '123' } });
+        fireEvent.change(getByLabelText('Label 1'), { target: { value: '123' } });
 
         expect(getByText('stripes-components.saveAndClose')).toBeEnabled();
         expect(getByText('stripes-components.cancel')).toBeEnabled();
@@ -259,7 +264,7 @@ describe('Given ResourceEdit', () => {
           },
         });
 
-        expect(getByText('Custom labels accordion')).toBeDefined();
+        expect(getByText('ui-eholdings.resource.customLabels')).toBeDefined();
       });
 
       it('should render resource settings', () => {
@@ -278,7 +283,7 @@ describe('Given ResourceEdit', () => {
         it('should enable form buttons', () => {
           const {
             getByText,
-            getByTestId,
+            getByLabelText,
           } = renderResourceEdit({
             model: {
               ...model,
@@ -287,7 +292,7 @@ describe('Given ResourceEdit', () => {
             },
           });
 
-          fireEvent.change(getByTestId('mock-input'), { target: { value: '123' } });
+          fireEvent.change(getByLabelText('Label 1'), { target: { value: '123' } });
 
           expect(getByText('stripes-components.saveAndClose')).toBeEnabled();
           expect(getByText('stripes-components.cancel')).toBeEnabled();
@@ -327,6 +332,34 @@ describe('Given ResourceEdit', () => {
 
         expect(queryByTestId('spinner')).toBeDefined();
       });
+    });
+  });
+
+  describe('when click on close icon and form is not pristine', () => {
+    it('should show navigation modal', () => {
+      const {
+        getByText,
+        getAllByTestId,
+        getByLabelText,
+      } = renderResourceEdit({
+        model: {
+          ...model,
+          isSelected: true,
+          update: {
+            isPending: false,
+            isResolved: false,
+          },
+        },
+      });
+
+      const startDateInput = getByLabelText('Label 1');
+
+      fireEvent.change(startDateInput, { target: { value: '01/10/2021' } });
+      fireEvent.blur(startDateInput);
+
+      fireEvent.click(getAllByTestId('close-details-view-button')[0]);
+
+      expect(getByText('NavigationModal')).toBeDefined();
     });
   });
 });
