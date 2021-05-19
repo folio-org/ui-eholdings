@@ -259,7 +259,7 @@ class DetailsView extends Component {
             ariaLabel={ariaLabel}
             onClick={onCancel || this.navigateBack}
             data-test-eholdings-details-view-back-button
-            data-testid="details-view-back-button"
+            data-testid="close-details-view-button"
           />
         )}
       </FormattedMessage>

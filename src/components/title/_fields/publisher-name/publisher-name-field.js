@@ -18,6 +18,7 @@ function PublisherNameField() {
             label={fieldName}
             validate={validate}
             ariaLabel={fieldName}
+            data-testid="publisher-name-field"
           />
         )}
       </FormattedMessage>
