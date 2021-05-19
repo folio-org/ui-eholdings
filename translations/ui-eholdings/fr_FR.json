@@ -360,8 +360,8 @@
     "accessType.select": "Sélectionnez un type de statut d'accès",
     "accessType.novalue": "Aucun type de statut d'accès n'est sélectionné",
     "label.totalPackages": "Nombre total de bouquets: {count}",
-    "accessTypes.filter": "Access status types filter",
-    "search.searchByAccessTypesOnly": "Search by access status types only",
+    "accessTypes.filter": "Filtre des types de statut d'accès",
+    "search.searchByAccessTypesOnly": "Recherche par type de statut d'accès uniquement",
     "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
     "permission.settings.kb": "Paramètres (eHoldings): peut créer, modifier et afficher les informations d'identification de la base de connaissances",
     "permission.settings.root-proxy": "Paramètres (Ressources électroniques): configurer les paramètres du proxy racine",
@@ -503,7 +503,7 @@
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
     "usageConsolidation.holdingsSummary": "Résumé des fonds documentaires",
     "navigation.app": "Recherche d'application eholdings",
-    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.content": "Soumettre une requête sur le contenu de la base de connaissances",
     "navigation.systemStatus": "État du système EBSCO",
     "navigation.keyboardShortcuts": "Raccourcis clavier"
 }
