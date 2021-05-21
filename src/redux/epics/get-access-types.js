@@ -12,12 +12,12 @@ import {
   GET_ACCESS_TYPES,
 } from '../actions';
 
-export default ({ accessTypesApi }) => (action$, store) => {
+export default ({ accessTypesApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_ACCESS_TYPES),
       mergeMap(({ payload: credentialId }) => {
-        return accessTypesApi.getAll(store.getState().okapi, credentialId)
+        return accessTypesApi.getAll(state$.value.okapi, credentialId)
           .pipe(
             map(response => getAccessTypesSuccess(response)),
             catchError(errors => of(getAccessTypesFailure({ errors })))

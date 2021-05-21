@@ -13,7 +13,7 @@ import {
 } from '../actions';
 
 
-export default ({ customLabelsApi }) => (action$, store) => {
+export default ({ customLabelsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === UPDATE_CUSTOM_LABELS),
@@ -23,7 +23,7 @@ export default ({ customLabelsApi }) => (action$, store) => {
         } = action;
 
         return customLabelsApi
-          .updateCustomLabels(store.getState().okapi, customLabels, credentialId)
+          .updateCustomLabels(state$.value.okapi, customLabels, credentialId)
           .pipe(
             map(updateCustomLabelsSuccess),
             catchError(errors => of(updateCustomLabelsFailure({ errors })))

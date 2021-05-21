@@ -12,7 +12,7 @@ import {
   getAgreementLinesSuccess,
 } from '../actions';
 
-export default ({ agreementsApi }) => (action$, store) => {
+export default ({ agreementsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === UNASSIGN_AGREEMENT),
@@ -21,7 +21,7 @@ export default ({ agreementsApi }) => (action$, store) => {
         const {
           okapi,
           eholdings: { data: { agreements: { refId } } },
-        } = store.getState();
+        } = state$.value;
 
         return agreementsApi
           .getAgreementLines(okapi, agreementId, refId).pipe(

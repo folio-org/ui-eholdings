@@ -13,7 +13,7 @@ import {
   addAccessType,
 } from '../actions';
 
-export default ({ accessTypesApi }) => (action$, store) => {
+export default ({ accessTypesApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === ATTACH_ACCESS_TYPE),
@@ -21,7 +21,7 @@ export default ({ accessTypesApi }) => (action$, store) => {
         const { payload: { accessType, credentialId } } = action;
 
         return accessTypesApi
-          .attachAccessType(store.getState().okapi, { data: accessType }, credentialId)
+          .attachAccessType(state$.value.okapi, { data: accessType }, credentialId)
           .pipe(
             map(response => {
               attachAccessTypeSuccess();

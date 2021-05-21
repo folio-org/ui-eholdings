@@ -12,7 +12,7 @@ import {
   GET_ROOT_PROXY,
 } from '../actions';
 
-export default ({ rootProxyApi }) => (action$, store) => {
+export default ({ rootProxyApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_ROOT_PROXY),
@@ -22,7 +22,7 @@ export default ({ rootProxyApi }) => (action$, store) => {
         } = action;
 
         return rootProxyApi
-          .get(store.getState().okapi, credentialId)
+          .get(state$.value.okapi, credentialId)
           .pipe(
             map(response => getRootProxySuccess(response)),
             catchError(errors => of(getRootProxyFailure({ errors }))),

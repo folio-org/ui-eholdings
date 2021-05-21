@@ -12,7 +12,7 @@ import {
   GET_CUSTOM_LABELS,
 } from '../actions';
 
-export default ({ customLabelsApi }) => (action$, store) => {
+export default ({ customLabelsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_CUSTOM_LABELS),
@@ -22,7 +22,7 @@ export default ({ customLabelsApi }) => (action$, store) => {
         } = action;
 
         return customLabelsApi
-          .getAll(store.getState().okapi, credentialId)
+          .getAll(state$.value.okapi, credentialId)
           .pipe(
             map(response => getCustomLabelsSuccess(response)),
             catchError(errors => of(getCustomLabelsFailure({ errors }))),

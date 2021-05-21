@@ -12,12 +12,12 @@ import {
   patchKBCredentialsFailure,
 } from '../actions';
 
-export default ({ knowledgeBaseApi }) => (action$, store) => {
+export default ({ knowledgeBaseApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === PATCH_KB_CREDENTIALS),
     mergeMap(({ payload }) => {
       return knowledgeBaseApi
-        .editCredentials(store.getState().okapi, { data: payload.data }, payload.credentialId)
+        .editCredentials(state$.value.okapi, { data: payload.data }, payload.credentialId)
         .pipe(
           map(() => patchKBCredentialsSuccess({
             // here we're using data that comes from the form but not the response

@@ -12,7 +12,7 @@ import {
   deleteKBCredentialsUserFailure,
 } from '../actions';
 
-export default ({ kbCredentialsUsersApi }) => (action$, store) => {
+export default ({ kbCredentialsUsersApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === DELETE_KB_CREDENTIALS_USER),
@@ -20,7 +20,7 @@ export default ({ kbCredentialsUsersApi }) => (action$, store) => {
         const { credentialsId, userId } = payload;
 
         return kbCredentialsUsersApi
-          .unassignUser(store.getState().okapi, credentialsId, userId)
+          .unassignUser(state$.value.okapi, credentialsId, userId)
           .pipe(
             map(() => deleteKBCredentialsUserSuccess(userId)),
             catchError(errors => of(deleteKBCredentialsUserFailure({ errors }))),

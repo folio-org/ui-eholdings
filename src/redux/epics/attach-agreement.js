@@ -17,7 +17,7 @@ import {
   pickAgreementProps,
 } from './common';
 
-export default ({ agreementsApi }) => (action$, store) => {
+export default ({ agreementsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === ATTACH_AGREEMENT),
@@ -27,7 +27,7 @@ export default ({ agreementsApi }) => (action$, store) => {
         } = action;
 
         return agreementsApi
-          .attachAgreement(store.getState().okapi, agreement)
+          .attachAgreement(state$.value.okapi, agreement)
           .pipe(
             map((currentAgreement) => {
               attachAgreementSuccess();

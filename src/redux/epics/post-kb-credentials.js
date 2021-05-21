@@ -12,12 +12,12 @@ import {
   postKBCredentialsFailure,
 } from '../actions';
 
-export default ({ knowledgeBaseApi }) => (action$, store) => {
+export default ({ knowledgeBaseApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === POST_KB_CREDENTIALS),
     mergeMap(({ payload }) => {
       return knowledgeBaseApi
-        .createCredentials(store.getState().okapi, payload)
+        .createCredentials(state$.value.okapi, payload)
         .pipe(
           map(postKBCredentialsSuccess),
           catchError(errors => of(postKBCredentialsFailure({ errors })))

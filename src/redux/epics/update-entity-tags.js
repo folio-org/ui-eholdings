@@ -14,22 +14,20 @@ import {
   parseResponseBody,
 } from '../../api/common';
 
-export default function updateEntityTags(action$, store) {
-  const { getState } = store;
+export default function updateEntityTags(action$, state$) {
 
   return action$
     .pipe(
       ofType(entityTagsActionTypes.UPDATE_ENTITY_TAGS),
       mergeMap(({ data, payload }) => {
-        const state = getState();
-        const url = `${state.okapi.url}/eholdings/${data.path}/tags`;
+        const url = `${state$.value.okapi.url}/eholdings/${data.path}/tags`;
         const method = 'PUT';
 
         // the request object created from this action
-        const request = state.eholdings.data[data.type].requests[data.timestamp];
+        const request = state$.value.eholdings.data[data.type].requests[data.timestamp];
 
         const requestOptions = {
-          headers: getHeaders(method, state.okapi, url),
+          headers: getHeaders(method, state$.value.okapi, url),
           method,
           body: JSON.stringify(payload),
         };

@@ -12,7 +12,7 @@ import {
   deleteAccessTypeFailure,
 } from '../actions';
 
-export default ({ accessTypesApi }) => (action$, store) => {
+export default ({ accessTypesApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === DELETE_ACCESS_TYPE),
@@ -20,7 +20,7 @@ export default ({ accessTypesApi }) => (action$, store) => {
         const { payload: { accessType, credentialId } } = action;
 
         return accessTypesApi
-          .deleteAccessType(store.getState().okapi, accessType, credentialId)
+          .deleteAccessType(state$.value.okapi, accessType, credentialId)
           .pipe(
             map(() => deleteAccessTypeSuccess(accessType.id)),
             catchError(({ errors }) => of(deleteAccessTypeFailure({

@@ -12,14 +12,14 @@ import {
   getProxyTypesFailure,
 } from '../actions';
 
-export default ({ proxyTypesApi }) => (action$, store) => {
+export default ({ proxyTypesApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === GET_PROXY_TYPES),
     mergeMap(action => {
       const { payload: credentialId } = action;
 
       return proxyTypesApi
-        .getAll(store.getState().okapi, credentialId)
+        .getAll(state$.value.okapi, credentialId)
         .pipe(
           map(getProxyTypesSuccess),
           catchError(errors => of(getProxyTypesFailure({ errors })))

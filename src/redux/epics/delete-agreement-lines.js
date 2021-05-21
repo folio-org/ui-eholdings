@@ -12,7 +12,7 @@ import {
   GET_AGREEMENT_LINES_SUCCESS,
 } from '../actions';
 
-export default ({ agreementsApi }) => (action$, store) => {
+export default ({ agreementsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_AGREEMENT_LINES_SUCCESS),
@@ -20,7 +20,7 @@ export default ({ agreementsApi }) => (action$, store) => {
         const {
           okapi,
           eholdings: { data: { agreements: { unassignedAgreement } } },
-        } = store.getState();
+        } = state$.value;
 
         const items = payload.map(id => ({ id, _delete: true }));
 

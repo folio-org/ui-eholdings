@@ -12,7 +12,7 @@ import {
   getAgreementsFailure,
 } from '../actions';
 
-export default ({ agreementsApi }) => (action$, store) => {
+export default ({ agreementsApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_AGREEMENTS),
@@ -24,7 +24,7 @@ export default ({ agreementsApi }) => (action$, store) => {
         } = action;
 
         return agreementsApi
-          .getAll(store.getState().okapi, refId)
+          .getAll(state$.value.okapi, refId)
           .pipe(
             map(response => getAgreementsSuccess(response)),
             catchError(errors => of(getAgreementsFailure({ errors }))),

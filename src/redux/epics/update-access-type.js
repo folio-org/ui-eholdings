@@ -12,7 +12,7 @@ import {
   UPDATE_ACCESS_TYPE,
 } from '../actions';
 
-export default ({ accessTypesApi }) => (action$, store) => {
+export default ({ accessTypesApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === UPDATE_ACCESS_TYPE),
@@ -20,7 +20,7 @@ export default ({ accessTypesApi }) => (action$, store) => {
         const { payload: { accessType, credentialId } } = action;
 
         return accessTypesApi
-          .updateAccessType(store.getState().okapi, accessType, credentialId)
+          .updateAccessType(state$.value.okapi, accessType, credentialId)
           .pipe(
             map(() => updateAccessTypeSuccess(accessType)),
             catchError(errors => of(updateAccessTypeFailure({ errors })))

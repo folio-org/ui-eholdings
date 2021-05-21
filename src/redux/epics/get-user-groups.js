@@ -12,11 +12,11 @@ import {
   getUserGroupsFailure,
 } from '../actions';
 
-export default ({ userGroupsApi }) => (action$, store) => {
+export default ({ userGroupsApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === GET_USER_GROUPS),
     mergeMap(() => userGroupsApi
-      .getAll(store.getState().okapi)
+      .getAll(state$.value.okapi)
       .pipe(
         map(getUserGroupsSuccess),
         catchError(errors => of(getUserGroupsFailure({ errors })))

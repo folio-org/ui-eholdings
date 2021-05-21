@@ -1,4 +1,4 @@
-import { TestScheduler } from 'rxjs/Rx';
+import { TestScheduler } from 'rxjs/testing';
 
 import createUpdateUcCredentialsEpic from '../update-uc-credentials';
 

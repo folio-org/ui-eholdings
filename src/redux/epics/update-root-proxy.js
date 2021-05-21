@@ -12,7 +12,7 @@ import {
   updateRootProxySuccess,
 } from '../actions';
 
-export default ({ rootProxyApi }) => (action$, store) => {
+export default ({ rootProxyApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === UPDATE_ROOT_PROXY),
     mergeMap(action => {
@@ -21,7 +21,7 @@ export default ({ rootProxyApi }) => (action$, store) => {
       } = action;
 
       return rootProxyApi
-        .updateRootProxy(store.getState().okapi, rootProxy, credentialId)
+        .updateRootProxy(state$.value.getState().okapi, rootProxy, credentialId)
         .pipe(
           map(() => updateRootProxySuccess(rootProxy)),
           catchError(errors => of(updateRootProxyFailure({ errors })))

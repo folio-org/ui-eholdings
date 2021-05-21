@@ -12,7 +12,7 @@ import {
   deleteKBCredentialsFailure,
 } from '../actions';
 
-export default ({ knowledgeBaseApi }) => (action$, store) => {
+export default ({ knowledgeBaseApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === DELETE_KB_CREDENTIALS),
@@ -20,7 +20,7 @@ export default ({ knowledgeBaseApi }) => (action$, store) => {
         const { payload: { id } } = action;
 
         return knowledgeBaseApi
-          .deleteCredentials(store.getState().okapi, id)
+          .deleteCredentials(state$.value.okapi, id)
           .pipe(
             map(() => deleteKBCredentialsSuccess(id)),
             catchError(errors => of(deleteKBCredentialsFailure({ errors }))),
