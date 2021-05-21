@@ -11,13 +11,13 @@ import {
 
 describe('(epic) deleteAgreementLines', () => {
   const state$ = {
-    getState: () => ({
+    value: {
       okapi: {
         url: 'https://folio-snapshot',
         tenant: 'diku',
         token: 'token',
       },
-    }),
+    },
   };
 
   let testScheduler;

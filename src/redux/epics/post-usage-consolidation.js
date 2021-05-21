@@ -24,7 +24,7 @@ export default ({ usageConsolidationApi }) => (action$, state$) => {
         .postUsageConsolidation(state$.value.okapi, credentialsId, { data })
         .pipe(
           map(postUsageConsolidationSuccess),
-          catchError(errors => of(postUsageConsolidationFailure({ errors })))
+          catchError(errors => of(postUsageConsolidationFailure(errors)))
         );
     }),
   );

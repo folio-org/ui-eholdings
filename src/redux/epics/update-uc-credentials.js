@@ -19,10 +19,10 @@ export default ({ ucCredentialsApi }) => (action$, state$) => {
       const { payload } = action;
 
       return ucCredentialsApi
-        .updateUcCredentials(state$.value.getState().okapi, payload)
+        .updateUcCredentials(state$.value.okapi, payload)
         .pipe(
           map(updateUcCredentialsSuccess),
-          catchError(errors => of(updateUcCredentialsFailure({ errors })))
+          catchError(errors => of(updateUcCredentialsFailure(errors)))
         );
     }),
   );

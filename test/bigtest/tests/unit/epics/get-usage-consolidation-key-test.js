@@ -20,17 +20,12 @@ describe('(epic) getUsageConsolidationKey', () => {
   });
 
   const state$ = {
-    getState: () => {
-      return {
-        okapi: {
-          url: 'https://folio-snapshot',
-          tenant: 'diku',
-          token: 'token',
-        },
-      };
+    value: {
+      url: 'https://folio-snapshot',
+      tenant: 'diku',
+      token: 'token',
     },
   };
-
 
   it('should handle successful data fetching', () => {
     const response = { body: { data: {} } };

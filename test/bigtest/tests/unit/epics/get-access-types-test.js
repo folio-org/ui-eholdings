@@ -14,13 +14,13 @@ describe('(epic) getAccessTypes', () => {
   });
 
   const state$ = {
-    getState: () => ({
+    value: {
       okapi: {
         url: 'https://folio-snapshot',
         tenant: 'diku',
         token: 'token',
       }
-    })
+    },
   };
 
   it('should handle successful data fetching', () => {

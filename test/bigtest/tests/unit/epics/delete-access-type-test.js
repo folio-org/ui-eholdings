@@ -6,13 +6,13 @@ import { createDeleteAccessTypeEpic } from '../../../../../src/redux/epics';
 
 describe('(epic) deleteAccessType', () => {
   const state$ = {
-    getState: () => ({
+    value: {
       okapi: {
         url: 'https://folio-snapshot',
         tenant: 'diku',
         token: 'token',
       },
-    }),
+    },
   };
 
   let testScheduler;

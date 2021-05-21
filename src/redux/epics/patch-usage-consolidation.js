@@ -22,7 +22,7 @@ export default ({ usageConsolidationApi }) => (action$, state$) => {
         .assignUser(state$.value.okapi, credentialsId, { data })
         .pipe(
           map(() => patchUsageConsolidationSuccess(data.attributes)),
-          catchError(errors => of(patchUsageConsolidationFailure({ errors }))),
+          catchError(errors => of(patchUsageConsolidationFailure(errors))),
         );
     }),
   );

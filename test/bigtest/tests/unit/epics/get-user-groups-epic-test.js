@@ -20,15 +20,13 @@ describe('(epic) getUserGroups', () => {
   });
 
   const state$ = {
-    getState: () => {
-      return {
-        okapi: {
-          url: 'https://folio-snapshot',
-          tenant: 'diku',
-          token: 'token',
-        }
-      };
-    }
+    value: {
+      okapi: {
+        url: 'https://folio-snapshot',
+        tenant: 'diku',
+        token: 'token',
+      },
+    },
   };
 
 

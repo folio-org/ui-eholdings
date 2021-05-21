@@ -21,7 +21,7 @@ export default ({ rootProxyApi }) => (action$, state$) => {
       } = action;
 
       return rootProxyApi
-        .updateRootProxy(state$.value.getState().okapi, rootProxy, credentialId)
+        .updateRootProxy(state$.value.okapi, rootProxy, credentialId)
         .pipe(
           map(() => updateRootProxySuccess(rootProxy)),
           catchError(errors => of(updateRootProxyFailure({ errors })))
