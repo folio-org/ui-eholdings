@@ -18,6 +18,7 @@
 * Add ability to configure APIGEE. (UIEH-1112)
 * Add tests on Jest+RTL for TitleEdit component. (UIEH-1069)
 * Add Jest+RTL tests for ResourceEdit. (UIEH-1084)
+* Add tests on Jest+RTL for AccessTypeEditSection, AccessTypeSelect, CustomLabelEditSection, CustomLabelShowSection and AccordionListHeader components. (UIEH-1047)
 
 ## [6.0.3] (https://github.com/folio-org/ui-eholdings/tree/v6.0.3) (2021-04-20)
 * Usage & analysis accordion focus issues. (UIEH-1110)

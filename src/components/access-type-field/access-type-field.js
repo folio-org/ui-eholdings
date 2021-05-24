@@ -13,7 +13,7 @@ const propTypes = {
   })).isRequired,
 };
 
-function AccessTypeSelectField({ accessStatusTypes }) {
+function AccessTypeField({ accessStatusTypes }) {
   const accessTypesWithNoneOption = [{ id: accessTypes.ACCESS_TYPE_NONE_ID }, ...accessStatusTypes];
 
   const checkIfNoneOption = accessTypeId => accessTypeId === accessTypes.ACCESS_TYPE_NONE_ID;
@@ -46,6 +46,6 @@ function AccessTypeSelectField({ accessStatusTypes }) {
   );
 }
 
-AccessTypeSelectField.propTypes = propTypes;
+AccessTypeField.propTypes = propTypes;
 
-export default AccessTypeSelectField;
+export default AccessTypeField;
