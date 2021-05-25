@@ -1,28 +1,25 @@
-import { createRef, Component } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
-  Field,
   Form
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
-import { withStripes } from '@folio/stripes-core';
+import { useStripes } from '@folio/stripes-core';
 import {
-  Accordion,
   Button,
   Headline,
-  Icon,
-  KeyValue,
-  Modal,
-  ModalFooter,
-  RadioButton,
   PaneFooter,
-  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -33,27 +30,49 @@ import {
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
-import NameField from '../_fields/name';
-import CoverageFields from '../_fields/custom-coverage';
-import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import SelectionStatus from '../selection-status';
-import ProxySelectField from '../../proxy-select';
-import AccessTypeEditSection from '../../access-type-edit-section';
+import SelectionModal from '../../selection-modal';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+import HoldingStatus from '../show/components/holding-status';
+import EditPackageInformation from '../edit/components/edit-package-information';
+import EditPackageSettings from '../edit/components/edit-package-settings';
+import EditCoverageSettings from '../edit/components/edit-coverage-settings';
+import {
+  useStateCallback,
+  useSectionToggle,
+} from '../../../hooks';
 
 import {
   accessTypesReduxStateShape,
   TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
 } from '../../../constants';
 
-import styles from './custom-package-edit.css';
-
 const focusOnErrors = createFocusDecorator();
 
-class CustomPackageEdit extends Component {
-  static getInitialValues(model, proxyTypes) {
+const propTypes = {
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  addPackageToHoldings: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  provider: PropTypes.object.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+};
+
+const CustomPackageEdit = ({
+  model,
+  proxyTypes,
+  provider,
+  onCancel,
+  onSubmit,
+  accessStatusTypes,
+  addPackageToHoldings,
+}) => {
+  const stripes = useStripes();
+  const intl = useIntl();
+
+  const getInitialValues = useCallback(() => {
     const {
       name,
       contentType,
@@ -77,145 +96,71 @@ class CustomPackageEdit extends Component {
       isVisible: !visibilityData.isHidden,
       accessTypeId: getAccessTypeId(model),
     };
+  }, [model, proxyTypes]);
+
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
+  const [packageSelected, setPackageSelected] = useStateCallback(model.isSelected);
+  const [formValues, setFormValues] = useStateCallback({});
+  const [initialValues, setInitialValues] = useState({});
+  const [sections, {
+    handleSectionToggle,
+    toggleAllSections,
+  }] = useSectionToggle({
+    packageHoldingStatus: true,
+    packageInfo: true,
+    packageSettings: true,
+    packageCoverageSettings: true,
+  });
+  const editFormRef = useRef(null);
+
+  useEffect(() => {
+    setInitialValues(getInitialValues());
+  }, [getInitialValues]);
+
+  if (model.isSelected !== initialValues.isSelected) {
+    setInitialValues(getInitialValues());
+    setPackageSelected(model.isSelected);
   }
 
-  static isProxyTypesLoaded(proxyTypes, provider) {
-    return proxyTypes.request.isResolved && provider.data.isLoaded;
-  }
-
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    model: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }),
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
-    const { initialValues, wasProxyTypesLoaded } = prevState;
-    const {
-      isSelected,
-      destroy,
-    } = nextProps.model;
-    const { proxyTypes, provider } = nextProps;
-
-    const selectionStatusChanged = isSelected !== initialValues.isSelected;
-    const isProxyTypesLoaded = CustomPackageEdit.isProxyTypesLoaded(proxyTypes, provider);
-
-    if (selectionStatusChanged) {
-      stateUpdates = {
-        initialValues: CustomPackageEdit.getInitialValues(nextProps.model, proxyTypes),
-        packageSelected: isSelected
-      };
+  useEffect(() => {
+    if (proxyTypes.request.isResolved && provider.data.isLoaded) {
+      setInitialValues(getInitialValues());
     }
+  }, [getInitialValues, proxyTypes.request.isResolved, provider.data.isLoaded]);
 
-    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
-      stateUpdates = {
-        initialValues: CustomPackageEdit.getInitialValues(nextProps.model, proxyTypes),
-        wasProxyTypesLoaded: true,
-      };
-    }
-
-    if (destroy.errors.length) {
-      stateUpdates.showSelectionModal = false;
-    }
-
-    return stateUpdates;
+  if (model.destroy.errors.length) {
+    setShowSelectionModal(false);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showSelectionModal: false,
-      allowFormToSubmit: false,
-      packageSelected: this.props.model.isSelected,
-      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
-      formValues: {},
-      initialValues: CustomPackageEdit.getInitialValues(this.props.model, this.props.proxyTypes),
-      sections: {
-        packageHoldingStatus: true,
-        packageInfo: true,
-        packageSettings: true,
-        packageCoverageSettings: true,
-      },
-    };
-  }
-
-  editFormRef = createRef();
-
-  toggleAllSectionsForShortcut = (expand) => {
-    this.setState((curState) => {
-      const sections = expandAllFunction(curState.sections, expand);
-      return { sections };
-    });
+  const cancelSelectionToggle = (change) => {
+    setShowSelectionModal(false);
+    setPackageSelected(true, () => change('isSelected', true));
   };
 
-  handleDeleteAction = () => {
-    this.setState({
-      formValues: {
-        isSelected: false
-      }
-    }, () => this.handleOnSubmit(this.state.formValues));
-  };
-
-  commitSelectionToggle = () => {
-    this.setState({
-      allowFormToSubmit: true
-    }, () => { this.handleOnSubmit(this.state.formValues); });
-  };
-
-  cancelSelectionToggle = (change) => {
-    this.setState({
-      showSelectionModal: false,
-      packageSelected: true,
-    }, () => {
-      change('isSelected', true);
-    });
-  };
-
-  handleOnSubmit = (values) => {
-    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
-      this.setState({
-        showSelectionModal: true,
-        formValues: values
-      });
+  const handleOnSubmit = (values, allowSubmit = allowFormToSubmit) => {
+    if (allowSubmit === false && values.isSelected === false) {
+      setShowSelectionModal(true);
+      setFormValues(values);
     } else {
-      this.setState({
-        allowFormToSubmit: false,
-        formValues: {}
-      }, () => {
-        this.props.onSubmit(values);
-      });
+      setAllowFormToSubmit(false);
+      setFormValues({}, () => onSubmit(values));
     }
   };
 
-  toggleSection = ({ id: sectionId }) => {
-    this.setState((prevState) => {
-      const { sections } = prevState;
-      const sectionIsExpanded = sections[sectionId];
-      return {
-        sections: {
-          ...sections,
-          [sectionId]: !sectionIsExpanded
-        }
-      };
-    });
+  const handleDeleteAction = () => {
+    setFormValues({
+      isSelected: false,
+    }, (newFormValues) => handleOnSubmit(newFormValues));
   };
 
-  toggleAllSections = (sections) => {
-    this.setState({ sections });
+  const commitSelectionToggle = () => {
+    setAllowFormToSubmit({
+      allowFormToSubmit: true
+    }, () => handleOnSubmit(formValues, true));
   };
 
-  getSectionHeader(translationKey) {
+  const getSectionHeader = (translationKey) => {
     return (
       <Headline
         size="large"
@@ -224,32 +169,29 @@ class CustomPackageEdit extends Component {
         <FormattedMessage id={translationKey} />
       </Headline>
     );
-  }
+  };
 
-  getActionMenu = () => {
-    const { packageSelected } = this.state;
-    const { stripes } = this.props;
+  const getActionMenu = () => {
     const hasDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
     if (!hasDeletePermission || !packageSelected) return null;
 
+    // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
       <Button
         data-test-eholdings-package-remove-from-holdings-action
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          this.handleDeleteAction();
+          handleDeleteAction();
         }}
       >
         <FormattedMessage id="ui-eholdings.package.deletePackage" />
       </Button>
     );
-  }
+  };
 
-  getFooter = (pristine, reset) => {
-    const { model } = this.props;
-
+  const getFooter = (pristine, reset) => {
     const cancelButton = (
       <Button
         data-test-eholdings-package-edit-cancel-button
@@ -280,224 +222,105 @@ class CustomPackageEdit extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
-  render() {
-    const {
-      model,
-      proxyTypes,
-      provider,
-      onCancel,
-      accessStatusTypes,
-      intl,
-    } = this.props;
+  return (
+    <KeyShortcutsWrapper
+      formRef={editFormRef.current}
+      toggleAllSections={toggleAllSections}
+    >
+      <Form
+        onSubmit={handleOnSubmit}
+        decorators={[focusOnErrors]}
+        mutators={{ ...arrayMutators }}
+        initialValues={initialValues}
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+          <div>
+            <Toaster
+              toasts={processErrors(model)}
+              position="bottom"
+            />
+            <form
+              ref={editFormRef}
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <DetailsView
+                type="package"
+                model={model}
+                paneTitle={model.name}
+                actionMenu={getActionMenu()}
+                handleExpandAll={toggleAllSections}
+                sections={sections}
+                ariaRole="tablist"
+                bodyAriaRole="tab"
+                footer={getFooter(pristine, reset)}
+                bodyContent={(
+                  <>
+                    <HoldingStatus
+                      isOpen={sections.packageHoldingStatus}
+                      onToggle={handleSectionToggle}
+                      model={model}
+                      onAddToHoldings={addPackageToHoldings}
+                    />
+                    <EditPackageInformation
+                      isOpen={sections.packageInfo}
+                      onToggle={handleSectionToggle}
+                      getSectionHeader={getSectionHeader}
+                      packageSelected={packageSelected}
+                      model={model}
+                      accessStatusTypes={accessStatusTypes}
+                    />
+                    <EditPackageSettings
+                      isOpen={sections.packageSettings}
+                      getSectionHeader={getSectionHeader}
+                      onToggle={handleSectionToggle}
+                      packageSelected={packageSelected}
+                      initialValues={initialValues}
+                      model={model}
+                      proxyTypes={proxyTypes}
+                      provider={provider}
+                      packageIsCustom
+                    />
 
-    const {
-      initialValues,
-      showSelectionModal,
-      packageSelected,
-      sections,
-    } = this.state;
-
-    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-
-    return (
-      <KeyShortcutsWrapper
-        formRef={this.editFormRef.current}
-        toggleAllSections={this.toggleAllSectionsForShortcut}
-      >
-        <Form
-          onSubmit={this.handleOnSubmit}
-          decorators={[focusOnErrors]}
-          mutators={{ ...arrayMutators }}
-          initialValues={initialValues}
-          render={({ handleSubmit, pristine, form: { change, reset } }) => (
-            <div>
-              <Toaster
-                toasts={processErrors(model)}
-                position="bottom"
-              />
-              <form
-                ref={this.editFormRef}
-                onSubmit={handleSubmit}
-                noValidate
-              >
-                <DetailsView
-                  type="package"
-                  model={model}
-                  paneTitle={model.name}
-                  actionMenu={this.getActionMenu()}
-                  handleExpandAll={this.toggleAllSections}
-                  sections={sections}
-                  ariaRole="tablist"
-                  bodyAriaRole="tab"
-                  footer={this.getFooter(pristine, reset)}
-                  bodyContent={(
-                    <>
-                      <Accordion
-                        label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
-                        open={sections.packageHoldingStatus}
-                        id="packageHoldingStatus"
-                        onToggle={this.toggleSection}
-                      >
-                        <SelectionStatus
-                          model={model}
-                          onAddToHoldings={this.props.addPackageToHoldings}
-                        />
-                      </Accordion>
-
-                      <Accordion
-                        label={this.getSectionHeader('ui-eholdings.label.packageInformation')}
-                        open={sections.packageInfo}
-                        id="packageInfo"
-                        onToggle={this.toggleSection}
-                      >
-                        {packageSelected
-                          ? <NameField />
-                          : (
-                            <KeyValue label={<FormattedMessage id="ui-eholdings.package.name" />}>
-                              <div data-test-eholdings-package-readonly-name-field>
-                                {model.name}
-                              </div>
-                            </KeyValue>
-                          )}
-
-                        {packageSelected
-                          ? <ContentTypeField />
-                          : (
-                            <KeyValue label={<FormattedMessage id="ui-eholdings.package.contentType" />}>
-                              <div data-test-eholdings-package-details-readonly-content-type>
-                                {model.contentType}
-                              </div>
-                            </KeyValue>
-                          )}
-                        <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                      </Accordion>
-
-                      <Accordion
-                        label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
-                        open={sections.packageSettings}
-                        id="packageSettings"
-                        onToggle={this.toggleSection}
-                      >
-                        {packageSelected ? (
-                          <div className={styles['visibility-radios']}>
-                            {initialValues.isVisible !== null ? (
-                              <fieldset
-                                data-test-eholdings-package-visibility-field
-                                className={styles['visibility-radios']}
-                              >
-                                <Headline tag="legend" size="small" margin="x-large">
-                                  <FormattedMessage id="ui-eholdings.package.visibility" />
-                                </Headline>
-
-                                <Field
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={<FormattedMessage id="ui-eholdings.yes" />}
-                                  name="isVisible"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="true"
-                                />
-
-                                <Field
-                                  component={RadioButton}
-                                  format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                  label={
-                                    <FormattedMessage
-                                      id="ui-eholdings.package.visibility.no"
-                                      values={{ visibilityMessage }}
-                                    />
-                                  }
-                                  name="isVisible"
-                                  parse={value => value === 'true'}
-                                  type="radio"
-                                  value="false"
-                                />
-
-                              </fieldset>
-                            ) : (
-                              <div
-                                data-test-eholdings-package-details-visibility
-                                htmlFor="managed-package-details-visibility-switch"
-                              >
-                                <Icon icon="spinner-ellipsis" />
-                              </div>
-                            )}
-                            {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
-                              <div data-test-eholdings-package-proxy-select-field>
-                                <ProxySelectField
-                                  proxyTypes={proxyTypes}
-                                  inheritedProxyId={provider.proxy.id}
-                                />
-                              </div>
-                            ) : (
-                              <Icon icon="spinner-ellipsis" />
-                            )}
-                          </div>
-                        ) : (
-                          <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>
-                        )}
-                      </Accordion>
-
-                      <Accordion
-                        label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
-                        open={sections.packageCoverageSettings}
-                        id="packageCoverageSettings"
-                        onToggle={this.toggleSection}
-                      >
-                        {packageSelected ? (
-                          <CoverageFields
-                            initial={initialValues.customCoverages}
-                          />
-                        ) : (
-                          <p><FormattedMessage id="ui-eholdings.package.customCoverage.notSelected" /></p>
-                        )}
-                      </Accordion>
-                    </>
-                  )}
-                  onCancel={onCancel}
-                />
-              </form>
-
-              <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
-
-              <Modal
-                open={showSelectionModal}
-                size="small"
-                label={<FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />}
-                id="eholdings-package-confirmation-modal"
-                aria-label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
-                footer={(
-                  <ModalFooter>
-                    <Button
-                      data-test-eholdings-package-deselection-confirmation-modal-yes
-                      buttonStyle="primary"
-                      disabled={model.destroy.isPending}
-                      onClick={this.commitSelectionToggle}
-                    >
-                      {(model.destroy.isPending ?
-                        <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" /> :
-                        <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />)}
-                    </Button>
-                    <Button
-                      data-test-eholdings-package-deselection-confirmation-modal-no
-                      onClick={() => this.cancelSelectionToggle(change)}
-                    >
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
-                    </Button>
-                  </ModalFooter>
+                    <EditCoverageSettings
+                      isOpen={sections.packageCoverageSettings}
+                      getSectionHeader={getSectionHeader}
+                      onToggle={handleSectionToggle}
+                      packageSelected={packageSelected}
+                      initialValues={initialValues}
+                      packageIsCustom
+                    />
+                  </>
                 )}
-              >
-                <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
-              </Modal>
-            </div>
-          )}
-        />
-      </KeyShortcutsWrapper>
-    );
-  }
-}
+                onCancel={onCancel}
+              />
+            </form>
 
-export default withStripes(injectIntl(CustomPackageEdit));
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
+
+            <SelectionModal
+              showSelectionModal={showSelectionModal}
+              modelIsUpdating={model.destroy.isPending}
+              handelDeleteConfirmation={commitSelectionToggle}
+              cancelSelectionToggle={cancelSelectionToggle}
+              change={change}
+              label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' })}
+              cancelButtonLabel={intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel.isCustom' })}
+              confirmButtonLabel={(model.destroy.isPending
+                ? <FormattedMessage id="ui-eholdings.package.modal.buttonWorking.isCustom" />
+                : <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />
+              )}
+            >
+              <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
+            </SelectionModal>
+          </div>
+        )}
+      />
+    </KeyShortcutsWrapper>
+  );
+};
+
+CustomPackageEdit.propTypes = propTypes;
+
+export default CustomPackageEdit;

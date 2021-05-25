@@ -1,27 +1,25 @@
-import { createRef, Component } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
-  Field,
   Form
 } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
-import { withStripes } from '@folio/stripes-core';
+import { useStripes } from '@folio/stripes-core';
 import {
-  Accordion,
   Button,
   Headline,
-  Icon,
-  Modal,
-  ModalFooter,
-  RadioButton,
   PaneFooter,
-  expandAllFunction,
 } from '@folio/stripes/components';
 
 import {
@@ -32,24 +30,45 @@ import {
 } from '../../utilities';
 
 import DetailsView from '../../details-view';
-import CoverageFields from '../_fields/custom-coverage';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
-import SelectionStatus from '../selection-status';
-import ProxySelectField from '../../proxy-select';
-import TokenField from '../../token';
-import AccessTypeEditSection from '../../access-type-edit-section';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
+import HoldingStatus from '../show/components/holding-status';
+import EditCoverageSettings from '../edit/components/edit-coverage-settings';
+import SelectionModal from '../../selection-modal';
+import EditPackageSettings from '../edit/components/edit-package-settings';
 
+import {
+  useSectionToggle,
+  useStateCallback,
+} from '../../../hooks';
 import { accessTypesReduxStateShape } from '../../../constants';
-
-import styles from './managed-package-edit.css';
-import fieldsetStyles from '../../fieldset-styles.css';
 
 const focusOnErrors = createFocusDecorator();
 
-class ManagedPackageEdit extends Component {
-  static getInitialValues(model, { providerToken }, proxyTypes) {
+const propTypes = {
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  addPackageToHoldings: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  provider: PropTypes.object.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+};
+
+const ManagedPackageEdit = ({
+  accessStatusTypes,
+  addPackageToHoldings,
+  model,
+  onCancel,
+  onSubmit,
+  provider,
+  proxyTypes,
+}) => {
+  const stripes = useStripes();
+  const intl = useIntl();
+
+  const getInitialValues = useCallback(() => {
     const {
       isSelected,
       customCoverage,
@@ -68,154 +87,76 @@ class ManagedPackageEdit extends Component {
         ...customCoverage,
       }],
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
-      providerTokenValue: providerToken.value,
+      providerTokenValue: provider.providerToken.value,
       packageTokenValue: packageToken.value,
       isVisible: !visibilityData.isHidden,
       allowKbToAddTitles,
       accessTypeId: getAccessTypeId(model),
     };
-  }
+  }, [model, provider.providerToken.value, proxyTypes]);
 
-  static isProxyTypesLoaded(proxyTypes, provider) {
-    return proxyTypes.request.isResolved && provider.data.isLoaded;
-  }
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
+  const [packageSelected, setPackageSelected] = useStateCallback(model.isSelected);
+  const [formValues, setFormValues] = useStateCallback({});
+  const [initialValues, setInitialValues] = useState({});
+  const [sections, {
+    handleSectionToggle,
+    toggleAllSections,
+  }] = useSectionToggle({
+    packageHoldingStatus: true,
+    packageSettings: true,
+    packageCoverageSettings: true,
+  });
+  const editFormRef = useRef(null);
 
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    model: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }),
-  };
+  useEffect(() => {
+    setInitialValues(getInitialValues());
+  }, [getInitialValues]);
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let stateUpdates = {};
-    const { initialValues, wasProxyTypesLoaded } = prevState;
-    const {
-      model: {
-        isSelected,
-        update,
-      },
-      provider: { providerToken },
-      proxyTypes,
-    } = nextProps;
-
-    const providerTokenWasLoaded = !initialValues.providerTokenValue && providerToken.value;
-    const selectionStatusChanged = isSelected !== initialValues.isSelected;
-    const isProxyTypesLoaded = ManagedPackageEdit.isProxyTypesLoaded(proxyTypes, nextProps.provider);
-
-    if (selectionStatusChanged || providerTokenWasLoaded) {
-      stateUpdates = {
-        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
-        packageSelected: isSelected
-      };
+  useEffect(() => {
+    if (proxyTypes.request.isResolved && provider.data.isLoaded) {
+      setInitialValues(getInitialValues());
     }
+  }, [getInitialValues, proxyTypes.request.isResolved, provider.data.isLoaded]);
 
-    if (isProxyTypesLoaded && !wasProxyTypesLoaded) {
-      stateUpdates = {
-        initialValues: ManagedPackageEdit.getInitialValues(nextProps.model, nextProps.provider, proxyTypes),
-        wasProxyTypesLoaded: true,
-      };
-    }
-
-    if (update.errors.length) {
-      stateUpdates.showSelectionModal = false;
-    }
-
-    return stateUpdates;
+  const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken.value;
+  const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
+  if (selectionStatusChanged || providerTokenWasLoaded) {
+    setInitialValues(getInitialValues());
+    setPackageSelected(model.isSelected);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showSelectionModal: false,
-      allowFormToSubmit: false,
-      packageSelected: this.props.model.isSelected,
-      wasProxyTypesLoaded: this.props.proxyTypes.request.isResolved,
-      formValues: {},
-      initialValues: ManagedPackageEdit.getInitialValues(this.props.model, this.props.provider, this.props.proxyTypes),
-      sections: {
-        packageHoldingStatus: true,
-        packageSettings: true,
-        packageCoverageSettings: true,
-      },
-    };
+  if (model.update.errors.length) {
+    setShowSelectionModal(false);
   }
 
-  editFormRef = createRef();
-
-  toggleAllSectionsForShortcut = (expand) => {
-    this.setState((curState) => {
-      const sections = expandAllFunction(curState.sections, expand);
-      return { sections };
-    });
-  };
-
-  handleDeselectionAction = () => {
-    this.setState({
-      formValues: {
-        isSelected: false
-      }
-    }, () => this.handleOnSubmit(this.state.formValues));
-  };
-
-  commitSelectionToggle = () => {
-    this.setState({
-      allowFormToSubmit: true
-    }, () => { this.handleOnSubmit(this.state.formValues); });
-  };
-
-  cancelSelectionToggle = (change) => {
-    this.setState({
-      showSelectionModal: false,
-      packageSelected: true,
-    }, () => {
-      change('isSelected', true);
-    });
-  };
-
-  handleOnSubmit = (values) => {
-    if (this.state.allowFormToSubmit === false && values.isSelected === false) {
-      this.setState({
-        showSelectionModal: true,
-        formValues: values
-      });
+  const handleOnSubmit = (values, allowSubmit = allowFormToSubmit) => {
+    if (allowSubmit === false && values.isSelected === false) {
+      setShowSelectionModal(true);
+      setFormValues(values);
     } else {
-      this.setState({
-        allowFormToSubmit: false,
-        formValues: {}
-      }, () => {
-        this.props.onSubmit(values);
-      });
+      setAllowFormToSubmit(false);
+      setFormValues({}, () => onSubmit(values));
     }
   };
 
-  toggleSection = ({ id: sectionId }) => {
-    this.setState((prevState) => {
-      const { sections } = prevState;
-      const sectionIsExpanded = sections[sectionId];
-      return {
-        sections: {
-          ...sections,
-          [sectionId]: !sectionIsExpanded
-        }
-      };
-    });
+  const handleDeselectionAction = () => {
+    setFormValues({
+      isSelected: false,
+    }, (newFormValues) => handleOnSubmit(newFormValues));
   };
 
-  toggleAllSections = (sections) => {
-    this.setState({ sections });
+  const commitSelectionToggle = () => {
+    setAllowFormToSubmit(true, () => handleOnSubmit(formValues, true));
   };
 
-  getSectionHeader(translationKey) {
+  const cancelSelectionToggle = (change) => {
+    setShowSelectionModal(false);
+    setPackageSelected(true, () => change('isSelected', true));
+  };
+
+  const getSectionHeader = (translationKey) => {
     return (
       <Headline
         size="large"
@@ -224,49 +165,25 @@ class ManagedPackageEdit extends Component {
         <FormattedMessage id={translationKey} />
       </Headline>
     );
-  }
+  };
 
-  getActionMenu = () => {
-    const {
-      stripes,
-      model,
-    } = this.props;
-    const { packageSelected } = this.state;
-    const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
-    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
-
-    if (!hasSelectPermission) return null;
-
-    return ({ onToggle }) => (
-      <>
-        {packageSelected && this.renderRemoveFromHoldingsButton(onToggle)}
-        {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
-      </>
-    );
-  }
-
-  renderRemoveFromHoldingsButton(onToggle) {
+  const renderRemoveFromHoldingsButton = (onToggle) => {
     return (
       <Button
         data-test-eholdings-package-remove-from-holdings-action
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          this.handleDeselectionAction();
+          handleDeselectionAction();
         }}
       >
         <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />
       </Button>
     );
-  }
+  };
 
-  renderAddToHoldingsButton(onToggle) {
-    const {
-      model: { isPartiallySelected },
-      addPackageToHoldings,
-    } = this.props;
-
-    const translationIdEnding = isPartiallySelected
+  const renderAddToHoldingsButton = (onToggle) => {
+    const translationIdEnding = model.isPartiallySelected
       ? 'addAllToHoldings'
       : 'addPackageToHoldings';
 
@@ -284,11 +201,24 @@ class ManagedPackageEdit extends Component {
         />
       </Button>
     );
-  }
+  };
 
-  getFooter = (pristine, reset) => {
-    const { model } = this.props;
+  const getActionMenu = () => {
+    const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
+    if (!hasSelectPermission) return null;
+
+    // eslint-disable-next-line react/prop-types
+    return ({ onToggle }) => (
+      <>
+        {packageSelected && renderRemoveFromHoldingsButton(onToggle)}
+        {isAddButtonNeeded && renderAddToHoldingsButton(onToggle)}
+      </>
+    );
+  };
+
+  const getFooter = (pristine, reset) => {
     const cancelButton = (
       <Button
         data-test-eholdings-package-edit-cancel-button
@@ -319,267 +249,99 @@ class ManagedPackageEdit extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
-  render() {
-    const {
-      model,
-      proxyTypes,
-      provider,
-      onCancel,
-      accessStatusTypes,
-      intl,
-    } = this.props;
-
-    const {
-      initialValues,
-      showSelectionModal,
-      packageSelected,
-      sections
-    } = this.state;
-
-    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
-
-    const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
-    const supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
-    const hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
-    const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
-
-    return (
-      <KeyShortcutsWrapper
-        formRef={this.editFormRef.current}
-        toggleAllSections={this.toggleAllSectionsForShortcut}
-      >
-        <Form
-          onSubmit={this.handleOnSubmit}
-          decorators={[focusOnErrors]}
-          mutators={{ ...arrayMutators }}
-          initialValues={initialValues}
-          render={({ handleSubmit, pristine, form: { change, reset } }) => (
-            <div>
-              <Toaster
-                toasts={processErrors(model)}
-                position="bottom"
-              />
-              <form
-                ref={this.editFormRef}
-                onSubmit={handleSubmit}
-              >
-                <div role="tablist">
-                  <DetailsView
-                    type="package"
-                    model={model}
-                    paneTitle={model.name}
-                    actionMenu={this.getActionMenu()}
-                    handleExpandAll={this.toggleAllSections}
-                    sections={sections}
-                    footer={this.getFooter(pristine, reset)}
-                    bodyContent={(
-                      <>
-                        <Accordion
-                          label={this.getSectionHeader('ui-eholdings.label.holdingStatus')}
-                          open={sections.packageHoldingStatus}
-                          id="packageHoldingStatus"
-                          onToggle={this.toggleSection}
-                        >
-                          <SelectionStatus
+  return (
+    <KeyShortcutsWrapper
+      formRef={editFormRef.current}
+      toggleAllSections={toggleAllSections}
+    >
+      <Form
+        onSubmit={handleOnSubmit}
+        decorators={[focusOnErrors]}
+        mutators={{ ...arrayMutators }}
+        initialValues={initialValues}
+        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+          <div>
+            <Toaster
+              toasts={processErrors(model)}
+              position="bottom"
+            />
+            <form
+              ref={editFormRef}
+              onSubmit={handleSubmit}
+            >
+              <div role="tablist">
+                <DetailsView
+                  type="package"
+                  model={model}
+                  paneTitle={model.name}
+                  actionMenu={getActionMenu()}
+                  handleExpandAll={toggleAllSections}
+                  sections={sections}
+                  footer={getFooter(pristine, reset)}
+                  bodyContent={(
+                    <>
+                      <HoldingStatus
+                        isOpen={sections.packageHoldingStatus}
+                        onToggle={handleSectionToggle}
+                        model={model}
+                        onAddToHoldings={addPackageToHoldings}
+                      />
+                      {packageSelected && (
+                        <div>
+                          <EditPackageSettings
+                            isOpen={sections.packageSettings}
+                            getSectionHeader={getSectionHeader}
+                            onToggle={handleSectionToggle}
+                            packageSelected={packageSelected}
+                            initialValues={initialValues}
                             model={model}
-                            onAddToHoldings={this.props.addPackageToHoldings}
+                            proxyTypes={proxyTypes}
+                            provider={provider}
+                            accessStatusTypes={accessStatusTypes}
                           />
-                        </Accordion>
 
-                        {packageSelected && (
-                          <div>
-                            <Accordion
-                              label={this.getSectionHeader('ui-eholdings.package.packageSettings')}
-                              open={sections.packageSettings}
-                              id="packageSettings"
-                              onToggle={this.toggleSection}
-                            >
-                              <div className={styles['visibility-radios']}>
-                                {initialValues.isVisible !== null ? (
-                                  <fieldset
-                                    data-test-eholdings-package-visibility-field
-                                    className={fieldsetStyles.fieldset}
-                                  >
-                                    <Headline
-                                      tag="legend"
-                                      className={fieldsetStyles.label}
-                                    >
-                                      <FormattedMessage id="ui-eholdings.package.visibility" />
-                                    </Headline>
+                          <EditCoverageSettings
+                            isOpen={sections.packageCoverageSettings}
+                            getSectionHeader={getSectionHeader}
+                            onToggle={handleSectionToggle}
+                            packageSelected={packageSelected}
+                            initialValues={initialValues}
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
+                  onCancel={onCancel}
+                />
+              </div>
+            </form>
 
-                                    <Field
-                                      component={RadioButton}
-                                      format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                      label={<FormattedMessage id="ui-eholdings.yes" />}
-                                      name="isVisible"
-                                      parse={value => value === 'true'}
-                                      type="radio"
-                                      value="true"
-                                    />
+            <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
 
-                                    <Field
-                                      component={RadioButton}
-                                      format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                      label={
-                                        <FormattedMessage
-                                          id="ui-eholdings.package.visibility.no"
-                                          values={{ visibilityMessage }}
-                                        />
-                                      }
-                                      name="isVisible"
-                                      parse={value => value === 'true'}
-                                      type="radio"
-                                      value="false"
-                                    />
-                                  </fieldset>
-                                ) : (
-                                  <div
-                                    data-test-eholdings-package-details-visibility
-                                    htmlFor="managed-package-details-visibility-switch"
-                                  >
-                                    <Icon icon="spinner-ellipsis" />
-                                  </div>
-                                )}
-                              </div>
-                              <div className={styles['title-management-radios']}>
-                                {initialValues.allowKbToAddTitles !== null ? (
-                                  <fieldset
-                                    data-test-eholdings-allow-kb-to-add-titles-radios
-                                    className={fieldsetStyles.fieldset}
-                                  >
-                                    <Headline
-                                      tag="legend"
-                                      className={fieldsetStyles.label}
-                                    >
-                                      <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
-                                    </Headline>
+            <SelectionModal
+              showSelectionModal={showSelectionModal}
+              modelIsUpdating={model.update.isPending}
+              handelDeleteConfirmation={commitSelectionToggle}
+              cancelSelectionToggle={cancelSelectionToggle}
+              change={change}
+              label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header' })}
+              cancelButtonLabel={intl.formatMessage({ id: 'ui-eholdings.package.modal.buttonCancel' })}
+              confirmButtonLabel={(model.update.isPending
+                ? <FormattedMessage id="ui-eholdings.package.modal.buttonWorking" />
+                : <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />
+              )}
+            >
+              <FormattedMessage id="ui-eholdings.package.modal.body" />
+            </SelectionModal>
+          </div>
+        )}
+      />
+    </KeyShortcutsWrapper>
+  );
+};
 
-                                    <Field
-                                      data-test-eholdings-allow-kb-to-add-titles-radio-yes
-                                      component={RadioButton}
-                                      format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                      label={<FormattedMessage id="ui-eholdings.yes" />}
-                                      name="allowKbToAddTitles"
-                                      parse={value => value === 'true'}
-                                      type="radio"
-                                      value="true"
-                                    />
+ManagedPackageEdit.propTypes = propTypes;
 
-                                    <Field
-                                      data-test-eholdings-allow-kb-to-add-titles-radio-no
-                                      component={RadioButton}
-                                      format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-                                      label={<FormattedMessage id="ui-eholdings.no" />}
-                                      name="allowKbToAddTitles"
-                                      parse={value => value === 'true'}
-                                      type="radio"
-                                      value="false"
-                                    />
-                                  </fieldset>
-                                ) : (
-                                  <div
-                                    data-test-eholdings-package-details-allow-add-new-titles
-                                    htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                                  >
-                                    <Icon icon="spinner-ellipsis" />
-                                  </div>
-                                )}
-                              </div>
-                              {(proxyTypes.request.isResolved && provider.data.isLoaded) ? (
-                                <div data-test-eholdings-package-proxy-select-field>
-                                  <ProxySelectField
-                                    proxyTypes={proxyTypes}
-                                    inheritedProxyId={provider.proxy.id}
-                                  />
-                                </div>
-                              ) : (
-                                <Icon icon="spinner-ellipsis" />
-                              )}
-                              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                              {supportsProviderTokens && (
-                                <fieldset>
-                                  <Headline tag="legend" id="provider-token-label">
-                                    <FormattedMessage id="ui-eholdings.provider.token" />
-                                  </Headline>
-                                  <TokenField
-                                    token={provider.providerToken}
-                                    tokenValue={hasProviderTokenValue}
-                                    type="provider"
-                                    ariaLabelledBy="provider-token-label"
-                                  />
-                                </fieldset>
-                              )}
-                              {supportsPackageTokens && (
-                                <fieldset>
-                                  <Headline tag="legend" id="package-token-label">
-                                    <FormattedMessage id="ui-eholdings.package.token" />
-                                  </Headline>
-                                  <TokenField
-                                    token={model.packageToken}
-                                    tokenValue={hasPackageTokenValue}
-                                    type="package"
-                                    ariaLabelledBy="package-token-label"
-                                  />
-                                </fieldset>
-                              )}
-                            </Accordion>
-
-                            <Accordion
-                              label={this.getSectionHeader('ui-eholdings.package.coverageSettings')}
-                              open={sections.packageCoverageSettings}
-                              id="packageCoverageSettings"
-                              onToggle={this.toggleSection}
-                            >
-                              <CoverageFields initial={initialValues.customCoverages} />
-                            </Accordion>
-                          </div>
-                        )}
-                      </>
-                    )}
-                    onCancel={onCancel}
-                  />
-                </div>
-              </form>
-
-              <NavigationModal when={!pristine && !model.update.isPending && !model.update.isResolved} />
-
-              <Modal
-                open={showSelectionModal}
-                size="small"
-                label={<FormattedMessage id="ui-eholdings.package.modal.header" />}
-                id="eholdings-package-confirmation-modal"
-                aria-label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header' })}
-                footer={(
-                  <ModalFooter>
-                    <Button
-                      data-test-eholdings-package-deselection-confirmation-modal-yes
-                      buttonStyle="primary"
-                      disabled={model.update.isPending}
-                      onClick={this.commitSelectionToggle}
-                    >
-                      {(model.update.isPending ?
-                        <FormattedMessage id="ui-eholdings.package.modal.buttonWorking" /> :
-                        <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />)}
-                    </Button>
-                    <Button
-                      data-test-eholdings-package-deselection-confirmation-modal-no
-                      onClick={() => this.cancelSelectionToggle(change)}
-                    >
-                      <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
-                    </Button>
-                  </ModalFooter>
-                )}
-              >
-                <FormattedMessage id="ui-eholdings.package.modal.body" />
-              </Modal>
-            </div>
-          )}
-        />
-      </KeyShortcutsWrapper>
-    );
-  }
-}
-
-export default withStripes(injectIntl(ManagedPackageEdit));
+export default ManagedPackageEdit;
