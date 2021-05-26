@@ -12,7 +12,7 @@ import {
 import VisibilityField from '../../../_fields/visibility';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
-import CustomUrlFields from '../../../_fields/custom-url';
+import CustomUrlFields from '../../../../custom-url-fields';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object.isRequired,

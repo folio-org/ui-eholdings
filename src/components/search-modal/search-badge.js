@@ -14,6 +14,7 @@ export default function SearchBadge({ filterCount = 0, onClick, ...rest }) {
             icon="search"
             onClick={onClick}
             data-test-eholdings-search-filters="icon"
+            data-testid="search-badge"
             {...filterCount > 0 ? { badgeCount: filterCount } : {}}
             ariaLabel={ariaLabel}
           />
