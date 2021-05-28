@@ -1,10 +1,7 @@
 import { Icon } from '@folio/stripes/components';
 
-import AccessTypeField from '../access-type-select';
-import {
-  getAccessTypeIdsAndNames,
-} from '../utilities';
-
+import AccessTypeField from '../access-type-field';
+import { getAccessTypeIdsAndNames } from '../utilities';
 import { accessTypesReduxStateShape } from '../../constants';
 
 const propTypes = {
@@ -20,11 +17,7 @@ const AccessStatusTypeEditSection = ({ accessStatusTypes }) => {
 
   return accessStatusTypes.isLoading
     ? <Icon icon="spinner-ellipsis" />
-    : (
-      <div data-test-eholdings-access-types-select>
-        <AccessTypeField accessStatusTypes={formattedAccessTypes} />
-      </div>
-    );
+    : <AccessTypeField accessStatusTypes={formattedAccessTypes} />;
 };
 
 AccessStatusTypeEditSection.propTypes = propTypes;

@@ -11,7 +11,7 @@ import {
 
 import { CUSTOM_LABELS_VALUE_MAX_LENGTH } from '../../constants';
 
-class CustomLabelEditSection extends Component {
+class CustomLabelsEditSection extends Component {
   static propTypes = {
     customLabels: PropTypes.arrayOf(PropTypes.shape({
       attributes: PropTypes.shape({
@@ -63,6 +63,7 @@ class CustomLabelEditSection extends Component {
                 parse={v => v}
                 type="text"
                 validate={this.validateStringLength}
+                data-testid="custom-label-field"
               />
             </Col>
           );
@@ -72,4 +73,4 @@ class CustomLabelEditSection extends Component {
   }
 }
 
-export default CustomLabelEditSection;
+export default CustomLabelsEditSection;
