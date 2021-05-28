@@ -37,6 +37,10 @@ const HoldingStatus = ({
   const addToEholdingsButtonIsAvailable = (!resourceSelected && !isSelectInFlight)
     || (!model.isSelected && isSelectInFlight);
 
+  const label = resourceSelected
+    ? <FormattedMessage id="ui-eholdings.selected" />
+    : <FormattedMessage id="ui-eholdings.notSelected" />;
+
   return (
     <Accordion
       label={(
@@ -62,11 +66,7 @@ const HoldingStatus = ({
             )
             : (
               <Headline margin="none">
-                {
-                  resourceSelected
-                    ? <FormattedMessage id="ui-eholdings.selected" />
-                    : <FormattedMessage id="ui-eholdings.notSelected" />
-                }
+                {label}
               </Headline>
             )
         }
