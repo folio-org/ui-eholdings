@@ -537,6 +537,9 @@
     "navigation.systemStatus": "EBSCO System status",
     "navigation.keyboardShortcuts": "Keyboard shortcuts",
 
+    "selection-modal.buttonWorking": "Removing...",
+    "selection-modal.buttonConfirm": "Yes, remove",
+
     "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
     "permission.settings.enabled": "Settings (eHoldings): View settings",
     "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",

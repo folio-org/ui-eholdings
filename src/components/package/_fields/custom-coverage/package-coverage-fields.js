@@ -67,7 +67,7 @@ class PackageCoverageFields extends Component {
 
   renderField = (dateRange, index) => {
     return (
-      <Row>
+      <Row data-testid="coverage-field">
         <Col
           md
           xs={12}

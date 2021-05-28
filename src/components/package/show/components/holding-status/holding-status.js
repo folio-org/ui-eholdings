@@ -31,7 +31,7 @@ const HoldingStatus = ({
       </Headline>
     )}
     open={isOpen}
-    id="packageShowHoldingStatus"
+    id="packageHoldingStatus"
     onToggle={onToggle}
   >
     <SelectionStatus

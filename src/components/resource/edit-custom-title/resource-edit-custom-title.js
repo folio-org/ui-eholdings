@@ -11,6 +11,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
+  useIntl,
 } from 'react-intl';
 
 import { useStripes } from '@folio/stripes-core';
@@ -25,7 +26,7 @@ import DetailsView from '../../details-view';
 import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
-import SelectionModal from '../components/selection-modal';
+import SelectionModal from '../../selection-modal';
 import CoverageSettings from '../components/edit/coverage-settings';
 import ResourceSettings from '../components/edit/resource-settings';
 import HoldingStatus from '../components/edit/holding-status';
@@ -65,6 +66,8 @@ const ResourceEditCustomTitle = ({
   getFooter,
   getSectionHeader,
 }) => {
+  const intl = useIntl();
+
   const getInitialValuesFromModel = useCallback(() => {
     const {
       isSelected,
@@ -249,6 +252,12 @@ const ResourceEditCustomTitle = ({
               handelDeleteConfirmation={handelDeleteConfirmation}
               cancelSelectionToggle={cancelSelectionToggle}
               change={change}
+              label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
+              cancelButtonLabel={intl.formatMessage({ id: 'ui-eholdings.resource.modal.buttonCancel' })}
+              confirmButtonLabel={(model.destroy.isPending
+                ? <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />
+                : <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />
+              )}
             >
               {
               /*

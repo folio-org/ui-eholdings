@@ -1,7 +1,3 @@
-import {
-  FormattedMessage,
-  useIntl,
-} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,13 +7,16 @@ import {
 } from '@folio/stripes/components';
 
 const propTypes = {
+  cancelButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
   cancelSelectionToggle: PropTypes.func.isRequired,
   change: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  confirmButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
   handelDeleteConfirmation: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
   modelIsUpdating: PropTypes.bool.isRequired,
   showSelectionModal: PropTypes.bool.isRequired,
 };
@@ -29,16 +28,17 @@ const SelectionModal = ({
   cancelSelectionToggle,
   change,
   children,
+  label,
+  confirmButtonLabel,
+  cancelButtonLabel,
 }) => {
-  const intl = useIntl();
-
   return (
     <Modal
       open={showSelectionModal}
       size="small"
-      label={<FormattedMessage id="ui-eholdings.resource.modal.header" />}
-      id="eholdings-resource-confirmation-modal"
-      aria-label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
+      label={label}
+      id="eholdings-confirmation-modal"
+      aria-label={label}
       footer={(
         <ModalFooter>
           <Button
@@ -47,15 +47,13 @@ const SelectionModal = ({
             disabled={modelIsUpdating}
             onClick={handelDeleteConfirmation}
           >
-            {(modelIsUpdating ?
-              <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" /> :
-              <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />)}
+            {confirmButtonLabel}
           </Button>
           <Button
             data-test-eholdings-deselection-confirmation-modal-no
             onClick={() => cancelSelectionToggle(change)}
           >
-            <FormattedMessage id="ui-eholdings.resource.modal.buttonCancel" />
+            {cancelButtonLabel}
           </Button>
         </ModalFooter>
     )}
