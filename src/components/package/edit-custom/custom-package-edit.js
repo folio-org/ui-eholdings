@@ -235,7 +235,7 @@ const CustomPackageEdit = ({
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
+          <>
             <Toaster
               toasts={processErrors(model)}
               position="bottom"
@@ -314,7 +314,7 @@ const CustomPackageEdit = ({
             >
               <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />
             </SelectionModal>
-          </div>
+          </>
         )}
       />
     </KeyShortcutsWrapper>

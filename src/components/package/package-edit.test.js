@@ -17,7 +17,7 @@ const model = {
     endCoverage: '2021-01-31',
   },
   packageToken: {
-    value: 'token,'
+    value: 'token',
   },
   visibilityData: {
     isHidden: false,
@@ -75,7 +75,7 @@ const renderPackageEdit = (props = {}) => render(
               name: 'access type',
             },
           }],
-        }
+        },
       }}
       addPackageToHoldings={mockAddPackageToHoldings}
       onSubmit={mockOnSubmit}

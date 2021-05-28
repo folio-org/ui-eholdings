@@ -262,7 +262,7 @@ const ManagedPackageEdit = ({
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
+          <>
             <Toaster
               toasts={processErrors(model)}
               position="bottom"
@@ -289,7 +289,7 @@ const ManagedPackageEdit = ({
                         onAddToHoldings={addPackageToHoldings}
                       />
                       {packageSelected && (
-                        <div>
+                        <>
                           <EditPackageSettings
                             isOpen={sections.packageSettings}
                             getSectionHeader={getSectionHeader}
@@ -309,7 +309,7 @@ const ManagedPackageEdit = ({
                             packageSelected={packageSelected}
                             initialValues={initialValues}
                           />
-                        </div>
+                        </>
                       )}
                     </>
                   )}
@@ -335,7 +335,7 @@ const ManagedPackageEdit = ({
             >
               <FormattedMessage id="ui-eholdings.package.modal.body" />
             </SelectionModal>
-          </div>
+          </>
         )}
       />
     </KeyShortcutsWrapper>

@@ -26,4 +26,14 @@ describe('Given SearchBadge', () => {
 
     expect(getByText('2')).toBeDefined();
   });
+
+  describe('when badge count is 0 or less', () => {
+    it('should not render badge count', () => {
+      const { queryByText } = renderSearchBadge({
+        filterCount: -2,
+      });
+
+      expect(queryByText('-2')).toBeNull();
+    });
+  });
 });
