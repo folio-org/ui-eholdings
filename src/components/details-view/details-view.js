@@ -16,7 +16,7 @@ import {
   Paneset,
 } from '@folio/stripes/components';
 
-import AccordionListHeader from './accordion-list-header';
+import AccordionListHeader from '../accordion-list-header';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);

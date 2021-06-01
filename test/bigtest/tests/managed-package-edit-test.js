@@ -88,7 +88,7 @@ describe('ManagedPackageEdit', () => {
         });
 
         it('shows a success toast message', () => {
-          expect(PackageShowPage.toast.successText).to.equal('Package saved.');
+          expect(PackageShowPage.toast.successText).to.equal('Package saved. Note: A proxy or token update may take a few minutes and may require refreshing page.');
         });
       });
     });

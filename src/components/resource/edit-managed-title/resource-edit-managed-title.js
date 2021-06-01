@@ -9,6 +9,7 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
   FormattedMessage,
+  useIntl,
 } from 'react-intl';
 
 import hasIn from 'lodash/hasIn';
@@ -29,7 +30,7 @@ import DetailsView from '../../details-view';
 import { CustomLabelsEditSection } from '../../custom-labels-section';
 import { CustomLabelsAccordion } from '../../../features';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
-import SelectionModal from '../components/selection-modal';
+import SelectionModal from '../../selection-modal';
 import CoverageSettings from '../components/edit/coverage-settings';
 import ResourceSettings from '../components/edit/resource-settings';
 import HoldingStatus from '../components/edit/holding-status';
@@ -62,6 +63,8 @@ const ResourceEditManagedTitle = ({
   getFooter,
   getSectionHeader,
 }) => {
+  const intl = useIntl();
+
   const getInitialValuesFromModel = useCallback(() => {
     const {
       isSelected,
@@ -246,6 +249,12 @@ const ResourceEditManagedTitle = ({
               handelDeleteConfirmation={handelDeleteConfirmation}
               cancelSelectionToggle={cancelSelectionToggle}
               change={change}
+              label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
+              cancelButtonLabel={intl.formatMessage({ id: 'ui-eholdings.resource.modal.buttonCancel' })}
+              confirmButtonLabel={(model.update.isPending
+                ? <FormattedMessage id="ui-eholdings.resource.modal.buttonWorking" />
+                : <FormattedMessage id="ui-eholdings.resource.modal.buttonConfirm" />
+              )}
             >
               <FormattedMessage id="ui-eholdings.resource.modal.body" />
             </SelectionModal>

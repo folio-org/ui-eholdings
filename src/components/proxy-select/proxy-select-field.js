@@ -34,7 +34,10 @@ function ProxySelectField({ proxyTypes, inheritedProxyId }) {
     ));
 
   return (
-    <div data-test-eholdings-proxy-select-field>
+    <div
+      data-test-eholdings-proxy-select-field
+      data-testid="proxy-select-field"
+    >
       <Field
         id="eholdings-proxy-id"
         name="proxyId"

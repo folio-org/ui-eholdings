@@ -6,6 +6,7 @@ import {
 
 import ResourceEdit from './resource-edit';
 import Harness from '../../../test/jest/helpers/harness';
+import wait from '../../../test/jest/helpers/wait';
 
 jest.mock('./components/edit/coverage-settings', () => () => <div>Coverage settings</div>);
 jest.mock('./components/edit/resource-settings', () => () => <div>Resource settings</div>);
@@ -217,7 +218,7 @@ describe('Given ResourceEdit', () => {
         });
 
         fireEvent.click(getByText('ui-eholdings.resource.actionMenu.removeHolding'));
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await wait(1000);
 
         expect(getByText('ui-eholdings.resource.modal.header')).toBeDefined();
       });
