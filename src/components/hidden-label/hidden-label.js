@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl';
+
 import { Icon } from '@folio/stripes/components';
 
 export default function HiddenLabel() {

@@ -37,6 +37,7 @@ export default function PackageNameField() {
             validate={validate}
             ariaLabel={ariaLabel}
             required
+            data-testid="packageName"
           />
         )}
       </FormattedMessage>

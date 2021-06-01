@@ -1,1 +1,1 @@
-export { default } from './noResultsMessage';
+export { default } from './no-results-message';
