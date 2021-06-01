@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
+
 import styles from './key-value-columns.css';
 
-export default function KeyValueColumns({ children }) {
-  return (
-    <div
-      className={styles['key-value-columns']}
-    >
-      {children}
-    </div>
-  );
-}
+const KeyValueColumns = ({ children }) => (
+  <div className={styles['key-value-columns']}>
+    {children}
+  </div>
+);
 
 KeyValueColumns.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node.isRequired,
 };
+
+export default KeyValueColumns;

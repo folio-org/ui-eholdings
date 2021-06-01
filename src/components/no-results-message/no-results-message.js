@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { Icon } from '@folio/stripes/components';
 
-import css from './noResultsMessage.css';
+import css from './no-results-message.css';
 
 const propTypes = {
   children: PropTypes.node.isRequired,

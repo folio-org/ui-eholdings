@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+
 import styles from './list.css';
 
 const cx = classNames.bind(styles);
 
-export default function List({ className, fullWidth, ...props }) {
+const List = ({ className, fullWidth, ...props }) => {
   return (
     <ul
       className={cx(styles.list, { 'full-width': fullWidth }, className)}
@@ -15,5 +16,12 @@ export default function List({ className, fullWidth, ...props }) {
 
 List.propTypes = {
   className: PropTypes.string,
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
 };
+
+List.propTypes = {
+  className: '',
+  fullWidth: '100%',
+}
+
+export default List;
