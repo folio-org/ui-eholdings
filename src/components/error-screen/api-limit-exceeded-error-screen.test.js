@@ -10,7 +10,7 @@ describe('Given ApiLimitExceededErrorScreen', () => {
 
     expect(getByText('ui-eholdings.server.errors.unableToCompleteOperation'));
   });
-  
+
   it('should show api limit exceeded message', () => {
     const { getByText } = renderApiLimitExceededErrorScreen();
 

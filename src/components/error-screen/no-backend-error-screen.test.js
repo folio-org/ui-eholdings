@@ -10,7 +10,7 @@ describe('Given InvalidBackendErrorScreen', () => {
 
     expect(getByText('ui-eholdings.server.errors.noKbDetected'));
   });
-  
+
   it('should show error messag that knowledge base is required', () => {
     const { getByText } = renderNoBackendErrorScreen();
 

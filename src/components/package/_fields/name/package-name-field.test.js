@@ -23,8 +23,8 @@ describe('Given PackageNameField', () => {
         getByText,
         getByTestId,
       } = renderPackageNameField();
-  
-      fireEvent.change(getByTestId('packageName'), { target: { value: new Array(201).fill('a').join('') }});
+
+      fireEvent.change(getByTestId('packageName'), { target: { value: new Array(201).fill('a').join('') } });
       fireEvent.blur(getByTestId('packageName'));
 
       expect(getByText('ui-eholdings.validate.errors.customPackage.name.length')).toBeDefined();
@@ -37,8 +37,8 @@ describe('Given PackageNameField', () => {
         getByText,
         getByTestId,
       } = renderPackageNameField();
-  
-      fireEvent.change(getByTestId('packageName'), { target: { value: '' }});
+
+      fireEvent.change(getByTestId('packageName'), { target: { value: '' } });
       fireEvent.blur(getByTestId('packageName'));
 
       expect(getByText('ui-eholdings.validate.errors.customPackage.name')).toBeDefined();

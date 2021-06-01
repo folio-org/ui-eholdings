@@ -12,7 +12,7 @@ const List = ({ className, fullWidth, ...props }) => {
       {...props}
     />
   );
-}
+};
 
 List.propTypes = {
   className: PropTypes.string,
@@ -21,7 +21,7 @@ List.propTypes = {
 
 List.propTypes = {
   className: '',
-  fullWidth: '100%',
-}
+  fullWidth: false,
+};
 
 export default List;

@@ -10,7 +10,7 @@ describe('Given InvalidBackendErrorScreen', () => {
 
     expect(getByText('ui-eholdings.server.errors.kbNotConfigured'));
   });
-  
+
   it('should show error messag that detected unconfigured knowledge base', () => {
     const { getByText } = renderInvalidBackendErrorScreen();
 

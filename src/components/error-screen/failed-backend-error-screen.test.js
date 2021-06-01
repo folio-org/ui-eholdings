@@ -10,7 +10,7 @@ describe('Given FailedBackendErrorScreen', () => {
 
     expect(getByText('ui-eholdings.server.errors.failedBackend'));
   });
-  
+
   it('should show error during fetch message', () => {
     const { getByText } = renderFailedBackendErrorScreen();
 
