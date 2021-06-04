@@ -74,19 +74,19 @@ class ApplicationRoute extends Component {
       );
     }
 
-    if (status.request.isRejected && !showSettings) {
-      if (status.request.status === httpResponseCodes.API_LIMIT_EXCEEDED) {
-        return <ApiLimitExceededErrorScreen />;
-      }
+    // if (status.request.isRejected && !showSettings) {
+    //   if (status.request.status === httpResponseCodes.API_LIMIT_EXCEEDED) {
+    //     return <ApiLimitExceededErrorScreen />;
+    //   }
 
-      return <FailedBackendErrorScreen />;
-    }
+    //   return <FailedBackendErrorScreen />;
+    // }
 
-    if (status.isLoaded && !status.isConfigurationValid) {
-      return hasMultipleKbCredentials
-        ? <UserNotAssignedToKbErrorScreen />
-        : <InvalidBackendErrorScreen />;
-    }
+    // if (status.isLoaded && !status.isConfigurationValid) {
+    //   return hasMultipleKbCredentials
+    //     ? <UserNotAssignedToKbErrorScreen />
+    //     : <InvalidBackendErrorScreen />;
+    // }
 
     return children;
   }

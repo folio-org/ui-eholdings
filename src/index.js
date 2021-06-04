@@ -18,6 +18,7 @@ import {
 import ApplicationRoute from './routes/application';
 import SettingsRoute from './routes/settings-route';
 import SearchRoute from './routes/search';
+import HierarchyTree from './routes/hierarchy-tree';
 import ProviderShow from './routes/provider-show';
 import ProviderEdit from './routes/provider-edit';
 import PackageShow from './routes/package-show';
@@ -125,6 +126,7 @@ class EHoldings extends Component {
                   <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
                   <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
                   <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
+                  <Route path={`${rootPath}/hierarchy-tree`} exact component={HierarchyTree} />
                   <Route path={`${rootPath}/`} exact component={SearchRoute} />
                 </Switch>
               </Route>
