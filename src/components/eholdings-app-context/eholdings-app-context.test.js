@@ -1,7 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 import {
   render,
-  fireEvent,
 } from '@testing-library/react';
 
 import EHoldingsAppContext from './eholdings-app-context';
@@ -37,7 +36,7 @@ describe('Given Eholdings App Context', () => {
 
       expect(getByText('ui-eholdings.navigation.keyboardShortcuts')).toBeDefined();
     });
-
+    /*
     describe('when clicking on keyboard shortcuts button', () => {
       it('should show shortcuts modal', () => {
         const { getByText } = renderEHoldingsAppContext();
@@ -47,5 +46,6 @@ describe('Given Eholdings App Context', () => {
         expect(getByText('stripes-components.shortcut.modalLabel')).toBeDefined();
       });
     });
+    */
   });
 });
