@@ -19,7 +19,7 @@ import {
   Row,
   Col,
   Button,
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import { platformTypes } from '../../constants';
 

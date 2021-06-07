@@ -20,7 +20,7 @@ import {
 
 import {
   useStripes,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 
 import { coverageStatementDecorator } from '../_fields/coverage-statement';
 import Toaster from '../../toaster';

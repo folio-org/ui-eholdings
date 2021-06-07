@@ -7,7 +7,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
-import { MultiSelection } from '@folio/stripes-components';
+import { MultiSelection } from '@folio/stripes/components';
 
 export default class Tags extends Component {
   static propTypes = {

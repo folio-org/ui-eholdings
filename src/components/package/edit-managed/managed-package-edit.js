@@ -15,7 +15,7 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { useStripes } from '@folio/stripes-core';
+import { useStripes } from '@folio/stripes/core';
 import {
   Button,
   Headline,

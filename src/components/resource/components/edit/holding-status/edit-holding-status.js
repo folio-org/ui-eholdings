@@ -13,7 +13,7 @@ import {
 
 import {
   IfPermission,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 
 const propTypes = {
   getSectionHeader: PropTypes.func.isRequired,

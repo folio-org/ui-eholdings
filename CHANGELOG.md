@@ -1,5 +1,8 @@
 # Change history for ui-eholdings
 
+## [6.2.0] (IN PROGRESS)
+* Fix import paths. (UIEH-1133)
+
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
 * Add app context menu dropdown. (UIEH-1108)
