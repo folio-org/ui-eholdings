@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
+## [6.1.0] (IN PROGRESS)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
 * Add app context menu dropdown. (UIEH-1108)
 * eholdings App: Consume {{FormattedDate}} and {{FormattedTime}} via stripes-component. (UIEH-970)
