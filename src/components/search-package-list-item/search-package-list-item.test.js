@@ -16,9 +16,12 @@ const routerHistory = createMemoryHistory();
 
 const testTags = ['first', 'second', 'third'];
 
-const testEmptyProps = {};
+const testPropsWithoutItem = {
+  link: 'test-link-url',
+};
 
 const testBasicProps = {
+  ...testPropsWithoutItem,
   item: {
     name: 'test-package-name',
     providerName: 'test-provider-name',
@@ -31,7 +34,6 @@ const testBasicProps = {
       tagList: testTags,
     },
   },
-  link: 'test-link-url',
 };
 
 const testFullProps = {
@@ -57,7 +59,7 @@ describe('Given SearchPackageListItem', () => {
   );
 
   it('should render skeleton when item is not provided', () => {
-    const { getByTestId } = renderSearchPackageListItem(testEmptyProps);
+    const { getByTestId } = renderSearchPackageListItem(testPropsWithoutItem);
 
     expect(getByTestId('skeleton-element')).toBeDefined();
   });

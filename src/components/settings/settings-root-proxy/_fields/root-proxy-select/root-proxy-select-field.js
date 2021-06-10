@@ -53,7 +53,7 @@ RootProxySelectField.propTypes = {
         name: PropTypes.string,
       }),
     })),
-  }),
+  }).isRequired,
 };
 
 export default RootProxySelectField;

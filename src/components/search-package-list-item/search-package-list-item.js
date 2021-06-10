@@ -112,7 +112,7 @@ SearchPackageListItem.propTypes = {
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
-  ]),
+  ]).isRequired,
   onClick: PropTypes.func,
   packageName: PropTypes.string,
   showProviderName: PropTypes.bool,

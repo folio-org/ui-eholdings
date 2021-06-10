@@ -20,7 +20,7 @@ AddTitleToPackage.propTypes = {
     disabled: PropTypes.bool.isRequired,
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-  })),
+  })).isRequired,
 };
 
 export default AddTitleToPackage;
