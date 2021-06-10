@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from '@folio/stripes-components';
+import { Icon } from '@folio/stripes/components';
 
 import ManagedPackageEdit from './edit-managed';
 import CustomPackageEdit from './edit-custom';

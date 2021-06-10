@@ -7,7 +7,7 @@ import {
   Headline,
   Button,
   PaneFooter,
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import ManagedResourceEdit from './edit-managed-title';
 import CustomResourceEdit from './edit-custom-title';

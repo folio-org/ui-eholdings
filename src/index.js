@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { hot } from 'react-hot-loader';
 
-import { withRoot } from '@folio/stripes-core/src/components/Root/RootContext';
+import { withConnect } from '@folio/stripes/connect';
 import { CommandList } from '@folio/stripes/components';
 
 import {
@@ -135,4 +135,4 @@ class EHoldings extends Component {
   }
 }
 
-export default hot(module)(withRoot(EHoldings));
+export default hot(module)(withConnect(EHoldings));

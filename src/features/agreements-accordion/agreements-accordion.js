@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Pluggable,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 import {
   Accordion,
   Headline,
