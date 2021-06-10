@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PackageSelectField from '../_fields/package-select';
 import CustomUrlFields from '../../custom-url-fields';
 
-function AddTitleToPackage({ packageOptions }) {
+const AddTitleToPackage = ({ packageOptions }) => {
   const filteredPackageOptions = packageOptions.filter(pkg => pkg.label !== '');
   return (
     <>
@@ -16,7 +16,11 @@ function AddTitleToPackage({ packageOptions }) {
 }
 
 AddTitleToPackage.propTypes = {
-  packageOptions: PropTypes.array.isRequired
+  packageOptions: PropTypes.arrayOf(PropTypes.shape({
+    disabled: PropTypes.bool.isRequired,
+    key: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  })),
 };
 
 export default AddTitleToPackage;

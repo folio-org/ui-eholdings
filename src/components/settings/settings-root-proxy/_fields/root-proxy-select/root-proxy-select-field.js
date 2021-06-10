@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  useIntl,
+} from 'react-intl';
 
 import { Select } from '@folio/stripes/components';
 import styles from './root-proxy-select-field.css';
 
-function RootProxySelectField({ proxyTypes }) {
+const RootProxySelectField = ({ proxyTypes }) => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.settings.rootProxy.server' });
+
   if (!proxyTypes?.items?.length) {
     return null;
   }
@@ -30,7 +35,9 @@ function RootProxySelectField({ proxyTypes }) {
         id="eholdings-settings-root-proxy-server"
         name="rootProxyServer"
         component={Select}
-        label={<FormattedMessage id="ui-eholdings.settings.rootProxy.server" />}
+        label={label}
+        ariaLabel={label}
+        data-testid="root-proxy-select-field"
       >
         {options}
       </Field>
@@ -39,7 +46,14 @@ function RootProxySelectField({ proxyTypes }) {
 }
 
 RootProxySelectField.propTypes = {
-  proxyTypes: PropTypes.object.isRequired
+  proxyTypes: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      attributes: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      }),
+    })),
+  }),
 };
 
 export default RootProxySelectField;

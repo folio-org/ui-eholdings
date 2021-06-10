@@ -1,4 +1,8 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { 
+  screen,
+  render,
+  fireEvent
+} from '@testing-library/react';
 
 import { Router } from 'react-router';
 import { createMemoryHistory } from 'history';
@@ -44,7 +48,7 @@ const testFullProps = {
 };
 
 describe('Given SearchPackageListItem', () => {
-  const handleClick = jest.fn();
+  const mockOnClick = jest.fn();
 
   const renderSearchPackageListItem = ({ ...props }) => render(
     <Router history={routerHistory}>
@@ -53,42 +57,35 @@ describe('Given SearchPackageListItem', () => {
   );
 
   it('should render skeleton when item is not provided', () => {
-    renderSearchPackageListItem(testEmptyProps);
+    const { getByTestId } = renderSearchPackageListItem(testEmptyProps);
 
-    const isSkeleton = document
-      .querySelector('.skeleton');
-
-    expect(isSkeleton).toBeDefined();
+    expect(getByTestId('skeleton-element')).toBeDefined();
   });
 
   it('should render SearchPackageListItem link', () => {
-    renderSearchPackageListItem(testBasicProps);
+    const { getByTestId } = renderSearchPackageListItem(testBasicProps);
 
-    const isSearchPackageListItemAttribute = document
-      .querySelector('.item')
-      .getAttribute('data-test-eholdings-package-list-item');
-
-    expect(isSearchPackageListItemAttribute).toEqual('true');
+    expect(getByTestId('search-package-list-item-link')).toBeDefined();
   });
 
   it('should not invoke onClick callback', () => {
     renderSearchPackageListItem(testBasicProps);
     fireEvent.click(screen.getByRole('link', { name: /test-package-name/ }));
 
-    expect(handleClick).not.toBeCalled();
+    expect(mockOnClick).not.toBeCalled();
   });
 
   it('should invoke onClick callback', () => {
     const testPropsWithOnClick = {
       ...testBasicProps,
-      onClick: handleClick,
+      onClick: mockOnClick,
     };
 
     renderSearchPackageListItem(testPropsWithOnClick);
 
     fireEvent.click(screen.getByRole('link', { name: /test-package-name/ }));
 
-    expect(handleClick).toBeCalled();
+    expect(mockOnClick).toBeCalled();
   });
 
   it('should display provider name', () => {

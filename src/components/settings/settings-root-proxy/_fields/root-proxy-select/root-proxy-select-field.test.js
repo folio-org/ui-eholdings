@@ -31,22 +31,9 @@ describe('Given RootProxySelectField', () => {
   );
 
   it('should not render RootProxySelectField', () => {
-    renderRootProxySelectField(testEmptyProxyTypes);
+    const { queryByText } = renderRootProxySelectField(testEmptyProxyTypes);
 
-    const isRootProxySelectField = document
-      .querySelector('.root-proxy-select-field');
-
-    expect(isRootProxySelectField).toBeNull();
-  });
-
-  it('should render RootProxySelectField', () => {
-    renderRootProxySelectField(testProxyTypes);
-
-    const isRootProxySelectFieldAttribute = document
-      .querySelector('.root-proxy-select-field')
-      .getAttribute('data-test-eholdings-root-proxy-select-field');
-
-    expect(isRootProxySelectFieldAttribute).toEqual('true');
+    expect(queryByText('ui-eholdings.settings.rootProxy.server')).toBeNull;
   });
 
   it('should render Root Proxy Server title', () => {
@@ -56,15 +43,12 @@ describe('Given RootProxySelectField', () => {
   });
 
   it('should render dropdown list', () => {
-    renderRootProxySelectField(testProxyTypes);
+    const { getByTestId } = renderRootProxySelectField(testProxyTypes);
 
-    const isRootProxySelectFieldDropdown = document
-      .querySelector('#eholdings-settings-root-proxy-server');
-
-    expect(isRootProxySelectFieldDropdown).toBeDefined();
+    expect(getByTestId('root-proxy-select-field')).toBeDefined();
   });
 
-  it('should `test-name` dropdown list option', () => {
+  it('should display `test-name` dropdown list option', () => {
     const { getByText } = renderRootProxySelectField(testProxyTypes);
 
     expect(getByText('test-name')).toBeDefined();
