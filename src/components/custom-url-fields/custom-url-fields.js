@@ -1,9 +1,15 @@
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
 const CustomUrlFields = (props) => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.customUrl' });
+
   const validate = (value) => {
     let errors;
 
@@ -23,7 +29,8 @@ const CustomUrlFields = (props) => {
       <Field
         name="customUrl"
         component={TextField}
-        label={<FormattedMessage id="ui-eholdings.customUrl" />}
+        label={label}
+        ariaLabel={label}
         validate={validate}
         data-testid="custom-url-field"
         {...props}
