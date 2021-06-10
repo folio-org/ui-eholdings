@@ -8,12 +8,12 @@ jest.mock('../_fields/package-select/package-select-field', () => () => (<div>Pa
 jest.mock('../../custom-url-fields/custom-url-fields', () => () => (<div>CustomUrlFields component</div>));
 
 const testPackageOptions = [
-  { 
+  {
     disabled: false,
     key: 'test-key',
     label: 'test-label',
   },
-  { 
+  {
     disabled: true,
     key: 'key-for-test',
     label: 'label-for-test',

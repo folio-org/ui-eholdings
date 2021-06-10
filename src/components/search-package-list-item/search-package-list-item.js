@@ -91,22 +91,22 @@ const SearchPackageListItem = ({
         </div>
       </InternalLink>
     );
-}
+};
 
 SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
   item: PropTypes.shape({
+    isSelected: PropTypes.bool,
     name: PropTypes.string,
     providerName: PropTypes.string,
-    isSelected: PropTypes.bool,
     selectedCount: PropTypes.number,
+    tags: PropTypes.shape({
+      tagList: PropTypes.arrayOf(PropTypes.string),
+    }),
     titleCount: PropTypes.number,
     visibilityData: PropTypes.shape({
       isHidden: PropTypes.bool,
-    }),
-    tags: PropTypes.shape({
-      tagList: PropTypes.arrayOf(PropTypes.string),
     }),
   }),
   link: PropTypes.oneOfType([

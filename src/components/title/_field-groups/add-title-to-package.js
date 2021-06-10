@@ -13,7 +13,7 @@ const AddTitleToPackage = ({ packageOptions }) => {
       />
     </>
   );
-}
+};
 
 AddTitleToPackage.propTypes = {
   packageOptions: PropTypes.arrayOf(PropTypes.shape({

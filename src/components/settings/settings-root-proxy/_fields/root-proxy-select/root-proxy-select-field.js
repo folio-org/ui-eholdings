@@ -43,7 +43,7 @@ const RootProxySelectField = ({ proxyTypes }) => {
       </Field>
     </div>
   );
-}
+};
 
 RootProxySelectField.propTypes = {
   proxyTypes: PropTypes.shape({
