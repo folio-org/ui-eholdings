@@ -7,7 +7,7 @@ import queryString from 'qs';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-import { Icon } from '@folio/stripes-components';
+import { Icon } from '@folio/stripes/components';
 
 import { createResolver } from '../redux';
 import Title from '../redux/title';

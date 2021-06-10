@@ -14,7 +14,7 @@ import qs from 'qs';
 
 import {
   withStripes,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 
 import {
   Accordion,

@@ -11,7 +11,7 @@ import set from 'lodash/fp/set';
 import {
   withStripes,
   IfPermission,
-} from '@folio/stripes-core';
+} from '@folio/stripes/core';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';

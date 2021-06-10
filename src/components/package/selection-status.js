@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes-core';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Headline,
   Icon,

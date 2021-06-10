@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   checkScope,
   HasCommand,
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 
 import { handleSaveKeyFormSubmit } from '../utilities';
 
