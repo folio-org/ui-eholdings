@@ -106,7 +106,7 @@
     "title.toast.isFreshlySaved": "Cím mentve.",
     "title.addToCustomPackage": "Adja hozzá az egyedi csomaghoz",
     "title.modalMessage.addTitleToCustomPackage": "Adja hozzá a címet az egyedi csomaghoz",
-    "title.resultsNotFound": "Nincs cím találat erre: {query}.",
+    "title.resultsNotFound": "No titles found.",
     "title.editCustomTitle": "{name} szerkesztése",
     "title.chooseAPackage": "Válasszon ki egy csomagot",
     "settings.goBackToEholdings": "Lépjen vissza az e-Állomány beállításához",
