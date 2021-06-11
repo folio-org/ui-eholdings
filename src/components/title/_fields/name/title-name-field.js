@@ -1,5 +1,8 @@
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
@@ -17,24 +20,24 @@ function validate(value) {
   return errors;
 }
 
-function TitleNameField() {
+const TitleNameField = () => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.label.name' });
+
   return (
     <div data-test-eholdings-title-name-field>
-      <FormattedMessage id="ui-eholdings.label.name">
-        {(ariaLabel) => (
-          <Field
-            name="name"
-            type="text"
-            component={TextField}
-            label={<FormattedMessage id="ui-eholdings.label.name" />}
-            validate={validate}
-            ariaLabel={ariaLabel}
-            required
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        name="name"
+        type="text"
+        component={TextField}
+        label={label}
+        validate={validate}
+        ariaLabel={label}
+        required
+        data-testid="title-name-field"
+      />
     </div>
   );
-}
+};
 
 export default TitleNameField;
