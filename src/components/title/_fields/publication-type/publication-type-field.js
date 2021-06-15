@@ -1,15 +1,24 @@
 import { Field } from 'react-final-form';
 
-import { Select } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
-export default function PublicationTypeField() {
+import { Select } from '@folio/stripes/components';
+
+const PublicationTypeField = () => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.title.publicationType' });
+
   return (
     <div data-test-eholdings-publication-type-field>
       <Field
         name="publicationType"
         component={Select}
-        label={<FormattedMessage id="ui-eholdings.title.publicationType" />}
+        label={label}
+        aria-label={label}
+        data-testid="publication-type-field"
       >
         <FormattedMessage id="ui-eholdings.filter.pubType.audioBook">
           {(message) => <option value="Audiobook">{message}</option>}
@@ -56,4 +65,6 @@ export default function PublicationTypeField() {
       </Field>
     </div>
   );
-}
+};
+
+export default PublicationTypeField;

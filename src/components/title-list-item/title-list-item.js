@@ -17,7 +17,7 @@ import SelectedLabel from '../selected-label/selected-label';
 const cx = classNames.bind(styles);
 const CONTRIBUTORS_LIMIT = 3;
 
-function TitleListItem({
+const TitleListItem = ({
   item,
   link,
   active,
@@ -27,7 +27,7 @@ function TitleListItem({
   showIdentifiers,
   onClick,
   headingLevel
-}) {
+}) => {
   const hasContributors = item?.contributors?.length > 0 && showContributors;
   const hasPublisherOrType = showPublisherAndType && (item?.publicationType || item?.publisherName);
   const hasIdentifiers = item?.identifiers?.length > 0 && showIdentifiers;
@@ -40,6 +40,7 @@ function TitleListItem({
           'is-selected-visible': showSelected,
           'is-publisher-and-type-visible': showPublisherAndType
         })}
+        data-testid="skeleton-element"
       />
     )
     : (
@@ -55,6 +56,7 @@ function TitleListItem({
             onClick();
           }
         }}
+        data-testid="title-list-item-link"
       >
         <Headline
           data-test-eholdings-title-list-item-title-name
@@ -113,12 +115,32 @@ function TitleListItem({
         )}
       </InternalLink>
     );
-}
+};
 
 TitleListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    contributors: PropTypes.arrayOf(PropTypes.shape({
+      contributor: PropTypes.string,
+      type: PropTypes.string,
+    })),
+    identifiers: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      subtype: PropTypes.string,
+      type: PropTypes.string,
+    })),
+    isSelected: PropTypes.bool,
+    name: PropTypes.string,
+    publicationType: PropTypes.string,
+    publisherName: PropTypes.string,
+    tags: PropTypes.shape({
+      tagList: PropTypes.arrayOf(PropTypes.string),
+    }),
+    visibilityData: PropTypes.shape({
+      isHidden: PropTypes.bool,
+    }),
+  }),
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
