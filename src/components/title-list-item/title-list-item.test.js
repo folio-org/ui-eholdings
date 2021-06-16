@@ -29,14 +29,14 @@ const testBasicProps = {
       {
         type: 'test-contributor-type',
         contributor: 'test-contributor-name',
-      }
+      },
     ],
     identifiers: [
       {
         id: 'test-id',
         subtype: 'test-subtype',
         type: 'test-type',
-      }
+      },
     ],
     isSelected: false,
     name: 'test-name',
@@ -45,6 +45,26 @@ const testBasicProps = {
     },
     visibilityData: {
       isHidden: false,
+    },
+  },
+};
+
+const testExtendedProps = {
+  ...testBasicProps,
+  showContributors: true,
+  showIdentifiers: true,
+  showPublisherAndType: true,
+  showSelected: true,
+};
+
+const testPropsWithExtendedItem = {
+  ...testExtendedProps,
+  item: {
+    ...testExtendedProps.item,
+    publicationType: 'test-publication-type',
+    publisherName: 'test-publisher-name',
+    visibilityData: {
+      isHidden: true,
     },
   },
 };
@@ -78,6 +98,7 @@ describe('Given TitleListItem', () => {
 
   it('should not invoke onClick callback', () => {
     renderTitleListItem(testBasicProps);
+
     fireEvent.click(screen.getByRole('link', { name: /test-name/ }));
 
     expect(mockOnClick).not.toBeCalled();
@@ -97,85 +118,40 @@ describe('Given TitleListItem', () => {
   });
 
   it('should display publication type and publisher name', () => {
-    const testExtendedProps = {
-      ...testBasicProps,
-      item: {
-        ...testBasicProps.item,
-        publicationType: 'test-publication-type',
-        publisherName: 'test-publisher-name',
-      },
-      showPublisherAndType: true,
-      showContributors: true,
-    };
-
-    const { getByText } = renderTitleListItem(testExtendedProps);
+    const { getByText } = renderTitleListItem(testPropsWithExtendedItem);
 
     expect(getByText('test-publication-type')).toBeDefined();
     expect(getByText('test-publisher-name')).toBeDefined();
   });
 
   it('should display contributors', () => {
-    const testExtendedProps = {
-      ...testBasicProps,
-      showPublisherAndType: true,
-      showContributors: true,
-    };
-
     const { getByText } = renderTitleListItem(testExtendedProps);
 
     expect(getByText('test-contributor-name')).toBeDefined();
   });
 
   it('should display identifiers', () => {
-    const testExtendedProps = {
-      ...testBasicProps,
-      showIdentifiers: true,
-    };
-
     const { getByText } = renderTitleListItem(testExtendedProps);
 
     expect(getByText('IdentifiersList component')).toBeDefined();
   });
 
-  describe('item metadata class', () => {
-    it('should display selected and tags labels', () => {
-      const testExtendedProps = {
-        ...testBasicProps,
-        showSelected: true,
-      };
+  it('should display selected and tags labels', () => {
+    const { getByText } = renderTitleListItem(testExtendedProps);
 
-      const { getByText } = renderTitleListItem(testExtendedProps);
+    expect(getByText('SelectedLabel component')).toBeDefined();
+    expect(getByText('TagsLabel component')).toBeDefined();
+  });
 
-      expect(getByText('SelectedLabel component')).toBeDefined();
-      expect(getByText('TagsLabel component')).toBeDefined();
-    });
+  it('should not display hidden label', () => {
+    const { queryByText } = renderTitleListItem(testExtendedProps);
 
-    it('should not display hidden label', () => {
-      const testExtendedProps = {
-        ...testBasicProps,
-        showSelected: true,
-      };
+    expect(queryByText('HiddenLabel component')).toBeNull();
+  });
 
-      const { queryByText } = renderTitleListItem(testExtendedProps);
+  it('should display hidden label', () => {
+    const { getByText } = renderTitleListItem(testPropsWithExtendedItem);
 
-      expect(queryByText('HiddenLabel component')).toBeNull();
-    });
-
-    it('should display hidden label', () => {
-      const testExtendedProps = {
-        ...testBasicProps,
-        item: {
-          ...testBasicProps.item,
-          visibilityData: {
-            isHidden: true,
-          }
-        },
-        showSelected: true,
-      };
-
-      const { getByText } = renderTitleListItem(testExtendedProps);
-
-      expect(getByText('HiddenLabel component')).toBeDefined();
-    });
+    expect(getByText('HiddenLabel component')).toBeDefined();
   });
 });
