@@ -4,8 +4,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
-import { Router } from 'react-router';
-import { createMemoryHistory } from 'history';
+import Harness from '../../../test/jest/helpers/harness';
 
 import TitleListItem from './title-list-item';
 
@@ -13,8 +12,6 @@ jest.mock('../identifiers-list', () => () => (<div>IdentifiersList component</di
 jest.mock('../selected-label/selected-label', () => () => (<div>SelectedLabel component</div>));
 jest.mock('../tags-label', () => () => (<div>TagsLabel component</div>));
 jest.mock('../hidden-label', () => () => (<div>HiddenLabel component</div>));
-
-const routerHistory = createMemoryHistory();
 
 const testTags = ['first', 'second', 'third'];
 
@@ -73,9 +70,9 @@ describe('Given TitleListItem', () => {
   const mockOnClick = jest.fn();
 
   const renderTitleListItem = ({ ...props }) => render(
-    <Router history={routerHistory}>
+    <Harness>
       <TitleListItem {...props} />
-    </Router>
+    </Harness>
   );
 
   it('should render skeleton when item prop is not provided', () => {
