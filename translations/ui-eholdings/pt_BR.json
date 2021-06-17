@@ -292,7 +292,7 @@
     "search.searchType.packages": "Pacotes",
     "search.searchType.providers": "Provedores",
     "provider.labels": "Rótulos",
-    "tags.addTagFor": "Adicionar tag para: <strong>{filtro}</strong>",
+    "tags.addTagFor": "Adicionar tag para: <strong>{filter}</strong>",
     "tags": "Tags",
     "add": "Adicionar",
     "startDate": "Data de início",

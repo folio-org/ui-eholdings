@@ -172,7 +172,7 @@
     "label.months": "Mesi",
     "label.years": "Anni",
     "label.no.reason": "No {disabledReason}",
-    "label.editLink": "Modifica {nome}",
+    "label.editLink": "Modifica {name}",
     "label.dates": "Date",
     "filter.all": "Tutto",
     "filter.sortOptions.relevance": "Rilevanza",
