@@ -277,7 +277,7 @@
     "provider.token.addToken": "Adjon hozzá szolgáltató szintjelölőt",
     "validate.errors.token.length": "A jelölők legfeljebb 500 karakter hosszúak lehetnek.",
     "proxy": "Meghatalmazott",
-    "proxy.inherited": "Örökölt",
+    "proxy.inherited": "Örökölt - {proxy}",
     "package.token": "Csomag jelölő",
     "package.noTokenSet": "Nincs csomagjelölő beállítva.",
     "package.token.addToken": "Csomag szintű jelölő hozzáadása",
