@@ -153,6 +153,7 @@ export default class ProviderEdit extends Component {
                   position="bottom"
                 />
                 <form
+                  id="provider-edit-form"
                   ref={this.editFormRef}
                   onSubmit={handleSubmit}
                 >
