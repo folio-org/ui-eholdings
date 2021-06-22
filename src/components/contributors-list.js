@@ -3,18 +3,18 @@ import { FormattedMessage } from 'react-intl';
 
 import { KeyValue } from '@folio/stripes/components';
 
-export default function ContributorsList({
+const ContributorsList = ({
   data,
   showInline,
   contributorsInlineLimit,
-}) {
+}) => {
   const contributorsByType = data.reduce((byType, contributor) => {
     byType[contributor.type] = byType[contributor.type] || [];
     byType[contributor.type].push(contributor.contributor);
     return byType;
   }, {});
   const showKeyValueList = () => (
-    <div>
+    <div data-testid="contributors-list-key-value">
       {Object.keys(contributorsByType).map((contributorType) => {
         const names = contributorsByType[contributorType];
         const label = (
@@ -54,19 +54,26 @@ export default function ContributorsList({
     }
 
     return (
-      <>
+      <div data-testid="contributors-list-inline">
         <FormattedMessage id='ui-eholdings.label.contributors' />
         &#58;&nbsp;
         <span data-test-eholdings-contributors-inline-list-item>
           {contributorsJointList}
         </span>
-      </>
+      </div>
     );
   };
 
   return showInline ? showInlineList(contributorsInlineLimit) : showKeyValueList();
-}
+};
 
 ContributorsList.propTypes = {
-  data: PropTypes.array
+  contributorsInlineLimit: PropTypes.number,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    contributor: PropTypes.string,
+    type: PropTypes.string,
+  })).isRequired,
+  showInline: PropTypes.bool,
 };
+
+export default ContributorsList;
