@@ -1,7 +1,12 @@
 import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
+
+const MAX_CHARACTER_LENGTH = 250;
 
 function validate(value) {
   let errors;
@@ -10,27 +15,29 @@ function validate(value) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.edition.value" />;
   }
 
-  if (value && value.length > 250) {
+  if (value && value.length > MAX_CHARACTER_LENGTH) {
     errors = <FormattedMessage id="ui-eholdings.validate.errors.edition.length" />;
   }
 
   return errors;
 }
 
-export default function EditionField() {
+const EditionField = () => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.title.edition' });
+
   return (
     <div data-test-eholdings-edition-field>
-      <FormattedMessage id="ui-eholdings.title.edition">
-        {(fieldName) => (
-          <Field
-            name="edition"
-            component={TextField}
-            label={fieldName}
-            validate={validate}
-            ariaLabel={fieldName}
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        name="edition"
+        component={TextField}
+        label={label}
+        validate={validate}
+        ariaLabel={label}
+        data-testid="edition-field"
+      />
     </div>
   );
-}
+};
+
+export default EditionField;

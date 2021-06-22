@@ -404,7 +404,7 @@
     "settings.kb.delete.toast": "{kbName} a été supprimé.",
     "settings.kb.delete.warning": "Voulez-vous vraiment supprimer les identifiants de <strong> {kbName} </strong> Si vous poursuivez la suppression, les informations d'identification ne seront plus disponibles pour cette instance FOLIO. Le proxy racine, les étiquettes personnalisées, les types de statut d'accès et les utilisateurs attribués ne seront plus non plus disponibles.",
     "server.errors.unableToCompleteOperation": "Impossible de terminer l'opération.",
-    "server.errors.apiLimitExceeded": "HoldingsIQ API limit has been exceeded. Please contact your EBSCO Holdings IQ support contact.",
+    "server.errors.apiLimitExceeded": "La limite de l'API HoldingsIQ a été dépassée. Veuillez contacter votre contact d'assistance EBSCO Holdings IQ.",
     "permission.settings.kb.delete": "Paramètres (eHoldings): peut supprimer les informations d'identification de la base de connaissances",
     "resource.embargoUnit.Days": "{value} jour (s)",
     "resource.embargoUnit.Weeks": "{value} semaine (s)",
