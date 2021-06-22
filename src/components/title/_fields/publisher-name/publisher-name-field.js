@@ -1,29 +1,35 @@
 import { Field } from 'react-final-form';
 
 import { TextField } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
+
+const MAX_CHARACTER_LENGTH = 250;
 
 function validate(value) {
-  return value && value.length > 250 ? <FormattedMessage id="ui-eholdings.validate.errors.publisherName.length" /> : undefined;
+  return value && value.length > MAX_CHARACTER_LENGTH
+    ? <FormattedMessage id="ui-eholdings.validate.errors.publisherName.length" />
+    : undefined;
 }
 
-function PublisherNameField() {
+const PublisherNameField = () => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.title.publisherName' });
+
   return (
     <div data-test-eholdings-publisher-name-field>
-      <FormattedMessage id="ui-eholdings.title.publisherName">
-        {(fieldName) => (
-          <Field
-            name="publisherName"
-            component={TextField}
-            label={fieldName}
-            validate={validate}
-            ariaLabel={fieldName}
-            data-testid="publisher-name-field"
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        name="publisherName"
+        component={TextField}
+        label={label}
+        validate={validate}
+        ariaLabel={label}
+        data-testid="publisher-name-field"
+      />
     </div>
   );
-}
+};
 
 export default PublisherNameField;
