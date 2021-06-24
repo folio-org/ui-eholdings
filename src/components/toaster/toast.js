@@ -93,13 +93,22 @@ class Toast extends Component {
           exit: style[`slideOut${capitalize(animationPosition)}`]
         }}
       >
-        <div className={toastClass} aria-live="assertive" data-test-eholdings-toast={type}>
+        <div
+          className={toastClass}
+          aria-live="assertive"
+          data-test-eholdings-toast={type}
+          data-testid={`type-${type}`}
+        >
           <Icon icon={this.getIconForType(type)} />
           <span className={style.message}>
             {this.props.children}
           </span>
 
-          <button onClick={this.hideToast} type="button">
+          <button
+            onClick={this.hideToast}
+            type="button"
+            data-testid="toast-close-btn"
+          >
             <Icon icon="times" iconClassName={style.closeIcon} />
           </button>
         </div>
