@@ -14,7 +14,7 @@ const ContributorsList = ({
     return byType;
   }, {});
   const showKeyValueList = () => (
-    <div data-testid="contributors-list-key-value">
+    <>
       {Object.keys(contributorsByType).map((contributorType) => {
         const names = contributorsByType[contributorType];
         const label = (
@@ -36,7 +36,7 @@ const ContributorsList = ({
           </div>
         );
       })}
-    </div>
+    </>
   );
 
   const showInlineList = (numberOfFirstElements) => {
@@ -54,13 +54,13 @@ const ContributorsList = ({
     }
 
     return (
-      <div data-testid="contributors-list-inline">
+      <>
         <FormattedMessage id='ui-eholdings.label.contributors' />
         &#58;&nbsp;
         <span data-test-eholdings-contributors-inline-list-item>
           {contributorsJointList}
         </span>
-      </div>
+      </>
     );
   };
 
@@ -74,6 +74,11 @@ ContributorsList.propTypes = {
     type: PropTypes.string,
   })).isRequired,
   showInline: PropTypes.bool,
+};
+
+ContributorsList.defaultProps = {
+  contributorsInlineLimit: 3,
+  showInline: false,
 };
 
 export default ContributorsList;

@@ -38,12 +38,6 @@ describe('Given IdentifiersList', () => {
   );
 
   describe('when list is not inline', () => {
-    it('should render key-value list', () => {
-      const { getByTestId } = renderIdentifiersList(testPropsForKeyValueList);
-
-      expect(getByTestId('identifiers-list-key-value')).toBeDefined();
-    });
-
     it('should display compound type', () => {
       const { getByText } = renderIdentifiersList(testPropsForKeyValueList);
 
@@ -59,12 +53,6 @@ describe('Given IdentifiersList', () => {
   });
 
   describe('when list is inline', () => {
-    it('should render inline list', () => {
-      const { getByTestId } = renderIdentifiersList(testPropsForInlineList);
-
-      expect(getByTestId('identifiers-list-inline')).toBeDefined();
-    });
-
     it('should display compound type and identifiers ids in an inline way', () => {
       const { getByText } = renderIdentifiersList(testPropsForInlineList);
 

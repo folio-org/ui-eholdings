@@ -29,7 +29,7 @@ const IdentifiersList = ({ data, displayInline }) => {
 
   const getKeyValueList = () => {
     return (
-      <div data-testid="identifiers-list-key-value">
+      <>
         {Object.keys(identifiersByType).map(key => (
           <div key={key} data-test-eholdings-identifiers-list-item>
             <KeyValue label={key}>
@@ -39,7 +39,7 @@ const IdentifiersList = ({ data, displayInline }) => {
             </KeyValue>
           </div>
         ))}
-      </div>
+      </>
     );
   };
 
@@ -50,10 +50,7 @@ const IdentifiersList = ({ data, displayInline }) => {
     ));
 
     return (
-      <div
-        data-test-eholdings-identifiers-inline-list-item
-        data-testid="identifiers-list-inline"
-      >
+      <div data-test-eholdings-identifiers-inline-list-item>
         {identifiersStringArr.join(' • ')}
       </div>
     );
@@ -69,6 +66,10 @@ IdentifiersList.propTypes = {
     type: PropTypes.string,
   })),
   displayInline: PropTypes.bool,
+};
+
+IdentifiersList.defaultProps = {
+  displayInline: false,
 };
 
 export default IdentifiersList;

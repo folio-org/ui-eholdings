@@ -35,10 +35,10 @@ describe('Given ContributorsList', () => {
   );
 
   describe('when list is not inline', () => {
-    it('should render key-value list', () => {
-      const { getByTestId } = renderContributorsList(testPropsForKeyValueList);
+    it('should render contributor type', () => {
+      const { getByText } = renderContributorsList(testPropsForKeyValueList);
 
-      expect(getByTestId('contributors-list-key-value')).toBeDefined();
+      expect(getByText('ui-eholdings.contributorType.test-contributor-type')).toBeDefined();
     });
 
     it('should display all key-value list elements', () => {
@@ -49,12 +49,6 @@ describe('Given ContributorsList', () => {
   });
 
   describe('when list is inline', () => {
-    it('should render inline list', () => {
-      const { getByTestId } = renderContributorsList(testPropsForInlineList);
-
-      expect(getByTestId('contributors-list-inline')).toBeDefined();
-    });
-
     it('should display all inline list elements', () => {
       const { getByText, queryByText } = renderContributorsList(testPropsForInlineList);
 

@@ -62,9 +62,7 @@ class TokenField extends Component {
         >
           {token.prompt}
         </div>
-        <div
-          data-test-eholdings-token-value-textarea={type}
-        >
+        <div data-test-eholdings-token-value-textarea={type}>
           {type === 'provider' ? (
             <Field
               name="providerTokenValue"
