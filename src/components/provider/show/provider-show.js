@@ -106,6 +106,7 @@ class ProviderShow extends Component {
 
     return (
       <Button
+        id="provider-edit-link"
         data-test-eholdings-provider-edit-link
         data-testid="provider-edit-link"
         buttonStyle="primary"

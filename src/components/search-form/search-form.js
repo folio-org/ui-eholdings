@@ -402,7 +402,7 @@ class SearchForm extends Component {
         <form
           onSubmit={this.handleSearchSubmit}
           aria-labelledby={searchType + '-tab'}
-          id={searchType + '-panel'}
+          id="search-form"
         >
           <div data-test-search-field>
             <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
