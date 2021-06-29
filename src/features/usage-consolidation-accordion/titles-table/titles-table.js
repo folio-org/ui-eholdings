@@ -23,7 +23,6 @@ import {
   costPerUseTypes,
   sortOrders,
 } from '../../../constants';
-import { getMCLFirstDataRow } from '../utilities';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -77,7 +76,7 @@ const TitlesTable = ({
 
   useEffect(() => {
     if (titlesTableMCLRef.current && !isPackageTitlesLoading) {
-      getMCLFirstDataRow(titlesTableMCLRef.current).focus();
+      titlesTableMCLRef.current.focus();
     }
   }, [titlesTableMCLRef, isPackageTitlesLoading]);
 

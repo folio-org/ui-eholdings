@@ -17,7 +17,6 @@ import {
   costPerUse as costPerUseShape,
   entityTypes,
 } from '../../../constants';
-import { getMCLFirstDataRow } from '../utilities';
 
 const propTypes = {
   contentData: PropTypes.array,
@@ -60,7 +59,7 @@ const SummaryTable = ({
 
   useEffect(() => {
     if (summaryMCLRef.current && isLoaded) {
-      getMCLFirstDataRow(summaryMCLRef.current).focus();
+      summaryMCLRef.current.focus();
     }
   }, [summaryMCLRef, isLoaded]);
 

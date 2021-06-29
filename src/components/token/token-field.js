@@ -9,10 +9,13 @@ import {
   TextArea
 } from '@folio/stripes/components';
 
-export default class TokenField extends Component {
+class TokenField extends Component {
   static propTypes = {
     ariaLabelledBy: PropTypes.string.isRequired,
-    token: PropTypes.object,
+    token: PropTypes.shape({
+      helpText: PropTypes.string,
+      prompt: PropTypes.string,
+    }),
     tokenValue: PropTypes.string,
     type: PropTypes.string
   };
@@ -50,9 +53,13 @@ export default class TokenField extends Component {
       <div>
         <div
           data-test-eholdings-token-fields-help-text={type}
+          data-testid={`token-fields-help-text-${type}`}
           dangerouslySetInnerHTML={helpTextMarkup}
         />
-        <div data-test-eholdings-token-fields-prompt={type}>
+        <div
+          data-test-eholdings-token-fields-prompt={type}
+          data-testid={`token-fields-prompt-${type}`}
+        >
           {token.prompt}
         </div>
         <div data-test-eholdings-token-value-textarea={type}>
@@ -62,6 +69,7 @@ export default class TokenField extends Component {
               component={TextArea}
               validate={this.validate}
               aria-labelledby={ariaLabelledBy}
+              data-testid="textarea-provider"
             />
           ) : (
             <Field
@@ -69,6 +77,7 @@ export default class TokenField extends Component {
               component={TextArea}
               validate={this.validate}
               aria-labelledby={ariaLabelledBy}
+              data-testid="textarea-package"
             />
           )}
         </div>
@@ -76,6 +85,7 @@ export default class TokenField extends Component {
     ) : (
       <div
         data-test-eholdings-token-add-button={type}
+        data-testid="token-add-button"
       >
         <Button
           type="button"
@@ -93,3 +103,5 @@ export default class TokenField extends Component {
     );
   }
 }
+
+export default TokenField;
