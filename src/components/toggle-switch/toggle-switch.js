@@ -5,7 +5,7 @@ import styles from './toggle-switch.css';
 
 const cx = classNames.bind(styles);
 
-export default class ToggleSwitch extends Component {
+class ToggleSwitch extends Component {
   static propTypes = {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -56,6 +56,7 @@ export default class ToggleSwitch extends Component {
         className={cx(styles['toggle-switch'], {
           'is-pending': isPending
         })}
+        data-testid="toggle-switch"
       >
         <input
           type="checkbox"
@@ -64,9 +65,12 @@ export default class ToggleSwitch extends Component {
           name={name}
           onChange={this.toggle}
           disabled={disabled || isPending}
+          data-testid="toggle-switch-checkbox"
         />
         <div className={styles['toggle-switch-slider']} />
       </div>
     );
   }
 }
+
+export default ToggleSwitch;
