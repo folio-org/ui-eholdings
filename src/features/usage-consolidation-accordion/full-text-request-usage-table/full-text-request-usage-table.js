@@ -21,7 +21,6 @@ import {
 } from '../../../constants';
 
 import styles from './full-text-request-usage-table.css';
-import { getMCLFirstDataRow } from '../utilities';
 
 const monthsNames = {
   JAN: 'jan',
@@ -79,7 +78,7 @@ const FullTextRequestUsageTable = ({
 
   useEffect(() => {
     if (fullTextRequestUsageMCLRef.current && entityType !== entityTypes.TITLE) {
-      getMCLFirstDataRow(fullTextRequestUsageMCLRef.current).focus();
+      fullTextRequestUsageMCLRef.current.focus();
     }
   }, [fullTextRequestUsageMCLRef, entityType]);
 

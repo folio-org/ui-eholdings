@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { KeyValue, Icon } from '@folio/stripes/components';
+
+import {
+  KeyValue,
+  Icon,
+} from '@folio/stripes/components';
 
 export default function ProxyDisplay({ proxy, proxyTypes, inheritedProxyId }) {
   const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
@@ -13,10 +17,19 @@ export default function ProxyDisplay({ proxy, proxyTypes, inheritedProxyId }) {
 
     return (
       <KeyValue label={<FormattedMessage id="ui-eholdings.proxy" />}>
-        <div data-test-eholdings-details-proxy>
-          {checkIfInherited ?
-            (<FormattedMessage id="ui-eholdings.proxy.inherited" values={{ proxy: name }} />) :
-            `${name}`}
+        <div
+          id="proxy-display"
+          data-test-eholdings-details-proxy
+        >
+          {checkIfInherited
+            ? (
+              <FormattedMessage
+                id="ui-eholdings.proxy.inherited"
+                values={{ proxy: name }}
+              />
+            )
+            : `${name}`
+          }
         </div>
       </KeyValue>
     );
