@@ -2,6 +2,7 @@
 
 ## [6.2.0] (IN PROGRESS)
 * Fix import paths. (UIEH-1133)
+* Add tests for DescriptionField, EditionField, TitleNameField, PackageSelectField components. (UIEH-1051)
 * Add tests for ResourceEditManagedTitle component (UIEH-1096)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)

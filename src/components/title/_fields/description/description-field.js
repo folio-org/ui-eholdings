@@ -1,7 +1,10 @@
 import { Field } from 'react-final-form';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import { TextArea } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
 
 const MAX_CHARACTER_LENGTH = 400;
 
@@ -13,20 +16,22 @@ function validate(value) {
     /> : undefined;
 }
 
-export default function DescriptionField() {
+const DescriptionField = () => {
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: 'ui-eholdings.title.description' });
+
   return (
     <div data-test-eholdings-description-textarea>
-      <FormattedMessage id="ui-eholdings.title.description">
-        {(ariaLabel) => (
-          <Field
-            name="description"
-            component={TextArea}
-            label={ariaLabel}
-            validate={validate}
-            aria-label={ariaLabel}
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        name="description"
+        component={TextArea}
+        label={label}
+        validate={validate}
+        aria-label={label}
+        data-testid="description-field"
+      />
     </div>
   );
-}
+};
+
+export default DescriptionField;

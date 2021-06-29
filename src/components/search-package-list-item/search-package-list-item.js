@@ -18,7 +18,7 @@ import styles from './search-package-list-item.css';
 
 const cx = classNames.bind(styles);
 
-function SearchPackageListItem({
+const SearchPackageListItem = ({
   item,
   link,
   active,
@@ -29,11 +29,12 @@ function SearchPackageListItem({
   showTitleCount,
   showSelectedCount,
   showTags,
-}) {
+}) => {
   return !item
     ? (
       <div
         className={cx('skeleton', 'is-provider-name-visible')}
+        data-testid="skeleton-element"
       />
     )
     : (
@@ -49,6 +50,7 @@ function SearchPackageListItem({
             onClick();
           }
         }}
+        data-testid="search-package-list-item-link"
       >
         <Headline
           data-test-eholdings-package-list-item-name
@@ -89,16 +91,28 @@ function SearchPackageListItem({
         </div>
       </InternalLink>
     );
-}
+};
 
 SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    isSelected: PropTypes.bool,
+    name: PropTypes.string,
+    providerName: PropTypes.string,
+    selectedCount: PropTypes.number,
+    tags: PropTypes.shape({
+      tagList: PropTypes.arrayOf(PropTypes.string),
+    }),
+    titleCount: PropTypes.number,
+    visibilityData: PropTypes.shape({
+      isHidden: PropTypes.bool,
+    }),
+  }),
   link: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
-  ]),
+  ]).isRequired,
   onClick: PropTypes.func,
   packageName: PropTypes.string,
   showProviderName: PropTypes.bool,

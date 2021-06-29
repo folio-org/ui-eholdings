@@ -1,4 +1,5 @@
 export { default as contentTypes } from './contentTypes';
+export { default as publicationTypes } from './publicationTypes';
 export { default as coverageStatementExistenceStatuses } from './coverageStatementExistenceStatuses';
 export { default as historyActions } from './historyActions';
 export { default as listTypes } from './listTypes';
