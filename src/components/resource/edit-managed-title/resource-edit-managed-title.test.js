@@ -1,5 +1,8 @@
 
-import { fireEvent, render } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+} from '@testing-library/react';
 import { noop } from 'lodash';
 
 import {
@@ -7,8 +10,8 @@ import {
   defaultKeyboardShortcuts,
 } from '@folio/stripes-components';
 
-import Harness from '../../../../test/jest/helpers/harness';
 import ResourceEditManagedTitle from './resource-edit-managed-title';
+import Harness from '../../../../test/jest/helpers/harness';
 
 jest.mock('../../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
 
@@ -99,21 +102,21 @@ const model = {
   isTitleCustom: false,
 };
 
-const renderResourceEditManagedTitle = (props) => render(
+const renderResourceEditManagedTitle = (props = {}) => render(
   <Harness>
     <CommandList commands={defaultKeyboardShortcuts}>
       <ResourceEditManagedTitle
-         closeSelectionModal={noop}
-         model={model}
-         proxyTypes={proxyTypes}
-         accessStatusTypes={accessStatusTypes}
-         onCancel={noop}
-         showSelectionModal={false}
-         handelDeleteConfirmation={noop}
-         handleOnSubmit={noop}
-         getFooter={noop}
-         getSectionHeader={noop}
-         {...props}
+        closeSelectionModal={noop}
+        model={model}
+        proxyTypes={proxyTypes}
+        accessStatusTypes={accessStatusTypes}
+        onCancel={noop}
+        showSelectionModal={false}
+        handelDeleteConfirmation={noop}
+        handleOnSubmit={noop}
+        getFooter={noop}
+        getSectionHeader={noop}
+        {...props}
       />
     </CommandList>
   </Harness>
@@ -123,7 +126,7 @@ describe('Given ResourceEditManagedTitle', () => {
   it('should check dates radio button', () => {
     const { getByLabelText } = renderResourceEditManagedTitle();
 
-    expect(getByLabelText('ui-eholdings.label.dates').checked).toBeTruthy(); 
+    expect(getByLabelText('ui-eholdings.label.dates').checked).toBeTruthy();
     expect(getByLabelText('ui-eholdings.label.coverageStatement').checked).toBeFalsy();
   });
 
@@ -136,7 +139,7 @@ describe('Given ResourceEditManagedTitle', () => {
         },
       });
 
-      expect(getByLabelText('ui-eholdings.label.dates').checked).toBeFalsy(); 
+      expect(getByLabelText('ui-eholdings.label.dates').checked).toBeFalsy();
       expect(getByLabelText('ui-eholdings.label.coverageStatement').checked).toBeTruthy();
     });
   });
