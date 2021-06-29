@@ -137,7 +137,9 @@ const ResourceEditManagedTitle = ({
   const getActionMenu = () => {
     const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
-    if (!hasSelectPermission) return null;
+    if (!hasSelectPermission) {
+      return null;
+    }
 
     // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
@@ -160,8 +162,8 @@ const ResourceEditManagedTitle = ({
 
   return (
     <KeyShortcutsWrapper
-      formRef={editFormRef.current}
       toggleAllSections={toggleAllSections}
+      formRef={editFormRef.current}
     >
       <Form
         onSubmit={handleOnSubmit}
@@ -175,18 +177,21 @@ const ResourceEditManagedTitle = ({
         initialValuesEqual={() => true}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
-            <Toaster toasts={processErrors(model)} position="bottom" />
+          <>
+            <Toaster
+              toasts={processErrors(model)}
+              position="bottom"
+            />
             <form
               ref={editFormRef}
               onSubmit={handleSubmit}
             >
               <DetailsView
                 type="resource"
+                actionMenu={getActionMenu()}
                 model={model}
                 paneTitle={model.title.name}
                 paneSub={model.package.name}
-                actionMenu={getActionMenu()}
                 handleExpandAll={handleExpandAll}
                 sections={sections}
                 footer={getFooter(pristine, reset)}
@@ -258,7 +263,7 @@ const ResourceEditManagedTitle = ({
             >
               <FormattedMessage id="ui-eholdings.resource.modal.body" />
             </SelectionModal>
-          </div>
+          </>
         )}
       />
     </KeyShortcutsWrapper>
