@@ -3,6 +3,7 @@
 ## [6.2.0] (IN PROGRESS)
 * Fix import paths. (UIEH-1133)
 * Add tests for DescriptionField, EditionField, TitleNameField, PackageSelectField components. (UIEH-1051)
+* Usage Consolidation: Unable to handle gracefully handle when user attempts to view titles over 200,000. (UIEH-1136)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
