@@ -52,6 +52,7 @@ describe('Given CoverageDateList', () => {
 
   it('should render custom CoverageDateList component', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithBeginAndEndDates);
+
     const { getByTestId } = renderCoverageDateList(finalProps);
 
     expect(getByTestId('coverage-list-custom')).toBeDefined();
@@ -59,6 +60,7 @@ describe('Given CoverageDateList', () => {
 
   it('should give an error when begin and end dates are not provided', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithoutBeginAndEndDates);
+
     renderCoverageDateList(finalProps);
 
     expect(consoleErrorFn).toBeCalled();
@@ -66,6 +68,7 @@ describe('Given CoverageDateList', () => {
 
   it('should give an error when begin date is not of type string', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayBeginDateNotString);
+
     renderCoverageDateList(finalProps);
 
     expect(consoleErrorFn).toBeCalled();
@@ -73,6 +76,7 @@ describe('Given CoverageDateList', () => {
 
   it('should give an error when end date is not of type string', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayEndDateNotString);
+
     renderCoverageDateList(finalProps);
 
     expect(consoleErrorFn).toBeCalled();
@@ -80,6 +84,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display beginCoverage date and Present', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithBeginDate);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('12/1/2020 - ui-eholdings.date.present')).toBeDefined();
@@ -87,6 +92,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display endCoverage date', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithEndDate);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('1/31/2021')).toBeDefined();
@@ -94,6 +100,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display coverage dates', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithBeginAndEndDates);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('12/1/2020 - 1/31/2021')).toBeDefined();
@@ -101,6 +108,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display all coverage dates in descending order', () => {
     const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithSeveralBeginAndEndDates);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('12/1/2020 - 1/31/2021, 5/1/2016 - 6/1/2016')).toBeDefined();
@@ -108,6 +116,7 @@ describe('Given CoverageDateList', () => {
 
   it('should render managed CoverageDateList component', () => {
     const finalProps = addCoverageArrayToProps(testPropsExtended, coverageArrayWithBeginAndEndDates);
+
     const { getByTestId } = renderCoverageDateList(finalProps);
 
     expect(getByTestId('coverage-list-managed')).toBeDefined();
@@ -115,6 +124,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display only coverage years', () => {
     const finalProps = addCoverageArrayToProps(testPropsExtended, coverageArrayWithBeginAndEndDates);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('2020 - 2021')).toBeDefined();
@@ -122,6 +132,7 @@ describe('Given CoverageDateList', () => {
 
   it('should display all coverage years', () => {
     const finalProps = addCoverageArrayToProps(testPropsExtended, coverageArrayWithSeveralBeginAndEndDates);
+
     const { getByText } = renderCoverageDateList(finalProps);
 
     expect(getByText('2020 - 2021, 2016')).toBeDefined();
