@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,7 +7,7 @@ import {
   compareCoveragesToBeSortedInDescOrder,
 } from '../utilities';
 
-const containsNonEmptyObjectsWithStringValues = (propValue, key, componentName, location, propFullName) => {
+const containsNonEmptyObjectsWithStringValues = (propValue, key, componentName, propFullName) => {
   const BEGIN_COVERAGE = 'beginCoverage';
   const END_COVERAGE = 'endCoverage';
   const error = new Error(`Invalid prop \`${propFullName}\` supplied to \`${componentName}\`. Validation failed.`);
@@ -26,45 +26,46 @@ const containsNonEmptyObjectsWithStringValues = (propValue, key, componentName, 
   return propTypeIsWrong ? error : null;
 };
 
-class CoverageDateList extends Component {
-  static propTypes = {
-    coverageArray: PropTypes.arrayOf(containsNonEmptyObjectsWithStringValues),
-    id: PropTypes.string,
-    isManagedCoverage: PropTypes.bool,
-    isYearOnly: PropTypes.bool,
-  };
+const CoverageDateList = ({
+  coverageArray,
+  id,
+  isYearOnly,
+  isManagedCoverage,
+}) => {
+  const dateRanges = [...coverageArray].sort(compareCoveragesToBeSortedInDescOrder);
 
-  render() {
-    const {
-      coverageArray,
-      id,
-      isYearOnly,
-      isManagedCoverage,
-    } = this.props;
+  return (
+    <div
+      id={id}
+      data-test-eholdings-display-coverage-list
+      data-testid={`coverage-list-${isManagedCoverage ? 'managed' : 'custom'}`}
+    >
+      {
+        dateRanges.map((coverageArrayObj, i) => (
+          <Fragment key={i}>
+            {i > 0 && ', '}
+            {
+              isYearOnly
+                ? formatCoverageYear(coverageArrayObj)
+                : formatCoverageFullDate(coverageArrayObj)
+            }
+          </Fragment>
+        ))
+      }
+    </div>
+  );
+};
 
-    const dateRanges = [...coverageArray].sort(compareCoveragesToBeSortedInDescOrder);
+CoverageDateList.propTypes = {
+  coverageArray: PropTypes.arrayOf(containsNonEmptyObjectsWithStringValues).isRequired,
+  id: PropTypes.string.isRequired,
+  isManagedCoverage: PropTypes.bool,
+  isYearOnly: PropTypes.bool,
+};
 
-    return (
-      <div
-        id={id}
-        data-test-eholdings-display-coverage-list
-        data-testid={`coverage-list-${isManagedCoverage ? 'managed' : 'custom'}`}
-      >
-        {
-          dateRanges.map((coverageArrayObj, i) => (
-            <Fragment key={i}>
-              {i > 0 && ', '}
-              {
-                isYearOnly
-                  ? formatCoverageYear(coverageArrayObj)
-                  : formatCoverageFullDate(coverageArrayObj)
-              }
-            </Fragment>
-          ))
-        }
-      </div>
-    );
-  }
-}
+CoverageDateList.defaultProps = {
+  isManagedCoverage: false,
+  isYearOnly: false,
+};
 
 export default CoverageDateList;
