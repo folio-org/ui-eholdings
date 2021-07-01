@@ -130,8 +130,17 @@
         "displayName": "eHoldings: Can view providers, packages, titles detail records",
         "visible": false,
         "subPermissions": [
-          "kb-ebsco.all",
-          "tags.all"
+          "kb-ebsco.package-resources.collection.get",
+          "kb-ebsco.packages.collection.get",
+          "kb-ebsco.packages.item.get",
+          "kb-ebsco.provider-packages.collection.get",
+          "kb-ebsco.providers.collection.get",
+          "kb-ebsco.providers.item.get",
+          "kb-ebsco.resources.item.get",
+          "kb-ebsco.titles.collection.get",
+          "kb-ebsco.titles.item.get",
+          "tags.collection.get",
+          "tags.item.get"
         ]
       },
       {
