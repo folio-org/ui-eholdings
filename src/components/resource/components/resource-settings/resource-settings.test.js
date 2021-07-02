@@ -14,6 +14,17 @@ describe('Given ResourceSettings', () => {
   let component;
   const onToggleMock = jest.fn();
 
+  const defaultPackage = {
+    visibilityData: {
+      reason: '',
+      isHidden: false,
+    },
+    isCustom: true,
+    proxy: {
+      id: 'proxy-id',
+    },
+  };
+
   const defaultModel = {
     visibilityData: {
       reason: '',
@@ -24,15 +35,7 @@ describe('Given ResourceSettings', () => {
     title: {
       isTitleCustom: false,
     },
-    package: {
-      visibilityData: {
-        reason: '',
-        isHidden: false,
-      },
-      proxy: {
-        id: 'proxy-id',
-      },
-    },
+    package: defaultPackage,
   };
 
   const renderResourceSettings = (props = {}) => render(
@@ -96,6 +99,29 @@ describe('Given ResourceSettings', () => {
       expect(component.getByTestId('resource-show-visibility').textContent).toEqual('ui-eholdings.package.visibility.no');
     });
   });
+
+  describe('when package is custom', () => {
+    it('should show custom url', () => {
+      component = renderResourceSettings();
+      expect(component.getByText('ui-eholdings.custom')).toBeDefined();
+    });
+  });
+
+  describe('when package is managed', () => {
+    it('should show managed url', () => {
+      component = renderResourceSettings({
+        model: {
+          ...defaultModel,
+          package: {
+            ...defaultPackage,
+            isCustom: false,
+          },
+        },
+      });
+      expect(component.getByText('ui-eholdings.managed')).toBeDefined();
+    });
+  });
+
 
   it('should render proxy display', () => {
     component = renderResourceSettings();
