@@ -13,15 +13,18 @@ import ResourceSettings from './edit-resource-settings';
 describe('Given ResourceSettings', () => {
   const onSubmitMock = jest.fn();
   const handleSectionToggleMock = jest.fn();
-  const defaultModel = {
-    package: {
-      proxy: {
-        id: 'proxy-id',
-      },
-      visibilityData: {
-        isHidden: true,
-      },
+  const defaultPackage = {
+    proxy: {
+      id: 'proxy-id',
     },
+    visibilityData: {
+      isHidden: true,
+    },
+    isCustom: true,
+  };
+
+  const defaultModel = {
+    package: defaultPackage,
     update: {
       isPending: false,
     },
@@ -115,6 +118,30 @@ describe('Given ResourceSettings', () => {
       fireEvent.click(getByText('Submit'));
 
       expect(getByText('Submit')).toBeEnabled();
+    });
+  });
+
+  describe('when package is custom', () => {
+    it('should render Custom URL field', () => {
+      const { getByLabelText } = renderResourceSettings();
+
+      expect(getByLabelText('ui-eholdings.customUrl')).toBeDefined();
+    });
+  });
+
+  describe('when package is managed', () => {
+    it('should not render Custom URL field', () => {
+      const { queryByLabelText } = renderResourceSettings({
+        model: {
+          ...defaultModel,
+          package: {
+            ...defaultPackage,
+            isCustom: false,
+          },
+        },
+      });
+
+      expect(queryByLabelText('ui-eholdings.customUrl')).toBeNull();
     });
   });
 });

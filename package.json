@@ -130,6 +130,12 @@
         "displayName": "eHoldings: Can view providers, packages, titles detail records",
         "visible": false,
         "subPermissions": [
+          "kb-ebsco.status.get",
+          "kb-ebsco.kb-credentials.collection.get",
+          "kb-ebsco.access-types.collection.get",
+          "kb-ebsco.kb-credentials.custom-labels.collection.get",
+          "kb-ebsco.custom-labels.collection.get",
+          "kb-ebsco.package-resources.export.collection.get",
           "kb-ebsco.package-resources.collection.get",
           "kb-ebsco.packages.collection.get",
           "kb-ebsco.packages.item.get",

@@ -88,7 +88,7 @@ const ResourceSettings = ({
       }
 
       {model.url && (
-        <KeyValue label={model.title.isTitleCustom
+        <KeyValue label={model.package.isCustom
           ? <FormattedMessage id="ui-eholdings.custom" />
           : <FormattedMessage id="ui-eholdings.managed" />}
         >

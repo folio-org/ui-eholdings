@@ -69,7 +69,7 @@ const EditResourceSettings = ({
             <VisibilityField disabled={visibilityMessage} />
             <div>
               {hasInheritedProxy && getAccordionContent()}
-              {resourceIsCustom && <CustomUrlFields />}
+              {model.package.isCustom && <CustomUrlFields />}
               <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
             </div>
           </>
