@@ -8,6 +8,7 @@
 * Avoid .all permissions. (UIEH-1135)
 * Add tests for CoverageDateList component. (UIEH-1056)
 * Fix View/Edit Managed title - Custom Package Record: Custom Package URL field does not display. (UIEH-1140)
+* Add tests for ResourceEditCustomTitle component. (UIEH-1095)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)

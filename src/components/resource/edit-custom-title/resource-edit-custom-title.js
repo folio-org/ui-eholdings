@@ -148,7 +148,9 @@ const ResourceEditCustomTitle = ({
   const getActionMenu = () => {
     const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
 
-    if (!hasSelectPermission || !resourceSelected) return null;
+    if (!hasSelectPermission || !resourceSelected) {
+      return null;
+    }
 
     // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
@@ -183,18 +185,21 @@ const ResourceEditCustomTitle = ({
         }}
         initialValues={initialValues}
         render={({ handleSubmit, pristine, form: { change, reset } }) => (
-          <div>
-            <Toaster toasts={processErrors(model)} position="bottom" />
+          <>
+            <Toaster
+              toasts={processErrors(model)}
+              position="bottom"
+            />
             <form
               ref={editFormRef}
               onSubmit={handleSubmit}
             >
               <DetailsView
                 type="resource"
+                actionMenu={getActionMenu()}
                 model={model}
                 paneTitle={model.title.name}
                 paneSub={model.package.name}
-                actionMenu={getActionMenu()}
                 handleExpandAll={handleExpandAll}
                 sections={sections}
                 footer={getFooter(pristine, reset)}
@@ -278,7 +283,7 @@ const ResourceEditCustomTitle = ({
                 )
               }
             </SelectionModal>
-          </div>
+          </>
         )}
       />
     </KeyShortcutsWrapper>
