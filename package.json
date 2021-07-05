@@ -237,6 +237,7 @@
         "displayName": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
         "visible": true,
         "subPermissions": [
+          "module.eholdings.enabled",
           "kb-ebsco.uc.item.get",
           "kb-ebsco.resources-costperuse.item.get",
           "kb-ebsco.titles-costperuse.item.get",
