@@ -80,6 +80,7 @@ const model = {
     proxy: {
       id: 'proxyId',
     },
+    isCustom: true,
     visibilityData: {
       isHidden: false,
       reason: '',
