@@ -47,6 +47,7 @@ const PackageSelectField = ({
         onFilter={handleFilter}
         data-testid="package-select-field"
         loading={loadingOptions}
+        loadingMessage={<Icon icon="spinner-ellipsis" />}
         tether={{
           constraints: [
             {
