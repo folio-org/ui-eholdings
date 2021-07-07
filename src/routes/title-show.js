@@ -111,6 +111,10 @@ class TitleShowRoute extends Component {
     history.replace(editRouteState);
   }
 
+  onPackageFilter = (searchParam) => {
+    this.props.getCustomPackages(searchParam);
+  };
+
   render() {
     const {
       model,
@@ -127,6 +131,7 @@ class TitleShowRoute extends Component {
           model={model}
           customPackages={customPackages}
           addCustomPackage={this.createResource}
+          onPackageFilter={this.onPackageFilter}
           onEdit={this.handleEdit}
           fetchTitleCostPerUse={this.fetchTitleCostPerUse}
           costPerUse={costPerUse}
@@ -158,16 +163,17 @@ export default connect(
       createRequest: resolver.getRequest('create', { type: 'resources' }),
       customPackages: resolver.query('packages', {
         filter: { custom: true },
-        count: 100
+        count: 100,
       }),
       costPerUse: selectPropFromData(store, 'costPerUse'),
     };
   }, {
     getTitle: id => Title.find(id, { include: 'resources' }),
     createResource: attrs => Resource.create(attrs),
-    getCustomPackages: () => Package.query({
+    getCustomPackages: (query) => Package.query({
       filter: { custom: true },
-      count: 100
+      q: query,
+      count: 100,
     }),
     getCostPerUse: getCostPerUseAction,
     clearCostPerUseData: clearCostPerUseDataAction,
