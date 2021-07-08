@@ -8,6 +8,8 @@
 * Avoid .all permissions. (UIEH-1135)
 * Add tests for CoverageDateList component. (UIEH-1056)
 * Fix View/Edit Managed title - Custom Package Record: Custom Package URL field does not display. (UIEH-1140)
+* Fix The Eholdings app is NOT displayed in the app bar when the "eHoldings: Can view Usage..." permission is applied. (UIEH-1142)
+* Add tests for ResourceEditCustomTitle component. (UIEH-1095)
 * Add tests for AgreementsList component. (UIEH-1055)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
