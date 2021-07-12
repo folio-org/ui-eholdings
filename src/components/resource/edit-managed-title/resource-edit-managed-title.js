@@ -72,6 +72,7 @@ const ResourceEditManagedTitle = ({
       customCoverages,
       coverageStatement,
       customEmbargoPeriod,
+      url,
       proxy,
     } = model;
 
@@ -88,6 +89,7 @@ const ResourceEditManagedTitle = ({
       customCoverages,
       coverageStatement,
       hasCoverageStatement,
+      customUrl: url,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),

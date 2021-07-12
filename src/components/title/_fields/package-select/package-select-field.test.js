@@ -1,41 +1,70 @@
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
+import wait from '../../../../../test/jest/helpers/wait';
 import PackageSelectField from './package-select-field';
 
+const mockOnFilter = jest.fn();
+
 describe('Given PackageSelectField', () => {
-  const renderPackageSelectField = (options) => render(
+  const renderPackageSelectField = (props) => render(
     <Form
       onSubmit={() => {}}
-      render={() => <PackageSelectField options={options} />}
+      render={() => (
+        <PackageSelectField
+          onFilter={mockOnFilter}
+          {...props}
+        />
+      )}
     />
   );
 
   it('should render package select field', () => {
-    const { getByText } = renderPackageSelectField([{
-      label: 'label1',
-      key: 'key1',
-    }]);
+    const { getByText } = renderPackageSelectField({
+      options: [{
+        label: 'label1',
+        key: 'key1',
+      }]
+    });
 
     expect(getByText('ui-eholdings.label.package')).toBeDefined();
   });
 
   it('should render package select field options', () => {
-    const { getByText } = renderPackageSelectField([{
-      label: 'label1',
-      key: 'key1',
-    }]);
+    const { getByText } = renderPackageSelectField({
+      options: [{
+        label: 'label1',
+        key: 'key1',
+      }],
+    });
 
     expect(getByText('label1')).toBeDefined();
   });
 
   it('should not render disabled options', () => {
-    const { queryByText } = renderPackageSelectField([{
-      disabled: true,
-      label: 'label2',
-      key: 'key2',
-    }]);
+    const { queryByText } = renderPackageSelectField({
+      options: [{
+        disabled: true,
+        label: 'label2',
+        key: 'key2',
+      }],
+    });
 
     expect(queryByText('label2')).toBeNull();
+  });
+
+  it('should debounce onFilter function', async () => {
+    const { getByLabelText } = renderPackageSelectField({
+      options: [{
+        label: 'label1',
+        key: 'key1',
+      }],
+    });
+
+    const input = getByLabelText('stripes-components.selection.filterOptionsLabel');
+    fireEvent.change(input, { target: { value: 'packageName' } });
+    expect(mockOnFilter).not.toHaveBeenCalled();
+    await wait(1100);
+    expect(mockOnFilter).toHaveBeenCalled();
   });
 });
