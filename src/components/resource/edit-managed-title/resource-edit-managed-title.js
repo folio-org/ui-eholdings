@@ -121,7 +121,7 @@ const ResourceEditManagedTitle = ({
     if (proxyTypes.request.isResolved) {
       setInitialValues(getInitialValuesFromModel());
     }
-  }, [proxyTypes.request.isResolved, getInitialValuesFromModel]);
+  }, [proxyTypes.request.isResolved]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleToggleResourceHoldings = (isSelected) => {
     handleOnSubmit({
