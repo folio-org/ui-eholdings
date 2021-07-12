@@ -36,6 +36,7 @@ export default class TitleCreate extends Component {
   static propTypes = {
     customPackages: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
+    onPackageFilter: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
@@ -106,12 +107,13 @@ export default class TitleCreate extends Component {
     const {
       customPackages,
       onSubmit,
-      request
+      request,
+      onPackageFilter,
     } = this.props;
 
     const packageOptions = customPackages.map(pkg => ({
       label: pkg.name,
-      value: pkg.id
+      value: pkg.id,
     }));
 
     return (
@@ -162,7 +164,11 @@ export default class TitleCreate extends Component {
                       <DetailsViewSection
                         label={<FormattedMessage id="ui-eholdings.label.packageInformation" />}
                       >
-                        <PackageSelectField options={packageOptions} />
+                        <PackageSelectField
+                          options={packageOptions}
+                          onFilter={onPackageFilter}
+                          loadingOptions={customPackages.isLoading}
+                        />
                       </DetailsViewSection>
                     </div>
                   </Pane>

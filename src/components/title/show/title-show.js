@@ -71,6 +71,7 @@ class TitleShow extends Component {
     location: ReactRouterPropTypes.location.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onPackageFilter: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
@@ -239,6 +240,8 @@ class TitleShow extends Component {
       fetchTitleCostPerUse,
       costPerUse,
       intl,
+      customPackages,
+      onPackageFilter,
     } = this.props;
     const {
       showCustomPackageModal,
@@ -485,6 +488,8 @@ class TitleShow extends Component {
                 <form>
                   <AddTitleToPackage
                     packageOptions={this.customPackageOptions}
+                    onPackageFilter={onPackageFilter}
+                    loadingOptions={customPackages.isLoading}
                   />
                 </form>
               );

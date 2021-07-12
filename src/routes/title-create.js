@@ -60,6 +60,10 @@ class TitleCreateRoute extends Component {
     }));
   };
 
+  onPackageFilter = (searchParam) => {
+    this.props.getCustomPackages(searchParam);
+  };
+
   render() {
     const {
       customPackages,
@@ -82,6 +86,7 @@ class TitleCreateRoute extends Component {
               request={createRequest}
               customPackages={customPackages}
               onSubmit={this.createTitle}
+              onPackageFilter={this.onPackageFilter}
               onCancel={onCancel}
               removeCreateRequests={removeCreateRequests}
             />
@@ -101,16 +106,15 @@ export default connect(
       customPackages: resolver.query('packages', {
         filter: { custom: true },
         count: 100,
-        pageSize: 100,
-      })
+      }),
     };
   }, {
     createTitle: attrs => Title.create(attrs),
     removeCreateRequests: () => Title.removeRequests('create'),
-    getCustomPackages: () => Package.query({
+    getCustomPackages: (query) => Package.query({
       filter: { custom: true },
+      q: query,
       count: 100,
-      pageSize: 100,
-    })
+    }),
   }
 )(TitleCreateRoute);

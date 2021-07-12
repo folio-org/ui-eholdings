@@ -1,19 +1,36 @@
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
+import debounce from 'lodash/debounce';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
 
-import { Selection } from '@folio/stripes/components';
+import {
+  Selection,
+  Icon,
+} from '@folio/stripes/components';
 
 function validate(value) {
   return value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
 }
 
-const PackageSelectField = ({ options }) => {
+const FILTER_DEBOUNCE_MS = 1000;
+
+const PackageSelectField = ({
+  options,
+  onFilter,
+  loadingOptions,
+}) => {
   const intl = useIntl();
+  const onFilterDebounced = debounce(onFilter, FILTER_DEBOUNCE_MS);
+
   const label = intl.formatMessage({ id: 'ui-eholdings.label.package' });
+
+  const handleFilter = (value) => {
+    onFilterDebounced(value);
+    return options;
+  };
 
   return (
     <div data-test-eholdings-package-select-field>
@@ -27,7 +44,10 @@ const PackageSelectField = ({ options }) => {
         placeholder={<FormattedMessage id="ui-eholdings.title.chooseAPackage" />}
         dataOptions={options.filter(option => option.label && !option.disabled)}
         required
+        onFilter={handleFilter}
         data-testid="package-select-field"
+        loading={loadingOptions}
+        loadingMessage={<Icon icon="spinner-ellipsis" />}
         tether={{
           constraints: [
             {
@@ -42,6 +62,8 @@ const PackageSelectField = ({ options }) => {
 };
 
 PackageSelectField.propTypes = {
+  loadingOptions: PropTypes.bool,
+  onFilter: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     disabled: PropTypes.bool,
     key: PropTypes.string.isRequired,
