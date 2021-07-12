@@ -127,7 +127,7 @@ const ResourceEditCustomTitle = ({
     if (proxyTypes.request.isResolved) {
       setInitialValues(getInitialValuesFromModel());
     }
-  }, [proxyTypes.request.isResolved, setInitialValues, getInitialValuesFromModel]);
+  }, [proxyTypes.request.isResolved]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRemoveResourceFromHoldings = () => {
     setFormValues({

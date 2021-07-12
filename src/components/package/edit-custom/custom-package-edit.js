@@ -102,7 +102,7 @@ const CustomPackageEdit = ({
   const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
   const [packageSelected, setPackageSelected] = useStateCallback(model.isSelected);
   const [formValues, setFormValues] = useStateCallback({});
-  const [initialValues, setInitialValues] = useState({});
+  const [initialValues, setInitialValues] = useState(getInitialValues());
   const [sections, {
     handleSectionToggle,
     toggleAllSections,
@@ -114,20 +114,18 @@ const CustomPackageEdit = ({
   });
   const editFormRef = useRef(null);
 
-  useEffect(() => {
-    setInitialValues(getInitialValues());
-  }, [getInitialValues]);
-
   if (model.isSelected !== initialValues.isSelected) {
     setInitialValues(getInitialValues());
     setPackageSelected(model.isSelected);
   }
 
+  const isProxyTypesLoaded = proxyTypes.request.isResolved && provider.data.isLoaded;
+
   useEffect(() => {
-    if (proxyTypes.request.isResolved && provider.data.isLoaded) {
+    if (isProxyTypesLoaded) {
       setInitialValues(getInitialValues());
     }
-  }, [getInitialValues, proxyTypes.request.isResolved, provider.data.isLoaded]);
+  }, [isProxyTypesLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (model.destroy.errors.length) {
     setShowSelectionModal(false);
