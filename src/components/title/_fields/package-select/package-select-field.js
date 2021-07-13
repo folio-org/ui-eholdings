@@ -71,4 +71,8 @@ PackageSelectField.propTypes = {
   })).isRequired,
 };
 
+PackageSelectField.defaultProps = {
+  loadingOptions: false,
+};
+
 export default PackageSelectField;

@@ -1,5 +1,8 @@
 import { Form } from 'react-final-form';
-import { fireEvent, render } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+} from '@testing-library/react';
 
 import wait from '../../../../../test/jest/helpers/wait';
 import PackageSelectField from './package-select-field';
@@ -24,7 +27,7 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
-      }]
+      }],
     });
 
     expect(getByText('ui-eholdings.label.package')).toBeDefined();
@@ -62,6 +65,7 @@ describe('Given PackageSelectField', () => {
     });
 
     const input = getByLabelText('stripes-components.selection.filterOptionsLabel');
+
     fireEvent.change(input, { target: { value: 'packageName' } });
     expect(mockOnFilter).not.toHaveBeenCalled();
     await wait(1100);
