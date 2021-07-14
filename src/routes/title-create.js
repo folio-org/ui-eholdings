@@ -106,6 +106,7 @@ export default connect(
       customPackages: resolver.query('packages', {
         filter: { custom: true },
         count: 100,
+        pageSize: 100,
       }),
     };
   }, {
@@ -115,6 +116,7 @@ export default connect(
       filter: { custom: true },
       q: query,
       count: 100,
+      pageSize: 100,
     }),
   }
 )(TitleCreateRoute);
