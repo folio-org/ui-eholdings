@@ -143,10 +143,6 @@ class PackageShow extends Component {
     });
   };
 
-  handleCoverageEdit = (isCoverageEditable) => {
-    this.setState({ isCoverageEditable });
-  };
-
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
@@ -379,6 +375,7 @@ class PackageShow extends Component {
       <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
         <Button
           data-test-eholdings-package-add-to-holdings-action
+          data-testid="add-to-holdings-dropdown-button"
           buttonStyle="dropdownItem fullWidth"
           onClick={() => {
             onToggle();
@@ -407,6 +404,7 @@ class PackageShow extends Component {
       <ModalFooter>
         <Button
           data-test-confirm-package-selection
+          data-testid="selection-modal-confirm-button"
           buttonStyle="primary"
           onClick={() => {
             addPackageToHoldings();
@@ -417,6 +415,7 @@ class PackageShow extends Component {
         </Button>
         <Button
           data-test-cancel-package-selection
+          data-testid="selection-modal-cancel-button"
           onClick={this.toggleSelectionConfirmationModal}
         >
           <FormattedMessage id="ui-eholdings.cancel" />

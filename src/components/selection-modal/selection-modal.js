@@ -43,6 +43,7 @@ const SelectionModal = ({
         <ModalFooter>
           <Button
             data-test-eholdings-deselection-confirmation-modal-yes
+            data-testid="selection-modal-confirm-button"
             buttonStyle="primary"
             disabled={modelIsUpdating}
             onClick={handelDeleteConfirmation}
@@ -51,6 +52,7 @@ const SelectionModal = ({
           </Button>
           <Button
             data-test-eholdings-deselection-confirmation-modal-no
+            data-testid="selection-modal-cancel-button"
             onClick={() => cancelSelectionToggle(change)}
           >
             {cancelButtonLabel}
