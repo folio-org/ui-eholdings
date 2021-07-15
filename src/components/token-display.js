@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-export default function TokenDisplay({ token, type }) {
+const TokenDisplay = ({
+  token,
+  type,
+}) => {
   if (token.value) {
     return (
       <div data-test-eholdings-details-token={type}>
@@ -18,9 +21,14 @@ export default function TokenDisplay({ token, type }) {
       </div>
     );
   }
-}
+};
 
 TokenDisplay.propTypes = {
-  token: PropTypes.object.isRequired,
+  token: PropTypes.shape({
+    prompt: PropTypes.string.isRequired,
+    value: PropTypes.string,
+  }).isRequired,
   type: PropTypes.string.isRequired
 };
+
+export default TokenDisplay;

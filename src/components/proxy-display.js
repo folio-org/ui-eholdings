@@ -6,12 +6,17 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
-export default function ProxyDisplay({ proxy, proxyTypes, inheritedProxyId }) {
+const ProxyDisplay = ({
+  proxy,
+  proxyTypes,
+  inheritedProxyId,
+}) => {
   const proxyTypesRecords = proxyTypes.resolver.state.proxyTypes.records;
 
   if (proxyTypesRecords && proxy && proxy.id && inheritedProxyId) {
     const proxyId = proxy.id;
-    const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
+    const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords)
+      .find(key => key.toLowerCase() === proxyId.toLowerCase())];
     const name = selectedValue.attributes.name;
     const checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
 
@@ -38,9 +43,15 @@ export default function ProxyDisplay({ proxy, proxyTypes, inheritedProxyId }) {
       <Icon icon="spinner-ellipsis" />
     );
   }
-}
+};
 
 ProxyDisplay.propTypes = {
-  proxy: PropTypes.object.isRequired,
-  proxyTypes: PropTypes.object.isRequired
+  inheritedProxyId: PropTypes.string,
+  proxy: PropTypes.shape({
+    id: PropTypes.string,
+    inherited: PropTypes.bool,
+  }).isRequired,
+  proxyTypes: PropTypes.object.isRequired,
 };
+
+export default ProxyDisplay;
