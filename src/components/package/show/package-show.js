@@ -1,15 +1,15 @@
-import { Component } from 'react';
+import {
+  useState,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 
-import update from 'lodash/fp/update';
-import set from 'lodash/fp/set';
-
 import {
-  withStripes,
+  useStripes,
   IfPermission,
 } from '@folio/stripes/core';
 
@@ -20,7 +20,6 @@ import {
   Button,
   Modal,
   ModalFooter,
-  expandAllFunction,
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
@@ -39,6 +38,7 @@ import HoldingStatus from './components/holding-status';
 import PackageInformation from './components/package-information';
 import PackageSettings from './components/package-settings';
 import CoverageSettings from './components/coverage-settings';
+import { useSectionToggle } from '../../../hooks';
 
 import {
   entityAuthorityTypes,
@@ -59,292 +59,114 @@ import {
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
 
-class PackageShow extends Component {
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    addPackageToHoldings: PropTypes.func.isRequired,
-    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-    fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
-    fetchPackageCostPerUse: PropTypes.func.isRequired,
-    fetchPackageTitles: PropTypes.func.isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    isDestroyed: PropTypes.bool,
-    isFreshlySaved: PropTypes.bool,
-    isNewRecord: PropTypes.bool,
-    loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
-    model: PropTypes.object.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    packageTitles: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    searchModal: PropTypes.node,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }).isRequired,
-    tagsModel: PropTypes.object,
-    toggleSelected: PropTypes.func.isRequired,
-    updateFolioTags: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  addPackageToHoldings: PropTypes.func.isRequired,
+  costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
+  fetchPackageCostPerUse: PropTypes.func.isRequired,
+  fetchPackageTitles: PropTypes.func.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
+  isDestroyed: PropTypes.bool,
+  isFreshlySaved: PropTypes.bool,
+  isNewRecord: PropTypes.bool,
+  loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  packageTitles: PropTypes.object.isRequired,
+  provider: PropTypes.object.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+  searchModal: PropTypes.node,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+  }).isRequired,
+  tagsModel: PropTypes.object,
+  toggleSelected: PropTypes.func.isRequired,
+  updateFolioTags: PropTypes.func.isRequired,
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showSelectionConfirmationModal: false,
-      showDeselectionModal: false,
-      packageSelected: this.props.model.isSelected,
-      packageAllowedToAddTitles: this.props.model.allowKbToAddTitles,
-      isCoverageEditable: false,
-      sections: {
-        packageShowTags: true,
-        packageShowHoldingStatus: true,
-        packageShowInformation: true,
-        packageShowSettings: true,
-        packageShowCoverageSettings: true,
-        packageShowAgreements: true,
-        packageShowTitles: true,
-        packageShowNotes: true,
-        packageShowUsageConsolidation: false,
-      },
-    };
-  }
+const PackageShow = ({
+  accessStatusTypes,
+  addPackageToHoldings,
+  costPerUse,
+  fetchCostPerUsePackageTitles,
+  fetchPackageCostPerUse,
+  fetchPackageTitles,
+  isDestroyed,
+  isFreshlySaved,
+  isNewRecord,
+  loadMoreCostPerUsePackageTitles,
+  model,
+  onEdit,
+  packageTitles,
+  provider,
+  proxyTypes,
+  searchModal,
+  tagsModel,
+  toggleSelected,
+  updateFolioTags,
+}) => {
+  const stripes = useStripes();
+  const intl = useIntl();
+  const [showSelectionConfirmationModal, setShowSelectionConfirmationModal] = useState(false);
+  const [showDeselectionModal, setShowDeselectionModal] = useState(false);
+  const [packageSelected, setPackageSelected] = useState(model.isSelected);
+  const [packageAllowedToAddTitles, setPackageAllowedToAddTitles] = useState(model.allowKbToAddTitles);
+  const [isCoverageEditable, setIsCoverageEditable] = useState(false);
+  const [sections, {
+    handleSectionToggle,
+    handleExpandAll,
+    toggleAllSections,
+  }] = useSectionToggle({
+    packageShowTags: true,
+    packageShowHoldingStatus: true,
+    packageShowInformation: true,
+    packageShowSettings: true,
+    packageShowCoverageSettings: true,
+    packageShowAgreements: true,
+    packageShowTitles: true,
+    packageShowNotes: true,
+    packageShowUsageConsolidation: false,
+  });
 
-  static getDerivedStateFromProps(nextProps) {
-    const { model: { allowKbToAddTitles, isSaving, isSelected } } = nextProps;
-    if (!isSaving) {
-      return {
-        packageSelected: isSelected,
-        packageAllowedToAddTitles: allowKbToAddTitles
-      };
+  useEffect(() => {
+    if (model.isSaving) {
+      setPackageSelected(model.isSelected);
+      setPackageAllowedToAddTitles(model.allowKbToAddTitles);
     }
-    return null;
-  }
+  }, [model.isSaving]);
 
-  handleSelectionToggle = () => {
-    this.setState({ packageSelected: !this.props.model.isSelected });
-    if (this.props.model.isSelected) {
-      this.setState({ showDeselectionModal: true });
+  const handleSelectionToggle = () => {
+    setPackageSelected(!model.isSelected);
+
+    if (model.isSelected) {
+      setShowDeselectionModal(true);
     } else {
-      this.setState({ packageAllowedToAddTitles: true });
-      this.props.toggleSelected();
+      setPackageAllowedToAddTitles(true);
+      toggleSelected();
     }
   };
 
-  commitSelectionToggle = () => {
-    this.setState({ showDeselectionModal: false });
-    this.props.toggleSelected();
+  const commitSelectionToggle = () => {
+    setShowDeselectionModal(false);
+    toggleSelected();
   };
 
-  cancelSelectionToggle = () => {
-    this.setState({
-      showDeselectionModal: false,
-      packageSelected: this.props.model.isSelected
-    });
+  const cancelSelectionToggle = () => {
+    setShowDeselectionModal(false);
+    setPackageSelected(model.isSelected);
   };
 
-  handleSectionToggle = ({ id }) => {
-    const next = update(`sections.${id}`, value => !value, this.state);
-    this.setState(next);
-  }
-
-  handleExpandAll = (sections) => {
-    const next = set('sections', sections, this.state);
-    this.setState(next);
-  }
-
-  hasEditPermission = () => {
-    const { stripes } = this.props;
-    const { packageSelected } = this.state;
-
+  const hasEditPermission = () => {
     const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
 
     return !!(hasEditPerm && packageSelected);
   };
 
-  getActionMenu = () => {
-    const {
-      stripes,
-      model: { isCustom },
-      onEdit,
-      model
-    } = this.props;
-
-    const { packageSelected } = this.state;
-
-    const requiredRemovingPermission = isCustom
-      ? TITLES_PACKAGES_CREATE_DELETE_PERMISSION
-      : PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION;
-
-    const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
-    const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
-    const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
-    const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
-    const canEdit = this.hasEditPermission();
-    const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
-
-    if (!isMenuNeeded) return null;
-
-    return ({ onToggle }) => (
-      <>
-        {canEdit &&
-          <Button
-            buttonStyle="dropdownItem fullWidth"
-            onClick={onEdit}
-            data-test-eholdings-package-edit-link
-          >
-            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>}
-        {isRemoveButtonNeeded && this.renderRemoveFromHoldingsButton(onToggle)}
-        {isAddButtonNeeded && this.renderAddToHoldingsButton(onToggle)}
-      </>
-    );
-  };
-
-  getBodyContent() {
-    const {
-      model,
-      tagsModel,
-      updateFolioTags,
-      stripes,
-      fetchPackageCostPerUse,
-      fetchCostPerUsePackageTitles,
-      loadMoreCostPerUsePackageTitles,
-      costPerUse,
-      proxyTypes,
-      provider,
-      accessStatusTypes,
-    } = this.props;
-
-    const {
-      sections,
-      packageSelected,
-      packageAllowedToAddTitles,
-    } = this.state;
-
-    return (
-      <>
-        <HoldingStatus
-          isOpen={sections.packageShowHoldingStatus}
-          onToggle={this.handleSectionToggle}
-          onAddToHoldings={this.toggleSelectionConfirmationModal}
-          model={model}
-        />
-
-        <PackageInformation
-          isOpen={sections.packageShowInformation}
-          onToggle={this.handleSectionToggle}
-          model={model}
-        />
-
-        <TagsAccordion
-          id="packageShowTags"
-          model={model}
-          onToggle={this.handleSectionToggle}
-          open={sections.packageShowTags}
-          tagsModel={tagsModel}
-          updateFolioTags={updateFolioTags}
-        />
-
-        <PackageSettings
-          isOpen={sections.packageShowSettings}
-          onToggle={this.handleSectionToggle}
-          model={model}
-          proxyTypes={proxyTypes}
-          provider={provider}
-          accessStatusTypes={accessStatusTypes}
-          packageAllowedToAddTitles={packageAllowedToAddTitles}
-          packageSelected={packageSelected}
-        />
-
-        <CoverageSettings
-          isOpen={sections.packageShowCoverageSettings}
-          onToggle={this.handleSectionToggle}
-          packageSelected={packageSelected}
-          customCoverage={model.customCoverage}
-        />
-
-        <AgreementsAccordion
-          id="packageShowAgreements"
-          stripes={stripes}
-          refId={model.id}
-          refType={entityAuthorityTypes.PACKAGE}
-          isOpen={sections.packageShowAgreements}
-          onToggle={this.handleSectionToggle}
-          refName={model.name}
-        />
-
-        <NotesSmartAccordion
-          id="packageShowNotes"
-          open={sections.packageShowNotes}
-          onToggle={this.handleSectionToggle}
-          domainName={DOMAIN_NAME}
-          entityName={model.name}
-          entityType={entityTypes.PACKAGE}
-          entityId={model.id}
-          pathToNoteCreate={paths.NOTE_CREATE}
-          pathToNoteDetails={paths.NOTES}
-        />
-
-        {packageSelected && (
-          <UsageConsolidationAccordion
-            id="packageShowUsageConsolidation"
-            isOpen={sections.packageShowUsageConsolidation}
-            onToggle={this.handleSectionToggle}
-            onFilterSubmit={fetchPackageCostPerUse}
-            onViewTitles={fetchCostPerUsePackageTitles}
-            onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
-            recordType={entityTypes.PACKAGE}
-            recordId={model.id}
-            recordName={model.name}
-            costPerUseData={costPerUse}
-            isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
-          />
-        )}
-      </>
-    );
-  }
-
-  renderTitlesListItem = (item) => {
-    return (
-      <TitleListItem
-        item={item.attributes}
-        link={item.attributes && `/eholdings/resources/${item.id}`}
-        showSelected
-        headingLevel='h4'
-      />
-    );
-  }
-
-  renderTitlesList = (scrollable) => {
-    const {
-      packageTitles,
-      fetchPackageTitles,
-    } = this.props;
-
-    return (
-      <QuerySearchList
-        type="package-titles"
-        fetch={fetchPackageTitles}
-        collection={packageTitles}
-        scrollable={scrollable}
-        itemHeight={ITEM_HEIGHT}
-        notFoundMessage={
-          <QueryNotFound type="package-titles">
-            <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>
-        }
-        renderItem={this.renderTitlesListItem}
-      />
-    );
-  }
-
-  renderRemoveFromHoldingsButton(onToggle) {
-    const {
-      model: { isCustom },
-    } = this.props;
-
-    const translationId = isCustom
+  const renderRemoveFromHoldingsButton = (onToggle) => {
+    const translationId = model.isCustom
       ? 'ui-eholdings.package.deletePackage'
       : 'ui-eholdings.package.removeFromHoldings';
 
@@ -354,20 +176,20 @@ class PackageShow extends Component {
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          this.handleSelectionToggle();
+          handleSelectionToggle();
         }}
       >
         <FormattedMessage id={translationId} />
       </Button>
     );
-  }
+  };
 
-  renderAddToHoldingsButton(onToggle) {
-    const {
-      model: { isPartiallySelected },
-    } = this.props;
+  const toggleSelectionConfirmationModal = () => {
+    setShowSelectionConfirmationModal(!showSelectionConfirmationModal);
+  };
 
-    const translationIdEnding = isPartiallySelected
+  const renderAddToHoldingsButton = (onToggle) => {
+    const translationIdEnding = model.isPartiallySelected
       ? 'addAllToHoldings'
       : 'addPackageToHoldings';
 
@@ -379,27 +201,47 @@ class PackageShow extends Component {
           buttonStyle="dropdownItem fullWidth"
           onClick={() => {
             onToggle();
-            this.toggleSelectionConfirmationModal();
+            toggleSelectionConfirmationModal();
           }}
         >
           <FormattedMessage id={`ui-eholdings.${translationIdEnding}`} />
         </Button>
       </IfPermission>
     );
-  }
+  };
 
-  toggleSelectionConfirmationModal = () => {
-    this.setState(({ showSelectionConfirmationModal }) => ({
-      showSelectionConfirmationModal: !showSelectionConfirmationModal,
-    }));
-  }
+  const getActionMenu = () => {
+    const requiredRemovingPermission = model.isCustom
+      ? TITLES_PACKAGES_CREATE_DELETE_PERMISSION
+      : PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION;
 
-  renderSelectionConfirmationModal() {
-    const {
-      addPackageToHoldings,
-      intl,
-    } = this.props;
+    const hasRequiredRemovingPermission = stripes.hasPerm(requiredRemovingPermission);
+    const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
+    const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
+    const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
+    const canEdit = hasEditPermission();
+    const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
 
+    if (!isMenuNeeded) return null;
+
+    // eslint-disable-next-line react/prop-types
+    return ({ onToggle }) => (
+      <>
+        {canEdit &&
+          <Button
+            buttonStyle="dropdownItem fullWidth"
+            onClick={onEdit}
+            data-test-eholdings-package-edit-link
+          >
+            <FormattedMessage id="ui-eholdings.actionMenu.edit" />
+          </Button>}
+        {isRemoveButtonNeeded && renderRemoveFromHoldingsButton(onToggle)}
+        {isAddButtonNeeded && renderAddToHoldingsButton(onToggle)}
+      </>
+    );
+  };
+
+  const renderSelectionConfirmationModal = () => {
     const footer = (
       <ModalFooter>
         <Button
@@ -408,7 +250,7 @@ class PackageShow extends Component {
           buttonStyle="primary"
           onClick={() => {
             addPackageToHoldings();
-            this.toggleSelectionConfirmationModal();
+            toggleSelectionConfirmationModal();
           }}
         >
           <FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />
@@ -416,7 +258,7 @@ class PackageShow extends Component {
         <Button
           data-test-cancel-package-selection
           data-testid="selection-modal-cancel-button"
-          onClick={this.toggleSelectionConfirmationModal}
+          onClick={toggleSelectionConfirmationModal}
         >
           <FormattedMessage id="ui-eholdings.cancel" />
         </Button>
@@ -435,140 +277,229 @@ class PackageShow extends Component {
         <SafeHTMLMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
       </Modal>
     );
-  }
-
-  toggleAllSections = (expand) => {
-    this.setState((curState) => {
-      const sections = expandAllFunction(curState.sections, expand);
-      return { sections };
-    });
   };
 
-  render() {
-    const {
-      model,
-      searchModal,
-      isFreshlySaved,
-      isNewRecord,
-      isDestroyed,
-      intl,
-      packageTitles,
-    } = this.props;
-
-    const {
-      showDeselectionModal,
-      isCoverageEditable,
-      sections,
-      showSelectionConfirmationModal,
-    } = this.state;
-
-    const modalMessage = model.isCustom ?
-      {
-        header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
-        label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
-        body: <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />,
-        buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
-        buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
-      } :
-      {
-        header: <FormattedMessage id="ui-eholdings.package.modal.header" />,
-        label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header' }),
-        body: <FormattedMessage id="ui-eholdings.package.modal.body" />,
-        buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
-        buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
-      };
-
-    const toasts = [
-      ...processErrors(model),
-    ];
-
-    // if coming from creating a new custom package, show a success toast
-    if (isNewRecord) {
-      toasts.push({
-        id: `success-package-creation-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
-        type: 'success'
-      });
-    }
-
-    // if coming from destroying a custom or managed title
-    // from within custom-package, show a success toast
-    if (isDestroyed) {
-      toasts.push({
-        id: `success-resource-destruction-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
-        type: 'success'
-      });
-    }
-
-    // if coming from saving edits to the package, show a success toast
-    if (isFreshlySaved) {
-      toasts.push({
-        id: `success-package-saved-${model.id}`,
-        message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
-        type: 'success'
-      });
-    }
-
+  const getBodyContent = () => {
     return (
-      <KeyShortcutsWrapper
-        toggleAllSections={this.toggleAllSections}
-        onEdit={this.props.onEdit}
-        isPermission={this.hasEditPermission()}
-      >
-        <Toaster
-          toasts={toasts}
-          position="bottom"
-        />
-        <DetailsView
-          type="package"
+      <>
+        <HoldingStatus
+          isOpen={sections.packageShowHoldingStatus}
+          onToggle={handleSectionToggle}
+          onAddToHoldings={toggleSelectionConfirmationModal}
           model={model}
-          key={model.id}
-          paneTitle={model.name}
-          actionMenu={this.getActionMenu()}
-          sections={sections}
-          handleExpandAll={this.handleExpandAll}
-          searchModal={searchModal}
-          bodyContent={this.getBodyContent()}
-          listType={listTypes.TITLES}
-          listSectionId="packageShowTitles"
-          onListToggle={this.handleSectionToggle}
-          resultsLength={packageTitles.totalResults}
-          renderList={this.renderTitlesList}
-          ariaRole="tablist"
-          bodyAriaRole="tab"
         />
-        <Modal
-          open={showDeselectionModal}
-          size="small"
-          label={modalMessage.header}
-          aria-label={modalMessage.label}
-          id="eholdings-package-confirmation-modal"
-          footer={(
-            <ModalFooter>
-              <Button
-                data-test-eholdings-package-deselection-confirmation-modal-yes
-                buttonStyle="primary"
-                onClick={this.commitSelectionToggle}
-              >
-                {modalMessage.buttonConfirm}
-              </Button>
-              <Button
-                data-test-eholdings-package-deselection-confirmation-modal-no
-                onClick={this.cancelSelectionToggle}
-              >
-                {modalMessage.buttonCancel}
-              </Button>
-            </ModalFooter>
-          )}
-        >
-          {modalMessage.body}
-        </Modal>
-        {showSelectionConfirmationModal && this.renderSelectionConfirmationModal()}
-        <NavigationModal when={isCoverageEditable} />
-      </KeyShortcutsWrapper>
-    );
-  }
-}
 
-export default withStripes(injectIntl(PackageShow));
+        <PackageInformation
+          isOpen={sections.packageShowInformation}
+          onToggle={handleSectionToggle}
+          model={model}
+        />
+
+        <TagsAccordion
+          id="packageShowTags"
+          model={model}
+          onToggle={handleSectionToggle}
+          open={sections.packageShowTags}
+          tagsModel={tagsModel}
+          updateFolioTags={updateFolioTags}
+        />
+
+        <PackageSettings
+          isOpen={sections.packageShowSettings}
+          onToggle={handleSectionToggle}
+          model={model}
+          proxyTypes={proxyTypes}
+          provider={provider}
+          accessStatusTypes={accessStatusTypes}
+          packageAllowedToAddTitles={packageAllowedToAddTitles}
+          packageSelected={packageSelected}
+        />
+
+        <CoverageSettings
+          isOpen={sections.packageShowCoverageSettings}
+          onToggle={handleSectionToggle}
+          packageSelected={packageSelected}
+          customCoverage={model.customCoverage}
+        />
+
+        <AgreementsAccordion
+          id="packageShowAgreements"
+          stripes={stripes}
+          refId={model.id}
+          refType={entityAuthorityTypes.PACKAGE}
+          isOpen={sections.packageShowAgreements}
+          onToggle={handleSectionToggle}
+          refName={model.name}
+        />
+
+        <NotesSmartAccordion
+          id="packageShowNotes"
+          open={sections.packageShowNotes}
+          onToggle={handleSectionToggle}
+          domainName={DOMAIN_NAME}
+          entityName={model.name}
+          entityType={entityTypes.PACKAGE}
+          entityId={model.id}
+          pathToNoteCreate={paths.NOTE_CREATE}
+          pathToNoteDetails={paths.NOTES}
+        />
+
+        {packageSelected && (
+          <UsageConsolidationAccordion
+            id="packageShowUsageConsolidation"
+            isOpen={sections.packageShowUsageConsolidation}
+            onToggle={handleSectionToggle}
+            onFilterSubmit={fetchPackageCostPerUse}
+            onViewTitles={fetchCostPerUsePackageTitles}
+            onLoadMoreTitles={loadMoreCostPerUsePackageTitles}
+            recordType={entityTypes.PACKAGE}
+            recordId={model.id}
+            recordName={model.name}
+            costPerUseData={costPerUse}
+            isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
+          />
+        )}
+      </>
+    );
+  };
+
+  const renderTitlesListItem = (item) => {
+    return (
+      <TitleListItem
+        item={item.attributes}
+        link={item.attributes && `/eholdings/resources/${item.id}`}
+        showSelected
+        headingLevel='h4'
+      />
+    );
+  };
+
+  const renderTitlesList = (scrollable) => {
+    return (
+      <QuerySearchList
+        type="package-titles"
+        fetch={fetchPackageTitles}
+        collection={packageTitles}
+        scrollable={scrollable}
+        itemHeight={ITEM_HEIGHT}
+        notFoundMessage={
+          <QueryNotFound type="package-titles">
+            <FormattedMessage id="ui-eholdings.notFound" />
+          </QueryNotFound>
+        }
+        renderItem={renderTitlesListItem}
+      />
+    );
+  };
+
+  const modalMessage = model.isCustom
+    ? {
+      header: <FormattedMessage id="ui-eholdings.package.modal.header.isCustom" />,
+      label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header.isCustom' }),
+      body: <FormattedMessage id="ui-eholdings.package.modal.body.isCustom" />,
+      buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm.isCustom" />,
+      buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel.isCustom" />
+    }
+    : {
+      header: <FormattedMessage id="ui-eholdings.package.modal.header" />,
+      label: intl.formatMessage({ id: 'ui-eholdings.package.modal.header' }),
+      body: <FormattedMessage id="ui-eholdings.package.modal.body" />,
+      buttonConfirm: <FormattedMessage id="ui-eholdings.package.modal.buttonConfirm" />,
+      buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
+    };
+
+  const toasts = [
+    ...processErrors(model),
+  ];
+
+  // if coming from creating a new custom package, show a success toast
+  if (isNewRecord) {
+    toasts.push({
+      id: `success-package-creation-${model.id}`,
+      message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
+      type: 'success'
+    });
+  }
+
+  // if coming from destroying a custom or managed title
+  // from within custom-package, show a success toast
+  if (isDestroyed) {
+    toasts.push({
+      id: `success-resource-destruction-${model.id}`,
+      message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
+      type: 'success'
+    });
+  }
+
+  // if coming from saving edits to the package, show a success toast
+  if (isFreshlySaved) {
+    toasts.push({
+      id: `success-package-saved-${model.id}`,
+      message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
+      type: 'success'
+    });
+  }
+
+  return (
+    <KeyShortcutsWrapper
+      toggleAllSections={toggleAllSections}
+      onEdit={onEdit}
+      isPermission={hasEditPermission()}
+    >
+      <Toaster
+        toasts={toasts}
+        position="bottom"
+      />
+      <DetailsView
+        type="package"
+        model={model}
+        key={model.id}
+        paneTitle={model.name}
+        actionMenu={getActionMenu()}
+        sections={sections}
+        handleExpandAll={handleExpandAll}
+        searchModal={searchModal}
+        bodyContent={getBodyContent()}
+        listType={listTypes.TITLES}
+        listSectionId="packageShowTitles"
+        onListToggle={handleSectionToggle}
+        resultsLength={packageTitles.totalResults}
+        renderList={renderTitlesList}
+        ariaRole="tablist"
+        bodyAriaRole="tab"
+      />
+      <Modal
+        open={showDeselectionModal}
+        size="small"
+        label={modalMessage.header}
+        aria-label={modalMessage.label}
+        id="eholdings-package-confirmation-modal"
+        footer={(
+          <ModalFooter>
+            <Button
+              data-test-eholdings-package-deselection-confirmation-modal-yes
+              buttonStyle="primary"
+              onClick={commitSelectionToggle}
+            >
+              {modalMessage.buttonConfirm}
+            </Button>
+            <Button
+              data-test-eholdings-package-deselection-confirmation-modal-no
+              onClick={cancelSelectionToggle}
+            >
+              {modalMessage.buttonCancel}
+            </Button>
+          </ModalFooter>
+        )}
+      >
+        {modalMessage.body}
+      </Modal>
+      {showSelectionConfirmationModal && renderSelectionConfirmationModal()}
+      <NavigationModal when={isCoverageEditable} />
+    </KeyShortcutsWrapper>
+  );
+};
+
+PackageShow.propTypes = propTypes;
+
+export default PackageShow;

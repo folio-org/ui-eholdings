@@ -2,19 +2,17 @@ import {
   fireEvent,
   render,
   cleanup,
+  waitFor,
 } from '@testing-library/react';
 
 import { createMemoryHistory } from 'history';
-import noop from 'lodash/noop';
 
 import Harness from '../../../../test/jest/helpers/harness';
 
 import PackageShow from './package-show';
 
 const history = createMemoryHistory();
-const historyReplaceSpy = jest.spyOn(history, 'replace');
 
-//jest.mock('../../tags/tags-accordion', () => () => (<div>Tags accordion</div>));
 jest.mock('../../../features/agreements-accordion', () => () => (<div>Agreements accordion</div>));
 jest.mock('../../../features/usage-consolidation-accordion', () => () => (<div>UsageConsolidation accordion</div>));
 jest.mock('@folio/stripes/smart-components', () => ({
@@ -232,6 +230,27 @@ describe('Given PackageShow', () => {
         fireEvent.click(getByText('ui-eholdings.package.modal.buttonConfirm'));
 
         expect(mockToggleSelected).toBeCalledTimes(1);
+      });
+    });
+
+    describe('when cancelling package deselection', () => {
+      it('should deselection modal', async () => {
+        const {
+          getByText,
+          queryByText,
+        } = renderPackageShow({
+          model: {
+            ...testModel,
+            isCustom: false,
+          },
+        });
+
+        fireEvent.click(getByText('ui-eholdings.package.removeFromHoldings'));
+        fireEvent.click(getByText('ui-eholdings.package.modal.buttonCancel'));
+
+        await waitFor(() => {
+          expect(queryByText('ui-eholdings.package.modal.header')).toBeNull();
+        });
       });
     });
   });
