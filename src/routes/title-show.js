@@ -164,6 +164,7 @@ export default connect(
       customPackages: resolver.query('packages', {
         filter: { custom: true },
         count: 100,
+        pageSize: 100,
       }),
       costPerUse: selectPropFromData(store, 'costPerUse'),
     };
@@ -174,6 +175,7 @@ export default connect(
       filter: { custom: true },
       q: query,
       count: 100,
+      pageSize: 100,
     }),
     getCostPerUse: getCostPerUseAction,
     clearCostPerUseData: clearCostPerUseDataAction,
