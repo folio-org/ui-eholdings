@@ -14,6 +14,7 @@
 * Add tests for AgreementsList component. (UIEH-1055)
 * Choose custom package - batch load packages. (UIEH-962)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
+* Add tests for InternalLink, ProxyDisplay, shouldFocus, TokenDisplay, eHoldings components. (UIEH-1054)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
