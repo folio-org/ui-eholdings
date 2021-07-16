@@ -48,7 +48,14 @@ function SelectionStatusMessage({ model }) {
   if (model.isInFlight) {
     return <Icon icon="spinner-ellipsis" />;
   } else {
-    return <Headline margin="none"><FormattedMessage {...messageFor(model)} /></Headline>;
+    return (
+      <Headline
+        margin="none"
+        data-testid="selection-status-message"
+      >
+        <FormattedMessage {...messageFor(model)} />
+      </Headline>
+    );
   }
 }
 
@@ -62,6 +69,7 @@ function SelectionStatusButton({ model, onAddToHoldings }) {
         disabled={model.isInFlight}
         onClick={onAddToHoldings}
         data-test-eholdings-package-add-to-holdings-button
+        data-testid="add-to-holdings-button"
       >
         <FormattedMessage id={`ui-eholdings.${messageId}`} />
       </Button>

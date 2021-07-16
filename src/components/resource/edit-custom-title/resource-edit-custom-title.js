@@ -61,7 +61,7 @@ const ResourceEditCustomTitle = ({
   accessStatusTypes,
   onCancel,
   showSelectionModal,
-  handelDeleteConfirmation,
+  handleDeleteConfirmation,
   handleOnSubmit,
   getFooter,
   getSectionHeader,
@@ -254,7 +254,7 @@ const ResourceEditCustomTitle = ({
             <SelectionModal
               showSelectionModal={showSelectionModal}
               modelIsUpdating={model.destroy.isPending}
-              handelDeleteConfirmation={handelDeleteConfirmation}
+              handleDeleteConfirmation={handleDeleteConfirmation}
               cancelSelectionToggle={cancelSelectionToggle}
               change={change}
               label={intl.formatMessage({ id: 'ui-eholdings.resource.modal.header' })}
