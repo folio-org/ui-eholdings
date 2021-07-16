@@ -397,7 +397,7 @@ const PackageShow = ({
     toasts.push({
       id: `success-package-creation-${model.id}`,
       message: <FormattedMessage id="ui-eholdings.package.toast.isNewRecord" />,
-      type: 'success'
+      type: 'success',
     });
   }
 
@@ -407,7 +407,7 @@ const PackageShow = ({
     toasts.push({
       id: `success-resource-destruction-${model.id}`,
       message: <FormattedMessage id="ui-eholdings.package.toast.isDestroyed" />,
-      type: 'success'
+      type: 'success',
     });
   }
 
@@ -416,7 +416,7 @@ const PackageShow = ({
     toasts.push({
       id: `success-package-saved-${model.id}`,
       message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
-      type: 'success'
+      type: 'success',
     });
   }
 
