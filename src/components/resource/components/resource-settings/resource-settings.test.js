@@ -58,6 +58,17 @@ describe('Given ResourceSettings', () => {
           request: {
             isResolved: true,
           },
+          resolver: {
+            state: {
+              proxyTypes: {
+                records: {
+                  EZProxy: {
+                    id: 'EZPoxy',
+                  },
+                },
+              },
+            },
+          },
         }}
         resourceSelected
         model={defaultModel}

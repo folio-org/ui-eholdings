@@ -24,6 +24,17 @@ describe('Given ProviderSettings', () => {
           request: {
             isResolved: true,
           },
+          resolver: {
+            state: {
+              proxyTypes: {
+                records: {
+                  EZProxy: {
+                    id: 'EZPoxy',
+                  },
+                },
+              },
+            },
+          },
         }}
         rootProxy={{
           request: {

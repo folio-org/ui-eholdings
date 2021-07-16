@@ -50,7 +50,7 @@ const ProviderSettings = ({
       : (
         <ProxyDisplay
           proxy={model.proxy}
-          proxyTypes={proxyTypes}
+          proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
           inheritedProxyId={rootProxy.data.attributes.proxyTypeId}
         />
       );
