@@ -18,14 +18,11 @@ import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import {
   Button,
-  Modal,
-  ModalFooter,
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
 import QuerySearchList from '../../query-search-list';
 import TitleListItem from '../../title-list-item';
-import NavigationModal from '../../navigation-modal';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
 import {
@@ -38,6 +35,7 @@ import HoldingStatus from './components/holding-status';
 import PackageInformation from './components/package-information';
 import PackageSettings from './components/package-settings';
 import CoverageSettings from './components/coverage-settings';
+import SelectionModal from '../../selection-modal';
 import { useSectionToggle } from '../../../hooks';
 
 import {
@@ -114,7 +112,6 @@ const PackageShow = ({
   const [showDeselectionModal, setShowDeselectionModal] = useState(false);
   const [packageSelected, setPackageSelected] = useState(model.isSelected);
   const [packageAllowedToAddTitles, setPackageAllowedToAddTitles] = useState(model.allowKbToAddTitles);
-  const [isCoverageEditable, setIsCoverageEditable] = useState(false);
   const [sections, {
     handleSectionToggle,
     handleExpandAll,
@@ -136,6 +133,7 @@ const PackageShow = ({
       setPackageSelected(model.isSelected);
       setPackageAllowedToAddTitles(model.allowKbToAddTitles);
     }
+    // eslint-disable-next-line react/prop-types
   }, [model.isSaving]);
 
   const handleSelectionToggle = () => {
@@ -241,41 +239,23 @@ const PackageShow = ({
     );
   };
 
-  const renderSelectionConfirmationModal = () => {
-    const footer = (
-      <ModalFooter>
-        <Button
-          data-test-confirm-package-selection
-          data-testid="selection-modal-confirm-button"
-          buttonStyle="primary"
-          onClick={() => {
-            addPackageToHoldings();
-            toggleSelectionConfirmationModal();
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />
-        </Button>
-        <Button
-          data-test-cancel-package-selection
-          data-testid="selection-modal-cancel-button"
-          onClick={toggleSelectionConfirmationModal}
-        >
-          <FormattedMessage id="ui-eholdings.cancel" />
-        </Button>
-      </ModalFooter>
-    );
+  const handleSelectionConfirmation = () => {
+    addPackageToHoldings();
+    toggleSelectionConfirmationModal();
+  };
 
+  const renderSelectionConfirmationModal = () => {
     return (
-      <Modal
-        open
+      <SelectionModal
+        showSelectionModal
         label={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.label" />}
-        aria-label={intl.formatMessage({ id: 'ui-eholdings.selectPackage.confirmationModal.label' })}
-        footer={footer}
-        size="small"
-        id="package-selection-confirmation-modal"
+        handleDeleteConfirmation={handleSelectionConfirmation}
+        cancelSelectionToggle={toggleSelectionConfirmationModal}
+        cancelButtonLabel={<FormattedMessage id="ui-eholdings.cancel" />}
+        confirmButtonLabel={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />}
       >
         <SafeHTMLMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
-      </Modal>
+      </SelectionModal>
     );
   };
 
@@ -468,34 +448,17 @@ const PackageShow = ({
         ariaRole="tablist"
         bodyAriaRole="tab"
       />
-      <Modal
-        open={showDeselectionModal}
-        size="small"
+      <SelectionModal
+        showSelectionModal={showDeselectionModal}
+        handleDeleteConfirmation={commitSelectionToggle}
+        cancelSelectionToggle={cancelSelectionToggle}
         label={modalMessage.header}
-        aria-label={modalMessage.label}
-        id="eholdings-package-confirmation-modal"
-        footer={(
-          <ModalFooter>
-            <Button
-              data-test-eholdings-package-deselection-confirmation-modal-yes
-              buttonStyle="primary"
-              onClick={commitSelectionToggle}
-            >
-              {modalMessage.buttonConfirm}
-            </Button>
-            <Button
-              data-test-eholdings-package-deselection-confirmation-modal-no
-              onClick={cancelSelectionToggle}
-            >
-              {modalMessage.buttonCancel}
-            </Button>
-          </ModalFooter>
-        )}
+        cancelButtonLabel={modalMessage.buttonCancel}
+        confirmButtonLabel={modalMessage.buttonConfirm}
       >
         {modalMessage.body}
-      </Modal>
+      </SelectionModal>
       {showSelectionConfirmationModal && renderSelectionConfirmationModal()}
-      <NavigationModal when={isCoverageEditable} />
     </KeyShortcutsWrapper>
   );
 };

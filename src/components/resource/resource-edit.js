@@ -63,7 +63,7 @@ export default class ResourceEdit extends Component {
       );
   }
 
-  handelDeleteConfirmation = () => {
+  handleDeleteConfirmation = () => {
     this.commitSelectionToggle(this.state.formValues);
   }
 
@@ -80,7 +80,7 @@ export default class ResourceEdit extends Component {
     return (
       <View
         closeSelectionModal={this.closeSelectionModal}
-        handelDeleteConfirmation={this.handelDeleteConfirmation}
+        handleDeleteConfirmation={this.handleDeleteConfirmation}
         showSelectionModal={this.state.showSelectionModal}
         commitSelectionToggle={this.commitSelectionToggle}
         getSectionHeader={this.getSectionHeader}
