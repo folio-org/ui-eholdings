@@ -86,8 +86,8 @@ const PackageSettings = ({
             ? (
               <ProxyDisplay
                 proxy={model.proxy}
-                proxyTypes={proxyTypes}
-                inheritedProxyId={provider.proxy && provider.proxy.id}
+                proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
+                inheritedProxyId={provider?.proxy?.id || ''}
               />
             )
             : <Icon icon="spinner-ellipsis" />

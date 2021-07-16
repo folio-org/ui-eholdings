@@ -62,6 +62,17 @@ describe('Given PackageSettings', () => {
           request: {
             isResolved: true,
           },
+          resolver: {
+            state: {
+              proxyTypes: {
+                records: {
+                  EZProxy: {
+                    id: 'EZPoxy',
+                  },
+                },
+              },
+            },
+          },
         }}
         accessStatusTypes={{
           items: {
@@ -71,7 +82,7 @@ describe('Given PackageSettings', () => {
                 name: 'access type',
               },
             }],
-          }
+          },
         }}
         {...props}
       />

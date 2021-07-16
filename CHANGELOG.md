@@ -14,6 +14,7 @@
 * Add tests for AgreementsList component. (UIEH-1055)
 * Choose custom package - batch load packages. (UIEH-962)
 * Add tests for PackageShow component. (UIEH-1094)
+* Fix bug with root proxy selection. (UIEH-1143)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
