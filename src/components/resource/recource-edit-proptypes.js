@@ -7,7 +7,7 @@ export default {
   closeSelectionModal: PropTypes.func.isRequired,
   getFooter: PropTypes.func.isRequired,
   getSectionHeader: PropTypes.func.isRequired,
-  handelDeleteConfirmation: PropTypes.func.isRequired,
+  handleDeleteConfirmation: PropTypes.func.isRequired,
   handleOnSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,

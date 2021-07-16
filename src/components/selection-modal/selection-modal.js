@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import noop from 'lodash/noop';
 
 import {
   Button,
@@ -9,22 +10,27 @@ import {
 const propTypes = {
   cancelButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
   cancelSelectionToggle: PropTypes.func.isRequired,
-  change: PropTypes.object.isRequired,
+  change: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
   confirmButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
-  handelDeleteConfirmation: PropTypes.func.isRequired,
+  handleDeleteConfirmation: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  modelIsUpdating: PropTypes.bool.isRequired,
+  modelIsUpdating: PropTypes.bool,
   showSelectionModal: PropTypes.bool.isRequired,
+};
+
+const defaultProps = {
+  modelIsUpdating: false,
+  change: noop,
 };
 
 const SelectionModal = ({
   showSelectionModal,
   modelIsUpdating,
-  handelDeleteConfirmation,
+  handleDeleteConfirmation,
   cancelSelectionToggle,
   change,
   children,
@@ -43,14 +49,16 @@ const SelectionModal = ({
         <ModalFooter>
           <Button
             data-test-eholdings-deselection-confirmation-modal-yes
+            data-testid="selection-modal-confirm-button"
             buttonStyle="primary"
             disabled={modelIsUpdating}
-            onClick={handelDeleteConfirmation}
+            onClick={handleDeleteConfirmation}
           >
             {confirmButtonLabel}
           </Button>
           <Button
             data-test-eholdings-deselection-confirmation-modal-no
+            data-testid="selection-modal-cancel-button"
             onClick={() => cancelSelectionToggle(change)}
           >
             {cancelButtonLabel}
@@ -64,5 +72,6 @@ const SelectionModal = ({
 };
 
 SelectionModal.propTypes = propTypes;
+SelectionModal.defaultProps = defaultProps;
 
 export default SelectionModal;
