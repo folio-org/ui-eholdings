@@ -116,7 +116,7 @@ const renderResourceEditCustomTitle = (props = {}) => render(
         accessStatusTypes={accessStatusTypes}
         onCancel={noop}
         showSelectionModal={false}
-        handelDeleteConfirmation={noop}
+        handleDeleteConfirmation={noop}
         handleOnSubmit={noop}
         getFooter={noop}
         getSectionHeader={noop}

@@ -321,7 +321,7 @@ const ManagedPackageEdit = ({
             <SelectionModal
               showSelectionModal={showSelectionModal}
               modelIsUpdating={model.update.isPending}
-              handelDeleteConfirmation={commitSelectionToggle}
+              handleDeleteConfirmation={commitSelectionToggle}
               cancelSelectionToggle={cancelSelectionToggle}
               change={change}
               label={intl.formatMessage({ id: 'ui-eholdings.package.modal.header' })}

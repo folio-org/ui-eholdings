@@ -80,7 +80,7 @@ const ResourceSettings = ({
             : (
               <ProxyDisplay
                 proxy={model.proxy}
-                proxyTypes={proxyTypes}
+                proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
                 inheritedProxyId={model.package.proxy.id}
               />
             )
