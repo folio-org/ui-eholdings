@@ -8,20 +8,16 @@ const TokenDisplay = ({
   if (token.value) {
     return (
       <div data-test-eholdings-details-token={type}>
-        <span>
-          {`${token.prompt}`}
-          :&nbsp;
-          {`${token.value}`}
-        </span>
+        {`${token.prompt}`}
+        :&nbsp;
+        {`${token.value}`}
       </div>);
   } else {
     return (
       <div data-test-eholdings-details-token-message={type}>
-        <span>
-          {type === 'provider'
-            ? (<FormattedMessage id="ui-eholdings.provider.noTokenSet" />)
-            : (<FormattedMessage id="ui-eholdings.package.noTokenSet" />)}
-        </span>
+        {type === 'provider'
+          ? (<FormattedMessage id="ui-eholdings.provider.noTokenSet" />)
+          : (<FormattedMessage id="ui-eholdings.package.noTokenSet" />)}
       </div>
     );
   }

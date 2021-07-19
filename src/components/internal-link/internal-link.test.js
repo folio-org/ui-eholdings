@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Harness from '../../test/jest/helpers/harness';
+import Harness from '../../../test/jest/helpers/harness';
 
 import InternalLink from './internal-link';
 
