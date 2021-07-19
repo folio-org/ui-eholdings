@@ -17,7 +17,11 @@ const TokenDisplay = ({
   } else {
     return (
       <div data-test-eholdings-details-token-message={type}>
-        <span>{type === 'provider' ? (<FormattedMessage id="ui-eholdings.provider.noTokenSet" />) : (<FormattedMessage id="ui-eholdings.package.noTokenSet" />)}</span>
+        <span>
+          {type === 'provider'
+            ? (<FormattedMessage id="ui-eholdings.provider.noTokenSet" />)
+            : (<FormattedMessage id="ui-eholdings.package.noTokenSet" />)}
+        </span>
       </div>
     );
   }
@@ -28,7 +32,7 @@ TokenDisplay.propTypes = {
     prompt: PropTypes.string.isRequired,
     value: PropTypes.string,
   }).isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
 };
 
 export default TokenDisplay;

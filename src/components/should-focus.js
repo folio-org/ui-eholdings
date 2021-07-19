@@ -7,7 +7,7 @@ import { findDOMNode } from 'react-dom';
  * `shouldFocus={true}`, will focus the component's DOM node on mount
  * and on update when the prop is toggled from `false` to `true`.
  */
-const shouldFocus = (Focusable) => {
+const shouldFocus = Focusable => {
   return class extends Component {
     static propTypes = {
       shouldFocus: PropTypes.bool

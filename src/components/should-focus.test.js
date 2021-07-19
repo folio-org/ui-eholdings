@@ -35,7 +35,10 @@ describe('Given shouldFocus', () => {
   });
 
   it('should set focus on component after updating props ', () => {
-    const { getByRole, rerender } = render(<MockShouldFocus shouldFocus={false} />);
+    const {
+      getByRole,
+      rerender
+    } = render(<MockShouldFocus shouldFocus={false} />);
 
     const renderedLink = getByRole('link', { name: 'Test link' });
 
