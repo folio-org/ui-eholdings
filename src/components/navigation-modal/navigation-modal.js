@@ -1,126 +1,125 @@
-import { Component } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
+import noop from 'lodash/noop';
+
 import {
   Modal,
   ModalFooter,
   Button,
 } from '@folio/stripes/components';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+
 import historyActions from '../../constants/historyActions';
 
 const INITIAL_MODAL_STATE = {
-  nextLocation: null,
-  openModal: false,
+  location: null,
+  open: false,
 };
 
-class NavigationModal extends Component {
-  static propTypes = {
-    ariaLabel: PropTypes.string,
-    history: ReactRouterPropTypes.history.isRequired,
-    historyAction: PropTypes.string,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    label: PropTypes.node,
-    message: PropTypes.node,
-    when: PropTypes.bool.isRequired,
-  };
+const propTypes = {
+  ariaLabel: PropTypes.string,
+  historyAction: PropTypes.string,
+  label: PropTypes.node,
+  message: PropTypes.node,
+  when: PropTypes.bool.isRequired,
+};
+const defaultProps = {
+  historyAction: '',
+  label: <FormattedMessage id="ui-eholdings.navModal.modalLabel" />,
+  message: <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />,
+};
 
-  static defaultProps = {
-    label: <FormattedMessage id="ui-eholdings.navModal.modalLabel" />,
-    message: <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />,
-  }
+const NavigationModal = ({
+  ariaLabel,
+  historyAction,
+  label,
+  message,
+  when,
+}) => {
+  const intl = useIntl();
+  const history = useHistory();
+  const [modalState, setModalState] = useState(INITIAL_MODAL_STATE);
+  let unblock;
 
-  constructor(props) {
-    super(props);
-    this.state = INITIAL_MODAL_STATE;
-  }
-
-  componentDidMount() {
-    this.unblock = this.props.history.block((nextLocation) => {
-      if (this.props.when) {
-        this.setState({
-          openModal: true,
-          nextLocation
+  useEffect(() => {
+    unblock = history.block(location => {
+      if (when) {
+        setModalState({
+          open: true,
+          location,
         });
       }
-      return !this.props.when;
+
+      return !when;
     });
-  }
 
-  componentWillUnmount() {
-    this.unblock();
-  }
+    return () => {
+      unblock();
+    };
+  }, [history, when]);
 
-  submit = (event) => {
+  const onCancel = () => {
+    setModalState(INITIAL_MODAL_STATE);
+  };
+
+  const onSubmit = event => {
     event.preventDefault();
-    this.onCancel();
+    onCancel();
   };
 
-  onCancel = () => {
-    this.setState(INITIAL_MODAL_STATE);
-  };
+  const navigateToNextLocation = () => {
+    history.block(noop);
 
-  onConfirm = () => {
-    this.navigateToNextLocation();
-  };
-
-  navigateToNextLocation() {
-    this.unblock();
-    if ((this.props.historyAction && this.props.historyAction === historyActions.REPLACE)
-      || this.props.history.action === historyActions.REPLACE) {
-      this.props.history.replace(this.state.nextLocation);
+    if ((historyAction === historyActions.REPLACE)
+      || history.action === historyActions.REPLACE) {
+      history.replace(modalState.location);
     } else {
-      this.props.history.push(this.state.nextLocation);
+      history.push(modalState.location);
     }
-  }
+  };
 
-  render() {
-    const {
-      label,
-      message,
-      intl,
-      ariaLabel,
-    } = this.props;
+  return (
+    <Modal
+      id="navigation-modal"
+      data-testid="navigation-modal"
+      size="small"
+      open={modalState.open}
+      label={label}
+      aria-label={ariaLabel || intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
+      wrappingElement="form"
+      onClose={onCancel}
+      role="dialog"
+      footer={(
+        <ModalFooter>
+          <Button
+            data-test-navigation-modal-dismiss
+            buttonStyle="primary"
+            onClick={onSubmit}
+          >
+            <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
+          </Button>
+          <Button
+            data-test-navigation-modal-continue
+            onClick={navigateToNextLocation}
+          >
+            <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
+          </Button>
+        </ModalFooter>
+      )}
+    >
+      {message}
+    </Modal>
+  );
+};
 
-    return (
-      <Modal
-        id="navigation-modal"
-        data-testid="navigation-modal"
-        size="small"
-        open={this.state.openModal}
-        label={label}
-        aria-label={ariaLabel || intl.formatMessage({ id: 'ui-eholdings.navModal.modalLabel' })}
-        wrappingElement="form"
-        onClose={this.onCancel}
-        role="dialog"
-        footer={(
-          <ModalFooter>
-            <Button
-              data-test-navigation-modal-dismiss
-              buttonStyle="primary"
-              onClick={this.submit}
-            >
-              <FormattedMessage id="ui-eholdings.navModal.dismissLabel" />
-            </Button>
-            <Button
-              data-test-navigation-modal-continue
-              onClick={this.onConfirm}
-            >
-              <FormattedMessage id="ui-eholdings.navModal.continueLabel" />
-            </Button>
-          </ModalFooter>
-        )}
-      >
-        {message}
-      </Modal>
-    );
-  }
-}
+NavigationModal.propTypes = propTypes;
+NavigationModal.defaultProps = defaultProps;
 
-export default withRouter(injectIntl(NavigationModal));
+export default NavigationModal;
