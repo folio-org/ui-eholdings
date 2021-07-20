@@ -44,7 +44,7 @@ const ProviderListItem = ({
           data-test-eholdings-provider-list-item-name
           margin="none"
           size="medium"
-          tag={headingLevel || 'h3'}
+          tag={headingLevel}
         >
           {item.name}
         </Headline>
@@ -82,13 +82,16 @@ ProviderListItem.propTypes = {
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+    }).isRequired,
   ]),
   onClick: PropTypes.func,
 };
 
 ProviderListItem.defaultProps = {
   active: false,
+  headingLevel: 'h3',
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's
