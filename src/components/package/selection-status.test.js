@@ -36,7 +36,7 @@ describe('Given SelectionStatus', () => {
       model: {
         ...model,
         isInFlight: true,
-      }
+      },
     });
 
     expect(queryByTestId('selection-status-message')).toBeNull();
@@ -53,7 +53,7 @@ describe('Given SelectionStatus', () => {
       model: {
         ...model,
         isSelected: false,
-      }
+      },
     });
 
     expect(getByText('ui-eholdings.notSelected')).toBeDefined();
@@ -64,7 +64,7 @@ describe('Given SelectionStatus', () => {
       model: {
         ...model,
         isPartiallySelected: true,
-      }
+      },
     });
 
     expect(getByText('ui-eholdings.package.partiallySelected')).toBeDefined();
@@ -81,7 +81,7 @@ describe('Given SelectionStatus', () => {
       model: {
         ...model,
         isPartiallySelected: true,
-      }
+      },
     });
 
     expect(getByRole('button', { name: 'ui-eholdings.addAllToHoldings' })).toBeDefined();
@@ -92,7 +92,7 @@ describe('Given SelectionStatus', () => {
       model: {
         ...model,
         isSelected: false,
-      }
+      },
     });
 
     expect(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' })).toBeDefined();
