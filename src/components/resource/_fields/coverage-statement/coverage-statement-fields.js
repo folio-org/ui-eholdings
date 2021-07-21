@@ -5,10 +5,12 @@ import { RadioButton, TextArea } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import styles from './coverage-statement-fields.css';
 
-function validate(value, { hasCoverageStatement }) {
+import { COVERAGE_STATEMENT_VALUE_MAX_LENGTH } from '../../../../constants';
+
+const validate = (value, { hasCoverageStatement }) => {
   let error;
 
-  if (value && value.length > 350) {
+  if (value && value.length > COVERAGE_STATEMENT_VALUE_MAX_LENGTH) {
     error = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.length" />;
   }
 
@@ -17,7 +19,7 @@ function validate(value, { hasCoverageStatement }) {
   }
 
   return error;
-}
+};
 
 const propTypes = {
   ariaLabelledBy: PropTypes.string.isRequired,
@@ -30,7 +32,10 @@ const CoverageStatementFields = ({
 }) => {
   return (
     <fieldset>
-      <div data-test-eholdings-has-coverage-statement>
+      <div
+        data-test-eholdings-has-coverage-statement
+        data-testid="coverage-statement"
+      >
         <Field
           name="hasCoverageStatement"
           component={RadioButton}
@@ -49,12 +54,16 @@ const CoverageStatementFields = ({
           value="yes"
         />
       </div>
-      <div data-test-eholdings-coverage-statement-textarea className={styles['coverage-statement-fields-category']}>
+      <div
+        data-test-eholdings-coverage-statement-textarea
+        className={styles['coverage-statement-fields-category']}
+      >
         <Field
           name="coverageStatement"
           component={TextArea}
           validate={validate}
           aria-labelledby={ariaLabelledBy}
+          data-testid="coverage-statement-textarea"
         />
       </div>
     </fieldset>
