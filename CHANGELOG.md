@@ -17,6 +17,7 @@
 * Fix bug with root proxy selection. (UIEH-1143)
 * Add tests for SelectionStatus component. (UIEH-1059)
 * Add tests for ProviderListItem component. (UIEH-1060)
+* Refactoring of NavigationModal. (UIEH-1057)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
