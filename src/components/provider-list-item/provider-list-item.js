@@ -11,58 +11,70 @@ import styles from './provider-list-item.css';
 
 const cx = classNames.bind(styles);
 
-function ProviderListItem({ item, link, active, onClick, headingLevel }) {
-  return !item ? (
-    <div className={styles.skeleton} />
-  ) : (
-    <InternalLink
-      data-test-eholdings-provider-list-item
-      to={link}
-      className={cx('item', {
-        'is-selected': active
-      })}
-      onClick={(e) => {
-        if (onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-    >
-      <Headline
-        data-test-eholdings-provider-list-item-name
-        margin="none"
-        size="medium"
-        tag={headingLevel || 'h3'}
-      >
-        {item.name}
-      </Headline>
-
+const ProviderListItem = ({
+  item,
+  link,
+  active,
+  onClick,
+  headingLevel,
+}) => {
+  return !item
+    ? (
       <div
-        data-test-eholdings-provider-list-item-selections
-        className={cx('itemMetadata')}
+        className={styles.skeleton}
+        data-testid="skeleton-element"
+      />
+    )
+    : (
+      <InternalLink
+        data-test-eholdings-provider-list-item
+        to={link}
+        className={cx('item', {
+          'is-selected': active,
+        })}
+        onClick={(e) => {
+          if (onClick) {
+            e.preventDefault();
+            onClick();
+          }
+        }}
+        data-testid="provider-list-item-link"
       >
-        <SelectedLabel
-          isSelected={item.packagesSelected}
-          selectedCount={item.packagesSelected}
-          showSelectedCount
-        />
+        <Headline
+          data-test-eholdings-provider-list-item-name
+          margin="none"
+          size="medium"
+          tag={headingLevel}
+        >
+          {item.name}
+        </Headline>
 
-        <span>
-          <FormattedMessage
-            id="ui-eholdings.label.totalPackages"
-            values={{
-              count: (
-                <span data-test-eholdings-provider-list-item-num-packages-total>
-                  <FormattedNumber value={item.packagesTotal} />
-                </span>
-              )
-            }}
+        <div
+          data-test-eholdings-provider-list-item-selections
+          className={cx('itemMetadata')}
+        >
+          <SelectedLabel
+            isSelected={!!item.packagesSelected}
+            selectedCount={item.packagesSelected}
+            showSelectedCount
           />
-        </span>
-      </div>
-    </InternalLink>
-  );
-}
+
+          <span>
+            <FormattedMessage
+              id="ui-eholdings.label.totalPackages"
+              values={{
+                count: (
+                  <span data-test-eholdings-provider-list-item-num-packages-total>
+                    <FormattedNumber value={item.packagesTotal} />
+                  </span>
+                )
+              }}
+            />
+          </span>
+        </div>
+      </InternalLink>
+    );
+};
 
 ProviderListItem.propTypes = {
   active: PropTypes.bool,
@@ -70,9 +82,16 @@ ProviderListItem.propTypes = {
   item: PropTypes.object,
   link: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object
+    PropTypes.shape({
+      pathname: PropTypes.string,
+    }).isRequired,
   ]),
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+};
+
+ProviderListItem.defaultProps = {
+  active: false,
+  headingLevel: 'h3',
 };
 
 // this HOC adds a prop, `shouldFocus` that will focus the component's

@@ -15,10 +15,13 @@
 * Choose custom package - batch load packages. (UIEH-962)
 * Add tests for PackageShow component. (UIEH-1094)
 * Fix bug with root proxy selection. (UIEH-1143)
+* Add tests for SelectionStatus component. (UIEH-1059)
+* Add tests for ProviderListItem component. (UIEH-1060)
 * Refactoring of NavigationModal. (UIEH-1057)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
+* Add tests for InternalLink, ProxyDisplay, shouldFocus, TokenDisplay, eHoldings components. (UIEH-1054)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)

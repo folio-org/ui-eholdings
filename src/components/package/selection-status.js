@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import {
+  FormattedMessage,
+  FormattedNumber,
+} from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -8,7 +11,10 @@ import {
   Button,
 } from '@folio/stripes/components';
 
-export default function SelectionStatus({ model, onAddToHoldings }) {
+const SelectionStatus = ({
+  model,
+  onAddToHoldings,
+}) => {
   return (
     <div
       data-test-eholdings-package-details-selected
@@ -24,17 +30,21 @@ export default function SelectionStatus({ model, onAddToHoldings }) {
       </IfPermission>
     </div>
   );
-}
-SelectionStatus.propTypes = {
-  model: PropTypes.object.isRequired,
-  onAddToHoldings: PropTypes.func.isRequired
 };
 
-function messageFor(model) {
+SelectionStatus.propTypes = {
+  model: PropTypes.object.isRequired,
+  onAddToHoldings: PropTypes.func.isRequired,
+};
+
+const messageFor = model => {
   if (model.isPartiallySelected) {
     return {
       id: 'ui-eholdings.package.partiallySelected',
-      values: { selectedCount: <FormattedNumber value={model.selectedCount} />, titleCount: <FormattedNumber value={model.titleCount} /> }
+      values: {
+        selectedCount: <FormattedNumber value={model.selectedCount} />,
+        titleCount: <FormattedNumber value={model.titleCount} />,
+      },
     };
   }
   if (model.isSelected) {
@@ -42,9 +52,9 @@ function messageFor(model) {
   } else {
     return { id: 'ui-eholdings.notSelected' };
   }
-}
+};
 
-function SelectionStatusMessage({ model }) {
+const SelectionStatusMessage = ({ model }) => {
   if (model.isInFlight) {
     return <Icon icon="spinner-ellipsis" />;
   } else {
@@ -57,11 +67,17 @@ function SelectionStatusMessage({ model }) {
       </Headline>
     );
   }
-}
+};
 
-function SelectionStatusButton({ model, onAddToHoldings }) {
+const SelectionStatusButton = ({
+  model,
+  onAddToHoldings,
+}) => {
   if (model.isPartiallySelected || !model.isSelected || model.isInFlight) {
-    const messageId = model.isPartiallySelected ? 'addAllToHoldings' : 'addPackageToHoldings';
+    const messageId = model.isPartiallySelected
+      ? 'addAllToHoldings'
+      : 'addPackageToHoldings';
+
     return (
       <Button
         type="button"
@@ -77,4 +93,6 @@ function SelectionStatusButton({ model, onAddToHoldings }) {
   } else {
     return null;
   }
-}
+};
+
+export default SelectionStatus;
