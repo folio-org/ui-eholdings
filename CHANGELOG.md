@@ -18,6 +18,7 @@
 * Add tests for SelectionStatus component. (UIEH-1059)
 * Add tests for ProviderListItem component. (UIEH-1060)
 * Refactoring of NavigationModal. (UIEH-1057)
+* Add tests for CoverageStatementFields and VisibilityField components. (UIEH-1062)
 * Add tests for SearchPaneset. (UIEH-1063)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
