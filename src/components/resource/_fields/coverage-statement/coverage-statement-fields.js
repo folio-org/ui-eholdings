@@ -10,7 +10,7 @@ import { COVERAGE_STATEMENT_VALUE_MAX_LENGTH } from '../../../../constants';
 const validate = (value, { hasCoverageStatement }) => {
   let error;
 
-  if (value && value.length > COVERAGE_STATEMENT_VALUE_MAX_LENGTH) {
+  if (value?.length > COVERAGE_STATEMENT_VALUE_MAX_LENGTH) {
     error = <FormattedMessage id="ui-eholdings.validate.errors.coverageStatement.length" />;
   }
 
