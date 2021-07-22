@@ -1,8 +1,9 @@
 import { MemoryRouter } from 'react-router-dom';
-
+import noop from 'lodash/noop';
 import {
   render,
   cleanup,
+  fireEvent,
 } from '@testing-library/react';
 
 import {
@@ -19,41 +20,35 @@ const historyMock = {
   push: jest.fn(),
 };
 
-const renderSearchPaneset = ({
-  resultsType,
-  label,
-}) => render(
+const renderSearchPaneset = (props = {}) => render(
   <MemoryRouter>
     <CommandList commands={defaultKeyboardShortcuts}>
       <SearchPaneset
         history={historyMock}
-        resultsType={resultsType}
-        resultsLabel={label}
+        resultsType={searchTypes.PROVIDERS}
+        resultsLabel="Providers"
+        resultsPaneTitle={() => <span>resultPaneTitle</span>}
+        resultsView={() => <span>resultsView</span>}
         isLoading={false}
-        updateFilters={jest.fn()}
+        updateFilters={noop}
         searchForm={<div>searchForm</div>}
+        {...props}
       />
     </CommandList>
   </MemoryRouter>
 );
 
-describe('Search Paneset', () => {
+describe('Given SearchPaneset', () => {
   afterEach(cleanup);
 
   it('should render search-pane', () => {
-    const { getByTestId } = renderSearchPaneset({
-      resultsType: searchTypes.PROVIDERS,
-      label: 'Providers',
-    });
+    const { getByTestId } = renderSearchPaneset();
 
     expect(getByTestId('data-test-eholdings-search-pane')).toBeDefined();
   });
 
   it('should not call history push for Providers', () => {
-    const { getByTestId } = renderSearchPaneset({
-      resultsType: searchTypes.PROVIDERS,
-      label: 'Providers',
-    });
+    const { getByTestId } = renderSearchPaneset();
     const paneset = getByTestId('data-test-eholdings-search-pane');
 
     openNewShortcut(paneset);
@@ -83,5 +78,39 @@ describe('Search Paneset', () => {
     openNewShortcut(paneset);
 
     expect(historyMock.push).toHaveBeenCalled();
+  });
+
+  describe('when some filters are choosed and they are hide', () => {
+    it('should show ExpandFiltersPaneButton', () => {
+      const { container } = renderSearchPaneset({
+        hideFilters: true,
+      });
+
+      expect(container.querySelector('[data-test-expand-filter-pane-button=true]')).toBeDefined();
+    });
+
+    describe('when click on ExpandFiltersPaneButton', () => {
+      it('should handle updateFilters', () => {
+        const mockUpdateFilters = jest.fn(); 
+        const { container } = renderSearchPaneset({
+          hideFilters: true,
+          updateFilters: mockUpdateFilters,
+        });
+  
+        fireEvent.click(container.querySelector('[data-test-expand-filter-pane-button=true]'));
+
+        expect(mockUpdateFilters).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('when component is loading', () => {
+    it('should show loading message', () => {
+      const { getByText } = renderSearchPaneset({
+        isLoading: true,
+      });
+
+      expect(getByText('ui-eholdings.search.loading')).toBeDefined();
+    });
   });
 });

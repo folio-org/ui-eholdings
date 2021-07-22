@@ -7,6 +7,7 @@ import {
   IfPermission,
   AppIcon,
   withStripes,
+  useStripes,
 } from '@folio/stripes/core';
 import {
   Button,
@@ -20,58 +21,58 @@ import {
 } from '@folio/stripes/smart-components';
 
 import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
-
-import styles from './search-paneset.css';
-
 import {
   searchTypes,
   APP_ICON_NAME,
   TITLES_PACKAGES_CREATE_DELETE_PERMISSION,
 } from '../../constants';
 
-class SearchPaneset extends Component {
-  static propTypes = {
-    filterCount: PropTypes.number,
-    hideFilters: PropTypes.bool,
-    history: ReactRouterPropTypes.history,
-    isLoading: PropTypes.bool,
-    resultPaneTitle: PropTypes.node,
-    resultsLabel: PropTypes.node,
-    resultsType: PropTypes.string,
-    resultsView: PropTypes.node,
-    searchForm: PropTypes.node,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }).isRequired,
-    totalResults: PropTypes.number,
-    updateFilters: PropTypes.func.isRequired
-  };
+import styles from './search-paneset.css';
 
-  static defaultProps = {
-    totalResults: 0
-  };
+const propTypes = {
+  filterCount: PropTypes.number,
+  hideFilters: PropTypes.bool,
+  history: ReactRouterPropTypes.history.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  resultPaneTitle: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Component) }),
+  ]),
+  resultsLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  resultsType: PropTypes.string.isRequired,
+  resultsView: PropTypes.node.isRequired,
+  searchForm: PropTypes.node.isRequired,
+  totalResults: PropTypes.number,
+  updateFilters: PropTypes.func.isRequired,
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const defaultProps = {
+  filterCount: 0,
+  hideFilters: false,
+  totalResults: 0,
+};
 
-  isPackageOrTitle = () => {
-    const { resultsType } = this.props;
+const SearchPaneset = ({
+  filterCount,
+  hideFilters,
+  history,
+  isLoading,
+  resultPaneTitle,
+  resultsLabel,
+  resultsType,
+  resultsView,
+  searchForm,
+  totalResults,
+  updateFilters,
+}) => {
+  const stripes = useStripes();
 
-    return resultsType !== searchTypes.PROVIDERS;
-  };
+  const isPackageOrTitle = resultsType !== searchTypes.PROVIDERS;
 
-  openCreateNewEntity = () => {
-    const {
-      stripes,
-      history,
-      resultsType,
-    } = this.props;
-
+  const openCreateNewEntity = () => {
     const createDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
-    if (this.isPackageOrTitle() && createDeletePermission) {
+    if (isPackageOrTitle && createDeletePermission) {
       history.push({
         pathname: `/eholdings/${resultsType}/new`,
         state: { eholdings: true },
@@ -79,132 +80,112 @@ class SearchPaneset extends Component {
     }
   };
 
-  toggleFilters = () => {
-    this.props.updateFilters(hideFilters => !hideFilters);
+  const toggleFilters = () => {
+    updateFilters(hideFilters => !hideFilters);
   };
 
-  renderNewButton = () => {
-    return (
-      <IfPermission perm={TITLES_PACKAGES_CREATE_DELETE_PERMISSION}>
-        <Button
-          data-test-eholdings-search-new-button
-          buttonStyle="primary"
-          marginBottom0
-          to={{
-            pathname: `/eholdings/${this.props.resultsType}/new`,
-            state: { eholdings: true }
-          }}
-        >
-          <FormattedMessage id="ui-eholdings.search.addNew" />
-        </Button>
-      </IfPermission>
-    );
+  const renderLastMenu = () => {
+    if (isPackageOrTitle) {
+      return (
+        <IfPermission perm={TITLES_PACKAGES_CREATE_DELETE_PERMISSION}>
+          <Button
+            data-test-eholdings-search-new-button
+            buttonStyle="primary"
+            marginBottom0
+            to={{
+              pathname: `/eholdings/${resultsType}/new`,
+              state: { eholdings: true },
+            }}
+          >
+            <FormattedMessage id="ui-eholdings.search.addNew" />
+          </Button>
+        </IfPermission>
+      );
+    }
+
+    return <PaneMenu />;
   };
 
-  getSearchResultsPaneFirstMenu = () => {
-    const {
-      hideFilters,
-      resultsView,
-      filterCount,
-    } = this.props;
-
-    const areFiltersHidden = hideFilters && !!resultsView;
-    // do not show filter count when filters are open
-    const filterCountToDisplay = areFiltersHidden
-      ? filterCount
-      : 0;
-
+  const getSearchResultsPaneFirstMenu = () => {
     return hideFilters
       ? (
         <PaneMenu>
           <ExpandFilterPaneButton
-            onClick={this.toggleFilters}
-            filterCount={filterCountToDisplay}
+            onClick={toggleFilters}
+            filterCount={filterCount}
           />
         </PaneMenu>
       )
       : null;
-  }
+  };
 
-  render() {
-    const {
-      searchForm,
-      resultsLabel,
-      resultPaneTitle,
-      resultsView,
-      totalResults,
-      isLoading,
-      hideFilters,
-    } = this.props;
-
-    let newButton = (<PaneMenu />);
-
-    if (this.isPackageOrTitle()) {
-      newButton = this.renderNewButton();
-    }
-
-    let resultsPaneSub = (<FormattedMessage id="ui-eholdings.search.loading" />);
+  const renderPaneSub = () => {
     if (!isLoading) {
-      resultsPaneSub = (
+      return (
         <FormattedMessage
           id="ui-eholdings.resultCount"
           values={{
-            count: totalResults
+            count: totalResults,
           }}
         />
       );
     }
 
-    return (
-      <KeyShortcutsWrapper openCreateNewEntity={this.openCreateNewEntity}>
-        <Paneset>
-          {!hideFilters &&
-            <Pane
-              id="search-pane"
-              tagName="section"
-              defaultWidth="320px"
-              fluidContentWidth={false}
-              paneTitle={(<FormattedMessage id="ui-eholdings.search.searchAndFilter" />)}
-              lastMenu={
-                <PaneMenu>
-                  <CollapseFilterPaneButton onClick={this.toggleFilters} />
-                </PaneMenu>
-              }
-              data-test-eholdings-search-pane
-              data-testid="data-test-eholdings-search-pane"
-            >
-              {searchForm}
-            </Pane>}
+    return <FormattedMessage id="ui-eholdings.search.loading" />;
+  };
 
+  return (
+    <KeyShortcutsWrapper openCreateNewEntity={openCreateNewEntity}>
+      <Paneset>
+        {!hideFilters &&
           <Pane
-            appIcon={<AppIcon app={APP_ICON_NAME} />}
-            defaultWidth="fill"
-            firstMenu={this.getSearchResultsPaneFirstMenu()}
-            id="search-results"
-            lastMenu={newButton}
-            paneSub={resultsView && resultsPaneSub}
-            padContent={false}
-            paneTitle={resultsLabel}
-            paneTitleRef={resultPaneTitle}
-            data-test-results-pane
-          >
-            {resultsView || (
-              <div
-                className={styles['pre-search-pane-content']}
-                data-test-eholdings-pre-search-pane
-              >
-                <div className={styles['pre-search-pane-content-label']}>
-                  <p>
-                    <FormattedMessage id="ui-eholdings.search.enterQuery" />
-                  </p>
-                </div>
-              </div>
+            id="search-pane"
+            tagName="section"
+            defaultWidth="320px"
+            fluidContentWidth={false}
+            paneTitle={<FormattedMessage id="ui-eholdings.search.searchAndFilter" />}
+            lastMenu={(
+              <PaneMenu>
+                <CollapseFilterPaneButton onClick={toggleFilters} />
+              </PaneMenu>
             )}
+            data-test-eholdings-search-pane
+            data-testid="data-test-eholdings-search-pane"
+          >
+            {searchForm}
           </Pane>
-        </Paneset>
-      </KeyShortcutsWrapper>
-    );
-  }
-}
+        }
+        <Pane
+          appIcon={<AppIcon app={APP_ICON_NAME} />}
+          defaultWidth="fill"
+          firstMenu={getSearchResultsPaneFirstMenu()}
+          id="search-results"
+          lastMenu={renderLastMenu()}
+          paneSub={resultsView && renderPaneSub()}
+          padContent={false}
+          paneTitle={resultsLabel}
+          paneTitleRef={resultPaneTitle}
+          data-test-results-pane
+        >
+          {resultsView || (
+            <div
+              className={styles['pre-search-pane-content']}
+              data-test-eholdings-pre-search-pane
+            >
+              <div className={styles['pre-search-pane-content-label']}>
+                <p>
+                  <FormattedMessage id="ui-eholdings.search.enterQuery" />
+                </p>
+              </div>
+            </div>
+          )}
+        </Pane>
+      </Paneset>
+    </KeyShortcutsWrapper>
+  );
+};
 
-export default withStripes(SearchPaneset);
+SearchPaneset.propTypes = propTypes;
+SearchPaneset.defaultProps = defaultProps;
+
+export default SearchPaneset;
