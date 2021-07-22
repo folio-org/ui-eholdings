@@ -91,12 +91,12 @@ describe('Given SearchPaneset', () => {
 
     describe('when click on ExpandFiltersPaneButton', () => {
       it('should handle updateFilters', () => {
-        const mockUpdateFilters = jest.fn(); 
+        const mockUpdateFilters = jest.fn();
         const { container } = renderSearchPaneset({
           hideFilters: true,
           updateFilters: mockUpdateFilters,
         });
-  
+
         fireEvent.click(container.querySelector('[data-test-expand-filter-pane-button=true]'));
 
         expect(mockUpdateFilters).toHaveBeenCalled();
@@ -111,6 +111,16 @@ describe('Given SearchPaneset', () => {
       });
 
       expect(getByText('ui-eholdings.search.loading')).toBeDefined();
+    });
+  });
+
+  describe('when resultView is not present', () => {
+    it('should show enter query message', () => {
+      const { getByText } = renderSearchPaneset({
+        resultsView: null,
+      });
+
+      expect(getByText('ui-eholdings.search.enterQuery')).toBeDefined();
     });
   });
 });

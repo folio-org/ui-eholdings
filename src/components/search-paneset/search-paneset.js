@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   IfPermission,
   AppIcon,
-  withStripes,
   useStripes,
 } from '@folio/stripes/core';
 import {
@@ -40,7 +39,7 @@ const propTypes = {
   ]),
   resultsLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   resultsType: PropTypes.string.isRequired,
-  resultsView: PropTypes.node.isRequired,
+  resultsView: PropTypes.node,
   searchForm: PropTypes.node.isRequired,
   totalResults: PropTypes.number,
   updateFilters: PropTypes.func.isRequired,
@@ -81,7 +80,7 @@ const SearchPaneset = ({
   };
 
   const toggleFilters = () => {
-    updateFilters(hideFilters => !hideFilters);
+    updateFilters(filtersIsHidden => !filtersIsHidden);
   };
 
   const renderLastMenu = () => {
