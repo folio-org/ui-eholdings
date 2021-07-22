@@ -37,7 +37,10 @@ const propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Component) }),
   ]),
-  resultsLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  resultsLabel: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   resultsType: PropTypes.string.isRequired,
   resultsView: PropTypes.node,
   searchForm: PropTypes.node.isRequired,
