@@ -25,6 +25,7 @@ export { default as usageConsolidation } from './usageConsolidationReduxStateSha
 export { default as ucCredentialsReduxStateShape } from './ucCredentialsReduxStateShape';
 export { default as sortOrders } from './sortOrders';
 export { default as COVERAGE_STATEMENT_VALUE_MAX_LENGTH } from './COVERAGE_STATEMENT_VALUE_MAX_LENGTH';
+export { default as CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH } from './CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';

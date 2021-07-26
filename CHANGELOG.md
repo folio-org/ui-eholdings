@@ -21,6 +21,7 @@
 * Add tests for CoverageStatementFields and VisibilityField components. (UIEH-1062)
 * Add tests for SearchPaneset. (UIEH-1063)
 * Add tests for EHoldings. (UIEH-1153)
+* Add tests for ContributorField component. (UIEH-1066)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
