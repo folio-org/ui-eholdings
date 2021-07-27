@@ -39,7 +39,7 @@ const ProviderInformation = ({
     onToggle={onToggle}
   >
     <Row>
-      <Col xs={12} md={3}>
+      <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-eholdings.provider.packagesSelected" />}>
           <div
             data-test-eholdings-provider-details-packages-selected
@@ -49,7 +49,7 @@ const ProviderInformation = ({
           </div>
         </KeyValue>
       </Col>
-      <Col xs={12} md={3}>
+      <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-eholdings.provider.totalPackages" />}>
           <div
             data-test-eholdings-provider-details-packages-total
