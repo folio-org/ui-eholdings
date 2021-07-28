@@ -8,6 +8,8 @@ import arrayMutators from 'final-form-arrays';
 
 import IdentifiersFields from './identifiers-fields';
 
+import { identifiersTypes } from '../../../../constants';
+
 describe('Given IdentifiersFields', () => {
   const renderIdentifiersFields = ({ ...props }) => render(
     <Form
@@ -60,10 +62,9 @@ describe('Given IdentifiersFields', () => {
 
       fireEvent.click(addIdentifierButton);
 
-      expect(getByText('ui-eholdings.label.identifier.issnOnline')).toBeDefined();
-      expect(getByText('ui-eholdings.label.identifier.issnPrint')).toBeDefined();
-      expect(getByText('ui-eholdings.label.identifier.isbnOnline')).toBeDefined();
-      expect(getByText('ui-eholdings.label.identifier.isbnPrint')).toBeDefined();
+      Object.values(identifiersTypes).forEach(identifiersType => {
+        expect(getByText(`ui-eholdings.label.identifier.${identifiersType}`)).toBeDefined();
+      });
     });
 
     it('should display the identifier ID input', () => {
