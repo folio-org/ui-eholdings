@@ -1,9 +1,15 @@
-import { createRef, Component } from 'react';
+import {
+  createRef,
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
 import {
   Button,
@@ -32,9 +38,10 @@ import styles from './title-create.css';
 const focusOnErrors = createFocusDecorator();
 const paneTitle = <FormattedMessage id="ui-eholdings.title.create.paneTitle" />;
 
-export default class TitleCreate extends Component {
+class TitleCreate extends Component {
   static propTypes = {
     customPackages: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
     onPackageFilter: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -49,22 +56,24 @@ export default class TitleCreate extends Component {
   createFormRef = createRef();
 
   renderFirstMenu = () => {
-    const { onCancel } = this.props;
+    const {
+      onCancel,
+      intl,
+    } = this.props;
+
+    const label = intl.formatMessage({
+      id: 'ui-eholdings.label.icon.closeX',
+    }, {
+      paneTitle,
+    });
 
     return (
-      <FormattedMessage
-        id="ui-eholdings.label.icon.closeX"
-        values={{ paneTitle }}
-      >
-        {ariaLabel => (
-          <IconButton
-            icon="times"
-            ariaLabel={ariaLabel}
-            onClick={onCancel}
-            data-test-eholdings-details-view-back-button
-          />
-        )}
-      </FormattedMessage>
+      <IconButton
+        icon="times"
+        ariaLabel={label}
+        onClick={onCancel}
+        data-test-eholdings-details-view-back-button
+      />
     );
   };
 
@@ -118,19 +127,22 @@ export default class TitleCreate extends Component {
 
     return (
       <KeyShortcutsWrapper formRef={this.createFormRef.current}>
-        <div data-test-eholdings-title-create>
+        <div
+          data-test-eholdings-title-create
+          data-testid="title-create"
+        >
           <Toaster
             position="bottom"
             toasts={request.errors.map(({ title }, index) => ({
               id: `error-${request.timestamp}-${index}`,
               message: title,
-              type: 'error'
+              type: 'error',
             }))}
           />
           <Form
             onSubmit={onSubmit}
             initialValues={{
-              publicationType: 'Unspecified'
+              publicationType: 'Unspecified',
             }}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
@@ -183,3 +195,5 @@ export default class TitleCreate extends Component {
     );
   }
 }
+
+export default injectIntl(TitleCreate);
