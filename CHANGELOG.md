@@ -26,6 +26,7 @@
 * Change Package information display on View Package details record. (UIEH-1157)
 * Add tests for IdentifiersFields component. (UIEH-1067)
 * Add tests for TitleCreate component. (UIEH-1068)
+* Change Resource Settings Display on Edit Resource details record. (UIEH-1161)
 * Support erm 5.0 interface. (UIEH-1154)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
