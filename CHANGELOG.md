@@ -25,6 +25,7 @@
 * Change Provider information display on View Provider details record. (UIEH-1156)
 * Change Package information display on View Package details record. (UIEH-1157)
 * Add tests for IdentifiersFields component. (UIEH-1067)
+* Add tests for TitleCreate component. (UIEH-1068)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
