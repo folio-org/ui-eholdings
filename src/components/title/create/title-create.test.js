@@ -83,7 +83,7 @@ describe('Given TitleCreate', () => {
     expect(getByRole('button', { name: 'stripes-components.saveAndClose' })).toBeDefined();
   });
 
-  it('should render the NameField component\'s input field', () => {
+  it('should render the NameField component', () => {
     const { getByRole } = renderTitleCreate();
 
     expect(getByRole('textbox', { name: 'ui-eholdings.label.name' })).toBeDefined();
@@ -164,7 +164,7 @@ describe('Given TitleCreate', () => {
               title: 'Error title',
             },
           ],
-        }
+        },
       });
 
       expect(getByText('Error title')).toBeDefined();
