@@ -7,6 +7,8 @@ import hasIn from 'lodash/hasIn';
 import {
   Accordion,
   Icon,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
 import VisibilityField from '../../../_fields/visibility';
@@ -66,12 +68,30 @@ const EditResourceSettings = ({
       {renderFields
         ? (
           <>
-            <VisibilityField disabled={visibilityMessage} />
-            <div>
-              {hasInheritedProxy && getAccordionContent()}
-              {model.package.isCustom && <CustomUrlFields />}
-              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-            </div>
+            <Row>
+              <Col xs={3}>
+                <VisibilityField disabled={visibilityMessage} />
+              </Col>
+              <Col xs={9}>
+                <div>
+                  <Row>
+                    {hasInheritedProxy && (
+                      <Col xs={4}>
+                        {getAccordionContent()}
+                      </Col>
+                    )}
+                    {model.package.isCustom && (
+                      <Col xs={4}>
+                        <CustomUrlFields />
+                      </Col>
+                    )}
+                    <Col xs={4}>
+                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                    </Col>
+                  </Row>
+                </div>
+              </Col>
+            </Row>
           </>
         )
         : (
