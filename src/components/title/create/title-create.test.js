@@ -39,10 +39,10 @@ describe('Given TitleCreate', () => {
   const renderTitleCreate = ({ ...props }) => render(
     <TitleCreate
       customPackages={customPackages}
-      onCancel={jest.fn()}
-      onPackageFilter={jest.fn()}
-      onSubmit={jest.fn()}
-      removeCreateRequests={jest.fn()}
+      onCancel={() => {}}
+      onPackageFilter={() => {}}
+      onSubmit={() => {}}
+      removeCreateRequests={() => {}}
       request={request}
       {...props}
     />

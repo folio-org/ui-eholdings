@@ -6,10 +6,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -41,7 +38,6 @@ const paneTitle = <FormattedMessage id="ui-eholdings.title.create.paneTitle" />;
 class TitleCreate extends Component {
   static propTypes = {
     customPackages: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
     onPackageFilter: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -56,24 +52,22 @@ class TitleCreate extends Component {
   createFormRef = createRef();
 
   renderFirstMenu = () => {
-    const {
-      onCancel,
-      intl,
-    } = this.props;
-
-    const label = intl.formatMessage({
-      id: 'ui-eholdings.label.icon.closeX',
-    }, {
-      paneTitle,
-    });
+    const { onCancel } = this.props;
 
     return (
-      <IconButton
-        icon="times"
-        ariaLabel={label}
-        onClick={onCancel}
-        data-test-eholdings-details-view-back-button
-      />
+      <FormattedMessage
+        id="ui-eholdings.label.icon.closeX"
+        values={{ paneTitle }}
+      >
+        {ariaLabel => (
+          <IconButton
+            icon="times"
+            ariaLabel={ariaLabel}
+            onClick={onCancel}
+            data-test-eholdings-details-view-back-button
+          />
+        )}
+      </FormattedMessage>
     );
   };
 
@@ -196,4 +190,4 @@ class TitleCreate extends Component {
   }
 }
 
-export default injectIntl(TitleCreate);
+export default TitleCreate;
