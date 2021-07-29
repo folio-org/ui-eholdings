@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
@@ -11,24 +10,32 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
-export default class IdentifiersFields extends Component {
-  validateId(value) {
-    let errors;
+import {
+  identifiersTypes,
+  IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH,
+} from '../../../../constants';
+
+const IdentifiersFields = () => {
+  const intl = useIntl();
+  const labelId = intl.formatMessage({ id: 'ui-eholdings.id' });
+
+  const validateId = (value) => {
+    let error;
 
     if (!value) {
-      errors = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.noBlank" />;
+      error = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.noBlank' });
     }
 
-    if (value && value.length >= 20) {
-      errors = <FormattedMessage id="ui-eholdings.validate.errors.identifiers.exceedsLength" />;
+    if (value?.length >= IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH) {
+      error = intl.formatMessage({ id: 'ui-eholdings.validate.errors.identifiers.exceedsLength' });
     }
 
-    return errors;
-  }
+    return error;
+  };
 
-  renderField = (identifier) => {
+  const renderField = (identifier) => {
     return (
       <Row>
         <Col
@@ -41,20 +48,13 @@ export default class IdentifiersFields extends Component {
             type="text"
             component={Select}
             autoFocus={Object.keys(identifier).length === 0}
-            label={<FormattedMessage id="ui-eholdings.type" />}
+            label={intl.formatMessage({ id: 'ui-eholdings.type' })}
           >
-            <FormattedMessage id="ui-eholdings.label.identifier.issnOnline">
-              {(message) => <option value="0">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.issnPrint">
-              {(message) => <option value="1">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.isbnOnline">
-              {(message) => <option value="2">{message}</option>}
-            </FormattedMessage>
-            <FormattedMessage id="ui-eholdings.label.identifier.isbnPrint">
-              {(message) => <option value="3">{message}</option>}
-            </FormattedMessage>
+            {Object.values(identifiersTypes).map((identifiersType, index) => {
+              const value = intl.formatMessage({ id: `ui-eholdings.label.identifier.${identifiersType}` });
+
+              return <option key={value} value={index}>{value}</option>;
+            })}
           </Field>
         </Col>
         <Col
@@ -62,47 +62,47 @@ export default class IdentifiersFields extends Component {
           xs={12}
           data-test-eholdings-identifiers-fields-id
         >
-          <FormattedMessage id="ui-eholdings.id">
-            {(fieldName) => (
-              <Field
-                name={`${identifier}.id`}
-                type="text"
-                component={TextField}
-                label={fieldName}
-                validate={this.validateId}
-                ariaLabel={fieldName}
-              />
-            )}
-          </FormattedMessage>
+          <Field
+            name={`${identifier}.id`}
+            type="text"
+            component={TextField}
+            label={labelId}
+            validate={validateId}
+            ariaLabel={labelId}
+          />
         </Col>
       </Row>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div data-test-eholdings-identifiers-fields>
-        <FieldArray name="identifiers">
-          {({ fields, meta: { initial } }) => (
-            <RepeatableField
-              addLabel={<FormattedMessage id="ui-eholdings.title.identifier.addIdentifier" />}
-              emptyMessage={
-                initial && initial.length > 0 && initial[0].id ?
-                  <FormattedMessage id="ui-eholdings.title.identifier.notSet" /> : ''
-              }
-              fields={fields}
-              legend={
-                <Headline tag="h4">
-                  <FormattedMessage id="ui-eholdings.label.identifiers" />
-                </Headline>
-              }
-              onAdd={() => fields.push({})}
-              onRemove={index => fields.remove(index)}
-              renderField={this.renderField}
-            />
-          )}
-        </FieldArray>
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      data-test-eholdings-identifiers-fields
+      data-testid="identifiers-fields"
+    >
+      <FieldArray name="identifiers">
+        {({ fields, meta: { initial } }) => (
+          <RepeatableField
+            addLabel={intl.formatMessage({ id: 'ui-eholdings.title.identifier.addIdentifier' })}
+            emptyMessage={
+              initial?.length > 0 && initial[0].id
+                ? intl.formatMessage({ id: 'ui-eholdings.title.identifier.notSet' })
+                : ''
+            }
+            fields={fields}
+            legend={
+              <Headline tag="h4">
+                {intl.formatMessage({ id: 'ui-eholdings.label.identifiers' })}
+              </Headline>
+            }
+            onAdd={() => fields.push({})}
+            onRemove={index => fields.remove(index)}
+            renderField={renderField}
+          />
+        )}
+      </FieldArray>
+    </div>
+  );
+};
+
+export default IdentifiersFields;

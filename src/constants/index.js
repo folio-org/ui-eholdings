@@ -1,5 +1,6 @@
 export { default as contentTypes } from './contentTypes';
 export { default as publicationTypes } from './publicationTypes';
+export { default as identifiersTypes } from './identifiersTypes';
 export { default as coverageStatementExistenceStatuses } from './coverageStatementExistenceStatuses';
 export { default as historyActions } from './historyActions';
 export { default as listTypes } from './listTypes';
@@ -26,6 +27,7 @@ export { default as ucCredentialsReduxStateShape } from './ucCredentialsReduxSta
 export { default as sortOrders } from './sortOrders';
 export { default as COVERAGE_STATEMENT_VALUE_MAX_LENGTH } from './coverageStatementValueMaxLength';
 export { default as CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH } from './contributorFieldValueMaxLength';
+export { default as IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH } from './identifiersFieldsValueMaxLength';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';
