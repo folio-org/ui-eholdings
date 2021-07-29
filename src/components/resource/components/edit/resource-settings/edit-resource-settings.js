@@ -67,32 +67,30 @@ const EditResourceSettings = ({
     >
       {renderFields
         ? (
-          <>
-            <Row>
-              <Col xs={3}>
-                <VisibilityField disabled={visibilityMessage} />
-              </Col>
-              <Col xs={9}>
-                <div>
-                  <Row>
-                    {hasInheritedProxy && (
-                      <Col xs={4}>
-                        {getAccordionContent()}
-                      </Col>
-                    )}
-                    {model.package.isCustom && (
-                      <Col xs={4}>
-                        <CustomUrlFields />
-                      </Col>
-                    )}
+          <Row>
+            <Col xs={3}>
+              <VisibilityField disabled={visibilityMessage} />
+            </Col>
+            <Col xs={9}>
+              <div>
+                <Row>
+                  {hasInheritedProxy && (
                     <Col xs={4}>
-                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                      {getAccordionContent()}
                     </Col>
-                  </Row>
-                </div>
-              </Col>
-            </Row>
-          </>
+                  )}
+                  {model.package.isCustom && (
+                    <Col xs={4}>
+                      <CustomUrlFields />
+                    </Col>
+                  )}
+                  <Col xs={4}>
+                    <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
         )
         : (
           <p data-test-eholdings-resource-edit-settings-message>
