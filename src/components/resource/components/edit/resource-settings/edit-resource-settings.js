@@ -72,23 +72,21 @@ const EditResourceSettings = ({
               <VisibilityField disabled={visibilityMessage} />
             </Col>
             <Col xs={9}>
-              <div>
-                <Row>
-                  {hasInheritedProxy && (
-                    <Col xs={4}>
-                      {getAccordionContent()}
-                    </Col>
-                  )}
-                  {model.package.isCustom && (
-                    <Col xs={4}>
-                      <CustomUrlFields />
-                    </Col>
-                  )}
+              <Row>
+                {hasInheritedProxy && (
                   <Col xs={4}>
-                    <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                    {getAccordionContent()}
                   </Col>
-                </Row>
-              </div>
+                )}
+                {model.package.isCustom && (
+                  <Col xs={4}>
+                    <CustomUrlFields />
+                  </Col>
+                )}
+                <Col xs={4}>
+                  <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                </Col>
+              </Row>
             </Col>
           </Row>
         )
