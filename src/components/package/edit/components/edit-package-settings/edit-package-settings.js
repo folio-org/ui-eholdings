@@ -20,7 +20,6 @@ import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 
 import fieldsetStyles from '../../../../fieldset-styles.css';
-import styles from './edit-package-settings.css';
 
 import {
   MAX_COLUMN_WIDTH,
@@ -156,12 +155,7 @@ const EditPackageSettings = ({
 
     return (
       <>
-        <Row
-          className={styles[`${isAccessStatusTypes
-            ? 'package-settings-in-column'
-            : 'package-settings-in-row'
-          }`]}
-        >
+        <Row>
           <Col xs>
             <Row>
               <Col xs={6}>
