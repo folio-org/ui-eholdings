@@ -11,6 +11,8 @@ import {
   Headline,
   Icon,
   RadioButton,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 
 import TokenField from '../../../../token';
@@ -19,6 +21,12 @@ import ProxySelectField from '../../../../proxy-select';
 
 import fieldsetStyles from '../../../../fieldset-styles.css';
 import styles from './edit-package-settings.css';
+
+import {
+  MAX_COLUMN_WIDTH,
+  ONE_THIRD_OF_COLUMN_WIDTH,
+  QUARTER_OF_COLUMN_WIDTH,
+} from '../../../../../constants';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object,
@@ -60,9 +68,12 @@ const EditPackageSettings = ({
     return (
       <fieldset
         data-test-eholdings-package-visibility-field
-        className={styles['visibility-radios']}
+        className={fieldsetStyles.fieldset}
       >
-        <Headline tag="legend" size="small" margin="x-large">
+        <Headline
+          tag="legend"
+          className={fieldsetStyles.label}
+        >
           <FormattedMessage id="ui-eholdings.package.visibility" />
         </Headline>
         <Field
@@ -133,51 +144,82 @@ const EditPackageSettings = ({
       return <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>;
     }
 
+    const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
+
+    const packageSettingsColumnWidth = isAccessStatusTypes
+      ? MAX_COLUMN_WIDTH
+      : ONE_THIRD_OF_COLUMN_WIDTH;
+
+    const dropdownColumnWidth = isAccessStatusTypes
+      ? QUARTER_OF_COLUMN_WIDTH
+      : MAX_COLUMN_WIDTH;
+
     return (
       <>
-        <div className={styles['visibility-radios']}>
-          {initialValues.isVisible !== null
-            ? renderVisibilityRadios()
-            : (
-              <div
-                data-test-eholdings-package-details-visibility
-                htmlFor="managed-package-details-visibility-switch"
-              >
-                <Icon icon="spinner-ellipsis" />
-              </div>
-            )
-          }
-        </div>
-        {!packageIsCustom && (
-          <div className={styles['title-management-radios']}>
-            {initialValues.allowKbToAddTitles !== null
-              ? renderTitleManagementRadios()
-              : (
-                <div
-                  data-test-eholdings-package-details-allow-add-new-titles
-                  htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                >
+        <Row
+          className={styles[`${isAccessStatusTypes
+            ? 'package-settings-in-column'
+            : 'package-settings-in-row'
+          }`]}
+        >
+          <Col xs>
+            <Row>
+              <Col xs={6}>
+                {initialValues.isVisible !== null
+                  ? renderVisibilityRadios()
+                  : (
+                    <div
+                      data-test-eholdings-package-details-visibility
+                      htmlFor="managed-package-details-visibility-switch"
+                    >
+                      <Icon icon="spinner-ellipsis" />
+                    </div>
+                  )
+                }
+              </Col>
+              {!packageIsCustom && (
+                <Col xs={6}>
+                  {initialValues.allowKbToAddTitles !== null
+                    ? renderTitleManagementRadios()
+                    : (
+                      <div
+                        data-test-eholdings-package-details-allow-add-new-titles
+                        htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                      >
+                        <Icon icon="spinner-ellipsis" />
+                      </div>
+                    )
+                  }
+                </Col>
+              )}
+            </Row>
+          </Col>
+          <Col xs={packageSettingsColumnWidth}>
+            <Row>
+              {(proxyTypes.request.isResolved && provider.data.isLoaded)
+                ? (
+                  <Col xs={dropdownColumnWidth}>
+                    <div data-test-eholdings-package-proxy-select-field>
+                      <ProxySelectField
+                        proxyTypes={proxyTypes}
+                        inheritedProxyId={provider.proxy.id}
+                      />
+                    </div>
+                  </Col>
+                ) : (
                   <Icon icon="spinner-ellipsis" />
-                </div>
-              )
-            }
-          </div>
-        )}
-        {(proxyTypes.request.isResolved && provider.data.isLoaded)
-          ? (
-            <div data-test-eholdings-package-proxy-select-field>
-              <ProxySelectField
-                proxyTypes={proxyTypes}
-                inheritedProxyId={provider.proxy.id}
-              />
-            </div>
-          ) : (
-            <Icon icon="spinner-ellipsis" />
-          )
-        }
+                )
+              }
+              {(!packageIsCustom && isAccessStatusTypes) && (
+                <Col xsOffset={3} xs={dropdownColumnWidth}>
+                  <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                </Col>
+              )}
+            </Row>
+          </Col>
+        </Row>
         {!packageIsCustom && (
           <>
-            <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
             {supportsProviderTokens && (
               <fieldset>
                 <Headline tag="legend" id="provider-token-label">
@@ -191,6 +233,10 @@ const EditPackageSettings = ({
                 />
               </fieldset>
             )}
+          </>
+        )}
+        {!packageIsCustom && (
+          <>
             {supportsPackageTokens && (
               <fieldset>
                 <Headline tag="legend" id="package-token-label">
