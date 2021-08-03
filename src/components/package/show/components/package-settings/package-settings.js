@@ -76,10 +76,12 @@ const PackageSettings = ({
                   <div data-test-eholdings-package-details-visibility-status>
                     {!model.visibilityData.isHidden
                       ? <FormattedMessage id="ui-eholdings.yes" />
-                      : <FormattedMessage
-                        id="ui-eholdings.package.visibility.no"
-                        values={{ visibilityMessage }}
-                      />
+                      : (
+                        <FormattedMessage
+                          id="ui-eholdings.package.visibility.no"
+                          values={{ visibilityMessage }}
+                        />
+                      )
                     }
                   </div>
                 </KeyValue>
