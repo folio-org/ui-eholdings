@@ -62,6 +62,10 @@ const PackageSettings = ({
       ? QUARTER_OF_COLUMN_WIDTH
       : MAX_COLUMN_WIDTH;
 
+    const packageAllowedToAddTitlesMessage = packageAllowedToAddTitles
+      ? <FormattedMessage id="ui-eholdings.yes" />
+      : <FormattedMessage id="ui-eholdings.no" />;
+
     return (
       <>
         <Row>
@@ -86,10 +90,7 @@ const PackageSettings = ({
                     {packageAllowedToAddTitles !== null
                       ? (
                         <div data-test-eholdings-package-details-allow-add-new-titles>
-                          {packageAllowedToAddTitles
-                            ? <FormattedMessage id="ui-eholdings.yes" />
-                            : <FormattedMessage id="ui-eholdings.no" />
-                          }
+                          {packageAllowedToAddTitlesMessage}
                         </div>
                       )
                       : <Icon icon="spinner-ellipsis" />
