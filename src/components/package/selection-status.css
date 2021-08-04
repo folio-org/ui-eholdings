@@ -1,0 +1,4 @@
+.label {
+  font-size: 1.05rem; /* like Label component font-size from `stripes-components` */
+  margin-bottom: 0;
+}
