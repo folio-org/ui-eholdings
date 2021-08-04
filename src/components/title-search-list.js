@@ -6,7 +6,7 @@ import NoResultsMessage from './no-results-message';
 
 const ITEM_HEIGHT = 70;
 
-export default function TitleSearchList({
+const TitleSearchList = ({
   activeId,
   collection,
   fetch,
@@ -14,8 +14,8 @@ export default function TitleSearchList({
   onUpdateOffset,
   params,
   shouldFocusItem,
-  onClickItem
-}) {
+  onClickItem,
+}) => {
   return (
     <QueryList
       type="titles"
@@ -37,7 +37,7 @@ export default function TitleSearchList({
           showContributors
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/titles/${item.content.id}`
+            pathname: `/eholdings/titles/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
@@ -46,7 +46,7 @@ export default function TitleSearchList({
       )}
     />
   );
-}
+};
 
 TitleSearchList.propTypes = {
   activeId: PropTypes.string,
@@ -54,10 +54,12 @@ TitleSearchList.propTypes = {
   fetch: PropTypes.func.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.node
+    PropTypes.node,
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  shouldFocusItem: PropTypes.string
+  shouldFocusItem: PropTypes.string,
 };
+
+export default TitleSearchList;

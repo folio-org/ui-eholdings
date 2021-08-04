@@ -6,7 +6,7 @@ import NoResultsMessage from './no-results-message';
 
 const ITEM_HEIGHT = 80;
 
-function PackageSearchList({
+const PackageSearchList = ({
   activeId,
   collection,
   fetch,
@@ -14,8 +14,8 @@ function PackageSearchList({
   onUpdateOffset,
   params,
   shouldFocusItem,
-  onClickItem
-}) {
+  onClickItem,
+}) => {
   return (
     <QueryList
       type="packages"
@@ -34,7 +34,7 @@ function PackageSearchList({
         <SearchPackageListItem
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/packages/${item.content.id}`
+            pathname: `/eholdings/packages/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
@@ -46,7 +46,7 @@ function PackageSearchList({
       )}
     />
   );
-}
+};
 
 PackageSearchList.propTypes = {
   activeId: PropTypes.string,
@@ -54,12 +54,12 @@ PackageSearchList.propTypes = {
   fetch: PropTypes.func.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.node
+    PropTypes.node,
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  shouldFocusItem: PropTypes.string
+  shouldFocusItem: PropTypes.string,
 };
 
 export default PackageSearchList;
