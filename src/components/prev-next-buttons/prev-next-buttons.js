@@ -19,7 +19,7 @@ const PrevNextButtons = ({
   const intl = useIntl();
 
   const maxItemsLength = page * PAGE_SIZE;
-  const disabledNext = maxItemsLength > totalResults;
+  const disabledNext = maxItemsLength >= totalResults;
   const dataStartIndex = (page - 1) * PAGE_SIZE + 1;
   const dataEndIndex = disabledNext
     ? totalResults
@@ -31,13 +31,13 @@ const PrevNextButtons = ({
         <Button
           disabled={page === 1 || isLoading}
           buttonStyle="none"
-          data-testid='previous-button'
+          data-testid="previous-button"
           onClick={() => {
             setPage(page - 1);
           }}
         >
           <Icon size="small" icon="caret-left">
-            <span>{intl.formatMessage({ id: 'ui-eholdings.previous' })}</span>
+            {intl.formatMessage({ id: 'ui-eholdings.previous' })}
           </Icon>
         </Button>
         <div className={styles['prev-next-page-info']}>
@@ -46,13 +46,13 @@ const PrevNextButtons = ({
         <Button
           disabled={disabledNext || isLoading}
           buttonStyle="none"
-          data-testid='next-button'
+          data-testid="next-button"
           onClick={() => {
             setPage(page + 1);
           }}
         >
           <Icon size="small" icon="caret-right" iconPosition="end">
-            <span>{intl.formatMessage({ id: 'ui-eholdings.next' })}</span>
+            {intl.formatMessage({ id: 'ui-eholdings.next' })}
           </Icon>
         </Button>
       </div>
