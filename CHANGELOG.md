@@ -28,6 +28,8 @@
 * Add tests for TitleCreate component. (UIEH-1068)
 * Change Resource Settings Display on Edit Resource details record. (UIEH-1161)
 * Support erm 5.0 interface. (UIEH-1154)
+* Change Package Settings display on Edit Package details record. (UIEH-1158)
+* Change Resource Settings display on View Resource details record. (UIEH-1160)
 * Change `loadMoreButton` to `PrevNextButtons`. (UIEH-1163)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)

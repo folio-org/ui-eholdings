@@ -28,6 +28,7 @@ export { default as sortOrders } from './sortOrders';
 export { default as COVERAGE_STATEMENT_VALUE_MAX_LENGTH } from './coverageStatementValueMaxLength';
 export { default as CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH } from './contributorFieldValueMaxLength';
 export { default as IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH } from './identifiersFieldsValueMaxLength';
+export * from './packageAndResourceSettings';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';
