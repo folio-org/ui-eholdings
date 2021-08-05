@@ -216,7 +216,11 @@ const EditPackageSettings = ({
           <>
             {supportsProviderTokens && (
               <fieldset>
-                <Headline tag="legend" id="provider-token-label">
+                <Headline
+                  tag="legend"
+                  id="provider-token-label"
+                  className={fieldsetStyles.label}
+                >
                   <FormattedMessage id="ui-eholdings.provider.token" />
                 </Headline>
                 <TokenField
@@ -233,7 +237,11 @@ const EditPackageSettings = ({
           <>
             {supportsPackageTokens && (
               <fieldset>
-                <Headline tag="legend" id="package-token-label">
+                <Headline
+                  tag="legend"
+                  id="package-token-label"
+                  className={fieldsetStyles.label}
+                >
                   <FormattedMessage id="ui-eholdings.package.token" />
                 </Headline>
                 <TokenField
