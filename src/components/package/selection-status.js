@@ -11,6 +11,8 @@ import {
   Button,
 } from '@folio/stripes/components';
 
+import SelectionStatusStyles from './selection-status.css';
+
 const SelectionStatus = ({
   model,
   onAddToHoldings,
@@ -62,6 +64,7 @@ const SelectionStatusMessage = ({ model }) => {
       <Headline
         margin="none"
         data-testid="selection-status-message"
+        className={SelectionStatusStyles.label}
       >
         <FormattedMessage {...messageFor(model)} />
       </Headline>
