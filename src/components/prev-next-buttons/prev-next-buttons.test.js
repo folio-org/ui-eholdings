@@ -43,16 +43,6 @@ describe('Given PrevNextButtons', () => {
 
       expect(mockSetPage).toHaveBeenCalledWith(2);
     });
-
-    it('should disable next button', () => {
-      const { getByTestId } = renderPrevNextButtons({
-        setPage: mockSetPage,
-      });
-
-      fireEvent.click(getByTestId('next-button'));
-
-      expect(getByTestId('next-button').disabled).toBeTruthy();
-    });
   });
 
   describe('when click on previous button', () => {
