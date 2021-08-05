@@ -6,7 +6,7 @@ import NoResultsMessage from './no-results-message';
 
 const ITEM_HEIGHT = 62;
 
-export default function ProviderSearchList({
+const ProviderSearchList = ({
   activeId,
   collection,
   fetch,
@@ -14,8 +14,8 @@ export default function ProviderSearchList({
   onUpdateOffset,
   params,
   shouldFocusItem,
-  onClickItem
-}) {
+  onClickItem,
+}) => {
   return (
     <QueryList
       type="providers"
@@ -34,7 +34,7 @@ export default function ProviderSearchList({
         <ProviderListItem
           item={item.content}
           link={item.content && {
-            pathname: `/eholdings/providers/${item.content.id}`
+            pathname: `/eholdings/providers/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
           shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
@@ -43,7 +43,7 @@ export default function ProviderSearchList({
       )}
     />
   );
-}
+};
 
 ProviderSearchList.propTypes = {
   activeId: PropTypes.string,
@@ -51,10 +51,12 @@ ProviderSearchList.propTypes = {
   fetch: PropTypes.func.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.node
+    PropTypes.node,
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  shouldFocusItem: PropTypes.string
+  shouldFocusItem: PropTypes.string,
 };
+
+export default ProviderSearchList;
