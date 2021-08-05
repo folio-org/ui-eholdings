@@ -3,6 +3,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
+import noop from 'lodash/noop';
 import Harness from '../../test/jest/helpers/harness';
 
 import TitleSearchList from './title-search-list';
@@ -53,10 +54,10 @@ describe('Given TitleSearchList', () => {
     <Harness>
       <TitleSearchList
         collection={collection}
-        fetch={() => {}}
+        fetch={noop}
         notFoundMessage="Not Found Message"
         onClickItem={mockOnClickItem}
-        onUpdateOffset={() => {}}
+        onUpdateOffset={noop}
         params={{}}
         {...props}
       />
