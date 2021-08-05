@@ -140,17 +140,6 @@ describe('Given AgreementsAccordion', () => {
       await waitFor(() => {
         expect(queryByText('ui-eholdings.agreements.unassignModal.header')).toBeNull();
       });
-      // const {
-      //   getAllByLabelText,
-      //   getByText,
-      // } = renderAgreementsAccordion();
-
-      // fireEvent.click(getAllByLabelText('ui-eholdings.agreements.unlink')[0]);
-      // await waitFor(() => {
-      //   expect(getByText('ui-eholdings.agreements.unassignModal.header')).toBeDefined();
-      //   fireEvent.click(getByText('ui-eholdings.agreements.unassignModal.unassign'));
-      //   expect(mockUnassignAgreement).toBeCalledWith({ id: 'agreement-1' });
-      // });
     });
   });
 
