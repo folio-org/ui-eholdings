@@ -38,7 +38,7 @@ describe('packageTitlesReducer', () => {
       ...state,
       hasLoaded: true,
       totalResults: 2,
-      items: [...state.items, ...action.payload.data],
+      items: [...action.payload.data],
     });
   });
 
