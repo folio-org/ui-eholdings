@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import {
-  Pluggable,
-} from '@folio/stripes/core';
+import { Pluggable } from '@folio/stripes/core';
 import {
   Accordion,
   Headline,
@@ -38,6 +36,9 @@ class AgreementsAccordion extends Component {
       isLoading: PropTypes.bool.isRequired,
       isUnassigned: PropTypes.bool.isRequired,
       items: PropTypes.arrayOf({
+        agreementStatus: PropTypes.shape({
+          label: PropTypes.string.isRequired,
+        }).isRequired,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         startDate: PropTypes.string.isRequired,
