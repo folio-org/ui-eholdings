@@ -1,10 +1,14 @@
-import { Component } from 'react';
+import {
+  useState,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Pluggable,
+  useStripes,
 } from '@folio/stripes/core';
 import {
   Accordion,
@@ -31,66 +35,64 @@ import AgreementsList from '../../components/agreements-list';
 import Agreement from './model';
 import styles from './agreements-accordion.css';
 
-class AgreementsAccordion extends Component {
-  static propTypes = {
-    agreements: PropTypes.shape({
-      errors: PropTypes.array.isRequired,
-      isLoading: PropTypes.bool.isRequired,
-      isUnassigned: PropTypes.bool.isRequired,
-      items: PropTypes.arrayOf({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        startDate: PropTypes.string.isRequired,
+const propTypes = {
+  agreements: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isUnassigned: PropTypes.bool.isRequired,
+    items: PropTypes.arrayOf({
+      agreementStatus: PropTypes.shape({
+        label: PropTypes.string.isRequired,
       }).isRequired,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
     }).isRequired,
-    attachAgreement: PropTypes.func.isRequired,
-    confirmUnassignAgreement: PropTypes.func.isRequired,
-    getAgreements: PropTypes.func.isRequired,
-    headerProps: PropTypes.object,
-    id: PropTypes.string.isRequired,
-    isOpen: PropTypes.bool,
-    onToggle: PropTypes.func,
-    refId: PropTypes.string.isRequired,
-    refName: PropTypes.string.isRequired,
-    refType: PropTypes.string,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    }).isRequired,
-    unassignAgreement: PropTypes.func.isRequired,
-  }
+  }).isRequired,
+  attachAgreement: PropTypes.func.isRequired,
+  confirmUnassignAgreement: PropTypes.func.isRequired,
+  getAgreements: PropTypes.func.isRequired,
+  headerProps: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool,
+  onToggle: PropTypes.func,
+  refId: PropTypes.string.isRequired,
+  refName: PropTypes.string.isRequired,
+  refType: PropTypes.string,
+  unassignAgreement: PropTypes.func.isRequired,
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showModal: false,
-      currentAgreement: {},
-    };
-  }
+const AgreementsAccordion = ({
+  agreements,
+  attachAgreement,
+  confirmUnassignAgreement,
+  getAgreements,
+  headerProps,
+  id,
+  isOpen,
+  onToggle,
+  refId,
+  refName,
+  refType,
+  unassignAgreement,
+}) => {
+  const stripes = useStripes();
+  const [showModal, setShowModal] = useState(false);
+  const [currentAgreement, setCurrentAgreement] = useState({});
 
-  componentDidMount() {
-    const {
-      getAgreements,
-      refId,
-      stripes,
-    } = this.props;
-
+  useEffect(() => {
     if (stripes.hasPerm('erm.agreements.collection.get')) {
       getAgreements(refId);
     }
-  }
+  }, []);
 
-  componentDidUpdate() {
-    const {
-      agreements: { isUnassigned },
-      confirmUnassignAgreement,
-    } = this.props;
-
-    if (isUnassigned) {
+  useEffect(() => {
+    if (agreements.isUnassigned) {
       confirmUnassignAgreement();
     }
-  }
+  }, [agreements.isUnassigned]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  getAgreementsAccordionHeader = () => {
+  const getAgreementsAccordionHeader = () => {
     return (
       <Headline
         size="large"
@@ -99,29 +101,35 @@ class AgreementsAccordion extends Component {
         <FormattedMessage id="ui-eholdings.agreements" />
       </Headline>
     );
-  }
+  };
 
-  renderFindAgreementTrigger = (props) => {
+  const renderFindAgreementTrigger = (props) => {
     return (
       <Button {...props}>
         <FormattedMessage id="ui-eholdings.add" />
       </Button>
     );
-  }
+  };
 
-  getAgreementsAccordionButtons() {
-    const {
-      refType,
+  const onAddAgreementHandler = ({ name, id: agreementId }) => {
+    const agreementParams = {
+      id: agreementId,
       refId,
-    } = this.props;
+      authorityType: refType,
+      label: name,
+    };
 
+    attachAgreement(new Agreement(agreementParams));
+  };
+
+  const getAgreementsAccordionButtons = () => {
     return (
       <>
         <Pluggable
           dataKey="find-agreements"
           type="find-agreement"
-          renderTrigger={this.renderFindAgreementTrigger}
-          onAgreementSelected={this.onAddAgreementHandler}
+          renderTrigger={renderFindAgreementTrigger}
+          onAgreementSelected={onAddAgreementHandler}
         />
         <Button
           data-test-new-button
@@ -132,140 +140,100 @@ class AgreementsAccordion extends Component {
         </Button>
       </>
     );
-  }
-
-  renderBadge() {
-    return (
-      <Badge>
-        {this.props.agreements.items.length}
-      </Badge>
-    );
-  }
-
-  onAddAgreementHandler = ({ name, id }) => {
-    const {
-      refId,
-      refType,
-      attachAgreement,
-    } = this.props;
-
-    const agreementParams = {
-      id,
-      refId,
-      authorityType: refType,
-      label: name,
-    };
-
-    attachAgreement(new Agreement(agreementParams));
   };
 
-  get toasts() {
-    const {
-      agreements: {
-        errors,
-      },
-    } = this.props;
+  const renderBadge = () => {
+    return (
+      <Badge>
+        {agreements.items.length}
+      </Badge>
+    );
+  };
 
-    const toasts = errors.map(error => ({
+  const getToasts = () => {
+    const toasts = agreements.errors.map(error => ({
       message: error.title,
       type: 'error',
     }));
 
     return toasts;
-  }
+  };
 
-  onUnassignAgreement = currentAgreement => {
-    this.setState(() => ({
-      showModal: true,
-      currentAgreement,
-    }));
-  }
+  const onUnassignAgreement = (agreement) => {
+    setShowModal(true);
+    setCurrentAgreement(agreement);
+  };
 
-  closeModal = () => {
-    this.setState(() => ({
-      showModal: false,
-      currentAgreement: {},
-    }));
-  }
+  const closeModal = () => {
+    setShowModal(false);
+    setCurrentAgreement({});
+  };
 
-  render() {
-    const {
-      agreements,
-      isOpen,
-      id,
-      onToggle,
-      headerProps,
-      unassignAgreement,
-      refName,
-    } = this.props;
-    const {
-      currentAgreement,
-      showModal,
-    } = this.state;
+  const handleUnassignConfirm = () => {
+    unassignAgreement({ id: currentAgreement.id });
+    closeModal();
+  };
 
-    return (
-      <>
-        <Accordion
-          id={id}
-          open={isOpen}
-          label={this.getAgreementsAccordionHeader()}
-          displayWhenOpen={this.getAgreementsAccordionButtons()}
-          displayWhenClosed={this.renderBadge()}
-          onToggle={onToggle}
-          headerProps={headerProps}
-        >
-          <AgreementsList
-            agreements={agreements}
-            onUnassignAgreement={this.onUnassignAgreement}
-          />
-        </Accordion>
-
-        <Toaster
-          position="bottom"
-          toasts={this.toasts}
+  return (
+    <>
+      <Accordion
+        id={id}
+        open={isOpen}
+        label={getAgreementsAccordionHeader()}
+        displayWhenOpen={getAgreementsAccordionButtons()}
+        displayWhenClosed={renderBadge()}
+        onToggle={onToggle}
+        headerProps={headerProps}
+      >
+        <AgreementsList
+          agreements={agreements}
+          onUnassignAgreement={onUnassignAgreement}
         />
+      </Accordion>
 
-        <Modal
-          open={showModal}
-          size="small"
-          label={<FormattedMessage id="ui-eholdings.agreements.unassignModal.header" />}
-          id="unassign-agreement-confirmation-modal"
-          footer={(
-            <ModalFooter>
-              <Button
-                data-test-eholdings-agreements-unassign-modal-yes
-                buttonStyle="primary"
-                marginBottom0
-                onClick={() => {
-                  unassignAgreement({ id: currentAgreement.id });
+      <Toaster
+        position="bottom"
+        toasts={getToasts()}
+      />
 
-                  this.closeModal();
-                }}
-              >
-                <FormattedMessage id="ui-eholdings.agreements.unassignModal.unassign" />
-              </Button>
-              <Button
-                data-test-eholdings-agreements-unassign-modal-no
-                marginBottom0
-                onClick={this.closeModal}
-              >
-                <FormattedMessage id="ui-eholdings.agreements.unassignModal.cancel" />
-              </Button>
-            </ModalFooter>
-          )}
-        >
-          <SafeHTMLMessage
-            id="ui-eholdings.agreements.unassignModal.description"
-            values={{
-              agreementName: currentAgreement.name,
-              recordName: refName,
-            }}
-          />
-        </Modal>
-      </>
-    );
-  }
-}
+      <Modal
+        open={showModal}
+        size="small"
+        label={<FormattedMessage id="ui-eholdings.agreements.unassignModal.header" />}
+        id="unassign-agreement-confirmation-modal"
+        footer={(
+          <ModalFooter>
+            <Button
+              data-test-eholdings-agreements-unassign-modal-yes
+              buttonStyle="primary"
+              marginBottom0
+              onClick={handleUnassignConfirm}
+            >
+              <FormattedMessage id="ui-eholdings.agreements.unassignModal.unassign" />
+            </Button>
+            <Button
+              data-test-eholdings-agreements-unassign-modal-no
+              marginBottom0
+              onClick={closeModal}
+            >
+              <FormattedMessage id="ui-eholdings.agreements.unassignModal.cancel" />
+            </Button>
+          </ModalFooter>
+        )}
+      >
+        <SafeHTMLMessage
+          id="ui-eholdings.agreements.unassignModal.description"
+          values={{
+            agreementName: currentAgreement.name,
+            recordName: refName,
+          }}
+        />
+      </Modal>
+    </>
+  );
+};
+
+AgreementsAccordion.propTypes = propTypes;
 
 export default connect(
   (store) => ({
