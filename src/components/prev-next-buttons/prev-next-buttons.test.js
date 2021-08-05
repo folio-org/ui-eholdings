@@ -18,40 +18,40 @@ describe('Given PrevNextButtons', () => {
   );
 
   it('should render PrevNextButtons', () => {
-    const { getByText } = renderPrevNextButtons();
+    const { getByTestId } = renderPrevNextButtons();
 
-    expect(getByText('ui-eholdings.previous')).toBeDefined();
-    expect(getByText('ui-eholdings.next')).toBeDefined();
+    expect(getByTestId('previous-button')).toBeDefined();
+    expect(getByTestId('next-button')).toBeDefined();
   });
 
   it('should disable previous button', () => {
-    const { getByText } = renderPrevNextButtons();
+    const { getByTestId } = renderPrevNextButtons();
 
-    expect(getByText('ui-eholdings.previous').disabled).toBeTruthy();
-    expect(getByText('ui-eholdings.next').disabled).toBeFalsy();
+    expect(getByTestId('previous-button').disabled).toBeTruthy();
+    expect(getByTestId('next-button').disabled).toBeFalsy();
   });
 
   describe('when click on next button', () => {
     const mockSetPage = jest.fn();
 
     it('should handle setPage', () => {
-      const { getByText } = renderPrevNextButtons({
+      const { getByTestId } = renderPrevNextButtons({
         setPage: mockSetPage,
       });
 
-      fireEvent.click(getByText('ui-eholdings.next'));
+      fireEvent.click(getByTestId('next-button'));
 
       expect(mockSetPage).toHaveBeenCalledWith(2);
     });
 
     it('should disable next button', () => {
-      const { getByText } = renderPrevNextButtons({
+      const { getByTestId } = renderPrevNextButtons({
         setPage: mockSetPage,
       });
 
-      fireEvent.click(getByText('ui-eholdings.next'));
+      fireEvent.click(getByTestId('next-button'));
 
-      expect(getByText('ui-eholdings.next').disabled).toBeTruthy();
+      expect(getByTestId('next-button').disabled).toBeTruthy();
     });
   });
 
@@ -59,24 +59,24 @@ describe('Given PrevNextButtons', () => {
     const mockSetPage = jest.fn();
 
     it('should handle setPage', () => {
-      const { getByText } = renderPrevNextButtons({
+      const { getByTestId } = renderPrevNextButtons({
         page: 2,
         setPage: mockSetPage,
       });
 
-      fireEvent.click(getByText('ui-eholdings.previous'));
+      fireEvent.click(getByTestId('previous-button'));
 
       expect(mockSetPage).toHaveBeenCalledWith(1);
     });
 
-    it('should disable next button', () => {
-      const { getByText } = renderPrevNextButtons({
+    it('should disable previous button', () => {
+      const { getByTestId } = renderPrevNextButtons({
         setPage: mockSetPage,
       });
 
-      fireEvent.click(getByText('ui-eholdings.previous'));
+      fireEvent.click(getByTestId('previous-button'));
 
-      expect(getByText('ui-eholdings.previous').disabled).toBeTruthy();
+      expect(getByTestId('previous-button').disabled).toBeTruthy();
     });
   });
 });

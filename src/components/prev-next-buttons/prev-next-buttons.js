@@ -31,6 +31,7 @@ const PrevNextButtons = ({
         <Button
           disabled={page === 1 || isLoading}
           buttonStyle="none"
+          data-testid='previous-button'
           onClick={() => {
             setPage(page - 1);
           }}
@@ -45,6 +46,7 @@ const PrevNextButtons = ({
         <Button
           disabled={disabledNext || isLoading}
           buttonStyle="none"
+          data-testid='next-button'
           onClick={() => {
             setPage(page + 1);
           }}
@@ -59,10 +61,10 @@ const PrevNextButtons = ({
 };
 
 PrevNextButtons.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
   setPage: PropTypes.func.isRequired,
   totalResults: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };
 
 export default PrevNextButtons;

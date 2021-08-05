@@ -22,9 +22,9 @@ export default class ScrollView extends Component {
       slice: PropTypes.func.isRequired
     }).isRequired,
     length: PropTypes.number,
-    prevNextButtons: PropTypes.node,
     offset: PropTypes.number,
     onUpdate: PropTypes.func,
+    prevNextButtons: PropTypes.node,
     queryListName: PropTypes.string.isRequired,
     scrollable: PropTypes.bool,
   };

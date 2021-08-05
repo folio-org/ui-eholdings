@@ -2,7 +2,6 @@ import noop from 'lodash/noop';
 import {
   render,
   cleanup,
-  fireEvent,
 } from '@testing-library/react';
 
 import QuerySearchList from './query-search-list';
