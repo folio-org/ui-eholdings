@@ -3,16 +3,11 @@ import {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 
-import { Button } from '@folio/stripes/components';
-
 import ScrollView from '../scroll-view';
-import {
-  FIRST_PAGE,
-  PAGE_SIZE,
-} from '../../constants';
+import PrevNextButtons from '../prev-next-buttons';
+import { FIRST_PAGE } from '../../constants';
 
 import styles from './query-search-list.css';
 
@@ -35,10 +30,11 @@ const QuerySearchList = ({
   }, [fetch, page]);
 
   const {
-    totalLength,
+    totalResults,
     items,
     hasFailed,
     errors,
+    isLoading,
   } = collection;
   const length = items.length;
 
@@ -54,25 +50,6 @@ const QuerySearchList = ({
     return notFoundMessage;
   }
 
-  const getLoadMoreButton = () => {
-    const isUnloadedPagesPresent = (totalLength !== length) && !(length % PAGE_SIZE);
-
-    if (isUnloadedPagesPresent) {
-      return (
-        <div className={styles['button-wrapper']}>
-          <Button
-            style={{ width: '75%', margin: '1rem auto' }}
-            onClick={() => { setPage(page + 1); }}
-          >
-            <FormattedMessage id="ui-eholdings.loadMore" />
-          </Button>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   return (
     <ScrollView
       items={items}
@@ -81,7 +58,14 @@ const QuerySearchList = ({
       scrollable={scrollable}
       queryListName={type}
       fullWidth={fullWidth}
-      loadMoreButton={getLoadMoreButton()}
+      prevNextButtons={(
+        <PrevNextButtons
+          isLoading={isLoading}
+          totalResults={totalResults}
+          setPage={setPage}
+          page={page}
+        />
+      )}
     >
       {item => (
         item.isRejected ? (

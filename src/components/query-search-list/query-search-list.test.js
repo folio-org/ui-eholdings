@@ -59,55 +59,6 @@ describe('Given QuerySearchList', () => {
     });
   });
 
-  describe('when request returns the collection and total result is more then 100', () => {
-    it('should show load more button', () => {
-      const { getByText } = renderQuerySearchList({
-        collection: {
-          ...collection,
-          totalResults: 150,
-          items: new Array(100).fill({ isRejected: false }),
-        },
-      });
-
-      expect(getByText('ui-eholdings.loadMore')).toBeDefined();
-    });
-
-    describe('when click on load more button', () => {
-      it('should handle fetch', () => {
-        const fetch = jest.fn();
-        const { getByText } = renderQuerySearchList({
-          fetch,
-          collection: {
-            ...collection,
-            totalResults: 150,
-            items: new Array(100).fill({ isRejected: false }),
-          },
-        });
-
-        fireEvent.click(getByText('ui-eholdings.loadMore'));
-
-        expect(fetch).toHaveBeenCalledWith(2);
-      });
-    });
-  });
-
-  describe('when request returns the collection and total result is less then 100', () => {
-    it('should not show load more button', () => {
-      const { queryByText } = renderQuerySearchList({
-        collection: {
-          ...collection,
-          totalResults: 50,
-          items: new Array(50).fill({
-            isRejected: true,
-            error: [{ title: 'error' }],
-          }),
-        },
-      });
-
-      expect(queryByText('ui-eholdings.loadMore')).toBeNull();
-    });
-  });
-
   describe('when request returns the collection and items are not rejected', () => {
     it('should handle renderItem', () => {
       const renderItem = jest.fn();
