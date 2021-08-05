@@ -18,9 +18,9 @@ const ProxyDisplay = ({
   }
 
   const proxyId = proxy.id;
-  const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key === proxyId)];
+  const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
   const name = selectedValue.attributes.name;
-  const checkIfInherited = inheritedProxyId === proxyId;
+  const checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
 
   return (
     <KeyValue label={<FormattedMessage id="ui-eholdings.proxy" />}>
