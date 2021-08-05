@@ -30,19 +30,19 @@ import styles from './package-create.css';
 const initialValues = {
   name: '',
   contentType: 'Unknown',
-  customCoverages: []
+  customCoverages: [],
 };
 
 const focusOnErrors = createFocusDecorator();
 const paneTitle = <FormattedMessage id="ui-eholdings.package.create.custom" />;
 
-export default class PackageCreate extends Component {
+class PackageCreate extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     removeCreateRequests: PropTypes.func.isRequired,
-    request: PropTypes.object.isRequired
+    request: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -132,7 +132,7 @@ export default class PackageCreate extends Component {
                 toasts={request.errors.map(({ title }, index) => ({
                   id: `error-${request.timestamp}-${index}`,
                   message: title,
-                  type: 'error'
+                  type: 'error',
                 }))}
               />
               <form
@@ -174,3 +174,5 @@ export default class PackageCreate extends Component {
     );
   }
 }
+
+export default PackageCreate;
