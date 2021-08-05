@@ -5,6 +5,8 @@
     "startDate": "Start Date",
     "name": "Name",
     "status": "Status",
+    "previous": "Previous",
+    "next": "Next",
     "shortcut.createRecord": "Create a new custom package or title record",
     "shortcut.editRecord": "Edit a record",
     "shortcut.saveRecord": "Save a record",
