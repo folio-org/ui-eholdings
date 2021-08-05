@@ -14,8 +14,6 @@ jest.mock('@folio/stripes-components', () => ({
   Badge: ({ children }) => <div>Badge {children}</div>
 }));
 
-// jest.mock('../../components/agreements-list', () => () => <div>Agreements list</div>);
-
 const mockAttachAgreement = jest.fn();
 const mockConfirmUnassignAgreement = jest.fn();
 const mockGetAgreements = jest.fn();
