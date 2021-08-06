@@ -24,7 +24,6 @@ const renderPackageCreate = ({ ...props }) => render(
   <PackageCreate
     request={{ errors: [] }}
     onSubmit={noop}
-    onCancel={noop}
     removeCreateRequests={noop}
     accessStatusTypes={accessStatusTypes}
     {...props}
@@ -42,10 +41,18 @@ describe('PackageCreate', () => {
     const {
       getByText,
       getByRole,
-    } = renderPackageCreate();
+    } = renderPackageCreate({
+      onCancel: noop,
+    });
 
     expect(getByText('ui-eholdings.package.create.custom')).toBeDefined();
     expect(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' })).toBeDefined();
+  });
+
+  it('should not display close button in the first menu pane', () => {
+    const { queryByRole } = renderPackageCreate();
+
+    expect(queryByRole('button', { name: 'ui-eholdings.label.icon.closeX' })).toBeNull();
   });
 
   it('should display Package information headline', () => {
@@ -104,7 +111,9 @@ describe('PackageCreate', () => {
       const {
         getByRole,
         getByText,
-      } = renderPackageCreate();
+      } = renderPackageCreate({
+        onCancel: noop,
+      });
 
       const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
 
