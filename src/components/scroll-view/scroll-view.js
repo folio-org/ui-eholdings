@@ -22,9 +22,9 @@ export default class ScrollView extends Component {
       slice: PropTypes.func.isRequired
     }).isRequired,
     length: PropTypes.number,
-    loadMoreButton: PropTypes.node,
     offset: PropTypes.number,
     onUpdate: PropTypes.func,
+    prevNextButtons: PropTypes.node,
     queryListName: PropTypes.string.isRequired,
     scrollable: PropTypes.bool,
   };
@@ -33,7 +33,7 @@ export default class ScrollView extends Component {
     offset: 0,
     scrollable: true,
     fullWidth: false,
-    loadMoreButton: null,
+    prevNextButtons: null,
   };
 
   constructor(props) {
@@ -153,7 +153,7 @@ export default class ScrollView extends Component {
       scrollable,
       fullWidth,
       queryListName,
-      loadMoreButton,
+      prevNextButtons,
     } = this.props;
 
     const {
@@ -181,7 +181,7 @@ export default class ScrollView extends Component {
         >
           {this.renderChildren()}
         </List>
-        {loadMoreButton}
+        {prevNextButtons}
       </div>
     );
   }

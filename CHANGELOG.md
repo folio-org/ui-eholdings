@@ -33,6 +33,7 @@
 * Jest+RTL > Test AgreementsAccordion. (UIEH-1071)
 * Change Package Settings display on View Package details record. (UIEH-1159)
 * Add tests for PackageSearchList, ProviderSearchList, TitleSearchList components. (UIEH-1070)
+* Change `loadMoreButton` to `PrevNextButtons`. (UIEH-1163)
 * Add tests for PackageCreate component. (UIEH-1072)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
