@@ -10,20 +10,20 @@ import {
 import styles from './search-form.css';
 
 const propTypes = {
-  activeFilters: PropTypes.object,
+  activeFilters: PropTypes.object, // { filterName: filterValue }
   availableFilters: PropTypes.arrayOf(PropTypes.shape({
     defaultValue: PropTypes.string,
     label: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.node.isRequired,
-      value: PropTypes.string.isRequired
-    })).isRequired
+      value: PropTypes.string.isRequired,
+    })).isRequired,
   })).isRequired,
   closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  searchType: PropTypes.string.isRequired
+  searchType: PropTypes.string.isRequired,
 };
 
 const defaultProps = {

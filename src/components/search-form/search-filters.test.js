@@ -7,7 +7,6 @@ import {
 import Harness from '../../../test/jest/helpers/harness';
 import SearchFilters from './search-filters';
 
-
 const mockOnUpdate = jest.fn();
 
 const renderSearchFilters = (props = {}) => render(
@@ -26,7 +25,7 @@ const renderSearchFilters = (props = {}) => render(
         }, {
           label: 'Package-label',
           value: 'package',
-        }]
+        }],
       }]}
       onUpdate={mockOnUpdate}
       searchType="packages"
