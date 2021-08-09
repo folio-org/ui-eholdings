@@ -34,6 +34,7 @@
 * Change Package Settings display on View Package details record. (UIEH-1159)
 * Add tests for PackageSearchList, ProviderSearchList, TitleSearchList components. (UIEH-1070)
 * Change `loadMoreButton` to `PrevNextButtons`. (UIEH-1163)
+* Jest+RTL > Test SearchFilters. (UIEH-1075)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
