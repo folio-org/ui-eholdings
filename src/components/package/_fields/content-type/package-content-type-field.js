@@ -19,7 +19,7 @@ const PackageContentTypeField = () => {
         {Object.values(contentTypes).map((contentType) => {
           const value = formatMessage({ id: `ui-eholdings.filter.contentType.${contentType}` });
 
-          return (<option value={value}>{value}</option>);
+          return (<option key={value} value={value}>{value}</option>);
         })}
       </Field>
     </div>
