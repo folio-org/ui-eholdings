@@ -24,7 +24,7 @@ const QuerySearchList = ({
 }) => {
   useEffect(() => {
     fetch(FIRST_PAGE);
-  }, [fetch]);
+  }, []);
 
   const {
     totalResults,
