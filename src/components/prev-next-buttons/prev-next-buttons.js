@@ -12,7 +12,7 @@ import styles from './prev-next-buttons.css';
 
 const PrevNextButtons = ({
   page,
-  setPage,
+  fetch,
   totalResults,
   isLoading,
 }) => {
@@ -33,7 +33,7 @@ const PrevNextButtons = ({
           buttonStyle="none"
           data-testid="previous-button"
           onClick={() => {
-            setPage(page - 1);
+            fetch(page - 1);
           }}
         >
           <Icon size="small" icon="caret-left">
@@ -48,7 +48,7 @@ const PrevNextButtons = ({
           buttonStyle="none"
           data-testid="next-button"
           onClick={() => {
-            setPage(page + 1);
+            fetch(page + 1);
           }}
         >
           <Icon size="small" icon="caret-right" iconPosition="end">
@@ -61,9 +61,9 @@ const PrevNextButtons = ({
 };
 
 PrevNextButtons.propTypes = {
+  fetch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
-  setPage: PropTypes.func.isRequired,
   totalResults: PropTypes.number.isRequired,
 };
 
