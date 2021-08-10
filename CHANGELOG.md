@@ -37,6 +37,7 @@
 * Add tests for PackageCreate component. (UIEH-1072)
 * Jest+RTL > Test SearchFilters. (UIEH-1075)
 * Jest+RTL > Test CustomLabelField. (UIEH-1076)
+* Fix cannot edit a package-title (aka resource) record. (UIEH-1168)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
