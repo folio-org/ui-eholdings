@@ -14,6 +14,7 @@ import {
   currenciesApi,
   costPerUseApi,
   packageTitlesApi,
+  providerPackagesApi,
   ucCredentialsApi,
 } from '../api';
 
@@ -50,6 +51,7 @@ import {
   currencies,
   costPerUse,
   packageTitles,
+  providerPackages,
   ucCredentials,
 } from './reducers';
 
@@ -85,6 +87,7 @@ import {
   createGetCostPerUseEpic,
   createGetCostPerUsePackageTitlesEpic,
   createGetPackageTitlesEpic,
+  createGetProviderPackagesEpic,
   createGetUcCredentialsEpic,
   createUpdateUcCredentialsEpic,
 } from './epics';
@@ -122,6 +125,7 @@ export const reducer = combineReducers({
       currencies: currencies(currentState.currencies, action),
       costPerUse: costPerUse(currentState.costPerUse, action),
       packageTitles: packageTitles(currentState.packageTitles, action),
+      providerPackages: providerPackages(currentState.providerPackages, action),
       ucCredentials: ucCredentials(currentState.ucCredentials, action),
     };
   }
@@ -160,6 +164,7 @@ export const epics = combineEpics(
   createGetCostPerUseEpic({ costPerUseApi }),
   createGetCostPerUsePackageTitlesEpic({ costPerUseApi }),
   createGetPackageTitlesEpic({ packageTitlesApi }),
+  createGetProviderPackagesEpic({ providerPackagesApi }),
   createGetUcCredentialsEpic({ ucCredentialsApi }),
   createUpdateUcCredentialsEpic({ ucCredentialsApi }),
 );

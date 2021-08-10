@@ -37,6 +37,7 @@
 * Add tests for PackageCreate component. (UIEH-1072)
 * Jest+RTL > Test SearchFilters. (UIEH-1075)
 * Jest+RTL > Test CustomLabelField. (UIEH-1076)
+* Provider Record: List of Packages Results | Apply Next/Previous Component. (UIEH-1005)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
