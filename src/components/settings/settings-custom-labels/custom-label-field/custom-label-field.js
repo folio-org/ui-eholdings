@@ -13,7 +13,9 @@ import { useStripes } from '@folio/stripes/core';
 import { getMatchedStringInUTF8 } from '../../../utilities';
 import { CUSTOM_LABELS_DISPLAY_LABEL_MAX_LENGTH } from '../../../../constants';
 
-const propTypes = { name: PropTypes.string.isRequired };
+const propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
 const CustomLabelField = ({ name }) => {
   const stripes = useStripes();

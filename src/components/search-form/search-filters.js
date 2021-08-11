@@ -9,14 +9,36 @@ import {
 
 import styles from './search-form.css';
 
-export default function SearchFilters({
+const propTypes = {
+  activeFilters: PropTypes.object, // { filterName: filterValue }
+  availableFilters: PropTypes.arrayOf(PropTypes.shape({
+    defaultValue: PropTypes.string,
+    label: PropTypes.node.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.node.isRequired,
+      value: PropTypes.string.isRequired,
+    })).isRequired,
+  })).isRequired,
+  closedByDefault: PropTypes.bool,
+  disabled: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  searchType: PropTypes.string.isRequired,
+};
+
+const defaultProps = {
+  activeFilters: {},
+  closedByDefault: true,
+};
+
+const SearchFilters = ({
   searchType,
-  activeFilters = {},
+  activeFilters,
   availableFilters,
   onUpdate,
   closedByDefault,
   disabled,
-}) {
+}) => {
   return (
     <div
       className={styles['search-filters']}
@@ -59,6 +81,7 @@ export default function SearchFilters({
                     name={name}
                     id={`eholdings-search-filters-${searchType}-${name}-${value}`}
                     label={radioBtnLabel}
+                    aria-label={radioBtnLabel}
                     value={value}
                     checked={isChecked}
                     disabled={disabled}
@@ -81,25 +104,9 @@ export default function SearchFilters({
       })}
     </div>
   );
-}
-
-SearchFilters.defaultProps = {
-  closedByDefault: true,
 };
 
-SearchFilters.propTypes = {
-  activeFilters: PropTypes.object,
-  availableFilters: PropTypes.arrayOf(PropTypes.shape({
-    defaultValue: PropTypes.string,
-    label: PropTypes.node.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.node.isRequired,
-      value: PropTypes.string.isRequired
-    })).isRequired
-  })).isRequired,
-  closedByDefault: PropTypes.bool,
-  disabled: PropTypes.bool.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  searchType: PropTypes.string.isRequired
-};
+SearchFilters.propTypes = propTypes;
+SearchFilters.defaultProps = defaultProps;
+
+export default SearchFilters;

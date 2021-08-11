@@ -1,6 +1,5 @@
 import {
   useEffect,
-  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
@@ -23,11 +22,9 @@ const QuerySearchList = ({
   scrollable,
   type,
 }) => {
-  const [page, setPage] = useState(FIRST_PAGE);
-
   useEffect(() => {
-    fetch(page);
-  }, [fetch, page]);
+    fetch(FIRST_PAGE);
+  }, []);
 
   const {
     totalResults,
@@ -35,6 +32,7 @@ const QuerySearchList = ({
     hasFailed,
     errors,
     isLoading,
+    page,
   } = collection;
   const length = items.length;
 
@@ -62,7 +60,7 @@ const QuerySearchList = ({
         <PrevNextButtons
           isLoading={isLoading}
           totalResults={totalResults}
-          setPage={setPage}
+          fetch={fetch}
           page={page}
         />
       )}

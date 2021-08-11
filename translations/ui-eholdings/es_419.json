@@ -413,7 +413,7 @@
     "addPackageToHoldings": "Add package to holdings",
     "permission.settings.custom-labels.view": "Ajustes (eholdings): Puede ver las etiquetas personalizadas",
     "filter.search": "Buscar",
-    "label.tags": "Tag(s): {tags}",
+    "label.tags": "Etiqueta (s): {etiquetas}",
     "agreements.unlink": "Desvincular el acuerdo de este registro.",
     "agreements.unassignModal.header": "Anular la asignación de un acuerdo de este registro",
     "agreements.unassignModal.description": "¿Seguro que desea cancelar la asignación <strong> {agreementName} </strong> de <strong> {recordName} </strong> ? Una vez que cancele la asignación, el acuerdo ya no se adjuntará a este registro.",
@@ -502,7 +502,7 @@
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
     "usageConsolidation.holdingsSummary": "Resumen de existencias",
-    "navigation.app": "eholdings app Search",
+    "navigation.app": "Búsqueda de la aplicación eholdings",
     "navigation.content": "Submit a KB Content Inquiry",
     "navigation.systemStatus": "Estado del sistema EBSCO",
     "navigation.keyboardShortcuts": "Atajos de teclado"
