@@ -6,11 +6,13 @@ import noop from 'lodash/noop';
 
 import PrevNextButtons from './prev-next-buttons';
 
+const mockFetch = jest.fn();
+
 describe('Given PrevNextButtons', () => {
   const renderPrevNextButtons = (props) => render(
     <PrevNextButtons
       page={1}
-      setPage={noop}
+      fetch={noop}
       totalResults={150}
       isLoading={false}
       {...props}
@@ -32,36 +34,32 @@ describe('Given PrevNextButtons', () => {
   });
 
   describe('when click on next button', () => {
-    const mockSetPage = jest.fn();
-
-    it('should handle setPage', () => {
+    it('should handle fetch', () => {
       const { getByTestId } = renderPrevNextButtons({
-        setPage: mockSetPage,
+        fetch: mockFetch,
       });
 
       fireEvent.click(getByTestId('next-button'));
 
-      expect(mockSetPage).toHaveBeenCalledWith(2);
+      expect(mockFetch).toHaveBeenCalledWith(2);
     });
   });
 
   describe('when click on previous button', () => {
-    const mockSetPage = jest.fn();
-
-    it('should handle setPage', () => {
+    it('should handle fetch', () => {
       const { getByTestId } = renderPrevNextButtons({
         page: 2,
-        setPage: mockSetPage,
+        fetch: mockFetch,
       });
 
       fireEvent.click(getByTestId('previous-button'));
 
-      expect(mockSetPage).toHaveBeenCalledWith(1);
+      expect(mockFetch).toHaveBeenCalledWith(1);
     });
 
     it('should disable previous button', () => {
       const { getByTestId } = renderPrevNextButtons({
-        setPage: mockSetPage,
+        fetch: mockFetch,
       });
 
       fireEvent.click(getByTestId('previous-button'));
