@@ -1,5 +1,6 @@
 
 import {
+  cleanup,
   fireEvent,
   render,
 } from '@testing-library/react';
@@ -14,11 +15,6 @@ import ResourceEditManagedTitle from './resource-edit-managed-title';
 import Harness from '../../../../test/jest/helpers/harness';
 
 jest.mock('../../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
-
-jest.mock('../../../features', () => ({
-  ...jest.requireActual('../../../features'),
-  CustomLabelsAccordion: () => () => (<span>CustomLabelsAccordion</span>),
-}));
 
 const accessStatusTypes = {
   errors: [],
@@ -102,8 +98,29 @@ const model = {
   isTitleCustom: false,
 };
 
+const mockHandleOnSubmit = jest.fn();
+
 const renderResourceEditManagedTitle = (props = {}) => render(
-  <Harness>
+  <Harness
+    storeInitialState={{
+      data: {
+        customLabels: {
+          errors: [],
+          items: {
+            data: [{
+              type: 'customLabels',
+              attributes: {
+                id: 1,
+                displayLabel: 'customLabel1',
+                displayOnFullTextFinder: true,
+                displayOnPublicationFinder: false,
+              },
+            }],
+          },
+        },
+      },
+    }}
+  >
     <CommandList commands={defaultKeyboardShortcuts}>
       <ResourceEditManagedTitle
         closeSelectionModal={noop}
@@ -113,8 +130,15 @@ const renderResourceEditManagedTitle = (props = {}) => render(
         onCancel={noop}
         showSelectionModal={false}
         handleDeleteConfirmation={noop}
-        handleOnSubmit={noop}
-        getFooter={noop}
+        handleOnSubmit={mockHandleOnSubmit}
+        getFooter={() => (
+          <button
+            buttonStyle="primary mega"
+            type="submit"
+          >
+            Save & close
+          </button>
+        )}
         getSectionHeader={noop}
         {...props}
       />
@@ -123,6 +147,11 @@ const renderResourceEditManagedTitle = (props = {}) => render(
 );
 
 describe('Given ResourceEditManagedTitle', () => {
+  afterEach(() => {
+    cleanup();
+    mockHandleOnSubmit.mockClear();
+  });
+
   it('should check dates radio button', () => {
     const { getByLabelText } = renderResourceEditManagedTitle();
 
@@ -183,6 +212,60 @@ describe('Given ResourceEditManagedTitle', () => {
 
         expect(mockCloseSelectionModal).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('when saving a managed resource in a managed package', () => {
+    it('should not edit url', () => {
+      const {
+        getByText,
+        getByLabelText,
+      } = renderResourceEditManagedTitle({
+        model: {
+          ...model,
+          url: 'https://www.test.com',
+          isPackageCustom: false,
+        },
+      });
+
+      fireEvent.change(getByLabelText('customLabel1'), {
+        target: {
+          value: 'testvalue',
+        },
+      });
+      fireEvent.blur(getByLabelText('customLabel1'));
+
+      fireEvent.click(getByText('Save & close'));
+
+      const formValues = mockHandleOnSubmit.mock.calls[0][0];
+      expect(formValues.customUrl).toBeUndefined();
+    });
+  });
+
+  describe('when saving a managed resource in a custom package', () => {
+    it('should save url', () => {
+      const {
+        getByText,
+        getByLabelText,
+      } = renderResourceEditManagedTitle({
+        model: {
+          ...model,
+          url: 'https://www.test.com',
+          isPackageCustom: true,
+        },
+      });
+
+      fireEvent.change(getByLabelText('customLabel1'), {
+        target: {
+          value: 'testvalue',
+        },
+      });
+      fireEvent.blur(getByLabelText('customLabel1'));
+
+      fireEvent.click(getByText('Save & close'));
+
+      const formValues = mockHandleOnSubmit.mock.calls[0][0];
+      expect(formValues.customUrl).toEqual('https://www.test.com');
     });
   });
 });
