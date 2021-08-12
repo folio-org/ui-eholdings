@@ -6,6 +6,8 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
+import styles from './proxy-display.css';
+
 const ProxyDisplay = ({
   proxy,
   proxyTypesRecords,
@@ -18,9 +20,24 @@ const ProxyDisplay = ({
   }
 
   const proxyId = proxy.id;
-  const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key === proxyId)];
-  const name = selectedValue.attributes.name;
-  const checkIfInherited = inheritedProxyId === proxyId;
+  const selectedValue = proxyTypesRecords[Object.keys(proxyTypesRecords).find(key => key.toLowerCase() === proxyId.toLowerCase())];
+  const name = selectedValue?.attributes.name;
+  const checkIfInherited = inheritedProxyId.toLowerCase() === proxyId.toLowerCase();
+
+  const proxyMessage = checkIfInherited
+    ? (
+      <FormattedMessage
+        id="ui-eholdings.proxy.inherited"
+        values={{ proxy: name }}
+      />
+    )
+    : name;
+
+  const proxyErrorMessage = (
+    <span className={styles.error}>
+      <FormattedMessage id="ui-eholdings.proxy.errorMessage" />
+    </span>
+  );
 
   return (
     <KeyValue label={<FormattedMessage id="ui-eholdings.proxy" />}>
@@ -28,14 +45,9 @@ const ProxyDisplay = ({
         id="proxy-display"
         data-test-eholdings-details-proxy
       >
-        {checkIfInherited
-          ? (
-            <FormattedMessage
-              id="ui-eholdings.proxy.inherited"
-              values={{ proxy: name }}
-            />
-          )
-          : name
+        {selectedValue
+          ? proxyMessage
+          : proxyErrorMessage
         }
       </div>
     </KeyValue>
