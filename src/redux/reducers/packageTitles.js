@@ -14,11 +14,13 @@ const initialState = {
   items: [],
   errors: [],
   totalResults: 0,
+  page: 1,
 };
 
 const handlers = {
-  [GET_PACKAGE_TITLES]: state => ({
+  [GET_PACKAGE_TITLES]: (state, { payload }) => ({
     ...state,
+    page: payload.params.page,
     isLoading: true,
     hasLoaded: false,
     hasFailed: false,
@@ -43,6 +45,7 @@ const handlers = {
     ...state,
     items: [],
     totalResults: 0,
+    page: 1,
   }),
 };
 

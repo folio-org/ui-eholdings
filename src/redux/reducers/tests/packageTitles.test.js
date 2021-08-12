@@ -13,15 +13,20 @@ const state = {
   items: [],
   errors: [],
   totalResults: 0,
+  page: 1,
 };
 
 describe('packageTitlesReducer', () => {
   it('should handle GET_PACKAGE_TITLES action', () => {
-    const action = { type: GET_PACKAGE_TITLES };
+    const action = {
+      type: GET_PACKAGE_TITLES,
+      payload: { params: { page: 2 } },
+    };
 
     expect(packageTitlesReducer(state, action)).toEqual({
       ...state,
       isLoading: true,
+      page: 2,
     });
   });
 
@@ -61,6 +66,7 @@ describe('packageTitlesReducer', () => {
     expect(packageTitlesReducer(state, action)).toEqual({
       ...state,
       items: [],
+      page: 1,
     });
   });
 
