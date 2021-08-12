@@ -310,6 +310,7 @@
 
     "proxy": "Proxy",
     "proxy.inherited": "Inherited - {proxy}",
+    "proxy.errorMessage": "Invalid proxy selected. Please contact EBSCO support.",
 
     "accessType.select": "Select an access status type",
     "accessType.novalue": "No access status type is selected",

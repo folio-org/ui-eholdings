@@ -83,13 +83,15 @@ const ResourceEditManagedTitle = ({
       ? coverageStatementExistenceStatuses.YES
       : coverageStatementExistenceStatuses.NO;
 
+    const canEditUrl = model.isTitleCustom || model.isPackageCustom;
+
     return {
       isSelected,
       isVisible: !visibilityData.isHidden,
       customCoverages,
       coverageStatement,
       hasCoverageStatement,
-      customUrl: url,
+      customUrl: canEditUrl ? url : undefined,
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),

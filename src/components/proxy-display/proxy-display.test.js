@@ -79,4 +79,17 @@ describe('Given ProxyDisplay', () => {
       expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
     });
   });
+
+  describe('when proxy is not listed in proxy-types list', () => {
+    it('should display error message', () => {
+      const { getByText } = renderProxyDisplay({
+        proxy: {
+          id: 'NotListedProxy',
+          inherited: true,
+        },
+      });
+
+      expect(getByText('ui-eholdings.proxy.errorMessage')).toBeDefined();
+    });
+  });
 });
