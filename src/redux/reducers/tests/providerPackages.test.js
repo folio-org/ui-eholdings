@@ -43,7 +43,7 @@ describe('providerPackagesReducer', () => {
       ...state,
       hasLoaded: true,
       totalResults: 2,
-      items: [...action.payload.data],
+      items: action.payload.data,
     });
   });
 

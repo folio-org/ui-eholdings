@@ -74,7 +74,7 @@ const providerPackages = {
           tagList: [],
         },
       },
-      type: 'packages'
+      type: 'packages',
     },
   ],
   totalResults: 151,
