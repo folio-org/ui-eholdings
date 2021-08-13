@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import ProviderShowRoute from './provider-show';
+import ProviderShowRoute from './provider-show-route';
 
 import { createResolver } from '../../redux';
 import Provider from '../../redux/provider';

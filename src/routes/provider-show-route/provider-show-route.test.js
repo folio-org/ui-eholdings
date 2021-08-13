@@ -8,7 +8,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
-import ProviderShowRoute from './provider-show';
+import ProviderShowRoute from './provider-show-route';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockGetAccessTypes = jest.fn();
