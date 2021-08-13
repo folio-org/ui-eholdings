@@ -29,63 +29,77 @@ jest.mock('./components/provider-information', () => ({ isOpen, onToggle }) => (
 
 jest.mock('./components/provider-settings', () => ({ isOpen }) => (isOpen ? (<span>content of ProviderSettings</span>) : null));
 
-jest.mock('../../query-list', () => ({ renderItem }) => (
-  <>
-    <span>QueryList</span>
-    {renderItem({ content: { id: 'testId' } })}
-  </>
-));
-
-jest.mock('../../search-package-list-item', () => ({ link }) => (
-  <>
-    <span>SearchPackageListItem</span>
-    <a href={link}>link</a>
-  </>
-));
-
 jest.mock('../../tags', () => ({ open }) => (open ? (<span>content of TagsAccordion</span>) : null));
 
-const renderProviderShow = (props = {}) => render(
-  <Harness>
-    <CommandList commands={defaultKeyboardShortcuts}>
-      <ProviderShow
-        fetchPackages={noop}
-        onEdit={noop}
-        updateFolioTags={noop}
-        listType="package"
-        model={{
-          id: '123356',
-          name: 'API DEV GOVERNMENT CUSTOMER',
-          packagesSelected: 151,
-          packagesTotal: 151,
-          isLoaded: true,
-          destroy: {
-            timestamp: 0,
-            isRejected: false,
-            errors: [],
-          },
-          update: {
-            timestamp: 0,
-            isRejected: false,
-            errors: [],
-          },
-          request: {
-            timestamp: 0,
-            isRejected: false,
-            errors: [],
-          },
-        }}
-        packages={{}}
-        proxyTypes={{}}
-        rootProxy={{}}
-        {...props}
-      />
-    </CommandList>
-  </Harness>
-);
+const model = {
+  id: '123356',
+  name: 'API DEV GOVERNMENT CUSTOMER',
+  packagesSelected: 151,
+  packagesTotal: 151,
+  isLoaded: true,
+  destroy: {
+    timestamp: 0,
+    isRejected: false,
+    errors: [],
+  },
+  update: {
+    timestamp: 0,
+    isRejected: false,
+    errors: [],
+  },
+  request: {
+    timestamp: 0,
+    isRejected: false,
+    errors: [],
+  },
+};
+
+const providerPackages = {
+  errors: [],
+  hasFailed: false,
+  hasLoaded: true,
+  isLoading: false,
+  items: [
+    {
+      id: 'package-id1',
+      attributes: {
+        name: 'package-name',
+        isSelected: true,
+        selectedCount: 10,
+        titleCount: 100,
+        visibilityData: {
+          isHidden: true,
+        },
+        tags: {
+          tagList: [],
+        },
+      },
+      type: 'packages',
+    },
+  ],
+  totalResults: 151,
+};
 
 describe('Given ProviderShow', () => {
   afterEach(cleanup);
+
+  const renderProviderShow = (props = {}) => render(
+    <Harness>
+      <CommandList commands={defaultKeyboardShortcuts}>
+        <ProviderShow
+          fetchPackages={noop}
+          onEdit={noop}
+          updateFolioTags={noop}
+          listType="package"
+          model={model}
+          providerPackages={providerPackages}
+          proxyTypes={{}}
+          rootProxy={{}}
+          {...props}
+        />
+      </CommandList>
+    </Harness>
+  );
 
   it('should show pane title', () => {
     const { getAllByText } = renderProviderShow();
@@ -93,22 +107,10 @@ describe('Given ProviderShow', () => {
     expect(getAllByText('API DEV GOVERNMENT CUSTOMER')).toBeDefined();
   });
 
-  it('should render QueryList', () => {
-    const { getByText } = renderProviderShow();
-
-    expect(getByText('QueryList')).toBeDefined();
-  });
-
-  it('should render SearchPackageListItem', () => {
-    const { getByText } = renderProviderShow();
-
-    expect(getByText('SearchPackageListItem')).toBeDefined();
-  });
-
   it('should render correct link', () => {
-    renderProviderShow();
+    const { getByTestId } = renderProviderShow();
 
-    expect(document.querySelector('a').getAttribute('href')).toBe('/eholdings/packages/testId');
+    expect(getByTestId('search-package-list-item-link')).toHaveAttribute('href', '/eholdings/packages/package-id1');
   });
 
   describe('when user has not edit permissions', () => {

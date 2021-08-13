@@ -39,6 +39,7 @@
 * Jest+RTL > Test CustomLabelField. (UIEH-1076)
 * Fix cannot edit a package-title (aka resource) record. (UIEH-1168)
 * Fix Root proxy selection. (UIEH-1143)
+* Provider Record: List of Packages Results | Apply Next/Previous Component. (UIEH-1005)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
