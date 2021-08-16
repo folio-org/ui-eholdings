@@ -1,31 +1,29 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 
+import isEqual from 'lodash/isEqual';
+import reduce from 'lodash/reduce';
 
 import queryString from 'qs';
-import { createResolver } from '../redux';
-import Provider from '../redux/provider';
-import Tag from '../redux/tag';
-import { ProxyType, RootProxy } from '../redux/application';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
 
-import View from '../components/provider/show';
-import SearchModal from '../components/search-modal';
+import View from '../../components/provider/show';
+import SearchModal from '../../components/search-modal';
 import {
   listTypes,
   accessTypesReduxStateShape,
-} from '../constants';
-import { selectPropFromData } from '../redux/selectors';
+  PAGE_SIZE,
+  FIRST_PAGE,
+} from '../../constants';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape.isRequired,
+    clearProviderPackages: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
-    getPackages: PropTypes.func.isRequired,
     getProvider: PropTypes.func.isRequired,
+    getProviderPackages: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
     getRootProxy: PropTypes.func.isRequired,
     getTags: PropTypes.func.isRequired,
@@ -33,8 +31,16 @@ class ProviderShowRoute extends Component {
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
+    providerPackages: PropTypes.shape({
+      items: PropTypes.arrayOf(PropTypes.shape({
+        attributes: PropTypes.object.isRequired,
+        id: PropTypes.string.isRequired,
+        relationships: PropTypes.object,
+        type: PropTypes.string,
+      })).isRequired,
+      totalResults: PropTypes.number.isRequired,
+    }).isRequired,
     proxyTypes: PropTypes.object.isRequired,
-    resolver: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
@@ -58,12 +64,14 @@ class ProviderShowRoute extends Component {
         q: filterPackages,
         sort,
         searchfield,
+        count: PAGE_SIZE,
+        page: FIRST_PAGE,
         filter: {
           tags,
           type,
           selected,
           'access-type': accessType,
-        }
+        },
       },
       queryId: 0,
     };
@@ -76,7 +84,11 @@ class ProviderShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { match, getPackages, getProvider } = this.props;
+    const {
+      match,
+      getProviderPackages,
+      getProvider,
+    } = this.props;
     const { pkgSearchParams } = this.state;
     const { providerId } = match.params;
 
@@ -85,22 +97,28 @@ class ProviderShowRoute extends Component {
     }
 
     if (pkgSearchParams !== prevState.pkgSearchParams) {
-      getPackages(providerId, pkgSearchParams);
+      getProviderPackages({
+        providerId,
+        params: pkgSearchParams,
+      });
     }
   }
 
-  getPkgResults() {
-    const { match, resolver } = this.props;
-    const { pkgSearchParams } = this.state;
-    const { providerId } = match.params;
-
-    return resolver.query('packages', pkgSearchParams, {
-      path: `${Provider.pathFor(providerId)}/packages`
-    });
-  }
-
   searchPackages = (pkgSearchParams) => {
-    const { location, history } = this.props;
+    const {
+      location,
+      history,
+      clearProviderPackages,
+    } = this.props;
+
+    const paramDifference = reduce(pkgSearchParams, (result, item, key) => {
+      return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
+    }, []);
+
+    if (paramDifference.length !== 1 && paramDifference[0] !== 'page') {
+      clearProviderPackages();
+    }
+
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
       ...qs,
@@ -115,12 +133,16 @@ class ProviderShowRoute extends Component {
 
     history.replace({
       ...location,
-      search
+      search,
     }, { eholdings: true });
 
     this.setState(({ queryId }) => ({
-      pkgSearchParams,
-      queryId: (queryId + 1)
+      pkgSearchParams: {
+        ...pkgSearchParams,
+        count: PAGE_SIZE,
+        page: pkgSearchParams?.page || FIRST_PAGE,
+      },
+      queryId: (queryId + 1),
     }));
   };
 
@@ -146,7 +168,7 @@ class ProviderShowRoute extends Component {
       search: location.search,
       state: {
         eholdings: true,
-      }
+      },
     };
 
     history.replace(editRouteState);
@@ -161,6 +183,7 @@ class ProviderShowRoute extends Component {
       tagsModel,
       updateFolioTags,
       accessTypes,
+      providerPackages,
     } = this.props;
 
     const {
@@ -173,7 +196,7 @@ class ProviderShowRoute extends Component {
         <View
           model={model}
           tagsModel={tagsModel}
-          packages={this.getPkgResults()}
+          providerPackages={providerPackages}
           fetchPackages={this.fetchPackages}
           proxyTypes={proxyTypes}
           rootProxy={rootProxy}
@@ -211,27 +234,5 @@ class ProviderShowRoute extends Component {
     );
   }
 }
-export default connect(
-  (store, { match }) => {
-    const { data } = store.eholdings;
 
-    const resolver = createResolver(data);
-
-    return {
-      model: resolver.find('providers', match.params.providerId),
-      proxyTypes: resolver.query('proxyTypes'),
-      tagsModel: resolver.query('tags'),
-      rootProxy: resolver.find('rootProxies', 'root-proxy'),
-      resolver,
-      accessTypes: selectPropFromData(store, 'accessStatusTypes')
-    };
-  }, {
-    getProvider: id => Provider.find(id, { include: 'packages' }),
-    getPackages: (id, params) => Provider.queryRelated(id, 'packages', params),
-    getProxyTypes: () => ProxyType.query(),
-    getTags: () => Tag.query(),
-    updateFolioTags: (model) => Tag.create(model),
-    getRootProxy: () => RootProxy.find('root-proxy'),
-    getAccessTypes: getAccessTypesAction
-  }
-)(ProviderShowRoute);
+export default ProviderShowRoute;

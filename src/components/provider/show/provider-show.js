@@ -17,7 +17,7 @@ import {
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
-import QueryList from '../../query-list';
+import QuerySearchList from '../../query-search-list';
 import SearchPackageListItem from '../../search-package-list-item';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
@@ -43,7 +43,20 @@ class ProviderShow extends Component {
     listType: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
-    packages: PropTypes.object.isRequired,
+    providerPackages: PropTypes.shape({
+      errors: PropTypes.array,
+      hasFailed: PropTypes.bool,
+      hasLoaded: PropTypes.bool,
+      isLoading: PropTypes.bool,
+      items: PropTypes.arrayOf(PropTypes.shape({
+        attributes: PropTypes.object.isRequired,
+        id: PropTypes.string.isRequired,
+        relationships: PropTypes.object,
+        type: PropTypes.string,
+      })).isRequired,
+      page: PropTypes.number,
+      totalResults: PropTypes.number.isRequired,
+    }).isRequired,
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     searchModal: PropTypes.node,
@@ -173,12 +186,12 @@ class ProviderShow extends Component {
   }
 
   renderPackagesListItem = (item) => {
-    const itemLink = item.content && `/eholdings/packages/${item.content.id}`;
+    const itemLink = item.attributes && `/eholdings/packages/${item.id}`;
 
     return (
       <SearchPackageListItem
         link={itemLink}
-        item={item.content}
+        item={item.attributes}
         showTitleCount
         showSelectedCount
         showTags
@@ -190,15 +203,14 @@ class ProviderShow extends Component {
   renderPackagesList = (scrollable) => {
     const {
       fetchPackages,
-      packages,
+      providerPackages,
     } = this.props;
 
     return (
-      <QueryList
+      <QuerySearchList
         type="provider-packages"
         fetch={fetchPackages}
-        collection={packages}
-        length={packages.length}
+        collection={providerPackages}
         scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
         notFoundMessage={
@@ -222,7 +234,7 @@ class ProviderShow extends Component {
     const {
       listType,
       model,
-      packages,
+      providerPackages,
       searchModal,
     } = this.props;
 
@@ -252,7 +264,7 @@ class ProviderShow extends Component {
             listType={listType}
             listSectionId="providerShowProviderList"
             onListToggle={this.handleSectionToggle}
-            resultsLength={packages.length}
+            resultsLength={providerPackages.totalResults}
             renderList={this.renderPackagesList}
             ariaRole="tablist"
             bodyAriaRole="tab"
