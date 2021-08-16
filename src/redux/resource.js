@@ -33,6 +33,7 @@ class Resource {
   contributors = [];
   identifiers = [];
   isTitleCustom = false;
+  isPackageCustom = false;
   isPeerReviewed = false;
   titleHasSelectedResources = false;
   description = '';
@@ -76,6 +77,7 @@ class Resource {
         contributors: this.contributors,
         identifiers: this.identifiers,
         isTitleCustom: this.isTitleCustom,
+        isPackageCustom: this.isPackageCustom,
         isPeerReviewed: this.isPeerReviewed,
         titleHasSelectedResources: this.titleHasSelectedResources,
         description: this.description,
