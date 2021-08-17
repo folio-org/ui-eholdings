@@ -90,19 +90,6 @@ export default class Tags extends Component {
     });
   }
 
-  handleRemove = (tag) => {
-    const {
-      model,
-      updateEntityTags,
-      entityTags
-    } = this.props;
-    const tagList = entityTags.filter(t => t !== tag);
-
-    model.tags = { tagList };
-
-    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
-  };
-
   onChange(tags) {
     const tagsList = this.props.entityTags;
 
