@@ -34,7 +34,7 @@ const rootProxy = {
   isUpdated: false,
 };
 
-const componentToRender = props => (
+const getSettingsRootProxy = props => (
   <Harness>
     <SettingsRootProxy
       onSubmit={() => {}}
@@ -46,7 +46,7 @@ const componentToRender = props => (
 );
 
 const renderSettingsRootProxy = (props = {}) => render(
-  componentToRender(props),
+  getSettingsRootProxy(props),
 );
 
 describe('Given SettingsRootProxy', () => {
@@ -110,7 +110,7 @@ describe('Given SettingsRootProxy', () => {
       };
 
       rerender(
-        componentToRender({
+        getSettingsRootProxy({
           rootProxy: updatedRootProxy,
         }),
       );
@@ -132,7 +132,7 @@ describe('Given SettingsRootProxy', () => {
       };
 
       rerender(
-        componentToRender({
+        getSettingsRootProxy({
           rootProxy: rootProxyWithError,
         }),
       );
