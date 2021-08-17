@@ -45,32 +45,32 @@ const componentToRender = props => (
   </Harness>
 );
 
-const renderSettings = (props = {}) => render(
+const renderSettingsRootProxy = (props = {}) => render(
   componentToRender(props),
 );
 
 describe('Given SettingsRootProxy', () => {
   it('should render form', () => {
-    const { getByTestId } = renderSettings();
+    const { getByTestId } = renderSettingsRootProxy();
 
     expect(getByTestId('settings-root-proxy-form')).toBeDefined();
   });
 
   it('should display pane header title', () => {
-    const { getByText } = renderSettings();
+    const { getByText } = renderSettingsRootProxy();
 
     expect(getByText('ui-eholdings.settings.rootProxy')).toBeDefined();
   });
 
   it('should render footer', () => {
-    const { getByRole } = renderSettings();
+    const { getByRole } = renderSettingsRootProxy();
 
     expect(getByRole('button', { name: 'stripes-components.cancel' })).toBeDefined();
     expect(getByRole('button', { name: 'stripes-core.button.save' })).toBeDefined();
   });
 
   it('should display Root proxy server label', () => {
-    const { getByText } = renderSettings();
+    const { getByText } = renderSettingsRootProxy();
 
     expect(getByText('ui-eholdings.settings.rootProxy.server')).toBeDefined();
   });
@@ -79,20 +79,20 @@ describe('Given SettingsRootProxy', () => {
     const {
       getByRole,
       getByText,
-    } = renderSettings();
+    } = renderSettingsRootProxy();
 
     expect(getByRole('combobox', { name: 'ui-eholdings.settings.rootProxy.server' })).toBeDefined();
     expect(getByText('EZProxy')).toBeDefined();
   });
 
   it('should display customer message', () => {
-    const { getByText } = renderSettings();
+    const { getByText } = renderSettingsRootProxy();
 
     expect(getByText('ui-eholdings.settings.rootProxy.ebsco.customer.message')).toBeDefined();
   });
 
   it('should display warning message', () => {
-    const { getByText } = renderSettings();
+    const { getByText } = renderSettingsRootProxy();
 
     expect(getByText('ui-eholdings.settings.rootProxy.warning')).toBeDefined();
   });
@@ -102,7 +102,7 @@ describe('Given SettingsRootProxy', () => {
       const {
         getByText,
         rerender,
-      } = renderSettings();
+      } = renderSettingsRootProxy();
 
       const updatedRootProxy = {
         ...rootProxy,
@@ -124,7 +124,7 @@ describe('Given SettingsRootProxy', () => {
       const {
         getByText,
         rerender,
-      } = renderSettings();
+      } = renderSettingsRootProxy();
 
       const rootProxyWithError = {
         ...rootProxy,
@@ -148,7 +148,7 @@ describe('Given SettingsRootProxy', () => {
     };
 
     it('should not display Root proxy server label', () => {
-      const { queryByText } = renderSettings({
+      const { queryByText } = renderSettingsRootProxy({
         proxyTypes: proxyTypesLoading,
       });
 
@@ -156,7 +156,7 @@ describe('Given SettingsRootProxy', () => {
     });
 
     it('should not display Root proxy server dropdown', () => {
-      const { queryByRole } = renderSettings({
+      const { queryByRole } = renderSettingsRootProxy({
         proxyTypes: proxyTypesLoading,
       });
 
