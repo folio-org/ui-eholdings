@@ -3,83 +3,54 @@ import {
   difference,
   sortBy,
 } from 'lodash';
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { MultiSelection } from '@folio/stripes/components';
 
-export default class Tags extends Component {
-  static propTypes = {
-    entityTags: PropTypes.arrayOf(PropTypes.string),
-    model: PropTypes.object.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.object),
-    updateEntityTags: PropTypes.func.isRequired,
-    updateFolioTags: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  entityTags: PropTypes.arrayOf(PropTypes.string),
+  model: PropTypes.object.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.object),
+  updateEntityTags: PropTypes.func.isRequired,
+  updateFolioTags: PropTypes.func.isRequired,
+};
 
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-    this.filterItems = this.filterItems.bind(this);
-    this.labelId = 'multiselection-details-tags-label';
-  }
-
-  onAdd(tags) {
-    this.saveEntityTags(tags);
-    this.saveTags(tags);
-  }
-
-  formatTagUpdatePayload(model) {
+const Tags = ({
+  entityTags,
+  model,
+  tags,
+  updateEntityTags,
+  updateFolioTags,
+}) => {
+  const formatTagUpdatePayload = (newModel) => {
     const tagData = {
       data: {
         type: 'tags',
         attributes: {
-          name: model.name,
-          tags: model.tags,
+          name: newModel.name,
+          tags: newModel.tags,
         },
       },
-      id: model.id,
+      id: newModel.id,
     };
 
-    if (model.type === 'packages') {
-      tagData.data.attributes.contentType = model.contentType;
+    if (newModel.type === 'packages') {
+      tagData.data.attributes.contentType = newModel.contentType;
     }
 
     return tagData;
-  }
-
-  onRemove = (tag) => {
-    const {
-      model,
-      updateEntityTags,
-      entityTags,
-    } = this.props;
-    const tagList = entityTags.filter(t => t !== tag);
-
-    model.tags = { tagList };
-
-    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
   };
 
   // add tag to the list of entity tags
-  saveEntityTags = (tags) => {
-    const {
-      model,
-      updateEntityTags,
-      entityTags,
-    } = this.props;
-    model.tags = { tagList: sortBy(uniq([...tags, ...entityTags])) };
-    updateEntityTags(model.type, this.formatTagUpdatePayload(model), `${model.type}/${model.id}`);
+  const saveEntityTags = (newTags) => {
+    const newModel = { ...model };
+    newModel.tags = { tagList: sortBy(uniq([...newTags, ...entityTags])) };
+    updateEntityTags(newModel.type, formatTagUpdatePayload(newModel), `${newModel.type}/${newModel.id}`);
   };
 
   // add tags to global list of tags
-  saveTags(newTags) {
-    const {
-      tags,
-      updateFolioTags,
-    } = this.props;
-
+  const saveTags = (newTags) => {
     const newTag = difference(newTags, tags.map(t => t.label.toLowerCase()));
 
     if (!newTag.length) return;
@@ -88,21 +59,36 @@ export default class Tags extends Component {
       label: newTag[0],
       description: newTag[0],
     });
-  }
+  };
 
-  onChange(tags) {
-    const tagsList = this.props.entityTags;
+  const onAdd = (newTags) => {
+    saveEntityTags(newTags);
+    saveTags(newTags);
+  };
 
-    const entityTags = tags.map(t => t.value);
-    if (tags.length < tagsList.length) {
-      const tag = difference(tagsList, tags.map(t => t.value));
-      this.onRemove(tag[0]);
+  const onRemove = (tag) => {
+    const newModel = { ...model };
+
+    const tagList = entityTags.filter(t => t !== tag);
+
+    newModel.tags = { tagList };
+
+    updateEntityTags(newModel.type, formatTagUpdatePayload(newModel), `${newModel.type}/${newModel.id}`);
+  };
+
+  const onChange = (newTags) => {
+    const tagsList = [...entityTags];
+
+    const newEntityTags = newTags.map(t => t.value);
+    if (newTags.length < tagsList.length) {
+      const tag = difference(tagsList, newEntityTags);
+      onRemove(tag[0]);
     } else {
-      this.onAdd(entityTags);
+      onAdd(newEntityTags);
     }
-  }
+  };
 
-  filterItems(filter, list) {
+  const filterItems = (filter, list) => {
     if (!filter) {
       return { renderedItems: list };
     }
@@ -119,15 +105,16 @@ export default class Tags extends Component {
     });
 
     return { renderedItems };
-  }
+  };
 
-  addTag = ({ inputValue }) => {
+  const addTag = ({ inputValue }) => {
     const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
-    const entityTags = this.props.entityTags.concat(tag);
-    this.onAdd(entityTags);
-  }
+    const newEntityTags = entityTags.concat(tag);
+    onAdd(newEntityTags);
+  };
 
-  renderTag = ({ filterValue, exactMatch }) => {
+  // eslint-disable-next-line react/prop-types
+  const renderTag = ({ filterValue, exactMatch }) => {
     if (exactMatch || !filterValue) {
       return null;
     }
@@ -140,10 +127,9 @@ export default class Tags extends Component {
         />
       </div>
     );
-  }
+  };
 
-  getSortedDataOptions = () => {
-    const { tags = [] } = this.props;
+  const getSortedDataOptions = () => {
     const dataOptions = tags.map(tag => {
       return {
         value: tag.label.toLowerCase(),
@@ -152,10 +138,10 @@ export default class Tags extends Component {
     });
 
     return sortBy(dataOptions, ['value']);
-  }
+  };
 
-  getSortedTagList = () => {
-    const tagsList = this.props.entityTags.map(tag => {
+  const getSortedTagList = () => {
+    const tagsList = entityTags.map(tag => {
       return {
         value: tag.toLowerCase(),
         label: tag.toLowerCase(),
@@ -163,37 +149,45 @@ export default class Tags extends Component {
     });
 
     return sortBy(tagsList, ['value']);
-  }
+  };
 
-  render() {
-    const addAction = { onSelect: this.addTag, render: this.renderTag };
-    const actions = [addAction];
+  const addAction = {
+    onSelect: addTag,
+    render: renderTag,
+  };
 
-    return (
-      <div data-test-eholdings-details-tags>
-        <span className="sr-only" id={this.labelId}>
-          <FormattedMessage id="stripes-smart-components.enterATag" />
-        </span>
-        <FormattedMessage id="stripes-smart-components.enterATag">
-          {placeholder => (
-            <FormattedMessage id="stripes-smart-components.tagsTextArea">
-              {ariaLabel => (
-                <MultiSelection
-                  placeholder={placeholder}
-                  aria-label={ariaLabel}
-                  ariaLabelledBy={this.labelId}
-                  actions={actions}
-                  filter={this.filterItems}
-                  emptyMessage=" "
-                  onChange={this.onChange}
-                  dataOptions={this.getSortedDataOptions()}
-                  value={this.getSortedTagList()}
-                />
-              )}
-            </FormattedMessage>
-          )}
-        </FormattedMessage>
-      </div>
-    );
-  }
-}
+  const actions = [addAction];
+
+  const labelId = 'multiselection-details-tags-label';
+
+  return (
+    <div data-test-eholdings-details-tags>
+      <span className="sr-only" id={labelId}>
+        <FormattedMessage id="stripes-smart-components.enterATag" />
+      </span>
+      <FormattedMessage id="stripes-smart-components.enterATag">
+        {placeholder => (
+          <FormattedMessage id="stripes-smart-components.tagsTextArea">
+            {ariaLabel => (
+              <MultiSelection
+                placeholder={placeholder}
+                aria-label={ariaLabel}
+                ariaLabelledBy={labelId}
+                actions={actions}
+                filter={filterItems}
+                emptyMessage=" "
+                onChange={onChange}
+                dataOptions={getSortedDataOptions()}
+                value={getSortedTagList()}
+              />
+            )}
+          </FormattedMessage>
+        )}
+      </FormattedMessage>
+    </div>
+  );
+};
+
+Tags.propTypes = propTypes;
+
+export default Tags;
