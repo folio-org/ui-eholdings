@@ -45,6 +45,7 @@ const Tags = ({
   // add tag to the list of entity tags
   const saveEntityTags = (newTags) => {
     const newModel = { ...model };
+
     newModel.tags = { tagList: sortBy(uniq([...newTags, ...entityTags])) };
     updateEntityTags(newModel.type, formatTagUpdatePayload(newModel), `${newModel.type}/${newModel.id}`);
   };
@@ -80,8 +81,10 @@ const Tags = ({
     const tagsList = [...entityTags];
 
     const newEntityTags = newTags.map(t => t.value);
+
     if (newTags.length < tagsList.length) {
       const tag = difference(tagsList, newEntityTags);
+
       onRemove(tag[0]);
     } else {
       onAdd(newEntityTags);
@@ -110,6 +113,7 @@ const Tags = ({
   const addTag = ({ inputValue }) => {
     const tag = inputValue.replace(/\s|\|/g, '').toLowerCase();
     const newEntityTags = entityTags.concat(tag);
+
     onAdd(newEntityTags);
   };
 
