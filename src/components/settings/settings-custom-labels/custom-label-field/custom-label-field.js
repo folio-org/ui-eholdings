@@ -47,6 +47,7 @@ const CustomLabelField = ({ name }) => {
         <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel">
           {label => (
             <Field
+              data-testid={`${name}-display-label`}
               autoFocus
               component={TextField}
               name={`${name}.displayLabel`}
@@ -61,6 +62,7 @@ const CustomLabelField = ({ name }) => {
         <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder">
           {label => (
             <Field
+              data-testid={`${name}-publication-finder`}
               component={Checkbox}
               name={`${name}.displayOnPublicationFinder`}
               type='checkbox'
@@ -74,6 +76,7 @@ const CustomLabelField = ({ name }) => {
         <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder">
           {label => (
             <Field
+              data-testid={`${name}-text-finder`}
               component={Checkbox}
               name={`${name}.displayOnFullTextFinder`}
               type='checkbox'

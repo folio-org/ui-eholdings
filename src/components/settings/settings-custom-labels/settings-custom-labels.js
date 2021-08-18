@@ -1,8 +1,11 @@
+import {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import {
   FormattedMessage,
-  injectIntl,
+  useIntl,
 } from 'react-intl';
 import { Form } from 'react-final-form';
 import {
@@ -23,115 +26,90 @@ import SettingsForm from '../settings-form';
 import NavigationModal from '../../navigation-modal';
 import { formatCustomLabelsValues } from '../../utilities';
 
-class SettingsCustomLabels extends Component {
-  static propTypes = {
-    confirmUpdate: PropTypes.func.isRequired,
-    credentialId: PropTypes.string.isRequired,
-    customLabels: PropTypes.shape({
-      errors: PropTypes.array,
-      isUpdated: PropTypes.bool,
-      items: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.shape({
-          displayLabel: PropTypes.string,
-          displayOnFullTextFinder: PropTypes.bool,
-          displayOnPublicationFinder: PropTypes.bool,
-          id: PropTypes.number,
-        })),
-      }),
-    }).isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    updateCustomLabels: PropTypes.func.isRequired,
-  };
+const SettingsCustomLabels = ({
+  confirmUpdate,
+  credentialId,
+  customLabels,
+  updateCustomLabels,
+}) => {
+  const intl = useIntl();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalIsOpen: false,
-      removingLabels: '',
-    };
-  }
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [removingLabels, setRemovingLabels] = useState('');
 
-  componentDidUpdate() {
-    const {
-      confirmUpdate,
-      customLabels: { isUpdated },
-    } = this.props;
-
-    if (isUpdated) {
+  useEffect(() => {
+    if (customLabels.isUpdated) {
       confirmUpdate();
     }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customLabels]);
 
-  prepareInitialValues = () => {
-    const { customLabels: { items: { data } } } = this.props;
+  const closeModal = () => setModalIsOpen(false);
 
-    return data ? data.reduce((acc, { attributes }) => {
-      const {
-        id,
-        displayLabel,
-        displayOnFullTextFinder,
-        displayOnPublicationFinder,
-      } = attributes;
+  const prepareInitialValues = () => {
+    const { items: { data } } = customLabels;
 
-      return {
-        ...acc,
-        [`customLabel${id}`]: {
+    return data
+      ? data.reduce((acc, { attributes }) => {
+        const {
+          id,
           displayLabel,
           displayOnFullTextFinder,
           displayOnPublicationFinder,
-        }
-      };
-    }, {}) : {};
+        } = attributes;
+
+        return {
+          ...acc,
+          [`customLabel${id}`]: {
+            displayLabel,
+            displayOnFullTextFinder,
+            displayOnPublicationFinder,
+          },
+        };
+      }, {})
+      : {};
   };
 
-  removeCustomLabels = ({ values }) => {
-    const { updateCustomLabels, credentialId } = this.props;
+  const removeCustomLabels = ({ values }) => {
     const formattedFormValues = formatCustomLabelsValues(values);
 
     updateCustomLabels(formattedFormValues, credentialId);
-    this.closeModal();
-  }
+    closeModal();
+  };
 
-  getRemovingCustomLabels = (formValues, initialValues) => {
+  const getRemovingCustomLabels = (formValues, initialValues) => {
     const fieldsToDelete = pickBy(initialValues, (value, key) => (formValues[key].displayLabel === undefined));
-    const removingLabels = Object.values(fieldsToDelete).map(value => value.displayLabel);
+    const labelsToRemove = Object.values(fieldsToDelete).map(value => value.displayLabel);
 
-    return removingLabels.join(', ');
-  }
+    return labelsToRemove.join(', ');
+  };
 
-  onSubmit = (formValues, { getState }) => {
-    const { updateCustomLabels, credentialId } = this.props;
+  const onSubmit = (formValues, { getState }) => {
     const { initialValues } = getState();
 
-    const removingLabels = this.getRemovingCustomLabels(formValues, initialValues);
+    const labelsToRemove = getRemovingCustomLabels(formValues, initialValues);
 
-    if (removingLabels.length !== 0) {
-      this.setState({
-        modalIsOpen: true,
-        removingLabels,
-      });
+    if (labelsToRemove.length !== 0) {
+      setModalIsOpen(true);
+      setRemovingLabels(labelsToRemove);
     } else {
       const formattedFormValues = formatCustomLabelsValues(formValues);
 
       updateCustomLabels(formattedFormValues, credentialId);
     }
-  }
+  };
 
-  getToastLabels() {
+  const getToastLabels = () => {
     const {
-      customLabels: {
-        errors,
-        isUpdated,
-      },
-    } = this.props;
+      errors,
+      isUpdated,
+    } = customLabels;
 
     if (isUpdated) {
       return [{
         message: <FormattedMessage id='ui-eholdings.settings.customLabels.toast' />,
         type: 'success',
-        id: `update-custom-labels-success-${Date.now()}`
+        id: `update-custom-labels-success-${Date.now()}`,
       }];
     } else {
       return errors.map((error) => ({
@@ -139,81 +117,92 @@ class SettingsCustomLabels extends Component {
         type: 'error',
       }));
     }
-  }
+  };
 
-  closeModal = () => this.setState({ modalIsOpen: false });
+  const initialValues = prepareInitialValues();
 
-  render() {
-    const { intl } = this.props;
+  return (
+    <Form
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      initialValuesEqual={isEqual}
+      render={(formState) => (
+        <SettingsForm
+          data-test-eholdings-settings-custom-labels
+          data-testid="settings-custom-labels-form"
+          id="custom-labels-form"
+          formState={formState}
+          title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
+          toasts={getToastLabels()}
+        >
+          <Row>
+            <Col xs={4}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
+            </Col>
+            <Col xs={4}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
+            </Col>
+            <Col xs={4}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
+            </Col>
+          </Row>
 
-    const {
-      modalIsOpen,
-      removingLabels,
-    } = this.state;
+          <CustomLabelField name='customLabel1' />
+          <CustomLabelField name='customLabel2' />
+          <CustomLabelField name='customLabel3' />
+          <CustomLabelField name='customLabel4' />
+          <CustomLabelField name='customLabel5' />
 
-    const initialValues = this.prepareInitialValues();
+          <NavigationModal
+            label={<FormattedMessage id="ui-eholdings.navModal.areYouSure" />}
+            message={<FormattedMessage id="ui-eholdings.navModal.unsavedChanges" />}
+            when={!formState.pristine && !isEqual(formState.values, initialValues)}
+          />
 
-    return (
-      <Form
-        onSubmit={this.onSubmit}
-        initialValues={initialValues}
-        initialValuesEqual={isEqual}
-        render={(formState) => (
-          <SettingsForm
-            data-test-eholdings-settings-custom-labels
-            id="custom-labels-form"
-            formState={formState}
-            title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
-            toasts={this.getToastLabels()}
-          >
-            <Row>
-              <Col xs={4}>
-                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
-              </Col>
-              <Col xs={4}>
-                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
-              </Col>
-              <Col xs={4}>
-                <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
-              </Col>
-            </Row>
+          <ConfirmationModal
+            confirmLabel={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
+            id="confirmation-modal"
+            data-testid="outer-confirmation-modal"
+            heading={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
+            ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.customLabels.remove' })}
+            message={
+              <>
+                <SafeHTMLMessage
+                  id="ui-eholdings.settings.customLabels.remove.description"
+                  values={{ label: removingLabels }}
+                />
+                <br />
+                <SafeHTMLMessage id="ui-eholdings.settings.customLabels.remove.note" />
+              </>
+            }
+            onCancel={closeModal}
+            onConfirm={() => removeCustomLabels(formState)}
+            open={modalIsOpen}
+          />
+        </SettingsForm>
+      )}
+    />
+  );
+};
 
-            <CustomLabelField name='customLabel1' />
-            <CustomLabelField name='customLabel2' />
-            <CustomLabelField name='customLabel3' />
-            <CustomLabelField name='customLabel4' />
-            <CustomLabelField name='customLabel5' />
+SettingsCustomLabels.propTypes = {
+  confirmUpdate: PropTypes.func.isRequired,
+  credentialId: PropTypes.string.isRequired,
+  customLabels: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    isUpdated: PropTypes.bool.isRequired,
+    items: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        attributes: PropTypes.shape({
+          displayLabel: PropTypes.string,
+          displayOnFullTextFinder: PropTypes.bool,
+          displayOnPublicationFinder: PropTypes.bool,
+          id: PropTypes.number,
+        }),
+      })),
+    }).isRequired,
+  }).isRequired,
+  updateCustomLabels: PropTypes.func.isRequired,
+};
 
-            <NavigationModal
-              label={<FormattedMessage id="ui-eholdings.navModal.areYouSure" />}
-              message={<FormattedMessage id="ui-eholdings.navModal.unsavedChanges" />}
-              when={!formState.pristine && !isEqual(formState.values, initialValues)}
-            />
-
-            <ConfirmationModal
-              confirmLabel={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
-              id="confirmation-modal"
-              heading={<FormattedMessage id="ui-eholdings.settings.customLabels.remove" />}
-              ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.customLabels.remove' })}
-              message={
-                <>
-                  <SafeHTMLMessage
-                    id="ui-eholdings.settings.customLabels.remove.description"
-                    values={{ label: removingLabels }}
-                  />
-                  <br />
-                  <SafeHTMLMessage id="ui-eholdings.settings.customLabels.remove.note" />
-                </>
-              }
-              onCancel={this.closeModal}
-              onConfirm={() => this.removeCustomLabels(formState)}
-              open={modalIsOpen}
-            />
-          </SettingsForm>
-        )}
-      />
-    );
-  }
-}
-
-export default injectIntl(SettingsCustomLabels);
+export default SettingsCustomLabels;

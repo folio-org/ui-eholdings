@@ -42,6 +42,7 @@
 * Provider Record: List of Packages Results | Apply Next/Previous Component. (UIEH-1005)
 * Add tests for SettingsRootProxy component. (UIEH-1078)
 * Jest+RTL > Test Tags. (UIEH-1080)
+* Add tests for SettingsCustomLabels component. (UIEH-1077)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
