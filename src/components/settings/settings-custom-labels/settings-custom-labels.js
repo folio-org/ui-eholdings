@@ -85,9 +85,9 @@ const SettingsCustomLabels = ({
   };
 
   const onSubmit = (formValues, { getState }) => {
-    const { formInitialValues } = getState();
+    const { initialValues } = getState();
 
-    const labelsToRemove = getRemovingCustomLabels(formValues, formInitialValues);
+    const labelsToRemove = getRemovingCustomLabels(formValues, initialValues);
 
     if (labelsToRemove.length !== 0) {
       setModalIsOpen(true);
