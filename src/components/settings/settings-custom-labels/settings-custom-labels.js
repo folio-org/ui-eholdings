@@ -77,17 +77,17 @@ const SettingsCustomLabels = ({
     closeModal();
   };
 
-  const getRemovingCustomLabels = (formValues, initialValues) => {
-    const fieldsToDelete = pickBy(initialValues, (value, key) => (formValues[key].displayLabel === undefined));
+  const getRemovingCustomLabels = (formValues, formInitialValues) => {
+    const fieldsToDelete = pickBy(formInitialValues, (value, key) => (formValues[key].displayLabel === undefined));
     const labelsToRemove = Object.values(fieldsToDelete).map(value => value.displayLabel);
 
     return labelsToRemove.join(', ');
   };
 
   const onSubmit = (formValues, { getState }) => {
-    const { initialValues } = getState();
+    const { formInitialValues } = getState();
 
-    const labelsToRemove = getRemovingCustomLabels(formValues, initialValues);
+    const labelsToRemove = getRemovingCustomLabels(formValues, formInitialValues);
 
     if (labelsToRemove.length !== 0) {
       setModalIsOpen(true);
