@@ -4,20 +4,19 @@ import classnames from 'classnames/bind';
 
 import styles from './query-list.css';
 import ScrollView from '../scroll-view';
+import PrevNextButtons from '../prev-next-buttons';
 import Impagination from '../impagination';
+import { PAGE_SIZE } from '../../constants';
 
 const cx = classnames.bind(styles);
 
 export default class QueryList extends Component {
-  static getDerivedPropsFromState({ offset }, prevState) {
-    return offset !== prevState.offset ? { offset } : prevState;
-  }
-
   static propTypes = {
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool,
-    itemHeight: PropTypes.number,
+    isMainPageSearch: PropTypes.bool,
+    itemHeight: PropTypes.number.isRequired,
     length: PropTypes.number,
     loadHorizon: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
@@ -25,15 +24,21 @@ export default class QueryList extends Component {
       PropTypes.node
     ]).isRequired,
     offset: PropTypes.number,
-    onUpdateOffset: PropTypes.func,
+    onUpdateOffset: PropTypes.func.isRequired,
+    page: PropTypes.number,
     pageSize: PropTypes.number,
     renderItem: PropTypes.func.isRequired,
     scrollable: PropTypes.bool,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    fullWidth: false
+    fullWidth: false,
+    isMainPageSearch: false,
+    loadHorizon: PAGE_SIZE,
+    offset: 0,
+    page: 1,
+    pageSize: PAGE_SIZE,
   }
 
   constructor(props) {
@@ -44,12 +49,44 @@ export default class QueryList extends Component {
   }
 
   updateOffset = (offset) => {
-    this.setState({ offset });
+    if (!this.props.isMainPageSearch) {
+      this.setState({ offset });
 
-    if (this.props.onUpdateOffset) {
-      this.props.onUpdateOffset(offset);
+      if (this.props.onUpdateOffset) {
+        this.props.onUpdateOffset(offset);
+      }
     }
-  };
+  }
+
+  updatePage = (page) => {
+    if (this.props.onUpdateOffset) {
+      this.props.onUpdateOffset(page);
+    }
+  }
+
+  getPrevNextButtons = () => {
+    const {
+      collection: {
+        isPending,
+        length,
+      },
+      isMainPageSearch,
+      page,
+    } = this.props;
+
+    if (isMainPageSearch) {
+      return (
+        <PrevNextButtons
+          isLoading={isPending}
+          totalResults={length}
+          fetch={this.updatePage}
+          page={page}
+        />
+      );
+    }
+
+    return null;
+  }
 
   render() {
     const {
@@ -63,17 +100,22 @@ export default class QueryList extends Component {
       itemHeight,
       renderItem,
       length,
-      fullWidth
+      fullWidth,
+      page,
+      isMainPageSearch,
     } = this.props;
     const {
-      offset
+      offset,
     } = this.state;
+
+    const readOffset = isMainPageSearch ? page * PAGE_SIZE : offset;
+    const offsetProp = isMainPageSearch ? page : offset;
 
     return (
       <Impagination
         pageSize={pageSize}
         loadHorizon={loadHorizon}
-        readOffset={offset}
+        readOffset={readOffset}
         collection={collection}
         fetch={fetch}
       >
@@ -88,12 +130,14 @@ export default class QueryList extends Component {
               <ScrollView
                 items={state}
                 length={length}
-                offset={offset}
+                offset={offsetProp}
+                isMainPageSearch
                 itemHeight={itemHeight}
-                onUpdate={this.updateOffset}
                 scrollable={scrollable}
+                onUpdate={this.updateOffset}
                 queryListName={type}
                 fullWidth={fullWidth}
+                prevNextButtons={this.getPrevNextButtons()}
               >
                 {item => (
                   item.isRejected ? (

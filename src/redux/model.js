@@ -11,6 +11,7 @@ import {
   create,
   removeRequests,
 } from './data';
+import { PAGE_SIZE } from '../constants';
 
 /**
  * Collection object which provides the request state object created
@@ -24,7 +25,7 @@ import {
 export class Collection {
   constructor({ type, params = {}, path }, resolver) {
     const { page = 1, ...queryParams } = params;
-    const { pageSize = 25 } = queryParams;
+    const { pageSize = PAGE_SIZE } = queryParams;
 
     this.type = type;
     this.params = params;

@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
+import { PAGE_SIZE } from '../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +17,7 @@ export default class ScrollView extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool,
+    isMainPageSearch: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     items: PropTypes.shape({
       length: PropTypes.number.isRequired,
@@ -30,6 +32,7 @@ export default class ScrollView extends Component {
   };
 
   static defaultProps = {
+    isMainPageSearch: false,
     offset: 0,
     scrollable: true,
     fullWidth: false,
@@ -50,14 +53,22 @@ export default class ScrollView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {
+      isMainPageSearch,
+      offset,
+    } = this.props;
+
+    if (isMainPageSearch && prevProps.offset !== offset) {
+      this.setScrollOffset();
+    }
     // did the state update
     if (prevState.offset !== this.state.offset) {
       // props are outdated, need to call onUpdate
-      if (this.props.offset !== this.state.offset) {
+      if (offset !== this.state.offset) {
         this.triggerUpdate(this.state.offset);
         // if props updated when the state did, we have a new offset we
         // need to scroll to
-      } else if (prevProps.offset !== this.props.offset) {
+      } else if (prevProps.offset !== offset) {
         this.setScrollOffset();
       }
     }
@@ -82,12 +93,15 @@ export default class ScrollView extends Component {
   // Sets the list's scrollTop based on the itemHeight and
   // current offset
   setScrollOffset() {
-    const { itemHeight } = this.props;
+    const {
+      isMainPageSearch,
+      itemHeight,
+    } = this.props;
     const { offset } = this.state;
 
     // $list is populated via the ref in the render method below
     if (this.$list) {
-      this.$list.scrollTop = offset * itemHeight;
+      this.$list.scrollTop = isMainPageSearch ? 0 : offset * itemHeight;
     }
   }
 
@@ -121,20 +135,34 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    const { items, length, itemHeight, children } = this.props;
-    const { offset, visibleItems } = this.state;
+    const {
+      items,
+      length,
+      itemHeight,
+      children,
+      offset: page,
+    } = this.props;
+    const {
+      offset,
+      visibleItems,
+    } = this.state;
 
     const threshold = 5;
-    const lower = Math.max(offset - threshold, 0);
-    const upper = Math.min(offset + visibleItems + threshold, (length || items.length) - 1);
+    const lower = page
+      ? (page - 1) * PAGE_SIZE
+      : Math.max(offset - threshold, 0);
+    const upper = page
+      ? page * PAGE_SIZE
+      : Math.min(offset + visibleItems + threshold, (length || items.length) - 1) + 1;
 
     // slice the visible items and map them to `children`
-    return items.slice(lower, upper + 1).map((item, i) => {
+    return items.slice(lower, upper).map((item, i) => {
       const index = lower + i;
+      const top = itemHeight * (page ? i : index);
 
       const style = {
         height: itemHeight,
-        top: itemHeight * index
+        top,
       };
 
       return (
@@ -148,12 +176,14 @@ export default class ScrollView extends Component {
   render() {
     const {
       items,
-      length,
       itemHeight,
       scrollable,
       fullWidth,
       queryListName,
       prevNextButtons,
+      offset: page,
+      isMainPageSearch,
+      length,
     } = this.props;
 
     const {
@@ -161,12 +191,20 @@ export default class ScrollView extends Component {
       visibleItems,
     } = this.state;
 
-    let listHeight = (length || items.length) * itemHeight;
+    let listHeight = length || items.length;
+
+    if (isMainPageSearch) {
+      listHeight = items.length <= (PAGE_SIZE * page)
+        ? items.length % PAGE_SIZE
+        : PAGE_SIZE;
+    }
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {
-      listHeight = (offset + visibleItems) * itemHeight;
+      listHeight = offset + visibleItems;
     }
+
+    listHeight *= itemHeight;
 
     return (
       <div
