@@ -32,6 +32,7 @@ import SearchForm from '../components/search-form';
 import {
   searchTypes,
   accessTypesReduxStateShape,
+  PAGE_SIZE,
 } from '../constants';
 
 import { filterCountFromQuery } from '../components/search-modal/search-modal';
@@ -225,12 +226,11 @@ class SearchRoute extends Component {
     const { searchType, params } = this.state;
     const { offset = 0, ...queryParams } = params;
     const searchParams = transformQueryParams(searchType, queryParams);
-    const page = Math.floor(offset / 25) + 1;
 
     return resolver.query(searchType, {
       filter: undefined,
       ...searchParams,
-      page
+      page: offset,
     });
   }
 
@@ -301,7 +301,10 @@ class SearchRoute extends Component {
    */
   search(params) {
     const { searchType } = this.state;
-    const searchParams = transformQueryParams(searchType, params);
+    const searchParams = {
+      ...transformQueryParams(searchType, params),
+      count: PAGE_SIZE,
+    };
 
     if (searchType === searchTypes.PROVIDERS) this.props.searchProviders(searchParams);
     if (searchType === searchTypes.PACKAGES) this.props.searchPackages(searchParams);
@@ -325,6 +328,7 @@ class SearchRoute extends Component {
       filter: submittedSearchFilters,
       searchfield: searchField,
       sort,
+      offset: 1,
     };
 
     this.updateURLParams(params);

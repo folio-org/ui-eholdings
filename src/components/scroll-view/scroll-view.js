@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
+import { PAGE_SIZE } from '../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -121,20 +122,17 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    const { items, length, itemHeight, children } = this.props;
-    const { offset, visibleItems } = this.state;
-
-    const threshold = 5;
-    const lower = Math.max(offset - threshold, 0);
-    const upper = Math.min(offset + visibleItems + threshold, (length || items.length) - 1);
+    const { items, itemHeight, children, offset } = this.props;
+    const lower = (offset - 1) * PAGE_SIZE;
+    const upper = offset * PAGE_SIZE;
 
     // slice the visible items and map them to `children`
-    return items.slice(lower, upper + 1).map((item, i) => {
+    return items.slice(lower, upper).map((item, i) => {
       const index = lower + i;
 
       const style = {
         height: itemHeight,
-        top: itemHeight * index
+        top: itemHeight * i,
       };
 
       return (
@@ -148,20 +146,19 @@ export default class ScrollView extends Component {
   render() {
     const {
       items,
-      length,
       itemHeight,
       scrollable,
       fullWidth,
       queryListName,
       prevNextButtons,
+      offset,
     } = this.props;
 
     const {
-      offset,
       visibleItems,
     } = this.state;
 
-    let listHeight = (length || items.length) * itemHeight;
+    let listHeight = (items.length <= (PAGE_SIZE * offset) ? items.length % PAGE_SIZE : PAGE_SIZE) * itemHeight;
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {
@@ -172,7 +169,6 @@ export default class ScrollView extends Component {
       <div
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
-        onScroll={this.handleScroll}
         data-test-query-list={queryListName}
       >
         <List

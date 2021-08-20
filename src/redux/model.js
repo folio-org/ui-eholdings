@@ -24,7 +24,7 @@ import {
 export class Collection {
   constructor({ type, params = {}, path }, resolver) {
     const { page = 1, ...queryParams } = params;
-    const { pageSize = 25 } = queryParams;
+    const { pageSize = 100 } = queryParams;
 
     this.type = type;
     this.params = params;

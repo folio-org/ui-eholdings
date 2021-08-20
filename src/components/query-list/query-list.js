@@ -4,20 +4,18 @@ import classnames from 'classnames/bind';
 
 import styles from './query-list.css';
 import ScrollView from '../scroll-view';
+import PrevNextButtons from '../prev-next-buttons';
 import Impagination from '../impagination';
+import { PAGE_SIZE } from '../../constants';
 
 const cx = classnames.bind(styles);
 
 export default class QueryList extends Component {
-  static getDerivedPropsFromState({ offset }, prevState) {
-    return offset !== prevState.offset ? { offset } : prevState;
-  }
-
   static propTypes = {
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool,
-    itemHeight: PropTypes.number,
+    itemHeight: PropTypes.number.isRequired,
     length: PropTypes.number,
     loadHorizon: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
@@ -25,27 +23,21 @@ export default class QueryList extends Component {
       PropTypes.node
     ]).isRequired,
     offset: PropTypes.number,
-    onUpdateOffset: PropTypes.func,
+    onUpdateOffset: PropTypes.func.isRequired,
     pageSize: PropTypes.number,
     renderItem: PropTypes.func.isRequired,
     scrollable: PropTypes.bool,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    fullWidth: false
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      offset: this.props.offset || 0,
-    };
+    fullWidth: false,
+    loadHorizon: PAGE_SIZE,
+    offset: 0,
+    pageSize: PAGE_SIZE,
   }
 
   updateOffset = (offset) => {
-    this.setState({ offset });
-
     if (this.props.onUpdateOffset) {
       this.props.onUpdateOffset(offset);
     }
@@ -63,17 +55,20 @@ export default class QueryList extends Component {
       itemHeight,
       renderItem,
       length,
-      fullWidth
+      fullWidth,
+      offset,
     } = this.props;
+
     const {
-      offset
-    } = this.state;
+      isPending,
+      length: totalResults,
+    } = collection;
 
     return (
       <Impagination
         pageSize={pageSize}
         loadHorizon={loadHorizon}
-        readOffset={offset}
+        readOffset={offset * PAGE_SIZE}
         collection={collection}
         fetch={fetch}
       >
@@ -90,10 +85,17 @@ export default class QueryList extends Component {
                 length={length}
                 offset={offset}
                 itemHeight={itemHeight}
-                onUpdate={this.updateOffset}
                 scrollable={scrollable}
                 queryListName={type}
                 fullWidth={fullWidth}
+                prevNextButtons={(
+                  <PrevNextButtons
+                    isLoading={isPending}
+                    totalResults={totalResults}
+                    fetch={this.updateOffset}
+                    page={offset}
+                  />
+                )}
               >
                 {item => (
                   item.isRejected ? (

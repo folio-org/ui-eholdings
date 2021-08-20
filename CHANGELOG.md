@@ -43,6 +43,7 @@
 * Add tests for SettingsRootProxy component. (UIEH-1078)
 * Jest+RTL > Test Tags. (UIEH-1080)
 * Jest+RTL > Test PackageFilterModal. (UIEH-1081)
+* Apply Next/Previous Pagination Component for packages/providers/titles. (UIEH-1162, UIEH-1165, UIEH-1164)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)

@@ -2,6 +2,8 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import State from 'impagination/src/state';
 
+import { PAGE_SIZE } from '../constants';
+
 /**
  * Patch / add methods to a Dataset state
  *
@@ -128,9 +130,9 @@ export default class Impagination extends Component {
   };
 
   static defaultProps = {
-    pageSize: 25,
-    loadHorizon: 25,
-    readOffset: 0
+    pageSize: PAGE_SIZE,
+    loadHorizon: PAGE_SIZE,
+    readOffset: 0,
   };
 
   constructor(props) {
