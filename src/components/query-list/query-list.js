@@ -15,6 +15,7 @@ export default class QueryList extends Component {
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool,
+    isMainPageSearch: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     length: PropTypes.number,
     loadHorizon: PropTypes.number,
@@ -24,6 +25,7 @@ export default class QueryList extends Component {
     ]).isRequired,
     offset: PropTypes.number,
     onUpdateOffset: PropTypes.func.isRequired,
+    page: PropTypes.number,
     pageSize: PropTypes.number,
     renderItem: PropTypes.func.isRequired,
     scrollable: PropTypes.bool,
@@ -32,16 +34,33 @@ export default class QueryList extends Component {
 
   static defaultProps = {
     fullWidth: false,
+    isMainPageSearch: false,
     loadHorizon: PAGE_SIZE,
     offset: 0,
+    page: 1,
     pageSize: PAGE_SIZE,
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      offset: this.props.offset || 0,
+    };
+  }
+
   updateOffset = (offset) => {
+    this.setState({ offset });
+
     if (this.props.onUpdateOffset) {
       this.props.onUpdateOffset(offset);
     }
-  };
+  }
+
+  updatePage = (page) => {
+    if (this.props.onUpdateOffset) {
+      this.props.onUpdateOffset(page);
+    }
+  }
 
   render() {
     const {
@@ -56,19 +75,24 @@ export default class QueryList extends Component {
       renderItem,
       length,
       fullWidth,
-      offset,
+      page,
+      isMainPageSearch,
     } = this.props;
+    const {
+      offset,
+    } = this.state;
 
     const {
       isPending,
       length: totalResults,
     } = collection;
+    const readOffset = isMainPageSearch ? page * PAGE_SIZE : offset;
 
     return (
       <Impagination
         pageSize={pageSize}
         loadHorizon={loadHorizon}
-        readOffset={offset * PAGE_SIZE}
+        readOffset={readOffset}
         collection={collection}
         fetch={fetch}
       >
@@ -83,19 +107,24 @@ export default class QueryList extends Component {
               <ScrollView
                 items={state}
                 length={length}
-                offset={offset}
+                offset={isMainPageSearch ? page : offset}
+                isMainPageSearch
                 itemHeight={itemHeight}
                 scrollable={scrollable}
+                onUpdate={() => !isMainPageSearch && this.updateOffset()}
                 queryListName={type}
                 fullWidth={fullWidth}
-                prevNextButtons={(
-                  <PrevNextButtons
-                    isLoading={isPending}
-                    totalResults={totalResults}
-                    fetch={this.updateOffset}
-                    page={offset}
-                  />
-                )}
+                prevNextButtons={isMainPageSearch
+                  ? (
+                    <PrevNextButtons
+                      isLoading={isPending}
+                      totalResults={totalResults}
+                      fetch={this.updatePage}
+                      page={page}
+                    />
+                  )
+                  : null
+                }
               >
                 {item => (
                   item.isRejected ? (

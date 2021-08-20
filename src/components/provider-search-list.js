@@ -19,11 +19,12 @@ const ProviderSearchList = ({
   return (
     <QueryList
       type="providers"
-      offset={parseInt(params.offset || 0, 10)}
+      page={parseInt(params.offset || 0, 10)}
       fetch={fetch}
       collection={collection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
+      isMainPageSearch
       notFoundMessage={
         <NoResultsMessage data-test-query-list-not-found="providers">
           {notFoundMessage}

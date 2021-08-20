@@ -122,17 +122,25 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    const { items, itemHeight, children, offset } = this.props;
-    const lower = (offset - 1) * PAGE_SIZE;
-    const upper = offset * PAGE_SIZE;
+    const { items, length, itemHeight, children, offset: page } = this.props;
+    const { offset, visibleItems } = this.state;
+
+    const threshold = 5;
+    const lower = page
+      ? (page - 1) * PAGE_SIZE
+      : Math.max(offset - threshold, 0);
+    const upper = page
+      ? page * PAGE_SIZE
+      : Math.min(offset + visibleItems + threshold, (length || items.length) - 1) + 1;
 
     // slice the visible items and map them to `children`
     return items.slice(lower, upper).map((item, i) => {
       const index = lower + i;
-
+      const top = itemHeight * (page ? i : index);
+ 
       const style = {
         height: itemHeight,
-        top: itemHeight * i,
+        top,
       };
 
       return (
@@ -151,14 +159,18 @@ export default class ScrollView extends Component {
       fullWidth,
       queryListName,
       prevNextButtons,
-      offset,
+      offset: page,
+      isMainPageSearch,
     } = this.props;
 
     const {
+      offset,
       visibleItems,
     } = this.state;
 
-    let listHeight = (items.length <= (PAGE_SIZE * offset) ? items.length % PAGE_SIZE : PAGE_SIZE) * itemHeight;
+    let listHeight = isMainPageSearch
+      ? (items.length <= (PAGE_SIZE * page) ? items.length % PAGE_SIZE : PAGE_SIZE) * itemHeight
+      : (length || items.length) * itemHeight;
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {
@@ -169,6 +181,7 @@ export default class ScrollView extends Component {
       <div
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
+        onScroll={this.handleScroll}
         data-test-query-list={queryListName}
       >
         <List
