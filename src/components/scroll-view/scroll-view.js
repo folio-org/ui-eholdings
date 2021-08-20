@@ -53,17 +53,22 @@ export default class ScrollView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.props.isMainPageSearch && prevProps.offset !== this.props.offset) {
+    const {
+      isMainPageSearch,
+      offset,
+    } = this.props;
+
+    if (isMainPageSearch && prevProps.offset !== offset) {
       this.setScrollOffset();
     }
     // did the state update
     if (prevState.offset !== this.state.offset) {
       // props are outdated, need to call onUpdate
-      if (this.props.offset !== this.state.offset) {
+      if (offset !== this.state.offset) {
         this.triggerUpdate(this.state.offset);
         // if props updated when the state did, we have a new offset we
         // need to scroll to
-      } else if (prevProps.offset !== this.props.offset) {
+      } else if (prevProps.offset !== offset) {
         this.setScrollOffset();
       }
     }
