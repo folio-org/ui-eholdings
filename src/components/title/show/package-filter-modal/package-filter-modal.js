@@ -60,7 +60,7 @@ const PackageFilterModal = ({
     setSearchFilters,
   } = usePackageFilterSelectOptions(allPackages, selectedPackages);
 
-  const handleFilterChange = value => {
+  const handleFilterChange = (value) => {
     setSelectedOptions(value);
   };
 
@@ -83,11 +83,9 @@ const PackageFilterModal = ({
     };
 
     const newSelectedPackages = allPackages
-      .filter(
-        ({ id: packageId }) => (
-          !selectedOptions.length || selectedOptions.some((({ value: optionId }) => packageId === optionId))
-        )
-      )
+      .filter(({ id: packageId }) => {
+        return !selectedOptions.length || selectedOptions.some((({ value: optionId }) => packageId === optionId));
+      })
       .filter(filterBySelectedStatus);
 
     const countOfAppliedPackagesFilters = !!selectedOptions.length + size(searchFilters);
@@ -161,8 +159,8 @@ const PackageFilterModal = ({
                   {
                     to: 'window',
                     attachment: 'together',
-                  }
-                ]
+                  },
+                ],
               }}
             />
           </Accordion>
