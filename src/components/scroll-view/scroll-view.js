@@ -17,6 +17,7 @@ export default class ScrollView extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool,
+    isMainPageSearch: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     items: PropTypes.shape({
       length: PropTypes.number.isRequired,
@@ -31,6 +32,7 @@ export default class ScrollView extends Component {
   };
 
   static defaultProps = {
+    isMainPageSearch: false,
     offset: 0,
     scrollable: true,
     fullWidth: false,
@@ -137,7 +139,7 @@ export default class ScrollView extends Component {
     return items.slice(lower, upper).map((item, i) => {
       const index = lower + i;
       const top = itemHeight * (page ? i : index);
- 
+
       const style = {
         height: itemHeight,
         top,
@@ -161,6 +163,7 @@ export default class ScrollView extends Component {
       prevNextButtons,
       offset: page,
       isMainPageSearch,
+      length,
     } = this.props;
 
     const {
@@ -168,14 +171,18 @@ export default class ScrollView extends Component {
       visibleItems,
     } = this.state;
 
-    let listHeight = isMainPageSearch
-      ? (items.length <= (PAGE_SIZE * page) ? items.length % PAGE_SIZE : PAGE_SIZE) * itemHeight
-      : (length || items.length) * itemHeight;
+    let listHeight = length || items.length;
+
+    if(isMainPageSearch) {
+      listHeight = items.length <= (PAGE_SIZE * page) ? items.length % PAGE_SIZE : PAGE_SIZE;
+    }
 
     // list height should be at least enough for the offset
     if (listHeight === 0) {
-      listHeight = (offset + visibleItems) * itemHeight;
+      listHeight = offset + visibleItems;
     }
+
+    listHeight = listHeight * itemHeight
 
     return (
       <div

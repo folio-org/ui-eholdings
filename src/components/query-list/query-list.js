@@ -49,10 +49,12 @@ export default class QueryList extends Component {
   }
 
   updateOffset = (offset) => {
-    this.setState({ offset });
+    if (!isMainPageSearch) {
+      this.setState({ offset });
 
-    if (this.props.onUpdateOffset) {
-      this.props.onUpdateOffset(offset);
+      if (this.props.onUpdateOffset) {
+        this.props.onUpdateOffset(offset);
+      }
     }
   }
 
@@ -60,6 +62,30 @@ export default class QueryList extends Component {
     if (this.props.onUpdateOffset) {
       this.props.onUpdateOffset(page);
     }
+  }
+
+  getPrevNextButtons = () => {
+    const {
+      collection: {
+        isPending,
+        length,
+      },
+      isMainPageSearch,
+      page,
+    } = this.props;
+
+    if (isMainPageSearch) {
+      return (
+        <PrevNextButtons
+          isLoading={isPending}
+          totalResults={length}
+          fetch={this.updatePage}
+          page={page}
+        />
+      );
+    }
+
+    return null;
   }
 
   render() {
@@ -87,6 +113,7 @@ export default class QueryList extends Component {
       length: totalResults,
     } = collection;
     const readOffset = isMainPageSearch ? page * PAGE_SIZE : offset;
+    const offsetProp = isMainPageSearch ? page : offset;
 
     return (
       <Impagination
@@ -107,24 +134,14 @@ export default class QueryList extends Component {
               <ScrollView
                 items={state}
                 length={length}
-                offset={isMainPageSearch ? page : offset}
+                offset={offsetProp}
                 isMainPageSearch
                 itemHeight={itemHeight}
                 scrollable={scrollable}
-                onUpdate={() => !isMainPageSearch && this.updateOffset()}
+                onUpdate={this.updateOffset}
                 queryListName={type}
                 fullWidth={fullWidth}
-                prevNextButtons={isMainPageSearch
-                  ? (
-                    <PrevNextButtons
-                      isLoading={isPending}
-                      totalResults={totalResults}
-                      fetch={this.updatePage}
-                      page={page}
-                    />
-                  )
-                  : null
-                }
+                prevNextButtons={this.getPrevNextButtons()}
               >
                 {item => (
                   item.isRejected ? (
