@@ -43,7 +43,9 @@
 * Add tests for SettingsRootProxy component. (UIEH-1078)
 * Jest+RTL > Test Tags. (UIEH-1080)
 * Jest+RTL > Test PackageFilterModal. (UIEH-1081)
-* Apply Next/Previous Pagination Component for packages/providers/titles. (UIEH-1162, UIEH-1165, UIEH-1164)
+* Apply Next/Previous Pagination Component for Packages results. (UIEH-1162)
+* Apply Next/Previous Pagination Component for Providers results. (UIEH-1165)
+* Apply Next/Previous Pagination Component for Titles results. (UIEH-1164)
 * Add tests for SettingsCustomLabels component. (UIEH-1077)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)

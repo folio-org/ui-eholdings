@@ -49,7 +49,7 @@ export default class QueryList extends Component {
   }
 
   updateOffset = (offset) => {
-    if (!isMainPageSearch) {
+    if (!this.props.isMainPageSearch) {
       this.setState({ offset });
 
       if (this.props.onUpdateOffset) {
@@ -108,10 +108,6 @@ export default class QueryList extends Component {
       offset,
     } = this.state;
 
-    const {
-      isPending,
-      length: totalResults,
-    } = collection;
     const readOffset = isMainPageSearch ? page * PAGE_SIZE : offset;
     const offsetProp = isMainPageSearch ? page : offset;
 
