@@ -53,6 +53,9 @@ export default class ScrollView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if(this.props.isMainPageSearch && prevProps.offset !== this.props.offset) {
+      this.setScrollOffset();
+    }
     // did the state update
     if (prevState.offset !== this.state.offset) {
       // props are outdated, need to call onUpdate
@@ -85,12 +88,15 @@ export default class ScrollView extends Component {
   // Sets the list's scrollTop based on the itemHeight and
   // current offset
   setScrollOffset() {
-    const { itemHeight } = this.props;
+    const {
+      isMainPageSearch,
+      itemHeight,
+    } = this.props;
     const { offset } = this.state;
 
     // $list is populated via the ref in the render method below
     if (this.$list) {
-      this.$list.scrollTop = offset * itemHeight;
+      this.$list.scrollTop = isMainPageSearch ? 0 : offset * itemHeight;
     }
   }
 
@@ -124,8 +130,17 @@ export default class ScrollView extends Component {
   };
 
   renderChildren() {
-    const { items, length, itemHeight, children, offset: page } = this.props;
-    const { offset, visibleItems } = this.state;
+    const {
+      items,
+      length,
+      itemHeight,
+      children,
+      offset: page,
+    } = this.props;
+    const {
+      offset,
+      visibleItems,
+    } = this.state;
 
     const threshold = 5;
     const lower = page
@@ -173,8 +188,10 @@ export default class ScrollView extends Component {
 
     let listHeight = length || items.length;
 
-    if(isMainPageSearch) {
-      listHeight = items.length <= (PAGE_SIZE * page) ? items.length % PAGE_SIZE : PAGE_SIZE;
+    if (isMainPageSearch) {
+      listHeight = items.length <= (PAGE_SIZE * page)
+        ? items.length % PAGE_SIZE
+        : PAGE_SIZE;
     }
 
     // list height should be at least enough for the offset
@@ -182,7 +199,7 @@ export default class ScrollView extends Component {
       listHeight = offset + visibleItems;
     }
 
-    listHeight = listHeight * itemHeight
+    listHeight *= itemHeight;
 
     return (
       <div
