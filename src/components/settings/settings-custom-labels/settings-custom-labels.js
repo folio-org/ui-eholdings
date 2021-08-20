@@ -42,7 +42,7 @@ const SettingsCustomLabels = ({
       confirmUpdate();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customLabels]);
+  }, [customLabels.isUpdated]);
 
   const closeModal = () => setModalIsOpen(false);
 
