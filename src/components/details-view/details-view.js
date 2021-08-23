@@ -432,6 +432,7 @@ class DetailsView extends Component {
               onScroll={this.handleScroll}
               onWheel={this.handleWheel}
               data-test-eholdings-detail-pane-contents
+              data-testid="scroll-container"
             >
               {model.isLoaded
                 ? this.renderItemData()

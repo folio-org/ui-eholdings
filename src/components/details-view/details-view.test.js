@@ -258,21 +258,53 @@ describe('Given DetailsView', () => {
     });
   });
 
-  it('should ', () => {
-    renderDetailsView({
-      renderList: mockRenderList,
-      sections: { showTestSection: true },
-      listSectionId: 'showTestSection',
-      resultsLength: 6,
-      listType: 'testListType',
+  describe('when window is resized', () => {
+    const mockScrollIntoView = jest.fn();
+
+    afterEach(() => {
+      mockScrollIntoView.mockClear();
     });
 
-    act(() => {
-      global.innerWidth = 1200;
-      global.innerHeight = 800;
-      global.dispatchEvent(new Event('resize'));
+    it('should handle layout changes and scroll', () => {
+      window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView;
+
+      const { getByTestId } = renderDetailsView({
+        renderList: mockRenderList,
+        sections: { showTestSection: true },
+        listSectionId: 'showTestSection',
+        resultsLength: 6,
+        listType: 'testListType',
+      });
+
+      act(() => {
+        global.innerWidth = 1200;
+        global.innerHeight = 800;
+        global.dispatchEvent(new Event('resize'));
+        fireEvent.scroll(getByTestId('scroll-container'), { y: 500 });
+      });
+
+      expect(mockRenderList).toHaveBeenCalledWith(true);
+      expect(mockScrollIntoView).toHaveBeenCalled();
     });
 
-    expect();
+    it('should handle layout changes but not scroll', () => {
+      window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView;
+
+      const { getByTestId } = renderDetailsView({
+        renderList: mockRenderList,
+        resultsLength: 6,
+        listType: 'testListType',
+      });
+
+      act(() => {
+        global.innerWidth = 1200;
+        global.innerHeight = 800;
+        global.dispatchEvent(new Event('resize'));
+        fireEvent.scroll(getByTestId('scroll-container'), { y: 500 });
+      });
+
+      expect(mockRenderList).toHaveBeenCalledWith(true);
+      expect(mockScrollIntoView).not.toHaveBeenCalled();
+    });
   });
 });
