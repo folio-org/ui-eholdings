@@ -352,10 +352,7 @@ class DetailsView extends Component {
                     onToggle={onListToggle}
                     listType={listType}
                   >
-                    {isListAccordionOpen
-                      ? renderList(isSticky)
-                      : null
-                    }
+                    {isListAccordionOpen && renderList(isSticky)}
                   </Accordion>
                 )}
               </Measure>
