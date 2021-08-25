@@ -212,6 +212,7 @@ export default class ScrollView extends Component {
         className={cx('list', { locked: !scrollable })}
         onScroll={this.handleScroll}
         data-test-query-list={queryListName}
+        data-testid={queryListName}
       >
         <List
           fullWidth={fullWidth}
