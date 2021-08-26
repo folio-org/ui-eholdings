@@ -48,6 +48,7 @@
 * Apply Next/Previous Pagination Component for Titles results. (UIEH-1164)
 * Add tests for SettingsCustomLabels component. (UIEH-1077)
 * Add tests for DetailsView component. (UIEH-1082)
+* Fix apparition of navigation modal after saving changes while editing Custom Title. (UIEH-1203)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
