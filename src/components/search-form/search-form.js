@@ -258,16 +258,18 @@ class SearchForm extends Component {
             <FormattedMessage id="ui-eholdings.tags.filter">
               {
                 label => (
-                  <MultiSelectionFilter
-                    id="selectTagFilter"
-                    ariaLabel={label}
-                    dataOptions={this.getSortedDataOptions()}
-                    name="tags"
-                    onChange={this.handleStandaloneFilterChange}
-                    selectedValues={tagsList}
-                    disabled={!searchByTagsEnabled}
-                    aria-labelledby="selectTagFilter-label"
-                  />
+                  <span data-testid="search-form-tag-filter">
+                    <MultiSelectionFilter
+                      id="selectTagFilter"
+                      ariaLabel={label}
+                      dataOptions={this.getSortedDataOptions()}
+                      name="tags"
+                      onChange={this.handleStandaloneFilterChange}
+                      selectedValues={tagsList}
+                      disabled={!searchByTagsEnabled}
+                      aria-labelledby="selectTagFilter-label"
+                    />
+                  </span>
                 )
               }
             </FormattedMessage>
@@ -328,16 +330,18 @@ class SearchForm extends Component {
             <FormattedMessage id="ui-eholdings.accessTypes.filter">
               {
                 label => (
-                  <MultiSelectionFilter
-                    id="accessTypeFilterSelect"
-                    ariaLabel={label}
-                    dataOptions={this.getAccessTypesDataOptions()}
-                    name="access-type"
-                    onChange={this.handleStandaloneFilterChange}
-                    selectedValues={accessTypesList}
-                    disabled={!searchByAccessTypesEnabled}
-                    aria-labelledby="accessTypesFilter-label"
-                  />
+                  <span data-testid="search-form-access-type-filter">
+                    <MultiSelectionFilter
+                      id="accessTypeFilterSelect"
+                      ariaLabel={label}
+                      dataOptions={this.getAccessTypesDataOptions()}
+                      name="access-type"
+                      onChange={this.handleStandaloneFilterChange}
+                      selectedValues={accessTypesList}
+                      disabled={!searchByAccessTypesEnabled}
+                      aria-labelledby="accessTypesFilter-label"
+                    />
+                  </span>
                 )
               }
             </FormattedMessage>
@@ -415,6 +419,7 @@ class SearchForm extends Component {
                           onChange={this.handleChangeIndex}
                           value={searchField}
                           aria-label={ariaLabel}
+                          data-testid="search-form-dropdown"
                         >
                           <FormattedMessage id="ui-eholdings.label.title">
                             {(label) => <option value="title">{label}</option>}

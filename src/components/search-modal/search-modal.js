@@ -1,8 +1,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  isEqual,
-} from 'lodash';
+import { isEqual } from 'lodash';
 import {
   FormattedMessage,
   injectIntl,
@@ -28,14 +26,15 @@ export const normalize = (query = {}) => {
     },
     q: query.q || '',
     searchfield: query.searchfield,
-    sort: query.sort
+    sort: query.sort,
   };
 };
 
 export const filterCountFromQuery = ({ q, sort, filter }) => {
   return [q, sort]
     .concat(Object.values(filter || []))
-    .filter(Boolean).length;
+    .filter(Boolean)
+    .length;
 };
 
 class SearchModal extends PureComponent {
@@ -46,7 +45,6 @@ class SearchModal extends PureComponent {
     }).isRequired,
     listType: PropTypes.string,
     onFilter: PropTypes.func,
-    onSearch: PropTypes.func,
     query: PropTypes.object,
     tagsModel: PropTypes.object.isRequired,
   };
@@ -90,14 +88,14 @@ class SearchModal extends PureComponent {
       this.props.onFilter({
         ...query,
         filter,
-        q: searchQuery
+        q: searchQuery,
       });
     }
   }
 
   toggle = () => {
     this.setState(({ isModalVisible }) => ({
-      isModalVisible: !isModalVisible
+      isModalVisible: !isModalVisible,
     }));
   }
 
@@ -115,18 +113,6 @@ class SearchModal extends PureComponent {
   resetSearch = () => {
     this.close();
     this.updateFilter({});
-  }
-
-  handleListSearch = (params) => {
-    const { query } = this.props;
-
-    if (this.props.onSearch) {
-      this.props.onSearch(params);
-    }
-
-    this.setState({
-      isModalVisible: query.q === params.q
-    });
   }
 
   toggleFilter = filterName => () => {
@@ -148,8 +134,8 @@ class SearchModal extends PureComponent {
     this.setState(({ query }) => ({
       query: normalize({
         ...query,
-        searchfield
-      })
+        searchfield,
+      }),
     }));
   }
 
@@ -157,7 +143,7 @@ class SearchModal extends PureComponent {
     this.setState(({ query }) => ({
       query: {
         ...query,
-        q
+        q,
       },
     }));
   }
@@ -168,7 +154,7 @@ class SearchModal extends PureComponent {
         sort,
         filter,
         searchfield: query.searchfield,
-        q: query.q
+        q: query.q,
       }),
     }));
   }
@@ -225,6 +211,7 @@ class SearchModal extends PureComponent {
             aria-label={intl.formatMessage({ id: `ui-eholdings.filter.filterType.${listType}` })}
             onClose={this.close}
             id="eholdings-details-view-search-modal"
+            data-testid="search-modal"
             closeOnBackgroundClick
             dismissible
             footer={
