@@ -14,7 +14,11 @@ import {
 
 import SearchForm from '../search-form';
 import SearchBadge from './search-badge';
-import { accessTypesReduxStateShape } from '../../constants';
+import {
+  accessTypesReduxStateShape,
+  searchTypes,
+} from '../../constants';
+import { filterCountFromQuery } from '../utilities';
 
 export const normalize = (query = {}) => {
   return {
@@ -30,20 +34,16 @@ export const normalize = (query = {}) => {
   };
 };
 
-export const filterCountFromQuery = ({ q, sort, filter }) => {
-  return [q, sort]
-    .concat(Object.values(filter || []))
-    .filter(Boolean)
-    .length;
-};
-
 class SearchModal extends PureComponent {
   static propTypes = {
     accessTypes: accessTypesReduxStateShape,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
     }).isRequired,
-    listType: PropTypes.string,
+    listType: PropTypes.oneOf([
+      searchTypes.PACKAGES,
+      searchTypes.TITLES,
+    ]).isRequired,
     onFilter: PropTypes.func,
     query: PropTypes.object,
     tagsModel: PropTypes.object.isRequired,

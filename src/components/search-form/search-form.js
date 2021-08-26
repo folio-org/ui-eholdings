@@ -258,7 +258,7 @@ class SearchForm extends Component {
             <FormattedMessage id="ui-eholdings.tags.filter">
               {
                 label => (
-                  <span data-testid="search-form-tag-filter">
+                  <div data-testid="search-form-tag-filter">
                     <MultiSelectionFilter
                       id="selectTagFilter"
                       ariaLabel={label}
@@ -269,7 +269,7 @@ class SearchForm extends Component {
                       disabled={!searchByTagsEnabled}
                       aria-labelledby="selectTagFilter-label"
                     />
-                  </span>
+                  </div>
                 )
               }
             </FormattedMessage>
@@ -330,7 +330,7 @@ class SearchForm extends Component {
             <FormattedMessage id="ui-eholdings.accessTypes.filter">
               {
                 label => (
-                  <span data-testid="search-form-access-type-filter">
+                  <div data-testid="search-form-access-type-filter">
                     <MultiSelectionFilter
                       id="accessTypeFilterSelect"
                       ariaLabel={label}
@@ -341,7 +341,7 @@ class SearchForm extends Component {
                       disabled={!searchByAccessTypesEnabled}
                       aria-labelledby="accessTypesFilter-label"
                     />
-                  </span>
+                  </div>
                 )
               }
             </FormattedMessage>

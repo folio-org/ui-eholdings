@@ -276,6 +276,45 @@ describe('Given SearchModal', () => {
     });
   });
 
+  describe('when query contains access types filter', () => {
+    it('should filter by access type', () => {
+      const {
+        getByRole,
+        getByTestId,
+        queryByTestId,
+      } = renderSearchModal({
+        query: {
+          filter: {
+            'access-type': ['test-access-type'],
+          },
+        },
+        onFilter: mockOnFilter,
+      });
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
+
+      expect(getByTestId('search-modal')).toBeDefined();
+
+      const searchfield = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
+
+      fireEvent.change(searchfield, { target: { value: 'Test value' } });
+      fireEvent.blur(searchfield);
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.search' }));
+
+      expect(queryByTestId('search-modal')).toBeNull();
+      expect(mockOnFilter).toBeCalledWith({
+        filter: {
+          tags: undefined,
+          'access-type': ['test-access-type'],
+        },
+        q: 'Test value',
+        searchfield: undefined,
+        sort: undefined,
+      });
+    });
+  });
+
   describe('when onFilter is not passed to props', () => {
     it('should not call it', () => {
       const {
