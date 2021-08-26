@@ -22,6 +22,7 @@ const getScrollView = (props = {}) => (
       onUpdate={mockOnUpdate}
       prevNextButtons={<div>PrevNextButtons</div>}
       scrollable
+      queryListName="scroll-view-container"
       {...props}
     >
       {props.children}
@@ -50,6 +51,20 @@ describe('Given ScrollView', () => {
     });
 
     expect(getAllByText('Child item')).toHaveLength(50);
+  });
+
+  describe('when length prop is not passed', () => {
+    it('should display all items', () => {
+      const { getByTestId } = renderScrollView({
+        isMainPageSearch: false,
+        length: undefined,
+        items: new Array(100).fill({}),
+        children: () => <div>Child item</div>,
+      });
+
+      // height = items length * item height
+      expect(getByTestId('scroll-view-list')).toHaveStyle('height: 6400px');
+    });
   });
 
   describe('when there are more than 100 items', () => {
@@ -94,10 +109,9 @@ describe('Given ScrollView', () => {
       const { getByTestId } = renderScrollView({
         items: new Array(1000).fill({}),
         children: () => <div>Child item</div>,
-        queryListName: 'scroll-view-list',
       });
 
-      fireEvent.scroll(getByTestId('scroll-view-list'), { currentTarget: { scrollTop: 1000 } });
+      fireEvent.scroll(getByTestId('scroll-view-container'), { currentTarget: { scrollTop: 1000 } });
 
       await waitFor(() => {
         expect(mockOnUpdate).toBeCalled();

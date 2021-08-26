@@ -217,6 +217,7 @@ export default class ScrollView extends Component {
         <List
           fullWidth={fullWidth}
           style={{ height: listHeight }}
+          data-testid="scroll-view-list"
         >
           {this.renderChildren()}
         </List>
