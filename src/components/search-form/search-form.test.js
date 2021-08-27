@@ -90,7 +90,7 @@ describe('Given SearchForm', () => {
     });
 
     describe('when change search select value', () => {
-      it('should handle ', () => {
+      it('should handle onSearchFieldChange action', () => {
         const mockOnSearchFieldChange = jest.fn();
         const { getByTestId } = renderSearchForm({
           searchType: searchTypes.TITLES,
