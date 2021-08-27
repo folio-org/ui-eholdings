@@ -1,38 +1,45 @@
 import {
-  sortBy
-} from 'lodash';
-import { createRef, Component } from 'react';
+  createRef,
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
+import sortBy from 'lodash/sortBy';
 
 import {
-  Accordion,
   Button,
   ButtonGroup,
   FilterAccordionHeader,
-  Icon,
   SearchField,
   Select,
-  Checkbox,
 } from '@folio/stripes/components';
-import { MultiSelectionFilter } from '@folio/stripes/smart-components';
+
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
-
-import styles from './search-form.css';
 import {
   searchTypes,
   accessTypesReduxStateShape,
+  searchableIndexes,
 } from '../../constants';
 import { getTagLabelsArr } from '../utilities';
+import TagFilterAccordion from './components/tags-filter-accordion';
+import AccessTypesFilterAccordion from './components/access-types-filter-accordion';
+
+import styles from './search-form.css';
 
 const validSearchTypes = [
   searchTypes.PROVIDERS,
   searchTypes.PACKAGES,
-  searchTypes.TITLES
+  searchTypes.TITLES,
 ];
+
+const searchFiltersComponents = {
+  [searchTypes.PACKAGES]: PackageSearchFilters,
+  [searchTypes.PROVIDERS]: ProviderSearchFilters,
+  [searchTypes.TITLES]: TitleSearchFilters,
+};
 
 class SearchForm extends Component {
   static propTypes = {
@@ -64,14 +71,17 @@ class SearchForm extends Component {
       titles: PropTypes.string.isRequired
     }),
     sort: PropTypes.string,
-    tagsModel: PropTypes.object.isRequired
+    tagsModel: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
+    isLoading: false,
     searchString: '',
+    searchField: '',
     searchFilter: {},
+    sort: '',
   };
 
   constructor(props) {
@@ -93,9 +103,9 @@ class SearchForm extends Component {
 
   toggleSection = ({ id }) => {
     const newState = update(`sections.${id}`, value => !value, this.state);
+
     this.setState(newState);
   };
-
 
   handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -120,6 +130,7 @@ class SearchForm extends Component {
     const formattedFilter = {
       [filter.name]: filter.values || undefined,
     };
+
     this.props.onStandaloneFilterChange(formattedFilter);
   };
 
@@ -132,21 +143,14 @@ class SearchForm extends Component {
    * for the current searchType
    */
   getFiltersComponent = (searchType) => {
-    if (searchType === searchTypes.TITLES) {
-      return TitleSearchFilters;
-    } else if (searchType === searchTypes.PACKAGES) {
-      return PackageSearchFilters;
-    } else if (searchType === searchTypes.PROVIDERS) {
-      return ProviderSearchFilters;
-    }
-
-    return null;
+    return searchFiltersComponents[searchType];
   };
 
   getSortedDataOptions = () => {
-    const { tagsModel = [] } = this.props;
+    const { tagsModel } = this.props;
     const dataOptions = getTagLabelsArr(tagsModel).map(tag => {
       const tagDisplay = tag.label.toLowerCase();
+
       return {
         value: tagDisplay,
         label: tagDisplay,
@@ -154,52 +158,6 @@ class SearchForm extends Component {
     });
 
     return sortBy(dataOptions, ['value']);
-  }
-
-  renderSearchByTagsCheckbox() {
-    const {
-      searchByTagsEnabled,
-      onStandaloneFilterToggle,
-    } = this.props;
-
-    return (
-      <Checkbox
-        checked={searchByTagsEnabled}
-        label={(
-          <span
-            className={styles['tags-search-warning']}
-            data-test-eholdings-tag-message
-          >
-            <FormattedMessage id="ui-eholdings.search.searchByTagsOnly" />
-          </span>
-        )}
-        onClick={onStandaloneFilterToggle('tags')}
-        data-test-tags-checkbox
-      />
-    );
-  }
-
-  renderSearchByAccessTypesCheckbox() {
-    const {
-      onStandaloneFilterToggle,
-      searchByAccessTypesEnabled,
-    } = this.props;
-
-    return (
-      <Checkbox
-        checked={searchByAccessTypesEnabled}
-        label={(
-          <span
-            className={styles['tags-search-warning']}
-            data-test-eholdings-access-types-message
-          >
-            <FormattedMessage id="ui-eholdings.search.searchByAccessTypesOnly" />
-          </span>
-        )}
-        onClick={onStandaloneFilterToggle('access-type')}
-        data-test-toggle-access-types-filter-checkbox
-      />
-    );
   }
 
   renderAccodrionHeader(props) {
@@ -210,72 +168,28 @@ class SearchForm extends Component {
     const {
       tagsModel,
       searchByTagsEnabled,
-      searchFilter = {},
+      searchFilter,
+      onStandaloneFilterToggle,
+      onStandaloneFilterChange,
     } = this.props;
-
-    const {
-      tags = ''
-    } = searchFilter;
-
     const {
       sections,
     } = this.state;
 
-    let tagsList = tags
-      ? Array.isArray(tags)
-        ? tags
-        : tags.split(',')
-      : [];
-
-    tagsList = tagsList.map(tag => {
-      return tag.toLowerCase();
-    }).sort();
-
-    return tagsModel.isLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : (
-        <div
-          className={styles['search-filters']}
-          data-test-eholdings-tag-filter
-          role="tab"
-        >
-          <Accordion
-            label={<FormattedMessage id="ui-eholdings.tags" />}
-            id="accordionTagFilter"
-            separator={false}
-            open={sections.accordionTagFilter}
-            closedByDefault
-            header={this.renderAccodrionHeader}
-            displayClearButton={tagsList.length > 0}
-            onClearFilter={() => this.props.onStandaloneFilterChange({ tags: undefined })}
-            onToggle={this.toggleSection}
-            className={styles['search-filter-accordion']}
-          >
-            <span className="sr-only" id="selectTagFilter-label">
-              <FormattedMessage id="ui-eholdings.tags" />
-            </span>
-            {this.renderSearchByTagsCheckbox()}
-            <FormattedMessage id="ui-eholdings.tags.filter">
-              {
-                label => (
-                  <div data-testid="search-form-tag-filter">
-                    <MultiSelectionFilter
-                      id="selectTagFilter"
-                      ariaLabel={label}
-                      dataOptions={this.getSortedDataOptions()}
-                      name="tags"
-                      onChange={this.handleStandaloneFilterChange}
-                      selectedValues={tagsList}
-                      disabled={!searchByTagsEnabled}
-                      aria-labelledby="selectTagFilter-label"
-                    />
-                  </div>
-                )
-              }
-            </FormattedMessage>
-          </Accordion>
-        </div>
-      );
+    return (
+      <TagFilterAccordion
+        dataOptions={this.getSortedDataOptions()}
+        handleStandaloneFilterChange={this.handleStandaloneFilterChange}
+        header={this.renderAccodrionHeader}
+        isOpen={sections.accordionTagFilter}
+        onStandaloneFilterChange={onStandaloneFilterChange}
+        onStandaloneFilterToggle={onStandaloneFilterToggle}
+        onToggle={this.toggleSection}
+        searchByTagsEnabled={searchByTagsEnabled}
+        searchFilter={searchFilter}
+        tagsModel={tagsModel}
+      />
+    );
   }
 
   renderAccessTypesFilter() {
@@ -283,71 +197,35 @@ class SearchForm extends Component {
       accessTypesStoreData,
       searchByAccessTypesEnabled,
       searchFilter,
+      onStandaloneFilterToggle,
+      onStandaloneFilterChange,
+      searchType,
     } = this.props;
-
-    const {
-      'access-type': accessTypes = ''
-    } = searchFilter;
-
     const {
       sections,
     } = this.state;
 
-    const accessTypesList = accessTypes
-      ? Array.isArray(accessTypes)
-        ? accessTypes
-        : accessTypes.split(',')
-      : [];
-
-    accessTypesList.sort();
-
     const accessStatusTypesExist = !!accessTypesStoreData?.items?.data?.length;
+    const isPackagesOrTitlesSearchType = [searchTypes.PACKAGES, searchTypes.TITLES].includes(searchType);
 
-    return accessTypesStoreData?.isLoading
-      ? <Icon icon="spinner-ellipsis" />
-      : accessStatusTypesExist && (
-        <div
-          className={styles['search-filters']}
-          data-test-eholdings-access-types-filter
-          role="tab"
-        >
-          <Accordion
-            label={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
-            id="accessTypesFilter"
-            separator={false}
-            open={sections.accessTypesFilter}
-            closedByDefault
-            header={this.renderAccodrionHeader}
-            displayClearButton={accessTypesList.length}
-            onClearFilter={() => this.props.onStandaloneFilterChange({ 'access-type': undefined })}
-            onToggle={this.toggleSection}
-            className={styles['search-filter-accordion']}
-          >
-            <span className="sr-only" id="accessTypesFilter-label">
-              <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
-            </span>
-            {this.renderSearchByAccessTypesCheckbox()}
-            <FormattedMessage id="ui-eholdings.accessTypes.filter">
-              {
-                label => (
-                  <div data-testid="search-form-access-type-filter">
-                    <MultiSelectionFilter
-                      id="accessTypeFilterSelect"
-                      ariaLabel={label}
-                      dataOptions={this.getAccessTypesDataOptions()}
-                      name="access-type"
-                      onChange={this.handleStandaloneFilterChange}
-                      selectedValues={accessTypesList}
-                      disabled={!searchByAccessTypesEnabled}
-                      aria-labelledby="accessTypesFilter-label"
-                    />
-                  </div>
-                )
-              }
-            </FormattedMessage>
-          </Accordion>
-        </div>
+    if (isPackagesOrTitlesSearchType && accessStatusTypesExist) {
+      return (
+        <AccessTypesFilterAccordion
+          accessTypesStoreData={accessTypesStoreData}
+          dataOptions={this.getAccessTypesDataOptions()}
+          handleStandaloneFilterChange={this.handleStandaloneFilterChange}
+          header={this.renderAccodrionHeader}
+          isOpen={sections.accessTypesFilter}
+          onStandaloneFilterChange={onStandaloneFilterChange}
+          onStandaloneFilterToggle={onStandaloneFilterToggle}
+          onToggle={this.toggleSection}
+          searchByAccessTypesEnabled={searchByAccessTypesEnabled}
+          searchFilter={searchFilter}
+        />
       );
+    }
+
+    return null;
   }
 
   getAccessTypesDataOptions() {
@@ -419,20 +297,13 @@ class SearchForm extends Component {
                           onChange={this.handleChangeIndex}
                           value={searchField}
                           aria-label={ariaLabel}
-                          data-testid="search-form-dropdown"
+                          data-testid="field-to-search-select"
                         >
-                          <FormattedMessage id="ui-eholdings.label.title">
-                            {(label) => <option value="title">{label}</option>}
-                          </FormattedMessage>
-                          <FormattedMessage id="ui-eholdings.label.isxn">
-                            {(label) => <option value="isxn">{label}</option>}
-                          </FormattedMessage>
-                          <FormattedMessage id="ui-eholdings.label.publisher">
-                            {(label) => <option value="publisher">{label}</option>}
-                          </FormattedMessage>
-                          <FormattedMessage id="ui-eholdings.label.subject">
-                            {(label) => <option value="subject">{label}</option>}
-                          </FormattedMessage>
+                          {Object.values(searchableIndexes).map(value => (
+                            <FormattedMessage id={`ui-eholdings.label.${value}`}>
+                              {(label) => <option value={value}>{label}</option>}
+                            </FormattedMessage>
+                          ))}
                         </Select>
                       )}
                     </FormattedMessage>
@@ -466,6 +337,7 @@ class SearchForm extends Component {
               fullWidth
               disabled={!searchString || standaloneFiltersEnabled}
               data-test-search-submit
+              data-testid="search-submit"
             >
               <FormattedMessage id="ui-eholdings.label.search" />
             </Button>
@@ -473,7 +345,7 @@ class SearchForm extends Component {
           {Filters && (
             <div role="tablist">
               {this.renderTagFilter()}
-              {(searchType === searchTypes.PACKAGES || searchType === searchTypes.TITLES) && this.renderAccessTypesFilter()}
+              {this.renderAccessTypesFilter()}
               <Filters
                 activeFilters={combinedFilters}
                 onUpdate={this.handleUpdateFilter}
@@ -486,4 +358,5 @@ class SearchForm extends Component {
     );
   }
 }
+
 export default SearchForm;

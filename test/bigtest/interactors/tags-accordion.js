@@ -15,8 +15,8 @@ export default @interactor class {
   tagsSelect = new MultiSelectInteractor('#selectTagFilter');
   hasClearTagFilter = isPresent('#accordionTagFilter button[icon="times-circle-solid"]');
 
-  toggleSearchByTags = clickable('[data-test-tags-checkbox]');
-  tagsCheckboxIsChecked = is('[data-test-tags-checkbox]', ':checked');
+  toggleSearchByTags = clickable('[data-test-search-by="tags"]');
+  tagsCheckboxIsChecked = is('[data-test-search-by="tags"]', ':checked');
   tagsMultiselectIsDisabled = property('#selectTagFilter-input', 'disabled');
 
   clearTagFilter = action(function () {

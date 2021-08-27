@@ -64,7 +64,7 @@ describe('Given AccessTypeEditSection', () => {
       accessStatusTypes = {};
     });
 
-    it('should show spinner', () => {
+    it('should not show access type field', () => {
       const { queryByText, container } = renderAccessTypeEditSection({ accessStatusTypes });
 
       expect(container.querySelector('.icon-spinner-ellipsis')).toBeNull();
