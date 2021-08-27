@@ -5,6 +5,8 @@ import {
 
 import SearchModal from './search-modal';
 
+const mockOnFilter = jest.fn();
+
 const accessTypes = {
   errors: [],
   isLoading: false,
@@ -44,14 +46,13 @@ const renderSearchModal = (props = {}) => render(
   <SearchModal
     accessTypes={accessTypes}
     listType="titles"
+    onFilter={mockOnFilter}
     tagsModel={tagsModel}
     {...props}
   />
 );
 
 describe('Given SearchModal', () => {
-  const mockOnFilter = jest.fn();
-
   afterEach(() => {
     mockOnFilter.mockClear();
   });
@@ -143,7 +144,6 @@ describe('Given SearchModal', () => {
             selected: true,
           },
         },
-        onFilter: mockOnFilter,
       });
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
@@ -177,9 +177,7 @@ describe('Given SearchModal', () => {
         getByRole,
         getByTestId,
         queryByTestId,
-      } = renderSearchModal({
-        onFilter: mockOnFilter,
-      });
+      } = renderSearchModal();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
 
@@ -213,9 +211,7 @@ describe('Given SearchModal', () => {
         getByText,
         getByTestId,
         queryByTestId,
-      } = renderSearchModal({
-        onFilter: mockOnFilter,
-      });
+      } = renderSearchModal();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
 
@@ -248,9 +244,7 @@ describe('Given SearchModal', () => {
         getByText,
         getByTestId,
         queryByTestId,
-      } = renderSearchModal({
-        onFilter: mockOnFilter,
-      });
+      } = renderSearchModal();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
 
@@ -288,7 +282,6 @@ describe('Given SearchModal', () => {
             'access-type': ['test-access-type'],
           },
         },
-        onFilter: mockOnFilter,
       });
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
@@ -312,36 +305,6 @@ describe('Given SearchModal', () => {
         searchfield: undefined,
         sort: undefined,
       });
-    });
-  });
-
-  describe('when onFilter is not passed to props', () => {
-    it('should not call it', () => {
-      const {
-        getByRole,
-        getByTestId,
-        queryByTestId,
-      } = renderSearchModal({
-        query: {
-          filter: {
-            selected: true,
-          },
-        },
-      });
-
-      fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
-
-      expect(getByTestId('search-modal')).toBeDefined();
-
-      const searchfield = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
-
-      fireEvent.change(searchfield, { target: { value: 'Test value' } });
-      fireEvent.blur(searchfield);
-
-      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.search' }));
-
-      expect(queryByTestId('search-modal')).toBeNull();
-      expect(mockOnFilter).toBeCalledTimes(0);
     });
   });
 

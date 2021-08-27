@@ -44,7 +44,7 @@ class SearchModal extends PureComponent {
       searchTypes.PACKAGES,
       searchTypes.TITLES,
     ]).isRequired,
-    onFilter: PropTypes.func,
+    onFilter: PropTypes.func.isRequired,
     query: PropTypes.object,
     tagsModel: PropTypes.object.isRequired,
   };
@@ -84,13 +84,11 @@ class SearchModal extends PureComponent {
       filter['access-type'] = undefined;
     }
 
-    if (this.props.onFilter) {
-      this.props.onFilter({
-        ...query,
-        filter,
-        q: searchQuery,
-      });
-    }
+    this.props.onFilter({
+      ...query,
+      filter,
+      q: searchQuery,
+    });
   }
 
   toggle = () => {
