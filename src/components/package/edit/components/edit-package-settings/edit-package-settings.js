@@ -144,7 +144,7 @@ const EditPackageSettings = ({
     }
 
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
-    console.log(isAccessStatusTypes, accessStatusTypes, packageIsCustom);
+
     const packageSettingsColumnWidth = isAccessStatusTypes
       ? MAX_COLUMN_WIDTH
       : ONE_THIRD_OF_COLUMN_WIDTH;
