@@ -47,6 +47,8 @@
 * Apply Next/Previous Pagination Component for Providers results. (UIEH-1165)
 * Apply Next/Previous Pagination Component for Titles results. (UIEH-1164)
 * Add tests for SettingsCustomLabels component. (UIEH-1077)
+* Add tests for DetailsView component. (UIEH-1082)
+* Jest+RTL > Test ScrollView. (UIEH-1085)
 * Move Access status type field to Package Settings accordion in Edit Custom Package page. (UIEH-1202)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
