@@ -3,6 +3,11 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
+import {
+  searchTypes,
+  searchableIndexes,
+} from '../../constants';
+
 import SearchModal from './search-modal';
 
 const mockOnFilter = jest.fn();
@@ -45,7 +50,7 @@ const tagsModel = {
 const renderSearchModal = (props = {}) => render(
   <SearchModal
     accessTypes={accessTypes}
-    listType="titles"
+    listType={searchTypes.TITLES}
     onFilter={mockOnFilter}
     tagsModel={tagsModel}
     {...props}
@@ -250,7 +255,7 @@ describe('Given SearchModal', () => {
 
       expect(getByTestId('search-modal')).toBeDefined();
 
-      fireEvent.click(getByText('ui-eholdings.search.searchByAccessTypesOnly'));
+      fireEvent.click(getByText('ui-eholdings.search.searchByAccessTypeOnly'));
 
       expect(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' })).toBeDisabled();
 
@@ -319,7 +324,7 @@ describe('Given SearchModal', () => {
 
       expect(getByTestId('search-modal')).toBeDefined();
 
-      fireEvent.change(getByTestId('search-form-dropdown'), { target: { value: 'ui-eholdings.label.isxn' } });
+      fireEvent.change(getByTestId('field-to-search-select'), { target: { value: searchableIndexes.ISNX } });
 
       const searchButton = getByRole('button', { name: 'ui-eholdings.label.search' });
 
