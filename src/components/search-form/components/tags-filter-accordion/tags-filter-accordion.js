@@ -91,16 +91,18 @@ const TagsFilterAccordion = ({
           <FormattedMessage id="ui-eholdings.tags.filter">
             {
               label => (
-                <MultiSelectionFilter
-                  id="selectTagFilter"
-                  ariaLabel={label}
-                  dataOptions={dataOptions}
-                  name="tags"
-                  onChange={handleStandaloneFilterChange}
-                  selectedValues={tagsList}
-                  disabled={!searchByTagsEnabled}
-                  aria-labelledby="selectTagFilter-label"
-                />
+                <div data-testid="search-form-tag-filter">
+                  <MultiSelectionFilter
+                    id="selectTagFilter"
+                    ariaLabel={label}
+                    dataOptions={dataOptions}
+                    name="tags"
+                    onChange={handleStandaloneFilterChange}
+                    selectedValues={tagsList}
+                    disabled={!searchByTagsEnabled}
+                    aria-labelledby="selectTagFilter-label"
+                  />
+                </div>
               )
             }
           </FormattedMessage>

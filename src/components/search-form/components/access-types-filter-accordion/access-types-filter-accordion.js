@@ -91,16 +91,18 @@ const AccessTypesFilterAccordion = ({
           <FormattedMessage id="ui-eholdings.accessTypes.filter">
             {
               label => (
-                <MultiSelectionFilter
-                  id="accessTypeFilterSelect"
-                  ariaLabel={label}
-                  dataOptions={dataOptions}
-                  name="access-type"
-                  onChange={handleStandaloneFilterChange}
-                  selectedValues={accessTypesList}
-                  disabled={!searchByAccessTypesEnabled}
-                  aria-labelledby="accessTypesFilter-label"
-                />
+                <div data-testid="search-form-access-type-filter">
+                  <MultiSelectionFilter
+                    id="accessTypeFilterSelect"
+                    ariaLabel={label}
+                    dataOptions={dataOptions}
+                    name="access-type"
+                    onChange={handleStandaloneFilterChange}
+                    selectedValues={accessTypesList}
+                    disabled={!searchByAccessTypesEnabled}
+                    aria-labelledby="accessTypesFilter-label"
+                  />
+                </div>
               )
             }
           </FormattedMessage>

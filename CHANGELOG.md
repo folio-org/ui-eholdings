@@ -50,6 +50,7 @@
 * Add tests for DetailsView component. (UIEH-1082)
 * Jest+RTL > Test ScrollView. (UIEH-1085)
 * Add tests for SearchForm conponent. (UIEH-1086) 
+* Add tests for SearchModal component. (UIEH-1087)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
