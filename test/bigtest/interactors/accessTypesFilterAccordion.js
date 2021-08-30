@@ -15,8 +15,8 @@ export default @interactor class {
   accessTypesSelect = new MultiSelectInteractor('#accessTypeFilterSelect');
   hasClearFilterButton = isPresent('#accessTypesFilter button[icon="times-circle-solid"]');
 
-  toggleFilter = clickable('[data-test-toggle-access-types-filter-checkbox]');
-  filterCheckboxIsChecked = is('[data-test-toggle-access-types-filter-checkbox]', ':checked');
+  toggleFilter = clickable('[data-test-search-by-access-types]');
+  filterCheckboxIsChecked = is('[data-test-search-by-access-types]', ':checked');
   accessTypesSelectIsDisabled = property('#accessTypeFilterSelect-input', 'disabled');
 
   clickClearFilterButton = action(function () {
