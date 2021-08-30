@@ -129,7 +129,7 @@ export default class TitleEdit extends Component {
                 />
               </form>
 
-              <NavigationModal when={!pristine && !updateRequest.isResolved} />
+              <NavigationModal when={!pristine && !updateRequest.isPending && !updateRequest.isResolved} />
             </>
           )}
         />

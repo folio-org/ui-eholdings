@@ -51,6 +51,8 @@
 * Jest+RTL > Test ScrollView. (UIEH-1085)
 * Add tests for SearchForm conponent. (UIEH-1086) 
 * Add tests for SearchModal component. (UIEH-1087)
+* Change all detail records headline component size to XL. (UIEH-1204)
+* Fix apparition of navigation modal after saving changes while editing Custom Title. (UIEH-1203)
 * Move Access status type field to Package Settings accordion in Edit Custom Package page. (UIEH-1202)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
