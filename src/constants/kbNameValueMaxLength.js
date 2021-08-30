@@ -1,0 +1,3 @@
+const KB_NAME_VALUE_MAX_LENGTH = 255;
+
+export default KB_NAME_VALUE_MAX_LENGTH;
