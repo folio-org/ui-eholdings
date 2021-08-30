@@ -51,6 +51,7 @@
 * Jest+RTL > Test ScrollView. (UIEH-1085)
 * Add tests for SearchForm conponent. (UIEH-1086) 
 * Add tests for SearchModal component. (UIEH-1087)
+* Change all detail records headline component size to XL. (UIEH-1204)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
