@@ -204,7 +204,7 @@ const EditPackageSettings = ({
                   <Icon icon="spinner-ellipsis" />
                 )
               }
-              {(!packageIsCustom && isAccessStatusTypes) && (
+              {isAccessStatusTypes && (
                 <Col xsOffset={3} xs={dropdownColumnWidth}>
                   <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
                 </Col>
