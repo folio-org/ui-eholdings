@@ -49,6 +49,9 @@
 * Add tests for SettingsCustomLabels component. (UIEH-1077)
 * Add tests for DetailsView component. (UIEH-1082)
 * Jest+RTL > Test ScrollView. (UIEH-1085)
+* Add tests for SearchForm conponent. (UIEH-1086) 
+* Add tests for SearchModal component. (UIEH-1087)
+* Change all detail records headline component size to XL. (UIEH-1204)
 * Fix apparition of navigation modal after saving changes while editing Custom Title. (UIEH-1203)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
