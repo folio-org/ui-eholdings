@@ -301,7 +301,7 @@ const SettingsKnowledgeBase = ({
                     component={Select}
                     label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
                   >
-                    {apiEndpointsOptions.map(({ value, translationId } ) => (
+                    {apiEndpointsOptions.map(({ value, translationId }) => (
                       <FormattedMessage
                         id={translationId}
                         values={{ url: value }}
