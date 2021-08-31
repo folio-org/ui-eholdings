@@ -17,9 +17,24 @@ const defaultHistory = createMemoryHistory();
 
 const defaultInitialState = {};
 
-const Harness = ({ stripes, children, history = defaultHistory, storeInitialState = defaultInitialState }) => {
+const defaultFormItems = [];
+
+const Harness = ({
+  stripes,
+  children,
+  history = defaultHistory,
+  storeInitialState = defaultInitialState,
+  formItems = defaultFormItems,
+}) => {
   const reducers = {
     eholdings: () => storeInitialState,
+    form: () => ({
+      editableListForm: {
+        values: {
+          items: formItems,
+        },
+      },
+    }),
   };
 
   const reducer = combineReducers(reducers);

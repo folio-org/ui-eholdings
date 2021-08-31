@@ -5,9 +5,7 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import {
-  sortBy
-} from 'lodash';
+import { sortBy } from 'lodash';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { useStripes } from '@folio/stripes/core';
@@ -19,9 +17,7 @@ import {
   ConfirmationModal,
   FormattedDate,
 } from '@folio/stripes/components';
-import {
-  EditableList,
-} from '@folio/stripes/smart-components';
+import { EditableList } from '@folio/stripes/smart-components';
 
 import Toaster from '../../toaster';
 
@@ -66,7 +62,7 @@ const SettingsAccessStatusTypes = ({
             id: `access-type-delete-failure-${Date.now()}`,
             message: <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.error" />,
             type: 'error',
-          }
+          },
         ]);
 
         setSelectedStatusType(null);
@@ -82,18 +78,20 @@ const SettingsAccessStatusTypes = ({
     lastUpdated: (data) => {
       const user = data.updater ?? data.creator;
 
-      return data.metadata ? (
-        <FormattedMessage
-          id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
-          values={{
-            date: <FormattedDate value={data.metadata.updatedDate} />,
-            name: `${user?.lastName} ${user?.firstName}`,
-          }}
-        />
-      ) : <NoValue />;
+      return data.metadata
+        ? (
+          <FormattedMessage
+            id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
+            values={{
+              date: <FormattedDate value={data.metadata.updatedDate} />,
+              name: `${user?.lastName} ${user?.firstName}`,
+            }}
+          />
+        )
+        : <NoValue />;
     },
     // records will be done after MODKBEKBJ-378
-    records: ({ usageNumber }) => usageNumber || <NoValue />
+    records: ({ usageNumber }) => usageNumber || <NoValue />,
   };
 
   // eslint-disable-next-line react/prop-types
@@ -211,11 +209,11 @@ const SettingsAccessStatusTypes = ({
     delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
   };
 
-
   return (
     <Pane
       paneTitle={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
       data-test-settings-access-status-types
+      data-testid="settings-access-status-types"
       defaultWidth="fill"
       firstMenu={(
         <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
