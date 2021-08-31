@@ -191,11 +191,7 @@ const SettingsKnowledgeBase = ({
       name: isCreateMode ? getKbCredentialsName() : null,
     };
 
-    if (!config) {
-      return initialValues;
-    }
-
-    return Object.assign(initialValues, config.attributes);
+    return Object.assign(initialValues, config?.attributes);
   };
 
   const toggleDeleteConfirmationModal = () => {
