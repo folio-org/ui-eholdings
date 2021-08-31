@@ -487,7 +487,7 @@
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
     "search.searchByTagsOnly" : "Search by tags only",
-    "search.searchByAccessTypesOnly" : "Search by access status types only",
+    "search.searchByAccessTypeOnly" : "Search by access status types only",
     "search.selectFieldToSearch" : "Select a field to search",
 
     "date.present": "Present",

@@ -30,6 +30,7 @@ export { default as CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH } from './contributorFiel
 export { default as IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH } from './identifiersFieldsValueMaxLength';
 export { default as apiEndpointsOptions } from './apiEndpointsOptions';
 export { default as KB_NAME_VALUE_MAX_LENGTH } from './kbNameValueMaxLength';
+export { default as searchableIndexes } from './searchableIndexes';
 export * from './packageAndResourceSettings';
 export * from './filterConfigs';
 export * from './costPerUse';

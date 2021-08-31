@@ -290,7 +290,7 @@ class DetailsView extends Component {
       <>
         <div key="header" className={styles.header}>
           <Headline
-            size="xx-large"
+            size="x-large"
             tag="h2"
             margin="none"
             tabIndex={-1}
