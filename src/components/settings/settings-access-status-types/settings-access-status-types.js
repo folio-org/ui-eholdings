@@ -47,7 +47,7 @@ const SettingsAccessStatusTypes = ({
     }, kbId);
   };
 
-  const onUpdateItem = (accessType) => onUpdate(accessType, kbId);
+  const onUpdateItem = accessType => onUpdate(accessType, kbId);
 
   useEffect(() => {
     const errorsLength = accessTypesData.errors.length;
@@ -70,7 +70,6 @@ const SettingsAccessStatusTypes = ({
       }
     }
   }, [accessTypesData.errors]);
-
 
   const formatter = {
     name: ({ attributes }) => (attributes?.name ?? <NoValue />),
@@ -144,7 +143,7 @@ const SettingsAccessStatusTypes = ({
     onDelete(selectedStatusType, kbId);
   };
 
-  const nameValidation = value => {
+  const nameValidation = (value) => {
     if (!value) {
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type.validation" />;
     }
@@ -163,7 +162,7 @@ const SettingsAccessStatusTypes = ({
     return null;
   };
 
-  const descriptionValidation = value => {
+  const descriptionValidation = (value) => {
     if (value && value.length > 150) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
@@ -193,7 +192,7 @@ const SettingsAccessStatusTypes = ({
           />
         ),
         type: 'success',
-      }
+      },
     ]);
   }
 

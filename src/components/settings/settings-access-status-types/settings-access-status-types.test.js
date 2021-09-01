@@ -51,11 +51,19 @@ const accessTypesData = {
   }],
 };
 
-const renderSettingsAccessStatusTypes = ({ harnessProps = {}, props = {} }) => render(
+const getSettingsAccessStatusTypes = ({ editableListFormProps = {}, props = {} }) => (
   <MemoryRouter>
     <Harness
-      formItems={formItems}
-      {...harnessProps}
+      storeReducers={{
+        form: () => ({
+          editableListForm: {
+            values: {
+              items: formItems,
+            },
+            ...editableListFormProps,
+          },
+        }),
+      }}
     >
       <SettingsAccessStatusTypes
         accessTypesData={accessTypesData}
@@ -70,8 +78,15 @@ const renderSettingsAccessStatusTypes = ({ harnessProps = {}, props = {} }) => r
   </MemoryRouter>
 );
 
+const renderSettingsAccessStatusTypes = ({ editableListFormProps = {}, props = {} }) => render(
+  getSettingsAccessStatusTypes({ editableListFormProps, props }),
+);
+
 describe('Given SettingsAccessStatusTypes', () => {
+  const mockOnCreate = jest.fn();
+  const mockOnUpdate = jest.fn();
   const mockOnDelete = jest.fn();
+  const mockConfirmDelete = jest.fn();
 
   it('should render SettingsAccessStatusTypes component', () => {
     const { getByTestId } = renderSettingsAccessStatusTypes({});
@@ -110,14 +125,16 @@ describe('Given SettingsAccessStatusTypes', () => {
   describe('when metadata of access status type is passed', () => {
     it('should display metadata info', () => {
       const { getByText } = renderSettingsAccessStatusTypes({
-        harnessProps: {
-          formItems: [{
-            ...formItems[0],
-            metadata: {
-              createdByUserId: 'user-id',
-              createdDate: 'created-date',
-            },
-          }],
+        editableListFormProps: {
+          values: {
+            items: [{
+              ...formItems[0],
+              metadata: {
+                createdByUserId: 'user-id',
+                createdDate: 'created-date',
+              },
+            }],
+          },
         },
         props: {
           accessTypesData: {
@@ -186,6 +203,149 @@ describe('Given SettingsAccessStatusTypes', () => {
     });
   });
 
+  describe('when add new access status type', () => {
+    it('should handle onCreate', () => {
+      const { getByRole } = renderSettingsAccessStatusTypes({
+        editableListFormProps: {
+          values: {
+            items: [{
+              attributes: { name: 'test' },
+            }],
+          },
+          fields: {
+            items: [{
+              attributes: {
+                name: { active: true },
+              },
+            }],
+          },
+        },
+        props: {
+          onCreate: mockOnCreate,
+        },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
+
+      const accessStatusTypeInput = getByRole('textbox', { name: 'ui-eholdings.settings.accessStatusTypes.type' });
+      const saveButton = getByRole('button', { name: 'stripes-core.button.save' });
+
+      fireEvent.change(accessStatusTypeInput, { target: { value: 'test' } });
+      fireEvent.blur(accessStatusTypeInput);
+
+      fireEvent.click(saveButton);
+
+      expect(mockOnCreate).toBeCalled();
+    });
+  });
+
+  describe('when edit existing access status type', () => {
+    it('should handle onUpdate', () => {
+      const [testFormItem] = formItems;
+
+      const { getByRole } = renderSettingsAccessStatusTypes({
+        editableListFormProps: {
+          values: {
+            items: [{
+              ...testFormItem,
+              attributes: {
+                ...testFormItem.attributes,
+                name: 'test-edited',
+              },
+            }],
+          },
+          fields: {
+            items: [{
+              attributes: {
+                name: {
+                  visited: true,
+                  touched: true,
+                },
+              },
+            }],
+          },
+          anyTouched: true,
+        },
+        props: {
+          onUpdate: mockOnUpdate,
+        },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.editThisItem' }));
+
+      const accessStatusTypeInput = getByRole('textbox', { name: 'ui-eholdings.settings.accessStatusTypes.type' });
+      const saveButton = getByRole('button', { name: 'stripes-core.button.save' });
+
+      fireEvent.change(accessStatusTypeInput, { target: { value: 'test-edited' } });
+      fireEvent.blur(accessStatusTypeInput);
+
+      fireEvent.click(saveButton);
+
+      expect(mockOnUpdate).toBeCalled();
+    });
+  });
+
+  describe('when delete access status type', () => {
+    it('should handle onDelete', () => {
+      const {
+        getByRole,
+        getByText,
+      } = renderSettingsAccessStatusTypes({
+        props: {
+          onDelete: mockOnDelete,
+        },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
+
+      const confirmationModalDeleteButton = getByText('ui-eholdings.settings.accessStatusTypes.delete.confirm');
+
+      fireEvent.click(confirmationModalDeleteButton);
+
+      expect(mockOnDelete).toBeCalled();
+    });
+
+    it('should handle confirmDelete and show success toast message', () => {
+      const {
+        getByRole,
+        getByText,
+        rerender,
+      } = renderSettingsAccessStatusTypes({
+        props: {
+          onDelete: mockOnDelete,
+        },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
+
+      const confirmationModalDeleteButton = getByText('ui-eholdings.settings.accessStatusTypes.delete.confirm');
+
+      fireEvent.click(confirmationModalDeleteButton);
+
+      expect(mockOnDelete).toBeCalled();
+
+      rerender(
+        getSettingsAccessStatusTypes({
+          editableListFormProps: {
+            values: {
+              items: [],
+            },
+          },
+          props: {
+            accessTypesData: {
+              ...accessTypesData,
+              isDeleted: true,
+            },
+            confirmDelete: mockConfirmDelete,
+          },
+        }),
+      );
+
+      expect(mockConfirmDelete).toBeCalled();
+      expect(getByText('ui-eholdings.settings.accessStatusTypes.delete.toast')).toBeDefined();
+    });
+  });
+
   describe('when there are errors', () => {
     describe('when error message ends with not found', () => {
       it('should display a toast with an error message', () => {
@@ -218,27 +378,6 @@ describe('Given SettingsAccessStatusTypes', () => {
     });
   });
 
-  describe('when delete access status type', () => {
-    it('should handle onDelete', async () => {
-      const {
-        getByRole,
-        getByText,
-      } = renderSettingsAccessStatusTypes({
-        props: {
-          onDelete: mockOnDelete,
-        },
-      });
-
-      fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
-
-      const confirmationModalDeleteButton = getByText('ui-eholdings.settings.accessStatusTypes.delete.confirm');
-
-      fireEvent.click(confirmationModalDeleteButton);
-
-      expect(mockOnDelete).toBeCalled();
-    });
-  });
-
   describe('when click on delete icon', () => {
     it('should display a confirmation modal', () => {
       const {
@@ -261,7 +400,7 @@ describe('Given SettingsAccessStatusTypes', () => {
   });
 
   describe('when there is no access status type to delete', () => {
-    it('should not display a confirmation modal', async () => {
+    it('should not display a confirmation modal', () => {
       const {
         getByRole,
         queryByText,
