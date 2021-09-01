@@ -288,3 +288,7 @@ export const handleSaveKeyFormSubmit = (formRef) => (event) => {
   event.preventDefault();
   formRef.dispatchEvent(submitEvent);
 };
+
+export const filterCountFromQuery = ({ q, sort, filter = [] }) => {
+  return [q, sort].concat(Object.values(filter)).filter(Boolean).length;
+};

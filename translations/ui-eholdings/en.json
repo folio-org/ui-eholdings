@@ -246,6 +246,8 @@
     "settings.kb.apiKey.show": "Show key",
     "settings.kb.apiKey.hide": "Hide key",
     "settings.kb.rmapiBaseUrl": "Choose API endpoint",
+    "settings.kb.rmapiBaseUrl.sandbox": "Sandbox: {url}",
+    "settings.kb.rmapiBaseUrl.production": "Production: {url}",
     "settings.kb.url.ebsco.customer.message": "EBSCO KB API customers: Configuration enables searching with eHoldings and Codex search apps.",
     "settings.kb.updated": "KB settings updated",
     "settings.kb.saved": "{name} has been saved",
@@ -485,7 +487,7 @@
     "search.searchType.packages": "Packages",
     "search.searchType.providers": "Providers",
     "search.searchByTagsOnly" : "Search by tags only",
-    "search.searchByAccessTypesOnly" : "Search by access status types only",
+    "search.searchByAccessTypeOnly" : "Search by access status types only",
     "search.selectFieldToSearch" : "Select a field to search",
 
     "date.present": "Present",

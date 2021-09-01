@@ -13,7 +13,8 @@ import { TitleManager } from '@folio/stripes/core';
 import {
   qs,
   transformQueryParams,
-  getResultsNotFoundTranslationKey
+  getResultsNotFoundTranslationKey,
+  filterCountFromQuery,
 } from '../components/utilities';
 
 import { createResolver } from '../redux';
@@ -34,8 +35,6 @@ import {
   accessTypesReduxStateShape,
   PAGE_SIZE,
 } from '../constants';
-
-import { filterCountFromQuery } from '../components/search-modal/search-modal';
 
 class SearchRoute extends Component {
   static propTypes = {
