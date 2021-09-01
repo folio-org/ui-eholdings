@@ -22,6 +22,10 @@ import { EditableList } from '@folio/stripes/smart-components';
 import Toaster from '../../toaster';
 
 import { accessStatusTypeDataShape } from '../../../constants/accessTypesReduxStateShape';
+import {
+  SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH,
+  SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH,
+} from '../../../constants';
 
 const SettingsAccessStatusTypes = ({
   accessTypesData,
@@ -148,10 +152,10 @@ const SettingsAccessStatusTypes = ({
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type.validation" />;
     }
 
-    if (value && value.length > 75) {
+    if (value && value.length > SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
-        values={{ limit: 75 }}
+        values={{ limit: SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH }}
       />;
     }
 
@@ -163,10 +167,10 @@ const SettingsAccessStatusTypes = ({
   };
 
   const descriptionValidation = (value) => {
-    if (value && value.length > 150) {
+    if (value && value.length > SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
-        values={{ limit: 150 }}
+        values={{ limit: SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH }}
       />;
     }
 
