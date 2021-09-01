@@ -185,6 +185,7 @@ const SettingsKnowledgeBaseRoute = ({
         isCreateMode={isCreateMode}
         onDelete={handleDeleteKBCredentials}
         currentKBName={getCurrentKBName()}
+        kbId={match.params.kbId}
       />
     </TitleManager>
   );

@@ -54,6 +54,7 @@
 * Change all detail records headline component size to XL. (UIEH-1204)
 * Fix apparition of navigation modal after saving changes while editing Custom Title. (UIEH-1203)
 * Move Access status type field to Package Settings accordion in Edit Custom Package page. (UIEH-1202)
+* Add tests for SettingsKnowledgeBase component. (UIEH-1089)
 * Add tests for SettingsAccessStatusTypes component. (UIEH-1088)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
