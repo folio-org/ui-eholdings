@@ -307,6 +307,7 @@ class DetailsView extends Component {
               faded
               size="large"
               tag="div"
+              margin="none"
             >
               {paneSub}
             </Headline>
