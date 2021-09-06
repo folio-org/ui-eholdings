@@ -97,6 +97,7 @@ class PackageShowRoute extends Component {
         },
       },
       queryId: 0,
+      isTitlesUpdating: false,
     };
 
     const { packageId } = props.match.params;
@@ -106,6 +107,13 @@ class PackageShowRoute extends Component {
     props.getProvider(providerId);
     props.getTags();
     props.getAccessTypes();
+  }
+
+  componentDidMount() {
+    const { match } = this.props;
+    const { packageId } = match.params;
+
+    this.updateTitles(packageId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -139,7 +147,7 @@ class PackageShowRoute extends Component {
     const { packageId } = match.params;
 
     // if package was just added/removed from holdings
-    // need to clear 'update' requests for Unsaved Changes Modal to work coorectly on Edit
+    // need to clear 'update' requests for Unsaved Changes Modal to work correctly on Edit
     if (isFreshlySaved) {
       removeUpdateRequests();
     }
@@ -149,7 +157,7 @@ class PackageShowRoute extends Component {
       if (location.search) {
         history.replace({
           pathname: '/eholdings',
-          search: location.search
+          search: location.search,
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
@@ -173,21 +181,46 @@ class PackageShowRoute extends Component {
 
   componentWillUnmount() {
     this.props.clearCostPerUseData();
+    window.clearTimeout(this.timeout);
   }
 
   /* This method is common between package-show and package-edit routes
    * This should be refactored once we can share model between the routes.
   */
   addPackageToHoldings = () => {
-    const { model, updatePackage } = this.props;
+    const { model, match, updatePackage } = this.props;
+    const { packageId } = match.params;
+
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
     updatePackage(model);
+    this.updateTitles(packageId);
   };
 
+  updateTitles(packageId) {
+    const { getPackageTitles } = this.props;
+    const { pkgSearchParams } = this.state;
+
+    const params = transformQueryParams('titles', pkgSearchParams);
+
+    this.setState(() => {
+      return { isTitlesUpdating: true };
+    });
+
+    this.timeout = window.setTimeout(() => {
+      getPackageTitles({ packageId, params });
+
+      this.setState(() => {
+        return { isTitlesUpdating: false };
+      });
+    }, 6000);
+  }
+
   toggleSelected = () => {
-    const { model, updatePackage, destroyPackage } = this.props;
+    const { model, match, updatePackage, destroyPackage } = this.props;
+    const { packageId } = match.params;
+
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
@@ -208,11 +241,13 @@ class PackageShowRoute extends Component {
       }
 
       updatePackage(model);
+      this.updateTitles(packageId);
     }
   };
 
   fetchPackageTitles = (page) => {
     const { pkgSearchParams } = this.state;
+
     this.searchTitles({ ...pkgSearchParams, page });
   }
 
@@ -245,7 +280,7 @@ class PackageShowRoute extends Component {
 
     history.replace({
       ...location,
-      search
+      search,
     }, { eholdings: true });
 
     this.setState(({ queryId }) => ({
@@ -260,6 +295,7 @@ class PackageShowRoute extends Component {
 
   getSearchType = () => {
     const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
+
     return searchType;
   }
 
@@ -318,6 +354,7 @@ class PackageShowRoute extends Component {
     const {
       pkgSearchParams,
       queryId,
+      isTitlesUpdating,
     } = this.state;
 
     return (
@@ -341,6 +378,7 @@ class PackageShowRoute extends Component {
           onEdit={this.handleEdit}
           accessStatusTypes={accessStatusTypes}
           costPerUse={costPerUse}
+          isTitlesUpdating={isTitlesUpdating}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved

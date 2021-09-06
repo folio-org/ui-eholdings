@@ -56,6 +56,7 @@
 * Move Access status type field to Package Settings accordion in Edit Custom Package page. (UIEH-1202)
 * Add tests for SettingsKnowledgeBase component. (UIEH-1089)
 * Change all detail records headline component size to XL. (UIEH-1204)
+* Fix when changing holding status, list of titles accordion does not reflect new holdings status UNLESS one refreshes page (UIEH-1171)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
