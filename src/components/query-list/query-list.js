@@ -6,6 +6,7 @@ import styles from './query-list.css';
 import ScrollView from '../scroll-view';
 import PrevNextButtons from '../prev-next-buttons';
 import Impagination from '../impagination';
+import ImpaginationReplacement from './ImpaginationReplacement';
 import { PAGE_SIZE } from '../../constants';
 
 const cx = classnames.bind(styles);
@@ -112,10 +113,9 @@ export default class QueryList extends Component {
     const offsetProp = isMainPageSearch ? page : offset;
 
     return (
-      <Impagination
+      <ImpaginationReplacement
         pageSize={pageSize}
-        loadHorizon={loadHorizon}
-        readOffset={readOffset}
+        page={page}
         collection={collection}
         fetch={fetch}
       >
@@ -140,20 +140,14 @@ export default class QueryList extends Component {
                 prevNextButtons={this.getPrevNextButtons()}
               >
                 {item => (
-                  item.isRejected ? (
-                    <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
-                      {item.error[0].title}
-                    </div>
-                  ) : (
-                    <div className={styles['list-item']} data-test-query-list-item>
-                      {renderItem(item)}
-                    </div>
-                  )
+                  <div className={styles['list-item']} data-test-query-list-item>
+                    {renderItem(item)}
+                  </div>
                 )}
               </ScrollView>
             )
         )}
-      </Impagination>
+      </ImpaginationReplacement>
     );
   }
 }

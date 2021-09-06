@@ -105,20 +105,20 @@ export default class ScrollView extends Component {
     }
   }
 
-  // Handles setting the read offset based on the current scroll
-  // position. Also calls `onUpdate` when an item has crossed the
-  // threshold of what's considered to be active in the view
-  handleScroll = (e) => {
-    const { itemHeight } = this.props;
+  // // Handles setting the read offset based on the current scroll
+  // // position. Also calls `onUpdate` when an item has crossed the
+  // // threshold of what's considered to be active in the view
+  // handleScroll = (e) => {
+  //   const { itemHeight } = this.props;
 
-    const top = e.currentTarget.scrollTop;
-    const offset = Math.floor(top / itemHeight);
+  //   const top = e.currentTarget.scrollTop;
+  //   const offset = Math.floor(top / itemHeight);
 
-    // update impagination's readOffset
-    if (this.state.offset !== offset) {
-      this.setState({ offset });
-    }
-  };
+  //   // update impagination's readOffset
+  //   if (this.state.offset !== offset) {
+  //     this.setState({ offset });
+  //   }
+  // };
 
   // Handles updating our visible items count based on the list height
   handleListLayout = () => {
@@ -148,14 +148,20 @@ export default class ScrollView extends Component {
     } = this.state;
 
     const threshold = 5;
-    const lower = page
-      ? (page - 1) * PAGE_SIZE
-      : Math.max(offset - threshold, 0);
+    const lower = 0;
+    // const lower = page
+    //   ? (page - 1) * PAGE_SIZE
+    //   : Math.max(offset - threshold, 0);
+
     const upper = page
       ? page * PAGE_SIZE
-      : Math.min(offset + visibleItems + threshold, (length || items.length) - 1) + 1;
+      : length || items.length;
+    // const upper = page
+    //   ? page * PAGE_SIZE
+    //   : Math.min(offset + visibleItems + threshold, (length || items.length) - 1) + 1;
 
     // slice the visible items and map them to `children`
+
     return items.slice(lower, upper).map((item, i) => {
       const index = lower + i;
       const top = itemHeight * (page ? i : index);
@@ -191,26 +197,26 @@ export default class ScrollView extends Component {
       visibleItems,
     } = this.state;
 
-    let listHeight = length || items.length;
+    let listHeight = (length || items.length) * itemHeight;
 
-    if (isMainPageSearch) {
-      listHeight = items.length <= (PAGE_SIZE * page)
-        ? items.length % PAGE_SIZE
-        : PAGE_SIZE;
-    }
+    // if (isMainPageSearch) {
+    //   listHeight = items.length <= (PAGE_SIZE * page)
+    //     ? items.length % PAGE_SIZE
+    //     : PAGE_SIZE;
+    // }
 
-    // list height should be at least enough for the offset
-    if (listHeight === 0) {
-      listHeight = offset + visibleItems;
-    }
+    // // list height should be at least enough for the offset
+    // if (listHeight === 0) {
+    //   listHeight = offset + visibleItems;
+    // }
 
-    listHeight *= itemHeight;
+    // listHeight *= itemHeight;
 
     return (
       <div
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
-        onScroll={this.handleScroll}
+        // onScroll={this.handleScroll}
         data-test-query-list={queryListName}
       >
         <List
