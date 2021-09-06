@@ -188,14 +188,19 @@ class PackageShowRoute extends Component {
    * This should be refactored once we can share model between the routes.
   */
   addPackageToHoldings = () => {
-    const { model, match, updatePackage } = this.props;
+    const {
+      model,
+      match,
+      updatePackage,
+    } = this.props;
     const { packageId } = match.params;
 
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
+
     updatePackage(model);
-    this.updateTitles(packageId);
+    this.updateHoldingsStatus(packageId);
   };
 
   updateTitles(packageId) {
@@ -215,6 +220,41 @@ class PackageShowRoute extends Component {
         return { isTitlesUpdating: false };
       });
     }, 6000);
+  }
+
+  updateHoldingsStatus(packageId) {
+    const {
+      model,
+      packageTitles,
+      getPackageTitles,
+    } = this.props;
+    const { pkgSearchParams } = this.state;
+
+    const params = transformQueryParams('titles', pkgSearchParams);
+
+    this.setState(() => {
+      return { isTitlesUpdating: true };
+    });
+
+    this.interval = window.setInterval(() => {
+      let isUpdated = true;
+
+      packageTitles.items.forEach(item => {
+        if (item.attributes.isSelected !== model.isSelected) {
+          isUpdated = false;
+        }
+      });
+
+      if (isUpdated) {
+        window.clearInterval(this.interval);
+
+        getPackageTitles({ packageId, params });
+
+        this.setState(() => {
+          return { isTitlesUpdating: false };
+        });
+      }
+    }, 2000);
   }
 
   toggleSelected = () => {
@@ -241,7 +281,7 @@ class PackageShowRoute extends Component {
       }
 
       updatePackage(model);
-      this.updateTitles(packageId);
+      this.updateHoldingsStatus(packageId);
     }
   };
 

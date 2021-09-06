@@ -134,7 +134,7 @@ const PackageShow = ({
   });
 
   useEffect(() => {
-    if (model.isSaving) {
+    if (!model.isSaving) {
       setPackageSelected(model.isSelected);
       setPackageAllowedToAddTitles(model.allowKbToAddTitles);
     }
