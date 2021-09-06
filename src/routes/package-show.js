@@ -113,7 +113,7 @@ class PackageShowRoute extends Component {
     const { match } = this.props;
     const { packageId } = match.params;
 
-    this.updateTitles(packageId);
+    this.getUpdatedTitles(packageId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -200,10 +200,10 @@ class PackageShowRoute extends Component {
     model.allowKbToAddTitles = true;
 
     updatePackage(model);
-    this.updateHoldingsStatus(packageId);
+    this.updateTitles(packageId);
   };
 
-  updateTitles(packageId) {
+  getUpdatedTitles(packageId) {
     const { getPackageTitles } = this.props;
     const { pkgSearchParams } = this.state;
 
@@ -222,10 +222,9 @@ class PackageShowRoute extends Component {
     }, 6000);
   }
 
-  updateHoldingsStatus(packageId) {
+  updateTitles(packageId) {
     const {
       model,
-      packageTitles,
       getPackageTitles,
     } = this.props;
     const { pkgSearchParams } = this.state;
@@ -237,22 +236,17 @@ class PackageShowRoute extends Component {
     });
 
     this.interval = window.setInterval(() => {
-      let isUpdated = true;
+      const arePackageTitlesUpdated = this.props.packageTitles.items
+        .every(item => item.attributes.isSelected === model.isSelected);
 
-      packageTitles.items.forEach(item => {
-        if (item.attributes.isSelected !== model.isSelected) {
-          isUpdated = false;
-        }
-      });
-
-      if (isUpdated) {
+      if (arePackageTitlesUpdated) {
         window.clearInterval(this.interval);
-
-        getPackageTitles({ packageId, params });
 
         this.setState(() => {
           return { isTitlesUpdating: false };
         });
+      } else {
+        getPackageTitles({ packageId, params });
       }
     }, 2000);
   }
@@ -281,7 +275,7 @@ class PackageShowRoute extends Component {
       }
 
       updatePackage(model);
-      this.updateHoldingsStatus(packageId);
+      this.updateTitles(packageId);
     }
   };
 

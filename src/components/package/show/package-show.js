@@ -138,8 +138,8 @@ const PackageShow = ({
       setPackageSelected(model.isSelected);
       setPackageAllowedToAddTitles(model.allowKbToAddTitles);
     }
-    // eslint-disable-next-line react/prop-types
-  }, [model.isSaving]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [model.isSelected, model.allowKbToAddTitles]);
 
   const handleSelectionToggle = () => {
     setPackageSelected(!model.isSelected);
