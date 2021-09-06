@@ -32,6 +32,8 @@ import {
   costPerUse as costPerUseShape,
   PAGE_SIZE,
   FIRST_PAGE,
+  DELAY_BEFORE_UPDATE,
+  INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
 } from '../constants';
 
 import View from '../components/package/show';
@@ -219,7 +221,7 @@ class PackageShowRoute extends Component {
       this.setState(() => {
         return { isTitlesUpdating: false };
       });
-    }, 6000);
+    }, DELAY_BEFORE_UPDATE);
   }
 
   updateTitles(packageId) {
@@ -248,7 +250,7 @@ class PackageShowRoute extends Component {
       } else {
         getPackageTitles({ packageId, params });
       }
-    }, 2000);
+    }, INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
   }
 
   toggleSelected = () => {

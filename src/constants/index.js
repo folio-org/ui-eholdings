@@ -35,6 +35,7 @@ export * from './packageAndResourceSettings';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';
+export * from './packageShowRoute';
 export * from './permissionNames';
 export * from './querySearchListParams';
 export * from './overCount';
