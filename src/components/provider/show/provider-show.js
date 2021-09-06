@@ -206,8 +206,6 @@ class ProviderShow extends Component {
       providerPackages,
     } = this.props;
 
-    console.log(providerPackages);
-
     return (
       <QuerySearchList
         type="provider-packages"

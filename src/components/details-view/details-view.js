@@ -1,7 +1,6 @@
 import { createRef, Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
 import Measure from 'react-measure';
@@ -41,7 +40,7 @@ class DetailsView extends Component {
   static propTypes = {
     actionMenu: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     ariaRole: PropTypes.string,
     bodyAriaRole: PropTypes.string,
@@ -57,20 +56,20 @@ class DetailsView extends Component {
       isLoaded: PropTypes.bool.isRequired,
       isLoading: PropTypes.bool.isRequired,
       name: PropTypes.string.isRequired,
-      request: PropTypes.object.isRequired
+      request: PropTypes.object.isRequired,
     }).isRequired,
     onCancel: PropTypes.func,
     onListToggle: PropTypes.func,
     paneSub: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
-      PropTypes.node
+      PropTypes.node,
     ]),
     paneTitle: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
-      PropTypes.node
-    ]),
+      PropTypes.node,
+    ]).isRequired,
     renderList: PropTypes.func,
     resultsLength: PropTypes.number,
     searchModal: PropTypes.node,
@@ -79,7 +78,7 @@ class DetailsView extends Component {
   };
 
   static defaultProps = {
-    searchModal: null
+    searchModal: null,
   }
 
   constructor(props) {
@@ -166,10 +165,9 @@ class DetailsView extends Component {
     if (!this.shouldHandleScroll) return;
 
     // if the list's child element hits the top, disable isSticky
-    if (
-      this.$list.firstElementChild === e.target &&
-      e.target.scrollTop === 0 &&
-      isSticky
+    if (this.$list.firstElementChild === e.target
+      && e.target.scrollTop === 0
+      && isSticky
     ) {
       // prevent scroll logic around bottoming out by scrolling up 1px
       --this.$container.scrollTop;
@@ -292,21 +290,24 @@ class DetailsView extends Component {
       <>
         <div key="header" className={styles.header}>
           <Headline
-            size="xx-large"
+            size="x-large"
             tag="h2"
             margin="none"
             tabIndex={-1}
             ref={this.$heading}
             data-test-eholdings-details-view-name={type}
+            data-testid="details-view-name-heading"
           >
             {paneTitle}
           </Headline>
           {paneSub && (
             <Headline
+              data-testid="details-view-panesub-headline"
               bold={false}
               faded
               size="large"
               tag="div"
+              margin="none"
             >
               {paneSub}
             </Headline>
@@ -320,7 +321,7 @@ class DetailsView extends Component {
               />
             </div>
           )}
-        </div>,
+        </div>
         <div role={ariaRole}>
           <div key="body" className={styles.body} role={bodyAriaRole}>
             {bodyContent}
@@ -352,7 +353,7 @@ class DetailsView extends Component {
                     onToggle={onListToggle}
                     listType={listType}
                   >
-                    {isListAccordionOpen ? renderList(isSticky) : null}
+                    {isListAccordionOpen && renderList(isSticky)}
                   </Accordion>
                 )}
               </Measure>
@@ -383,7 +384,6 @@ class DetailsView extends Component {
       type,
       model,
       paneTitle,
-      paneSub,
       actionMenu,
       lastMenu,
       footer,
@@ -400,7 +400,10 @@ class DetailsView extends Component {
     const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
     return (
-      <div data-test-eholdings-details-view={type}>
+      <div
+        data-test-eholdings-details-view={type}
+        data-testid={`details-view-type-${type}`}
+      >
         <Paneset>
           <Pane
             id={paneIdFromTitle}
@@ -412,15 +415,13 @@ class DetailsView extends Component {
             paneTitle={
               <span
                 data-test-eholdings-details-view-pane-title
+                data-testid="details-view-pane-title"
                 id={paneTitleId}
               >
                 {paneTitle}
               </span>
             }
             lastMenu={lastMenu}
-            paneSub={
-              <span data-test-eholdings-details-view-pane-sub>{paneSub}</span>
-            }
             aria-labelledby={paneTitleId}
           >
             <div
@@ -429,6 +430,7 @@ class DetailsView extends Component {
               onScroll={this.handleScroll}
               onWheel={this.handleWheel}
               data-test-eholdings-detail-pane-contents
+              data-testid="scroll-container"
             >
               {model.isLoaded
                 ? this.renderItemData()
@@ -442,4 +444,4 @@ class DetailsView extends Component {
   }
 }
 
-export default withRouter(DetailsView);
+export default DetailsView;

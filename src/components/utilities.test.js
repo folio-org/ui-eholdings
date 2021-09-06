@@ -1,6 +1,7 @@
 import {
   handleSaveKeyFormSubmit,
   getAccessTypeIdsAndNames,
+  filterCountFromQuery,
 } from './utilities';
 
 describe('utilities', () => {
@@ -21,17 +22,46 @@ describe('utilities', () => {
   });
 
   describe('getAccessTypeIdsAndNames', () => {
-    const accessStatusTypes = [{
-      id: 'id1',
-      attributes: {
+    it('should return correct access status types', () => {
+      const accessStatusTypes = [{
+        id: 'id1',
+        attributes: {
+          name: 'name1',
+        },
+      }];
+      const expectedAccessStatusTypes = [{
+        id: 'id1',
         name: 'name1',
-      },
-    }];
-    const expectedAccessStatusTypes = [{
-      id: 'id1',
-      name: 'name1',
-    }];
+      }];
 
-    expect(getAccessTypeIdsAndNames(accessStatusTypes)).toEqual(expectedAccessStatusTypes);
+      expect(getAccessTypeIdsAndNames(accessStatusTypes)).toEqual(expectedAccessStatusTypes);
+    });
+  });
+
+  describe('filterCountFromQuery', () => {
+    describe('when filter param is provided', () => {
+      it('should return correct filter count', () => {
+        const queryParams = {
+          q: 'Some query',
+          sort: undefined,
+          filter: {
+            selected: true,
+          },
+        };
+
+        expect(filterCountFromQuery(queryParams)).toEqual(2);
+      });
+    });
+
+    describe('when filter param is not provided', () => {
+      it('should return correct filter count', () => {
+        const queryParams = {
+          q: 'Some query',
+          sort: undefined,
+        };
+
+        expect(filterCountFromQuery(queryParams)).toEqual(1);
+      });
+    });
   });
 });

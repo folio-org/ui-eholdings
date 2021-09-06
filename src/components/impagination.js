@@ -162,7 +162,6 @@ export default class Impagination extends Component {
   // JSX in this component
   render() {
     const dataset = patchDatasetState(this.state.dataset);
-    console.log(dataset);
     return this.props.children(dataset);
   }
 }

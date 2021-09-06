@@ -10,10 +10,8 @@ import {
 
 import NameField from '../../../_fields/name';
 import ContentTypeField from '../../../_fields/content-type';
-import AccessTypeEditSection from '../../../../access-type-edit-section';
 
 const propTypes = {
-  accessStatusTypes: PropTypes.object.isRequired,
   getSectionHeader: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
@@ -27,7 +25,6 @@ const EditPackageInformation = ({
   onToggle,
   packageSelected,
   model,
-  accessStatusTypes,
 }) => {
   return (
     <Accordion
@@ -55,7 +52,6 @@ const EditPackageInformation = ({
             </div>
           </KeyValue>
         )}
-      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
     </Accordion>
   );
 };

@@ -38,7 +38,6 @@ const ImpaginationReplacement = ({
   fetch,
   children,
 }) => {
-  console.log('collection', collection.isLoading);
   useEffect(() => {
     fetch(page);
   }, [page]);
@@ -60,8 +59,6 @@ const ImpaginationReplacement = ({
   } else if (request.isRejected) {
     dataset.reject(request.errors, page);
   }
-
-  console.log(dataset);
 
   return children(dataset);
 };
