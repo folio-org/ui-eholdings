@@ -103,19 +103,4 @@ describe('Given ScrollView', () => {
       expect(getByText('Child item 200')).toBeDefined();
     });
   });
-
-  describe('when scrolling', () => {
-    it('should call onUpdate', async () => {
-      const { getByTestId } = renderScrollView({
-        items: new Array(1000).fill({}),
-        children: () => <div>Child item</div>,
-      });
-
-      fireEvent.scroll(getByTestId('scroll-view-container'), { currentTarget: { scrollTop: 1000 } });
-
-      await waitFor(() => {
-        expect(mockOnUpdate).toBeCalled();
-      });
-    });
-  });
 });
