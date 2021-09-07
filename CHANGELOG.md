@@ -56,6 +56,7 @@
 * Move Access status type field to Package Settings accordion in Edit Custom Package page. (UIEH-1202)
 * Add tests for SettingsKnowledgeBase component. (UIEH-1089)
 * Change all detail records headline component size to XL. (UIEH-1204)
+* Add tests for SettingsAccessStatusTypes component. (UIEH-1088)
 * Removing Impagination dependency. (UIEH-1175)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)

@@ -5,9 +5,7 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import {
-  sortBy
-} from 'lodash';
+import { sortBy } from 'lodash';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { useStripes } from '@folio/stripes/core';
@@ -19,13 +17,15 @@ import {
   ConfirmationModal,
   FormattedDate,
 } from '@folio/stripes/components';
-import {
-  EditableList,
-} from '@folio/stripes/smart-components';
+import { EditableList } from '@folio/stripes/smart-components';
 
 import Toaster from '../../toaster';
 
 import { accessStatusTypeDataShape } from '../../../constants/accessTypesReduxStateShape';
+import {
+  SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH,
+  SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH,
+} from '../../../constants';
 
 const SettingsAccessStatusTypes = ({
   accessTypesData,
@@ -51,7 +51,7 @@ const SettingsAccessStatusTypes = ({
     }, kbId);
   };
 
-  const onUpdateItem = (accessType) => onUpdate(accessType, kbId);
+  const onUpdateItem = accessType => onUpdate(accessType, kbId);
 
   useEffect(() => {
     const errorsLength = accessTypesData.errors.length;
@@ -66,7 +66,7 @@ const SettingsAccessStatusTypes = ({
             id: `access-type-delete-failure-${Date.now()}`,
             message: <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete.error" />,
             type: 'error',
-          }
+          },
         ]);
 
         setSelectedStatusType(null);
@@ -75,25 +75,26 @@ const SettingsAccessStatusTypes = ({
     }
   }, [accessTypesData.errors]);
 
-
   const formatter = {
     name: ({ attributes }) => (attributes?.name ?? <NoValue />),
     description: ({ attributes }) => (attributes?.description ?? <NoValue />),
     lastUpdated: (data) => {
       const user = data.updater ?? data.creator;
 
-      return data.metadata ? (
-        <FormattedMessage
-          id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
-          values={{
-            date: <FormattedDate value={data.metadata.updatedDate} />,
-            name: `${user?.lastName} ${user?.firstName}`,
-          }}
-        />
-      ) : <NoValue />;
+      return data.metadata
+        ? (
+          <FormattedMessage
+            id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
+            values={{
+              date: <FormattedDate value={data.metadata.updatedDate} />,
+              name: `${user?.lastName} ${user?.firstName}`,
+            }}
+          />
+        )
+        : <NoValue />;
     },
     // records will be done after MODKBEKBJ-378
-    records: ({ usageNumber }) => usageNumber || <NoValue />
+    records: ({ usageNumber }) => usageNumber || <NoValue />,
   };
 
   // eslint-disable-next-line react/prop-types
@@ -146,15 +147,15 @@ const SettingsAccessStatusTypes = ({
     onDelete(selectedStatusType, kbId);
   };
 
-  const nameValidation = value => {
+  const nameValidation = (value) => {
     if (!value) {
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type.validation" />;
     }
 
-    if (value && value.length > 75) {
+    if (value && value.length > SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
-        values={{ limit: 75 }}
+        values={{ limit: SETTINGS_ACCESS_STATUS_TYPES_NAME_MAX_LENGTH }}
       />;
     }
 
@@ -165,11 +166,11 @@ const SettingsAccessStatusTypes = ({
     return null;
   };
 
-  const descriptionValidation = value => {
-    if (value && value.length > 150) {
+  const descriptionValidation = (value) => {
+    if (value && value.length > SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH) {
       return <FormattedMessage
         id="ui-eholdings.settings.accessStatusTypes.validation"
-        values={{ limit: 150 }}
+        values={{ limit: SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH }}
       />;
     }
 
@@ -195,7 +196,7 @@ const SettingsAccessStatusTypes = ({
           />
         ),
         type: 'success',
-      }
+      },
     ]);
   }
 
@@ -211,11 +212,11 @@ const SettingsAccessStatusTypes = ({
     delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
   };
 
-
   return (
     <Pane
       paneTitle={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
       data-test-settings-access-status-types
+      data-testid="settings-access-status-types"
       defaultWidth="fill"
       firstMenu={(
         <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
