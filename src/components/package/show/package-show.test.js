@@ -48,6 +48,7 @@ const testModel = {
   titleCount: 223,
   visibilityData: {},
   allowKbToAddTitles: true,
+  isPartiallySelected: false,
   proxy: {},
   tags: {
     tagsList: [],
@@ -99,6 +100,7 @@ const renderPackageShow = (props = {}) => render(
       isDestroyed={false}
       isFreshlySaved={false}
       isNewRecord={false}
+      isTitlesUpdating={false}
       loadMoreCostPerUsePackageTitles={mockLoadMoreCostPerUsePackageTitles}
       model={testModel}
       onEdit={mockOnEdit}
@@ -365,6 +367,42 @@ describe('Given PackageShow', () => {
       });
 
       expect(getByText('ui-eholdings.package.toast.isFreshlySaved')).toBeDefined();
+    });
+  });
+
+  describe('when titles are updating', () => {
+    it('should show spinner', () => {
+      const { container } = renderPackageShow({
+        isTitlesUpdating: true,
+      });
+
+      expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
+    });
+  });
+
+  describe('when model is not partially selected', () => {
+    it('should show `Add package to holdings` button', () => {
+      const { getByRole } = renderPackageShow({
+        model: {
+          ...testModel,
+          isSelected: false,
+        },
+      });
+
+      expect(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' })).toBeDefined();
+    });
+  });
+
+  describe('when model is partially selected', () => {
+    it('should show `Add all titles to holdings` button', () => {
+      const { getByRole } = renderPackageShow({
+        model: {
+          ...testModel,
+          isPartiallySelected: true,
+        },
+      });
+
+      expect(getByRole('button', { name: 'ui-eholdings.addAllToHoldings' })).toBeDefined();
     });
   });
 });

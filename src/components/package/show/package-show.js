@@ -363,7 +363,7 @@ const PackageShow = ({
     return isTitlesUpdating
       ? (
         <div className={styles.titlesUpdatingSpinner}>
-          <Icon className={styles.titlesUpdatingSpinner} icon="spinner-ellipsis" />
+          <Icon icon="spinner-ellipsis" />
         </div>
       )
       : (
