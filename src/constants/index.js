@@ -35,6 +35,7 @@ export * from './packageAndResourceSettings';
 export * from './filterConfigs';
 export * from './costPerUse';
 export * from './customLabels';
+export * from './settingsAccessStatusTypes';
 export * from './packageShowRoute';
 export * from './permissionNames';
 export * from './querySearchListParams';
