@@ -1,8 +1,6 @@
 import {
   render,
   cleanup,
-  waitFor,
-  fireEvent,
 } from '@testing-library/react';
 
 import ScrollView from './scroll-view';

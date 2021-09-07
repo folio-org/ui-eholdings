@@ -15,7 +15,6 @@ export default class QueryList extends Component {
     isMainPageSearch: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     length: PropTypes.number,
-    loadHorizon: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node
@@ -32,7 +31,6 @@ export default class QueryList extends Component {
   static defaultProps = {
     fullWidth: false,
     isMainPageSearch: false,
-    loadHorizon: PAGE_SIZE,
     offset: 0,
     page: 1,
     pageSize: PAGE_SIZE,

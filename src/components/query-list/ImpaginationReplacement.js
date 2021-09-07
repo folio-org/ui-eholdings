@@ -1,7 +1,4 @@
-import {
-  useState,
-  useEffect,
-} from 'react';
+import { useEffect } from 'react';
 
 class Dataset {
   constructor({ pageSize, page }) {
