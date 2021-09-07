@@ -17,9 +17,18 @@ const defaultHistory = createMemoryHistory();
 
 const defaultInitialState = {};
 
-const Harness = ({ stripes, children, history = defaultHistory, storeInitialState = defaultInitialState }) => {
+const defaultReducers = {};
+
+const Harness = ({
+  stripes,
+  children,
+  history = defaultHistory,
+  storeInitialState = defaultInitialState,
+  storeReducers = defaultReducers,
+}) => {
   const reducers = {
     eholdings: () => storeInitialState,
+    ...storeReducers,
   };
 
   const reducer = combineReducers(reducers);
