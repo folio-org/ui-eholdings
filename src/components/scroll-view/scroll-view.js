@@ -23,7 +23,6 @@ export default class ScrollView extends Component {
       length: PropTypes.number.isRequired,
       slice: PropTypes.func.isRequired
     }).isRequired,
-    length: PropTypes.number,
     offset: PropTypes.number,
     onUpdate: PropTypes.func,
     prevNextButtons: PropTypes.node,
@@ -122,7 +121,6 @@ export default class ScrollView extends Component {
   renderChildren() {
     const {
       items,
-      length,
       itemHeight,
       children,
       offset: page,
@@ -132,7 +130,7 @@ export default class ScrollView extends Component {
 
     const upper = page
       ? page * PAGE_SIZE
-      : length || items.length;
+      : items.length;
 
     // slice the visible items and map them to `children`
     return items.slice(lower, upper).map((item, i) => {
@@ -160,16 +158,14 @@ export default class ScrollView extends Component {
       fullWidth,
       queryListName,
       prevNextButtons,
-      length,
     } = this.props;
 
-    const listHeight = (length || items.length) * itemHeight;
+    const listHeight = items.length * itemHeight;
 
     return (
       <div
         ref={(n) => { this.$list = n; }}
         className={cx('list', { locked: !scrollable })}
-        // onScroll={this.handleScroll}
         data-test-query-list={queryListName}
         data-testid={queryListName}
       >
