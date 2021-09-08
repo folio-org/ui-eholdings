@@ -57,6 +57,7 @@
 * Add tests for SettingsKnowledgeBase component. (UIEH-1089)
 * Change all detail records headline component size to XL. (UIEH-1204)
 * Add tests for SettingsAccessStatusTypes component. (UIEH-1088)
+* Add tests for SettingsAssignedUsers component. (UIEH-1090)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
