@@ -103,8 +103,8 @@ describe('Given SettingsAssignedUsers', () => {
 
       expect(getByText(title)).toBeDefined();
       expect(getByText(message)).toBeDefined();
-      getByRole('button', { name: cancelButton });
-      getByRole('button', { name: confirmButton });
+      expect(getByRole('button', { name: cancelButton })).toBeDefined();
+      expect(getByRole('button', { name: confirmButton })).toBeDefined();
     });
 
     describe('when click on cancel button on confirm unassign user modal', () => {
