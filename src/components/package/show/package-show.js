@@ -18,6 +18,7 @@ import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import {
   Button,
+  Icon,
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
@@ -54,6 +55,8 @@ import {
   processErrors,
 } from '../../utilities';
 
+import styles from './package-show.css';
+
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
 
@@ -70,6 +73,7 @@ const propTypes = {
   isDestroyed: PropTypes.bool,
   isFreshlySaved: PropTypes.bool,
   isNewRecord: PropTypes.bool,
+  isTitlesUpdating: PropTypes.bool,
   loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
@@ -95,6 +99,7 @@ const PackageShow = ({
   isDestroyed,
   isFreshlySaved,
   isNewRecord,
+  isTitlesUpdating,
   loadMoreCostPerUsePackageTitles,
   model,
   onEdit,
@@ -129,12 +134,12 @@ const PackageShow = ({
   });
 
   useEffect(() => {
-    if (model.isSaving) {
+    if (!model.isSaving) {
       setPackageSelected(model.isSelected);
       setPackageAllowedToAddTitles(model.allowKbToAddTitles);
     }
-    // eslint-disable-next-line react/prop-types
-  }, [model.isSaving]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [model.isSelected, model.allowKbToAddTitles]);
 
   const handleSelectionToggle = () => {
     setPackageSelected(!model.isSelected);
@@ -355,21 +360,27 @@ const PackageShow = ({
   };
 
   const renderTitlesList = (scrollable) => {
-    return (
-      <QuerySearchList
-        type="package-titles"
-        fetch={fetchPackageTitles}
-        collection={packageTitles}
-        scrollable={scrollable}
-        itemHeight={ITEM_HEIGHT}
-        notFoundMessage={
-          <QueryNotFound type="package-titles">
-            <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>
-        }
-        renderItem={renderTitlesListItem}
-      />
-    );
+    return isTitlesUpdating
+      ? (
+        <div className={styles.titlesUpdatingSpinner}>
+          <Icon icon="spinner-ellipsis" />
+        </div>
+      )
+      : (
+        <QuerySearchList
+          type="package-titles"
+          fetch={fetchPackageTitles}
+          collection={packageTitles}
+          scrollable={scrollable}
+          itemHeight={ITEM_HEIGHT}
+          notFoundMessage={
+            <QueryNotFound type="package-titles">
+              <FormattedMessage id="ui-eholdings.notFound" />
+            </QueryNotFound>
+          }
+          renderItem={renderTitlesListItem}
+        />
+      );
   };
 
   const modalMessage = model.isCustom
