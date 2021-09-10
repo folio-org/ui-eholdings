@@ -1,14 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames/bind';
 
 import styles from './query-list.css';
 import ScrollView from '../scroll-view';
 import PrevNextButtons from '../prev-next-buttons';
-import Impagination from '../impagination';
+import ImpaginationReplacement from './ImpaginationReplacement';
 import { PAGE_SIZE } from '../../constants';
-
-const cx = classnames.bind(styles);
 
 export default class QueryList extends Component {
   static propTypes = {
@@ -18,7 +15,6 @@ export default class QueryList extends Component {
     isMainPageSearch: PropTypes.bool,
     itemHeight: PropTypes.number.isRequired,
     length: PropTypes.number,
-    loadHorizon: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node
@@ -35,7 +31,6 @@ export default class QueryList extends Component {
   static defaultProps = {
     fullWidth: false,
     isMainPageSearch: false,
-    loadHorizon: PAGE_SIZE,
     offset: 0,
     page: 1,
     pageSize: PAGE_SIZE,
@@ -92,7 +87,6 @@ export default class QueryList extends Component {
     const {
       type,
       pageSize,
-      loadHorizon,
       scrollable,
       notFoundMessage,
       collection,
@@ -108,14 +102,12 @@ export default class QueryList extends Component {
       offset,
     } = this.state;
 
-    const readOffset = isMainPageSearch ? page * PAGE_SIZE : offset;
     const offsetProp = isMainPageSearch ? page : offset;
 
     return (
-      <Impagination
+      <ImpaginationReplacement
         pageSize={pageSize}
-        loadHorizon={loadHorizon}
-        readOffset={readOffset}
+        page={page}
         collection={collection}
         fetch={fetch}
       >
@@ -140,20 +132,14 @@ export default class QueryList extends Component {
                 prevNextButtons={this.getPrevNextButtons()}
               >
                 {item => (
-                  item.isRejected ? (
-                    <div className={cx('list-item', 'is-error')} data-test-query-list-error={type}>
-                      {item.error[0].title}
-                    </div>
-                  ) : (
-                    <div className={styles['list-item']} data-test-query-list-item>
-                      {renderItem(item)}
-                    </div>
-                  )
+                  <div className={styles['list-item']} data-test-query-list-item>
+                    {renderItem(item)}
+                  </div>
                 )}
               </ScrollView>
             )
         )}
-      </Impagination>
+      </ImpaginationReplacement>
     );
   }
 }
