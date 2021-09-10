@@ -58,12 +58,12 @@ const SettingsAssignedUsers = ({
 
   const [
     userToBeUnassigned,
-    setUserToBeUnassigned
+    setUserToBeUnassigned,
   ] = useState(null);
 
   const [
     userToBeAssigned,
-    setUserToBeAssigned
+    setUserToBeAssigned,
   ] = useState(null);
 
   const handleSelectUser = (user) => {
@@ -167,6 +167,7 @@ const SettingsAssignedUsers = ({
       <Modal
         size="small"
         id="unassignConfirmationModal"
+        data-testid="unassign-user-confirmation-modal"
         open
         label={<FormattedMessage id="ui-eholdings.settings.assignedUsers.confirmationModal.title" />}
         aria-label={intl.formatMessage({ id: 'ui-eholdings.settings.assignedUsers.confirmationModal.title' })}
@@ -225,7 +226,7 @@ const SettingsAssignedUsers = ({
   );
 
   return (
-    <Paneset>
+    <Paneset data-testid="settings-assigned-users">
       <Pane
         defaultWidth="100%"
         paneTitle={pageTitle}
