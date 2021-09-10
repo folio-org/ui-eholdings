@@ -44,6 +44,7 @@ const SelectionModal = ({
       size="small"
       label={label}
       id="eholdings-confirmation-modal"
+      data-testid="eholdings-confirmation-modal"
       aria-label={label}
       footer={(
         <ModalFooter>
