@@ -393,7 +393,7 @@ describe('Given ManagedPackageEdit', () => {
   });
 
   describe('when confirm removing package from holdings', () => {
-    it('should handle onSubmit', async () => {
+    it('should handle onSubmit', () => {
       const { getByRole } = renderManagedPackageEdit({
         onSubmit: mockOnSubmit,
       });
@@ -407,7 +407,7 @@ describe('Given ManagedPackageEdit', () => {
   });
 
   describe('when model update isPending', () => {
-    it('should display `Removing...` button instead of `Yes, Remove` on Selection Modal', async () => {
+    it('should display `Removing...` button instead of `Yes, Remove` on Selection Modal', () => {
       const {
         getByRole,
         getByTestId,
