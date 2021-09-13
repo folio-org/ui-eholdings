@@ -7,8 +7,11 @@ import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
+import getAxe from '../../../../../../test/jest/helpers/get-axe';
 
 import ResourceSettings from './edit-resource-settings';
+
+const axe = getAxe();
 
 describe('Given ResourceSettings', () => {
   const onSubmitMock = jest.fn();
@@ -99,6 +102,13 @@ describe('Given ResourceSettings', () => {
     cleanup();
     onSubmitMock.mockClear();
     handleSectionToggleMock.mockClear();
+  });
+
+  it('should have no a11y issues', async () => {
+    const { container } = renderResourceSettings();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
   });
 
   it('should render an accordion', () => {
