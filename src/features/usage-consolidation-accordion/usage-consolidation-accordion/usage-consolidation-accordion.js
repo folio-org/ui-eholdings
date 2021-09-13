@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 
@@ -12,18 +14,17 @@ import {
   Spinner,
 } from '@folio/stripes/components';
 
-import Toaster from '../../components/toaster';
-import UsageConsolidationFilters from './usage-consolidation-filters';
-import UsageConsolidationContentPackage from './usage-consolidation-content-package';
-import UsageConsolidationContentTitle from './usage-consolidation-content-title';
-import UsageConsolidationContentResource from './usage-consolidation-content-resource';
-import { getUsageConsolidation as getUsageConsolidationAction } from '../../redux/actions';
-import { selectPropFromData } from '../../redux/selectors';
+import Toaster from '../../../components/toaster';
+import UsageConsolidationFilters from '../usage-consolidation-filters';
+import UsageConsolidationContentPackage from '../usage-consolidation-content-package';
+import UsageConsolidationContentTitle from '../usage-consolidation-content-title';
+import UsageConsolidationContentResource from '../usage-consolidation-content-resource';
+
 import {
   usageConsolidation as ucReduxStateShape,
   entityTypes,
   costPerUse,
-} from '../../constants';
+} from '../../../constants';
 
 import styles from './usage-consolidation-accordion.css';
 
@@ -63,6 +64,7 @@ const UsageConsolidationAccordion = ({
   isExportDisabled,
 }) => {
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
+
   const filtersInitialState = {
     year: moment().year(),
     platformType: usageConsolidation.data.platformType,
@@ -93,6 +95,7 @@ const UsageConsolidationAccordion = ({
       // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
       <span
         role="button"
+        data-testid="usage-consolidation-header-info-popover"
         onClick={(e) => {
           // We don't need to open / close the accordion by clicking on the info icon
           e.stopPropagation();
@@ -215,34 +218,34 @@ const UsageConsolidationAccordion = ({
   }
 
   return (
-    usageConsolidation.data?.credentialsId ? (
-      <>
-        <Accordion
-          id={id}
-          label={getUsageConsolidationAccordionHeader()}
-          open={isOpen}
-          onToggle={onToggle}
-          headerProps={headerProps}
-        >
-          {
-            isOpen && (
+    usageConsolidation.data?.credentialsId
+      ? (
+        <div data-testid="usage-consolidation-accordion">
+          <Accordion
+            id={id}
+            label={getUsageConsolidationAccordionHeader()}
+            open={isOpen}
+            onToggle={onToggle}
+            headerProps={headerProps}
+          >
+            {isOpen && (
               <UsageConsolidationFilters
                 onSubmit={handleFiltersSubmit}
                 initialState={filtersInitialState}
               />
-            )
-          }
-          {isCostPerUseDataLoading
-            ? <Spinner />
-            : renderContent()
-          }
-        </Accordion>
-        <Toaster
-          position="bottom"
-          toasts={getToastErrors()}
-        />
-      </>
-    ) : null
+            )}
+            {isCostPerUseDataLoading
+              ? <Spinner />
+              : renderContent()
+            }
+          </Accordion>
+          <Toaster
+            position="bottom"
+            toasts={getToastErrors()}
+          />
+        </div>
+      )
+      : null
   );
 };
 
@@ -257,10 +260,4 @@ UsageConsolidationAccordion.defaultProps = {
 
 UsageConsolidationAccordion.propTypes = propTypes;
 
-export default connect(
-  (store) => ({
-    usageConsolidation: selectPropFromData(store, 'usageConsolidation'),
-  }), {
-    getUsageConsolidation: getUsageConsolidationAction,
-  }
-)(UsageConsolidationAccordion);
+export default UsageConsolidationAccordion;
