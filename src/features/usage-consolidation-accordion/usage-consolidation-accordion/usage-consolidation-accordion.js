@@ -217,6 +217,10 @@ const UsageConsolidationAccordion = ({
     return null;
   }
 
+  const usageConsolidationContent = isCostPerUseDataLoading
+    ? <Spinner />
+    : renderContent();
+
   return (
     usageConsolidation.data?.credentialsId
       ? (
@@ -234,10 +238,7 @@ const UsageConsolidationAccordion = ({
                 initialState={filtersInitialState}
               />
             )}
-            {isCostPerUseDataLoading
-              ? <Spinner />
-              : renderContent()
-            }
+            {usageConsolidationContent}
           </Accordion>
           <Toaster
             position="bottom"
