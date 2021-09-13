@@ -1,7 +1,10 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { of } from 'rxjs';
+import {
+  map,
+  mergeMap,
+  filter,
+  catchError,
+} from 'rxjs/operators';
 
 import {
   getProviderPackagesSuccess,
@@ -10,9 +13,9 @@ import {
 } from '../actions';
 
 export default ({ providerPackagesApi }) => (action$, store) => {
-  return action$
-    .filter(action => action.type === GET_PROVIDER_PACKAGES)
-    .mergeMap(action => {
+  return action$.pipe(
+    filter(action => action.type === GET_PROVIDER_PACKAGES),
+    mergeMap(action => {
       const {
         payload: {
           providerId,
@@ -22,7 +25,10 @@ export default ({ providerPackagesApi }) => (action$, store) => {
 
       return providerPackagesApi
         .getCollection(store.getState().okapi, providerId, params)
-        .map(getProviderPackagesSuccess)
-        .catch(errors => Observable.of(getProviderPackagesFailure({ errors })));
-    });
+        .pipe(
+          map(getProviderPackagesSuccess),
+          catchError(errors => of(getProviderPackagesFailure({ errors })))
+        );
+    }),
+  );
 };
