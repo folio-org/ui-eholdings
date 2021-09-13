@@ -1,4 +1,4 @@
-import { TestScheduler } from 'rxjs/Rx';
+import { TestScheduler } from 'rxjs/testing';
 
 import createGetProviderPackagesEpic from '../get-provider-packages';
 
