@@ -3,9 +3,7 @@ import noop from 'lodash/noop';
 import {
   render,
   fireEvent,
-  screen,
 } from '@testing-library/react';
-
 
 import Harness from '../../../../test/jest/helpers/harness';
 
@@ -148,7 +146,7 @@ describe('Given CustomPackageEdit', () => {
       fireEvent.change(getByLabelText('ui-eholdings.date.startDate'), { target: { value: '01/01/2021' } });
 
       fireEvent.click(getByText('stripes-components.cancel'));
-      screen.debug();
+
       expect(getByText('NavigationModal component')).toBeDefined();
     });
   });
