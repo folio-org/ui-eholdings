@@ -19,7 +19,6 @@ import { useStripes } from '@folio/stripes/core';
 import {
   Button,
   Headline,
-  PaneFooter,
 } from '@folio/stripes/components';
 
 import {
@@ -37,6 +36,7 @@ import HoldingStatus from '../show/components/holding-status';
 import EditCoverageSettings from '../edit/components/edit-coverage-settings';
 import SelectionModal from '../../selection-modal';
 import EditPackageSettings from '../edit/components/edit-package-settings';
+import EditPaneFooter from '../edit/components/edit-pane-footer';
 
 import {
   useSectionToggle,
@@ -217,34 +217,10 @@ const ManagedPackageEdit = ({
   };
 
   const getFooter = (pristine, reset) => {
-    const cancelButton = (
-      <Button
-        data-test-eholdings-package-edit-cancel-button
-        buttonStyle="default mega"
-        disabled={model.update.isPending || pristine}
-        onClick={reset}
-        marginBottom0
-      >
-        <FormattedMessage id="stripes-components.cancel" />
-      </Button>
-    );
-
-    const saveButton = (
-      <Button
-        buttonStyle="primary mega"
-        data-test-eholdings-package-save-button
-        disabled={model.update.isPending || pristine}
-        marginBottom0
-        type="submit"
-      >
-        <FormattedMessage id="stripes-components.saveAndClose" />
-      </Button>
-    );
-
     return (
-      <PaneFooter
-        renderStart={cancelButton}
-        renderEnd={saveButton}
+      <EditPaneFooter
+        disabled={model.update.isPending || pristine}
+        reset={reset}
       />
     );
   };

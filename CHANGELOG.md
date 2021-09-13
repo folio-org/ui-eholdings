@@ -59,6 +59,7 @@
 * Add tests for SettingsAccessStatusTypes component. (UIEH-1088)
 * Fix when changing holding status, list of titles accordion does not reflect new holdings status UNLESS one refreshes page (UIEH-1171)
 * Add tests for SettingsAssignedUsers component. (UIEH-1090)
+* Add tests for CustomEditPackage component. (UIEH-1092) 
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
