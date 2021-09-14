@@ -5,6 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
+import noop from 'lodash/noop';
 
 import { useStripes } from '@folio/stripes/core';
 import {
@@ -251,8 +252,8 @@ const UsageConsolidationAccordion = ({
 };
 
 UsageConsolidationAccordion.defaultProps = {
-  onViewTitles: () => {},
-  onLoadMoreTitles: () => {},
+  onViewTitles: noop,
+  onLoadMoreTitles: noop,
   isExportDisabled: false,
   isOpen: false,
   publicationType: '',
