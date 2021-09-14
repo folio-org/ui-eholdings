@@ -60,6 +60,9 @@
 * Fix when changing holding status, list of titles accordion does not reflect new holdings status UNLESS one refreshes page (UIEH-1171)
 * Add tests for SettingsAssignedUsers component. (UIEH-1090)
 * Removing Impagination dependency. (UIEH-1175)
+* Add tests for ManagedPackageEdit component. (UIEH-1091)
+* Add tests for CustomEditPackage component. (UIEH-1092)
+* Add tests for UsageConsolidationAccordion component. (UIEH-1178)>>>>>>> master
 * Run Deque aXe on Resource Edit page. (UIEH-1205)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
