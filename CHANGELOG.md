@@ -61,6 +61,7 @@
 * Add tests for SettingsAssignedUsers component. (UIEH-1090)
 * Removing Impagination dependency. (UIEH-1175)
 * Add tests for ManagedPackageEdit component. (UIEH-1091)
+* Add tests for CustomEditPackage component. (UIEH-1092)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)

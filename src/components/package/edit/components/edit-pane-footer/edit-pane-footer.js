@@ -1,0 +1,52 @@
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+
+import {
+  Button,
+  PaneFooter,
+} from '@folio/stripes/components';
+
+const propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
+};
+
+const EditPaneFooter = ({
+  disabled,
+  reset,
+}) => {
+  const cancelButton = (
+    <Button
+      data-test-eholdings-package-edit-cancel-button
+      buttonStyle="default mega"
+      disabled={disabled}
+      onClick={reset}
+      marginBottom0
+    >
+      <FormattedMessage id="stripes-components.cancel" />
+    </Button>
+  );
+
+  const saveButton = (
+    <Button
+      buttonStyle="primary mega"
+      data-test-eholdings-package-save-button
+      disabled={disabled}
+      marginBottom0
+      type="submit"
+    >
+      <FormattedMessage id="stripes-components.saveAndClose" />
+    </Button>
+  );
+
+  return (
+    <PaneFooter
+      renderStart={cancelButton}
+      renderEnd={saveButton}
+    />
+  );
+};
+
+EditPaneFooter.propTypes = propTypes;
+
+export default EditPaneFooter;
