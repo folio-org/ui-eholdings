@@ -44,6 +44,7 @@ const SearchFilters = ({
       className={styles['search-filters']}
       role="tab"
       data-test-eholdings-search-filters={searchType}
+      data-testid={`${searchType}-search-filters`}
     >
       {availableFilters.map(({ name, label, defaultValue, options }) => {
         const accordionLabelId = `filter-${searchType}-${name}-label`;
