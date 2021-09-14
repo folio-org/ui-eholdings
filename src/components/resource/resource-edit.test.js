@@ -7,6 +7,7 @@ import {
 import ResourceEdit from './resource-edit';
 import Harness from '../../../test/jest/helpers/harness';
 import wait from '../../../test/jest/helpers/wait';
+import getAxe from '../../../test/jest/helpers/get-axe';
 
 jest.mock('./components/edit/coverage-settings', () => () => <div>Coverage settings</div>);
 jest.mock('./components/edit/resource-settings', () => () => <div>Resource settings</div>);
@@ -77,6 +78,7 @@ const model = {
 
 const onSubmitMock = jest.fn();
 const onCancelMock = jest.fn();
+const axe = getAxe();
 
 const storeInitialState = {
   data: {
@@ -126,6 +128,13 @@ describe('Given ResourceEdit', () => {
     cleanup();
     onSubmitMock.mockClear();
     onCancelMock.mockClear();
+  });
+
+  it('should have no a11y issues', async () => {
+    const { container } = renderResourceEdit();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
   });
 
   it('should show title name', () => {

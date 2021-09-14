@@ -5,8 +5,11 @@ import {
 } from '@testing-library/react';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
+import getAxe from '../../../../../../test/jest/helpers/get-axe';
 
 import HoldingStatus from './edit-holding-status';
+
+const axe = getAxe();
 
 describe('Given HoldingStatus', () => {
   const handleSectionToggleMock = jest.fn();
@@ -38,6 +41,13 @@ describe('Given HoldingStatus', () => {
     cleanup();
     handleSectionToggleMock.mockClear();
     handleToggleResourceHoldingsMock.mockClear();
+  });
+
+  it('should have no a11y issues', async () => {
+    const { container } = renderHoldingStatus();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
   });
 
   it('should render an accordion', () => {

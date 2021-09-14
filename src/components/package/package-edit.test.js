@@ -6,7 +6,7 @@ import {
 
 import PackageEdit from './package-edit';
 import Harness from '../../../test/jest/helpers/harness';
-import axe from '../../../test/jest/helpers/axe';
+import getAxe from '../../../test/jest/helpers/get-axe';
 import wait from '../../../test/jest/helpers/wait';
 
 const model = {
@@ -109,6 +109,8 @@ const renderPackageEdit = (props = {}) => render(
     />
   </Harness>
 );
+
+const axe = getAxe();
 
 describe('Given PackageEdit', () => {
   afterEach(() => {
