@@ -5,9 +5,7 @@ import {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Form
-} from 'react-final-form';
+import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 import {
@@ -120,6 +118,7 @@ const ManagedPackageEdit = ({
 
   const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken.value;
   const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
+
   if (selectionStatusChanged || providerTokenWasLoaded) {
     setInitialValues(getInitialValues());
     setPackageSelected(model.isSelected);
@@ -259,7 +258,11 @@ const ManagedPackageEdit = ({
         decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+        render={({
+          handleSubmit,
+          pristine,
+          form: { change, reset },
+        }) => (
           <>
             <Toaster
               toasts={processErrors(model)}
@@ -268,6 +271,7 @@ const ManagedPackageEdit = ({
             <form
               ref={editFormRef}
               onSubmit={handleSubmit}
+              data-testid="managed-package-edit"
             >
               <div role="tablist">
                 <DetailsView
