@@ -79,9 +79,7 @@ class SearchForm extends Component {
     displaySearchButton: true,
     isLoading: false,
     searchString: '',
-    searchField: '',
     searchFilter: {},
-    sort: '',
   };
 
   constructor(props) {

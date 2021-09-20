@@ -1,6 +1,6 @@
 import {
   fireEvent,
-  render
+  render,
 } from '@testing-library/react';
 import { noop } from 'lodash';
 
@@ -11,6 +11,7 @@ import {
 
 import ResourceEditCustomTitle from './resource-edit-custom-title';
 import Harness from '../../../../test/jest/helpers/harness';
+import getAxe from '../../../../test/jest/helpers/get-axe';
 
 jest.mock('../../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
 
@@ -119,14 +120,23 @@ const renderResourceEditCustomTitle = (props = {}) => render(
         handleDeleteConfirmation={noop}
         handleOnSubmit={noop}
         getFooter={noop}
-        getSectionHeader={noop}
+        getSectionHeader={(id) => id}
         {...props}
       />
     </CommandList>
   </Harness>
 );
 
+const axe = getAxe();
+
 describe('Given ResourceEditCustomTitle', () => {
+  it('should have no a11y issues', async () => {
+    const { container } = renderResourceEditCustomTitle();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
+  });
+
   it('should check dates radio button', () => {
     const { getByLabelText } = renderResourceEditCustomTitle();
 
@@ -167,6 +177,15 @@ describe('Given ResourceEditCustomTitle', () => {
   });
 
   describe('selection modal', () => {
+    it('should have no a11y issues', async () => {
+      const { container } = renderResourceEditCustomTitle({
+        showSelectionModal: true,
+      });
+      const a11yResults = await axe.run(container);
+
+      expect(a11yResults.violations.length).toEqual(0);
+    });
+
     it('should display remove title warning', () => {
       const { queryByText } = renderResourceEditCustomTitle({
         showSelectionModal: true,

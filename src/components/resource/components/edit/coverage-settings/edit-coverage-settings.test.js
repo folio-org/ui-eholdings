@@ -8,12 +8,14 @@ import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
+import getAxe from '../../../../../../test/jest/helpers/get-axe';
 import { coverageStatementDecorator } from '../../../_fields/coverage-statement';
 import EditCoverageSettings from './edit-coverage-settings';
 
 jest.mock('../../../../coverage-date-list', () => () => <div>Coverage date list</div>);
 
 const focusOnErrors = createFocusDecorator();
+const axe = getAxe();
 
 describe('Given EditCoverageSettings', () => {
   const handleSectionToggleMock = jest.fn();
@@ -82,6 +84,13 @@ describe('Given EditCoverageSettings', () => {
   afterEach(() => {
     cleanup();
     handleSectionToggleMock.mockClear();
+  });
+
+  it('should have no a11y issues', async () => {
+    const { container } = renderCoverageSettings();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
   });
 
   it('should render an accordion', () => {
