@@ -86,6 +86,8 @@ jest.mock('@folio/stripes/core', () => {
 
   const AppContextMenu = (props) => <>{props.children()}</>;
 
+  const Pluggable = ({ renderTrigger }) => renderTrigger();
+
   STRIPES.connect = stripesConnect;
 
   return {
@@ -95,6 +97,7 @@ jest.mock('@folio/stripes/core', () => {
     IfPermission,
     AppContextMenu,
     useStripes,
+    Pluggable,
   };
 }, { virtual: true });
 
