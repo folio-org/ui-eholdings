@@ -7,7 +7,7 @@ import PrevNextButtons from '../prev-next-buttons';
 import ImpaginationReplacement from './ImpaginationReplacement';
 import { PAGE_SIZE } from '../../constants';
 
-export default class QueryList extends Component {
+class QueryList extends Component {
   static propTypes = {
     collection: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
@@ -17,7 +17,7 @@ export default class QueryList extends Component {
     length: PropTypes.number,
     notFoundMessage: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.node
+      PropTypes.node,
     ]).isRequired,
     offset: PropTypes.number,
     onUpdateOffset: PropTypes.func.isRequired,
@@ -41,6 +41,8 @@ export default class QueryList extends Component {
     this.state = {
       offset: this.props.offset || 0,
     };
+
+    this.listFirstItem = null;
   }
 
   updateOffset = (offset) => {
@@ -59,6 +61,16 @@ export default class QueryList extends Component {
     }
   }
 
+  setListFirstItemRef = (el) => {
+    this.listFirstItem = el;
+  };
+
+  focusListFirstItem = () => {
+    if (this.listFirstItem) {
+      this.listFirstItem.focus();
+    }
+  };
+
   getPrevNextButtons = () => {
     const {
       collection: {
@@ -76,11 +88,23 @@ export default class QueryList extends Component {
           totalResults={length}
           fetch={this.updatePage}
           page={page}
+          setFocus={this.focusListFirstItem}
         />
       );
     }
 
     return null;
+  }
+
+  defineIsListFirstItem = ({
+    item,
+    state,
+  }) => {
+    const [firstRecord] = state.records;
+    const recordId = firstRecord?.id;
+    const itemId = item.content?.id;
+
+    return itemId === recordId;
   }
 
   render() {
@@ -132,7 +156,15 @@ export default class QueryList extends Component {
                 prevNextButtons={this.getPrevNextButtons()}
               >
                 {item => (
-                  <div className={styles['list-item']} data-test-query-list-item>
+                  <div
+                    ref={this.defineIsListFirstItem({ item, state })
+                      ? (el) => this.setListFirstItemRef(el)
+                      : null
+                    }
+                    tabIndex={this.defineIsListFirstItem({ item, state }) ? 0 : null} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
+                    className={styles['list-item']}
+                    data-test-query-list-item
+                  >
                     {renderItem(item)}
                   </div>
                 )}
@@ -143,3 +175,5 @@ export default class QueryList extends Component {
     );
   }
 }
+
+export default QueryList;
