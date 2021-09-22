@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [6.2.0] (IN PROGRESS)
+## [7.0.0] (IN PROGRESS)
 * Fix import paths. (UIEH-1133)
 * Add tests for DescriptionField, EditionField, TitleNameField, PackageSelectField components. (UIEH-1051)
 * Usage Consolidation: Unable to handle gracefully handle when user attempts to view titles over 200,000. (UIEH-1136)
@@ -62,8 +62,9 @@
 * Removing Impagination dependency. (UIEH-1175)
 * Add tests for ManagedPackageEdit component. (UIEH-1091)
 * Add tests for CustomEditPackage component. (UIEH-1092)
-* Add tests for UsageConsolidationAccordion component. (UIEH-1178)>>>>>>> master
+* Add tests for UsageConsolidationAccordion component. (UIEH-1178)
 * Run Deque aXe on Resource Edit page. (UIEH-1205)
+* Update to stripes v7 and react v17. (UIEH-1170)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)

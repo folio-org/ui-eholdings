@@ -7,14 +7,12 @@ import Harness from '../../../../test/jest/helpers/harness';
 
 import SettingsAssignedUsers from './settings-assigned-users';
 
-jest.mock('@folio/stripes-core/src/Pluggable', () => ({ selectUser }) => (
-  <button
-    type="button"
-    onClick={selectUser}
-  >
-    Assign users
-  </button>
-));
+jest.mock('@folio/stripes-core', () => ({
+  ...jest.requireActual('@folio/stripes-core'),
+  Pluggable: ({ selectUser, renderTrigger }) => (
+    renderTrigger({ onClick: selectUser })
+  ),
+}));
 
 const assignedUsers = [{
   id: 'assigned-user-id',
@@ -167,11 +165,11 @@ describe('Given SettingsAssignedUsers', () => {
 
   describe('when click on `Assign user` button', () => {
     it('should handle onSelectUser', () => {
-      const { getByRole } = renderSettingsAssignedUsers({
+      const { getByText } = renderSettingsAssignedUsers({
         onSelectUser: mockOnSelectUser,
       });
 
-      fireEvent.click(getByRole('button', { name: 'Assign users' }));
+      fireEvent.click(getByText('ui-eholdings.settings.assignedUsers.pluginButtonMessage'));
 
       expect(mockOnSelectUser).toBeCalled();
     });
