@@ -128,6 +128,41 @@ class QueryList extends Component {
 
     const offsetProp = isMainPageSearch ? page : offset;
 
+    const getContent = (state) => {
+      if (!state.length) {
+        return notFoundMessage;
+      }
+
+      return (
+        <ScrollView
+          items={state}
+          length={length}
+          offset={offsetProp}
+          isMainPageSearch
+          itemHeight={itemHeight}
+          scrollable={scrollable}
+          onUpdate={this.updateOffset}
+          queryListName={type}
+          fullWidth={fullWidth}
+          prevNextButtons={this.getPrevNextButtons()}
+        >
+          {item => (
+            <div
+              ref={this.defineIsListFirstItem({ item, state })
+                ? (el) => this.setListFirstItemRef(el)
+                : null
+              }
+              tabIndex={this.defineIsListFirstItem({ item, state }) ? 0 : null} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
+              className={styles['list-item']}
+              data-test-query-list-item
+            >
+              {renderItem(item)}
+            </div>
+          )}
+        </ScrollView>
+      );
+    };
+
     return (
       <ImpaginationReplacement
         pageSize={pageSize}
@@ -136,40 +171,16 @@ class QueryList extends Component {
         fetch={fetch}
       >
         {state => (
-          state.hasRejected && !state.length ? (
-            <div className={styles.error} data-test-query-list-error={type}>
-              {state.rejected[0].error[0].title}
-            </div>
-          ) : !state.length
-            ? notFoundMessage
-            : (
-              <ScrollView
-                items={state}
-                length={length}
-                offset={offsetProp}
-                isMainPageSearch
-                itemHeight={itemHeight}
-                scrollable={scrollable}
-                onUpdate={this.updateOffset}
-                queryListName={type}
-                fullWidth={fullWidth}
-                prevNextButtons={this.getPrevNextButtons()}
+          state.hasRejected && !state.length
+            ? (
+              <div
+                className={styles.error}
+                data-test-query-list-error={type}
               >
-                {item => (
-                  <div
-                    ref={this.defineIsListFirstItem({ item, state })
-                      ? (el) => this.setListFirstItemRef(el)
-                      : null
-                    }
-                    tabIndex={this.defineIsListFirstItem({ item, state }) ? 0 : null} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
-                    className={styles['list-item']}
-                    data-test-query-list-item
-                  >
-                    {renderItem(item)}
-                  </div>
-                )}
-              </ScrollView>
+                {state.rejected[0].error[0].title}
+              </div>
             )
+            : getContent(state)
         )}
       </ImpaginationReplacement>
     );
