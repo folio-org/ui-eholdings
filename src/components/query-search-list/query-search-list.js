@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
@@ -22,6 +23,8 @@ const QuerySearchList = ({
   scrollable,
   type,
 }) => {
+  const listFirstItem = useRef(null);
+
   useEffect(() => {
     fetch(FIRST_PAGE);
   }, []);
@@ -48,6 +51,16 @@ const QuerySearchList = ({
     return notFoundMessage;
   }
 
+  const defineIsListFirstItem = (item) => {
+    const [firstItem] = items;
+
+    return item === firstItem;
+  };
+
+  const focusListFirstItem = () => {
+    listFirstItem.current.focus();
+  };
+
   return (
     <ScrollView
       items={items}
@@ -62,19 +75,26 @@ const QuerySearchList = ({
           totalResults={totalResults}
           fetch={fetch}
           page={page}
+          setFocus={focusListFirstItem}
         />
       )}
     >
       {item => (
-        item.isRejected ? (
-          <div className={cx('list-item', 'is-error')}>
-            {item.error[0].title}
-          </div>
-        ) : (
-          <div className={styles['list-item']}>
-            {renderItem(item)}
-          </div>
-        )
+        item.isRejected
+          ? (
+            <div className={cx('list-item', 'is-error')}>
+              {item.error[0].title}
+            </div>
+          )
+          : (
+            <div
+              ref={defineIsListFirstItem(item) ? listFirstItem : null}
+              tabIndex={defineIsListFirstItem(item) ? 0 : null} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
+              className={styles['list-item']}
+            >
+              {renderItem(item)}
+            </div>
+          )
       )}
     </ScrollView>
   );

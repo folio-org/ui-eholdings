@@ -66,6 +66,7 @@
 * Run Deque aXe on Resource Edit page. (UIEH-1205)
 * Update to stripes v7 and react v17. (UIEH-1170)
 * Add tests for SearchRoute component. (UIEH-1192)
+* Shift focus once user hits Previous or Next pagination link. (UIEH-1206)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
