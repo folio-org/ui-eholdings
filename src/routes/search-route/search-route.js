@@ -1,7 +1,9 @@
-import { createRef, Component } from 'react';
+import {
+  createRef,
+  Component,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
   isEqual,
@@ -10,31 +12,23 @@ import {
 
 import { TitleManager } from '@folio/stripes/core';
 
+import ProviderSearchList from '../../components/provider-search-list';
+import PackageSearchList from '../../components/package-search-list';
+import TitleSearchList from '../../components/title-search-list';
+import SearchPaneset from '../../components/search-paneset';
+import SearchForm from '../../components/search-form';
 import {
   qs,
   transformQueryParams,
   getResultsNotFoundTranslationKey,
   filterCountFromQuery,
-} from '../components/utilities';
-
-import { createResolver } from '../redux';
-import Provider from '../redux/provider';
-import Package from '../redux/package';
-import Title from '../redux/title';
-import Tag from '../redux/tag';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
-
-import ProviderSearchList from '../components/provider-search-list';
-import PackageSearchList from '../components/package-search-list';
-import TitleSearchList from '../components/title-search-list';
-import SearchPaneset from '../components/search-paneset';
-import SearchForm from '../components/search-form';
+} from '../../components/utilities';
 import {
   searchTypes,
   accessTypesReduxStateShape,
   PAGE_SIZE,
-} from '../constants';
+  FIRST_PAGE,
+} from '../../constants';
 
 class SearchRoute extends Component {
   static propTypes = {
@@ -93,7 +87,7 @@ class SearchRoute extends Component {
     if (!searchType) {
       history.replace({
         pathname: '/eholdings',
-        search: '?searchType=providers'
+        search: '?searchType=providers',
       });
 
       return null;
@@ -167,7 +161,6 @@ class SearchRoute extends Component {
           submittedSearchFilters: {
             [filterName]: currentState.draftSearchFilters[filterName],
           },
-
         }
         : {
           [filterToBeToggled]: !currentState[filterToBeToggled],
@@ -212,7 +205,7 @@ class SearchRoute extends Component {
   }
 
   updateFilters = fn => this.setState(({ hideFilters }) => ({
-    hideFilters: fn(hideFilters)
+    hideFilters: fn(hideFilters),
   }));
 
   /**
@@ -247,6 +240,7 @@ class SearchRoute extends Component {
     if (queryString) {
       url += `&${queryString}`;
     }
+
     return url;
   }
 
@@ -256,15 +250,11 @@ class SearchRoute extends Component {
    * @returns {Object} key value pair of search type urls
    */
   getSearchTypeUrls() {
-    const searchTypesArr = [
-      searchTypes.PROVIDERS,
-      searchTypes.PACKAGES,
-      searchTypes.TITLES
-    ];
-    return searchTypesArr.reduce((locations, type) => {
+    return Object.values(searchTypes).reduce((locations, type) => {
       const lastQuery = this.queries[type] || {};
       const lastPath = this.path[type] || '/eholdings';
       const url = this.buildSearchUrl(lastPath, lastQuery, type);
+
       return { ...locations, [type]: url };
     }, {});
   }
@@ -327,7 +317,7 @@ class SearchRoute extends Component {
       filter: submittedSearchFilters,
       searchfield: searchField,
       sort,
-      offset: 1,
+      offset: FIRST_PAGE,
     };
 
     this.updateURLParams(params);
@@ -339,8 +329,8 @@ class SearchRoute extends Component {
       submittedSearchFilters: {
         ...currentState.draftSearchFilters,
         'access-type': undefined,
-        tags: undefined
-      }
+        tags: undefined,
+      },
     }), this.handleSearch);
     this.$resultPaneTitle.current.focus();
   };
@@ -351,8 +341,9 @@ class SearchRoute extends Component {
    * @param {Number} offset - the read offset the QueryList component
    * has been scrolled to
    */
-  handleOffset = offset => {
+  handleOffset = (offset) => {
     const { params } = this.state;
+
     this.updateURLParams({ ...params, offset });
   };
 
@@ -362,20 +353,22 @@ class SearchRoute extends Component {
    */
   fetchPage = (page) => {
     const { offset, ...params } = this.state.params;
+
     this.search({ ...params, page });
   };
 
   notFoundMessage = (searchType) => {
     const { params } = this.state;
     const translationKey = getResultsNotFoundTranslationKey(searchType, params.q);
-    return params.q ? (
-      <FormattedMessage
-        id={translationKey}
-        values={{ query: params.q }}
-      />
-    ) : <FormattedMessage id={translationKey} />;
-  };
 
+    return params.q
+      ? (
+        <FormattedMessage
+          id={translationKey}
+          values={{ query: params.q }}
+        />
+      ) : <FormattedMessage id={translationKey} />;
+  };
 
   /**
    * Renders the search component specific to the current search type
@@ -396,22 +389,20 @@ class SearchRoute extends Component {
         history.push({
           pathname: detailUrl,
           search: location.search,
-          state: { eholdings: true }
+          state: { eholdings: true },
         });
       },
-      notFoundMessage: this.notFoundMessage(searchType)
+      notFoundMessage: this.notFoundMessage(searchType),
     };
 
     const {
-      filter = {}
+      filter = {},
     } = params;
-
 
     const {
       tags = '',
       'access-type': accessType,
     } = filter;
-
 
     if (params.q || tags || accessType) {
       if (searchType === searchTypes.PROVIDERS) {
@@ -453,7 +444,7 @@ class SearchRoute extends Component {
     const filterCount = filterCountFromQuery({
       sort: params.sort,
       q: params.q,
-      filter: params.filter
+      filter: params.filter,
     });
 
     return (
@@ -502,20 +493,4 @@ class SearchRoute extends Component {
   }
 }
 
-export default connect(
-  (store) => {
-    const { data } = store.eholdings;
-    const resolver = createResolver(data);
-    return {
-      tagsModel: resolver.query('tags'),
-      resolver,
-      accessTypes: selectPropFromData(store, 'accessStatusTypes'),
-    };
-  }, {
-    searchProviders: params => Provider.query(params),
-    searchPackages: params => Package.query(params),
-    searchTitles: params => Title.query(params),
-    getTags: () => Tag.query(),
-    getAccessTypes: getAccessTypesAction
-  }
-)(SearchRoute);
+export default SearchRoute;

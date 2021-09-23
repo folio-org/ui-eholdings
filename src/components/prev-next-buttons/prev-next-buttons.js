@@ -15,6 +15,7 @@ const PrevNextButtons = ({
   fetch,
   totalResults,
   isLoading,
+  setFocus,
 }) => {
   const intl = useIntl();
 
@@ -34,6 +35,7 @@ const PrevNextButtons = ({
           data-testid="previous-button"
           onClick={() => {
             fetch(page - 1);
+            setFocus();
           }}
         >
           <Icon size="small" icon="caret-left">
@@ -49,6 +51,7 @@ const PrevNextButtons = ({
           data-testid="next-button"
           onClick={() => {
             fetch(page + 1);
+            setFocus();
           }}
         >
           <Icon size="small" icon="caret-right" iconPosition="end">
@@ -64,6 +67,7 @@ PrevNextButtons.propTypes = {
   fetch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
+  setFocus: PropTypes.func.isRequired,
   totalResults: PropTypes.number.isRequired,
 };
 

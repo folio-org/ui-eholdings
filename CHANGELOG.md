@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [6.2.0] (IN PROGRESS)
+## [7.0.0] (IN PROGRESS)
 * Fix import paths. (UIEH-1133)
 * Add tests for DescriptionField, EditionField, TitleNameField, PackageSelectField components. (UIEH-1051)
 * Usage Consolidation: Unable to handle gracefully handle when user attempts to view titles over 200,000. (UIEH-1136)
@@ -64,6 +64,9 @@
 * Add tests for CustomEditPackage component. (UIEH-1092)
 * Add tests for UsageConsolidationAccordion component. (UIEH-1178)
 * Run Deque aXe on Resource Edit page. (UIEH-1205)
+* Update to stripes v7 and react v17. (UIEH-1170)
+* Add tests for SearchRoute component. (UIEH-1192)
+* Shift focus once user hits Previous or Next pagination link. (UIEH-1206)
 * Allow user to save special characters in Settings Custom labels. (UIEH-1209)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
