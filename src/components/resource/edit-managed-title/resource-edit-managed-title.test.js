@@ -13,6 +13,7 @@ import {
 
 import ResourceEditManagedTitle from './resource-edit-managed-title';
 import Harness from '../../../../test/jest/helpers/harness';
+import getAxe from '../../../../test/jest/helpers/get-axe';
 
 jest.mock('../../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
 
@@ -99,6 +100,7 @@ const model = {
 };
 
 const mockHandleOnSubmit = jest.fn();
+const axe = getAxe();
 
 const renderResourceEditManagedTitle = (props = {}) => render(
   <Harness
@@ -139,7 +141,7 @@ const renderResourceEditManagedTitle = (props = {}) => render(
             Save & close
           </button>
         )}
-        getSectionHeader={noop}
+        getSectionHeader={(id) => id}
         {...props}
       />
     </CommandList>
@@ -150,6 +152,13 @@ describe('Given ResourceEditManagedTitle', () => {
   afterEach(() => {
     cleanup();
     mockHandleOnSubmit.mockClear();
+  });
+
+  it('should have no a11y issues', async () => {
+    const { container } = renderResourceEditManagedTitle();
+    const a11yResults = await axe.run(container);
+
+    expect(a11yResults.violations.length).toEqual(0);
   });
 
   it('should check dates radio button', () => {
@@ -174,6 +183,15 @@ describe('Given ResourceEditManagedTitle', () => {
   });
 
   describe('selection modal', () => {
+    it('should have no a11y issues', async () => {
+      const { container } = renderResourceEditManagedTitle({
+        showSelectionModal: true,
+      });
+      const a11yResults = await axe.run(container);
+
+      expect(a11yResults.violations.length).toEqual(0);
+    });
+
     it('should show confirm button in selection modal', () => {
       const { getByText } = renderResourceEditManagedTitle({
         showSelectionModal: true,

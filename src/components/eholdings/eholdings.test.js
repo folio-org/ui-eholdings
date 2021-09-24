@@ -6,7 +6,7 @@ import Harness from '../../../test/jest/helpers/harness';
 
 jest.mock('../../routes/application', () => () => <span>ApplicationRoute</span>);
 jest.mock('../../routes/settings-route', () => () => <span>SettingsRoute</span>);
-jest.mock('../../routes/search', () => () => <span>SearchRoute</span>);
+jest.mock('../../routes/search-route', () => () => <span>SearchRoute</span>);
 jest.mock('../../routes/provider-show-route', () => () => <span>ProviderShow</span>);
 jest.mock('../../routes/provider-edit', () => () => <span>ProviderEdit</span>);
 jest.mock('../../routes/package-show', () => () => <span>PackageShow</span>);

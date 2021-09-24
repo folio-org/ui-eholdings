@@ -14,7 +14,7 @@ import {
 
 import ApplicationRoute from '../../routes/application';
 import SettingsRoute from '../../routes/settings-route';
-import SearchRoute from '../../routes/search';
+import SearchRoute from '../../routes/search-route';
 import ProviderShow from '../../routes/provider-show-route';
 import ProviderEdit from '../../routes/provider-edit';
 import PackageShow from '../../routes/package-show';

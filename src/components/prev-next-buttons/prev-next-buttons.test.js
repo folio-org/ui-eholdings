@@ -7,6 +7,7 @@ import noop from 'lodash/noop';
 import PrevNextButtons from './prev-next-buttons';
 
 const mockFetch = jest.fn();
+const mockSetFocus = jest.fn();
 
 describe('Given PrevNextButtons', () => {
   const renderPrevNextButtons = (props) => render(
@@ -15,6 +16,7 @@ describe('Given PrevNextButtons', () => {
       fetch={noop}
       totalResults={150}
       isLoading={false}
+      setFocus={noop}
       {...props}
     />
   );
@@ -43,6 +45,16 @@ describe('Given PrevNextButtons', () => {
 
       expect(mockFetch).toHaveBeenCalledWith(2);
     });
+
+    it('should handle setFocus', () => {
+      const { getByTestId } = renderPrevNextButtons({
+        setFocus: mockSetFocus,
+      });
+
+      fireEvent.click(getByTestId('next-button'));
+
+      expect(mockSetFocus).toHaveBeenCalled();
+    });
   });
 
   describe('when click on previous button', () => {
@@ -55,6 +67,16 @@ describe('Given PrevNextButtons', () => {
       fireEvent.click(getByTestId('previous-button'));
 
       expect(mockFetch).toHaveBeenCalledWith(1);
+    });
+
+    it('should handle setFocus', () => {
+      const { getByTestId } = renderPrevNextButtons({
+        setFocus: mockSetFocus,
+      });
+
+      fireEvent.click(getByTestId('previous-button'));
+
+      expect(mockSetFocus).toHaveBeenCalled();
     });
 
     it('should disable previous button', () => {

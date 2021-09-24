@@ -2,6 +2,7 @@ import {
   handleSaveKeyFormSubmit,
   getAccessTypeIdsAndNames,
   filterCountFromQuery,
+  getMatchedStringInUTF8,
 } from './utilities';
 
 describe('utilities', () => {
@@ -61,6 +62,49 @@ describe('utilities', () => {
         };
 
         expect(filterCountFromQuery(queryParams)).toEqual(1);
+      });
+    });
+  });
+
+  describe('getMatchedStringInUTF8', () => {
+    describe('when string contains allowed characters', () => {
+      it('should return the same string', () => {
+        const inputString = 'Just some test string';
+
+        const resultString = getMatchedStringInUTF8(inputString);
+
+        expect(resultString).toEqual(inputString);
+      });
+    });
+
+    describe('when string contains allowed special characters (: ; - . ! ~ \' ( ) [ ])', () => {
+      it('should return the same string', () => {
+        const inputString = 'Holds : ; - . ! ~ \' [ ] ( ) characters';
+
+        const resultString = getMatchedStringInUTF8(inputString);
+
+        expect(resultString).toEqual(inputString);
+      });
+    });
+
+    describe('when string contains special characters other than allowed (: ; - . ! ~ \' ( ) [ ])', () => {
+      it('should return a string without these special characters', () => {
+        const inputString = 'Holds * and / characters';
+        const outputString = 'Holds  and  characters';
+
+        const resultString = getMatchedStringInUTF8(inputString);
+
+        expect(resultString).toEqual(outputString);
+      });
+    });
+
+    describe('when string contains just non-allowed special characters', () => {
+      it('should return an empty string', () => {
+        const inputString = '*/';
+
+        const resultString = getMatchedStringInUTF8(inputString);
+
+        expect(resultString).toEqual('');
       });
     });
   });
