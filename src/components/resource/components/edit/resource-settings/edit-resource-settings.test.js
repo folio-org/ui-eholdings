@@ -3,6 +3,7 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
@@ -10,6 +11,8 @@ import Harness from '../../../../../../test/jest/helpers/harness';
 import getAxe from '../../../../../../test/jest/helpers/get-axe';
 
 import ResourceSettings from './edit-resource-settings';
+
+expect.extend(toHaveNoViolations);
 
 const axe = getAxe();
 
@@ -106,9 +109,8 @@ describe('Given ResourceSettings', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderResourceSettings();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should render an accordion', () => {

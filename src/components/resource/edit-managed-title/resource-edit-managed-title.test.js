@@ -4,6 +4,7 @@ import {
   fireEvent,
   render,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 import { noop } from 'lodash';
 
 import {
@@ -16,6 +17,8 @@ import Harness from '../../../../test/jest/helpers/harness';
 import getAxe from '../../../../test/jest/helpers/get-axe';
 
 jest.mock('../../navigation-modal', () => ({ when }) => (when ? <span>NavigationModal</span> : null));
+
+expect.extend(toHaveNoViolations);
 
 const accessStatusTypes = {
   errors: [],
@@ -156,9 +159,8 @@ describe('Given ResourceEditManagedTitle', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderResourceEditManagedTitle();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should check dates radio button', () => {
@@ -187,9 +189,8 @@ describe('Given ResourceEditManagedTitle', () => {
       const { container } = renderResourceEditManagedTitle({
         showSelectionModal: true,
       });
-      const a11yResults = await axe.run(container);
 
-      expect(a11yResults.violations.length).toEqual(0);
+      expect(await axe(container)).toHaveNoViolations();
     });
 
     it('should show confirm button in selection modal', () => {

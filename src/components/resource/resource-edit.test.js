@@ -3,6 +3,7 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 
 import ResourceEdit from './resource-edit';
 import Harness from '../../../test/jest/helpers/harness';
@@ -78,7 +79,7 @@ const model = {
 
 const onSubmitMock = jest.fn();
 const onCancelMock = jest.fn();
-const axe = getAxe();
+expect.extend(toHaveNoViolations);
 
 const storeInitialState = {
   data: {
@@ -123,6 +124,8 @@ const renderResourceEdit = (props = {}) => render(
   </Harness>
 );
 
+const axe = getAxe();
+
 describe('Given ResourceEdit', () => {
   afterEach(() => {
     cleanup();
@@ -132,9 +135,8 @@ describe('Given ResourceEdit', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderResourceEdit();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should show title name', () => {

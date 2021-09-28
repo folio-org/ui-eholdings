@@ -1,25 +1,15 @@
-import axe from 'axe-core';
+import { configureAxe } from 'jest-axe';
 
-
-const getAxe = () => {
-  axe.reset();
-  axe.configure({
-    rules: [{
-      id: 'meta-viewport',
-      enabled: false,
-    }, {
-      id: 'landmark-one-main',
-      enabled: false,
-    }, {
-      id: 'page-has-heading-one',
-      enabled: false,
-    }, {
-      id: 'bypass',
-      enabled: false,
-    }],
+const getAxe = (config = {}) => {
+  return configureAxe({
+    rules: {
+      'meta-viewport': { enabled: false },
+      'landmark-one-main': { enabled: false },
+      'page-has-heading-one': { enabled: false },
+      'bypass': { enabled: false },
+    },
+    ...config,
   });
-
-  return axe;
 };
 
 export default getAxe;

@@ -2,6 +2,7 @@ import {
   fireEvent,
   render,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 import { noop } from 'lodash';
 
 import {
@@ -19,6 +20,8 @@ jest.mock('../../../features', () => ({
   ...jest.requireActual('../../../features'),
   CustomLabelsAccordion: () => (<span>CustomLabelsAccordion</span>),
 }));
+
+expect.extend(toHaveNoViolations);
 
 const accessStatusTypes = {
   errors: [],
@@ -132,9 +135,8 @@ const axe = getAxe();
 describe('Given ResourceEditCustomTitle', () => {
   it('should have no a11y issues', async () => {
     const { container } = renderResourceEditCustomTitle();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should check dates radio button', () => {
@@ -181,9 +183,8 @@ describe('Given ResourceEditCustomTitle', () => {
       const { container } = renderResourceEditCustomTitle({
         showSelectionModal: true,
       });
-      const a11yResults = await axe.run(container);
 
-      expect(a11yResults.violations.length).toEqual(0);
+      expect(await axe(container)).toHaveNoViolations();
     });
 
     it('should display remove title warning', () => {

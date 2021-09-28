@@ -3,6 +3,7 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import createFocusDecorator from 'final-form-focus';
@@ -13,6 +14,7 @@ import { coverageStatementDecorator } from '../../../_fields/coverage-statement'
 import EditCoverageSettings from './edit-coverage-settings';
 
 jest.mock('../../../../coverage-date-list', () => () => <div>Coverage date list</div>);
+expect.extend(toHaveNoViolations);
 
 const focusOnErrors = createFocusDecorator();
 const axe = getAxe();
@@ -88,9 +90,8 @@ describe('Given EditCoverageSettings', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderCoverageSettings();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should render an accordion', () => {

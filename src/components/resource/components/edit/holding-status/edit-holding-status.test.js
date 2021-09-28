@@ -3,11 +3,14 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
 import getAxe from '../../../../../../test/jest/helpers/get-axe';
 
 import HoldingStatus from './edit-holding-status';
+
+expect.extend(toHaveNoViolations);
 
 const axe = getAxe();
 
@@ -45,9 +48,8 @@ describe('Given HoldingStatus', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderHoldingStatus();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should render an accordion', () => {

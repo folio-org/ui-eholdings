@@ -3,6 +3,7 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { toHaveNoViolations } from 'jest-axe';
 
 import PackageEdit from './package-edit';
 import Harness from '../../../test/jest/helpers/harness';
@@ -47,6 +48,7 @@ const model = {
 const mockAddPackageToHoldings = jest.fn();
 const mockOnSubmit = jest.fn();
 const mockOnCancel = jest.fn();
+expect.extend(toHaveNoViolations);
 
 jest.mock('./edit/components/edit-package-information', () => () => <div>Edit package information</div>);
 jest.mock('./edit/components/edit-package-settings', () => () => <div>Edit package settings</div>);
@@ -126,9 +128,8 @@ describe('Given PackageEdit', () => {
 
   it('should have no a11y issues', async () => {
     const { container } = renderPackageEdit();
-    const a11yResults = await axe.run(container);
 
-    expect(a11yResults.violations.length).toEqual(0);
+    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should render coverage settings', () => {
@@ -226,9 +227,8 @@ describe('Given PackageEdit', () => {
           isCustom: false,
         },
       });
-      const a11yResults = await axe.run(container);
 
-      expect(a11yResults.violations.length).toEqual(0);
+      expect(await axe(container)).toHaveNoViolations();
     });
 
     it('should render coverage settings', () => {
