@@ -413,7 +413,7 @@
     "addPackageToHoldings": "Add package to holdings",
     "permission.settings.custom-labels.view": "Ajustes (eholdings): Puede ver las etiquetas personalizadas",
     "filter.search": "Buscar",
-    "label.tags": "Etiqueta (s): {etiquetas}",
+    "label.tags": "Etiqueta (s): {tags}",
     "agreements.unlink": "Desvincular el acuerdo de este registro.",
     "agreements.unassignModal.header": "Anular la asignación de un acuerdo de este registro",
     "agreements.unassignModal.description": "¿Seguro que desea cancelar la asignación <strong> {agreementName} </strong> de <strong> {recordName} </strong> ? Una vez que cancele la asignación, el acuerdo ya no se adjuntará a este registro.",
