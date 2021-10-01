@@ -30,6 +30,7 @@ const content = {
 
 const collection = {
   pages: [
+    {},
     {
       records: [
         {
@@ -38,11 +39,18 @@ const collection = {
       ],
     },
   ],
+  length: 10,
+  request: {
+    isRejected: false,
+    errors: [],
+  },
+  isLoading: false,
+  currentPage: 1,
 };
 
-jest.mock('./query-list', () => ({ renderItem }) => (
+jest.mock('./query-search-list', () => ({ renderItem }) => (
   <>
-    <span>QueryList component</span>
+    <span>QuerySearchList component</span>
     {renderItem({ content })}
   </>
 ));
@@ -58,16 +66,15 @@ describe('Given TitleSearchList', () => {
         notFoundMessage="Not Found Message"
         onClickItem={mockOnClickItem}
         onUpdateOffset={noop}
-        params={{}}
         {...props}
       />
     </Harness>
   );
 
-  it('should render QueryList component', () => {
+  it('should render QuerySearchList component', () => {
     const { getByText } = renderTitleSearchList();
 
-    expect(getByText('QueryList component')).toBeDefined();
+    expect(getByText('QuerySearchList component')).toBeDefined();
   });
 
   it('should display found title information', () => {

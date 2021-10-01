@@ -5,9 +5,14 @@ import {
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
+import useImpagination from '../../hooks/useImpagination';
+
 import ScrollView from '../scroll-view';
 import PrevNextButtons from '../prev-next-buttons';
-import { FIRST_PAGE } from '../../constants';
+import {
+  FIRST_PAGE,
+  PAGE_SIZE,
+} from '../../constants';
 
 import styles from './query-search-list.css';
 
@@ -17,8 +22,11 @@ const QuerySearchList = ({
   collection,
   fetch,
   fullWidth,
+  isMainPageSearch,
   itemHeight,
   notFoundMessage,
+  onUpdateOffset,
+  pageSize,
   renderItem,
   scrollable,
   type,
@@ -37,7 +45,15 @@ const QuerySearchList = ({
     isLoading,
     page,
   } = collection;
-  const length = items.length;
+  const length = items?.length;
+
+  const state = useImpagination({
+    pageSize,
+    page,
+    collection,
+    fetch,
+    isMainPageSearch,
+  });
 
   if (hasFailed && !length) {
     return (
@@ -47,14 +63,40 @@ const QuerySearchList = ({
     );
   }
 
-  if (!length) {
+  if (isMainPageSearch && state.hasRejected && !state.length) {
+    return (
+      <div
+        className={styles.error}
+        data-test-query-list-error={type}
+      >
+        {state.rejected[0].error[0].title}
+      </div>
+    );
+  }
+
+  if ((isMainPageSearch && !collection.isLoading && !length)
+    || (!isMainPageSearch && !length)) {
     return notFoundMessage;
   }
+
+  const updatePage = (pageToUpdate) => {
+    if (onUpdateOffset) {
+      onUpdateOffset(pageToUpdate);
+    }
+  };
 
   const defineIsListFirstItem = (item) => {
     const [firstItem] = items;
 
-    return item === firstItem;
+    let firstRecord = {};
+    if (isMainPageSearch) {
+      [firstRecord] = state?.records;
+    }
+
+    const recordId = firstRecord?.id || firstItem?.id;
+    const itemId = isMainPageSearch ? item.content?.id : item.id;
+
+    return itemId === recordId;
   };
 
   const focusListFirstItem = () => {
@@ -63,8 +105,7 @@ const QuerySearchList = ({
 
   return (
     <ScrollView
-      items={items}
-      length={length}
+      items={isMainPageSearch ? state : items}
       itemHeight={itemHeight}
       scrollable={scrollable}
       queryListName={type}
@@ -73,7 +114,7 @@ const QuerySearchList = ({
         <PrevNextButtons
           isLoading={isLoading}
           totalResults={totalResults}
-          fetch={fetch}
+          fetch={isMainPageSearch ? (pageToUpdate) => updatePage(pageToUpdate) : fetch}
           page={page}
           setFocus={focusListFirstItem}
         />
@@ -104,11 +145,14 @@ QuerySearchList.propTypes = {
   collection: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   fullWidth: PropTypes.bool,
+  isMainPageSearch: PropTypes.bool,
   itemHeight: PropTypes.number.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
   ]).isRequired,
+  onUpdateOffset: PropTypes.func,
+  pageSize: PropTypes.number,
   renderItem: PropTypes.func.isRequired,
   scrollable: PropTypes.bool,
   type: PropTypes.string.isRequired,
@@ -116,6 +160,7 @@ QuerySearchList.propTypes = {
 
 QuerySearchList.defaultProps = {
   fullWidth: false,
+  pageSize: PAGE_SIZE,
 };
 
 export default QuerySearchList;
