@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -11,15 +11,15 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
-import View from '../components/settings/settings-access-status-types';
-import { selectPropFromData } from '../redux/selectors';
+import View from '../../components/settings/settings-access-status-types';
+import { selectPropFromData } from '../../redux/selectors';
 import {
   getAccessTypes as getAccessTypesAction,
   attachAccessType as attachAccessTypeAction,
   deleteAccessType as deleteAccessTypeAction,
   updateAccessType as updateAccessTypeAction,
   confirmDeleteAccessType as confirmDeleteAccessTypeAction,
-} from '../redux/actions';
+} from '../../redux/actions';
 
 const SettingsAccessStatusTypesRoute = ({
   accessTypes,
@@ -32,6 +32,7 @@ const SettingsAccessStatusTypesRoute = ({
   history,
 }) => {
   const stripes = useStripes();
+  const intl = useIntl();
   const { items: { data } } = accessTypes;
 
   if (!stripes.hasPerm('ui-eholdings.settings.access-types.view')) {
@@ -48,38 +49,33 @@ const SettingsAccessStatusTypesRoute = ({
     getAccessTypes(params.kbId);
   }, [getAccessTypes, params.kbId]);
 
+  const pageLabel = intl.formatMessage({ id: 'ui-eholdings.label.settings' });
+  const recordLabel = intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' });
+
   return (
-    <FormattedMessage id="ui-eholdings.label.settings">
-      {pageLabel => (
-        <FormattedMessage id="ui-eholdings.settings.accessStatusTypes">
-          {recordLabel => (
-            <TitleManager
-              page={pageLabel}
-              record={recordLabel}
-            >
-              {data ? (
-                <View
-                  accessTypesData={{
-                    ...accessTypes,
-                    items: data,
-                  }}
-                  onCreate={attachAccessType}
-                  onDelete={deleteAccessType}
-                  onUpdate={updateAccessType}
-                  confirmDelete={confirmDelete}
-                  kbId={params.kbId}
-                />
-              ) : (
-                <Icon
-                  icon='spinner-ellipsis'
-                  size='large'
-                />
-              )}
-            </TitleManager>
-          )}
-        </FormattedMessage>
+    <TitleManager
+      page={pageLabel}
+      record={recordLabel}
+    >
+      {data ? (
+        <View
+          accessTypesData={{
+            ...accessTypes,
+            items: data,
+          }}
+          onCreate={attachAccessType}
+          onDelete={deleteAccessType}
+          onUpdate={updateAccessType}
+          confirmDelete={confirmDelete}
+          kbId={params.kbId}
+        />
+      ) : (
+        <Icon
+          icon='spinner-ellipsis'
+          size='large'
+        />
       )}
-    </FormattedMessage>
+    </TitleManager>
   );
 };
 
