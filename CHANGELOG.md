@@ -69,6 +69,7 @@
 * Shift focus once user hits Previous or Next pagination link. (UIEH-1206)
 * Allow user to save special characters in Settings Custom labels. (UIEH-1209)
 * Remove SearchPane component. (UIEH-1177)
+* Combine QueryList and QuerySearchList components into one. (UIEH-1208)
 * Add tests for SettingsAccessStatusTypesRoute component. (UIEH-1193)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)

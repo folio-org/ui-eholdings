@@ -21,7 +21,7 @@ import QuerySearchList from '../../query-search-list';
 import SearchPackageListItem from '../../search-package-list-item';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
-import QueryNotFound from '../../query-list/not-found';
+import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 import ProviderInformation from './components/provider-information';
 import ProviderSettings from './components/provider-settings';

@@ -28,20 +28,32 @@ class Dataset {
   }
 }
 
-const ImpaginationReplacement = ({
+const useImpagination = ({
   pageSize,
   page,
   collection,
   fetch,
-  children,
+  isMainPageSearch,
 }) => {
   useEffect(() => {
+    if (!isMainPageSearch) {
+      return;
+    }
+
     fetch(page);
   }, [page]);
 
   useEffect(() => {
+    if (!isMainPageSearch) {
+      return;
+    }
+
     fetch(1);
   }, [collection.key]);
+
+  if (!isMainPageSearch) {
+    return false;
+  }
 
   const { request, records } = collection.getPage(page);
   const dataset = new Dataset({
@@ -57,7 +69,7 @@ const ImpaginationReplacement = ({
     dataset.reject(request.errors, page);
   }
 
-  return children(dataset);
+  return dataset;
 };
 
-export default ImpaginationReplacement;
+export default useImpagination;
