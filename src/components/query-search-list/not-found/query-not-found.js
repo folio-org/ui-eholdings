@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import classnames from 'classnames/bind';
-import styles from '../query-list.css';
+import styles from '../query-search-list.css';
 
 const cx = classnames.bind(styles);
 

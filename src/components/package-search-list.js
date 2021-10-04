@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
-import QueryList from './query-list';
+import extend from 'lodash/extend';
+
+import QuerySearchList from './query-search-list';
 import SearchPackageListItem from './search-package-list-item';
 import NoResultsMessage from './no-results-message';
 
@@ -12,16 +14,24 @@ const PackageSearchList = ({
   fetch,
   notFoundMessage,
   onUpdateOffset,
-  params,
   shouldFocusItem,
   onClickItem,
 }) => {
+  const packagesCollection = extend(Object.create(collection), {
+    totalResults: collection.length,
+    hasFailed: collection.request.isRejected,
+    errors: collection.request.errors,
+    isLoading: collection.isLoading,
+    page: collection.currentPage,
+  });
+
+  packagesCollection.items = collection.pages[collection.currentPage]?.records;
+
   return (
-    <QueryList
+    <QuerySearchList
       type="packages"
-      page={parseInt(params.offset || 0, 10)}
       fetch={fetch}
-      collection={collection}
+      collection={packagesCollection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
       isMainPageSearch
@@ -59,7 +69,6 @@ PackageSearchList.propTypes = {
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string,
 };
 

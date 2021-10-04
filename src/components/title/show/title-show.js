@@ -48,7 +48,7 @@ import AddTitleToPackage from '../_field-groups/add-title-to-package';
 import Toaster from '../../toaster';
 import PackageFilterModal from './package-filter-modal';
 import UsageConsolidationAccordion from '../../../features/usage-consolidation-accordion';
-import QueryNotFound from '../../query-list/not-found';
+import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import styles from './title-show.css';

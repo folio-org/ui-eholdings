@@ -30,7 +30,7 @@ import {
   AgreementsAccordion,
   UsageConsolidationAccordion,
 } from '../../../features';
-import QueryNotFound from '../../query-list/not-found';
+import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 import HoldingStatus from './components/holding-status';
 import PackageInformation from './components/package-information';

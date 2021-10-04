@@ -136,6 +136,10 @@ const getCollection = (searchType, params) => {
       state: {},
       models: {},
     },
+    request: {
+      errors: [],
+      isRejected: false,
+    },
     pages,
     pageSize: 100,
     currentPage: params.page,
