@@ -22,7 +22,7 @@ jest.mock('../components/settings/settings-assigned-users', () => ({
       type="button"
       onClick={onDeleteUser}
     >
-      Delete user
+      Unassign user
     </button>
 
     <button
@@ -36,7 +36,7 @@ jest.mock('../components/settings/settings-assigned-users', () => ({
         },
       })}
     >
-      Select user
+      Assign user
     </button>
 
     {alreadyAssignedMessageDisplayed && (
@@ -181,21 +181,19 @@ describe('Given SettingsAssignedUsersRoute', () => {
     expect(mockGetUserGroups).toHaveBeenCalled();
   });
 
-  describe('when click on unassign user icon button', () => {
-    describe('when click on confirm button on confirm unassign user modal', () => {
-      it('should handle deleteKBCredentialsUser', async () => {
-        let getByRole;
+  describe('when click on unassign user button', () => {
+    it('should handle deleteKBCredentialsUser', async () => {
+      let getByRole;
 
-        await act(async () => {
-          getByRole = await renderSettingsAssignedUsersRoute({
-            props: { deleteKBCredentialsUser: mockDeleteKBCredentialsUser },
-          }).getByRole;
-        });
-
-        fireEvent.click(getByRole('button', { name: 'Delete user' }));
-
-        expect(mockDeleteKBCredentialsUser).toHaveBeenCalled();
+      await act(async () => {
+        getByRole = await renderSettingsAssignedUsersRoute({
+          props: { deleteKBCredentialsUser: mockDeleteKBCredentialsUser },
+        }).getByRole;
       });
+
+      fireEvent.click(getByRole('button', { name: 'Unassign user' }));
+
+      expect(mockDeleteKBCredentialsUser).toHaveBeenCalled();
     });
   });
 
@@ -322,7 +320,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
         }).getByText;
       });
 
-      fireEvent.click(getByText('Select user'));
+      fireEvent.click(getByText('Assign user'));
 
       expect(mockPostKBCredentialsUser).toHaveBeenCalled();
     });
@@ -353,7 +351,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
         }).getByText;
       });
 
-      fireEvent.click(getByText('Select user'));
+      fireEvent.click(getByText('Assign user'));
 
       expect(mockPostKBCredentialsUser).not.toHaveBeenCalled();
     });
