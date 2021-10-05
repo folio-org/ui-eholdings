@@ -98,10 +98,12 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
         const { rerender } = await renderSettingsAccessStatusTypesRoute();
 
         rerender(getSettingsAccessStatusTypesRoute({
-          match: {
-            ...match,
-            params: {
-              kbId: 'new-test-kb-id',
+          props: {
+            match: {
+              ...match,
+              params: {
+                kbId: 'new-test-kb-id',
+              },
             },
           },
         }));
