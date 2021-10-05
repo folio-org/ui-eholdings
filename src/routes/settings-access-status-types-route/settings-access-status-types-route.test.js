@@ -71,7 +71,7 @@ const getSettingsAccessStatusTypesRoute = ({ harnessProps = {}, props = {} } = {
   </MemoryRouter>
 );
 
-const renderSettingsAccessStatusTypesRoute = (props) => render(getSettingsAccessStatusTypesRoute(props));
+const renderSettingsAccessStatusTypesRoute = (props = {}) => render(getSettingsAccessStatusTypesRoute(props));
 
 describe('Given SettingsAccessStatusTypesRoute', () => {
   beforeEach(() => {
