@@ -49,7 +49,7 @@ const match = {
   url: '/eholdings',
 };
 
-const renderSettingsAccessStatusTypesRoute = ({ harnessProps = {}, props = {} } = {}) => render(
+const getSettingsAccessStatusTypesRoute = ({ harnessProps = {}, props = {} } = {}) => (
   <MemoryRouter>
     <Harness
       storeInitialState={{
@@ -71,6 +71,8 @@ const renderSettingsAccessStatusTypesRoute = ({ harnessProps = {}, props = {} } 
   </MemoryRouter>
 );
 
+const renderSettingsAccessStatusTypesRoute = (props) => render(getSettingsAccessStatusTypesRoute(props));
+
 describe('Given SettingsAccessStatusTypesRoute', () => {
   beforeEach(() => {
     mockGetAccessTypes.mockClear();
@@ -87,7 +89,26 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
       await renderSettingsAccessStatusTypesRoute();
     });
 
-    expect(mockGetAccessTypes).toHaveBeenCalled();
+    expect(mockGetAccessTypes).toHaveBeenCalledWith(match.params.kbId);
+  });
+
+  describe('when kbId changes', () => {
+    it('should call getAccessTypes with new kbId', async () => {
+      await act(async () => {
+        const { rerender } = await renderSettingsAccessStatusTypesRoute();
+
+        rerender(getSettingsAccessStatusTypesRoute({
+          match: {
+            ...match,
+            params: {
+              kbId: 'new-test-kb-id',
+            },
+          },
+        }));
+      });
+
+      expect(mockGetAccessTypes).toHaveBeenCalledWith('new-test-kb-id');
+    });
   });
 
   describe('when data is not loaded', () => {
