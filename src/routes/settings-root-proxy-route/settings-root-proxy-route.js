@@ -1,88 +1,78 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { TitleManager } from '@folio/stripes/core';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import View from '../../components/settings/settings-root-proxy';
 
 import { rootProxy as rootProxyShapes } from '../../constants';
 
-export default class SettingsRootProxyRoute extends Component {
-  static propTypes = {
-    confirmUpdateRootProxy: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getRootProxy: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
-    updateRootProxy: PropTypes.func.isRequired
-  };
+const propTypes = propTypes = {
+  confirmUpdateRootProxy: PropTypes.func.isRequired,
+  getProxyTypes: PropTypes.func.isRequired,
+  getRootProxy: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+  rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
+  updateRootProxy: PropTypes.func.isRequired
+};
 
-  componentDidMount() {
-    const { getProxyTypes, getRootProxy, match: { params } } = this.props;
+const SettingsRootProxyRoute = ({
+  confirmUpdateRootProxy,
+  getProxyTypes,
+  getRootProxy,
+  history,
+  match,
+  proxyTypes,
+  rootProxy,
+  updateRootProxy,
+}) => {
+  const intl = useIntl();
 
-    getProxyTypes(params.kbId);
-    getRootProxy(params.kbId);
-  }
+  useEffect(() => {
+    getProxyTypes(match.params.kbId);
+    getRootProxy(match.params.kbId);
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    const {
-      history,
-      rootProxy,
-      confirmUpdateRootProxy,
-      match: { params },
-      getProxyTypes,
-      getRootProxy,
-    } = this.props;
-
+  useEffect(() => {
     if (rootProxy.isUpdated) {
       history.push({
-        pathname: `/settings/eholdings/${params.kbId}/root-proxy`,
+        pathname: `/settings/eholdings/${match.params.kbId}/root-proxy`,
         state: { eholdings: true, isFreshlySaved: true }
       });
 
       confirmUpdateRootProxy();
     }
+  }, [rootProxy.isUpdated]);
 
-    if (prevProps.match.params.kbId !== params.kbId) {
-      getProxyTypes(params.kbId);
-      getRootProxy(params.kbId);
-    }
-  }
+  useEffect(() => {
+    getProxyTypes(match.params.kbId);
+    getRootProxy(match.params.kbId);
+  }, [match.params.kbId]);
 
-  rootProxySubmitted = (values) => {
-    const { rootProxy, updateRootProxy, match: { params } } = this.props;
-
+  const rootProxySubmitted = (values) => {
     const { credentialsId, ...rootProxyData } = rootProxy.data;
     rootProxyData.attributes.proxyTypeId = values.rootProxyServer;
 
-    updateRootProxy(rootProxyData, params.kbId);
-  }
+    updateRootProxy(rootProxyData, match.params.kbId);
+  };
 
-  render() {
-    const { proxyTypes, rootProxy } = this.props;
+  return (
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+      record={intl.formatMessage({ id: 'ui-eholdings.settings.rootProxy' })}
+    >
+      <View
+        proxyTypes={proxyTypes}
+        rootProxy={rootProxy}
+        onSubmit={rootProxySubmitted}
+      />
+    </TitleManager>
+  );
+};
 
-    return (
-      <FormattedMessage id="ui-eholdings.label.settings">
-        {pageLabel => (
-          <FormattedMessage id="ui-eholdings.settings.rootProxy">
-            {recordLabel => (
-              <TitleManager
-                page={pageLabel}
-                record={recordLabel}
-              >
-                <View
-                  proxyTypes={proxyTypes}
-                  rootProxy={rootProxy}
-                  onSubmit={this.rootProxySubmitted}
-                />
-              </TitleManager>
-            )}
-          </FormattedMessage>
-        )}
-      </FormattedMessage>
-    );
-  }
-}
+SettingsRootProxyRoute.propTypes = propTypes;
+
+export default SettingsRootProxyRoute;
