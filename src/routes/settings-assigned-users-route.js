@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import {
-  Icon
-} from '@folio/stripes/components';
+import { Icon } from '@folio/stripes/components';
 
 import View from '../components/settings/settings-assigned-users';
 import Toaster from '../components/toaster';
@@ -98,7 +100,7 @@ const SettingsAssignedUsersRoute = ({
       .map(() => ({
         message: <FormattedMessage id="ui-eholdings.settings.assignedUsers.networkErrorMessage" />,
         type: 'error',
-        id: `kbId-${Date.now()}`
+        id: `kbId-${Date.now()}`,
       }));
   }, [assignedUsers.errors]);
 
@@ -133,7 +135,7 @@ const SettingsAssignedUsersRoute = ({
         id,
         type: 'assignedUsers',
         attributes,
-      }
+      },
     };
   };
 
@@ -163,7 +165,8 @@ const SettingsAssignedUsersRoute = ({
             hideAlreadyAssignedMessage={hideAlreadyAssignedMessage}
           />
         )
-        : <Icon icon="spinner-ellipsis" />}
+        : <Icon icon="spinner-ellipsis" />
+      }
       <Toaster
         toasts={toasts}
         position="bottom"
