@@ -4,7 +4,6 @@ import {
   render,
   cleanup,
   act,
-  fireEvent,
 } from '@testing-library/react';
 
 import CustomLabelsRoute from './custom-labels-route';

@@ -1,72 +1,62 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 
 import View from '../../components/settings/settings-custom-labels';
 
-export default class SettingsCustomLabelsRoute extends Component {
-  static propTypes = {
-    confirmUpdate: PropTypes.func.isRequired,
-    customLabels: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      items: PropTypes.object.isRequired,
-    }).isRequired,
-    getCustomLabels: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    updateCustomLabels: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  confirmUpdate: PropTypes.func.isRequired,
+  customLabels: PropTypes.shape({
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.object.isRequired,
+  }).isRequired,
+  getCustomLabels: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  updateCustomLabels: PropTypes.func.isRequired,
+};
 
-  componentDidMount() {
-    const { getCustomLabels, match: { params } } = this.props;
+const SettingsCustomLabelsRoute = ({
+  getCustomLabels,
+  match,
+  customLabels,
+  updateCustomLabels,
+  confirmUpdate,
+}) => {
+  const intl = useIntl();
 
-    getCustomLabels(params.kbId);
-  }
+  useEffect(() => {
+    getCustomLabels(match.params.kbId);
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.match.params.kbId !== this.props.match.params.kbId) {
-      this.props.getCustomLabels(this.props.match.params.kbId);
-    }
-  }
+  useEffect(() => {
+    getCustomLabels(match.params.kbId);
+  }, [match.params.kbId]);
 
-  render() {
-    const {
-      customLabels,
-      customLabels: { isLoading },
-      updateCustomLabels,
-      confirmUpdate,
-      match: { params: { kbId } },
-    } = this.props;
+  return (
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+      record={intl.formatMessage({ id: 'ui-eholdings.resource.customLabels' })}
+    >
+      {!customLabels.isLoading ? (
+        <View
+          customLabels={customLabels}
+          updateCustomLabels={updateCustomLabels}
+          confirmUpdate={confirmUpdate}
+          credentialId={match.params.kbId}
+        />
+      ) : (
+        <Icon
+          icon='spinner-ellipsis'
+          size='large'
+        />
+      )}
+    </TitleManager>
+  );
+};
 
-    return (
-      <FormattedMessage id="ui-eholdings.label.settings">
-        {pageLabel => (
-          <FormattedMessage id="ui-eholdings.resource.customLabels">
-            {recordLabel => (
-              <TitleManager
-                page={pageLabel}
-                record={recordLabel}
-              >
-                {!isLoading ? (
-                  <View
-                    customLabels={customLabels}
-                    updateCustomLabels={updateCustomLabels}
-                    confirmUpdate={confirmUpdate}
-                    credentialId={kbId}
-                  />
-                ) : (
-                  <Icon
-                    icon='spinner-ellipsis'
-                    size='large'
-                  />
-                )}
-              </TitleManager>
-            )}
-          </FormattedMessage>
-        )}
-      </FormattedMessage>
-    );
-  }
-}
+SettingsCustomLabelsRoute.propTypes = propTypes;
+
+export default SettingsCustomLabelsRoute;
