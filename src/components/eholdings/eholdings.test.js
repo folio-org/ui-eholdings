@@ -23,7 +23,7 @@ jest.mock('../../routes/note-edit', () => () => <span>NoteEdit</span>);
 jest.mock('../../routes/custom-labels-route', () => () => <span>SettingsCustomLabelsRoute</span>);
 jest.mock('../../routes/settings-knowledge-base', () => () => <span>SettingsKnowledgeBaseRoute</span>);
 jest.mock('../../routes/settings-root-proxy', () => () => <span>SettingsRootProxyRoute</span>);
-jest.mock('../../routes/settings-access-status-types', () => () => <span>SettingsAccessStatusTypesRoute</span>);
+jest.mock('../../routes/settings-access-status-types-route', () => () => <span>SettingsAccessStatusTypesRoute</span>);
 jest.mock('../../routes/settings-assigned-users-route', () => () => <span>SettingsAssignedUsersRoute</span>);
 jest.mock('../../routes/settings-usage-consolidation-route', () => () => <span>SettingsUsageConsolidationRoute</span>);
 jest.mock('../eholdings-app-context', () => () => <span>EHoldingsAppContext</span>);
