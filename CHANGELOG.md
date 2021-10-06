@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [8.0.0] (IN PROGRESS)
+
+* Add tests for SettingsKnowledgeBaseRoute component. (UIEH-1196)
+
 ## [7.0.0] (https://github.com/folio-org/ui-eholdings/tree/v7.0.0) (2021-10-06)
 
 * Fix import paths. (UIEH-1133)
