@@ -1,5 +1,4 @@
 import { MemoryRouter } from 'react-router-dom';
-import noop from 'lodash/noop';
 
 import {
   render,
@@ -9,9 +8,9 @@ import {
 } from '@testing-library/react';
 
 import SettingsAssignedUsersRoute from './settings-assigned-users-route';
-import Harness from '../../test/jest/helpers/harness';
+import Harness from '../../../test/jest/helpers/harness';
 
-jest.mock('../components/settings/settings-assigned-users', () => ({
+jest.mock('../../components/settings/settings-assigned-users', () => ({
   onDeleteUser,
   onSelectUser,
   alreadyAssignedMessageDisplayed,
@@ -57,14 +56,6 @@ const mockGetKBCredentialsUsers = jest.fn();
 const mockDeleteKBCredentialsUser = jest.fn();
 const mockPostKBCredentialsUser = jest.fn();
 const mockGetUserGroups = jest.fn();
-
-jest.mock('../redux/actions', () => ({
-  ...jest.requireActual('../redux/actions'),
-  getKBCredentialsUsers: mockGetKBCredentialsUsers,
-  deleteKBCredentialsUser: mockDeleteKBCredentialsUser,
-  postKBCredentialsUser: mockPostKBCredentialsUser,
-  getUserGroups: mockGetUserGroups,
-}));
 
 const assignedUsers = {
   errors: [],
@@ -126,24 +117,18 @@ const match = {
   url: '/eholdings',
 };
 
-const renderSettingsAssignedUsersRoute = ({ harnessProps = {}, props = {} }) => render(
+const renderSettingsAssignedUsersRoute = (props = {}) => render(
   <MemoryRouter>
-    <Harness
-      storeInitialState={{
-        data: {
-          kbCredentialsUsers: assignedUsers,
-          kbCredentials,
-          userGroups,
-        },
-      }}
-      {...harnessProps}
-    >
+    <Harness>
       <SettingsAssignedUsersRoute
-        deleteKBCredentialsUser={noop}
-        getKBCredentialsUsers={noop}
-        getUserGroups={noop}
+        assignedUsers={assignedUsers}
+        deleteKBCredentialsUser={mockDeleteKBCredentialsUser}
+        getKBCredentialsUsers={mockGetKBCredentialsUsers}
+        getUserGroups={mockGetUserGroups}
+        kbCredentials={kbCredentials}
         match={match}
-        postKBCredentialsUser={noop}
+        postKBCredentialsUser={mockPostKBCredentialsUser}
+        userGroups={userGroups}
         {...props}
       />
     </Harness>
@@ -162,9 +147,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
   it('should handle getKBCredentialsUsers', async () => {
     await act(async () => {
-      await renderSettingsAssignedUsersRoute({
-        props: { getKBCredentialsUsers: mockGetKBCredentialsUsers },
-      });
+      await renderSettingsAssignedUsersRoute();
     });
 
     expect(mockGetKBCredentialsUsers).toHaveBeenCalled();
@@ -173,9 +156,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
   it('should handle getUserGroups', async () => {
     await act(async () => {
-      await renderSettingsAssignedUsersRoute({
-        props: { getUserGroups: mockGetUserGroups },
-      });
+      await renderSettingsAssignedUsersRoute();
     });
 
     expect(mockGetUserGroups).toHaveBeenCalled();
@@ -186,9 +167,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
       let getByRole;
 
       await act(async () => {
-        getByRole = await renderSettingsAssignedUsersRoute({
-          props: { deleteKBCredentialsUser: mockDeleteKBCredentialsUser },
-        }).getByRole;
+        getByRole = await renderSettingsAssignedUsersRoute().getByRole;
       });
 
       fireEvent.click(getByRole('button', { name: 'Unassign user' }));
@@ -200,20 +179,13 @@ describe('Given SettingsAssignedUsersRoute', () => {
   describe('when assignedUsers and/or userGroups are not loaded', () => {
     it('should show spinner', () => {
       const { container } = renderSettingsAssignedUsersRoute({
-        harnessProps: {
-          storeInitialState: {
-            data: {
-              kbCredentialsUsers: {
-                ...assignedUsers,
-                hasLoaded: false,
-              },
-              kbCredentials,
-              userGroups: {
-                ...userGroups,
-                hasLoaded: false,
-              },
-            },
-          },
+        assignedUsers: {
+          ...assignedUsers,
+          hasLoaded: false,
+        },
+        userGroups: {
+          ...userGroups,
+          hasLoaded: false,
         },
       });
 
@@ -227,17 +199,9 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
       await act(async () => {
         getByText = await renderSettingsAssignedUsersRoute({
-          harnessProps: {
-            storeInitialState: {
-              data: {
-                kbCredentialsUsers: {
-                  ...assignedUsers,
-                  errors: [{ title: 'Error title' }],
-                },
-                kbCredentials,
-                userGroups,
-              },
-            },
+          assignedUsers: {
+            ...assignedUsers,
+            errors: [{ title: 'Error title' }],
           },
         }).getByText;
       });
@@ -252,17 +216,9 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
       await act(async () => {
         getByText = await renderSettingsAssignedUsersRoute({
-          harnessProps: {
-            storeInitialState: {
-              data: {
-                kbCredentialsUsers: {
-                  ...assignedUsers,
-                  errors: [{ title: 'The user is already assigned to another credentials' }],
-                },
-                kbCredentials,
-                userGroups,
-              },
-            },
+          assignedUsers: {
+            ...assignedUsers,
+            errors: [{ title: 'The user is already assigned to another credentials' }],
           },
         }).getByText;
       });
@@ -283,17 +239,9 @@ describe('Given SettingsAssignedUsersRoute', () => {
           getByText,
           queryByText,
         } = await renderSettingsAssignedUsersRoute({
-          harnessProps: {
-            storeInitialState: {
-              data: {
-                kbCredentialsUsers: {
-                  ...assignedUsers,
-                  errors: [{ title: 'The user is already assigned to another credentials' }],
-                },
-                kbCredentials,
-                userGroups,
-              },
-            },
+          assignedUsers: {
+            ...assignedUsers,
+            errors: [{ title: 'The user is already assigned to another credentials' }],
           },
         });
 
@@ -315,9 +263,7 @@ describe('Given SettingsAssignedUsersRoute', () => {
       let getByText;
 
       await act(async () => {
-        getByText = await renderSettingsAssignedUsersRoute({
-          props: { postKBCredentialsUser: mockPostKBCredentialsUser },
-        }).getByText;
+        getByText = await renderSettingsAssignedUsersRoute().getByText;
       });
 
       fireEvent.click(getByText('Assign user'));
@@ -332,21 +278,12 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
       await act(async () => {
         getByText = await renderSettingsAssignedUsersRoute({
-          props: { postKBCredentialsUser: mockPostKBCredentialsUser },
-          harnessProps: {
-            storeInitialState: {
-              data: {
-                kbCredentialsUsers: {
-                  ...assignedUsers,
-                  items: [{
-                    ...assignedUsers.items[0],
-                    id: 'test-user-id',
-                  }],
-                },
-                kbCredentials,
-                userGroups,
-              },
-            },
+          assignedUsers: {
+            ...assignedUsers,
+            items: [{
+              ...assignedUsers.items[0],
+              id: 'test-user-id',
+            }],
           },
         }).getByText;
       });
