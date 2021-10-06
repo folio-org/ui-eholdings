@@ -8,7 +8,6 @@ import {
 } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
 
-
 export default connect(
   store => ({
     customLabels: selectPropFromData(store, 'customLabels'),
