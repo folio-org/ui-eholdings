@@ -5,26 +5,18 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Icon } from '@folio/stripes/components';
 
-import View from '../components/settings/settings-assigned-users';
-import Toaster from '../components/toaster';
+import View from '../../components/settings/settings-assigned-users';
+import Toaster from '../../components/toaster';
 
-import { selectPropFromData } from '../redux/selectors';
-import {
-  getKBCredentialsUsers as getKBCredentialsUsersAction,
-  deleteKBCredentialsUser as deleteKBCredentialsUserAction,
-  postKBCredentialsUser as postKBCredentialsUserAction,
-  getUserGroups as getUserGroupsAction,
-} from '../redux/actions';
 import {
   KbCredentialsUsers,
   KbCredentials,
-} from '../constants';
-import { getFullName } from '../components/utilities';
+} from '../../constants';
+import { getFullName } from '../../components/utilities';
 
 const ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR = 'The user is already assigned to another credentials';
 
@@ -177,16 +169,4 @@ const SettingsAssignedUsersRoute = ({
 
 SettingsAssignedUsersRoute.propTypes = propTypes;
 
-export default connect(
-  (store) => ({
-    assignedUsers: selectPropFromData(store, 'kbCredentialsUsers'),
-    kbCredentials: selectPropFromData(store, 'kbCredentials'),
-    userGroups: selectPropFromData(store, 'userGroups'),
-  }),
-  {
-    getKBCredentialsUsers: getKBCredentialsUsersAction,
-    postKBCredentialsUser: postKBCredentialsUserAction,
-    deleteKBCredentialsUser: deleteKBCredentialsUserAction,
-    getUserGroups: getUserGroupsAction,
-  }
-)(SettingsAssignedUsersRoute);
+export default SettingsAssignedUsersRoute;
