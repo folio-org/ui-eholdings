@@ -1,6 +1,7 @@
 # Change history for ui-eholdings
 
-## [7.0.0] (IN PROGRESS)
+## [7.0.0] (https://github.com/folio-org/ui-eholdings/tree/v7.0.0) (2021-10-06)
+
 * Fix import paths. (UIEH-1133)
 * Add tests for DescriptionField, EditionField, TitleNameField, PackageSelectField components. (UIEH-1051)
 * Usage Consolidation: Unable to handle gracefully handle when user attempts to view titles over 200,000. (UIEH-1136)
@@ -76,10 +77,12 @@
 * Jest+RTL > Test SettingsRootProxyRoute. (UIEH-1197)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
+
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
 * Add tests for InternalLink, ProxyDisplay, shouldFocus, TokenDisplay, eHoldings components. (UIEH-1054)
 
 ## [6.1.0] (https://github.com/folio-org/ui-eholdings/tree/v6.1.0) (2021-06-04)
+
 * Add tests coverage for keyboard shortcuts to eholdings. (UIEH-1043)
 * Add app context menu dropdown. (UIEH-1108)
 * eholdings App: Consume {{FormattedDate}} and {{FormattedTime}} via stripes-component. (UIEH-970)
@@ -100,15 +103,19 @@
 * Add tests on Jest+RTL for AccessTypeEditSection, AccessTypeSelect, CustomLabelEditSection, CustomLabelShowSection and AccordionListHeader components. (UIEH-1047)
 
 ## [6.0.3] (https://github.com/folio-org/ui-eholdings/tree/v6.0.3) (2021-04-20)
+
 * Usage & analysis accordion focus issues. (UIEH-1110)
 
 ## [6.0.2] (https://github.com/folio-org/ui-eholdings/tree/v6.0.2) (2021-04-16)
+
 * Fix unable to change Knowledge base name. (UIEH-1122)
 
 ## [6.0.1] (https://github.com/folio-org/ui-eholdings/tree/v6.0.1) (2021-03-29)
+
 * Fix scroll wobble when page is zoomed out. (UIEH-1107)
 
 ## [6.0.0] (https://github.com/folio-org/ui-eholdings/tree/v6.0.0) (2021-03-17)
+
 * Settings - Usage Consolidation - Currency. (UIEH-965)
 * Settings - Usage Consolidation - Start month for usage statistics. (UIEH-966)
 * Settings - Usage Consolidation - Usage consolidation ID. (UIEH-968)
