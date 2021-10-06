@@ -29,10 +29,10 @@ import NoteCreate from '../../routes/note-create';
 import NoteView from '../../routes/note-view';
 import NoteEdit from '../../routes/note-edit';
 
-import SettingsCustomLabelsRoute from '../../routes/settings-custom-labels';
+import SettingsCustomLabelsRoute from '../../routes/custom-labels-route';
 import SettingsKnowledgeBaseRoute from '../../routes/settings-knowledge-base';
 import SettingsRootProxyRoute from '../../routes/settings-root-proxy-route';
-import SettingsAccessStatusTypesRoute from '../../routes/settings-access-status-types';
+import SettingsAccessStatusTypesRoute from '../../routes/settings-access-status-types-route';
 import SettingsAssignedUsersRoute from '../../routes/settings-assigned-users-route';
 import SettingsUsageConsolidationRoute from '../../routes/settings-usage-consolidation-route';
 
