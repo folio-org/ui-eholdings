@@ -73,6 +73,7 @@
 * Add tests for SettingsAccessStatusTypesRoute component. (UIEH-1193)
 * Jest+RTL > Test SettingsCustomLabelsRoute. (UIEH-1195)
 * Add tests for SettingsAssignedUsersRoute component. (UIEH-1194)
+* Jest+RTL > Test SettingsRootProxyRoute. (UIEH-1197)
 
 ## [6.1.1] (https://github.com/folio-org/ui-eholdings/tree/v6.1.1) (2021-07-15)
 * Fix: saving the update of coverage settings temporarily shows the old date. (UIEH-1146)
