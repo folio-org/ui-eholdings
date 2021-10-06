@@ -8,7 +8,7 @@ import View from '../../components/settings/settings-root-proxy';
 
 import { rootProxy as rootProxyShapes } from '../../constants';
 
-const propTypes = propTypes = {
+const propTypes = {
   confirmUpdateRootProxy: PropTypes.func.isRequired,
   getProxyTypes: PropTypes.func.isRequired,
   getRootProxy: PropTypes.func.isRequired,
@@ -16,7 +16,7 @@ const propTypes = propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   rootProxy: rootProxyShapes.RootProxyReduxStateShape.isRequired,
-  updateRootProxy: PropTypes.func.isRequired
+  updateRootProxy: PropTypes.func.isRequired,
 };
 
 const SettingsRootProxyRoute = ({
@@ -40,7 +40,10 @@ const SettingsRootProxyRoute = ({
     if (rootProxy.isUpdated) {
       history.push({
         pathname: `/settings/eholdings/${match.params.kbId}/root-proxy`,
-        state: { eholdings: true, isFreshlySaved: true }
+        state: {
+          eholdings: true,
+          isFreshlySaved: true,
+        },
       });
 
       confirmUpdateRootProxy();

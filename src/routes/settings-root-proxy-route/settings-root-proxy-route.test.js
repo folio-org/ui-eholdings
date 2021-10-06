@@ -102,6 +102,7 @@ describe('Given SettingsRootProxyRoute', () => {
     it('should request new data', async () => {
       await act(async () => {
         const { rerender } = await renderSettingsRootProxyRoute();
+
         rerender(getSettingsRootProxyRoute({
           match: {
             ...match,
@@ -121,6 +122,7 @@ describe('Given SettingsRootProxyRoute', () => {
     it('should call confirmUpdateRootProxy', async () => {
       await act(async () => {
         const { rerender } = await renderSettingsRootProxyRoute();
+
         rerender(getSettingsRootProxyRoute({
           rootProxy: {
             isUpdated: true,
