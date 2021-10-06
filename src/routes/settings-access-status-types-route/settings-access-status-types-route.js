@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Icon } from '@folio/stripes/components';
@@ -12,14 +10,6 @@ import {
 } from '@folio/stripes/core';
 
 import View from '../../components/settings/settings-access-status-types';
-import { selectPropFromData } from '../../redux/selectors';
-import {
-  getAccessTypes as getAccessTypesAction,
-  attachAccessType as attachAccessTypeAction,
-  deleteAccessType as deleteAccessTypeAction,
-  updateAccessType as updateAccessTypeAction,
-  confirmDeleteAccessType as confirmDeleteAccessTypeAction,
-} from '../../redux/actions';
 
 const SettingsAccessStatusTypesRoute = ({
   accessTypes,
@@ -102,17 +92,7 @@ SettingsAccessStatusTypesRoute.propTypes = {
 SettingsAccessStatusTypesRoute.defaultProps = {
   accessTypes: {
     items: { data: [] },
-  }
+  },
 };
 
-export default connect(
-  (store) => ({
-    accessTypes: selectPropFromData(store, 'accessStatusTypes'),
-  }), {
-    getAccessTypes: getAccessTypesAction,
-    attachAccessType: attachAccessTypeAction,
-    deleteAccessType: deleteAccessTypeAction,
-    updateAccessType: updateAccessTypeAction,
-    confirmDelete: confirmDeleteAccessTypeAction,
-  }
-)(withRouter(SettingsAccessStatusTypesRoute));
+export default SettingsAccessStatusTypesRoute;

@@ -24,7 +24,7 @@ jest.mock('../../redux/actions', () => ({
   deleteAccessType: mockDeleteAccessTypes,
 }));
 
-const accessStatusTypes = {
+const accessTypes = {
   isDeleted: false,
   isLoading: false,
   errors: [],
@@ -49,15 +49,11 @@ const match = {
   url: '/eholdings',
 };
 
-const getSettingsAccessStatusTypesRoute = ({ harnessProps = {}, props = {} } = {}) => (
+const getSettingsAccessStatusTypesRoute = (props = {}) => (
   <MemoryRouter>
-    <Harness
-      storeInitialState={{
-        data: { accessStatusTypes },
-      }}
-      {...harnessProps}
-    >
+    <Harness>
       <SettingsAccessStatusTypesRoute
+        accessTypes={accessTypes}
         attachAccessType={mockAttachAccessTypes}
         confirmDelete={mockConfirmDelete}
         deleteAccessType={mockDeleteAccessTypes}
@@ -98,12 +94,10 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
         const { rerender } = await renderSettingsAccessStatusTypesRoute();
 
         rerender(getSettingsAccessStatusTypesRoute({
-          props: {
-            match: {
-              ...match,
-              params: {
-                kbId: 'new-test-kb-id',
-              },
+          match: {
+            ...match,
+            params: {
+              kbId: 'new-test-kb-id',
             },
           },
         }));
@@ -116,15 +110,10 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
   describe('when data is not loaded', () => {
     it('should show spinner', async () => {
       const { container } = renderSettingsAccessStatusTypesRoute({
-        harnessProps: {
-          storeInitialState: {
-            data: {
-              accessStatusTypes: {
-                items: {
-                  data: null,
-                },
-              },
-            },
+        accessTypes: {
+          ...accessTypes,
+          items: {
+            data: null,
           },
         },
       });
