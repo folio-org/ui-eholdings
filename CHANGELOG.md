@@ -4,6 +4,7 @@
 
 * Fix store.getState is not a function error. (UIEH-1216)
 * Add tests for SettingsRoute component. (UIEH-1198)
+* Add tests for SettingsKnowledgeBaseRoute component. (UIEH-1196)
 
 ## [7.0.0] (https://github.com/folio-org/ui-eholdings/tree/v7.0.0) (2021-10-06)
 
