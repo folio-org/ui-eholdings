@@ -2,6 +2,7 @@ import {
   uniq,
   difference,
   sortBy,
+  clone,
 } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -44,7 +45,7 @@ const Tags = ({
 
   // add tag to the list of entity tags
   const saveEntityTags = (newTags) => {
-    const newModel = { ...model };
+    const newModel = clone(model);
 
     newModel.tags = { tagList: sortBy(uniq([...newTags, ...entityTags])) };
     updateEntityTags(newModel.type, formatTagUpdatePayload(newModel), `${newModel.type}/${newModel.id}`);
@@ -68,7 +69,7 @@ const Tags = ({
   };
 
   const onRemove = (tag) => {
-    const newModel = { ...model };
+    const newModel = clone(model);
 
     const tagList = entityTags.filter(t => t !== tag);
 
