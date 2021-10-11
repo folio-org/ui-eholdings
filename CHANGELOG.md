@@ -3,6 +3,7 @@
 ## [7.1.0] (IN PROGRESS)
 
 * Fix store.getState is not a function error. (UIEH-1216)
+* Fix Detail Record: Cannot add a tag. (UIEH-1215)
 
 ## [7.0.0] (https://github.com/folio-org/ui-eholdings/tree/v7.0.0) (2021-10-06)
 
