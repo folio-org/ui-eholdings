@@ -21,7 +21,7 @@ jest.mock('../../routes/note-create', () => () => <span>NoteCreate</span>);
 jest.mock('../../routes/note-view', () => () => <span>NoteView</span>);
 jest.mock('../../routes/note-edit', () => () => <span>NoteEdit</span>);
 jest.mock('../../routes/custom-labels-route', () => () => <span>SettingsCustomLabelsRoute</span>);
-jest.mock('../../routes/settings-knowledge-base', () => () => <span>SettingsKnowledgeBaseRoute</span>);
+jest.mock('../../routes/settings-knowledge-base-route', () => () => <span>SettingsKnowledgeBaseRoute</span>);
 jest.mock('../../routes/settings-root-proxy-route', () => () => <span>SettingsRootProxyRoute</span>);
 jest.mock('../../routes/settings-access-status-types-route', () => () => <span>SettingsAccessStatusTypesRoute</span>);
 jest.mock('../../routes/settings-assigned-users-route', () => () => <span>SettingsAssignedUsersRoute</span>);

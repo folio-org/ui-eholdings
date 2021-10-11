@@ -30,7 +30,7 @@ import NoteView from '../../routes/note-view';
 import NoteEdit from '../../routes/note-edit';
 
 import SettingsCustomLabelsRoute from '../../routes/custom-labels-route';
-import SettingsKnowledgeBaseRoute from '../../routes/settings-knowledge-base';
+import SettingsKnowledgeBaseRoute from '../../routes/settings-knowledge-base-route';
 import SettingsRootProxyRoute from '../../routes/settings-root-proxy-route';
 import SettingsAccessStatusTypesRoute from '../../routes/settings-access-status-types-route';
 import SettingsAssignedUsersRoute from '../../routes/settings-assigned-users-route';

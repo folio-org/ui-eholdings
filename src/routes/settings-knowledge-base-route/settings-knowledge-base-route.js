@@ -1,6 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   FormattedMessage,
@@ -14,20 +17,9 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
-import View from '../components/settings/settings-knowledge-base';
+import View from '../../components/settings/settings-knowledge-base';
 
-
-import {
-  getKbCredentialsKey as getKbCredentialsKeyAction,
-  postKBCredentials as postKBCredentialsAction,
-  patchKBCredentials as patchKBCredentialsAction,
-  deleteKBCredentials as deleteKBCredentialsAction,
-  confirmPatchKBCredentials as confirmPatchKBCredentialsAction,
-  confirmPostKBCredentials as confirmPostKBCredentialsAction,
-  confirmDeleteKBCredentials as confirmDeleteKBCredentialsAction,
-} from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
-import { KbCredentials } from '../constants';
+import { KbCredentials } from '../../constants';
 
 const propTypes = {
   confirmDeleteKBCredentials: PropTypes.func.isRequired,
@@ -75,6 +67,7 @@ const SettingsKnowledgeBaseRoute = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const loadCurrentConfigKey = () => {
     const config = getCurrentKBData();
+
     if (config && !config.meta.isKeyLoaded && !kbCredentials.isKeyLoading) {
       getKbCredentialsKey(config.id);
     }
@@ -99,6 +92,7 @@ const SettingsKnowledgeBaseRoute = ({
     const { meta, ...currentConfig } = getCurrentConfig();
 
     const config = cloneDeep(currentConfig);
+
     config.attributes = {
       url,
       customerId,
@@ -193,17 +187,4 @@ const SettingsKnowledgeBaseRoute = ({
 
 SettingsKnowledgeBaseRoute.propTypes = propTypes;
 
-export default connect(
-  (store) => ({
-    kbCredentials: selectPropFromData(store, 'kbCredentials'),
-  }),
-  {
-    getKbCredentialsKey: getKbCredentialsKeyAction,
-    postKBCredentials: postKBCredentialsAction,
-    patchKBCredentials: patchKBCredentialsAction,
-    deleteKBCredentials: deleteKBCredentialsAction,
-    confirmDeleteKBCredentials: confirmDeleteKBCredentialsAction,
-    confirmPatchKBCredentials: confirmPatchKBCredentialsAction,
-    confirmPostKBCredentials: confirmPostKBCredentialsAction,
-  }
-)(SettingsKnowledgeBaseRoute);
+export default SettingsKnowledgeBaseRoute;

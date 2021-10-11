@@ -12,7 +12,7 @@ import {
   GET_PROVIDER_PACKAGES,
 } from '../actions';
 
-export default ({ providerPackagesApi }) => (action$, store) => {
+export default ({ providerPackagesApi }) => (action$, state) => {
   return action$.pipe(
     filter(action => action.type === GET_PROVIDER_PACKAGES),
     mergeMap(action => {
@@ -24,7 +24,7 @@ export default ({ providerPackagesApi }) => (action$, store) => {
       } = action;
 
       return providerPackagesApi
-        .getCollection(store.getState().okapi, providerId, params)
+        .getCollection(state.value.okapi, providerId, params)
         .pipe(
           map(getProviderPackagesSuccess),
           catchError(errors => of(getProviderPackagesFailure({ errors })))
