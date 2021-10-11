@@ -10,11 +10,25 @@ import Harness from '../../../test/jest/helpers/harness';
 const mockUpdateEntityTags = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 
+class ModelMock {
+  constructor(model) {
+    this.id = model.id;
+    this.name = model.name;
+    this.tags = model.tags;
+    this.contentType = model.contentType;
+    this._type = model.type;
+  }
+
+  get type() {
+    return this._type;
+  }
+}
+
 const renderTags = (props) => render(
   <Harness>
     <Tags
       entityTags={['tag-1', 'tag-3']}
-      model={{
+      model={new ModelMock({
         id: 'model-id',
         name: 'model-name',
         tags: {
@@ -22,7 +36,7 @@ const renderTags = (props) => render(
         },
         type: 'model-type',
         contentType: 'content-type',
-      }}
+      })}
       tags={[{
         id: 'tag-1',
         label: 'tag-1',
