@@ -7,6 +7,8 @@ import styles from './scroll-view.css';
 import List from '../list';
 import { PAGE_SIZE } from '../../constants';
 
+import ScrollViewContext from './scroll-view-context';
+
 const cx = classNames.bind(styles);
 
 export default class ScrollView extends Component {
@@ -163,21 +165,28 @@ export default class ScrollView extends Component {
     const listHeight = items.length * itemHeight;
 
     return (
-      <div
-        ref={(n) => { this.$list = n; }}
-        className={cx('list', { locked: !scrollable })}
-        data-test-query-list={queryListName}
-        data-testid={queryListName}
-      >
-        <List
-          fullWidth={fullWidth}
-          style={{ height: listHeight }}
-          data-testid="scroll-view-list"
-        >
-          {this.renderChildren()}
-        </List>
-        {prevNextButtons}
-      </div>
+      <ScrollViewContext.Consumer>
+        {({ handleScroll }) => {
+          return (
+            <div
+              ref={(n) => { this.$list = n; }}
+              className={cx('list', { locked: !scrollable })}
+              data-test-query-list={queryListName}
+              data-testid={queryListName}
+              onScroll={handleScroll}
+            >
+              <List
+                fullWidth={fullWidth}
+                style={{ height: listHeight }}
+                data-testid="scroll-view-list"
+              >
+                {this.renderChildren()}
+              </List>
+              {prevNextButtons}
+            </div>
+          );
+        }}
+      </ScrollViewContext.Consumer>
     );
   }
 }

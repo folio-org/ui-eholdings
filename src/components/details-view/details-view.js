@@ -17,6 +17,7 @@ import {
 
 import AccordionListHeader from '../accordion-list-header';
 import styles from './details-view.css';
+import ScrollViewContext from '../scroll-view/scroll-view-context';
 
 const cx = classNames.bind(styles);
 
@@ -157,7 +158,7 @@ class DetailsView extends Component {
    * While scrolling, we need to decide if we should enable or disable
    * the list's "sticky" behavior
    */
-  handleScroll = e => {
+  handleScroll = (e) => {
     const { resultsLength } = this.props;
     const { isSticky } = this.state;
 
@@ -175,9 +176,9 @@ class DetailsView extends Component {
 
       // don't do these calculations when not scrolling the container
     } else if (e.currentTarget === e.target) {
-      const top = e.currentTarget.scrollTop;
-      const height = e.currentTarget.offsetHeight;
-      const scrollHeight = e.currentTarget.scrollHeight;
+      const top = this.$container.scrollTop;
+      const height = this.$container.offsetHeight;
+      const scrollHeight = this.$container.scrollHeight;
       // these will be equal when scrolled all the way down
       const bottomedOut = scrollHeight - (top + height) < 1;
 
@@ -399,47 +400,51 @@ class DetailsView extends Component {
     const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
     const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
+    console.log(ScrollViewContext.Provider);
+
     return (
-      <div
-        data-test-eholdings-details-view={type}
-        data-testid={`details-view-type-${type}`}
-      >
-        <Paneset>
-          <Pane
-            id={paneIdFromTitle}
-            defaultWidth="fill"
-            padContent={false}
-            actionMenu={actionMenu}
-            footer={footer}
-            firstMenu={this.renderFirstMenu()}
-            paneTitle={
-              <span
-                data-test-eholdings-details-view-pane-title
-                data-testid="details-view-pane-title"
-                id={paneTitleId}
-              >
-                {paneTitle}
-              </span>
-            }
-            lastMenu={lastMenu}
-            aria-labelledby={paneTitleId}
-          >
-            <div
-              ref={(n) => { this.$container = n; }}
-              className={containerClassName}
-              onScroll={this.handleScroll}
-              onWheel={this.handleWheel}
-              data-test-eholdings-detail-pane-contents
-              data-testid="scroll-container"
-            >
-              {model.isLoaded
-                ? this.renderItemData()
-                : this.indicateItemIsNotLoaded()
+      <ScrollViewContext.Provider value={{ handleScroll: this.handleScroll }}>
+        <div
+          data-test-eholdings-details-view={type}
+          data-testid={`details-view-type-${type}`}
+        >
+          <Paneset>
+            <Pane
+              id={paneIdFromTitle}
+              defaultWidth="fill"
+              padContent={false}
+              actionMenu={actionMenu}
+              footer={footer}
+              firstMenu={this.renderFirstMenu()}
+              paneTitle={
+                <span
+                  data-test-eholdings-details-view-pane-title
+                  data-testid="details-view-pane-title"
+                  id={paneTitleId}
+                >
+                  {paneTitle}
+                </span>
               }
-            </div>
-          </Pane>
-        </Paneset>
-      </div>
+              lastMenu={lastMenu}
+              aria-labelledby={paneTitleId}
+            >
+              <div
+                ref={(n) => { this.$container = n; }}
+                className={containerClassName}
+                onWheel={this.handleWheel}
+                onScroll={this.handleScroll}
+                data-test-eholdings-detail-pane-contents
+                data-testid="scroll-container"
+              >
+                {model.isLoaded
+                  ? this.renderItemData()
+                  : this.indicateItemIsNotLoaded()
+                }
+              </div>
+            </Pane>
+          </Paneset>
+        </div>
+      </ScrollViewContext.Provider>
     );
   }
 }
