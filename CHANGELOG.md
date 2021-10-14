@@ -6,6 +6,7 @@
 * Add tests for SettingsRoute component. (UIEH-1198)
 * Add tests for SettingsKnowledgeBaseRoute component. (UIEH-1196)
 * Fix Detail Record: Cannot add a tag. (UIEH-1215)
+* Remove sticky list scroll on the details page. (UIEH-1214)
 
 ## [7.0.0] (https://github.com/folio-org/ui-eholdings/tree/v7.0.0) (2021-10-06)
 

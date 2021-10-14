@@ -359,7 +359,7 @@ const PackageShow = ({
     );
   };
 
-  const renderTitlesList = (scrollable) => {
+  const renderTitlesList = () => {
     return isTitlesUpdating
       ? (
         <div className={styles.titlesUpdatingSpinner}>
@@ -371,7 +371,6 @@ const PackageShow = ({
           type="package-titles"
           fetch={fetchPackageTitles}
           collection={packageTitles}
-          scrollable={scrollable}
           itemHeight={ITEM_HEIGHT}
           notFoundMessage={
             <QueryNotFound type="package-titles">
