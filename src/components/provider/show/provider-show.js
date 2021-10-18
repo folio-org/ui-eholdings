@@ -200,7 +200,7 @@ class ProviderShow extends Component {
     );
   }
 
-  renderPackagesList = (scrollable) => {
+  renderPackagesList = () => {
     const {
       fetchPackages,
       providerPackages,
@@ -211,7 +211,6 @@ class ProviderShow extends Component {
         type="provider-packages"
         fetch={fetchPackages}
         collection={providerPackages}
-        scrollable={scrollable}
         itemHeight={ITEM_HEIGHT}
         notFoundMessage={
           <QueryNotFound type="provider-packages">

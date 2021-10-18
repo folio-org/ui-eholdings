@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
-import Measure from 'react-measure';
 
 import {
   Accordion,
@@ -20,16 +19,10 @@ import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
 
-const ITEM_HEIGHT = 62;
-
-const SCROLL_CONTAINER_HEIGHT_GAP = 10;
-
 /**
  * This component will render a details view which includes the type
  * of resource and resource name, along with some body content, and an
- * optional list element. If given a `renderList` function, the list's
- * portion of the details page will become sticky on scroll if the
- * list's contents are longer than the containing element.
+ * optional list element.
  *
  * It also includes a pane header component with an option for the
  * `firstMenu` prop. This is so we can reduce the boilerplate in the
@@ -81,19 +74,10 @@ class DetailsView extends Component {
     searchModal: null,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSticky: false,
-    };
-  }
-
   // used to focus the heading when the model loads
   $heading = createRef(); // eslint-disable-line react/sort-comp
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleLayout);
-
     // if the heading exists on mount, focus it
     if (this.$heading.current) {
       // TODO: fix safari auto-scrolling to this focused element when
@@ -109,114 +93,7 @@ class DetailsView extends Component {
     if (!prevProps.model.isLoaded && model.isLoaded) {
       this.$heading.current.focus();
     }
-
-    this.handleLayout();
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleLayout);
-  }
-
-  /**
-   * If the height of the sticky content is less than the container's
-   * height, we have no need to handle any scroll behavior
-   */
-  handleLayout = () => {
-    const {
-      sections,
-      listSectionId,
-    } = this.props;
-
-    if (this.$container && this.$sticky && this.$list) {
-      const stickyHeight = this.$sticky.getBoundingClientRect().height;
-      const containerHeight = this.$container.getBoundingClientRect().height;
-
-      const isListAccordionOpen = sections && sections[listSectionId];
-
-      if (!isListAccordionOpen && this.state.isSticky) {
-        this.setState({ isSticky: false });
-      }
-
-      // make difference of a few pixels between heights to still count as equal values
-      const stickyAndContainerAreEqual = Math.abs(stickyHeight - containerHeight) < SCROLL_CONTAINER_HEIGHT_GAP;
-      const stickyGreaterThanContainer = stickyHeight > containerHeight;
-
-      this.shouldHandleScroll = (stickyAndContainerAreEqual || stickyGreaterThanContainer) && isListAccordionOpen;
-
-      // the sticky wrapper needs an explicit height for child
-      // elements with percentage-based heights
-      if (this.shouldHandleScroll) {
-        this.$sticky.style.height = `${containerHeight}px`;
-      } else {
-        this.$sticky.style.height = '';
-      }
-    }
-  };
-
-  /**
-   * While scrolling, we need to decide if we should enable or disable
-   * the list's "sticky" behavior
-   */
-  handleScroll = e => {
-    const { resultsLength } = this.props;
-    const { isSticky } = this.state;
-
-    // bail if we shouldn't handle scrolling
-    if (!this.shouldHandleScroll) return;
-
-    // if the list's child element hits the top, disable isSticky
-    if (this.$list.firstElementChild === e.target
-      && e.target.scrollTop === 0
-      && isSticky
-    ) {
-      // prevent scroll logic around bottoming out by scrolling up 1px
-      --this.$container.scrollTop;
-      this.setState({ isSticky: false });
-
-      // don't do these calculations when not scrolling the container
-    } else if (e.currentTarget === e.target) {
-      const top = e.currentTarget.scrollTop;
-      const height = e.currentTarget.offsetHeight;
-      const scrollHeight = e.currentTarget.scrollHeight;
-      // these will be equal when scrolled all the way down
-      const bottomedOut = scrollHeight - (top + height) < 1;
-
-      const listContainerHeight = this.$list.offsetHeight;
-      const actualListItemsHeight = resultsLength * ITEM_HEIGHT;
-      const isListScrollbarNeeded = actualListItemsHeight > listContainerHeight;
-
-      // if bottoming out, enable isSticky
-      if (bottomedOut && !isSticky && isListScrollbarNeeded) {
-        this.setState({ isSticky: true });
-        this.$sticky.scrollIntoView();
-        // if not bottomed out, disable isSticky
-      } else if (!bottomedOut && isSticky) {
-        this.setState({ isSticky: false });
-      }
-    }
-  };
-
-  /**
-   * When scrolling the container is locked, we need to listen for a
-   * mousewheel up to disable the sticky list. But only a mousewheel
-   * up outside of the list, or when the inner list is scrolled all
-   * the way up already.
-   */
-  handleWheel = e => {
-    // this does not need to run if we do not have a list element
-    if (!this.$list) return;
-
-    const { isSticky } = this.state;
-    const scrollingUp = e.deltaY < 0;
-    const notInList = !this.$list.contains(e.target);
-    const listAtTop = this.$list.firstElementChild?.scrollTop === 0;
-
-    if (isSticky && scrollingUp && (notInList || listAtTop)) {
-      // prevent scroll logic around bottoming out by scrolling up 1px
-      --this.$container.scrollTop;
-      this.setState({ isSticky: false });
-    }
-  };
 
   navigateBack = () => {
     const {
@@ -282,8 +159,6 @@ class DetailsView extends Component {
       bodyAriaRole,
     } = this.props;
 
-    const { isSticky } = this.state;
-
     const isListAccordionOpen = sections && sections[listSectionId];
 
     return (
@@ -332,31 +207,26 @@ class DetailsView extends Component {
               className={styles.sticky}
               data-test-eholdings-details-view-list={type}
             >
-              <Measure onResize={this.handleLayout}>
-                {({ measureRef }) => (
-                  <Accordion
-                    separator={!isSticky}
-                    header={AccordionListHeader}
-                    label={(
-                      <Headline
-                        size="large"
-                        tag="h3"
-                      >
-                        <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
-                      </Headline>
-                    )}
-                    displayWhenOpen={searchModal}
-                    resultsLength={resultsLength}
-                    contentRef={(n) => { this.$list = n; measureRef(n); }}
-                    open={isListAccordionOpen}
-                    id={listSectionId}
-                    onToggle={onListToggle}
-                    listType={listType}
+              <Accordion
+                header={AccordionListHeader}
+                label={(
+                  <Headline
+                    size="large"
+                    tag="h3"
                   >
-                    {isListAccordionOpen && renderList(isSticky)}
-                  </Accordion>
+                    <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
+                  </Headline>
                 )}
-              </Measure>
+                displayWhenOpen={searchModal}
+                resultsLength={resultsLength}
+                contentRef={(n) => { this.$list = n; }}
+                open={isListAccordionOpen}
+                id={listSectionId}
+                onToggle={onListToggle}
+                listType={listType}
+              >
+                {isListAccordionOpen && renderList()}
+              </Accordion>
             </div>
           )}
         </div>
@@ -389,12 +259,7 @@ class DetailsView extends Component {
       footer,
     } = this.props;
 
-    const { isSticky } = this.state;
-
-    const containerClassName = cx('container', {
-      locked: isSticky,
-      hasFooter: !!footer,
-    });
+    const containerClassName = cx('container', { hasFooter: !!footer });
 
     const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
     const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
@@ -427,8 +292,6 @@ class DetailsView extends Component {
             <div
               ref={(n) => { this.$container = n; }}
               className={containerClassName}
-              onScroll={this.handleScroll}
-              onWheel={this.handleWheel}
               data-test-eholdings-detail-pane-contents
               data-testid="scroll-container"
             >
