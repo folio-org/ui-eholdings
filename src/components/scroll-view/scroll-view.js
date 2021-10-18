@@ -1,15 +1,12 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
 import debounce from 'lodash/debounce';
 
 import styles from './scroll-view.css';
 import List from '../list';
 import { PAGE_SIZE } from '../../constants';
 
-const cx = classNames.bind(styles);
-
-export default class ScrollView extends Component {
+class ScrollView extends Component {
   static getDerivedPropsFromState({ offset }, prevState) {
     return offset !== prevState.offset ? { offset } : prevState;
   }
@@ -27,13 +24,11 @@ export default class ScrollView extends Component {
     onUpdate: PropTypes.func,
     prevNextButtons: PropTypes.node,
     queryListName: PropTypes.string.isRequired,
-    scrollable: PropTypes.bool,
   };
 
   static defaultProps = {
     isMainPageSearch: false,
     offset: 0,
-    scrollable: true,
     fullWidth: false,
     prevNextButtons: null,
   };
@@ -154,7 +149,6 @@ export default class ScrollView extends Component {
     const {
       items,
       itemHeight,
-      scrollable,
       fullWidth,
       queryListName,
       prevNextButtons,
@@ -165,7 +159,7 @@ export default class ScrollView extends Component {
     return (
       <div
         ref={(n) => { this.$list = n; }}
-        className={cx('list', { locked: !scrollable })}
+        className={styles.list}
         data-test-query-list={queryListName}
         data-testid={queryListName}
       >
@@ -181,3 +175,5 @@ export default class ScrollView extends Component {
     );
   }
 }
+
+export default ScrollView;

@@ -1,11 +1,6 @@
 .list {
   max-height: 100%;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-
-  &.locked {
-    overflow-y: hidden;
-  }
 
   & > ul {
     position: relative;
