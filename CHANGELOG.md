@@ -2,9 +2,13 @@
 
 ## [7.1.0] (IN PROGRESS)
 
-* Fix store.getState is not a function error. (UIEH-1216)
 * Add tests for SettingsRoute component. (UIEH-1198)
 * Add tests for SettingsKnowledgeBaseRoute component. (UIEH-1196)
+
+
+## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
+
+* Fix store.getState is not a function error. (UIEH-1216)
 * Fix Detail Record: Cannot add a tag. (UIEH-1215)
 * Remove sticky list scroll on the details page. (UIEH-1214)
 
