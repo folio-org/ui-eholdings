@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.1.0] (IN PROGRESS)
+## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
 * Fix store.getState is not a function error. (UIEH-1216)
 * Fix Detail Record: Cannot add a tag. (UIEH-1215)
