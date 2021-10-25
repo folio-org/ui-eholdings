@@ -1,17 +1,15 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
-import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+import noop from 'lodash/noop';
 
-import { createResolver } from '../redux';
-import Title from '../redux/title';
-import Package from '../redux/package';
+import { TitleManager } from '@folio/stripes/core';
 
-import View from '../components/title/create';
+import View from '../../components/title/create';
+import { expandIdentifiers } from './utils';
 
-class TitleCreateRoute extends Component {
+export default class TitleCreateRoute extends Component {
   static propTypes = {
     createRequest: PropTypes.object.isRequired,
     createTitle: PropTypes.func.isRequired,
@@ -35,20 +33,6 @@ class TitleCreateRoute extends Component {
     }
   }
 
-  flattenedIdentifiers = [
-    { type: 'ISSN', subtype: 'Online' },
-    { type: 'ISSN', subtype: 'Print' },
-    { type: 'ISBN', subtype: 'Online' },
-    { type: 'ISBN', subtype: 'Print' }
-  ];
-
-  expandIdentifiers = (identifiers) => {
-    return identifiers ? identifiers.map(({ id, flattenedType }) => {
-      const flattenedTypeIndex = flattenedType || 0;
-      return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
-    }) : [];
-  }
-
   createTitle = (values) => {
     const { packageId, ...attrs } = values;
 
@@ -56,7 +40,7 @@ class TitleCreateRoute extends Component {
     attrs.resources = [{ packageId }];
 
     this.props.createTitle(Object.assign(attrs, {
-      identifiers: this.expandIdentifiers(attrs.identifiers)
+      identifiers: expandIdentifiers(attrs.identifiers),
     }));
   };
 
@@ -73,7 +57,8 @@ class TitleCreateRoute extends Component {
       createRequest,
     } = this.props;
 
-    let onCancel;
+    let onCancel = noop;
+
     if (location.state && location.state.eholdings) {
       onCancel = () => history.goBack();
     }
@@ -96,27 +81,3 @@ class TitleCreateRoute extends Component {
     );
   }
 }
-
-export default connect(
-  ({ eholdings: { data } }) => {
-    const resolver = createResolver(data);
-
-    return {
-      createRequest: resolver.getRequest('create', { type: 'titles' }),
-      customPackages: resolver.query('packages', {
-        filter: { custom: true },
-        count: 100,
-        pageSize: 100,
-      }),
-    };
-  }, {
-    createTitle: attrs => Title.create(attrs),
-    removeCreateRequests: () => Title.removeRequests('create'),
-    getCustomPackages: (query) => Package.query({
-      filter: { custom: true },
-      q: query,
-      count: 100,
-      pageSize: 100,
-    }),
-  }
-)(TitleCreateRoute);
