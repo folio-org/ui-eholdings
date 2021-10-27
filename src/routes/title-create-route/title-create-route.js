@@ -7,7 +7,7 @@ import noop from 'lodash/noop';
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/title/create';
-import { expandIdentifiers } from './utils';
+import { expandIdentifiers } from '../utils';
 
 export default class TitleCreateRoute extends Component {
   static propTypes = {
