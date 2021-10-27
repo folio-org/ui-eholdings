@@ -31,6 +31,7 @@ export { default as IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH } from './identifiersFie
 export { default as apiEndpointsOptions } from './apiEndpointsOptions';
 export { default as KB_NAME_VALUE_MAX_LENGTH } from './kbNameValueMaxLength';
 export { default as searchableIndexes } from './searchableIndexes';
+export { default as flattenedIdentifiers } from './flattenedIdentifiers';
 export * from './packageAndResourceSettings';
 export * from './filterConfigs';
 export * from './costPerUse';

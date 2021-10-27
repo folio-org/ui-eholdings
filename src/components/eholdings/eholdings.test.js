@@ -14,7 +14,7 @@ jest.mock('../../routes/package-edit', () => () => <span>PackageEdit</span>);
 jest.mock('../../routes/package-create', () => () => <span>PackageCreate</span>);
 jest.mock('../../routes/title-show', () => () => <span>TitleShow</span>);
 jest.mock('../../routes/title-edit', () => () => <span>TitleEdit</span>);
-jest.mock('../../routes/title-create', () => () => <span>TitleCreate</span>);
+jest.mock('../../routes/title-create-route', () => () => <span>TitleCreateRoute</span>);
 jest.mock('../../routes/resource-show', () => () => <span>ResourceShow</span>);
 jest.mock('../../routes/resource-edit', () => () => <span>ResourceEdit</span>);
 jest.mock('../../routes/note-create', () => () => <span>NoteCreate</span>);
