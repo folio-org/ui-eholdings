@@ -1,18 +1,17 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import queryString from 'qs';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 
-import { createResolver } from '../redux';
-import Title from '../redux/title';
-
-import View from '../components/title/edit';
+import View from '../../components/title/edit';
+import {
+  expandIdentifiers,
+  mergeIdentifiers,
+} from '../utils';
 
 class TitleEditRoute extends Component {
   static propTypes = {
@@ -22,19 +21,28 @@ class TitleEditRoute extends Component {
     match: ReactRouterPropTypes.match.isRequired,
     model: PropTypes.object.isRequired,
     removeUpdateRequests: PropTypes.func.isRequired,
-    updateRequest: PropTypes.object,
-    updateTitle: PropTypes.func.isRequired
+    updateRequest: PropTypes.object.isRequired,
+    updateTitle: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+
     const { match, getTitle } = props;
     const { titleId } = match.params;
+
     getTitle(titleId);
   }
 
   componentDidUpdate(prevProps) {
-    const { match, getTitle, history, location, model } = this.props;
+    const {
+      match,
+      getTitle,
+      history,
+      location,
+      model,
+      updateRequest,
+    } = this.props;
     const { titleId } = match.params;
 
     // prevent being able to visit an edit form for uneditable managed titles
@@ -45,10 +53,13 @@ class TitleEditRoute extends Component {
       }, { eholdings: true });
     }
 
-    if (!prevProps.updateRequest.isResolved && this.props.updateRequest.isResolved) {
-      this.props.history.replace({
-        pathname: `/eholdings/titles/${this.props.model.id}`,
-        state: { eholdings: true, isFreshlySaved: true }
+    if (!prevProps.updateRequest.isResolved && updateRequest.isResolved) {
+      history.replace({
+        pathname: `/eholdings/titles/${model.id}`,
+        state: {
+          eholdings: true,
+          isFreshlySaved: true,
+        },
       });
     }
 
@@ -64,47 +75,16 @@ class TitleEditRoute extends Component {
       history.replace({
         pathname: `/eholdings/titles/${model.id}`,
         search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
+        state: {
+          eholdings: true,
+          isFreshlySaved: true,
+        },
       });
     }
   }
 
   componentWillUnmount() {
     this.props.removeUpdateRequests();
-  }
-
-  flattenedIdentifiers = [
-    { type: 'ISSN', subtype: 'Online' },
-    { type: 'ISSN', subtype: 'Print' },
-    { type: 'ISBN', subtype: 'Online' },
-    { type: 'ISBN', subtype: 'Print' }
-  ]
-
-  mergeIdentifiers = (identifiers) => {
-    return identifiers.map(({ id, type, subtype }) => {
-      let mergedTypeIndex = 0;
-
-      if (type && subtype) {
-        mergedTypeIndex = this.flattenedIdentifiers.findIndex(row => row.type === type && row.subtype === subtype);
-      }
-
-      return {
-        id,
-        flattenedType: mergedTypeIndex
-      };
-    });
-  }
-
-  expandIdentifiers = (identifiers) => {
-    return identifiers.map(({ id, flattenedType }) => {
-      const flattenedTypeIndex = flattenedType || 0;
-      return { id, ...this.flattenedIdentifiers[flattenedTypeIndex] };
-    });
-  }
-
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
   }
 
   handleCancel = () => {
@@ -131,7 +111,7 @@ class TitleEditRoute extends Component {
 
     const newValues = {
       ...values,
-      identifiers: this.expandIdentifiers(values.identifiers),
+      identifiers: expandIdentifiers(values.identifiers),
     };
 
     updateTitle(Object.assign(model, newValues));
@@ -144,7 +124,10 @@ class TitleEditRoute extends Component {
     } = this.props;
 
     return (
-      <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
+      <FormattedMessage
+        id="ui-eholdings.label.editLink"
+        values={{ name: model.name }}
+      >
         {pageTitle => (
           <TitleManager record={pageTitle}>
             <View
@@ -160,7 +143,7 @@ class TitleEditRoute extends Component {
                 publisherName: model.publisherName,
                 description: model.description,
                 contributors: model.contributors,
-                identifiers: this.mergeIdentifiers(model.identifiers)
+                identifiers: mergeIdentifiers(model.identifiers),
               }}
             />
           </TitleManager>
@@ -201,13 +184,4 @@ class TitleEditRoute extends Component {
   }
 }
 
-export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('titles', match.params.titleId),
-    updateRequest: createResolver(data).getRequest('update', { type: 'titles' })
-  }), {
-    getTitle: id => Title.find(id, { include: 'resources' }),
-    updateTitle: model => Title.save(model),
-    removeUpdateRequests: () => Title.removeRequests('update'),
-  }
-)(TitleEditRoute);
+export default TitleEditRoute;
