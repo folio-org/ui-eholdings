@@ -241,7 +241,7 @@
     "search.addNew": "신규",
     "search.loading": "로드 중 ...",
     "search.searchAndFilter": "검색 및 필터",
-    "search.enterQuery": "검색 결과를 표시하려면 쿼리를 입력하십시오.",
+    "search.enterQuery": "검색 결과를 표시하려면 검색어를 입력하십시오.",
     "search.searchType": "{searchType} 검색",
     "search.searchLink": "{type} 검색",
     "date.present": "현재",
