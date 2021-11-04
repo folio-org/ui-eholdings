@@ -513,7 +513,7 @@
     "shortcut.expandAll": "Expand all accordions",
     "shortcut.collapseAll": "Collapse all accordions",
     "shortcut.goToSearchFilter": "Go to Search & Filter pane",
-    "shortcut.openShortcutModal": "View keyboard shortcuts list",
+    "shortcut.openShortcutModal": "키보드 단축키 목록 보기",
     "shortcut.closeModal": "Close a modal or pop-up",
     "shortcut.copy": "Copy",
     "shortcut.cut": "Cut",
