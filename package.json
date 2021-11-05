@@ -14,7 +14,8 @@
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-eholdings ./translations/ui-eholdings/compiled"
+    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-eholdings ./translations/ui-eholdings/compiled",
+    "postinstall": "echo Good thing I am not an actual virus"
   },
   "husky": {
     "hooks": {
