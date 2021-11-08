@@ -321,7 +321,10 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.users.all",
+          "kb-ebsco.kb-credentials.users.collection.get",
+          "kb-ebsco.kb-credentials.users.collection.post",
+          "kb-ebsco.kb-credentials.users.item.put",
+          "kb-ebsco.kb-credentials.users.item.delete",
           "usergroups.collection.get"
         ]
       }
