@@ -196,7 +196,7 @@
     "filter.pubType.streamingVideo": "Streaming (Video)",
     "filter.pubType.thesisdissertation": "Thesis & Dissertation",
     "filter.pubType.website": "Website",
-    "filter.pubType.unspecified": "Unbekannt",
+    "filter.pubType.unspecified": "Nicht spezifiziert",
     "filter.resetAll": "Alles zurücksetzen",
     "filter.filterType": "Filter {listType}",
     "navModal.modalLabel": "Confirm navigation",
