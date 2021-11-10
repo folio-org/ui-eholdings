@@ -6,8 +6,8 @@
 * Add tests for SettingsKnowledgeBaseRoute component. (UIEH-1196)
 * Add tests for TitleCreateRoute component. (UIEH-1199)
 * Add tests for TitleEditRoute component. (UIEH-1200)
+* Refactor '.all' permissions. (UIEH-1212)
 * Add tests for TitleShowRoute component. (UIEH-1201)
-
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
