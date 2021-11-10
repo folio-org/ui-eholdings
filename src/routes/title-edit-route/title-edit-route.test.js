@@ -1,7 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 
 import {
-  screen,
   render,
   cleanup,
   act,
@@ -101,8 +100,6 @@ describe('Given TitleEditRoute', () => {
     });
 
     expect(mockGetTitle).toHaveBeenCalledWith(titleId);
-
-    screen.debug(undefined, Infinity);
   });
 
   describe('when titleId in url has changed', () => {

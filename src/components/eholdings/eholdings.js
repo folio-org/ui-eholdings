@@ -20,7 +20,7 @@ import ProviderEdit from '../../routes/provider-edit';
 import PackageShow from '../../routes/package-show';
 import PackageEdit from '../../routes/package-edit';
 import PackageCreate from '../../routes/package-create';
-import TitleShow from '../../routes/title-show';
+import TitleShowRoute from '../../routes/title-show-route';
 import TitleEditRoute from '../../routes/title-edit-route';
 import TitleCreateRoute from '../../routes/title-create-route';
 import ResourceShow from '../../routes/resource-show';
@@ -123,7 +123,7 @@ class EHoldings extends Component {
                     <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
                     <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
                     <Route path={`${rootPath}/titles/new`} exact component={TitleCreateRoute} />
-                    <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShow} />
+                    <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShowRoute} />
                     <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEditRoute} />
                     <Route path={`${rootPath}/resources/:id`} exact component={ResourceShow} />
                     <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEdit} />

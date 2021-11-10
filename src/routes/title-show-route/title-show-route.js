@@ -1,25 +1,14 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
-import queryString from 'qs';
 
 import { TitleManager } from '@folio/stripes/core';
 
 import {
   costPerUse as costPerUseShape,
   listTypes,
-} from '../constants';
-import {
-  getCostPerUse as getCostPerUseAction,
-  clearCostPerUseData as clearCostPerUseDataAction
-} from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
-import { createResolver } from '../redux';
-import Title from '../redux/title';
-import Package from '../redux/package';
-import Resource from '../redux/resource';
-import View from '../components/title/show';
+} from '../../constants';
+import View from '../../components/title/show';
 
 class TitleShowRoute extends Component {
   static propTypes = {
@@ -51,7 +40,10 @@ class TitleShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { match, createRequest } = prevProps;
+    const {
+      match,
+      createRequest,
+    } = prevProps;
     const { titleId } = this.props.match.params;
 
     if (match.params.titleId !== titleId) {
@@ -61,7 +53,10 @@ class TitleShowRoute extends Component {
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
       this.props.history.push(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
-        { eholdings: true, isNewRecord: true }
+        {
+          eholdings: true,
+          isNewRecord: true,
+        }
       );
     }
   }
@@ -70,14 +65,20 @@ class TitleShowRoute extends Component {
     this.props.clearCostPerUseData();
   }
 
-  createResource = ({ packageId, customUrl }) => {
-    const { match, createResource } = this.props;
+  createResource = ({
+    packageId,
+    customUrl,
+  }) => {
+    const {
+      match,
+      createResource,
+    } = this.props;
     const { titleId } = match.params;
 
     createResource({
       url: customUrl,
       packageId,
-      titleId
+      titleId,
     });
   };
 
@@ -88,11 +89,6 @@ class TitleShowRoute extends Component {
     } = this.props;
 
     getCostPerUse(listTypes.TITLES, id, filterData);
-  }
-
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
   }
 
   handleEdit = () => {
@@ -151,33 +147,4 @@ class TitleShowRoute extends Component {
   }
 }
 
-export default connect(
-  (store, { match }) => {
-    const {
-      eholdings: { data },
-    } = store;
-    const resolver = createResolver(data);
-
-    return {
-      model: resolver.find('titles', match.params.titleId),
-      createRequest: resolver.getRequest('create', { type: 'resources' }),
-      customPackages: resolver.query('packages', {
-        filter: { custom: true },
-        count: 100,
-        pageSize: 100,
-      }),
-      costPerUse: selectPropFromData(store, 'costPerUse'),
-    };
-  }, {
-    getTitle: id => Title.find(id, { include: 'resources' }),
-    createResource: attrs => Resource.create(attrs),
-    getCustomPackages: (query) => Package.query({
-      filter: { custom: true },
-      q: query,
-      count: 100,
-      pageSize: 100,
-    }),
-    getCostPerUse: getCostPerUseAction,
-    clearCostPerUseData: clearCostPerUseDataAction,
-  }
-)(TitleShowRoute);
+export default TitleShowRoute;
