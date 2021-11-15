@@ -3,9 +3,8 @@ import {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useIntl,
-} from 'react-intl';
+import { useIntl } from 'react-intl';
+import noop from 'lodash/noop';
 
 import {
   MultiColumnList,
@@ -71,17 +70,19 @@ const SummaryTable = ({
     ? intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.holdingsSummary' })
     : null;
 
+  const columnProperties = getSummaryTableColumnProperties(intl, {
+    currency,
+    metricType,
+    entityType,
+  }, customProperties);
+
   return (
     <KeyValue label={label}>
       <MultiColumnList
         id={id}
         containerRef={summaryMCLRef}
         contentData={contentData}
-        {...getSummaryTableColumnProperties(intl, {
-          currency,
-          metricType,
-          entityType,
-        }, customProperties)}
+        {...columnProperties}
         {...rest}
       />
     </KeyValue>
@@ -90,8 +91,8 @@ const SummaryTable = ({
 
 SummaryTable.defaultProps = {
   isExportDisabled: false,
-  onExportTitles: () => {},
-  onViewTitles: () => {},
+  onExportTitles: noop,
+  onViewTitles: noop,
 };
 
 SummaryTable.propTypes = propTypes;
