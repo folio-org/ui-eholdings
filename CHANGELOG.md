@@ -9,6 +9,7 @@
 * Refactor '.all' permissions. (UIEH-1212)
 * Add tests for TitleShowRoute component. (UIEH-1201)
 * Add tests for FullTextRequestUsageTable component. (UIEH-1179)
+* Add tests for SummaryTable component. (UIEH-1180)
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
