@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/settings';
-import ApplicationRoute from '../application';
+import ApplicationRoute from '../application-route';
 import { KbCredentials } from '../../constants';
 
 const SettingsRoute = ({

@@ -12,7 +12,7 @@ import {
   epics,
 } from '../../redux';
 
-import ApplicationRoute from '../../routes/application';
+import ApplicationRoute from '../../routes/application-route';
 import SettingsRoute from '../../routes/settings-route';
 import SearchRoute from '../../routes/search-route';
 import ProviderShow from '../../routes/provider-show-route';

@@ -4,7 +4,7 @@ import { noop } from 'lodash';
 import EHoldings from './eholdings';
 import Harness from '../../../test/jest/helpers/harness';
 
-jest.mock('../../routes/application', () => () => <span>ApplicationRoute</span>);
+jest.mock('../../routes/application-route', () => () => <span>ApplicationRoute</span>);
 jest.mock('../../routes/settings-route', () => () => <span>SettingsRoute</span>);
 jest.mock('../../routes/search-route', () => () => <span>SearchRoute</span>);
 jest.mock('../../routes/provider-show-route', () => () => <span>ProviderShow</span>);
