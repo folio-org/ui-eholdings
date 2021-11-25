@@ -1,21 +1,16 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Icon } from '@folio/stripes/components';
 
-import { createResolver } from '../redux';
-import { Status } from '../redux/application';
-import { getKbCredentials as getKbCredentialsAction } from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
 import {
   KbCredentials,
   httpResponseCodes,
-} from '../constants';
-import NoBackendErrorScreen from '../components/error-screen/no-backend-error-screen';
-import FailedBackendErrorScreen from '../components/error-screen/failed-backend-error-screen';
-import InvalidBackendErrorScreen from '../components/error-screen/invalid-backend-error-screen';
-import UserNotAssignedToKbErrorScreen from '../components/error-screen/user-not-assigned-to-kb-error-screen';
-import ApiLimitExceededErrorScreen from '../components/error-screen/api-limit-exceeded-error-screen';
+} from '../../constants';
+import NoBackendErrorScreen from '../../components/error-screen/no-backend-error-screen';
+import FailedBackendErrorScreen from '../../components/error-screen/failed-backend-error-screen';
+import InvalidBackendErrorScreen from '../../components/error-screen/invalid-backend-error-screen';
+import UserNotAssignedToKbErrorScreen from '../../components/error-screen/user-not-assigned-to-kb-error-screen';
+import ApiLimitExceededErrorScreen from '../../components/error-screen/api-limit-exceeded-error-screen';
 
 class ApplicationRoute extends Component {
   static propTypes = {
@@ -92,20 +87,4 @@ class ApplicationRoute extends Component {
   }
 }
 
-export default connect(
-  (store) => {
-    const {
-      eholdings,
-      discovery,
-    } = store;
-
-    return {
-      status: createResolver(eholdings?.data || {}).find('statuses', 'status'),
-      interfaces: discovery?.interfaces || {},
-      kbCredentials: selectPropFromData(store, 'kbCredentials'),
-    };
-  }, {
-    getBackendStatus: () => Status.find('status'),
-    getKbCredentials: getKbCredentialsAction,
-  }
-)(ApplicationRoute);
+export default ApplicationRoute;
