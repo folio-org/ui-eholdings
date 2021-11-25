@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import ApplicationRoute from './application';
+import ApplicationRoute from './application-route';
 import { createResolver } from '../../redux';
 import { Status } from '../../redux/application';
 import { getKbCredentials as getKbCredentialsAction } from '../../redux/actions';

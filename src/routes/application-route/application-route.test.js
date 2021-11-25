@@ -5,7 +5,7 @@ import {
   cleanup,
 } from '@testing-library/react';
 
-import ApplicationRoute from './application';
+import ApplicationRoute from './application-route';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockGetBackendStatus = jest.fn();
