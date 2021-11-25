@@ -41,6 +41,9 @@ const CostPerUseReduxStateShape = PropTypes.shape({
   isFailed: PropTypes.bool.isRequired,
   isLoaded: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isPackageTitlesFailed: PropTypes.bool.isRequired,
+  isPackageTitlesLoaded: PropTypes.bool.isRequired,
+  isPackageTitlesLoading: PropTypes.bool.isRequired,
 });
 
 export default {
