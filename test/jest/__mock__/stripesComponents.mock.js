@@ -6,5 +6,5 @@ jest.mock('@folio/stripes/components', () => ({
       <span>{value || children}</span>
     </>
   )),
-  NoValue: jest.fn(({ ariaLabel }) => (<span>{ariaLabel}</span>)),
+  NoValue: jest.fn(({ ariaLabel }) => (<span>{ariaLabel || 'NoValue'}</span>)),
 }));

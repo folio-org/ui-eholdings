@@ -21,6 +21,8 @@ import { useMultiColumnListSort } from '../../../hooks';
 import {
   costPerUse as costPerUseShape,
   costPerUseTypes,
+  PAGE_SIZE,
+  FIRST_PAGE,
   sortOrders,
 } from '../../../constants';
 
@@ -30,20 +32,17 @@ const propTypes = {
   onSortTitles: PropTypes.func.isRequired,
 };
 
-const PAGE_SIZE = 100;
-const DEFAULT_PAGE = 1;
-
 const TitlesTable = ({
   costPerUseData,
   fetchNextPage,
   onSortTitles,
 }) => {
   const intl = useIntl();
-  const [page, setPage] = useState(DEFAULT_PAGE);
+  const [page, setPage] = useState(FIRST_PAGE);
   const titlesTableMCLRef = useRef(null);
 
   const handleSortChange = (newSortedColumn, newSortOrder) => {
-    setPage(DEFAULT_PAGE);
+    setPage(FIRST_PAGE);
     onSortTitles(newSortedColumn, newSortOrder.name);
   };
 
@@ -90,6 +89,7 @@ const TitlesTable = ({
 
   const onNeedMoreData = () => {
     const nextPage = page + 1;
+
     setPage(nextPage);
     fetchNextPage(nextPage, PAGE_SIZE, sortedColumn, sortOrder.name);
   };
