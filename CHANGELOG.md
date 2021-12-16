@@ -13,6 +13,8 @@
 * Add tests for ApplicationRoute component. (UIEH-1184)
 * Add tests for TitlesTable component. (UIEH-1181)
 * Add missing permissions to `package.json`. (UIEH-1222)
+* Add tests for NoteCreate, NoteEdit, NoteView Routes. (UIEH-1185)
+
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
