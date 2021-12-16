@@ -1,20 +1,22 @@
 import { MemoryRouter } from "react-router-dom";
-import { render, cleanup, act, fireEvent } from '@testing-library/react';
+import { 
+  render, 
+  cleanup,
+  fireEvent, 
+} from '@testing-library/react';
 
 import NoteEditRoute from './note-edit';
 import Harness from '../../test/jest/helpers/harness';
 
 jest.mock('@folio/stripes/smart-components', () => ({
     NoteEditPage:
-        ({
-            navigateBack,
-        }) => (
+        ({ navigateBack }) => (
             <>
                 <button
                     type="button"
                     onClick={navigateBack}
                 >
-                    navigateBack
+                    navigate back
                 </button>
             </>
         )
@@ -45,6 +47,7 @@ const getNoteEditRoute = (props = {}) => (
                 match={match}
                 {...props}
             />
+                Page content
         </Harness>
     </MemoryRouter>
 );
@@ -59,16 +62,16 @@ describe('Given NoteEditRoute', () => {
     afterEach(cleanup);
 
     it('should render NoteEditRoute', async () => {
-        await act(async () => {
-            await renderNoteEditRoute();
-        });
+        const { getByText } = renderNoteEditRoute();
+        
+        expect(getByText('Page content')).toBeDefined();
     });
 
-    describe('when navigateBack click', () => {
-        it('should navigateBack', () => {
+    describe('when click on navigate back button', () => {
+        it('should handle "history.goBack"', () => {
             const { getByRole } = renderNoteEditRoute();
 
-            fireEvent.click(getByRole('button', { name: 'navigateBack' }));
+            fireEvent.click(getByRole('button', { name: 'navigate back' }));
 
             expect(history.goBack).toHaveBeenCalled();
         });

@@ -1,5 +1,9 @@
 import { MemoryRouter } from "react-router-dom";
-import { render, cleanup, act, fireEvent } from '@testing-library/react';
+import { 
+  render, 
+  cleanup, 
+  fireEvent, 
+} from '@testing-library/react';
 
 import NoteViewRoute from './note-view';
 import Harness from '../../test/jest/helpers/harness';
@@ -15,7 +19,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
           type="button"
           onClick={navigateBack}
         >
-          navigateBack
+          navigate back
         </button>
 
         <button
@@ -54,6 +58,7 @@ const getNoteViewRoute = (props = {}) => (
         match={match}
         {...props}
       />
+        Page content
     </Harness>
   </MemoryRouter>
 );
@@ -69,16 +74,16 @@ describe('Given NoteViewRoute', () => {
   afterEach(cleanup);
 
   it('should render NoteViewRoute', async () => {
-    await act(async () => {
-      await renderNoteViewRoute();
-    });
+      const { getByText } = renderNoteViewRoute();
+      
+      expect(getByText('Page content')).toBeDefined();
   });
 
-  describe('when when click on navigateBack button', () => {
-    it('should navigate back', () => {
+  describe('when click on navigate back button', () => {
+    it('should redirect to eholdings page', () => {
       const { getByRole } = renderNoteViewRoute();
 
-      fireEvent.click(getByRole('button', { name: 'navigateBack' }));
+      fireEvent.click(getByRole('button', { name: 'navigate back' }));
 
       expect(history.push).toHaveBeenCalled();
     });

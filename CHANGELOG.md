@@ -15,7 +15,6 @@
 * Add missing permissions to `package.json`. (UIEH-1222)
 * Add tests for NoteCreate, NoteEdit, NoteView Routes. (UIEH-1185)
 
-
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
 * Fix store.getState is not a function error. (UIEH-1216)

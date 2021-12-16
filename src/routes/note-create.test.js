@@ -1,5 +1,8 @@
 import { MemoryRouter } from "react-router-dom";
-import { render, cleanup, act } from '@testing-library/react';
+import { 
+  render, 
+  cleanup, 
+} from '@testing-library/react';
 
 import NoteCreateRoute from './note-create';
 import Harness from '../../test/jest/helpers/harness';
@@ -11,17 +14,18 @@ const location = {
 };
 
 const history = {
-  goBack: jest.fn()
+  goBack: jest.fn(),
 };
 
 const getNoteCreateRoute = (props = {}) => (
   <MemoryRouter>
     <Harness>
       <NoteCreateRoute
-        history={history.goBack}
+        history={history}
         location={location}
         {...props}
       />
+        Page content
     </Harness>
   </MemoryRouter>
 );
@@ -36,8 +40,8 @@ describe('Given NoteCreateRoute', () => {
   afterEach(cleanup);
 
   it('should render NoteCreateRoute', async () => {
-    await act(async () => {
-      await renderNoteCreateRoute();
-    });
+     const { getByText } = renderNoteCreateRoute();
+     
+     expect(getByText('Page content')).toBeDefined();
   });
 });
