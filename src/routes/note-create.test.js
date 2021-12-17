@@ -1,7 +1,7 @@
-import { MemoryRouter } from "react-router-dom";
-import { 
-  render, 
-  cleanup, 
+import { MemoryRouter } from 'react-router-dom';
+import {
+  render,
+  cleanup,
 } from '@testing-library/react';
 
 import NoteCreateRoute from './note-create';
@@ -40,8 +40,8 @@ describe('Given NoteCreateRoute', () => {
   afterEach(cleanup);
 
   it('should render NoteCreateRoute', async () => {
-     const { getByText } = renderNoteCreateRoute();
-     
-     expect(getByText('Page content')).toBeDefined();
+    const { getByText } = renderNoteCreateRoute();
+
+    expect(getByText('Page content')).toBeDefined();
   });
 });

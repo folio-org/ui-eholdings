@@ -1,8 +1,8 @@
-import { MemoryRouter } from "react-router-dom";
-import { 
-  render, 
-  cleanup, 
-  fireEvent, 
+import { MemoryRouter } from 'react-router-dom';
+import {
+  render,
+  cleanup,
+  fireEvent,
 } from '@testing-library/react';
 
 import NoteViewRoute from './note-view';
@@ -74,9 +74,9 @@ describe('Given NoteViewRoute', () => {
   afterEach(cleanup);
 
   it('should render NoteViewRoute', async () => {
-      const { getByText } = renderNoteViewRoute();
-      
-      expect(getByText('Page content')).toBeDefined();
+    const { getByText } = renderNoteViewRoute();
+
+    expect(getByText('Page content')).toBeDefined();
   });
 
   describe('when click on navigate back button', () => {
