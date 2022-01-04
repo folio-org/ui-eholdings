@@ -1,21 +1,15 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { selectPropFromData } from '../redux/selectors';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
-import Package from '../redux/package';
+import View from '../../components/package/create';
 
-import View from '../components/package/create';
+import { accessTypesReduxStateShape } from '../../constants';
 
-import { accessTypesReduxStateShape } from '../constants';
-
-class PackageCreateRoute extends Component {
+export default class PackageCreateRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     createPackage: PropTypes.func.isRequired,
@@ -96,14 +90,3 @@ class PackageCreateRoute extends Component {
     );
   }
 }
-
-export default connect(
-  (store) => ({
-    createRequest: createResolver(store.eholdings.data).getRequest('create', { type: 'packages', pageSize: 100 }),
-    accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
-  }), {
-    createPackage: attrs => Package.create(attrs),
-    removeCreateRequests: () => Package.removeRequests('create'),
-    getAccessTypes: getAccessTypesAction,
-  }
-)(PackageCreateRoute);
