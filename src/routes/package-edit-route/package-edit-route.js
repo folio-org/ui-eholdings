@@ -1,26 +1,18 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
-import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { ProxyType } from '../redux/application';
-import Package from '../redux/package';
-import Provider from '../redux/provider';
-import Resource from '../redux/resource';
-import { selectPropFromData } from '../redux/selectors';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
+import { TitleManager } from '@folio/stripes/core';
 
-import View from '../components/package/package-edit';
+import View from '../../components/package/package-edit';
 
 import {
   accessTypes,
   accessTypesReduxStateShape,
-} from '../constants';
+} from '../../constants';
 
 class PackageEditRoute extends Component {
   static propTypes = {
@@ -211,7 +203,7 @@ class PackageEditRoute extends Component {
       search: location.search,
       state: {
         eholdings: true,
-      }
+      },
     };
 
     history.replace(viewRouteState);
@@ -245,28 +237,4 @@ class PackageEditRoute extends Component {
   }
 }
 
-export default connect(
-  (store, { match }) => {
-    const { eholdings: { data } } = store;
-    const resolver = createResolver(data);
-    const model = resolver.find('packages', match.params.packageId);
-    return {
-      model,
-      proxyTypes: resolver.query('proxyTypes'),
-      provider: resolver.find('providers', model.providerId),
-      resolver,
-      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
-    };
-  },
-  {
-    getPackage: id => Package.find(id, { include: ['accessType'] }),
-    getProxyTypes: () => ProxyType.query(),
-    getProvider: id => Provider.find(id),
-    unloadResources: collection => Resource.unload(collection),
-    updateProvider: provider => Provider.save(provider),
-    updatePackage: model => Package.save(model),
-    destroyPackage: model => Package.destroy(model),
-    removeUpdateRequests: () => Package.removeRequests('update'),
-    getAccessTypes: getAccessTypesAction,
-  }
-)(PackageEditRoute);
+export default PackageEditRoute;

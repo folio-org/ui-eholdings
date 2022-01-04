@@ -18,7 +18,7 @@ import SearchRoute from '../../routes/search-route';
 import ProviderShow from '../../routes/provider-show-route';
 import ProviderEdit from '../../routes/provider-edit';
 import PackageShow from '../../routes/package-show';
-import PackageEdit from '../../routes/package-edit';
+import PackageEdit from '../../routes/package-edit-route';
 import PackageCreate from '../../routes/package-create';
 import TitleShowRoute from '../../routes/title-show-route';
 import TitleEditRoute from '../../routes/title-edit-route';
