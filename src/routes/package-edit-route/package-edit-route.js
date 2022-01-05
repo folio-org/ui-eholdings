@@ -106,78 +106,103 @@ class PackageEditRoute extends Component {
     updateProvider(provider);
   };
 
+  deselectPackage = () => {
+    const { model, updatePackage } = this.props;
+
+    // When de-selecting a managed package
+    // need to clear out customizations before sending to server
+    model.isSelected = false;
+    model.visibilityData.isHidden = false;
+    model.customCoverage = {};
+    model.allowKbToAddTitles = false;
+    model.accessTypeId = null;
+    updatePackage(model);
+  };
+
+  selectPackage = () => {
+    const { model, updatePackage } = this.props;
+
+    model.isSelected = true;
+    model.allowKbToAddTitles = true;
+    updatePackage(model);
+  };
+
+  updatePackageValues = (values) => {
+    const { model, updatePackage } = this.props;
+
+    let beginCoverage = '';
+    let endCoverage = '';
+
+    if (values.customCoverages[0]) {
+      beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
+      endCoverage = !values.customCoverages[0].endCoverage ? '' : moment.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
+    }
+
+    model.customCoverage = {
+      beginCoverage,
+      endCoverage
+    };
+
+    if ('isSelected' in values) {
+      model.isSelected = values.isSelected;
+    }
+
+    if ('isVisible' in values) {
+      model.visibilityData.isHidden = !values.isVisible;
+    }
+
+    if ('allowKbToAddTitles' in values) {
+      model.allowKbToAddTitles = values.allowKbToAddTitles;
+    }
+
+    if ('name' in values) {
+      model.name = values.name;
+    }
+
+    if ('contentType' in values) {
+      model.contentType = values.contentType;
+    }
+
+    if ('proxyId' in values) {
+      model.proxy.id = values.proxyId;
+      model.proxy.inherited = false;
+    }
+
+    if ('packageTokenValue' in values) {
+      model.packageToken.value = values.packageTokenValue;
+    }
+
+    if ('providerTokenValue' in values) {
+      this.providerEditSubmitted(values);
+    }
+
+    model.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
+      ? values.accessTypeId
+      : null;
+
+    updatePackage(model);
+  };
+
   packageEditSubmitted = (values) => {
-    const { model, updatePackage, destroyPackage } = this.props;
+    const { model, destroyPackage } = this.props;
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && values.isSelected === false) {
       destroyPackage(model);
-    } else if (values.isSelected === false) {
-      // When de-selecting a managed package
-      // need to clear out customizations before sending to server
-      model.isSelected = false;
-      model.visibilityData.isHidden = false;
-      model.customCoverage = {};
-      model.allowKbToAddTitles = false;
-      model.accessTypeId = null;
-      updatePackage(model);
-    } else if (values.isSelected && !values.customCoverages) {
-      model.isSelected = true;
-      model.allowKbToAddTitles = true;
-      updatePackage(model);
-    } else {
-      let beginCoverage = '';
-      let endCoverage = '';
-
-      if (values.customCoverages[0]) {
-        beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
-        endCoverage = !values.customCoverages[0].endCoverage ? '' : moment.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
-      }
-
-      model.customCoverage = {
-        beginCoverage,
-        endCoverage
-      };
-
-      if ('isSelected' in values) {
-        model.isSelected = values.isSelected;
-      }
-
-      if ('isVisible' in values) {
-        model.visibilityData.isHidden = !values.isVisible;
-      }
-
-      if ('allowKbToAddTitles' in values) {
-        model.allowKbToAddTitles = values.allowKbToAddTitles;
-      }
-
-      if ('name' in values) {
-        model.name = values.name;
-      }
-
-      if ('contentType' in values) {
-        model.contentType = values.contentType;
-      }
-
-      if ('proxyId' in values) {
-        model.proxy.id = values.proxyId;
-        model.proxy.inherited = false;
-      }
-
-      if ('packageTokenValue' in values) {
-        model.packageToken.value = values.packageTokenValue;
-      }
-
-      if ('providerTokenValue' in values) {
-        this.providerEditSubmitted(values);
-      }
-
-      model.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
-        ? values.accessTypeId
-        : null;
-
-      updatePackage(model);
+      return;
     }
+
+    if (values.isSelected === false) {
+      this.deselectPackage();
+      return;
+    }
+
+    if (values.isSelected && !values.customCoverages) {
+      this.selectPackage();
+      return;
+    }
+
+    this.updatePackageValues(values);
   };
 
   /* This method is common between package-show and package-edit routes
