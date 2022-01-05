@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import PackageCreateRoute from './package-create';
+import PackageCreateRoute from './package-create-route';
 import { createResolver } from '../../redux';
 import { selectPropFromData } from '../../redux/selectors';
 import { getAccessTypes as getAccessTypesAction } from '../../redux/actions';

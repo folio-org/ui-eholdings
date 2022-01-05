@@ -6,7 +6,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
-import PackageCreateRoute from './package-create';
+import PackageCreateRoute from './package-create-route';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockHistory = {
@@ -57,6 +57,7 @@ const getPackageCreateRoute = (props = {}) => (
         removeCreateRequests={mockRemoveCreateRequests}
         {...props}
       />
+        Page content
     </Harness>
   </MemoryRouter>
 );
@@ -72,6 +73,11 @@ describe('Given PackageCreateRoute', () => {
   });
 
   afterEach(cleanup);
+  it('should render PackageCreateRoute', async () => {
+    const { getByText } = renderPackageCreateRoute();
+
+    expect(getByText('Page content')).toBeDefined();
+  });
 
   it('should handle getAccessTypes', async () => {
     await renderPackageCreateRoute({
