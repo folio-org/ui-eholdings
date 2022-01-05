@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
 } from '@testing-library/react';
 
@@ -75,10 +74,8 @@ describe('Given PackageCreateRoute', () => {
   afterEach(cleanup);
 
   it('should handle getAccessTypes', async () => {
-    await act(async () => {
-      await renderPackageCreateRoute({
-        props:{ getAccessTypes: mockGetAccessTypes },
-      });
+    await renderPackageCreateRoute({
+      props: { getAccessTypes: mockGetAccessTypes },
     });
 
     expect(mockGetAccessTypes).toHaveBeenCalled();

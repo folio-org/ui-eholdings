@@ -18,6 +18,13 @@ module.exports = {
     process: true,
     Promise: true
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx"]
+      }
+    }
+  },
   overrides: [
     {
       files: ["**/*.test.js"],
@@ -45,5 +52,5 @@ module.exports = {
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "react-hooks/exhaustive-deps":  "off"
   },
-  "plugins": ["jest"]
+   plugins: ["jest"]
 };
