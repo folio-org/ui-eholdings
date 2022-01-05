@@ -138,18 +138,21 @@ describe('Given PackageCreateRoute', () => {
   });
 
   describe('when submit form with some values and click save', () => {
-    it('should handle mockCreatePackage action', () => {
-      const { getByRole, getByText } = renderPackageCreateRoute();
+    it('should handle mockCreatePackage action', async () => {
+      const { getByRole, getByText, getByTestId } = renderPackageCreateRoute();
 
       const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
 
       fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
       fireEvent.blur(packageNameInput);
 
-      const coverageSettings = getByText('ui-eholdings.label.coverageSettings');
+      const addCoverageSettingsButton = getByText('ui-eholdings.package.coverage.addDateRange');
+      fireEvent.click(addCoverageSettingsButton);
 
-      fireEvent.change(coverageSettings, { target: { beginCoverage: '2021-01-01', endCoverage: '2021-01-31' } });
-      coverageSettings.blur();
+      fireEvent.change(getByTestId('begin-coverage-0'), { target: { value: '01/01/2022' } });
+      fireEvent.change(getByTestId('end-coverage-0'), { target: { value: '10/01/2022' } });
+      getByTestId('begin-coverage-0').blur();
+      getByTestId('end-coverage-0').blur();
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
@@ -157,4 +160,3 @@ describe('Given PackageCreateRoute', () => {
     });
   });
 });
-
