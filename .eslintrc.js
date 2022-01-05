@@ -52,5 +52,5 @@ module.exports = {
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "react-hooks/exhaustive-deps":  "off"
   },
-   plugins: ["jest"]
+  plugins: ["jest"]
 };
