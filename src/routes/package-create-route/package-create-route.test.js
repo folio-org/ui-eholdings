@@ -139,7 +139,11 @@ describe('Given PackageCreateRoute', () => {
 
   describe('when submit form with some values and click save', () => {
     it('should handle mockCreatePackage action', async () => {
-      const { getByRole, getByText, getByTestId } = renderPackageCreateRoute();
+      const {
+        getByRole,
+        getByText,
+        getByTestId,
+      } = renderPackageCreateRoute();
 
       const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
 
@@ -147,12 +151,13 @@ describe('Given PackageCreateRoute', () => {
       fireEvent.blur(packageNameInput);
 
       const addCoverageSettingsButton = getByText('ui-eholdings.package.coverage.addDateRange');
+
       fireEvent.click(addCoverageSettingsButton);
 
       fireEvent.change(getByTestId('begin-coverage-0'), { target: { value: '01/01/2022' } });
       fireEvent.change(getByTestId('end-coverage-0'), { target: { value: '10/01/2022' } });
-      getByTestId('begin-coverage-0').blur();
-      getByTestId('end-coverage-0').blur();
+      fireEvent.blur(getByTestId('begin-coverage-0'));
+      fireEvent.blur(getByTestId('end-coverage-0'));
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
