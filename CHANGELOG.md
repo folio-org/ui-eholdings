@@ -16,6 +16,7 @@
 * Add tests for NoteCreate, NoteEdit, NoteView Routes. (UIEH-1185)
 * Add tests for PackageCreateRoute. (UIEH-1186)
 * Add tests for PackageEditRoute. (UIEH-1187)
+* Lock `faker` version.
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
