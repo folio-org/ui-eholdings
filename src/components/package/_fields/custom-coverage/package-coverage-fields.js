@@ -85,6 +85,7 @@ class PackageCoverageFields extends Component {
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id={`begin-coverage-${index}`}
+                data-testid={`begin-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.startDate" />}
                 useInput
@@ -110,6 +111,7 @@ class PackageCoverageFields extends Component {
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id={`end-coverage-${index}`}
+                data-testid={`end-coverage-${index}`}
                 input={input}
                 label={<FormattedMessage id="ui-eholdings.date.endDate" />}
                 useInput
