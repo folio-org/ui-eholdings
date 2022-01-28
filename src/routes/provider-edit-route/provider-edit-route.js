@@ -1,18 +1,14 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
+
 import isEqual from 'lodash/isEqual';
 import queryString from 'qs';
 import { TitleManager } from '@folio/stripes/core';
 
-import { createResolver } from '../redux';
-import Provider from '../redux/provider';
-import { ProxyType, RootProxy } from '../redux/application';
+import View from '../../components/provider/edit';
 
-import View from '../components/provider/edit';
-
-class ProviderEditRoute extends Component {
+export default class ProviderEditRoute extends Component {
   static propTypes = {
     getProvider: PropTypes.func.isRequired,
     getProxyTypes: PropTypes.func.isRequired,
@@ -113,16 +109,3 @@ class ProviderEditRoute extends Component {
   }
 }
 
-export default connect(
-  ({ eholdings: { data } }, { match }) => ({
-    model: createResolver(data).find('providers', match.params.providerId),
-    proxyTypes: createResolver(data).query('proxyTypes'),
-    rootProxy: createResolver(data).find('rootProxies', 'root-proxy')
-  }), {
-    getProvider: id => Provider.find(id),
-    updateProvider: model => Provider.save(model),
-    getProxyTypes: () => ProxyType.query(),
-    getRootProxy: () => RootProxy.find('root-proxy'),
-    removeUpdateRequests: () => Provider.removeRequests('update'),
-  }
-)(ProviderEditRoute);
