@@ -17,6 +17,7 @@
 * Add tests for PackageCreateRoute. (UIEH-1186)
 * Add tests for PackageEditRoute. (UIEH-1187)
 * Lock `faker` version.
+* Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (MODKBEKBJ-619)
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
