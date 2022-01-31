@@ -65,7 +65,10 @@ class ApplicationRoute extends Component {
       return <NoBackendErrorScreen />;
     }
 
-    if (kbCredentials.isLoading && (status.isLoading && !showSettings)) {
+    const isLoadingKbCredentials = kbCredentials.isLoading || (!kbCredentials.hasLoaded && !kbCredentials.hasFailed);
+    const isLoadingStatus = status.isLoading || (!status.isLoaded && !status.request.isRejected);
+
+    if (isLoadingKbCredentials && (isLoadingStatus && !showSettings)) {
       return (
         <Icon
           id="kb-credentials-loading-spinner"
