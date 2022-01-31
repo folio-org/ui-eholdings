@@ -105,7 +105,6 @@ const mockGetProxyTypes = jest.fn();
 const mockGetRootProxy = jest.fn();
 const mockRemoveUpdateRequests = jest.fn();
 const mockUpdateProvider = jest.fn();
-const mockGetSearchType = jest.fn();
 
 const getProviderEditRoute = (props = {}) => (
   <MemoryRouter>
@@ -130,8 +129,6 @@ const getProviderEditRoute = (props = {}) => (
 );
 
 const renderProviderEditRoute = (props) => render(getProviderEditRoute(props));
-
-
 describe('Given ProviderEditRoute', () => {
   beforeEach(() => {
     mockGetProxyTypes.mockClear();
@@ -181,14 +178,6 @@ describe('Given ProviderEditRoute', () => {
     });
 
     expect(mockGetProxyTypes).toHaveBeenCalled();
-  });
-
-  it('should handle GetSearchType', async () => {
-    await act(async () => {
-      await renderProviderEditRoute();
-    });
-
-    expect(mockGetSearchType).toBeDefined();
   });
 
   it('should handle GetProxyTypes', async () => {
@@ -245,6 +234,24 @@ describe('Given ProviderEditRoute', () => {
       rerender(getProviderEditRoute());
 
       expect(history.replace).toHaveBeenCalled();
+    });
+  });
+  describe('when providerId is not prevProps.match.params.providerId', () => {
+    it('should handle getProvider', async () => {
+      const newProviderId = 'provider-id';
+
+      const { rerender } = await renderProviderEditRoute();
+
+      rerender(getProviderEditRoute({
+        match: {
+          ...match,
+          params: {
+            notProviderId: newProviderId,
+          },
+        },
+      }));
+
+      expect(mockGetProvider).toHaveBeenCalledWith(newProviderId);
     });
   });
   describe('when component is unmounted', () => {
