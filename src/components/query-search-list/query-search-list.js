@@ -34,7 +34,7 @@ const QuerySearchList = ({
   const listFirstItem = useRef(null);
 
   useEffect(() => {
-    fetch(FIRST_PAGE);
+    fetch(collection.page);
   }, []);
 
   const {
