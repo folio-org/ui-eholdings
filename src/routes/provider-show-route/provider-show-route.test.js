@@ -96,6 +96,7 @@ const providerPackages = {
   hasFailed: false,
   hasLoaded: true,
   isLoading: false,
+  page: 1,
   items: [
     {
       id: 'package-id',
