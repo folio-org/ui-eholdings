@@ -1,4 +1,7 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+  useRef,
+} from 'react';
 
 class Dataset {
   constructor({ pageSize, page }) {
@@ -35,20 +38,22 @@ const useImpagination = ({
   fetch,
   isMainPageSearch,
 }) => {
-  useEffect(() => {
-    if (!isMainPageSearch) {
-      return;
-    }
+  const isInitialMount = useRef([true, true]);
 
-    fetch(page);
+  useEffect(() => {
+    if (isInitialMount.current[0]) {
+      isInitialMount.current[0] = false;
+    } else if (isMainPageSearch) {
+      fetch(page);
+    }
   }, [page]);
 
   useEffect(() => {
-    if (!isMainPageSearch) {
-      return;
+    if (isInitialMount.current[1]) {
+      isInitialMount.current[1] = false;
+    } else if (isMainPageSearch) {
+      fetch(1);
     }
-
-    fetch(1);
   }, [collection.key]);
 
   if (!isMainPageSearch) {
