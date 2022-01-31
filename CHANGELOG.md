@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [7.0.2] (IN PROGRESS)
+
+* Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (UIEH-1232)
+
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
 * Fix store.getState is not a function error. (UIEH-1216)
