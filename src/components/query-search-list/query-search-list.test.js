@@ -13,6 +13,7 @@ const collection = {
   items: [],
   errors: [],
   totalResults: 0,
+  page: 1,
 };
 
 const renderQuerySearchList = (props = {}) => render(
