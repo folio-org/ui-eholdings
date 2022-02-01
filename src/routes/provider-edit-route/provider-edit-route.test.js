@@ -217,7 +217,7 @@ describe('Given ProviderEditRoute', () => {
       expect(mockGetProvider).toHaveBeenCalledWith(newProviderId);
     });
   });
-  
+
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
       const { unmount } = await renderProviderEditRoute();
