@@ -128,6 +128,7 @@ const getProviderEditRoute = (props = {}) => (
 );
 
 const renderProviderEditRoute = (props) => render(getProviderEditRoute(props));
+
 describe('Given ProviderEditRoute', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -141,25 +142,19 @@ describe('Given ProviderEditRoute', () => {
     expect(getByText('Page content')).toBeDefined();
   });
 
-  it('should handle getProvider with providerId', async () => {
-    await renderProviderEditRoute();
+  it('should handle getProvider with providerId', () => {
+    renderProviderEditRoute();
 
     expect(mockGetProvider).toHaveBeenCalledWith('provider-id');
   });
 
-  it('should not handle getProvider', async () => {
-    await renderProviderEditRoute();
-
-    expect(mockGetProvider).not.toHaveBeenCalledWith('other-provider-id');
-  });
-
-  it('should handle GetProxyTypes', async () => {
-    await renderProviderEditRoute();
+  it('should handle GetProxyTypes', () => {
+    renderProviderEditRoute();
 
     expect(mockGetProxyTypes).toHaveBeenCalled();
   });
 
-  it('should handle Cancel', async () => {
+  it('should handle Cancel', () => {
     const { getByRole } = renderProviderEditRoute();
 
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
@@ -173,7 +168,7 @@ describe('Given ProviderEditRoute', () => {
     });
   });
 
-  it('should handle onSubmit', async () => {
+  it('should handle onSubmit', () => {
     const { getByRole } = renderProviderEditRoute();
 
     fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
@@ -200,10 +195,10 @@ describe('Given ProviderEditRoute', () => {
   });
 
   describe('when providerId is not prevProps.match.params.providerId', () => {
-    it('should handle getProvider', async () => {
+    it('should handle getProvider', () => {
       const newProviderId = 'provider-id';
 
-      const { rerender } = await renderProviderEditRoute();
+      const { rerender } = renderProviderEditRoute();
 
       rerender(getProviderEditRoute({
         match: {
@@ -219,8 +214,8 @@ describe('Given ProviderEditRoute', () => {
   });
 
   describe('when component is unmounted', () => {
-    it('should handle removeUpdateRequests', async () => {
-      const { unmount } = await renderProviderEditRoute();
+    it('should handle removeUpdateRequests', () => {
+      const { unmount } = renderProviderEditRoute();
 
       unmount();
 
