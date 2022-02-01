@@ -16,7 +16,7 @@ import ApplicationRoute from '../../routes/application-route';
 import SettingsRoute from '../../routes/settings-route';
 import SearchRoute from '../../routes/search-route';
 import ProviderShow from '../../routes/provider-show-route';
-import ProviderEdit from '../../routes/provider-edit';
+import ProviderEdit from '../../routes/provider-edit-route';
 import PackageShow from '../../routes/package-show';
 import PackageCreate from '../../routes/package-create-route';
 import PackageEdit from '../../routes/package-edit-route';
