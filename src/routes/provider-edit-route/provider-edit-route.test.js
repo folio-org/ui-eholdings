@@ -198,6 +198,7 @@ describe('Given ProviderEditRoute', () => {
       expect(history.replace).toHaveBeenCalled();
     });
   });
+
   describe('when providerId is not prevProps.match.params.providerId', () => {
     it('should handle getProvider', async () => {
       const newProviderId = 'provider-id';
@@ -216,6 +217,7 @@ describe('Given ProviderEditRoute', () => {
       expect(mockGetProvider).toHaveBeenCalledWith(newProviderId);
     });
   });
+  
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
       const { unmount } = await renderProviderEditRoute();
