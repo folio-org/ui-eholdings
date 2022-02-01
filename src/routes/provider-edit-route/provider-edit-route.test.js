@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
 } from '@testing-library/react';
 
@@ -131,71 +130,37 @@ const getProviderEditRoute = (props = {}) => (
 const renderProviderEditRoute = (props) => render(getProviderEditRoute(props));
 describe('Given ProviderEditRoute', () => {
   beforeEach(() => {
-    mockGetProxyTypes.mockClear();
-    mockGetRootProxy.mockClear();
-    mockRemoveUpdateRequests.mockClear();
-    mockUpdateProvider.mockClear();
-    history.replace.mockClear();
+    jest.clearAllMocks();
   });
 
   afterEach(cleanup);
 
   it('should render page', () => {
-    const { getByText } = renderProviderEditRoute({});
+    const { getByText } = renderProviderEditRoute();
 
     expect(getByText('Page content')).toBeDefined();
   });
 
   it('should handle getProvider with providerId', async () => {
-    await act(async () => {
-      await renderProviderEditRoute();
-    });
+    await renderProviderEditRoute();
 
     expect(mockGetProvider).toHaveBeenCalledWith('provider-id');
   });
 
-  it('should handle getProvider', async () => {
-    await act(async () => {
-      await renderProviderEditRoute({
-        props: {
-          getProvider: mockGetProvider,
-          match: {
-            ...match,
-            params: { providerId: 'other-provider-id' },
-          },
-        },
-      });
-    });
+  it('should not handle getProvider', async () => {
+    await renderProviderEditRoute();
 
-    expect(mockGetProvider).toHaveBeenCalled();
+    expect(mockGetProvider).not.toHaveBeenCalledWith('other-provider-id');
   });
 
   it('should handle GetProxyTypes', async () => {
-    await act(async () => {
-      await renderProviderEditRoute({
-        props: { proxyType : mockGetProxyTypes },
-      });
-    });
-
-    expect(mockGetProxyTypes).toHaveBeenCalled();
-  });
-
-  it('should handle GetProxyTypes', async () => {
-    await act(async () => {
-      await renderProviderEditRoute({
-        props: { proxyType : mockGetProxyTypes },
-      });
-    });
+    await renderProviderEditRoute();
 
     expect(mockGetProxyTypes).toHaveBeenCalled();
   });
 
   it('should handle Cancel', async () => {
-    let getByRole;
-
-    await act(async () => {
-      getByRole = await renderProviderEditRoute({}).getByRole;
-    });
+    const { getByRole } = renderProviderEditRoute();
 
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
 
@@ -209,16 +174,13 @@ describe('Given ProviderEditRoute', () => {
   });
 
   it('should handle onSubmit', async () => {
-    let getByRole;
-
-    await act(async () => {
-      getByRole = await renderProviderEditRoute().getByRole;
-    });
+    const { getByRole } = renderProviderEditRoute();
 
     fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
     expect(mockUpdateProvider).toHaveBeenCalled();
   });
+
   describe('when update request resolves', () => {
     it('should redirect to the view title page', () => {
       const { rerender } = renderProviderEditRoute({
@@ -256,11 +218,9 @@ describe('Given ProviderEditRoute', () => {
   });
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
-      await act(async () => {
-        const { unmount } = await renderProviderEditRoute();
+      const { unmount } = await renderProviderEditRoute();
 
-        unmount();
-      });
+      unmount();
 
       expect(mockRemoveUpdateRequests).toHaveBeenCalled();
     });

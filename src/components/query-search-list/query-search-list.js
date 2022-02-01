@@ -9,10 +9,7 @@ import useImpagination from '../../hooks/useImpagination';
 
 import ScrollView from '../scroll-view';
 import PrevNextButtons from '../prev-next-buttons';
-import {
-  FIRST_PAGE,
-  PAGE_SIZE,
-} from '../../constants';
+import { PAGE_SIZE } from '../../constants';
 
 import styles from './query-search-list.css';
 
@@ -34,7 +31,7 @@ const QuerySearchList = ({
   const listFirstItem = useRef(null);
 
   useEffect(() => {
-    fetch(FIRST_PAGE);
+    fetch(collection.page);
   }, []);
 
   const {
