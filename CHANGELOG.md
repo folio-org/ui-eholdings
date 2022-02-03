@@ -19,6 +19,7 @@
 * Lock `faker` version.
 * Add tests for ProviderEditRoute. (UIEH-1186)
 * Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (MODKBEKBJ-619)
+* Missing Permissions on upgrade from Juniper to Kiwi. (UIEH-1231)
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
