@@ -28,7 +28,6 @@ import {
   formatDate,
 } from '../../../utilities';
 import {
-  DATE_FORMAT,
   BACKEND_DATE_STANDARD,
   TIME_ZONE,
 } from '../../../../constants';
@@ -163,7 +162,6 @@ class ResourceCoverageFields extends Component {
             timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
-                dateFormat={DATE_FORMAT}
                 parse={parseDate}
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
@@ -188,7 +186,6 @@ class ResourceCoverageFields extends Component {
             timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
-                dateFormat={DATE_FORMAT}
                 parse={parseDate}
                 format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
