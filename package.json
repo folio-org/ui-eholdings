@@ -130,8 +130,7 @@
         "visible": false,
         "subPermissions": [
           "kb-ebsco.status.get",
-          "kb-ebsco.kb-credentials.collection.get", 
-          "kb-ebsco.kb-credentials.item.put", 
+          "kb-ebsco.kb-credentials.collection.get",
           "kb-ebsco.user-kb-credential.get",
           "kb-ebsco.access-types.collection.get", 
           "kb-ebsco.access-types.item.get", 
@@ -198,7 +197,8 @@
           "ui-eholdings.settings.enabled",
           "kb-ebsco.kb-credentials.collection.post",
           "kb-ebsco.kb-credentials.item.get",
-          "kb-ebsco.kb-credentials.item.patch"
+          "kb-ebsco.kb-credentials.item.patch",
+          "kb-ebsco.kb-credentials.item.put"
         ]
       },
       {
