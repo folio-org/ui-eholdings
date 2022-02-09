@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { sortOrders } from '../constants';
+import { sortOrders } from '../../constants';
 
 export default function (sortOrder, sortedColumn, onSortChange = () => {}) {
   const [currentSortOrder, setCurrentSortOrder] = useState(sortOrder);
