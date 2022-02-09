@@ -5,7 +5,7 @@ import {
 
 import useMultiColumnListSort from './useMultiColumnListSort';
 
-import { sortOrders } from '../constants';
+import { sortOrders } from '../../constants';
 
 describe('Given useMultiColumnListSort', () => {
   it('should return default values', () => {
@@ -48,8 +48,8 @@ describe('Given useMultiColumnListSort', () => {
     it('should set ascending sortOrder by default and selected sortedColumn', () => {
       const currentParameters = {
         sortOrder: {
-          name: 'asc',
-          fullName: 'ascending',
+          name: 'desc',
+          fullName: 'descending',
         },
         sortedColumn: 'newName',
       };
