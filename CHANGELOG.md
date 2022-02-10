@@ -21,6 +21,7 @@
 * Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (MODKBEKBJ-619)
 * Missing Permissions on upgrade from Juniper to Kiwi. (UIEH-1231)
 * Fix datepicker date format for Custom coverage dates to match current user locale when edit resource. (UIEH-1227)
+* Add tests for useMultiColumnListSort. (UIEH-1183)
 * Fix multiple requests to /resources sent when viewing Titles list on Package Show page. (UIEH-1235)
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
