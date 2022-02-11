@@ -1,23 +1,16 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { ProxyType } from '../redux/application';
-import Resource from '../redux/resource';
-
-import View from '../components/resource/resource-edit';
+import View from '../../components/resource/resource-edit';
 import {
   accessTypes,
   accessTypesReduxStateShape,
-} from '../constants';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
+} from '../../constants';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -192,22 +185,4 @@ class ResourceEditRoute extends Component {
   }
 }
 
-export default connect(
-  (store, { match }) => {
-    const { eholdings: { data } } = store;
-
-    const resolver = createResolver(data);
-
-    return {
-      model: resolver.find('resources', match.params.id),
-      proxyTypes: resolver.query('proxyTypes'),
-      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
-    };
-  }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
-    getProxyTypes: () => ProxyType.query(),
-    updateResource: model => Resource.save(model),
-    destroyResource: model => Resource.destroy(model),
-    getAccessTypes: getAccessTypesAction,
-  }
-)(ResourceEditRoute);
+export default ResourceEditRoute;

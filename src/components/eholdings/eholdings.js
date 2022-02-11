@@ -24,7 +24,7 @@ import TitleShowRoute from '../../routes/title-show-route';
 import TitleEditRoute from '../../routes/title-edit-route';
 import TitleCreateRoute from '../../routes/title-create-route';
 import ResourceShow from '../../routes/resource-show';
-import ResourceEdit from '../../routes/resource-edit';
+import ResourceEdit from '../../routes/resource-edit-route';
 import NoteCreate from '../../routes/note-create';
 import NoteView from '../../routes/note-view';
 import NoteEdit from '../../routes/note-edit';
