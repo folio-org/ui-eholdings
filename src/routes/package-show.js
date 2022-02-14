@@ -174,7 +174,7 @@ class PackageShowRoute extends Component {
       unloadResources(next.resources);
     }
 
-    if (pkgSearchParams !== prevState.pkgSearchParams) {
+    if (!isEqual(pkgSearchParams, prevState.pkgSearchParams)) {
       const params = transformQueryParams('titles', pkgSearchParams);
 
       getPackageTitles({ packageId, params });
