@@ -15,11 +15,11 @@ import {
 import ApplicationRoute from '../../routes/application-route';
 import SettingsRoute from '../../routes/settings-route';
 import SearchRoute from '../../routes/search-route';
-import ProviderShow from '../../routes/provider-show-route';
-import ProviderEdit from '../../routes/provider-edit-route';
-import PackageShow from '../../routes/package-show';
-import PackageCreate from '../../routes/package-create-route';
-import PackageEdit from '../../routes/package-edit-route';
+import ProviderShowRoute from '../../routes/provider-show-route';
+import ProviderEditRoute from '../../routes/provider-edit-route';
+import PackageShowRoute from '../../routes/package-show-route';
+import PackageCreateRoute from '../../routes/package-create-route';
+import PackageEditRoute from '../../routes/package-edit-route';
 import TitleShowRoute from '../../routes/title-show-route';
 import TitleEditRoute from '../../routes/title-edit-route';
 import TitleCreateRoute from '../../routes/title-create-route';
@@ -117,11 +117,11 @@ class EHoldings extends Component {
               <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
                 <Route path={rootPath} component={ApplicationRoute}>
                   <Switch>
-                    <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShow} />
-                    <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEdit} />
-                    <Route path={`${rootPath}/packages/new`} exact component={PackageCreate} />
-                    <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShow} />
-                    <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEdit} />
+                    <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShowRoute} />
+                    <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEditRoute} />
+                    <Route path={`${rootPath}/packages/new`} exact component={PackageCreateRoute} />
+                    <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShowRoute} />
+                    <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEditRoute} />
                     <Route path={`${rootPath}/titles/new`} exact component={TitleCreateRoute} />
                     <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShowRoute} />
                     <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEditRoute} />
