@@ -18,7 +18,7 @@ on: [push, pull_request]
 jobs:
   github-actions-ci:
     env:
-      SQ_ROOT_DIR: 'artifacts/coverage-jest'
+      SQ_ROOT_DIR: './src'
       COMPILE_TRANSLATION_FILES: 'true'
       PUBLISH_MOD_DESCRIPTOR: true
       FOLIO_NPM_REGISTRY: 'https://repository.folio.org/repository/npm-folioci/'
