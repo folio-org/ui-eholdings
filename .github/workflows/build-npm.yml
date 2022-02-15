@@ -26,8 +26,6 @@ jobs:
       NODEJS_VERSION: '12'
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
       JEST_COVERAGE_REPORT_DIR: 'artifacts/coverage-jest/lcov-report/'
-      BIGTEST_JUNIT_OUTPUT_DIR: 'artifacts/runTest'
-      BIGTEST_COVERAGE_REPORT_DIR: 'artifacts/coverage/lcov-report/'
       SQ_LCOV_REPORT: 'artifacts/coverage-jest/lcov.info'
       SQ_EXCLUSIONS: '**/platform/alias-service.js,**/docs/**,**/node_modules/**,**/examples/**,**/artifacts/**,**/ci/**,Jenkinsfile,**/LICENSE,**/*.css,**/*.md,**/*.json,**/tests/**,**/stories/*.js,**/test/**,**/.stories.js,**/resources/bigtest/interactors/**,**/resources/bigtest/network/**,**/*-test.js,**/*.test.js,**/*-spec.js,**/karma.conf.js,**/jest.config.js'
 
@@ -98,24 +96,6 @@ jobs:
         with:
           name: jest-coverage-report
           path: ${{ env.JEST_COVERAGE_REPORT_DIR }}
-          retention-days: 30
-
-      - name: Publish BigTest unit test results
-        uses: docker://ghcr.io/enricomi/publish-unit-test-result-action:v1
-        if: always()
-        with:
-          github_token: ${{ github.token }}
-          files: "${{ env.BIGTEST_JUNIT_OUTPUT_DIR }}/*.xml"
-          check_name: BigTest Unit Test Results
-          comment_mode: update last
-          comment_title: BigTest Unit Test Statistics
-
-      - name: Publish BigTest coverage report
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: bigtest-coverage-report
-          path: ${{ env.BIGTEST_COVERAGE_REPORT_DIR }}
           retention-days: 30
 
       - name: Publish yarn.lock
