@@ -293,5 +293,23 @@ describe('Given ResourceEditRoute', () => {
       expect(history.replace).toHaveBeenCalled();
     });
   });
+
+  describe('when package is added to holdings', () => {
+    it('should update resource', () => {
+      const { getByText } = renderResourceEditRoute({
+        model: {
+          ...model,
+          isSelected: false,
+        },
+      });
+
+      fireEvent.click(getByText('ui-eholdings.addToHoldings'));
+
+      expect(mockUpdateResource).toHaveBeenCalledWith({
+        ...model,
+        isSelected: true,
+      });
+    });
+  });
 });
 
