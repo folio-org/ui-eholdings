@@ -56,6 +56,7 @@ const model = {
   publicationType: 'publication type',
   isLoaded: true,
   titleHasSelectedResources: true,
+  isCustom: true,
   isSelected: false,
   coverageStatement: 'coverage statement',
   customCoverages: [{
@@ -96,7 +97,7 @@ const model = {
   update: {
     timestamp: 0,
     isPending: false,
-    isRedolved: false,
+    isResolved: false,
     isRejected: false,
     errors: [],
   },
@@ -287,6 +288,8 @@ describe('Given ResourceEditRoute', () => {
             isResolved: true,
             errors: [],
           },
+          isLoaded: true,
+          isSelected: true,
         },
       }));
 
@@ -311,5 +314,20 @@ describe('Given ResourceEditRoute', () => {
       });
     });
   });
-});
 
+  describe('when a managed package is deselected', () => {
+    it('should call destroyResource', () => {
+      const { getByText } = renderResourceEditRoute({
+        model: {
+          ...model,
+          isCustom: false,
+        },
+      });
+
+      fireEvent.click(getByText('ui-eholdings.resource.actionMenu.removeHolding'));
+      fireEvent.click(getByText('ui-eholdings.resource.modal.buttonConfirm'));
+
+      expect(mockUpdateResource).toHaveBeenCalled();
+    });
+  });
+});
