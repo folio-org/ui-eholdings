@@ -29,16 +29,31 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    const { match, getResource, getProxyTypes, getAccessTypes } = props;
+    const {
+      match,
+      getResource,
+      getProxyTypes,
+      getAccessTypes,
+    } = props;
     const { id } = match.params;
+
     getResource(id);
     getProxyTypes();
     getAccessTypes();
   }
 
   componentDidUpdate(prevProps) {
-    const { packageName, packageId } = prevProps.model;
-    const { match, getResource, history, location, model } = this.props;
+    const {
+      packageName,
+      packageId,
+    } = prevProps.model;
+    const {
+      match,
+      getResource,
+      history,
+      location,
+      model,
+    } = this.props;
     const { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
@@ -56,6 +71,7 @@ class ResourceEditRoute extends Component {
     const wasUnSelected = prevProps.model.isSelected && !model.isSelected;
     const isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
+
     if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
       history.replace({
         pathname: `/eholdings/resources/${model.id}`,
@@ -69,7 +85,11 @@ class ResourceEditRoute extends Component {
   }
 
   resourceEditSubmitted = (values) => {
-    const { model, updateResource, destroyResource } = this.props;
+    const {
+      model,
+      updateResource,
+      destroyResource,
+    } = this.props;
     const {
       coverageStatement,
       customCoverages,
@@ -167,6 +187,7 @@ class ResourceEditRoute extends Component {
       proxyTypes,
       accessStatusTypes,
     } = this.props;
+
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
         {pageTitle => (

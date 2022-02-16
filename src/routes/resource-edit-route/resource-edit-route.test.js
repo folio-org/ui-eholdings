@@ -38,9 +38,7 @@ const id = `${provider.id}-titleid`;
 
 const match = {
   isExact: true,
-  params: {
-    id,
-  },
+  params: { id },
   path: '/eholdings/packages/:id/edit',
   url: `/eholdings/packages/${id}/edit`,
 };
@@ -208,8 +206,8 @@ describe('Given ResourceEditRoute', () => {
     expect(mockGetAccessTypes).toHaveBeenCalled();
   });
 
-  describe('when handle Cancel', () => {
-    it('should redirect to the view package page', () => {
+  describe('when click on Close button', () => {
+    it('should redirect to the view resource page', () => {
       const { getByRole } = renderResourceEditRoute();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
@@ -224,8 +222,8 @@ describe('Given ResourceEditRoute', () => {
     });
   });
 
-  describe('when handle onSubmit', () => {
-    it('should render Custom labels accordion and updateResource', () => {
+  describe('when click on Save & close button', () => {
+    it('should render Custom labels accordion and handle updateResource', () => {
       const { getByText, getByRole } = renderResourceEditRoute({
         model: {
           ...model,
@@ -316,7 +314,7 @@ describe('Given ResourceEditRoute', () => {
   });
 
   describe('when a managed package is deselected', () => {
-    it('should call destroyResource', () => {
+    it('should handle mockUpdateResource', () => {
       const { getByText } = renderResourceEditRoute({
         model: {
           ...model,
