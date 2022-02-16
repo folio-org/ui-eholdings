@@ -1,23 +1,16 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
-import { createResolver } from '../redux';
-import { ProxyType } from '../redux/application';
-import Resource from '../redux/resource';
-
-import View from '../components/resource/resource-edit';
+import View from '../../components/resource/resource-edit';
 import {
   accessTypes,
   accessTypesReduxStateShape,
-} from '../constants';
-import { getAccessTypes as getAccessTypesAction } from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
+} from '../../constants';
 
 class ResourceEditRoute extends Component {
   static propTypes = {
@@ -36,16 +29,31 @@ class ResourceEditRoute extends Component {
 
   constructor(props) {
     super(props);
-    const { match, getResource, getProxyTypes, getAccessTypes } = props;
+    const {
+      match,
+      getResource,
+      getProxyTypes,
+      getAccessTypes,
+    } = props;
     const { id } = match.params;
+
     getResource(id);
     getProxyTypes();
     getAccessTypes();
   }
 
   componentDidUpdate(prevProps) {
-    const { packageName, packageId } = prevProps.model;
-    const { match, getResource, history, location, model } = this.props;
+    const {
+      packageName,
+      packageId,
+    } = prevProps.model;
+    const {
+      match,
+      getResource,
+      history,
+      location,
+      model,
+    } = this.props;
     const { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
@@ -63,6 +71,7 @@ class ResourceEditRoute extends Component {
     const wasUnSelected = prevProps.model.isSelected && !model.isSelected;
     const isCurrentlySelected = prevProps.model.isSelected && model.isSelected;
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
+
     if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
       history.replace({
         pathname: `/eholdings/resources/${model.id}`,
@@ -76,7 +85,11 @@ class ResourceEditRoute extends Component {
   }
 
   resourceEditSubmitted = (values) => {
-    const { model, updateResource, destroyResource } = this.props;
+    const {
+      model,
+      updateResource,
+      destroyResource,
+    } = this.props;
     const {
       coverageStatement,
       customCoverages,
@@ -174,6 +187,7 @@ class ResourceEditRoute extends Component {
       proxyTypes,
       accessStatusTypes,
     } = this.props;
+
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
         {pageTitle => (
@@ -192,22 +206,4 @@ class ResourceEditRoute extends Component {
   }
 }
 
-export default connect(
-  (store, { match }) => {
-    const { eholdings: { data } } = store;
-
-    const resolver = createResolver(data);
-
-    return {
-      model: resolver.find('resources', match.params.id),
-      proxyTypes: resolver.query('proxyTypes'),
-      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
-    };
-  }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
-    getProxyTypes: () => ProxyType.query(),
-    updateResource: model => Resource.save(model),
-    destroyResource: model => Resource.destroy(model),
-    getAccessTypes: getAccessTypesAction,
-  }
-)(ResourceEditRoute);
+export default ResourceEditRoute;
