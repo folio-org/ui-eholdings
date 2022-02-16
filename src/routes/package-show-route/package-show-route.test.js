@@ -77,6 +77,9 @@ const mockClearCostPerUseData = jest.fn();
 const history = createMemoryHistory();
 const historyReplaceSpy = jest.spyOn(history, 'replace');
 
+const providerId = 'providerId';
+const packageId = `${providerId}-1234`;
+
 const location = {
   pathname: 'pathname',
   search: '',
@@ -84,13 +87,13 @@ const location = {
 };
 
 const match = {
-  params: { packageId: 'package-id' },
+  params: { packageId },
   path: 'path',
   url: 'url',
 };
 
 const model = {
-  id: 'package-id',
+  id: packageId,
   name: 'Test package',
   description: '',
   edition: '',
@@ -147,6 +150,7 @@ const proxyTypes = {
 };
 
 const provider = {
+  id: providerId,
   data: {
     isLoaded: true,
     isLoading: false,
@@ -219,7 +223,7 @@ const packageTitles = {
         tagList: [],
       },
     },
-    id: 'package-id',
+    id: packageId,
     relationships: {},
     type: 'resources',
   }],
@@ -284,7 +288,7 @@ describe('Given PackageShowRoute', () => {
       getPackage: mockGetPackage,
     });
 
-    expect(mockGetPackage).toHaveBeenCalled();
+    expect(mockGetPackage).toHaveBeenCalledWith(packageId);
   });
 
   it('should handle getProxyTypes', () => {
@@ -300,7 +304,7 @@ describe('Given PackageShowRoute', () => {
       getProvider: mockGetProvider,
     });
 
-    expect(mockGetProvider).toHaveBeenCalled();
+    expect(mockGetProvider).toHaveBeenCalledWith(providerId);
   });
 
   it('should handle getTags', () => {
@@ -427,6 +431,8 @@ describe('Given PackageShowRoute', () => {
 
   describe('when package id change between renders', () => {
     it('should handle getPackage', () => {
+      const newPackageId = 'newPackageId';
+
       const { rerender } = renderPackageShowRoute();
 
       rerender(getPackageShowRoute({
@@ -435,12 +441,12 @@ describe('Given PackageShowRoute', () => {
           ...match,
           params: {
             ...match.params,
-            packageId: 'new-package-id',
+            packageId: newPackageId,
           },
         },
       }));
 
-      expect(mockGetPackage).toHaveBeenCalled();
+      expect(mockGetPackage).toHaveBeenCalledWith(newPackageId);
     });
   });
 
@@ -493,7 +499,22 @@ describe('Given PackageShowRoute', () => {
       });
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.search' }));
 
-      expect(mockGetPackageTitles).toHaveBeenCalled();
+      expect(mockGetPackageTitles).toHaveBeenCalledWith({
+        packageId,
+        params: {
+          count: 100,
+          filter: {
+            'access-type': undefined,
+            name: 'Title name',
+            selected: undefined,
+            tags: undefined,
+            type: undefined,
+          },
+          page: 1,
+          searchfield: undefined,
+          sort: undefined,
+        },
+      });
     });
 
     describe('when changed param is not single and it is not "page"', () => {
