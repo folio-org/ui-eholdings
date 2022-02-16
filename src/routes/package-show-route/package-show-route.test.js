@@ -273,13 +273,13 @@ describe('Given PackageShowRoute', () => {
 
   afterEach(cleanup);
 
-  it('should render PackageShowRoute', async () => {
+  it('should render PackageShowRoute', () => {
     const { getByText } = renderPackageShowRoute();
 
     expect(getByText('PackageShowRoute component')).toBeDefined();
   });
 
-  it('should handle getPackage', async () => {
+  it('should handle getPackage', () => {
     renderPackageShowRoute({
       getPackage: mockGetPackage,
     });
@@ -287,7 +287,7 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetPackage).toHaveBeenCalled();
   });
 
-  it('should handle getProxyTypes', async () => {
+  it('should handle getProxyTypes', () => {
     renderPackageShowRoute({
       getProxyTypes: mockGetProxyTypes,
     });
@@ -295,7 +295,7 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetProxyTypes).toHaveBeenCalled();
   });
 
-  it('should handle getProvider', async () => {
+  it('should handle getProvider', () => {
     renderPackageShowRoute({
       getProvider: mockGetProvider,
     });
@@ -303,7 +303,7 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetProvider).toHaveBeenCalled();
   });
 
-  it('should handle getTags', async () => {
+  it('should handle getTags', () => {
     renderPackageShowRoute({
       getTags: mockGetTags,
     });
@@ -311,7 +311,7 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetTags).toHaveBeenCalled();
   });
 
-  it('should handle getAccessTypes', async () => {
+  it('should handle getAccessTypes', () => {
     renderPackageShowRoute({
       getAccessTypes: mockGetAccessTypes,
     });

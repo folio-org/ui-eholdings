@@ -86,6 +86,7 @@ class PackageShowRoute extends Component {
 
     const { packageId } = props.match.params;
     const [providerId] = packageId.split('-');
+
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
@@ -177,6 +178,7 @@ class PackageShowRoute extends Component {
       match,
       updatePackage,
     } = this.props;
+
     const { packageId } = match.params;
 
     model.isSelected = true;
@@ -242,6 +244,7 @@ class PackageShowRoute extends Component {
       updatePackage,
       destroyPackage,
     } = this.props;
+
     const { packageId } = match.params;
 
     // if the package is custom setting the holding status to false
@@ -368,6 +371,7 @@ class PackageShowRoute extends Component {
       costPerUse,
       packageTitles,
     } = this.props;
+
     const {
       pkgSearchParams,
       queryId,
