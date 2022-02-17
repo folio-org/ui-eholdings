@@ -1,31 +1,13 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import queryString from 'qs';
 import isEqual from 'lodash/isEqual';
 import reduce from 'lodash/reduce';
 
 import { TitleManager } from '@folio/stripes/core';
 
-import {
-  createResolver,
-} from '../redux';
-import { ProxyType } from '../redux/application';
-import Package from '../redux/package';
-import Provider from '../redux/provider';
-import Resource from '../redux/resource';
-import { selectPropFromData } from '../redux/selectors';
-import {
-  getAccessTypes as getAccessTypesAction,
-  getCostPerUse as getCostPerUseAction,
-  getCostPerUsePackageTitles as getCostPerUsePackageTitlesAction,
-  clearCostPerUseData as clearCostPerUseDataAction,
-  getPackageTitles as getPackageTitlesAction,
-  clearPackageTitles as clearPackageTitlesAction,
-} from '../redux/actions';
-import Tag from '../redux/tag';
-import { transformQueryParams } from '../components/utilities';
+import { transformQueryParams } from '../../components/utilities';
 import {
   listTypes,
   accessTypesReduxStateShape,
@@ -34,10 +16,10 @@ import {
   FIRST_PAGE,
   DELAY_BEFORE_UPDATE,
   INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
-} from '../constants';
+} from '../../constants';
 
-import View from '../components/package/show';
-import SearchModal from '../components/search-modal';
+import View from '../../components/package/show';
+import SearchModal from '../../components/search-modal';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -104,6 +86,7 @@ class PackageShowRoute extends Component {
 
     const { packageId } = props.match.params;
     const [providerId] = packageId.split('-');
+
     props.getPackage(packageId);
     props.getProxyTypes();
     props.getProvider(providerId);
@@ -195,6 +178,7 @@ class PackageShowRoute extends Component {
       match,
       updatePackage,
     } = this.props;
+
     const { packageId } = match.params;
 
     model.isSelected = true;
@@ -254,7 +238,13 @@ class PackageShowRoute extends Component {
   }
 
   toggleSelected = () => {
-    const { model, match, updatePackage, destroyPackage } = this.props;
+    const {
+      model,
+      match,
+      updatePackage,
+      destroyPackage,
+    } = this.props;
+
     const { packageId } = match.params;
 
     // if the package is custom setting the holding status to false
@@ -329,12 +319,6 @@ class PackageShowRoute extends Component {
     }));
   }
 
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-
-    return searchType;
-  }
-
   fetchPackageCostPerUse = (filterData) => {
     const {
       getCostPerUse,
@@ -387,6 +371,7 @@ class PackageShowRoute extends Component {
       costPerUse,
       packageTitles,
     } = this.props;
+
     const {
       pkgSearchParams,
       queryId,
@@ -446,41 +431,4 @@ class PackageShowRoute extends Component {
   }
 }
 
-export default connect(
-  (store, ownProps) => {
-    const {
-      eholdings: { data },
-    } = store;
-
-    const { match } = ownProps;
-    const resolver = createResolver(data);
-    const model = resolver.find('packages', match.params.packageId);
-    return {
-      model,
-      proxyTypes: resolver.query('proxyTypes'),
-      provider: resolver.find('providers', model.providerId),
-      tagsModel: resolver.query('tags'),
-      resolver,
-      accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
-      costPerUse: selectPropFromData(store, 'costPerUse'),
-      packageTitles: selectPropFromData(store, 'packageTitles'),
-    };
-  },
-  {
-    getPackage: id => Package.find(id, { include: ['accessType'] }),
-    getPackageTitles: getPackageTitlesAction,
-    clearPackageTitles: clearPackageTitlesAction,
-    getProxyTypes: () => ProxyType.query(),
-    getTags: () => Tag.query(),
-    getProvider: id => Provider.find(id),
-    unloadResources: collection => Resource.unload(collection),
-    updatePackage: model => Package.save(model),
-    updateFolioTags: (model) => Tag.create(model),
-    destroyPackage: model => Package.destroy(model),
-    removeUpdateRequests: () => Package.removeRequests('update'),
-    getAccessTypes: getAccessTypesAction,
-    getCostPerUse: getCostPerUseAction,
-    getCostPerUsePackageTitles: getCostPerUsePackageTitlesAction,
-    clearCostPerUseData: clearCostPerUseDataAction,
-  }
-)(PackageShowRoute);
+export default PackageShowRoute;
