@@ -19,7 +19,7 @@ List.propTypes = {
   fullWidth: PropTypes.bool,
 };
 
-List.propTypes = {
+List.defaultProps = {
   className: '',
   fullWidth: false,
 };
