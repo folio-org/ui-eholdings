@@ -1,27 +1,16 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { connect } from 'react-redux';
 import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 
-import { createResolver } from '../redux';
-import Resource from '../redux/resource';
-import View from '../components/resource/resource-show';
-import { ProxyType } from '../redux/application';
-import Tag from '../redux/tag';
-import {
-  getAccessTypes as getAccessTypesAction,
-  getCostPerUse as getCostPerUseAction,
-  clearCostPerUseData as clearCostPerUseDataAction,
-} from '../redux/actions';
-import { selectPropFromData } from '../redux/selectors';
+import View from '../../components/resource/resource-show';
 
 import {
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
   listTypes,
-} from '../constants';
+} from '../../constants';
 
 class ResourceShowRoute extends Component {
   static propTypes = {
@@ -47,6 +36,7 @@ class ResourceShowRoute extends Component {
 
   constructor(props) {
     super(props);
+
     const {
       match,
       getResource,
@@ -54,7 +44,9 @@ class ResourceShowRoute extends Component {
       getProxyTypes,
       getTags,
     } = props;
+
     const { id } = match.params;
+
     getResource(id);
     getProxyTypes();
     getAccessTypes();
@@ -62,18 +54,40 @@ class ResourceShowRoute extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const wasUpdated = !this.props.model.update.isPending && prevProps.model.update.isPending && (!this.props.model.update.errors.length > 0);
+    const {
+      model: next,
+      match,
+      getResource,
+      history,
+      location,
+      removeUpdateRequests,
+    } = this.props;
 
-    const { match, getResource, history, location, removeUpdateRequests } = this.props;
+    const {
+      model: old,
+      match: oldMatch,
+    } = prevProps;
+
     const { id } = match.params;
 
-    const isRejected = this.props.model.update.isRejected;
-    const isSelectedChanged = wasUpdated && !isRejected && prevProps.model.isSelected !== this.props.model.isSelected;
+    const wasUpdated = !next.update.isPending
+      && old.update.isPending
+      && (!next.update.errors.length > 0);
 
-    const { packageName, packageId } = prevProps.model;
-    if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
+    const isRejected = next.update.isRejected;
+    const isSelectedChanged = wasUpdated && !isRejected && old.isSelected !== next.isSelected;
+
+    const {
+      packageName,
+      packageId,
+    } = old;
+
+    if (!old.destroy.isResolved && next.destroy.isResolved) {
       history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
-        { eholdings: true, isDestroyed: true });
+        {
+          eholdings: true,
+          isDestroyed: true,
+        });
     }
 
     if (isSelectedChanged) {
@@ -82,13 +96,16 @@ class ResourceShowRoute extends Component {
 
     if (wasUpdated) {
       history.replace({
-        pathname: `/eholdings/resources/${this.props.model.id}`,
+        pathname: `/eholdings/resources/${next.id}`,
         search: location.search,
-        state: { eholdings: true, isFreshlySaved: true }
+        state: {
+          eholdings: true,
+          isFreshlySaved: true,
+        },
       });
     }
 
-    if (id !== prevProps.match.params.id) {
+    if (id !== oldMatch.params.id) {
       getResource(id);
     }
   }
@@ -98,7 +115,12 @@ class ResourceShowRoute extends Component {
   }
 
   toggleSelected = () => {
-    const { model, updateResource, destroyResource } = this.props;
+    const {
+      model,
+      updateResource,
+      destroyResource,
+    } = this.props;
+
     model.isSelected = !model.isSelected;
 
     if (model.isSelected === false && model.package.isCustom) {
@@ -186,32 +208,4 @@ class ResourceShowRoute extends Component {
   }
 }
 
-export default connect(
-  (store, { match }) => {
-    const {
-      eholdings: { data },
-    } = store;
-
-    const resolver = createResolver(data);
-
-    return {
-      model: resolver.find('resources', match.params.id),
-      tagsModel: resolver.query('tags'),
-      proxyTypes: resolver.query('proxyTypes'),
-      resolver,
-      accessTypes: selectPropFromData(store, 'accessStatusTypes'),
-      costPerUse: selectPropFromData(store, 'costPerUse'),
-    };
-  }, {
-    getResource: id => Resource.find(id, { include: ['package', 'title', 'accessType'] }),
-    getProxyTypes: () => ProxyType.query(),
-    updateResource: model => Resource.save(model),
-    updateFolioTags: model => Tag.create(model),
-    getTags: () => Tag.query(),
-    destroyResource: model => Resource.destroy(model),
-    getAccessTypes: getAccessTypesAction,
-    removeUpdateRequests: () => Resource.removeRequests('update'),
-    getCostPerUse: getCostPerUseAction,
-    clearCostPerUseData: clearCostPerUseDataAction,
-  }
-)(ResourceShowRoute);
+export default ResourceShowRoute;

@@ -22,6 +22,8 @@
 * Add tests for useMultiColumnListSort. (UIEH-1183)
 * Add tests for ResourceEditRoute. (UIEH-1190)
 * Add tests for PackageShowRoute. (UIEH-1188)
+* Add tests for ResourceShowRoute. (UIEH-1191)
+* Correctly specify proptypes. (UIEH-1242)
 * Unpin `final-form` and related deps. (UIEH-1241)
 
 ## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
