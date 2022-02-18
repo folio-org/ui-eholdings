@@ -31,7 +31,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.0.0",
     "@folio/stripes": "^7.0.0",
-    "@folio/stripes-cli": "^2.0.0",
+    "@folio/stripes-cli": "~2.4.0",
     "@folio/stripes-core": "^8.0.0",
     "@formatjs/cli": "^4.2.7",
     "@testing-library/jest-dom": "^5.11.1",
