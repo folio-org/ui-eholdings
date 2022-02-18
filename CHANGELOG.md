@@ -18,13 +18,16 @@
 * Add tests for PackageEditRoute. (UIEH-1187)
 * Lock `faker` version.
 * Add tests for ProviderEditRoute. (UIEH-1186)
-* Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (MODKBEKBJ-619)
-* Missing Permissions on upgrade from Juniper to Kiwi. (UIEH-1231)
 * Fix datepicker date format for Custom coverage dates to match current user locale when edit resource. (UIEH-1227)
 * Add tests for useMultiColumnListSort. (UIEH-1183)
 * Add tests for ResourceEditRoute. (UIEH-1190)
-* Fix multiple requests to /resources sent when viewing Titles list on Package Show page. (UIEH-1235)
 * Add tests for PackageShowRoute. (UIEH-1188)
+
+## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
+
+* Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (UIEH-1232)
+* Missing Permissions on upgrade from Juniper to Kiwi. (UIEH-1231)
+* Fix multiple requests to /resources sent when viewing Titles list on Package Show page. (UIEH-1235)
 
 ## [7.0.1] (https://github.com/folio-org/ui-eholdings/tree/v7.0.1) (2021-10-19)
 
