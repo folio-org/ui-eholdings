@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.0.2] (IN PROGRESS)
+## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
 
 * Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (UIEH-1232)
 * Missing Permissions on upgrade from Juniper to Kiwi. (UIEH-1231)
