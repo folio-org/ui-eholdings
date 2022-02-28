@@ -63,20 +63,6 @@ class EHoldings extends Component {
     props.root.addEpic('eholdings', epics);
   }
 
-  componentDidMount() {
-    const {
-      history,
-      location: {
-        pathname,
-        search,
-      },
-    } = this.props;
-
-    const currentURL = `${pathname}${search}`;
-
-    history.replace(currentURL, {});
-  }
-
   focusSearchField = () => {
     const {
       history,
