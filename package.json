@@ -352,7 +352,8 @@
           "kb-ebsco.kb-credentials.users.collection.post",
           "kb-ebsco.kb-credentials.users.item.put",
           "kb-ebsco.kb-credentials.users.item.delete",
-          "usergroups.collection.get"
+          "usergroups.collection.get",
+          "users.collection.get"
         ]
       }
     ]
