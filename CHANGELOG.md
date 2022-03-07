@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [7.0.3] (https://github.com/folio-org/ui-eholdings/tree/v7.0.3) (2022-03-07)
+
+* Missing Permissions. (UIEH-1231)
+
 ## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
 
 * Fix 3 GET requests instead of 1 are made when searching Providers/Packages/Titles. (UIEH-1232)
@@ -62,7 +66,7 @@
 * Add tests for SettingsCustomLabels component. (UIEH-1077)
 * Add tests for DetailsView component. (UIEH-1082)
 * Jest+RTL > Test ScrollView. (UIEH-1085)
-* Add tests for SearchForm conponent. (UIEH-1086) 
+* Add tests for SearchForm conponent. (UIEH-1086)
 * Add tests for SearchModal component. (UIEH-1087)
 * Change all detail records headline component size to XL. (UIEH-1204)
 * Fix apparition of navigation modal after saving changes while editing Custom Title. (UIEH-1203)
@@ -163,7 +167,7 @@
 * Fixed text wrapping for Custom Labels. (UIEH-985)
 * Make Coverage Accordion in Resource Page be always expanded. (UIEH-1008)
 * Update focus behavior on Result list pane. (UIEH-1001)
-* Add assign/unassign user from KB permissions. (UIEH-1018) 
+* Add assign/unassign user from KB permissions. (UIEH-1018)
 * Fix "Required ARIA parent role not present: tablist" error. (UIEH-926)
 * Update `stripes` to v6. (UIEH-1019)
 * Add PERSONAL_DATA_DISCLOSURE.md. (UIEH-1031)

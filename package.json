@@ -1,6 +1,6 @@
 {
   "name": "@folio/eholdings",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "FOLIO UI module for eHoldings",
   "main": "src/index.js",
   "repository": "https://github.com/folio-org/ui-eholdings",
@@ -71,6 +71,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
+    "@folio/react-intl-safe-html": "^3.0.0",
     "classnames": "^2.2.5",
     "currency-symbol-map": "^4.0.4",
     "file-saver": "^2.0.5",
@@ -132,38 +133,38 @@
           "kb-ebsco.status.get",
           "kb-ebsco.kb-credentials.collection.get",
           "kb-ebsco.user-kb-credential.get",
-          "kb-ebsco.access-types.collection.get", 
-          "kb-ebsco.access-types.item.get", 
-          "kb-ebsco.kb-credentials.custom-labels.collection.get", 
-          "kb-ebsco.custom-labels.collection.get", 
-          "kb-ebsco.configuration.get", 
-          "kb-ebsco.configuration.put", 
+          "kb-ebsco.access-types.collection.get",
+          "kb-ebsco.access-types.item.get",
+          "kb-ebsco.kb-credentials.custom-labels.collection.get",
+          "kb-ebsco.custom-labels.collection.get",
+          "kb-ebsco.configuration.get",
+          "kb-ebsco.configuration.put",
           "kb-ebsco.cache.delete",
-          "kb-ebsco.package-resources.export.collection.get", 
-          "kb-ebsco.package-resources.collection.get", 
-          "kb-ebsco.packages.collection.get", 
-          "kb-ebsco.packages-bulk.collection.get", 
-          "kb-ebsco.packages.item.get", 
-          "kb-ebsco.provider-packages.collection.get", 
-          "kb-ebsco.providers.collection.get", 
-          "kb-ebsco.providers.item.get", 
-          "kb-ebsco.resources.item.get", 
-          "kb-ebsco.resources-bulk.collection.get", 
-          "kb-ebsco.root-proxy.get", 
-          "kb-ebsco.proxy-types.collection.get", 
-          "kb-ebsco.titles.collection.get",  
-          "kb-ebsco.titles.item.get", 
+          "kb-ebsco.package-resources.export.collection.get",
+          "kb-ebsco.package-resources.collection.get",
+          "kb-ebsco.packages.collection.get",
+          "kb-ebsco.packages-bulk.collection.get",
+          "kb-ebsco.packages.item.get",
+          "kb-ebsco.provider-packages.collection.get",
+          "kb-ebsco.providers.collection.get",
+          "kb-ebsco.providers.item.get",
+          "kb-ebsco.resources.item.get",
+          "kb-ebsco.resources-bulk.collection.get",
+          "kb-ebsco.root-proxy.get",
+          "kb-ebsco.proxy-types.collection.get",
+          "kb-ebsco.titles.collection.get",
+          "kb-ebsco.titles.item.get",
           "tags.collection.get",
           "tags.item.get",
-          "kb-ebsco.package-tags.put", 
-          "kb-ebsco.provider-tags.put", 
-          "kb-ebsco.resource-tags.put", 
-          "kb-ebsco.tags.collection.get", 
+          "kb-ebsco.package-tags.put",
+          "kb-ebsco.provider-tags.put",
+          "kb-ebsco.resource-tags.put",
+          "kb-ebsco.tags.collection.get",
           "kb-ebsco.unique.tags.collection.get",
-          "kb-ebsco.kb-credentials.holdings-load-all.post", 
+          "kb-ebsco.kb-credentials.holdings-load-all.post",
           "kb-ebsco.kb-credentials.holdings-load.post",
-          "kb-ebsco.kb-credentials.holdings-load.status.item.get", 
-          "kb-ebsco.kb-credentials.proxy-types.collection.get" 
+          "kb-ebsco.kb-credentials.holdings-load.status.item.get",
+          "kb-ebsco.kb-credentials.proxy-types.collection.get"
         ]
       },
       {
@@ -216,7 +217,9 @@
         "displayName": "Settings (eHoldings): configure root proxy setting",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled"
+          "ui-eholdings.settings.enabled",
+          "kb-ebsco.kb-credentials.root-proxy.get",
+          "kb-ebsco.kb-credentials.root-proxy.put"
         ]
       },
       {
@@ -237,7 +240,8 @@
           "module.eholdings.enabled",
           "kb-ebsco.packages.item.put",
           "kb-ebsco.resources.item.put",
-          "kb-ebsco.providers.item.put"
+          "kb-ebsco.providers.item.put",
+          "kb-ebsco.titles.item.put"
         ]
       },
       {
@@ -311,7 +315,8 @@
         "displayName": "Settings (eholdings): Can create, edit, view, and delete custom labels",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.custom-labels.view"
+          "ui-eholdings.settings.custom-labels.view",
+          "kb-ebsco.kb-credentials.custom-labels.collection.put"
         ]
       },
       {
@@ -321,7 +326,8 @@
         "subPermissions": [
           "ui-eholdings.settings.enabled",
           "kb-ebsco.kb-credentials.uc.item.get",
-          "kb-ebsco.currencies.collection.get"
+          "kb-ebsco.currencies.collection.get",
+          "kb-ebsco.uc-credentials.item.get"
         ]
       },
       {
@@ -331,7 +337,8 @@
         "subPermissions": [
           "ui-eholdings.settings.usage-consolidation.view",
           "kb-ebsco.kb-credentials.uc.collection.post",
-          "kb-ebsco.kb-credentials.uc.item.patch"
+          "kb-ebsco.kb-credentials.uc.item.patch",
+          "kb-ebsco.uc-credentials.item.put"
         ]
       },
       {
@@ -340,8 +347,12 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.users.all",
-          "usergroups.collection.get"
+          "kb-ebsco.kb-credentials.users.collection.get",
+          "kb-ebsco.kb-credentials.users.collection.post",
+          "kb-ebsco.kb-credentials.users.item.put",
+          "kb-ebsco.kb-credentials.users.item.delete",
+          "usergroups.collection.get",
+          "users.collection.get"
         ]
       }
     ]
