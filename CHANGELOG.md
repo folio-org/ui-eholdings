@@ -27,6 +27,7 @@
 * Add tests for ResourceShowRoute. (UIEH-1191)
 * Correctly specify proptypes. (UIEH-1242)
 * Unpin `final-form` and related deps. (UIEH-1241)
+* Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
 
 ## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
 
