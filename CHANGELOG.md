@@ -1,6 +1,8 @@
 # Change history for ui-eholdings
 
-## IN PROGRESS
+## [7.1.1] (IN PROGRESS)
+
+* Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
 
 ## [7.1.0] (https://github.com/folio-org/ui-eholdings/tree/v7.1.0) (2022-03-03)
 
