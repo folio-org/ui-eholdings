@@ -529,5 +529,7 @@
     "search.searchByAccessTypeOnly": "Search by access status types only",
     "loadMore": "Load more",
     "selection-modal.buttonWorking": "Removing...",
-    "selection-modal.buttonConfirm": "Yes, remove"
+    "selection-modal.buttonConfirm": "Yes, remove",
+    "filter.contentType.mixedContent": "Mixed Content",
+    "filter.contentType.streamingMedia": "Streaming Media"
 }

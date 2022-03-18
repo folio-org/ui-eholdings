@@ -316,7 +316,7 @@
     "notes.entityType.resource": "Ressource",
     "notes.entityType.provider.pluralized": "{count} {count, plural, one {Anbieter} other {Anbieter}}",
     "notes.entityType.package.pluralized": "{count} {count, plural, one {Paket} other {Pakete}}",
-    "notes.entityType.resource.pluralized": "{count} {count, plural, one {Ressource} other {Ressource}}",
+    "notes.entityType.resource.pluralized": "{count} {count, plural, one {Ressource} other {Ressourcen}}",
     "notes.entityType.title.pluralized": "{count} {count, plural, one {Titel} other {Titel}}",
     "package.resultsNotFoundForQuery": "Keine Pakete für \"{query}\" gefunden. Bitte Rechtschreibung und Filter prüfen.",
     "provider.resultsNotFoundForQuery": "Keine Anbieter für \"{query}\" gefunden. Bitte Rechtschreibung und Filter prüfen.",
@@ -529,5 +529,7 @@
     "search.searchByAccessTypeOnly": "Suche nur nach Zugriffsstatustypen",
     "loadMore": "Mehr laden",
     "selection-modal.buttonWorking": "Entferne...",
-    "selection-modal.buttonConfirm": "Ja, entfernen"
+    "selection-modal.buttonConfirm": "Ja, entfernen",
+    "filter.contentType.mixedContent": "Mixed Content",
+    "filter.contentType.streamingMedia": "Streaming Media"
 }
