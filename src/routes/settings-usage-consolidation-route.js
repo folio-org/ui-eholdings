@@ -129,6 +129,7 @@ const SettingsUsageConsolidationRoute = ({
       patchUsageConsolidation({ data, credentialsId });
     }
   }, [
+    usageConsolidation.data.credentialsId,
     usageConsolidation.credentialsId,
     usageConsolidation.customerKey,
     kbId,
