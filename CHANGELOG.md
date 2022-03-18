@@ -2,6 +2,9 @@
 
 ## IN PROGRESS
 
+* Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
+* Include additional package content types in several responses. (UIEH-1240)
+
 ## [7.1.0] (https://github.com/folio-org/ui-eholdings/tree/v7.1.0) (2022-03-03)
 
 * Add tests for SettingsRoute component. (UIEH-1198)
@@ -27,7 +30,6 @@
 * Add tests for ResourceShowRoute. (UIEH-1191)
 * Correctly specify proptypes. (UIEH-1242)
 * Unpin `final-form` and related deps. (UIEH-1241)
-* Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
 
 ## [7.0.2] (https://github.com/folio-org/ui-eholdings/tree/v7.0.2) (2022-02-18)
 
