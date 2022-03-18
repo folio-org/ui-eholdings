@@ -529,5 +529,7 @@
     "search.searchByAccessTypeOnly": "仅按访问状态类型搜索",
     "loadMore": "载入更多",
     "selection-modal.buttonWorking": "正在移除...",
-    "selection-modal.buttonConfirm": "是，移除"
+    "selection-modal.buttonConfirm": "是，移除",
+    "filter.contentType.mixedContent": "Mixed Content",
+    "filter.contentType.streamingMedia": "Streaming Media"
 }
