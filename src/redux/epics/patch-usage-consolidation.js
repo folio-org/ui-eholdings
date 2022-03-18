@@ -19,7 +19,7 @@ export default ({ usageConsolidationApi }) => (action$, state$) => {
       const { credentialsId, data } = payload;
 
       return usageConsolidationApi
-        .assignUser(state$.value.okapi, credentialsId, { data })
+        .patchUsageConsolidation(state$.value.okapi, credentialsId, { data })
         .pipe(
           map(() => patchUsageConsolidationSuccess(data.attributes)),
           catchError(errors => of(patchUsageConsolidationFailure(errors))),
