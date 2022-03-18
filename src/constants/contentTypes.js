@@ -3,8 +3,10 @@ const contentTypes = {
   ABSTRACT: 'abstract',
   EBOOK: 'ebook',
   EJOURNAL: 'ejournal',
-  PRINT: 'print',
+  MIXED_CONTENT: 'mixedContent',
   ONLINE_REFERENCE: 'onlineReference',
+  PRINT: 'print',
+  STREAMING_MEDIA: 'streamingMedia',
   UNKNOWN: 'unknown',
 };
 
