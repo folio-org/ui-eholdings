@@ -159,8 +159,8 @@
     "label.search": "بحث",
     "label.accordionList": "تم العثور على تسجيلات",
     "label.identifiers": "معرفات",
-    "label.identifier.issnOnline": "ردمد (عبر الإنترنت)",
-    "label.identifier.issnPrint": "ردمد (طباعة)",
+    "label.identifier.issnOnline": "ردمد (أونلاين)",
+    "label.identifier.issnPrint": "ردمد (ورقي)",
     "label.identifier.isbnOnline": "ردمك (عبر الإنترنت)",
     "label.identifier.isbnPrint": "ردمك (مطبوع)",
     "label.removeItem": "إزالة {item}",
@@ -529,5 +529,7 @@
     "search.searchByAccessTypeOnly": "بحث بواسطة أنواع حالة الوصول فقط",
     "loadMore": "تحميل المزيد",
     "selection-modal.buttonWorking": "جاري الإزالة...",
-    "selection-modal.buttonConfirm": "نعم ، قم بالإزالة"
+    "selection-modal.buttonConfirm": "نعم ، قم بالإزالة",
+    "filter.contentType.mixedContent": "Mixed Content",
+    "filter.contentType.streamingMedia": "Streaming Media"
 }
