@@ -65,11 +65,9 @@ const SettingsUsageConsolidation = ({
     }
 
     if (usageConsolidation.isFailed) {
-      const errorMessageId = 'ui-eholdings.settings.usageConsolidation.credentials.systemError';
-
       setToasts(t => [...t, {
         id: `settings-uc-${Date.now()}`,
-        message: <FormattedMessage id={errorMessageId} />,
+        message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.credentials.systemError" />,
         type: 'error',
       }]);
     }
