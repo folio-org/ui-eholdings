@@ -529,5 +529,7 @@
     "search.searchByAccessTypeOnly": "액세스 상태 유형으로만 검색",
     "loadMore": "더 로드",
     "selection-modal.buttonWorking": "삭제중...",
-    "selection-modal.buttonConfirm": "예, 제거합니다"
+    "selection-modal.buttonConfirm": "예, 제거합니다",
+    "filter.contentType.mixedContent": "Mixed Content",
+    "filter.contentType.streamingMedia": "Streaming Media"
 }

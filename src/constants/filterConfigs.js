@@ -93,8 +93,10 @@ export const contentTypeFilterConfig = {
     { label: <FormattedMessage id="ui-eholdings.filter.contentType.abstract" />, value: 'abstractandindex' },
     { label: <FormattedMessage id="ui-eholdings.filter.contentType.ebook" />, value: 'ebook' },
     { label: <FormattedMessage id="ui-eholdings.filter.contentType.ejournal" />, value: 'ejournal' },
-    { label: <FormattedMessage id="ui-eholdings.filter.contentType.print" />, value: 'print' },
+    { label: <FormattedMessage id="ui-eholdings.filter.contentType.mixedContent" />, value: 'mixedcontent' },
     { label: <FormattedMessage id="ui-eholdings.filter.contentType.onlineReference" />, value: 'onlinereference' },
+    { label: <FormattedMessage id="ui-eholdings.filter.contentType.print" />, value: 'print' },
+    { label: <FormattedMessage id="ui-eholdings.filter.contentType.streamingMedia" />, value: 'streamingmedia' },
     { label: <FormattedMessage id="ui-eholdings.filter.contentType.unknown" />, value: 'unknown' }
   ]
 };
