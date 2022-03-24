@@ -109,6 +109,20 @@ describe('Given SettingsUsageConsolidationRoute', () => {
         expect(getByText('ui-eholdings.settings.usageConsolidation.credentials.systemError')).toBeDefined();
       });
     });
+
+    describe('and it is a usageConsolidation error', () => {
+      it('should show toast message', () => {
+        const { getByText } = renderSettingsUsageConsolidation({
+          usageConsolidation: {
+            ...usageConsolidation,
+            isFailed: true,
+            errors: [{ title: 'usageConsolidation error' }],
+          },
+        });
+  
+        expect(getByText('ui-eholdings.settings.usageConsolidation.credentials.systemError')).toBeDefined();
+      });
+    })
   });
 
   describe('when customer key is empty', () => {

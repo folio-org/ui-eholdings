@@ -63,7 +63,15 @@ const SettingsUsageConsolidation = ({
         type: 'success',
       }]);
     }
-  }, [usageConsolidation.hasSaved]);
+
+    if (usageConsolidation.isFailed) {
+      setToasts(t => [...t, {
+        id: `settings-uc-${Date.now()}`,
+        message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.credentials.systemError" />,
+        type: 'error',
+      }]);
+    }
+  }, [usageConsolidation]);
 
   useEffect(() => {
     if (ucCredentials.isFailed) {
