@@ -1,11 +1,13 @@
 # Change history for ui-eholdings
 
+## [7.1.2] (https://github.com/folio-org/ui-eholdings/tree/v7.1.2) (2022-03-29)
+
+* Include additional package content types in several responses. (UIEH-1240)
+* Settings > eholdings > Usage Consolidation > Cannot save any updates. (UIEH-1249)
+
 ## [7.1.1] (https://github.com/folio-org/ui-eholdings/tree/v7.1.0) (2022-03-21)
 
 * Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
-
-* Settings > eholdings > Edit knowledge base credentials > Updating any field value generates an error message BUT the saves the update. (UIEH-1247)
-* Include additional package content types in several responses. (UIEH-1240)
 
 ## [7.1.0] (https://github.com/folio-org/ui-eholdings/tree/v7.1.0) (2022-03-03)
 
