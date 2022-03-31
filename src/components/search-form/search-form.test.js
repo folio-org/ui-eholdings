@@ -107,12 +107,45 @@ describe('Given SearchForm', () => {
   });
 
   describe('when search by tags enabled', () => {
-    it('should show field to search select', () => {
+    it('should have search field disabled', () => {
       const { getByTestId } = renderSearchForm({
         searchByTagsEnabled: true,
       });
 
       expect(getByTestId('search-submit').disabled).toBeTruthy();
+    });
+
+    it('should display tag options', () => {
+      const { getByText } = renderSearchForm({
+        searchByTagsEnabled: true,
+      });
+
+      expect(getByText('tag1')).toBeDefined();
+      expect(getByText('tag2')).toBeDefined();
+    });
+
+    describe('when no tags are provided', () => {
+      it('should display an empty message instead of options', () => {
+        const { getByText } = renderSearchForm({
+          searchByTagsEnabled: true,
+          tagsModel: {
+            resolver: {
+              state: {
+                tags: {
+                  records: [{
+                    attributes: {
+                      totalRecords: 0,
+                    },
+                  }],
+                },
+              },
+            },
+            isLoading: false,
+          },
+        });
+
+        expect(getByText('stripes-components.multiSelection.defaultEmptyMessage')).toBeDefined();
+      });
     });
   });
 
