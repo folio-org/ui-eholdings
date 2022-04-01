@@ -146,14 +146,17 @@ class SearchForm extends Component {
 
   getSortedDataOptions = () => {
     const { tagsModel } = this.props;
-    const dataOptions = getTagLabelsArr(tagsModel).map(tag => {
-      const tagDisplay = tag.label.toLowerCase();
 
-      return {
-        value: tagDisplay,
-        label: tagDisplay,
-      };
-    });
+    const dataOptions = getTagLabelsArr(tagsModel)
+      .filter(tag => tag.label)
+      .map(tag => {
+        const tagDisplay = tag.label.toLowerCase();
+
+        return {
+          value: tagDisplay,
+          label: tagDisplay,
+        };
+      });
 
     return sortBy(dataOptions, ['value']);
   }

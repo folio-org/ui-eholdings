@@ -1,5 +1,10 @@
 # Change history for ui-eholdings
 
+## [7.2.0] (IN PROGRESS)
+
+* Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
+* Fix eHoldings app throws an error when 0 tags comes in the response. (UIEH-1266)
+
 ## [7.1.2] (https://github.com/folio-org/ui-eholdings/tree/v7.1.2) (2022-03-29)
 
 * Include additional package content types in several responses. (UIEH-1240)
