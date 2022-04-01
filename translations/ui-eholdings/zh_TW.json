@@ -206,7 +206,7 @@
     "validate.errors.customTitle.name": "自定義標題必須要有名稱。",
     "validate.errors.customTitle.name.length": "必須少於 400 個字元。",
     "validate.errors.title.description.length": "輸入的值超出了 {amount} 字元數限制。輸入的值請勿超過 {amount} 字元。",
-    "validate.errors.customPackage.name": "客製的資源包必須要具有名稱",
+    "validate.errors.customPackage.name": "自訂的資源包必須要具有名稱",
     "validate.errors.customPackage.name.length": "必須少於 {amount} 個字元。",
     "validate.errors.coverageStatement.length": "聲明不得超過350個字元。",
     "validate.errors.edition.value": "無效的值。",
