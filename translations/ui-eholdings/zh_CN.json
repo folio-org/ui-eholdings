@@ -530,6 +530,6 @@
     "loadMore": "载入更多",
     "selection-modal.buttonWorking": "正在移除...",
     "selection-modal.buttonConfirm": "是，移除",
-    "filter.contentType.mixedContent": "Mixed Content",
-    "filter.contentType.streamingMedia": "Streaming Media"
+    "filter.contentType.mixedContent": "混合内容",
+    "filter.contentType.streamingMedia": "流媒体"
 }

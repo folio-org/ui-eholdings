@@ -530,6 +530,6 @@
     "loadMore": "تحميل المزيد",
     "selection-modal.buttonWorking": "جاري الإزالة...",
     "selection-modal.buttonConfirm": "نعم ، قم بالإزالة",
-    "filter.contentType.mixedContent": "Mixed Content",
-    "filter.contentType.streamingMedia": "Streaming Media"
+    "filter.contentType.mixedContent": "محتوى مختلط",
+    "filter.contentType.streamingMedia": "الوسائط التي تبث عبر الإنترنت"
 }

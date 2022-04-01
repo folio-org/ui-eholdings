@@ -530,6 +530,6 @@
     "loadMore": "Carregar mais",
     "selection-modal.buttonWorking": "Removendo...",
     "selection-modal.buttonConfirm": "Sim, remover",
-    "filter.contentType.mixedContent": "Mixed Content",
-    "filter.contentType.streamingMedia": "Streaming Media"
+    "filter.contentType.mixedContent": "Conteúdo misto",
+    "filter.contentType.streamingMedia": "Streaming de mídia"
 }
