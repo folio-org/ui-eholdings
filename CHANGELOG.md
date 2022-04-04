@@ -4,6 +4,7 @@
 
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Fix eHoldings app throws an error when 0 tags comes in the response. (UIEH-1266)
+* Replace or remove react-hot-loader. (UIEH-1265)
 
 ## [7.1.2] (https://github.com/folio-org/ui-eholdings/tree/v7.1.2) (2022-03-29)
 
