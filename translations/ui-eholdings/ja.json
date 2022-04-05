@@ -181,7 +181,7 @@
     "filter.contentType.ebook": "電子書籍",
     "filter.contentType.ejournal": "電子ジャーナル",
     "filter.contentType.print": "紙",
-    "filter.contentType.onlineReference": "オンラインリファレンス",
+    "filter.contentType.onlineReference": "オンラインレファレンス",
     "filter.contentType.unknown": "不明",
     "filter.pubType.audioBook": "オーディオブック",
     "filter.pubType.book": "本",
