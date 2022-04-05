@@ -350,7 +350,7 @@
     "settings.accessStatusTypes.records": "Numero di record",
     "settings.accessStatusTypes.validation": "Superato {limit}. Rivedi il valore.",
     "settings.accessStatusTypes.delete": "Elimina il tipo di stato di accesso",
-    "settings.accessStatusTypes.delete.description": "Sei sicuro di voler cancellare il tipo di stato di accesso <strong>{nome}</strong>?",
+    "settings.accessStatusTypes.delete.description": "Sei sicuro di voler cancellare il tipo di stato di accesso <strong>{name}</strong>?",
     "settings.accessStatusTypes.delete.cancel": "Annulla",
     "settings.accessStatusTypes.delete.confirm": "Elimina",
     "settings.accessStatusTypes.delete.toast": "Il tipo di stato di accesso {name} è stato eliminato.",
