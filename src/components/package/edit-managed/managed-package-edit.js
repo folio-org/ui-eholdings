@@ -261,6 +261,7 @@ const ManagedPackageEdit = ({
                   bodyContent={(
                     <>
                       <HoldingStatus
+                        id="packageHoldingStatus"
                         isOpen={sections.packageHoldingStatus}
                         onToggle={handleSectionToggle}
                         model={model}
