@@ -9,6 +9,7 @@ import {
 import SelectionStatus from '../../../selection-status';
 
 const propTypes = {
+  id: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   onAddToHoldings: PropTypes.func.isRequired,
@@ -16,6 +17,7 @@ const propTypes = {
 };
 
 const HoldingStatus = ({
+  id,
   isOpen,
   onToggle,
   onAddToHoldings,
@@ -31,7 +33,7 @@ const HoldingStatus = ({
       </Headline>
     )}
     open={isOpen}
-    id="packageHoldingStatus"
+    id={id}
     onToggle={onToggle}
   >
     <SelectionStatus
@@ -42,5 +44,6 @@ const HoldingStatus = ({
 );
 
 HoldingStatus.propTypes = propTypes;
+HoldingStatus.defaultProps = { id: 'packageHoldingStatus' };
 
 export default HoldingStatus;
