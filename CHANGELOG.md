@@ -2,6 +2,7 @@
 
 ## [7.2.0] (IN PROGRESS)
 
+* Save shortcut key does not work. (UIEH-1269)
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
 
