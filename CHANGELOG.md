@@ -4,6 +4,7 @@
 
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
+* Save shortcut key does not work. (UIEH-1269)
 
 ## [7.1.3] (https://github.com/folio-org/ui-eholdings/tree/v7.1.3) (2022-04-06)
 
