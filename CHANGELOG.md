@@ -1,8 +1,8 @@
 # Change history for ui-eholdings
 
-## [7.2.0] (IN PROGRESS)
+## [7.1.4] (IN PROGRESS)
 
-* Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
+* Save shortcut key does not work. (UIEH-1269)
 
 ## [7.1.3] (https://github.com/folio-org/ui-eholdings/tree/v7.1.3) (2022-04-06)
 
