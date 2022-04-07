@@ -268,6 +268,7 @@ const PackageShow = ({
     return (
       <>
         <HoldingStatus
+          id="packageShowHoldingStatus"
           isOpen={sections.packageShowHoldingStatus}
           onToggle={handleSectionToggle}
           onAddToHoldings={toggleSelectionConfirmationModal}

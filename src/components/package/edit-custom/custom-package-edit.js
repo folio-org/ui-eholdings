@@ -230,6 +230,7 @@ const CustomPackageEdit = ({
                 bodyContent={(
                   <>
                     <HoldingStatus
+                      id="packageHoldingStatus"
                       isOpen={sections.packageHoldingStatus}
                       onToggle={handleSectionToggle}
                       model={model}
