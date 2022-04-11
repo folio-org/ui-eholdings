@@ -15,7 +15,7 @@ import {
 export default ({ costPerUseApi }) => (action$, state$) => {
   return action$.pipe(
     filter(action => action.type === GET_COST_PER_USE_PACKAGE_TITLES),
-    mergeMap(({ payload: { id, filterData, loadMore } }) => {
+    mergeMap(({ payload: { id, filterData } }) => {
       return costPerUseApi
         .getPackageTitlesCostPerUse(state$.value.okapi, id, filterData)
         .pipe(
@@ -29,7 +29,7 @@ export default ({ costPerUseApi }) => (action$, state$) => {
               },
             };
 
-            return getCostPerUsePackageTitlesSuccess(costPerUseData, loadMore);
+            return getCostPerUsePackageTitlesSuccess(costPerUseData);
           }),
           catchError(errors => of(getCostPerUsePackageTitlesFailure({ errors })))
         );

@@ -7,7 +7,7 @@ import Harness from '../../../../test/jest/helpers/harness';
 
 import TitlesTable from './titles-table';
 
-const mockFetchNextPage = jest.fn();
+const mockFetchPage = jest.fn();
 const mockOnSortTitles = jest.fn();
 
 const defaultResource = {
@@ -57,7 +57,7 @@ const renderTitlesTable = (props = {}) => render(
   <Harness>
     <TitlesTable
       costPerUseData={costPerUseData}
-      fetchNextPage={mockFetchNextPage}
+      fetchPage={mockFetchPage}
       onSortTitles={mockOnSortTitles}
       {...props}
     />
@@ -134,7 +134,7 @@ describe('Given TitlesTable', () => {
     });
   });
 
-  describe('when data loaded succesful', () => {
+  describe('when data was loaded successfully', () => {
     it('should render table', () => {
       const { getByText } = renderTitlesTable();
 
@@ -203,17 +203,34 @@ describe('Given TitlesTable', () => {
     });
 
     describe('when total results more then page size', () => {
-      describe('and click on load more button', () => {
-        const { getByText } = renderTitlesTable({
-          costPerUseData: {
-            ...costPerUseData,
-            data: getData(100, 120),
-          },
+      describe('and click on Next button', () => {
+        it('should handle fetchPage', () => {
+          const { getByText } = renderTitlesTable({
+            costPerUseData: {
+              ...costPerUseData,
+              data: getData(100, 120),
+            },
+          });
+
+          fireEvent.click(getByText('stripes-components.next'));
+
+          expect(mockFetchPage).toHaveBeenCalled();
         });
 
-        fireEvent.click(getByText('stripes-components.mcl.loadMore'));
+        describe('and click on Previous button', () => {
+          it('should handle fetchPage', () => {
+            const { getByText } = renderTitlesTable({
+              costPerUseData: {
+                ...costPerUseData,
+                data: getData(100, 120),
+              },
+            });
 
-        expect(mockFetchNextPage).toHaveBeenCalled();
+            fireEvent.click(getByText('stripes-components.previous'));
+
+            expect(mockFetchPage).toHaveBeenCalled();
+          });
+        });
       });
     });
   });

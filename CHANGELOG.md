@@ -4,6 +4,7 @@
 
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
+* Package Detail Record> Usage & analysis accordion > Apply pagination to Titles list. (UIEH-1259)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
