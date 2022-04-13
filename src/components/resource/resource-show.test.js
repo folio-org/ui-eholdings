@@ -24,9 +24,12 @@ const renderResourceShow = ({
     <CommandList commands={defaultKeyboardShortcuts}>
       <ResourceShow
         accessStatusTypes={{
+          isDeleted: false,
+          isLoading: false,
           items: {
             data: [{
               id: 'access-type-id',
+              type: 'accessTypes',
               attributes: {
                 name: 'access type',
               },
@@ -44,6 +47,7 @@ const renderResourceShow = ({
           id: 'resource-id',
           name: 'resource-name',
           isSelected,
+          isLoading: false,
           isTitleCustom: true,
           titleHasSelectedResources: true,
           title: {
@@ -68,6 +72,15 @@ const renderResourceShow = ({
             timestamp: 0,
             isRejected: false,
             errors: [],
+          },
+          data: {
+            relationships: {
+              accessType: {
+                data: {
+                  id: 'access-type-id',
+                },
+              },
+            },
           },
         }}
         {...props}

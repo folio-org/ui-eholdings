@@ -115,12 +115,7 @@ const SettingsAssignedUsersRoute = ({
     const attributes = {
       credentialsId: kbId,
       patronGroup: getPatronGroupNameById(patronGroup),
-      lastName,
     };
-
-    if (username) attributes.userName = username;
-    if (firstName) attributes.firstName = firstName;
-    if (middleName) attributes.middleName = middleName;
 
     return {
       data: {

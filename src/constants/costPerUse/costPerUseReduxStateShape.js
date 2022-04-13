@@ -25,11 +25,11 @@ const CostPerUseShape = PropTypes.shape({
           usage: PropTypes.number.isRequired,
         })).isRequired,
       }),
-    ]).isRequired,
+    ]),
     parameters: PropTypes.shape({
       currency: PropTypes.string.isRequired,
       startMonth: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

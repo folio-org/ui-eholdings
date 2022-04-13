@@ -31,6 +31,7 @@ const accessTypes = {
   items: {
     data: [{
       id: 'access-type-id',
+      type: 'accessTypes',
       attributes: {
         name: 'access type',
       },

@@ -21,7 +21,7 @@ const propTypes = {
     })).isRequired,
   })).isRequired,
   closedByDefault: PropTypes.bool,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
   searchType: PropTypes.string.isRequired,
 };
@@ -29,6 +29,7 @@ const propTypes = {
 const defaultProps = {
   activeFilters: {},
   closedByDefault: true,
+  disabled: false,
 };
 
 const SearchFilters = ({

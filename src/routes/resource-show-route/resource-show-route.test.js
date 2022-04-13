@@ -120,6 +120,15 @@ const model = {
   tags: {
     tagList: [],
   },
+  data: {
+    relationships: {
+      accessType: {
+        data: {
+          id: 'access-type-id',
+        },
+      },
+    },
+  },
 };
 
 const proxyTypes = {
@@ -168,7 +177,7 @@ const accessTypes = {
   items: {
     data: [{
       id: 'access-type-id',
-      type: 'test type',
+      type: 'accessTypes',
       attributes: {
         name: 'access type',
       },
@@ -177,11 +186,24 @@ const accessTypes = {
 };
 
 const costPerUse = {
-  data: {},
+  data: {
+    attributes: {
+      analysis: {
+        cost: 0,
+        costPerUse: 0,
+        usage: 0,
+      },
+    },
+    id: 'cost-per-use-id',
+    type: 'resourceCostPerUse',
+  },
   errors: [],
   isFailed: false,
   isLoaded: false,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const getResourceShowRoute = (props = {}) => (

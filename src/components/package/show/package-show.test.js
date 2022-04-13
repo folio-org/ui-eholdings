@@ -20,11 +20,24 @@ jest.mock('@folio/stripes/smart-components', () => ({
 }));
 
 const testCostPerUse = {
-  data: {},
+  data: {
+    attributes: {
+      analysis: {
+        cost: 0,
+        costPerUse: 0,
+        usage: 0,
+      },
+    },
+    id: 'cost-per-use-id',
+    type: 'packageCostPerUse',
+  },
   errors: [],
   isFailed: false,
   isLoaded: false,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const testModel = {
@@ -68,6 +81,15 @@ const testModel = {
     isPending: false,
     errors: [],
   },
+  data: {
+    relationships: {
+      accessType: {
+        data: {
+          id: 'access-type-id',
+        },
+      },
+    },
+  },
 };
 
 const mockAddPackageToHoldings = jest.fn();
@@ -83,9 +105,12 @@ const renderPackageShow = (props = {}) => render(
   <Harness history={history}>
     <PackageShow
       accessStatusTypes={{
+        isDeleted: false,
+        isLoading: false,
         items: {
           data: [{
             id: 'access-type-id',
+            type: 'accessTypes',
             attributes: {
               name: 'access type',
             },
@@ -105,10 +130,12 @@ const renderPackageShow = (props = {}) => render(
       model={testModel}
       onEdit={mockOnEdit}
       packageTitles={{
-        totalLength: 5,
+        totalResults: 5,
         items: [],
         hasFailed: false,
         errors: [],
+        isLoading: false,
+        page: 1,
       }}
       provider={{}}
       proxyTypes={{}}

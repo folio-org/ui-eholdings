@@ -65,7 +65,7 @@ export default class TitleCreateRoute extends Component {
 
     return (
       <FormattedMessage id="ui-eholdings.label.create.title">
-        {pageTitle => (
+        {([pageTitle]) => (
           <TitleManager record={pageTitle}>
             <View
               request={createRequest}

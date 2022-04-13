@@ -138,7 +138,7 @@ const PackageFilterModal = ({
             separator={false}
             closedByDefault={false}
             header={FilterAccordionHeader}
-            displayClearButton={selectedOptions?.length}
+            displayClearButton={!!selectedOptions?.length}
             onClearFilter={clearSelectedOptions}
             headerProps={{
               headingLevel: 2,

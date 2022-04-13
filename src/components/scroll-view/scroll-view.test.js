@@ -2,6 +2,7 @@ import {
   render,
   cleanup,
 } from '@testing-library/react';
+import noop from 'lodash/noop';
 
 import ScrollView from './scroll-view';
 import Harness from '../../../test/jest/helpers/harness';
@@ -14,7 +15,8 @@ const getScrollView = (props = {}) => (
       fullWidth
       isMainPageSearch
       itemHeight={64}
-      items={[]}
+      items={[
+      ]}
       length={10}
       offset={1}
       onUpdate={mockOnUpdate}

@@ -125,7 +125,18 @@ describe('Given SettingsRootProxyRoute', () => {
 
         rerender(getSettingsRootProxyRoute({
           rootProxy: {
+            isFailed: false,
+            isLoading: false,
             isUpdated: true,
+            errors: [],
+            data: {
+              attributes: {
+                id: 'proxy-id',
+                proxyTypeId: 'proxy-type-id',
+              },
+              id: 'proxy-id',
+              type: 'rootProxy',
+            },
           },
         }));
       });

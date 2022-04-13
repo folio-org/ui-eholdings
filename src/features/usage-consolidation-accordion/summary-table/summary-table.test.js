@@ -23,6 +23,17 @@ const costPerUseData = {
           startMonth: '',
         },
       },
+      attributes: {
+        analysis: {
+          cost: 'test-cost',
+          costPerUse: 'test-costPerUse',
+          usage: 'test-usage',
+        },
+        parameters: {
+          currency: '',
+          startMonth: '',
+        },
+      },
     },
   },
   errors: [],

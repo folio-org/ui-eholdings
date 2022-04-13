@@ -10,6 +10,7 @@ const renderAccordionListHeader = (props) => render(
       open
       listType={listTypes.TITLES}
       resultsLength={10000}
+      label="Test label"
       {...props}
     />
   </IntlProvider>

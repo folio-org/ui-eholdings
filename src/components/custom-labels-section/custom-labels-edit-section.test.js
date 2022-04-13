@@ -14,7 +14,7 @@ const renderCustomLabelsEditSection = (props) => render(
         customLabels={[{
           attributes: {
             displayLabel: 'label',
-            id: '1',
+            id: 1,
           },
         }]}
         userDefinedFields={{

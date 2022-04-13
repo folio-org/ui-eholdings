@@ -128,7 +128,7 @@ class DetailsView extends Component {
         id="ui-eholdings.label.icon.closeX"
         values={{ paneTitle }}
       >
-        {ariaLabel => (
+        {([ariaLabel]) => (
           <IconButton
             icon="times"
             ariaLabel={ariaLabel}
@@ -178,7 +178,7 @@ class DetailsView extends Component {
           {paneSub && (
             <Headline
               data-testid="details-view-panesub-headline"
-              bold={false}
+              weight="regular"
               faded
               size="large"
               tag="div"
@@ -209,6 +209,9 @@ class DetailsView extends Component {
             >
               <Accordion
                 header={AccordionListHeader}
+                headerProps={{
+                  resultsLength,
+                }}
                 label={(
                   <Headline
                     size="large"
@@ -218,7 +221,6 @@ class DetailsView extends Component {
                   </Headline>
                 )}
                 displayWhenOpen={searchModal}
-                resultsLength={resultsLength}
                 contentRef={(n) => { this.$list = n; }}
                 open={isListAccordionOpen}
                 id={listSectionId}

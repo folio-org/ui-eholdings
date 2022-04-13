@@ -51,16 +51,10 @@ const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   fetchResourceCostPerUse: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
   isFreshlySaved: PropTypes.bool,
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
   proxyTypes: PropTypes.object.isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-  }),
   tagsModel: PropTypes.object,
   toggleSelected: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,

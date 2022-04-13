@@ -70,6 +70,7 @@ const assignedUsers = {
     },
     id: 'user-id',
     type: 'test-type',
+    group: 'test-group',
   }],
 };
 

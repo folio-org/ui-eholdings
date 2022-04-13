@@ -41,7 +41,7 @@ const PackageSelectField = ({
         ariaLabel={label}
         validate={validate}
         onBlur={null} // preventing validation that is in onBlur
-        placeholder={<FormattedMessage id="ui-eholdings.title.chooseAPackage" />}
+        placeholder={intl.formatMessage({ id: 'ui-eholdings.title.chooseAPackage' })}
         dataOptions={options.filter(option => option.label && !option.disabled)}
         required
         onFilter={handleFilter}

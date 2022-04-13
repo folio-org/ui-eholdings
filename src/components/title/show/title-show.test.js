@@ -42,6 +42,9 @@ const testCostPerUse = {
   isFailed: false,
   isLoaded: false,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const testModel = {
@@ -62,6 +65,7 @@ const testModel = {
     },
   ],
   resources: {
+    length: 0,
     records: [],
   },
   hasSelectedResources: true,
@@ -134,6 +138,7 @@ const renderTitleShow = (props = {}) => render(
         map: mapMock,
       }}
       fetchTitleCostPerUse={noop}
+      onPackageFilter={noop}
       model={testModel}
       onEdit={noop}
       request={testRequest}

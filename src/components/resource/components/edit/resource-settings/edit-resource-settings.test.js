@@ -77,9 +77,12 @@ describe('Given ResourceSettings', () => {
                 },
               }}
               accessStatusTypes={{
+                isDeleted: false,
+                isLoading: false,
                 items: {
                   data: [{
                     id: 'access-type-id',
+                    type: 'accessTypes',
                     attributes: {
                       name: 'access type',
                     },

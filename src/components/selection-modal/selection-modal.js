@@ -8,16 +8,16 @@ import {
 } from '@folio/stripes/components';
 
 const propTypes = {
-  cancelButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
+  cancelButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
   cancelSelectionToggle: PropTypes.func.isRequired,
   change: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  confirmButtonLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired,
+  confirmButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
   handleDeleteConfirmation: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   modelIsUpdating: PropTypes.bool,
   showSelectionModal: PropTypes.bool.isRequired,
 };

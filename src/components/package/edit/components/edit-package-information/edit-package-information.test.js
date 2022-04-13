@@ -46,7 +46,13 @@ describe('Given EditPackageInformation', () => {
                 }],
               }}
               model={model}
-              accessStatusTypes={{}}
+              accessStatusTypes={{
+                isDeleted: false,
+                isLoading: false,
+                items: {
+                  data: [],
+                },
+              }}
               {...props}
             />
             <button type="button" disabled={pristine} onClick={reset}>Cancel</button>

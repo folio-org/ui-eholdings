@@ -122,7 +122,7 @@ const SettingsAssignedUsers = ({
           id: user => (
             <div className={css.unassignCell}>
               <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
-                {ariaLabel => (
+                {([ariaLabel]) => (
                   <IconButton
                     icon="trash"
                     onClick={() => { setUserToBeUnassigned(user); }}

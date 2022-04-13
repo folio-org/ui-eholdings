@@ -56,11 +56,22 @@ const historyReplaceSpy = jest.spyOn(history, 'replace');
 const titleId = 'test-title-id';
 
 const costPerUse = {
-  data: {},
+  data: {
+    attributes: {
+      cost: 0,
+      costPerUse: 0,
+      usage: 0,
+    },
+    id: 'cost-per-use-id',
+    type: 'titleCostPerUse',
+  },
   errors: [],
   isFailed: false,
   isLoaded: false,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const createRequest = {
@@ -117,6 +128,7 @@ const model = {
     type: 'author',
   }],
   resources: {
+    length: 0,
     records: [],
   },
   hasSelectedResources: false,

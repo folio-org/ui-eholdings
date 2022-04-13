@@ -67,9 +67,6 @@ const propTypes = {
   fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
   fetchPackageCostPerUse: PropTypes.func.isRequired,
   fetchPackageTitles: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
   isDestroyed: PropTypes.bool,
   isFreshlySaved: PropTypes.bool,
   isNewRecord: PropTypes.bool,
@@ -81,9 +78,6 @@ const propTypes = {
   provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   searchModal: PropTypes.node,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-  }).isRequired,
   tagsModel: PropTypes.object,
   toggleSelected: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,

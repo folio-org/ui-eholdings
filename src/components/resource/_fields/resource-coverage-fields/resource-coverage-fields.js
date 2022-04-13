@@ -85,7 +85,7 @@ class ResourceCoverageFields extends Component {
       },
     } = formData;
 
-    const managedCoveragesExist = model.managedCoverages.length;
+    const managedCoveragesExist = !!model.managedCoverages.length;
 
     const switchToManagedCoverages = (e) => {
       if (e.target.checked) {
@@ -162,8 +162,6 @@ class ResourceCoverageFields extends Component {
             timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
-                parse={parseDate}
-                format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id={`begin-coverage-${index}`}
@@ -186,8 +184,6 @@ class ResourceCoverageFields extends Component {
             timeZone={TIME_ZONE}
             render={({ input, meta }) => (
               <Datepicker
-                parse={parseDate}
-                format={formatDate}
                 backendDateStandard={BACKEND_DATE_STANDARD}
                 error={meta.error}
                 id={`end-coverage-${index}`}

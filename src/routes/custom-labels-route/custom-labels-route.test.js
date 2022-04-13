@@ -112,6 +112,7 @@ describe('Given CustomLabelsRoute', () => {
       } = renderCustomLabelsRoute({
         customLabels: {
           isLoading: true,
+          items: [],
         },
       });
 

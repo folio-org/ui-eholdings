@@ -263,7 +263,7 @@ const SettingsKnowledgeBase = ({
           updateIsPending={kbCredentials.isUpdating}
           title={<FormattedMessage id={settingsFormTitleId} />}
           toasts={toasts}
-          lastMenu={!isCreateMode && (
+          lastMenu={!isCreateMode ? (
             <IfPermission perm="ui-eholdings.settings.kb.delete">
               <Button
                 buttonStyle="danger"
@@ -274,7 +274,7 @@ const SettingsKnowledgeBase = ({
                 <FormattedMessage id="ui-eholdings.settings.kb.delete" />
               </Button>
             </IfPermission>
-          )}
+          ) : null}
         >
           {kbCredentials.isLoading
             ? <Icon icon="spinner-ellipsis" />

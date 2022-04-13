@@ -32,8 +32,8 @@ const model = {
   packagesSelected: 10,
   packagesTotal: 100,
   isLoaded: true,
-  isTitleCustom: true,
   isLoading: false,
+  isTitleCustom: true,
   proxy: {
     id: 'proxy-id',
     inherited: false,

@@ -53,6 +53,7 @@ const model = {
   }],
   publicationType: 'publication type',
   isLoaded: true,
+  isLoading: false,
   titleHasSelectedResources: true,
   isCustom: true,
   isSelected: false,
@@ -135,7 +136,9 @@ const proxyTypes = {
 const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
-  items: [],
+  items: {
+    data: [],
+  },
 };
 
 const storeInitialState = {
