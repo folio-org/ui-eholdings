@@ -66,6 +66,7 @@ const renderTitlesTable = (props = {}) => render(
 
 describe('Given TitlesTable', () => {
   beforeEach(() => {
+    mockFetchPage.mockClear();
     cleanup();
   });
 
@@ -215,6 +216,7 @@ describe('Given TitlesTable', () => {
           fireEvent.click(getByText('stripes-components.next'));
 
           expect(mockFetchPage).toHaveBeenCalled();
+          expect(mockFetchPage.mock.calls[0][0]).toBe(2);
         });
 
         describe('and click on Previous button', () => {
@@ -226,9 +228,11 @@ describe('Given TitlesTable', () => {
               },
             });
 
+            fireEvent.click(getByText('stripes-components.next'));
             fireEvent.click(getByText('stripes-components.previous'));
 
             expect(mockFetchPage).toHaveBeenCalled();
+            expect(mockFetchPage.mock.calls[1][0]).toBe(1);
           });
         });
       });
