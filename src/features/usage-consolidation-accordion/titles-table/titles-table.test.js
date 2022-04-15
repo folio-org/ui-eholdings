@@ -215,23 +215,30 @@ describe('Given TitlesTable', () => {
 
           fireEvent.click(getByText('stripes-components.next'));
 
-          expect(mockFetchPage).toHaveBeenCalled();
+          expect(mockFetchPage).toHaveBeenCalledTimes(1);
           expect(mockFetchPage.mock.calls[0][0]).toBe(2);
         });
 
         describe('and click on Previous button', () => {
           it('should handle fetchPage', () => {
+            const data = getData(100, 220);
+            const arrayWithNulls = new Array(100);
+
+            // fill offset with null to make Previous button enabled
+            arrayWithNulls.splice(100, 0, ...data.packageTitleCostPerUse.attributes.resources);
+            data.packageTitleCostPerUse.attributes.resources = arrayWithNulls;
+
             const { getByText } = renderTitlesTable({
               costPerUseData: {
                 ...costPerUseData,
-                data: getData(100, 120),
+                data,
               },
             });
 
             fireEvent.click(getByText('stripes-components.next'));
             fireEvent.click(getByText('stripes-components.previous'));
 
-            expect(mockFetchPage).toHaveBeenCalled();
+            expect(mockFetchPage).toHaveBeenCalledTimes(2);
             expect(mockFetchPage.mock.calls[1][0]).toBe(1);
           });
         });
