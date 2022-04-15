@@ -7,7 +7,7 @@ import Harness from '../../../../test/jest/helpers/harness';
 
 import TitlesTable from './titles-table';
 
-const mockFetchNextPage = jest.fn();
+const mockFetchPage = jest.fn();
 const mockOnSortTitles = jest.fn();
 
 const defaultResource = {
@@ -57,7 +57,7 @@ const renderTitlesTable = (props = {}) => render(
   <Harness>
     <TitlesTable
       costPerUseData={costPerUseData}
-      fetchNextPage={mockFetchNextPage}
+      fetchPage={mockFetchPage}
       onSortTitles={mockOnSortTitles}
       {...props}
     />
@@ -66,6 +66,7 @@ const renderTitlesTable = (props = {}) => render(
 
 describe('Given TitlesTable', () => {
   beforeEach(() => {
+    mockFetchPage.mockClear();
     cleanup();
   });
 
@@ -134,7 +135,7 @@ describe('Given TitlesTable', () => {
     });
   });
 
-  describe('when data loaded succesful', () => {
+  describe('when data was loaded successfully', () => {
     it('should render table', () => {
       const { getByText } = renderTitlesTable();
 
@@ -203,17 +204,44 @@ describe('Given TitlesTable', () => {
     });
 
     describe('when total results more then page size', () => {
-      describe('and click on load more button', () => {
-        const { getByText } = renderTitlesTable({
-          costPerUseData: {
-            ...costPerUseData,
-            data: getData(100, 120),
-          },
+      describe('and click on Next button', () => {
+        it('should handle fetchPage', () => {
+          const { getByText } = renderTitlesTable({
+            costPerUseData: {
+              ...costPerUseData,
+              data: getData(100, 120),
+            },
+          });
+
+          fireEvent.click(getByText('stripes-components.next'));
+
+          expect(mockFetchPage).toHaveBeenCalledTimes(1);
+          expect(mockFetchPage.mock.calls[0][0]).toBe(2);
         });
 
-        fireEvent.click(getByText('stripes-components.mcl.loadMore'));
+        describe('and click on Previous button', () => {
+          it('should handle fetchPage', () => {
+            const data = getData(100, 220);
+            const arrayWithNulls = new Array(100);
 
-        expect(mockFetchNextPage).toHaveBeenCalled();
+            // fill offset with null to make Previous button enabled
+            arrayWithNulls.splice(100, 0, ...data.packageTitleCostPerUse.attributes.resources);
+            data.packageTitleCostPerUse.attributes.resources = arrayWithNulls;
+
+            const { getByText } = renderTitlesTable({
+              costPerUseData: {
+                ...costPerUseData,
+                data,
+              },
+            });
+
+            fireEvent.click(getByText('stripes-components.next'));
+            fireEvent.click(getByText('stripes-components.previous'));
+
+            expect(mockFetchPage).toHaveBeenCalledTimes(2);
+            expect(mockFetchPage.mock.calls[1][0]).toBe(1);
+          });
+        });
       });
     });
   });

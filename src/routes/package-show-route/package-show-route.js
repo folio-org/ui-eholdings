@@ -328,13 +328,13 @@ class PackageShowRoute extends Component {
     getCostPerUse(listTypes.PACKAGES, id, filterData);
   }
 
-  fetchCostPerUsePackageTitles = (filterData, loadMore = false) => {
+  fetchCostPerUsePackageTitles = (filterData) => {
     const {
       getCostPerUsePackageTitles,
       model: { id },
     } = this.props;
 
-    getCostPerUsePackageTitles(id, filterData, loadMore);
+    getCostPerUsePackageTitles(id, filterData);
   }
 
   loadMoreCostPerUsePackageTitles = (filterData) => {
