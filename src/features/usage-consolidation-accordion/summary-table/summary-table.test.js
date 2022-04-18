@@ -23,23 +23,15 @@ const costPerUseData = {
           startMonth: '',
         },
       },
-      attributes: {
-        analysis: {
-          cost: 'test-cost',
-          costPerUse: 'test-costPerUse',
-          usage: 'test-usage',
-        },
-        parameters: {
-          currency: '',
-          startMonth: '',
-        },
-      },
     },
   },
   errors: [],
   isFailed: false,
   isLoaded: true,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const customProperties = {};

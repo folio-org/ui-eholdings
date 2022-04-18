@@ -143,6 +143,9 @@ const getCollection = (searchType, params) => {
     },
     pages,
     pageSize: 100,
+    isLoading: false,
+    totalResults: 100,
+    length: 100,
     currentPage: params.page,
     getPage: p => pages[p],
   };

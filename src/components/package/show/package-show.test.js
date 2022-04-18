@@ -21,15 +21,17 @@ jest.mock('@folio/stripes/smart-components', () => ({
 
 const testCostPerUse = {
   data: {
-    attributes: {
-      analysis: {
-        cost: 0,
-        costPerUse: 0,
-        usage: 0,
+    packageCostPerUse: {
+      attributes: {
+        analysis: {
+          cost: 0,
+          costPerUse: 0,
+          usage: 0,
+        },
       },
+      id: 'cost-per-use-id',
+      type: 'packageCostPerUse',
     },
-    id: 'cost-per-use-id',
-    type: 'packageCostPerUse',
   },
   errors: [],
   isFailed: false,

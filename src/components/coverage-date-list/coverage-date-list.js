@@ -42,7 +42,7 @@ CoverageDateList.propTypes = {
     beginCoverage: PropTypes.string.isRequired,
     endCoverage: PropTypes.string.isRequired,
   })).isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   isManagedCoverage: PropTypes.bool,
   isYearOnly: PropTypes.bool,
 };

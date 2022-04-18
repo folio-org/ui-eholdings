@@ -24,19 +24,15 @@ const mapMock = jest.fn();
 
 const testCostPerUse = {
   data: {
-    attributes: {
-      analysis: {
-        cost: 123,
-        costPerUse: 456,
-        usage: 789,
+    titleCostPerUse: {
+      attributes: {
+        analysis: {
+          holdingsSummary: [],
+        },
       },
-      parameters: {
-        currency: '',
-        startMonth: '',
-      },
+      id: 'testCostPerUse-data-id',
+      type: 'testCostPerUse-data-type',
     },
-    id: 'testCostPerUse-data-id',
-    type: 'testCostPerUse-data-type',
   },
   errors: [],
   isFailed: false,

@@ -40,9 +40,11 @@ const match = {
 
 const rootProxy = {
   data: {
+    id: 'rootProxy',
     credentialsId: 'credentials-id',
     attributes: {
       proxyTypeId: 'proxy-type-id',
+      id: 'rootProxy',
     },
   },
 };
@@ -152,7 +154,9 @@ describe('Given SettingsRootProxyRoute', () => {
       fireEvent.click(getByText('SettingsRootProxyRoute'));
 
       expect(mockUpdateRootProxy).toBeCalledWith({
+        id: 'rootProxy',
         attributes: {
+          id: 'rootProxy',
           proxyTypeId: 'root-proxy-server',
         },
       }, 'test-kb-id');

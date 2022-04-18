@@ -301,6 +301,7 @@ const SettingsKnowledgeBase = ({
                       <FormattedMessage
                         id={translationId}
                         values={{ url: value }}
+                        key={translationId}
                       >
                         {(message) => (
                           <option value={value}>{message}</option>

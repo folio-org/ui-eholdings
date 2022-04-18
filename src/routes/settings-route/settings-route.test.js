@@ -30,6 +30,14 @@ const kbCredentials = {
       },
       id: 'test-kb-id',
       type: 'kbCredentials',
+      metadata: {
+        createdByUserId: '4a599ce7-95e7-4305-9188-7f946e084296',
+        createdByUsername: 'SYSTEM',
+        createdDate: '2021-08-30T01:53:26.081+00:00',
+        updatedByUserId: '3c0b9d19-925f-55e4-84bb-e07a8f0c2ca3',
+        updatedByUsername: 'diku_admin',
+        updatedDate: '2021-08-30T01:53:26.081+00:00',
+      },
     },
     {
       attributes: {
@@ -40,6 +48,14 @@ const kbCredentials = {
       },
       id: 'test-kb-id-2',
       type: 'kbCredentials',
+      metadata: {
+        createdByUserId: '4a599ce7-95e7-4305-9188-7f946e084296',
+        createdByUsername: 'SYSTEM',
+        createdDate: '2021-08-30T01:53:26.081+00:00',
+        updatedByUserId: '3c0b9d19-925f-55e4-84bb-e07a8f0c2ca3',
+        updatedByUsername: 'diku_admin',
+        updatedDate: '2021-08-30T01:53:26.081+00:00',
+      },
     },
   ],
 };

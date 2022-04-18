@@ -97,7 +97,8 @@ const TitlesTable = ({
   };
 
   const getToastErrors = () => {
-    return packageTitlesLoadErrors.map(() => ({
+    return packageTitlesLoadErrors.map((_, index) => ({
+      id: `error-${index}`,
       message: intl.formatMessage({ id: 'ui-eholdings.usageConsolidation.titles.loadingFailed' }),
       type: 'error',
     }));

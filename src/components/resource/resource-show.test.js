@@ -16,11 +16,101 @@ import wait from '../../../test/jest/helpers/wait';
 
 const toggleSelectedMock = jest.fn();
 
+const costPerUse = {
+  data: {
+    resourceCostPerUse: {
+      attributes: {
+        analysis: {
+          cost: 0,
+          costPerUse: 0,
+          usage: 0,
+        },
+        usage: {
+          platforms: [],
+        },
+      },
+      id: 'cost-per-use-id',
+      type: 'resourceCostPerUse',
+    },
+  },
+  errors: [],
+  isFailed: false,
+  isLoaded: false,
+  isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
+};
+
+const currencies = {
+  isLoading: false,
+  items: [{
+    attributes: {
+      code: 'AFN',
+      description: 'Afghan Afghani',
+    },
+  }, {
+    attributes: {
+      code: 'ALL',
+      description: 'Albanian Lek',
+    },
+  }],
+  errors: [],
+};
+const ucCredentials = {
+  isPresent: false,
+  isLoading: false,
+  isFailed: false,
+  isUpdated: false,
+  errors: [],
+};
+const usageConsolidation = {
+  data: {
+    credentialsId: 'credentials-id',
+    currency: 'currency',
+    customerKey: 'customer-key',
+    platformType: 'platform-type',
+    startMonth: 'January',
+  },
+  errors: [],
+  isFailed: false,
+  isKeyFailed: false,
+  isKeyLoaded: false,
+  isKeyLoading: false,
+  isLoaded: true,
+  isLoading: false,
+};
+
 const renderResourceShow = ({
   isSelected = true,
   ...props
 } = {}) => render(
-  <Harness>
+  <Harness
+    storeInitialState={{
+      data: {
+        currencies,
+        ucCredentials,
+        usageConsolidation,
+        agreements: {
+          errors: [],
+          isLoading: false,
+          items: [],
+        },
+        customLabels: {
+          errors: [],
+          items: {
+            data: [{
+              type: 'customLabels',
+              attributes: {
+                id: 1,
+                displayLabel: 'Label 1',
+              },
+            }],
+          },
+        },
+      },
+    }}
+  >
     <CommandList commands={defaultKeyboardShortcuts}>
       <ResourceShow
         accessStatusTypes={{
@@ -37,10 +127,15 @@ const renderResourceShow = ({
           },
         }}
         fetchResourceCostPerUse={noop}
+        costPerUse={costPerUse}
         isFreshlySaved={false}
         onEdit={noop}
         proxyTypes={{}}
-        tagsModel={{}}
+        tagsModel={{
+          request: {
+            isResolved: true,
+          },
+        }}
         toggleSelected={toggleSelectedMock}
         updateFolioTags={noop}
         model={{
@@ -48,16 +143,29 @@ const renderResourceShow = ({
           name: 'resource-name',
           isSelected,
           isLoading: false,
+          isLoaded: true,
           isTitleCustom: true,
           titleHasSelectedResources: true,
           title: {
             name: 'title-name',
             isTitleCustom: true,
+            subjects: [],
+            contributors: [],
+            identifiers: [],
           },
           package: {
             name: 'package-name',
             titleCount: 2,
+            visibilityData: {
+              hidden: false,
+              reason: '',
+            },
           },
+          visibilityData: {
+            isHidden: false,
+          },
+          managedCoverages: [],
+          customCoverages: [],
           destroy: {
             timestamp: 0,
             isRejected: false,

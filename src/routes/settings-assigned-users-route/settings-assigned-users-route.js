@@ -36,7 +36,6 @@ const propTypes = {
     hasLoaded: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
-      desc: PropTypes.string.isRequired,
       group: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
     })).isRequired,
@@ -115,7 +114,12 @@ const SettingsAssignedUsersRoute = ({
     const attributes = {
       credentialsId: kbId,
       patronGroup: getPatronGroupNameById(patronGroup),
+      lastName,
     };
+
+    if (username) attributes.userName = username;
+    if (firstName) attributes.firstName = firstName;
+    if (middleName) attributes.middleName = middleName;
 
     return {
       data: {

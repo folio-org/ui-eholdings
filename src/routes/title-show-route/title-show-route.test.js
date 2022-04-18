@@ -57,13 +57,15 @@ const titleId = 'test-title-id';
 
 const costPerUse = {
   data: {
-    attributes: {
-      cost: 0,
-      costPerUse: 0,
-      usage: 0,
+    titleCostPerUse: {
+      attributes: {
+        analysis: {
+          holdingsSummary: [],
+        },
+      },
+      id: 'cost-per-use-id',
+      type: 'titleCostPerUse',
     },
-    id: 'cost-per-use-id',
-    type: 'titleCostPerUse',
   },
   errors: [],
   isFailed: false,
