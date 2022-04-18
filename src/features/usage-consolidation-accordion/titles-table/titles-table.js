@@ -28,13 +28,13 @@ import {
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-  fetchNextPage: PropTypes.func.isRequired,
+  fetchPage: PropTypes.func.isRequired,
   onSortTitles: PropTypes.func.isRequired,
 };
 
 const TitlesTable = ({
   costPerUseData,
-  fetchNextPage,
+  fetchPage,
   onSortTitles,
 }) => {
   const intl = useIntl();
@@ -87,11 +87,13 @@ const TitlesTable = ({
     return null;
   }
 
-  const onNeedMoreData = () => {
-    const nextPage = page + 1;
+  const handleFetchPrevNextPage = (...params) => {
+    const direction = params.pop();
 
-    setPage(nextPage);
-    fetchNextPage(nextPage, PAGE_SIZE, sortedColumn, sortOrder.name);
+    const pageToFetch = direction === 'next' ? page + 1 : page - 1;
+
+    setPage(pageToFetch);
+    fetchPage(pageToFetch, PAGE_SIZE, sortedColumn, sortOrder.name);
   };
 
   const getToastErrors = () => {
@@ -144,9 +146,9 @@ const TitlesTable = ({
               percent: '10%',
             }}
             totalCount={totalResults}
-            onNeedMoreData={onNeedMoreData}
+            onNeedMoreData={handleFetchPrevNextPage}
             pageAmount={PAGE_SIZE}
-            pagingType="click"
+            pagingType="prev-next"
             onHeaderClick={onHeaderClick}
             sortedColumn={sortedColumn}
             sortDirection={sortOrder.fullName}

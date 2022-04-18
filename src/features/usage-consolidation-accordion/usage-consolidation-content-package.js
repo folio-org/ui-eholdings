@@ -66,7 +66,7 @@ const UsageConsolidationContentPackage = ({
 
   const noCostPerUseAvailable = !cost && !costPerUse && !usage;
 
-  const handleFetchNextPage = (page, pageSize, sortedColumn, sortOrder) => {
+  const handleFetchPage = (page, pageSize, sortedColumn, sortOrder) => {
     onLoadMoreTitles({
       page,
       pageSize,
@@ -184,7 +184,7 @@ const UsageConsolidationContentPackage = ({
       />
       <TitlesTable
         costPerUseData={costPerUseData}
-        fetchNextPage={handleFetchNextPage}
+        fetchPage={handleFetchPage}
         onSortTitles={handleSortTitles}
       />
       <Callout ref={calloutRef} />

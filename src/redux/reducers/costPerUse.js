@@ -65,18 +65,7 @@ const handlers = {
     isPackageTitlesFailed: false,
     data: {
       ...state.data,
-      [payload.data.type]: payload.loadMore
-        ? {
-          ...payload.data,
-          attributes: {
-            ...payload.data.attributes,
-            resources: [
-              ...(state.data[payload.data.type]?.attributes?.resources || []),
-              ...payload.data.attributes.resources,
-            ],
-          },
-        }
-        : payload.data,
+      [payload.data.type]: payload.data,
     },
     errors: [],
   }),

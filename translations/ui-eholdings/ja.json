@@ -501,7 +501,7 @@
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
     "usageConsolidation.holdingsSummary": "所蔵サマリー",
     "navigation.app": "電子所蔵アプリ検索",
-    "navigation.content": "Submit a KB Content Inquiry",
+    "navigation.content": "KBコンテンツに関する問い合わせの送信",
     "navigation.systemStatus": "EBSCOシステムステータス",
     "navigation.keyboardShortcuts": "Keyboard shortcuts",
     "previous": "前",
