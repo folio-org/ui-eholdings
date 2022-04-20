@@ -96,31 +96,13 @@ const SettingsAssignedUsersRoute = ({
       }));
   }, [assignedUsers.errors]);
 
-  const getPatronGroupNameById = id => {
-    return userGroups.items.find(userGroup => userGroup.id === id)?.group;
-  };
 
   const getFormattedUserData = user => {
-    const {
-      patronGroup,
-      username,
-      id,
-      personal: {
-        firstName,
-        middleName,
-        lastName,
-      },
-    } = user;
+    const { id } = user;
 
     const attributes = {
-      credentialsId: kbId,
-      patronGroup: getPatronGroupNameById(patronGroup),
-      lastName,
+      credentialsId: kbId
     };
-
-    if (username) attributes.userName = username;
-    if (firstName) attributes.firstName = firstName;
-    if (middleName) attributes.middleName = middleName;
 
     return {
       data: {
