@@ -449,7 +449,7 @@ class SearchRoute extends Component {
 
     return (
       <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
-        {label => (
+        {([label]) => (
           <TitleManager record={label}>
             <div data-test-eholdings>
               <SearchPaneset

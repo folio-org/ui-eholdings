@@ -29,7 +29,7 @@ const status = {
   isLoading: false,
   request: {
     isRejected: false,
-    status: null,
+    status: 200,
   },
 };
 
@@ -130,7 +130,37 @@ describe('Given ApplicationRoute', () => {
         kbCredentials: {
           ...kbCredentials,
           isLoaded: true,
-          items: [{}, {}],
+          items: [{
+            id: 'e5fe6cbe-53e4-4704-96ea-1168256d6ed7',
+            type: 'kbCredentials',
+            attributes: {
+              name: 'Dummy Credentials',
+              customerId: 'customer',
+              url: 'https://test.url',
+              apiKey : '****************************************',
+            },
+            metadata: {
+              createdDate : '2022-03-30T15:08:28.131+00:00',
+              createdByUserId : '9e58d347-6e39-560a-b4cb-2e165632e464',
+              createdByUsername : 'diku_admin',
+              updatedDate: '2021-08-30T01:53:26.081+00:00',
+            },
+          }, {
+            id: 'e5fe6cbe-53e4-4704-96ea-1168256d6ed8',
+            type: 'kbCredentials',
+            attributes: {
+              name: 'Dummy Credentials 2',
+              customerId: 'customer',
+              url: 'https://test.url',
+              apiKey : '****************************************',
+            },
+            metadata: {
+              createdDate : '2022-03-30T15:08:28.131+00:00',
+              createdByUserId : '9e58d347-6e39-560a-b4cb-2e165632e464',
+              createdByUsername : 'diku_admin',
+              updatedDate: '2021-08-30T01:53:26.081+00:00',
+            },
+          }],
         },
       });
 

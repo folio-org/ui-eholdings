@@ -128,7 +128,7 @@ class TitleEditRoute extends Component {
         id="ui-eholdings.label.editLink"
         values={{ name: model.name }}
       >
-        {pageTitle => (
+        {([pageTitle]) => (
           <TitleManager record={pageTitle}>
             <View
               model={model}

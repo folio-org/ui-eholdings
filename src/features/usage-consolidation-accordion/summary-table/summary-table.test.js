@@ -29,6 +29,9 @@ const costPerUseData = {
   isFailed: false,
   isLoaded: true,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const customProperties = {};

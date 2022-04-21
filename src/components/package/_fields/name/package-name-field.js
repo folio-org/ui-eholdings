@@ -28,7 +28,7 @@ export default function PackageNameField() {
   return (
     <div data-test-eholdings-package-name-field>
       <FormattedMessage id="ui-eholdings.label.name">
-        {(ariaLabel) => (
+        {([ariaLabel]) => (
           <Field
             name="name"
             type="text"

@@ -485,13 +485,11 @@ class TitleShow extends Component {
             render={({ handleSubmit }) => {
               submit = handleSubmit;
               return (
-                <form>
-                  <AddTitleToPackage
-                    packageOptions={this.customPackageOptions}
-                    onPackageFilter={onPackageFilter}
-                    loadingOptions={customPackages.isLoading}
-                  />
-                </form>
+                <AddTitleToPackage
+                  packageOptions={this.customPackageOptions}
+                  onPackageFilter={onPackageFilter}
+                  loadingOptions={customPackages.isLoading}
+                />
               );
             }}
           />

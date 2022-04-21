@@ -1,6 +1,4 @@
-import {
-  render,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import noop from 'lodash/noop';
 
 import AccessTypesFilterAccordion from './access-types-filter-accordion';
@@ -20,6 +18,8 @@ const accessTypesStoreData = {
   },
 };
 
+const AccordionHeader = () => <span>Accordion Header</span>;
+
 const renderAccessTypesFilter = (props = {}) => render(
   <AccessTypesFilterAccordion
     accessTypesStoreData={accessTypesStoreData}
@@ -27,7 +27,7 @@ const renderAccessTypesFilter = (props = {}) => render(
     onStandaloneFilterChange={noop}
     onStandaloneFilterToggle={noop}
     isOpen
-    header={() => <span>Accordion Header</span>}
+    header={AccordionHeader}
     dataOptions={[{
       label: 'opt1',
       value: 'opt1',

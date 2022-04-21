@@ -15,17 +15,21 @@ const costPerUseData = {
     packageCostPerUse: {
       attributes: {
         analysis: {
-          cost: 'cost',
-          costPerUse: 'costPerUse',
-          usage: 'usage',
+          cost: 10,
+          costPerUse: 10,
+          usage: 10,
         },
       },
     },
+    platformType: 'all',
   },
   errors: [],
   isFailed: false,
   isLoaded: true,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const usageConsolidation = {

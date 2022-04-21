@@ -24,6 +24,7 @@ const model = {
   }],
   publicationType: 'publication type',
   isLoaded: true,
+  isLoading: false,
   titleHasSelectedResources: true,
   isSelected: false,
   coverageStatement: 'coverage statement',
@@ -108,9 +109,12 @@ const renderResourceEdit = (props = {}) => render(
         },
       }}
       accessStatusTypes={{
+        isDeleted: false,
+        isLoading: false,
         items: {
           data: [{
             id: 'access-type-id',
+            type: 'accessTypes',
             attributes: {
               name: 'access type',
             },

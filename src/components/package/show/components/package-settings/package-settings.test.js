@@ -13,6 +13,73 @@ jest.mock('../../../../proxy-display', () => () => <span>Proxy display</span>);
 
 jest.mock('../../../../token-display', () => ({ type }) => <span>{type} token display</span>);
 
+const model = {
+  isLoading: false,
+  isLoaded: true,
+  isCustom: false,
+  packageToken: {
+    prompt: '',
+  },
+  visibilityData: {
+    reason: '',
+    isHidden: false,
+  },
+  proxy: {
+    id: 'proxy-id',
+  },
+  data: {
+    relationships: {
+      accessType: {
+        data: {
+          id: 'access-type-id',
+        },
+      },
+    },
+  },
+};
+
+const provider = {
+  isLoaded: true,
+  isLoading: false,
+  providerToken: {
+    prompt: '',
+  },
+  proxy: {
+    id: 'proxy-id',
+  },
+};
+
+const proxyTypes = {
+  request: {
+    isResolved: true,
+  },
+  resolver: {
+    state: {
+      proxyTypes: {
+        records: {
+          EZProxy: {
+            id: 'EZPoxy',
+          },
+        },
+      },
+    },
+  },
+};
+
+const accessStatusTypes = {
+  isDeleted: false,
+  isLoading: false,
+  items: {
+    data: [{
+      id: 'access-type-id',
+      type: 'accessTypes',
+      attributes: {
+        name: 'access type',
+      },
+    }],
+  },
+};
+
 describe('Given PackageSettings', () => {
   let component;
   const onToggleMock = jest.fn();
@@ -22,68 +89,12 @@ describe('Given PackageSettings', () => {
       <PackageSettings
         isOpen
         onToggle={onToggleMock}
-        model={{
-          isLoading: false,
-          isLoaded: true,
-          isCustom: false,
-          packageToken: {
-            prompt: '',
-          },
-          visibilityData: {
-            reason: '',
-            isHidden: false,
-          },
-          proxy: {
-            id: 'proxy-id',
-          },
-          data: {
-            relationships: {
-              accessType: {
-                data: {
-                  id: 'access-type-id',
-                },
-              },
-            },
-          },
-        }}
+        model={model}
         packageAllowedToAddTitles
         packageSelected
-        provider={{
-          isLoaded: true,
-          isLoading: false,
-          providerToken: {
-            prompt: '',
-          },
-          proxy: {
-            id: 'proxy-id',
-          },
-        }}
-        proxyTypes={{
-          request: {
-            isResolved: true,
-          },
-          resolver: {
-            state: {
-              proxyTypes: {
-                records: {
-                  EZProxy: {
-                    id: 'EZPoxy',
-                  },
-                },
-              },
-            },
-          },
-        }}
-        accessStatusTypes={{
-          items: {
-            data: [{
-              id: 'access-type-id',
-              attributes: {
-                name: 'access type',
-              },
-            }],
-          },
-        }}
+        provider={provider}
+        proxyTypes={proxyTypes}
+        accessStatusTypes={accessStatusTypes}
         {...props}
       />
     </Harness>

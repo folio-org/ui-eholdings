@@ -41,10 +41,10 @@ export default class CustomLabelsShowSection extends Component {
               md={6}
               sm={12}
               xs={12}
+              key={id}
             >
               <KeyValue
                 data-test-eholdings-resource-custom-label
-                key={id}
                 label={displayLabel}
                 value={value || <NoValue />}
               />

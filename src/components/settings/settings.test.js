@@ -23,7 +23,12 @@ const renderSettings = (props = {}) => render(
     <CommandList commands={defaultKeyboardShortcuts}>
       <Settings
         kbCredentials={[{
-          attributes: {},
+          attributes: {
+            apiKey: 'apiKey',
+            customerId: 'customerId',
+            name: 'kb name',
+            url: 'url.com',
+          },
           id: '1',
           type: '',
           metadata: {},

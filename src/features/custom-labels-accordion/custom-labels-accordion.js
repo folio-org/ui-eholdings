@@ -26,7 +26,7 @@ class CustomLabelsAccordion extends Component {
     id: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
-    section: PropTypes.node.isRequired,
+    section: PropTypes.func.isRequired,
     userDefinedFields: PropTypes.objectOf(PropTypes.string).isRequired,
   }
 
@@ -43,7 +43,8 @@ class CustomLabelsAccordion extends Component {
   getToastErrors() {
     const { customLabels: { errors } } = this.props;
 
-    return errors.map((error) => ({
+    return errors.map((error, index) => ({
+      id: `error-${index}`,
       message: error.title,
       type: 'error',
     }));

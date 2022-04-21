@@ -60,7 +60,7 @@ export default class CustomEmbargoFields extends Component {
         className={styles['custom-embargo-select']}
       >
         <FormattedMessage id="ui-eholdings.label.selectTimePeriod">
-          {placeholder => (
+          {([placeholder]) => (
             <Field
               name={`${fieldsName}[0].embargoUnit`}
               component={Select}
@@ -97,7 +97,7 @@ export default class CustomEmbargoFields extends Component {
         className={styles['custom-embargo-text-field']}
       >
         <FormattedMessage id="ui-eholdings.number">
-          {placeholder => (
+          {([placeholder]) => (
             <Field
               name={`${fields.name}[0].embargoValue`}
               component={TextField}
@@ -120,7 +120,7 @@ export default class CustomEmbargoFields extends Component {
         className={styles['custom-embargo-clear-row']}
       >
         <FormattedMessage id="ui-eholdings.resource.embargoPeriod.clear">
-          {ariaLabel => (
+          {([ariaLabel]) => (
             <IconButton
               icon="trash"
               onClick={fields.pop}

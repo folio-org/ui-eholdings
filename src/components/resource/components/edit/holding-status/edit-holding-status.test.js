@@ -21,11 +21,13 @@ describe('Given HoldingStatus', () => {
     isSelected: true,
   };
 
+  const SectionHeader = () => 'Holding status';
+
   const renderHoldingStatus = (props = {}) => render(
     <Harness>
       <HoldingStatus
         isOpen
-        getSectionHeader={() => 'Holding status'}
+        getSectionHeader={SectionHeader}
         handleSectionToggle={handleSectionToggleMock}
         model={defaultModel}
         resourceIsCustom

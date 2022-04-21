@@ -12,6 +12,7 @@ import Harness from '../../../test/jest/helpers/harness';
 
 const provider = {
   id: 'providerid',
+  isLoading: false,
   providerToken: {
     value: 'provider-token',
     prompt: '',
@@ -54,6 +55,7 @@ const model = {
   contributors: [],
   identifiers: [],
   isLoaded: true,
+  isLoading: false,
   isCustom: true,
   isSelected: true,
   isPeerReviewed: false,
@@ -94,7 +96,9 @@ const updateRequest = {
 const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
-  items: [],
+  items: {
+    data: [],
+  },
 };
 
 const proxyTypes = {

@@ -119,10 +119,10 @@ describe('Given SettingsUsageConsolidationRoute', () => {
             errors: [{ title: 'usageConsolidation error' }],
           },
         });
-  
+
         expect(getByText('ui-eholdings.settings.usageConsolidation.credentials.systemError')).toBeDefined();
       });
-    })
+    });
   });
 
   describe('when customer key is empty', () => {

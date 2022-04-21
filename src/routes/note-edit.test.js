@@ -22,6 +22,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
 
 const history = {
   goBack: jest.fn(),
+  action: '',
 };
 
 const location = {

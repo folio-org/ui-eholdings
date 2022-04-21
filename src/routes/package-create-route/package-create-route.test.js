@@ -36,7 +36,7 @@ const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
   items: {
-    data: {},
+    data: [],
   },
 };
 

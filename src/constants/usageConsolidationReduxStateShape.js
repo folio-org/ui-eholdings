@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
 const UsageConsolidationShape = PropTypes.shape({
-  credentialsId: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  customerKey: PropTypes.string.isRequired,
+  credentialsId: PropTypes.string,
+  currency: PropTypes.string,
+  customerKey: PropTypes.string,
   metricType: PropTypes.string,
-  platformType: PropTypes.string.isRequired,
-  startMonth: PropTypes.string.isRequired,
+  platformType: PropTypes.string,
+  startMonth: PropTypes.string,
 });
 
 const UsageConsolidationReduxStateShape = PropTypes.shape({

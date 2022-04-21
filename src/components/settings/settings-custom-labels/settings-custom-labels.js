@@ -112,7 +112,8 @@ const SettingsCustomLabels = ({
         id: `update-custom-labels-success-${Date.now()}`,
       }];
     } else {
-      return errors.map((error) => ({
+      return errors.map((error, index) => ({
+        id: `error-${index}`,
         message: error.title,
         type: 'error',
       }));

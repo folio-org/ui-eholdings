@@ -28,6 +28,7 @@ const model = {
   },
   isSelected: true,
   isLoaded: true,
+  isLoading: false,
   isCustom: true,
   request: {
     isRejected: false,
@@ -68,9 +69,12 @@ const renderPackageEdit = (props = {}) => render(
         },
       }}
       accessStatusTypes={{
+        isDeleted: false,
+        isLoading: false,
         items: {
           data: [{
             id: 'access-type-id',
+            type: 'accessTypes',
             attributes: {
               name: 'access type',
             },

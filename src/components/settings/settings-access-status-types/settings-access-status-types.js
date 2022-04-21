@@ -220,7 +220,7 @@ const SettingsAccessStatusTypes = ({
       defaultWidth="fill"
       firstMenu={(
         <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
-          {ariaLabel => (
+          {([ariaLabel]) => (
             <PaneCloseLink
               ariaLabel={ariaLabel}
               to="/settings/eholdings"
