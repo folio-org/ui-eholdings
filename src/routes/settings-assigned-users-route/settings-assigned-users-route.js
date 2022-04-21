@@ -24,7 +24,6 @@ const propTypes = {
   assignedUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape.isRequired,
   deleteKBCredentialsUser: PropTypes.func.isRequired,
   getKBCredentialsUsers: PropTypes.func.isRequired,
-  getUserGroups: PropTypes.func.isRequired,
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   match: ReactRouterPropTypes.match.isRequired,
   postKBCredentialsUser: PropTypes.func.isRequired,
@@ -51,15 +50,10 @@ const SettingsAssignedUsersRoute = ({
   kbCredentials,
   match: { params: { kbId } },
   userGroups,
-  getUserGroups,
 }) => {
   useEffect(() => {
     getKBCredentialsUsers(kbId);
   }, [getKBCredentialsUsers, kbId]);
-
-  useEffect(() => {
-    getUserGroups();
-  }, [getUserGroups]);
 
   const [
     alreadyAssignedMessageDisplayed,
