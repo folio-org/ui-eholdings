@@ -18,7 +18,6 @@ export { default as createDeleteKbCredentialsUsersEpic } from './delete-kb-crede
 export { default as createGetRootProxyEpic } from './get-root-proxy';
 export { default as createUpdateRootProxyEpic } from './update-root-proxy';
 export { default as createGetProxyTypesEpic } from './get-proxy-types';
-export { default as createGetUserGroupsEpic } from './get-user-groups';
 export { default as createGetAgreementLinesEpic } from './get-agreement-lines';
 export { default as createDeleteAgreementLinesEpic } from './delete-agreement-lines';
 export { default as createGetUsageConsolidationEpic } from './get-usage-consolidation';

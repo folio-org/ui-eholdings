@@ -27,19 +27,6 @@ const propTypes = {
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   match: ReactRouterPropTypes.match.isRequired,
   postKBCredentialsUser: PropTypes.func.isRequired,
-  userGroups: PropTypes.shape({
-    errors: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    })).isRequired,
-    hasFailed: PropTypes.bool.isRequired,
-    hasLoaded: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      desc: PropTypes.string.isRequired,
-      group: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    })).isRequired,
-  }).isRequired,
 };
 
 const SettingsAssignedUsersRoute = ({
@@ -49,7 +36,6 @@ const SettingsAssignedUsersRoute = ({
   assignedUsers,
   kbCredentials,
   match: { params: { kbId } },
-  userGroups,
 }) => {
   useEffect(() => {
     getKBCredentialsUsers(kbId);
@@ -90,31 +76,11 @@ const SettingsAssignedUsersRoute = ({
       }));
   }, [assignedUsers.errors]);
 
-  const getPatronGroupNameById = id => {
-    return userGroups.items.find(userGroup => userGroup.id === id)?.group;
-  };
 
   const getFormattedUserData = user => {
-    const {
-      patronGroup,
-      username,
-      id,
-      personal: {
-        firstName,
-        middleName,
-        lastName,
-      },
-    } = user;
+    const { id } = user;
 
-    const attributes = {
-      credentialsId: kbId,
-      patronGroup: getPatronGroupNameById(patronGroup),
-      lastName,
-    };
-
-    if (username) attributes.userName = username;
-    if (firstName) attributes.firstName = firstName;
-    if (middleName) attributes.middleName = middleName;
+    const attributes = { credentialsId: kbId };
 
     return {
       data: {
@@ -134,11 +100,10 @@ const SettingsAssignedUsersRoute = ({
   };
 
   const assignedUsersLoaded = assignedUsers.hasLoaded || assignedUsers.hasFailed;
-  const userGroupsLoaded = userGroups.hasLoaded || userGroups.hasFailed;
 
   return (
     <>
-      {assignedUsersLoaded && userGroupsLoaded
+      {assignedUsersLoaded
         ? (
           <View
             requestIsPending={assignedUsers.isLoading}
