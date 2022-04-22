@@ -57,7 +57,7 @@ const getPackageCreateRoute = (props = {}) => (
         removeCreateRequests={mockRemoveCreateRequests}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );

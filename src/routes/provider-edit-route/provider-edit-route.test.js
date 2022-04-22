@@ -122,7 +122,7 @@ const getProviderEditRoute = (props = {}) => (
         updateProvider={mockUpdateProvider}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );

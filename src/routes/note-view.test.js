@@ -58,7 +58,7 @@ const getNoteViewRoute = (props = {}) => (
         match={match}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );
