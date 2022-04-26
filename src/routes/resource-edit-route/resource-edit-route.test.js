@@ -181,7 +181,7 @@ const getResourceEditRoute = (props = {}) => (
         updateResource={mockUpdateResource}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );

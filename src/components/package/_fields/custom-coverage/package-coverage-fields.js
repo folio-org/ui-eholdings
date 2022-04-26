@@ -17,10 +17,6 @@ import {
   Row,
 } from '@folio/stripes/components';
 import {
-  formatDate,
-  parseDate,
-} from '../../../utilities';
-import {
   BACKEND_DATE_STANDARD,
   TIME_ZONE,
 } from '../../../../constants';

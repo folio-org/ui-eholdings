@@ -4,11 +4,6 @@ import IntlProvider from '../../../test/jest/helpers/intl';
 
 import CoverageDateList from './coverage-date-list';
 
-const consoleErrorFn = jest.spyOn(console, 'error');
-
-const coverageArrayWithoutBeginAndEndDates = [{}];
-const coverageArrayBeginDateNotString = [{ beginCoverage: 1234 }];
-const coverageArrayEndDateNotString = [{ endCoverage: 1234 }];
 const coverageArrayWithBeginDate = [{ beginCoverage: '2020-12-01' }];
 const coverageArrayWithEndDate = [{ endCoverage: '2021-01-31' }];
 const coverageArrayWithBeginAndEndDates = [{

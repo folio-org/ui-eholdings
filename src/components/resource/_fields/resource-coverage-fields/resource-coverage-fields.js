@@ -22,11 +22,7 @@ import {
 import CoverageDateList from '../../../coverage-date-list';
 
 import validateDateRange from '../validate-date-range';
-import {
-  isBookPublicationType,
-  parseDate,
-  formatDate,
-} from '../../../utilities';
+import { isBookPublicationType } from '../../../utilities';
 import {
   BACKEND_DATE_STANDARD,
   TIME_ZONE,
