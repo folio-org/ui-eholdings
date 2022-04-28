@@ -73,7 +73,7 @@ describe("Given UsageConsolidationContentResource", () => {
       costPerUseData: newCostPerUseData
     });
 
-    expect(getByText('ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse'));
+    expect(getByText('ui-eholdings.usageConsolidation.fullTextRequestUsageTable.noResponse')).toBeDefined();
   });
 
   it('should render NoCostPerUseAvailable when noCostPerUseAvailable and isPlatformsDataEmpty are true', () => {

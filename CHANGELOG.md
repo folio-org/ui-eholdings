@@ -5,6 +5,7 @@
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
 * Package Detail Record> Usage & analysis accordion > Apply pagination to Titles list. (UIEH-1259)
+* Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
@@ -429,4 +430,3 @@
 * Custom Embargo: Removing Custom Embargo will not enable Save button (UIEH-668)
 * Make eholdings UI permissions effective (UIEH-669)
 * Tags: assign/unassign tags on packages regardless of isSelected value (UIEH-670)
-* Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
