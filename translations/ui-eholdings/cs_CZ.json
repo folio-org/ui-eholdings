@@ -250,7 +250,7 @@
     "selected": "Selected",
     "notSelected": "Not selected",
     "addToHoldings": "Add to holdings",
-    "addAllToHoldings": "Add all titles to holdings",
+    "addAllToHoldings": "Přidejte všechny tituly do holdingů",
     "saving": "Saving",
     "submit": "Submit",
     "save": "Save",
@@ -530,6 +530,6 @@
     "loadMore": "Load more",
     "selection-modal.buttonWorking": "Removing...",
     "selection-modal.buttonConfirm": "Yes, remove",
-    "filter.contentType.mixedContent": "Mixed Content",
-    "filter.contentType.streamingMedia": "Streaming Media"
+    "filter.contentType.mixedContent": "Smíšený obsah",
+    "filter.contentType.streamingMedia": "Streamovaná média"
 }
