@@ -429,3 +429,4 @@
 * Custom Embargo: Removing Custom Embargo will not enable Save button (UIEH-668)
 * Make eholdings UI permissions effective (UIEH-669)
 * Tags: assign/unassign tags on packages regardless of isSelected value (UIEH-670)
+* Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
