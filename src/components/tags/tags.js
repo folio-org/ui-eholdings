@@ -135,12 +135,14 @@ const Tags = ({
   };
 
   const getSortedDataOptions = () => {
-    const dataOptions = tags.map(tag => {
-      return {
-        value: tag.label.toLowerCase(),
-        label: tag.label.toLowerCase(),
-      };
-    });
+    const dataOptions = tags
+      .filter(tag => tag.label)
+      .map(tag => {
+        return {
+          value: tag.label.toLowerCase(),
+          label: tag.label.toLowerCase(),
+        };
+      });
 
     return sortBy(dataOptions, ['value']);
   };
@@ -171,9 +173,9 @@ const Tags = ({
         <FormattedMessage id="stripes-smart-components.enterATag" />
       </span>
       <FormattedMessage id="stripes-smart-components.enterATag">
-        {placeholder => (
+        {([placeholder]) => (
           <FormattedMessage id="stripes-smart-components.tagsTextArea">
-            {ariaLabel => (
+            {([ariaLabel]) => (
               <MultiSelection
                 placeholder={placeholder}
                 aria-label={ariaLabel}

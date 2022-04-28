@@ -25,7 +25,7 @@ const getNoteCreateRoute = (props = {}) => (
         location={location}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );

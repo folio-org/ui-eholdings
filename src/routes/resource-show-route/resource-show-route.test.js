@@ -72,9 +72,6 @@ const model = {
   name: 'Test resource',
   packageId,
   packageName: 'Test package',
-  data: {
-    isTokenNeeded: false,
-  },
   description: '',
   edition: '',
   contributors: [],
@@ -84,12 +81,17 @@ const model = {
     isCustom: false,
     visibilityData: {
       isHidden: false,
+      reason: '',
     },
   },
   title: {
     name: 'Test resource',
     subjects: [],
+    contributors: [],
+    identifiers: [],
   },
+  managedCoverages: [],
+  customCoverages: [],
   isSelected: false,
   isLoaded: true,
   isLoading: false,
@@ -119,6 +121,16 @@ const model = {
   },
   tags: {
     tagList: [],
+  },
+  data: {
+    isTokenNeeded: false,
+    relationships: {
+      accessType: {
+        data: {
+          id: 'access-type-id',
+        },
+      },
+    },
   },
 };
 
@@ -168,7 +180,7 @@ const accessTypes = {
   items: {
     data: [{
       id: 'access-type-id',
-      type: 'test type',
+      type: 'accessTypes',
       attributes: {
         name: 'access type',
       },
@@ -176,17 +188,73 @@ const accessTypes = {
   },
 };
 
-const costPerUse = {
-  data: {},
+const currencies = {
+  isLoading: false,
+  items: [{
+    attributes: {
+      code: 'AFN',
+      description: 'Afghan Afghani',
+    },
+  }, {
+    attributes: {
+      code: 'ALL',
+      description: 'Albanian Lek',
+    },
+  }],
+  errors: [],
+};
+const ucCredentials = {
+  isPresent: false,
+  isLoading: false,
+  isFailed: false,
+  isUpdated: false,
+  errors: [],
+};
+const usageConsolidation = {
+  data: {
+    credentialsId: 'credentials-id',
+    currency: 'currency',
+    customerKey: 'customer-key',
+    platformType: 'platform-type',
+    startMonth: 'January',
+  },
   errors: [],
   isFailed: false,
-  isLoaded: false,
+  isKeyFailed: false,
+  isKeyLoaded: false,
+  isKeyLoading: false,
+  isLoaded: true,
   isLoading: false,
 };
 
 const getResourceShowRoute = (props = {}) => (
   <MemoryRouter>
-    <Harness>
+    <Harness
+      storeInitialState={{
+        data: {
+          currencies,
+          ucCredentials,
+          usageConsolidation,
+          agreements: {
+            errors: [],
+            isLoading: false,
+            items: [],
+          },
+          customLabels: {
+            errors: [],
+            items: {
+              data: [{
+                type: 'customLabels',
+                attributes: {
+                  id: 1,
+                  displayLabel: 'Label 1',
+                },
+              }],
+            },
+          },
+        },
+      }}
+    >
       <ResourceShowRoute
         history={history}
         location={location}
@@ -196,7 +264,7 @@ const getResourceShowRoute = (props = {}) => (
         proxyTypes={proxyTypes}
         resolver={resolver}
         accessTypes={accessTypes}
-        costPerUse={costPerUse}
+        costPerUse={usageConsolidation}
         getResource={noop}
         getProxyTypes={noop}
         updateResource={noop}

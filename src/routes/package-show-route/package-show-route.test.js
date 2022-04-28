@@ -99,11 +99,16 @@ const model = {
   edition: '',
   contributors: [],
   identifiers: [],
-  resources: {},
+  resources: {
+    length: 0,
+    records: [],
+  },
   isLoaded: true,
+  isLoading: false,
   isCustom: false,
   isSelected: false,
   isPeerReviewed: false,
+  allowKbToAddTitles: false,
   titleCount: 100,
   publicationType: 'Unspecified',
   packageToken: {
@@ -133,6 +138,15 @@ const model = {
   },
   tags: {
     tagList: [],
+  },
+  data: {
+    relationships: {
+      accessType: {
+        data: {
+          id: 'access-type-id',
+        },
+      },
+    },
   },
 };
 
@@ -196,7 +210,7 @@ const accessStatusTypes = {
   items: {
     data: [{
       id: 'access-type-id',
-      type: 'test type',
+      type: 'accessTypes',
       attributes: {
         name: 'access type',
       },
@@ -205,15 +219,32 @@ const accessStatusTypes = {
 };
 
 const costPerUse = {
-  data: {},
+  data: {
+    packageCostPerUse: {
+      attributes: {
+        analysis: {
+          cost: 0,
+          costPerUse: 0,
+          usage: 0,
+        },
+      },
+      id: 'cost-per-use-id',
+      type: 'packageCostPerUse',
+    },
+  },
   errors: [],
   isFailed: false,
   isLoaded: false,
   isLoading: false,
+  isPackageTitlesFailed: false,
+  isPackageTitlesLoaded: false,
+  isPackageTitlesLoading: false,
 };
 
 const packageTitles = {
   totalResults: 1,
+  page: 1,
+  isLoading: false,
   items: [{
     attributes: {
       name: 'Title name 1',

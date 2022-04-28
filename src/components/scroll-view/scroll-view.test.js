@@ -14,7 +14,8 @@ const getScrollView = (props = {}) => (
       fullWidth
       isMainPageSearch
       itemHeight={64}
-      items={[]}
+      items={[
+      ]}
       length={10}
       offset={1}
       onUpdate={mockOnUpdate}

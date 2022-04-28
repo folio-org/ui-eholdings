@@ -21,6 +21,7 @@ describe('Given AccessTypeEditSection', () => {
         items: {
           data: [{
             id: 'id1',
+            type: 'accessTypes',
             attributes: {
               name: 'name1',
             },
@@ -44,6 +45,7 @@ describe('Given AccessTypeEditSection', () => {
         items: {
           data: [{
             id: 'id1',
+            type: 'accessTypes',
             attributes: {
               name: 'name1',
             },
@@ -61,7 +63,11 @@ describe('Given AccessTypeEditSection', () => {
 
   describe('when no any access status types', () => {
     beforeEach(() => {
-      accessStatusTypes = {};
+      accessStatusTypes = {
+        isDeleted: false,
+        isLoading: false,
+        items: { data: [] },
+      };
     });
 
     it('should not show access type field', () => {

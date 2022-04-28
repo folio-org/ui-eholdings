@@ -17,7 +17,7 @@ const propTypes = {
     value: PropTypes.string,
   })).isRequired,
   handleStandaloneFilterChange: PropTypes.func.isRequired,
-  header: PropTypes.node.isRequired,
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]).isRequired,
   isOpen: PropTypes.bool,
   onStandaloneFilterChange: PropTypes.func.isRequired,
   onStandaloneFilterToggle: PropTypes.func.isRequired,

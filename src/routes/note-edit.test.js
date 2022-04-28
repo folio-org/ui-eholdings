@@ -22,6 +22,7 @@ jest.mock('@folio/stripes/smart-components', () => ({
 
 const history = {
   goBack: jest.fn(),
+  action: '',
 };
 
 const location = {
@@ -45,7 +46,7 @@ const getNoteEditRoute = (props = {}) => (
         match={match}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );

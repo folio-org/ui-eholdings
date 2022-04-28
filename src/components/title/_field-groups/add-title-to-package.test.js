@@ -28,7 +28,11 @@ describe('Given AddTitleToPackage', () => {
       onSubmit={handleSubmit}
       render={() => (
         <form>
-          <AddTitleToPackage packageOptions={packageOptions} />
+          <AddTitleToPackage
+            packageOptions={packageOptions}
+            onPackageFilter={jest.fn()}
+            loadingOptions={false}
+          />
         </form>
       )}
     />

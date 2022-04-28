@@ -4,11 +4,6 @@ import IntlProvider from '../../../test/jest/helpers/intl';
 
 import CoverageDateList from './coverage-date-list';
 
-const consoleErrorFn = jest.spyOn(console, 'error');
-
-const coverageArrayWithoutBeginAndEndDates = [{}];
-const coverageArrayBeginDateNotString = [{ beginCoverage: 1234 }];
-const coverageArrayEndDateNotString = [{ endCoverage: 1234 }];
 const coverageArrayWithBeginDate = [{ beginCoverage: '2020-12-01' }];
 const coverageArrayWithEndDate = [{ endCoverage: '2021-01-31' }];
 const coverageArrayWithBeginAndEndDates = [{
@@ -46,7 +41,10 @@ const addCoverageArrayToProps = (props, coverageArray) => {
 describe('Given CoverageDateList', () => {
   const renderCoverageDateList = ({ ...props }) => render(
     <IntlProvider>
-      <CoverageDateList {...props} />
+      <CoverageDateList
+        id="coverage-date-list"
+        {...props}
+      />
     </IntlProvider>
   );
 
@@ -56,30 +54,6 @@ describe('Given CoverageDateList', () => {
     const { getByTestId } = renderCoverageDateList(finalProps);
 
     expect(getByTestId('coverage-list-custom')).toBeDefined();
-  });
-
-  it('should give an error when begin and end dates are not provided', () => {
-    const finalProps = addCoverageArrayToProps(testProps, coverageArrayWithoutBeginAndEndDates);
-
-    renderCoverageDateList(finalProps);
-
-    expect(consoleErrorFn).toBeCalled();
-  });
-
-  it('should give an error when begin date is not of type string', () => {
-    const finalProps = addCoverageArrayToProps(testProps, coverageArrayBeginDateNotString);
-
-    renderCoverageDateList(finalProps);
-
-    expect(consoleErrorFn).toBeCalled();
-  });
-
-  it('should give an error when end date is not of type string', () => {
-    const finalProps = addCoverageArrayToProps(testProps, coverageArrayEndDateNotString);
-
-    renderCoverageDateList(finalProps);
-
-    expect(consoleErrorFn).toBeCalled();
   });
 
   it('should display beginCoverage date and Present', () => {

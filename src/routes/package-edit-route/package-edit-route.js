@@ -244,7 +244,7 @@ class PackageEditRoute extends Component {
 
     return (
       <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
-        {pageTitle => (
+        {([pageTitle]) => (
           <TitleManager record={pageTitle}>
             <View
               model={model}

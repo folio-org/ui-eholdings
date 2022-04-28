@@ -57,11 +57,11 @@ class SearchForm extends Component {
     searchByTagsEnabled: PropTypes.bool.isRequired,
     searchField: PropTypes.string,
     searchFilter: PropTypes.shape({
-      'access-type': PropTypes.string,
+      'access-type': PropTypes.arrayOf(PropTypes.string),
       filter: PropTypes.object,
       q: PropTypes.string,
       searchfield: PropTypes.string,
-      tags: PropTypes.string,
+      tags: PropTypes.arrayOf(PropTypes.string),
     }),
     searchString: PropTypes.string,
     searchType: PropTypes.oneOf(validSearchTypes).isRequired,
@@ -161,10 +161,6 @@ class SearchForm extends Component {
     return sortBy(dataOptions, ['value']);
   }
 
-  renderAccodrionHeader(props) {
-    return <FilterAccordionHeader {...props} headingLevel="2" />;
-  }
-
   renderTagFilter() {
     const {
       tagsModel,
@@ -181,7 +177,10 @@ class SearchForm extends Component {
       <TagFilterAccordion
         dataOptions={this.getSortedDataOptions()}
         handleStandaloneFilterChange={this.handleStandaloneFilterChange}
-        header={this.renderAccodrionHeader}
+        header={FilterAccordionHeader}
+        headerProps={{
+          headingLevel: 2,
+        }}
         isOpen={sections.accordionTagFilter}
         onStandaloneFilterChange={onStandaloneFilterChange}
         onStandaloneFilterToggle={onStandaloneFilterToggle}
@@ -215,7 +214,10 @@ class SearchForm extends Component {
           accessTypesStoreData={accessTypesStoreData}
           dataOptions={this.getAccessTypesDataOptions()}
           handleStandaloneFilterChange={this.handleStandaloneFilterChange}
-          header={this.renderAccodrionHeader}
+          header={FilterAccordionHeader}
+          headerProps={{
+            headingLevel: 2,
+          }}
           isOpen={sections.accessTypesFilter}
           onStandaloneFilterChange={onStandaloneFilterChange}
           onStandaloneFilterToggle={onStandaloneFilterToggle}
@@ -289,11 +291,11 @@ class SearchForm extends Component {
         >
           <div data-test-search-field>
             <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
-              {placeholder => (
+              {([placeholder]) => (
                 <>
                   {(searchType === searchTypes.TITLES) && (
                     <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
-                      {(ariaLabel) => (
+                      {([ariaLabel]) => (
                         <Select
                           onChange={this.handleChangeIndex}
                           value={searchField}
@@ -301,7 +303,10 @@ class SearchForm extends Component {
                           data-testid="field-to-search-select"
                         >
                           {Object.values(searchableIndexes).map(value => (
-                            <FormattedMessage id={`ui-eholdings.label.${value}`}>
+                            <FormattedMessage
+                              id={`ui-eholdings.label.${value}`}
+                              key={value}
+                            >
                               {(label) => <option value={value}>{label}</option>}
                             </FormattedMessage>
                           ))}
@@ -310,7 +315,7 @@ class SearchForm extends Component {
                     </FormattedMessage>
                   )}
                   <FormattedMessage id="ui-eholdings.search.enterYourSearch">
-                    {(ariaLabel) => (
+                    {([ariaLabel]) => (
                       <SearchField
                         id="eholdings-search"
                         name="search"

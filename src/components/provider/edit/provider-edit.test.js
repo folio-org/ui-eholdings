@@ -18,6 +18,7 @@ const model = {
   packagesSelected: 151,
   packagesTotal: 151,
   isLoaded: true,
+  isLoading: false,
   destroy: {
     timestamp: 0,
     isRejected: false,

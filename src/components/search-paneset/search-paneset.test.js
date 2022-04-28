@@ -20,6 +20,9 @@ const historyMock = {
   push: jest.fn(),
 };
 
+const ResultsView = () => <span>resultsView</span>;
+const PaneTitle = () => <span>resultPaneTitle</span>;
+
 const renderSearchPaneset = (props = {}) => render(
   <MemoryRouter>
     <CommandList commands={defaultKeyboardShortcuts}>
@@ -27,8 +30,8 @@ const renderSearchPaneset = (props = {}) => render(
         history={historyMock}
         resultsType={searchTypes.PROVIDERS}
         resultsLabel="Providers"
-        resultsPaneTitle={() => <span>resultPaneTitle</span>}
-        resultsView={() => <span>resultsView</span>}
+        resultsPaneTitle={PaneTitle}
+        resultsView={ResultsView}
         isLoading={false}
         updateFilters={noop}
         searchForm={<div>searchForm</div>}

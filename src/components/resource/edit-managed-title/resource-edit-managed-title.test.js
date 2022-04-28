@@ -38,8 +38,10 @@ const proxyTypes = {
 };
 
 const model = {
+  name: 'resource-name',
   isSelected: true,
   isLoaded: true,
+  isLoading: false,
   visibilityData: {
     isHidden: false,
   },

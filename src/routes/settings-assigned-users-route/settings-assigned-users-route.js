@@ -36,7 +36,6 @@ const propTypes = {
     hasLoaded: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
-      desc: PropTypes.string.isRequired,
       group: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
     })).isRequired,

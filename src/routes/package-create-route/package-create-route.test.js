@@ -36,7 +36,7 @@ const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
   items: {
-    data: {},
+    data: [],
   },
 };
 
@@ -57,7 +57,7 @@ const getPackageCreateRoute = (props = {}) => (
         removeCreateRequests={mockRemoveCreateRequests}
         {...props}
       />
-        Page content
+      Page content
     </Harness>
   </MemoryRouter>
 );
