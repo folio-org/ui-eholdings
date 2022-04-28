@@ -41,7 +41,6 @@ export * from './update-root-proxy-failure';
 export * from './get-proxy-types';
 export * from './get-proxy-types-success';
 export * from './get-proxy-types-failure';
-export * from './user-groups';
 export * from './unassign-agreement';
 export * from './get-agreement-lines-failure';
 export * from './get-agreement-lines-succes';
