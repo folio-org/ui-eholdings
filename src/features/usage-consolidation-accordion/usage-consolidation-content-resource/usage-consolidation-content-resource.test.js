@@ -7,28 +7,28 @@ import { costPerUseTypes } from '../../../constants';
 
 const costPerUseData = {
   data: {
-    [costPerUseTypes.RESOURCE_COST_PER_USE]:{
+    [costPerUseTypes.RESOURCE_COST_PER_USE]: {
       attributes: {
         analysis: {
             cost: 1,
             costPerUse: 1,
-            usage: 1
+            usage: 1,
         },
         parameters: {
             currency: '',
             startMonth: '',
         },
-        usage:{
-            platforms:[
+        usage: {
+            platforms: [
                 {
                     counts: [3, 6, 16],
                     isPublisherPlatform: true,
                     name: "name",
-                    total: 17
-                }
+                    total: 17,
+                },
             ],
-            totals:{}
-          }
+            totals: {},
+          },
         },
       },
   },
@@ -47,18 +47,17 @@ const renderUsageConsolidationContentResource = (props = {}) => render(
 );
 
 describe("Given UsageConsolidationContentResource", () => {
-
-  it('No DOMelement should be rendered when costPerUseData.data.resourceCostPerUse is null', () => {
+  it('should not render DOMelement when costPerUseData.data.resourceCostPerUse is null', () => {
     const newCostPerUseData = {
       ...costPerUseData,
       data: {
         ...costPerUseData.data,
-        [costPerUseTypes.RESOURCE_COST_PER_USE]: null
-      }
+        [costPerUseTypes.RESOURCE_COST_PER_USE]: null,
+      },
     };
 
     const {container} = renderUsageConsolidationContentResource({
-      costPerUseData: newCostPerUseData
+      costPerUseData: newCostPerUseData,
     });
 
     expect(container).toBeEmptyDOMElement;
@@ -67,7 +66,7 @@ describe("Given UsageConsolidationContentResource", () => {
   it('should render a div with message when isFailed of costPerUseData is true', () => {
     const newCostPerUseData = {
       ...costPerUseData,
-      isFailed: true
+      isFailed: true,
     };
     const { getByText } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData
@@ -79,24 +78,25 @@ describe("Given UsageConsolidationContentResource", () => {
   it('should render NoCostPerUseAvailable when noCostPerUseAvailable and isPlatformsDataEmpty are true', () => {
     const newCostPerUseData = {
       ...costPerUseData,
-      data:{
+      data: {
         ...costPerUseData.data,
-        [costPerUseTypes.RESOURCE_COST_PER_USE] : {
+        [costPerUseTypes.RESOURCE_COST_PER_USE]: {
           ...costPerUseData.data[costPerUseTypes.RESOURCE_COST_PER_USE],
           attributes: {
             analysis: {
               cost: 0,
               costPerUse: 0,
-              usage: 0
+              usage: 0,
             },
             usage: {
                 platforms: [],
-                totals: {}
-            }
-          }
-        }
+                totals: {},
+            },
+          },
+        },
       }
     };
+
     const { getByText } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData
     });
@@ -104,8 +104,8 @@ describe("Given UsageConsolidationContentResource", () => {
     expect(getByText('ui-eholdings.usageConsolidation.summary.resource.noData')).toBeDefined();
   });
 
-  it('render Summary Table and FullTextRequestUsageTable when costPerUseData hold appropriate values', () => {
-    const {getByText} = renderUsageConsolidationContentResource();
+  it('should render Summary Table and FullTextRequestUsageTable when costPerUseData hold appropriate values', () => {
+    const { getByText } = renderUsageConsolidationContentResource();
         
     // SummaryTable
     expect(getByText('ui-eholdings.usageConsolidation.summary.costPerUse')).toBeDefined();
