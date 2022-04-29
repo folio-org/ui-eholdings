@@ -23,7 +23,7 @@ const costPerUseData = {
             {
               counts: [3, 6, 16],
               isPublisherPlatform: true,
-              name: "name",
+              name: 'name',
               total: 17,
             },
           ],
@@ -46,7 +46,7 @@ const renderUsageConsolidationContentResource = (props = {}) => render(
   </Harness>
 );
 
-describe("Given UsageConsolidationContentResource", () => {
+describe('Given UsageConsolidationContentResource', () => {
   it('should not render DOMelement when costPerUseData.data.resourceCostPerUse is null', () => {
     const newCostPerUseData = {
       ...costPerUseData,
@@ -56,7 +56,7 @@ describe("Given UsageConsolidationContentResource", () => {
       },
     };
 
-    const {container} = renderUsageConsolidationContentResource({
+    const { container } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData,
     });
 
@@ -68,7 +68,6 @@ describe("Given UsageConsolidationContentResource", () => {
       ...costPerUseData,
       isFailed: true,
     };
-    
     const { getByText } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData
     });
@@ -101,16 +100,13 @@ describe("Given UsageConsolidationContentResource", () => {
     const { getByText } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData
     });
-    
     expect(getByText('ui-eholdings.usageConsolidation.summary.resource.noData')).toBeDefined();
   });
 
   it('should render Summary Table and FullTextRequestUsageTable when costPerUseData hold appropriate values', () => {
     const { getByText } = renderUsageConsolidationContentResource();
-        
     // SummaryTable
     expect(getByText('ui-eholdings.usageConsolidation.summary.costPerUse')).toBeDefined();
-
     // FullTextRequestUsageTable
     expect(getByText('ui-eholdings.usageConsolidation.fullTextRequestUsageTable')).toBeDefined();
   });
