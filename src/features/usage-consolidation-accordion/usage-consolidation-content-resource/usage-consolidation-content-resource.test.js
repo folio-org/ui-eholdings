@@ -10,27 +10,27 @@ const costPerUseData = {
     [costPerUseTypes.RESOURCE_COST_PER_USE]: {
       attributes: {
         analysis: {
-            cost: 1,
-            costPerUse: 1,
-            usage: 1,
+          cost: 1,
+          costPerUse: 1,
+          usage: 1,
         },
         parameters: {
-            currency: '',
-            startMonth: '',
+          currency: '',
+          startMonth: '',
         },
         usage: {
-            platforms: [
-                {
-                    counts: [3, 6, 16],
-                    isPublisherPlatform: true,
-                    name: "name",
-                    total: 17,
-                },
-            ],
-            totals: {},
-          },
+          platforms: [
+            {
+              counts: [3, 6, 16],
+              isPublisherPlatform: true,
+              name: "name",
+              total: 17,
+            },
+          ],
+          totals: {},
         },
       },
+    },
   },
   isFailed: false,
   isLoaded: true,
@@ -68,6 +68,7 @@ describe("Given UsageConsolidationContentResource", () => {
       ...costPerUseData,
       isFailed: true,
     };
+    
     const { getByText } = renderUsageConsolidationContentResource({
       costPerUseData: newCostPerUseData
     });
@@ -89,8 +90,8 @@ describe("Given UsageConsolidationContentResource", () => {
               usage: 0,
             },
             usage: {
-                platforms: [],
-                totals: {},
+              platforms: [],
+              totals: {},
             },
           },
         },
