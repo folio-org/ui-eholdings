@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import FullTextRequestUsageTable from './full-text-request-usage-table';
-import SummaryTable from './summary-table';
-import NoCostPerUseAvailable from './no-cost-per-use-available';
+import FullTextRequestUsageTable from '../full-text-request-usage-table';
+import SummaryTable from '../summary-table';
+import NoCostPerUseAvailable from '../no-cost-per-use-available';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
   costPerUseTypes,
-} from '../../constants';
+} from '../../../constants';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -75,6 +75,7 @@ const UsageConsolidationContentResource = ({
         {...rest}
       />
       <FullTextRequestUsageTable
+        entityType={entityTypes.RESOURCE}
         usageData={data.attributes.usage}
         platformType={platformType}
         startMonth={startMonth}
