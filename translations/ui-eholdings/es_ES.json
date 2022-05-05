@@ -525,7 +525,7 @@
     "settings.usageConsolidation.apiKey": "Usage consolidation API key",
     "settings.usageConsolidation.credentials.validation.invalid": "Usage Consolidation credentials are not valid.",
     "settings.usageConsolidation.credentials.systemError": "Usage Consolidation credentials cannot be saved due to a system error. Please try again.",
-    "proxy.errorMessage": "Invalid proxy selected. Please contact EBSCO support.",
+    "proxy.errorMessage": "Proxy seleccionado no válido. Póngase en contacto con el soporte de EBSCO.",
     "search.searchByAccessTypeOnly": "Search by access status types only",
     "loadMore": "Load more",
     "selection-modal.buttonWorking": "Removing...",
