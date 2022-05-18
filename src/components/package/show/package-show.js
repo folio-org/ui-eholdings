@@ -181,6 +181,19 @@ const PackageShow = ({
     );
   };
 
+  const renderExportCSVButton = (onToggle) => {
+    return (
+      <Button
+        data-testid="export-to-csv-button"
+        buttonStyle="dropdownItem fullWidth"
+        disabled={!model.isSelected}
+        onClick={onToggle}
+      >
+        <FormattedMessage id="ui-eholdings.package.actionMenu.exportToCSV" />
+      </Button>
+    );
+  };
+
   const toggleSelectionConfirmationModal = () => {
     setShowSelectionConfirmationModal(!showSelectionConfirmationModal);
   };
@@ -217,9 +230,6 @@ const PackageShow = ({
     const isAddButtonNeeded = (!packageSelected || model.isPartiallySelected) && hasSelectionPermission;
     const isRemoveButtonNeeded = packageSelected && hasRequiredRemovingPermission;
     const canEdit = hasEditPermission();
-    const isMenuNeeded = canEdit || isAddButtonNeeded || isRemoveButtonNeeded;
-
-    if (!isMenuNeeded) return null;
 
     // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
@@ -234,6 +244,7 @@ const PackageShow = ({
           </Button>}
         {isRemoveButtonNeeded && renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && renderAddToHoldingsButton(onToggle)}
+        {renderExportCSVButton(onToggle)}
       </>
     );
   };
