@@ -172,6 +172,7 @@
     "resource.actionMenu.removeHolding": "Remove title from holdings",
     "resource.actionMenu.addHolding": "Add to holdings",
     "resource.actionMenu.cancelEditing": "Cancel editing",
+    "resource.actionMenu.exportToCSV": "Export title package (CSV)",
     "resource.resourceSettings": "Resource settings",
     "resource.packageContentType": "Package content type",
     "resource.coverageStatement": "Coverage statement",

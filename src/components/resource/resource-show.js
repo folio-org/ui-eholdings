@@ -145,14 +145,24 @@ const ResourceShow = ({
     );
   };
 
+  const renderExportCSVButton = (onToggle) => {
+    return (
+      <Button
+        data-testid="export-to-csv-button"
+        buttonStyle="dropdownItem fullWidth"
+        disabled={!model.isSelected}
+        onClick={onToggle}
+      >
+        <FormattedMessage id="ui-eholdings.resource.actionMenu.exportToCSV" />
+      </Button>
+    );
+  };
+
   const getActionMenu = () => {
     const hasCreateAndDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
     const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
     const canEdit = hasEditPermission();
     const canSelectAndUnselect = hasSelectionPermission || hasCreateAndDeletePermission;
-    const isMenuNeeded = canEdit || hasSelectionPermission;
-
-    if (!isMenuNeeded) return null;
 
     // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
@@ -164,8 +174,10 @@ const ResourceShow = ({
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>}
+          </Button>
+        }
         {canSelectAndUnselect && renderSelectionButton(onToggle)}
+        {renderExportCSVButton(onToggle)}
       </>
     );
   };
