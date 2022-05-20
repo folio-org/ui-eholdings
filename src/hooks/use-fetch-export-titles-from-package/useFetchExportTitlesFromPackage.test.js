@@ -10,6 +10,8 @@ import { Callout } from '@folio/stripes/components';
 
 import useFetchExportTitlesFromPackage from './useFetchExportTitlesFromPackage';
 
+jest.mock('file-saver', () => () => jest.fn());
+
 global.fetch = jest.fn();
 
 const packageName = 'packageName';
@@ -23,6 +25,7 @@ const props = {
 };
 
 const sendCalloutMock = jest.fn();
+const removeCalloutMock = jest.fn();
 
 let calloutRefStorage;
 
@@ -33,6 +36,7 @@ const TestComponent = () => {
 
   if (calloutRefStorage.current) {
     calloutRefStorage.current.sendCallout = sendCalloutMock;
+    calloutRefStorage.current.removeCallout = removeCalloutMock;
   }
 
   return (
