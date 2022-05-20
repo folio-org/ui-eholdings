@@ -26,7 +26,7 @@ jobs:
       PUBLISH_MOD_DESCRIPTOR: true
       FOLIO_NPM_REGISTRY: 'https://repository.folio.org/repository/npm-folio/'
       FOLIO_MD_REGISTRY: 'https://folio-registry.dev.folio.org'
-      NODEJS_VERSION: '12'
+      NODEJS_VERSION: '16'
       JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest-junit'
       JEST_COVERAGE_REPORT_DIR: 'artifacts/coverage-jest/lcov-report/'
       OKAPI_PULL: '{ "urls" : [ "https://folio-registry.dev.folio.org" ] }'
