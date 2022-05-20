@@ -7,6 +7,7 @@
 * Package Detail Record> Usage & analysis accordion > Apply pagination to Titles list. (UIEH-1259)
 * Replace `babel-eslint` with `@babel/eslint-parser`. (UIEH-1275)
 * Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
+* View Package Details record > Actions menu > Add a Export record option. (UIEH-1279)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 

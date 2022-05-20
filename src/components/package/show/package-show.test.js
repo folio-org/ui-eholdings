@@ -324,6 +324,17 @@ describe('Given PackageShow', () => {
       expect(getByTestId('add-to-holdings-dropdown-button')).toBeDefined();
     });
 
+    it('should disable Export package (CSV) menu action', () => {
+      const { getByTestId } = renderPackageShow({
+        model: {
+          ...testModel,
+          isSelected: false,
+        },
+      });
+
+      expect(getByTestId('export-to-csv-button')).toBeDisabled();
+    });
+
     describe('when clicking add to holdings button', () => {
       it('should show selection modal', () => {
         const {
