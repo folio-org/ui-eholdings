@@ -8,6 +8,7 @@
 * Replace `babel-eslint` with `@babel/eslint-parser`. (UIEH-1275)
 * Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
 * View Package Details record > Actions menu > Add a Export record option. (UIEH-1279)
+* Pin @vue/compiler-sfc to fix formatjs-compile errors
 * View Title+Package Details record > Actions menu > Add a Export record option. (UIEH-1280)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
