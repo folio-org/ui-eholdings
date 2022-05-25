@@ -80,13 +80,10 @@ const SettingsAssignedUsersRoute = ({
   const getFormattedUserData = user => {
     const { id } = user;
 
-    const attributes = { credentialsId: kbId };
-
     return {
       data: {
         id,
-        type: 'assignedUsers',
-        attributes,
+        credentialsId: kbId,
       },
     };
   };

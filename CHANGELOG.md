@@ -7,6 +7,7 @@
 * Package Detail Record> Usage & analysis accordion > Apply pagination to Titles list. (UIEH-1259)
 * Remove parameters from POST request for '/eholdings/kb-credentials/{kb-credentials-id}/users'. (UIEH-1237)
 * Remove call to "/groups" api in settings/eholdings/assigned users. (UIEH-1236)
+* Rework-kb-credentials: Remove attributes from user schema. (UIEH-1286)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
