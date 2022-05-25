@@ -10,6 +10,7 @@ import {
   POST_KB_CREDENTIALS_USER,
   postKBCredentialsUserSuccess,
   postKBCredentialsUserFailure,
+  getKBCredentialsUsers,
 } from '../actions';
 
 export default ({ kbCredentialsUsersApi }) => (action$, state$) => {
@@ -23,7 +24,8 @@ export default ({ kbCredentialsUsersApi }) => (action$, state$) => {
         .pipe(
           map(postKBCredentialsUserSuccess),
           catchError(errors => of(postKBCredentialsUserFailure({ errors }))),
-        );
+        )
+        .pipe(map(() => getKBCredentialsUsers(credentialsId)));
     }),
   );
 };
