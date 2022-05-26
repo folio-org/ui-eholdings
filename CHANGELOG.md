@@ -1,5 +1,16 @@
 # Change history for ui-eholdings
 
+## [7.2.0] (IN PROGRESS)
+
+* Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
+* Replace or remove react-hot-loader. (UIEH-1265)
+* Package Detail Record> Usage & analysis accordion > Apply pagination to Titles list. (UIEH-1259)
+* Replace `babel-eslint` with `@babel/eslint-parser`. (UIEH-1275)
+* Jest+RTL > Test UsageConsolidationContentResource (UIEH-1277)
+* View Package Details record > Actions menu > Add a Export record option. (UIEH-1279)
+* Pin @vue/compiler-sfc to fix formatjs-compile errors
+* update NodeJS to v16 in GitHub Actions. (UIEH-1283)
+
 ## [7.1.5] (https://github.com/folio-org/ui-eholdings/tree/v7.1.5) (2022-04-08)
 
 * Backport recent zh_TW translations. (UIEH-1293)
