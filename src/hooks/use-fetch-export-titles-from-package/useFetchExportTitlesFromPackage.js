@@ -1,7 +1,6 @@
 import {
   useState,
   useEffect,
-  useRef,
   useCallback,
 } from 'react';
 import { useStripes } from '@folio/stripes/core';
@@ -15,11 +14,11 @@ const EXPORT_TITLES_FILE_FORMAT = 'csv';
 const useFetchExportTitlesFromPackage = ({
   packageName,
   packageId,
+  callout,
   ...params
 }) => {
   const { okapi } = useStripes();
   const [isLoading, setIsLoading] = useState(false);
-  const calloutRef = useRef();
 
   const queryString = qs.stringify(params, { addQueryPrefix: true });
   const url = `${okapi.url}/eholdings/packages/${packageId}/resources/costperuse/export${queryString}`;
@@ -40,7 +39,7 @@ const useFetchExportTitlesFromPackage = ({
   const fetchData = useCallback(async () => {
     setIsLoading(true);
 
-    const calloutId = calloutRef.current.sendCallout({
+    const calloutId = callout.sendCallout({
       type: 'success',
       message: <FormattedMessage id='ui-eholdings.usageConsolidation.summary.exportTitles.progress' />,
     });
@@ -60,13 +59,13 @@ const useFetchExportTitlesFromPackage = ({
 
       saveReport(text);
 
-      calloutRef.current.sendCallout({
+      callout.sendCallout({
         type: 'success',
         message: <FormattedMessage id='ui-eholdings.usageConsolidation.summary.exportTitles.success' />,
       });
     } catch (error) {
-      calloutRef.current.removeCallout(calloutId);
-      calloutRef.current.sendCallout({
+      callout.removeCallout(calloutId);
+      callout.sendCallout({
         type: 'error',
         message: <FormattedMessage id={`ui-eholdings.usageConsolidation.summary.exportTitles.error.${error.message}`} />,
       });
@@ -81,7 +80,7 @@ const useFetchExportTitlesFromPackage = ({
     }
   }, [isLoading, fetchData]);
 
-  return [{ calloutRef }, setIsLoading];
+  return { setIsLoading };
 };
 
 export default useFetchExportTitlesFromPackage;

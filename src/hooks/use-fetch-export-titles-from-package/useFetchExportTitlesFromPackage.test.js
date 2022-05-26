@@ -3,10 +3,7 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-
 import { FormattedMessage } from 'react-intl';
-
-import { Callout } from '@folio/stripes/components';
 
 import useFetchExportTitlesFromPackage from './useFetchExportTitlesFromPackage';
 
@@ -16,42 +13,38 @@ const packageName = 'packageName';
 const packageId = 'packageId';
 const platformType = 'platformType';
 
+
+const sendCalloutMock = jest.fn();
+const removeCalloutMock = jest.fn();
+
 const props = {
   packageName,
   packageId,
   platformType,
+  callout: {
+    sendCallout: sendCalloutMock,
+    removeCallout: removeCalloutMock,
+  },
 };
 
-const sendCalloutMock = jest.fn();
-
-let calloutRefStorage;
-
 const TestComponent = () => {
-  const [{ calloutRef }, onExportTitles] = useFetchExportTitlesFromPackage(props);
-
-  calloutRefStorage = calloutRef;
-
-  if (calloutRefStorage.current) {
-    calloutRefStorage.current.sendCallout = sendCalloutMock;
-  }
+  const { setIsLoading } = useFetchExportTitlesFromPackage(props);
 
   return (
     <>
       <button
         type="button"
-        onClick={() => onExportTitles(true)}
+        onClick={() => setIsLoading(true)}
       >
         Export titles
       </button>
-      <Callout ref={calloutRef} />
     </>
   );
 };
 
 describe('Given useFetchExportTitlesFromPackage', () => {
   afterEach(() => {
-    global.fetch.mockClear();
-    sendCalloutMock.mockClear();
+    jest.clearAllMocks();
   });
 
   it('should send callout with In progress message', () => {
