@@ -31,6 +31,7 @@ const renderAgreementsAccordion = ({
       data: {
         agreements: {
           errors,
+          isLoading: false,
           items: [{
             id: 'agreement-1',
             name: 'agreement-1',

@@ -30,6 +30,7 @@ const model = {
     type: 'ISBN',
   },
   isLoaded: true,
+  isLoading: false,
   isPeerReviewed: false,
   isSelected: false,
   isTitleCustom: false,

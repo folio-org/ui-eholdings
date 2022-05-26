@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
@@ -220,7 +221,7 @@ const SettingsAccessStatusTypes = ({
       defaultWidth="fill"
       firstMenu={(
         <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
-          {ariaLabel => (
+          {([ariaLabel]) => (
             <PaneCloseLink
               ariaLabel={ariaLabel}
               to="/settings/eholdings"

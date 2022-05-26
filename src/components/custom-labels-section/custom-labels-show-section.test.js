@@ -12,12 +12,12 @@ const renderCustomLabelsShowSection = (props) => render(
     customLabels={[{
       attributes: {
         displayLabel: 'label1',
-        id: '1',
+        id: 1,
       },
     }, {
       attributes: {
         displayLabel: 'label2',
-        id: '2',
+        id: 2,
       },
     }]}
     userDefinedFields={{

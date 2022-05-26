@@ -39,6 +39,7 @@ const getDetailView = props => (
       model={model}
       paneTitle={model.name}
       type="testtype"
+      resultsLength={10000}
       {...props}
     />
   </Harness>

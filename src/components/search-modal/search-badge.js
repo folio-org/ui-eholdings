@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 export default function SearchBadge({ filterCount = 0, onClick, ...rest }) {
   return (
     <FormattedMessage id="ui-eholdings.filter.togglePane">
-      {(ariaLabel) => (
+      {([ariaLabel]) => (
         <div {...rest}>
           <IconButton
             icon="search"

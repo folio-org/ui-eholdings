@@ -36,7 +36,7 @@ const RootProxySelectField = ({ proxyTypes }) => {
         name="rootProxyServer"
         component={Select}
         label={label}
-        ariaLabel={label}
+        aria-label={label}
         data-testid="root-proxy-select-field"
       >
         {options}

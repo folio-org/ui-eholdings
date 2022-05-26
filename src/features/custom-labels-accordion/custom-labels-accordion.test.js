@@ -7,6 +7,8 @@ import noop from 'lodash/noop';
 import CustomLabelsAccordion from './custom-labels-accordion';
 import Harness from '../../../test/jest/helpers/harness';
 
+const CustomLabelsSection = () => <div>Custom labels section</div>;
+
 const renderCustomLabelsAccordion = ({
   errors = [],
   ...props
@@ -29,7 +31,12 @@ const renderCustomLabelsAccordion = ({
       onToggle={noop}
       isOpen
       updateFolioTags={noop}
-      section={() => <div>Custom labels section</div>}
+      userDefinedFields={{
+        label1: '',
+        label2: '',
+        label3: '',
+      }}
+      section={CustomLabelsSection}
       {...props}
     />
   </Harness>
@@ -55,6 +62,7 @@ describe('Given CustomLabelsAccordion', () => {
       const { getByText } = renderCustomLabelsAccordion({
         errors: [{
           title: 'some error',
+          id: 'error-1',
         }],
       });
 

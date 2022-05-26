@@ -9,6 +9,8 @@ const tagsModel = {
   isLoading: false,
 };
 
+const AccordionHeader = () => <span>Accordion Header</span>;
+
 const renderTagsFilterAccordion = (props = {}) => render(
   <TagsFilterAccordion
     tagsModel={tagsModel}
@@ -16,7 +18,7 @@ const renderTagsFilterAccordion = (props = {}) => render(
     onStandaloneFilterChange={noop}
     onStandaloneFilterToggle={noop}
     isOpen
-    header={() => <span>Accordion Header</span>}
+    header={AccordionHeader}
     dataOptions={[{
       label: 'opt1',
       value: 'opt1',

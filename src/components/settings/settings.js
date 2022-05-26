@@ -119,7 +119,10 @@ class Settings extends Component {
     } = this.props;
 
     return kbCredentials.map((configuration) => (
-      <NavList aria-label={`${configuration.attributes.name}`}>
+      <NavList
+        aria-label={`${configuration.attributes.name}`}
+        key={configuration.id}
+      >
         <NavListSection
           label={this.renderKnowledgeBaseHeading(configuration)}
           activeLink={pathname}

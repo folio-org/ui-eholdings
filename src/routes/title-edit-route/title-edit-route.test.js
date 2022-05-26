@@ -39,6 +39,7 @@ const model = {
   contributors: [],
   identifiers: [],
   isLoaded: true,
+  isLoading: false,
   isTitleCustom: true,
   isPeerReviewed: false,
   publicationType: 'Unspecified',

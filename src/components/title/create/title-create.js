@@ -59,7 +59,7 @@ class TitleCreate extends Component {
         id="ui-eholdings.label.icon.closeX"
         values={{ paneTitle }}
       >
-        {ariaLabel => (
+        {([ariaLabel]) => (
           <IconButton
             icon="times"
             ariaLabel={ariaLabel}

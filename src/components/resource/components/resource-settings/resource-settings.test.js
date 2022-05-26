@@ -36,6 +36,15 @@ describe('Given ResourceSettings', () => {
       isTitleCustom: false,
     },
     package: defaultPackage,
+    data: {
+      relationships: {
+        accessType: {
+          data: {
+            id: 'access-type-id',
+          },
+        },
+      },
+    },
   };
 
   const renderResourceSettings = (props = {}) => render(
@@ -44,10 +53,12 @@ describe('Given ResourceSettings', () => {
         isOpen
         onToggle={onToggleMock}
         accessStatusTypes={{
+          isDeleted: false,
           isLoading: false,
           items: {
             data: [{
               id: 'access-type-id',
+              type: 'accessTypes',
               attributes: {
                 name: 'access type name',
               },

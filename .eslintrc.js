@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module',
@@ -12,45 +12,45 @@ module.exports = {
   extends: ['@folio/eslint-config-stripes'],
   env: {
     browser: true,
-    "jest/globals": true
+    'jest/globals': true
   },
   globals: {
     process: true,
     Promise: true
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       node: {
-        extensions: [".js", ".jsx"]
+        extensions: ['.js', '.jsx']
       }
     }
   },
   overrides: [
     {
-      files: ["**/*.test.js"],
+      files: ['**/*.test.js'],
       rules: {
-        "max-classes-per-file": "off",
-        "no-unused-expressions": "off",
-        "react/prop-types": "off"
+        'max-classes-per-file': 'off',
+        'no-unused-expressions': 'off',
+        'react/prop-types': 'off'
       }
     }, {
-      files: ["test/jest/**/*"],
+      files: ['test/jest/**/*'],
       rules: {
-        "react/prop-types": "off"
+        'react/prop-types': 'off'
       }
     }
   ],
   rules: {
-    "arrow-body-style": "off",
-    "comma-dangle": "off",
-    "import/no-extraneous-dependencies": "off",
-    "jsx-quotes": "off",
-    "no-console": "warn",
-    "react/forbid-prop-types": "off",
-    "react/destructuring-assignment": "off",
-    "react/sort-prop-types": ["error"],
-    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "react-hooks/exhaustive-deps":  "off"
+    'arrow-body-style': 'off',
+    'comma-dangle': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'jsx-quotes': 'off',
+    'no-console': 'warn',
+    'react/forbid-prop-types': 'off',
+    'react/destructuring-assignment': 'off',
+    'react/sort-prop-types': ['error'],
+    'no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
+    'react-hooks/exhaustive-deps':  'off'
   },
-  plugins: ["jest"]
+  plugins: ['jest']
 };

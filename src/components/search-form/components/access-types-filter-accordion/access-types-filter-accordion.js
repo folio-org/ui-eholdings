@@ -19,7 +19,7 @@ const propTypes = {
     value: PropTypes.string,
   })).isRequired,
   handleStandaloneFilterChange: PropTypes.func.isRequired,
-  header: PropTypes.node.isRequired,
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]).isRequired,
   isOpen: PropTypes.bool,
   onStandaloneFilterChange: PropTypes.func.isRequired,
   onStandaloneFilterToggle: PropTypes.func.isRequired,
@@ -46,7 +46,7 @@ const AccessTypesFilterAccordion = ({
   onToggle,
 }) => {
   const {
-    'access-type': accessTypes = '',
+    'access-type': accessTypes = [],
   } = searchFilter;
 
   let accessTypesList = [];
@@ -75,7 +75,7 @@ const AccessTypesFilterAccordion = ({
           open={isOpen}
           closedByDefault
           header={header}
-          displayClearButton={accessTypesList.length}
+          displayClearButton={!!accessTypesList.length}
           onClearFilter={() => onStandaloneFilterChange({ 'access-type': undefined })}
           onToggle={onToggle}
           className={styles['search-filter-accordion']}

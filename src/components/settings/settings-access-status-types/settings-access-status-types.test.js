@@ -48,6 +48,13 @@ const accessTypesData = {
     },
     id: 'test-id',
     type: 'accessTypes',
+    metadata: {
+      createdByUsername: 'user name',
+      createdByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
+      updatedByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
+      updatedDate: '2022-04-13T09:57:06.302+00:00',
+      createdDate: '2022-04-13T09:57:06.302+00:00',
+    },
   }],
 };
 
@@ -130,8 +137,11 @@ describe('Given SettingsAccessStatusTypes', () => {
             items: [{
               ...formItems[0],
               metadata: {
+                createdByUsername: 'user name',
                 createdByUserId: 'user-id',
+                updatedByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
                 createdDate: 'created-date',
+                updatedDate: '2022-04-13T09:57:06.302+00:00',
               },
             }],
           },
@@ -139,10 +149,6 @@ describe('Given SettingsAccessStatusTypes', () => {
         props: {
           accessTypesData: {
             ...accessTypesData,
-            metadata: {
-              createdByUserId: 'user-id',
-              createdDate: 'created-date',
-            },
           },
         },
       });
@@ -418,6 +424,13 @@ describe('Given SettingsAccessStatusTypes', () => {
                 firstName: 'ADMINISTRATOR',
                 lastName: 'DIKU',
               },
+              metadata: {
+                createdByUsername: 'user name',
+                createdByUserId: 'user-id',
+                updatedByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
+                updatedDate: '2022-04-13T09:57:06.302+00:00',
+                createdDate: '2022-04-13T09:57:06.302+00:00',
+              },
               id: 'other-id',
               type: 'accessTypes',
             }],
@@ -481,6 +494,14 @@ describe('Given SettingsAccessStatusTypes', () => {
           id: `item-${i}`,
           attributes: {
             name: `name-${i}`,
+          },
+          type: 'accessTypes',
+          metadata: {
+            createdByUsername: 'user name',
+            createdByUserId: 'user-id',
+            updatedByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
+            createdDate: 'created-date',
+            updatedDate: '2022-04-13T09:57:06.302+00:00',
           },
         });
       }

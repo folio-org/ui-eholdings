@@ -75,7 +75,7 @@ export default class PackageCreateRoute extends Component {
 
     return (
       <FormattedMessage id="ui-eholdings.label.create.package">
-        {pageTitle => (
+        {([pageTitle]) => (
           <TitleManager record={pageTitle}>
             <View
               request={this.props.createRequest}

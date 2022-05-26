@@ -85,7 +85,8 @@ const UsageConsolidationAccordion = ({
   const getToastErrors = () => {
     const { errors } = usageConsolidation;
 
-    return errors.map((error) => ({
+    return errors.map((error, index) => ({
+      id: `error-${index}`,
       message: error.title,
       type: 'error',
     }));

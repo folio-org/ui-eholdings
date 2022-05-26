@@ -262,7 +262,7 @@ describe('Given SearchKnowledgeBase', () => {
 
       rerender(getSettingsKnowledgeBase({
         kbCredentials: {
-          kbCredentials,
+          ...kbCredentials,
           errors: [{
             title: 'Error title',
           }],
