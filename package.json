@@ -100,8 +100,7 @@
     "react-router-dom": "^5.2.0"
   },
   "resolutions": {
-    "moment": "~2.24.0",
-    "@vue/compiler-sfc": "3.2.33"
+    "moment": "~2.24.0"
   },
   "stripes": {
     "actsAs": [

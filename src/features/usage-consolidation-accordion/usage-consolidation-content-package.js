@@ -22,6 +22,7 @@ import {
 } from '../../constants';
 
 import style from './usage-consolidation-content.css';
+import { useRef } from 'react';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
@@ -46,11 +47,13 @@ const UsageConsolidationContentPackage = ({
   isExportDisabled,
   metricType,
 }) => {
-  const [{ calloutRef }, onExportTitles] = useFetchExportTitlesFromPackage({
+  const calloutRef = useRef();
+  const { setIsLoading: onExportTitles } = useFetchExportTitlesFromPackage({
     packageId,
     packageName,
     fiscalYear: year,
     platformType,
+    callout: calloutRef.current,
   });
 
   const data = costPerUseData.data[costPerUseTypes.PACKAGE_COST_PER_USE];
