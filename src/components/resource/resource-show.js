@@ -150,7 +150,6 @@ const ResourceShow = ({
       <Button
         data-testid="export-to-csv-button"
         buttonStyle="dropdownItem fullWidth"
-        disabled={!model.isSelected}
         onClick={onToggle}
       >
         <FormattedMessage id="ui-eholdings.resource.actionMenu.exportToCSV" />

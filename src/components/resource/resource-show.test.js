@@ -210,6 +210,12 @@ describe('Given ResourceShow', () => {
     expect(getAllByText('title-name')).toBeDefined();
   });
 
+  it('should show enabled Export title package (CSV) menu action', () => {
+    const { getByTestId } = renderResourceShow();
+
+    expect(getByTestId('export-to-csv-button')).toBeEnabled();
+  });
+
   describe('when resource is selected', () => {
     describe('when clicking on remove from holdings', () => {
       it('should show confirmation modal', () => {
@@ -243,12 +249,6 @@ describe('Given ResourceShow', () => {
         expect(queryByTestId('selection-modal')).toBeNull();
       }, 2000);
     });
-
-    it('should enable Export title package (CSV) menu action', () => {
-      const { getByTestId } = renderResourceShow();
-
-      expect(getByTestId('export-to-csv-button')).toBeEnabled();
-    });
   });
 
   describe('when resource is not selected', () => {
@@ -262,14 +262,6 @@ describe('Given ResourceShow', () => {
 
         expect(toggleSelectedMock.mock.calls.length).toEqual(1);
       });
-    });
-
-    it('should disable Export title package (CSV) menu action', () => {
-      const { getByTestId } = renderResourceShow({
-        isSelected: false,
-      });
-
-      expect(getByTestId('export-to-csv-button')).toBeDisabled();
     });
   });
 
