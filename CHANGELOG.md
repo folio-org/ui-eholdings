@@ -10,6 +10,7 @@
 * View Package Details record > Actions menu > Add a Export record option. (UIEH-1279)
 * Pin @vue/compiler-sfc to fix formatjs-compile errors
 * update NodeJS to v16 in GitHub Actions. (UIEH-1283)
+* SettingsAccessStatusTypes - Use react-final-form (UIEH-1282)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
