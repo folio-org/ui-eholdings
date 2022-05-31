@@ -12,10 +12,8 @@ import {
   useStripes,
   IfPermission,
 } from '@folio/stripes/core';
-
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-
 import {
   Button,
   Icon,
@@ -29,6 +27,7 @@ import TagsAccordion from '../../tags';
 import {
   AgreementsAccordion,
   UsageConsolidationAccordion,
+  ExportPackageResourcesModal,
 } from '../../../features';
 import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
@@ -108,6 +107,7 @@ const PackageShow = ({
   const stripes = useStripes();
   const intl = useIntl();
   const [showSelectionConfirmationModal, setShowSelectionConfirmationModal] = useState(false);
+  const [isExportPackageModalOpen, setIsExportPackageModalOpen] = useState(false);
   const [showDeselectionModal, setShowDeselectionModal] = useState(false);
   const [packageSelected, setPackageSelected] = useState(model.isSelected);
   const [packageAllowedToAddTitles, setPackageAllowedToAddTitles] = useState(model.allowKbToAddTitles);
@@ -187,7 +187,10 @@ const PackageShow = ({
         data-testid="export-to-csv-button"
         buttonStyle="dropdownItem fullWidth"
         disabled={!model.isSelected}
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          setIsExportPackageModalOpen(true);
+        }}
       >
         <FormattedMessage id="ui-eholdings.package.actionMenu.exportToCSV" />
       </Button>
@@ -475,6 +478,12 @@ const PackageShow = ({
         {modalMessage.body}
       </SelectionModal>
       {showSelectionConfirmationModal && renderSelectionConfirmationModal()}
+      <ExportPackageResourcesModal
+        recordId={model.id}
+        recordType="PACKAGE"
+        open={isExportPackageModalOpen}
+        onClose={() => setIsExportPackageModalOpen(false)}
+      />
     </KeyShortcutsWrapper>
   );
 };
