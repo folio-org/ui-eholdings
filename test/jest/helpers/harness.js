@@ -5,6 +5,7 @@ import {
   createStore,
   combineReducers,
 } from 'redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 
@@ -18,6 +19,8 @@ const defaultHistory = createMemoryHistory();
 const defaultInitialState = {};
 
 const defaultReducers = {};
+
+const queryClient = new QueryClient();
 
 const Harness = ({
   stripes,
@@ -39,9 +42,11 @@ const Harness = ({
     <StripesContext.Provider value={stripes || STRIPES}>
       <Router history={history}>
         <Provider store={store}>
-          <IntlProvider>
-            {children}
-          </IntlProvider>
+          <QueryClientProvider client={queryClient}>
+            <IntlProvider>
+              {children}
+            </IntlProvider>
+          </QueryClientProvider>
         </Provider>
       </Router>
     </StripesContext.Provider>
