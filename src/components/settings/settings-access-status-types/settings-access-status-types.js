@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import { sortBy } from 'lodash';
+import { sortBy, noop } from 'lodash';
 
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { useStripes } from '@folio/stripes/core';
@@ -231,6 +231,7 @@ const SettingsAccessStatusTypes = ({
       )}
     >
       <EditableList
+        formType="final-form"
         editable={isListEditable}
         actionProps={actionProps}
         columnMapping={{
@@ -249,6 +250,7 @@ const SettingsAccessStatusTypes = ({
         label={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' })}
         onCreate={onCreateItem}
         onDelete={showConfirmDialog}
+        onSubmit={noop}
         onUpdate={onUpdateItem}
         readOnlyFields={['lastUpdated', 'records']}
         visibleFields={['name', 'description', 'lastUpdated', 'records']}
