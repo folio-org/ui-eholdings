@@ -186,7 +186,6 @@ const PackageShow = ({
       <Button
         data-testid="export-to-csv-button"
         buttonStyle="dropdownItem fullWidth"
-        disabled={!model.isSelected}
         onClick={onToggle}
       >
         <FormattedMessage id="ui-eholdings.package.actionMenu.exportToCSV" />

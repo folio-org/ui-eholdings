@@ -405,54 +405,6 @@ describe('Given SettingsAccessStatusTypes', () => {
     });
   });
 
-  describe('when there is no access status type to delete', () => {
-    it('should not display a confirmation modal', () => {
-      const {
-        getByRole,
-        queryByText,
-      } = renderSettingsAccessStatusTypes({
-        props: {
-          accessTypesData: {
-            ...accessTypesData,
-            items: [{
-              attributes: {
-                name: 'other-access-type',
-                description: 'other-description',
-                credentialsId: 'other-credentials-id',
-              },
-              creator: {
-                firstName: 'ADMINISTRATOR',
-                lastName: 'DIKU',
-              },
-              metadata: {
-                createdByUsername: 'user name',
-                createdByUserId: 'user-id',
-                updatedByUserId: '56502487-370d-56f1-a207-4ffe3d8b4771',
-                updatedDate: '2022-04-13T09:57:06.302+00:00',
-                createdDate: '2022-04-13T09:57:06.302+00:00',
-              },
-              id: 'other-id',
-              type: 'accessTypes',
-            }],
-          },
-          onDelete: mockOnDelete,
-        },
-      });
-
-      fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
-
-      const confirmationModalTitle = 'ui-eholdings.settings.accessStatusTypes.delete';
-      const confirmationModalText = 'ui-eholdings.settings.accessStatusTypes.delete.description';
-      const confirmationModalCancelButton = 'ui-eholdings.settings.accessStatusTypes.delete.cancel';
-      const confirmationModalDeleteButton = 'ui-eholdings.settings.accessStatusTypes.delete.confirm';
-
-      expect(queryByText(confirmationModalTitle)).toBeNull();
-      expect(queryByText(confirmationModalText)).toBeNull();
-      expect(queryByText(confirmationModalCancelButton)).toBeNull();
-      expect(queryByText(confirmationModalDeleteButton)).toBeNull();
-    });
-  });
-
   describe('when click on cancel button on delete confirmation modal', () => {
     it('should hide confirmation modal', async () => {
       const {
