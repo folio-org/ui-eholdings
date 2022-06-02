@@ -354,7 +354,7 @@ const ResourceShow = ({
       </Modal>
       <ExportPackageResourcesModal
         recordId={model.id}
-        recordType="TITLE"
+        recordType="RESOURCE"
         open={isExportPackageModalOpen}
         onClose={() => setIsExportPackageModalOpen(false)}
       />

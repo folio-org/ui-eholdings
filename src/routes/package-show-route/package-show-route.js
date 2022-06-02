@@ -63,7 +63,7 @@ class PackageShowRoute extends Component {
       type,
       'access-type': accessType,
       selected,
-      searchfield,
+      searchfield = 'title',
     } = queryString.parse(props.location.search.substring(1));
 
     this.state = {
@@ -400,6 +400,7 @@ class PackageShowRoute extends Component {
           accessStatusTypes={accessStatusTypes}
           costPerUse={costPerUse}
           isTitlesUpdating={isTitlesUpdating}
+          pkgSearchParams={pkgSearchParams}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved

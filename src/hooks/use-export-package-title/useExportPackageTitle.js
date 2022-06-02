@@ -24,12 +24,7 @@ const useExportPackageTitle = ({
     mutate({
       type: 'E_HOLDINGS',
       exportTypeSpecificParameters: {
-        eHoldingsExportConfig: {
-          recordId: data.recordId,
-          recordType: data.recordType,
-          packageFields: data.packageFields,
-          titleFields: data.titleFields,
-        },
+        eHoldingsExportConfig: data,
       },
     });
   };

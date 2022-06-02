@@ -24,6 +24,7 @@ const propTypes = {
   open: PropTypes.bool.isRequired,
   recordId: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
+  titleSearchFilters: PropTypes.string,
 };
 
 const ExportPackageResourcesModal = ({
@@ -31,6 +32,7 @@ const ExportPackageResourcesModal = ({
   onClose,
   recordId,
   recordType,
+  titleSearchFilters,
 }) => {
   const intl = useIntl();
   const [fieldSectionState, setFieldSectionState] = useState({
@@ -38,7 +40,7 @@ const ExportPackageResourcesModal = ({
       allSelected: true,
       selectedFields: [],
     },
-    [RECORD_TYPES.TITLE]: {
+    [RECORD_TYPES.RESOURCE]: {
       allSelected: true,
       selectedFields: [],
     },
@@ -53,8 +55,8 @@ const ExportPackageResourcesModal = ({
     const selectedPackageFields = fieldSectionState[RECORD_TYPES.PACKAGE].allSelected
       || fieldSectionState[RECORD_TYPES.PACKAGE].selectedFields.length > 0;
 
-    const selectedTitleFields = fieldSectionState[RECORD_TYPES.TITLE].allSelected
-      || fieldSectionState[RECORD_TYPES.TITLE].selectedFields.length > 0;
+    const selectedTitleFields = fieldSectionState[RECORD_TYPES.RESOURCE].allSelected
+      || fieldSectionState[RECORD_TYPES.RESOURCE].selectedFields.length > 0;
 
     return selectedPackageFields || selectedTitleFields;
   }, [fieldSectionState]);
@@ -76,7 +78,8 @@ const ExportPackageResourcesModal = ({
       recordId,
       recordType,
       packageFields: formatExportFieldsPayload(getFieldsForRecord(RECORD_TYPES.PACKAGE), RECORD_TYPES.PACKAGE),
-      titleFields: formatExportFieldsPayload(getFieldsForRecord(RECORD_TYPES.TITLE), RECORD_TYPES.TITLE),
+      titleFields: formatExportFieldsPayload(getFieldsForRecord(RECORD_TYPES.RESOURCE), RECORD_TYPES.RESOURCE),
+      titleSearchFilters,
     });
     onClose();
   };
@@ -126,10 +129,10 @@ const ExportPackageResourcesModal = ({
       <ExportFieldsSection
         id="title-fields"
         title={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.title' })}
-        options={FIELDS_BY_RECORD_TYPE[RECORD_TYPES.TITLE]}
+        options={FIELDS_BY_RECORD_TYPE[RECORD_TYPES.RESOURCE]}
         name="titleFields"
-        onChange={getChangeHandler(RECORD_TYPES.TITLE)}
-        sectionState={fieldSectionState[RECORD_TYPES.TITLE]}
+        onChange={getChangeHandler(RECORD_TYPES.RESOURCE)}
+        sectionState={fieldSectionState[RECORD_TYPES.RESOURCE]}
       />
     </Modal>
   );

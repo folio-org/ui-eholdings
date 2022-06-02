@@ -80,7 +80,7 @@ const ExportFieldsSection = ({
         </Layout>
         <Layout data-test-order-labels>
           <Label>
-            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.all' })}
+            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.all' })}
           </Label>
           <MultiSelection
             aria-labelledby={`selected-${id}`}

@@ -1,12 +1,14 @@
 import {
   useState,
   useEffect,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import omit from 'lodash/omit';
 
 import {
   useStripes,
@@ -52,6 +54,8 @@ import {
 } from '../../../constants';
 import {
   processErrors,
+  transformQueryParams,
+  qs,
 } from '../../utilities';
 
 import styles from './package-show.css';
@@ -74,6 +78,7 @@ const propTypes = {
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
   packageTitles: PropTypes.object.isRequired,
+  pkgSearchParams: PropTypes.object.isRequired,
   provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   searchModal: PropTypes.node,
@@ -103,6 +108,7 @@ const PackageShow = ({
   tagsModel,
   toggleSelected,
   updateFolioTags,
+  pkgSearchParams,
 }) => {
   const stripes = useStripes();
   const intl = useIntl();
@@ -126,6 +132,10 @@ const PackageShow = ({
     packageShowNotes: true,
     packageShowUsageConsolidation: false,
   });
+  const titleSearchFilters = useMemo(() => {
+    const params = transformQueryParams('titles', omit(pkgSearchParams, ['page', 'count']));
+    return qs.stringify(params);
+  }, [pkgSearchParams]);
 
   useEffect(() => {
     if (!model.isSaving) {
@@ -482,6 +492,7 @@ const PackageShow = ({
         recordType="PACKAGE"
         open={isExportPackageModalOpen}
         onClose={() => setIsExportPackageModalOpen(false)}
+        titleSearchFilters={titleSearchFilters}
       />
     </KeyShortcutsWrapper>
   );

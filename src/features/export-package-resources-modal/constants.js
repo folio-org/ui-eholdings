@@ -7,10 +7,10 @@ export const FIELD_SECTION_RADIOS = {
 
 export const RECORD_TYPES = {
   PACKAGE: 'package',
-  TITLE: 'title',
+  RESOURCE: 'resource',
 };
 
-const TITLE_EXPORT_FIELDS = [
+const RESOURCE_EXPORT_FIELDS = [
   {
     value: 'titleName',
     label: 'ui-eholdings.exportPackageResources.fields.title.titleName'
@@ -194,7 +194,7 @@ const PACKAGE_EXPORT_FIELDS = [
 
 export const FIELDS_BY_RECORD_TYPE = {
   [RECORD_TYPES.PACKAGE]: PACKAGE_EXPORT_FIELDS,
-  [RECORD_TYPES.TITLE]: TITLE_EXPORT_FIELDS,
+  [RECORD_TYPES.RESOURCE]: RESOURCE_EXPORT_FIELDS,
 };
 
 // some fields, like customLabels should be sent to backend like several combined fields: customValue1, customValue2 etc
@@ -216,7 +216,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     packageAgreements: () => ['packageAgreementStartDate', 'packageAgreementName', 'packageAgreementStatus'],
     packageNotes: () => ['packageNoteLastUpdatedDate', 'packageNoteType', 'packageNoteTitle', 'packageNoteDetails'],
   },
-  [RECORD_TYPES.TITLE]: {
+  [RECORD_TYPES.RESOURCE]: {
     titleName: () => ['titleName'],
     alternateTitles: () => ['alternateTitles'],
     titleId: () => ['titleId'],
