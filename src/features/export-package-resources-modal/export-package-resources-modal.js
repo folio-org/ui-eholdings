@@ -1,4 +1,7 @@
-import { useMemo, useState } from 'react';
+import {
+  useMemo,
+  useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -17,7 +20,10 @@ import {
 } from './constants';
 
 const propTypes = {
-
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  recordId: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired,
 };
 
 const ExportPackageResourcesModal = ({
@@ -96,13 +102,14 @@ const ExportPackageResourcesModal = ({
             buttonStyle="primary"
             disabled={!canExport}
             onClick={onExportConfirm}
+            data-testid="export-button"
           >
-            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.button.export'})}
+            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.button.export' })}
           </Button>
           <Button
             onClick={onClose}
           >
-            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.button.cancel'})}
+            {intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.button.cancel' })}
           </Button>
         </ModalFooter>
     )}

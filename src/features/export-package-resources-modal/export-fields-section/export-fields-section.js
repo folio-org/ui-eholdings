@@ -10,15 +10,21 @@ import {
   Label,
 } from '@folio/stripes/components';
 
-import { FIELD_SECTION_RADIOS } from './constants';
-
 const propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })).isRequired,
+  sectionState: PropTypes.shape({
+    allSelected: PropTypes.bool.isRequired,
+    selectedFields: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
@@ -68,7 +74,7 @@ const ExportFieldsSection = ({
               aria-label={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.selected' })}
               name={name}
               checked={!sectionState.allSelected}
-              onChange={() => handleRadioChange(true)}
+              onChange={() => handleRadioChange(false)}
             />
           </RadioButtonGroup>
         </Layout>

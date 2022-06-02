@@ -274,4 +274,14 @@ describe('Given ResourceShow', () => {
       expect(getByText('ui-eholdings.resource.toast.isFreshlySaved')).toBeDefined();
     });
   });
+
+  describe('when clicking on Export package', () => {
+    it('should show Export modal', () => {
+      const { getByText } = renderResourceShow();
+
+      fireEvent.click(getByText('ui-eholdings.resource.actionMenu.exportToCSV'));
+
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+    });
+  });
 });

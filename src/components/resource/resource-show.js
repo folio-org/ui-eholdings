@@ -21,6 +21,7 @@ import {
   AgreementsAccordion,
   CustomLabelsAccordion,
   UsageConsolidationAccordion,
+  ExportPackageResourcesModal,
 } from '../../features';
 import { useSectionToggle } from '../../hooks';
 import Toaster from '../toaster';
@@ -76,6 +77,7 @@ const ResourceShow = ({
   const intl = useIntl();
 
   const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const [isExportPackageModalOpen, setIsExportPackageModalOpen] = useState(false);
   const [resourceSelected, setResourceSelected] = useState(model.isSelected);
   const [sections, {
     handleSectionToggle,
@@ -150,7 +152,10 @@ const ResourceShow = ({
       <Button
         data-testid="export-to-csv-button"
         buttonStyle="dropdownItem fullWidth"
-        onClick={onToggle}
+        onClick={() => {
+          setIsExportPackageModalOpen(true);
+          onToggle();
+        }}
       >
         <FormattedMessage id="ui-eholdings.resource.actionMenu.exportToCSV" />
       </Button>
@@ -347,6 +352,12 @@ const ResourceShow = ({
             )
         }
       </Modal>
+      <ExportPackageResourcesModal
+        recordId={model.id}
+        recordType="TITLE"
+        open={isExportPackageModalOpen}
+        onClose={() => setIsExportPackageModalOpen(false)}
+      />
     </KeyShortcutsWrapper>
   );
 };
