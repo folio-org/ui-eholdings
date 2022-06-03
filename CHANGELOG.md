@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.1.5] (https://github.com/folio-org/ui-eholdings/tree/v7.1.5) (2022-06-03)
+## [7.1.5] (IN PROGRESS)
 
 * update NodeJS to v16 in GitHub Actions. (UIEH-1283)
 * Backport recent zh_TW translations. (UIEH-1293)
