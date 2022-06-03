@@ -542,7 +542,7 @@ describe('Given PackageShowRoute', () => {
             type: undefined,
           },
           page: 1,
-          searchfield: undefined,
+          searchfield: 'title',
           sort: undefined,
         },
       });
