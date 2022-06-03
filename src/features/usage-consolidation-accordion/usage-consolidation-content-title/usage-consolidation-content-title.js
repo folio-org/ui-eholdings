@@ -10,23 +10,23 @@ import {
   List,
 } from '@folio/stripes/components';
 
-import FullTextRequestUsageTable from './full-text-request-usage-table';
-import SummaryTable from './summary-table';
-import NoCostPerUseAvailable from './no-cost-per-use-available';
+import FullTextRequestUsageTable from '../full-text-request-usage-table';
+import SummaryTable from '../summary-table';
+import NoCostPerUseAvailable from '../no-cost-per-use-available';
 import {
   formatCoverageYear,
   formatCoverageFullDate,
   compareCoveragesToBeSortedInDescOrder,
   isBookPublicationType,
-} from '../../components/utilities';
-import { useMultiColumnListSort } from '../../hooks';
+} from '../../../components/utilities';
+import { useMultiColumnListSort } from '../../../hooks';
 import {
   costPerUse as costPerUseShape,
   entityTypes,
   costPerUseTypes,
   sortOrders,
-} from '../../constants';
-import styles from './usage-consolidation-content.css';
+} from '../../../constants';
+import styles from '../usage-consolidation-content.css';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
