@@ -1,5 +1,10 @@
 # Change history for ui-eholdings
 
+## [7.1.5] (IN PROGRESS)
+
+* update NodeJS to v16 in GitHub Actions. (UIEH-1283)
+* Backport recent zh_TW translations. (UIEH-1293)
+
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
 * Save shortcut key does not work. (UIEH-1269)
