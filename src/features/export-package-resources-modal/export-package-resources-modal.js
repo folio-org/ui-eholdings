@@ -4,6 +4,7 @@ import {
 } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import noop from 'lodash/noop';
 
 import {
   Button,
@@ -47,8 +48,8 @@ const ExportPackageResourcesModal = ({
   });
 
   const { doExport } = useExportPackageTitle({
-    onError: () => {},
-    onSuccess: () => {},
+    onError: noop,
+    onSuccess: noop,
   });
 
   const canExport = useMemo(() => {
