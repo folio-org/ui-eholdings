@@ -132,8 +132,10 @@ const PackageShow = ({
     packageShowNotes: true,
     packageShowUsageConsolidation: false,
   });
+
   const titleSearchFilters = useMemo(() => {
     const params = transformQueryParams('titles', omit(pkgSearchParams, ['page', 'count']));
+
     return qs.stringify(params);
   }, [pkgSearchParams]);
 

@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 import { useCallout } from '@folio/stripes/core';
 
-
 import ExportFieldsSection from './export-fields-section';
 import { useExportPackageTitle } from '../../hooks';
 import { formatExportFieldsPayload } from './utils';

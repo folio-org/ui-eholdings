@@ -19,7 +19,9 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-const mockPost = jest.fn();
+const mockPost = jest.fn().mockReturnValue({
+  json: jest.fn().mockResolvedValue({}),
+});
 
 describe('Given useExportPackageTitle', () => {
   afterEach(() => {
@@ -28,7 +30,7 @@ describe('Given useExportPackageTitle', () => {
 
   beforeEach(() => {
     useOkapiKy.mockClear().mockReturnValue({
-      post: mockPost.mockResolvedValue(),
+      post: mockPost,
     });
   });
 
@@ -57,7 +59,7 @@ describe('Given useExportPackageTitle', () => {
   describe('when export is successful', () => {
     beforeEach(() => {
       useOkapiKy.mockClear().mockReturnValue({
-        post: mockPost.mockResolvedValue(),
+        post: mockPost,
       });
     });
 
@@ -79,7 +81,9 @@ describe('Given useExportPackageTitle', () => {
   describe('when export fails', () => {
     beforeEach(() => {
       useOkapiKy.mockClear().mockReturnValue({
-        post: mockPost.mockRejectedValue(),
+        post: jest.fn().mockReturnValue({
+          json: jest.fn().mockRejectedValue({}),
+        }),
       });
     });
 
