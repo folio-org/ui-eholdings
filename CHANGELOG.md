@@ -14,6 +14,7 @@
 * Requirement Change - View Package Details record > Actions menu > Add a Export record option. (UIEH-1287)
 * SettingsAccessStatusTypes - Use react-final-form (UIEH-1282)
 * Jest+RTL > Test UsageConsolidationContentTitle(UIEH-1278)
+* Export package/resources > Display Export settings modal. (UIEH-1285)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 

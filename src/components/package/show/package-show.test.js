@@ -440,4 +440,14 @@ describe('Given PackageShow', () => {
       expect(getByRole('button', { name: 'ui-eholdings.addAllToHoldings' })).toBeDefined();
     });
   });
+
+  describe('when clicking on Export package', () => {
+    it('should show Export modal', () => {
+      const { getByText } = renderPackageShow();
+
+      fireEvent.click(getByText('ui-eholdings.package.actionMenu.exportToCSV'));
+
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+    });
+  });
 });
