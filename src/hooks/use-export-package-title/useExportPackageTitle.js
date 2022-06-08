@@ -8,16 +8,17 @@ const useExportPackageTitle = ({
 }) => {
   const ky = useOkapiKy();
 
-  const customOptions = {
-    onError,
-    onSuccess,
-  };
-
   const { mutate } = useMutation({
     mutationFn: (json) => {
-      return ky.post('data-export-spring/jobs', { json });
+      return ky.post('data-export-spring/jobs', { json })
+        .json()
+        .then(res => {
+          onSuccess(res);
+        })
+        .catch(e => {
+          onError(e);
+        });
     },
-    ...customOptions,
   });
 
   const doExport = (data) => {

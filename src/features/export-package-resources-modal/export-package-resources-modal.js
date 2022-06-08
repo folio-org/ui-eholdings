@@ -4,13 +4,13 @@ import {
 } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import noop from 'lodash/noop';
 
 import {
   Button,
   Modal,
   ModalFooter,
 } from '@folio/stripes/components';
+import { useCallout } from '@folio/stripes/core';
 
 import ExportFieldsSection from './export-fields-section';
 import { useExportPackageTitle } from '../../hooks';
@@ -36,6 +36,7 @@ const ExportPackageResourcesModal = ({
   titleSearchFilters,
 }) => {
   const intl = useIntl();
+  const callout = useCallout();
   const [fieldSectionState, setFieldSectionState] = useState({
     [RECORD_TYPES.PACKAGE]: {
       allSelected: true,
@@ -48,8 +49,22 @@ const ExportPackageResourcesModal = ({
   });
 
   const { doExport } = useExportPackageTitle({
-    onError: noop,
-    onSuccess: noop,
+    onSuccess: (res) => {
+      callout.sendCallout({
+        type: 'success',
+        message: intl.formatMessage({
+          id: 'ui-eholdings.exportPackageResources.toast.success',
+        }, {
+          jobName: res.name,
+        }),
+      });
+    },
+    onError: () => {
+      callout.sendCallout({
+        type: 'error',
+        message: intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.toast.fail' }),
+      });
+    },
   });
 
   const canExport = useMemo(() => {
