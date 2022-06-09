@@ -119,14 +119,14 @@ const RESOURCE_EXPORT_FIELDS = [
     value: 'customLabel',
     label: 'ui-eholdings.exportPackageResources.fields.title.customLabel'
   },
-  // {
-  //   value: 'titleAgreements',
-  //   label: 'ui-eholdings.exportPackageResources.fields.title.agreements'
-  // },
-  // {
-  //   value: 'titleNotes',
-  //   label: 'ui-eholdings.exportPackageResources.fields.title.notes'
-  // },
+  {
+    value: 'titleAgreements',
+    label: 'ui-eholdings.exportPackageResources.fields.title.agreements'
+  },
+  {
+    value: 'titleNotes',
+    label: 'ui-eholdings.exportPackageResources.fields.title.notes'
+  },
 ];
 
 const PACKAGE_EXPORT_FIELDS = [
