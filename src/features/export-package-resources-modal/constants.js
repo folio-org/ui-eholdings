@@ -154,10 +154,10 @@ const PACKAGE_EXPORT_FIELDS = [
     value: 'packageContentType',
     label: 'ui-eholdings.exportPackageResources.fields.package.contentType'
   },
-  // {
-  //   value: 'packageHoldingsStatus',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.holdingStatus'
-  // },
+  {
+    value: 'packageHoldingsStatus',
+    label: 'ui-eholdings.exportPackageResources.fields.package.holdingStatus'
+  },
   {
     value: 'packageCustomCoverage',
     label: 'ui-eholdings.exportPackageResources.fields.package.customCoverage'
@@ -182,14 +182,14 @@ const PACKAGE_EXPORT_FIELDS = [
     value: 'packageTags',
     label: 'ui-eholdings.exportPackageResources.fields.package.tags'
   },
-  // {
-  //   value: 'packageAgreements',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.agreements'
-  // },
-  // {
-  //   value: 'packageNotes',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.notes'
-  // },
+  {
+    value: 'packageAgreements',
+    label: 'ui-eholdings.exportPackageResources.fields.package.agreements'
+  },
+  {
+    value: 'packageNotes',
+    label: 'ui-eholdings.exportPackageResources.fields.package.notes'
+  },
 ];
 
 export const FIELDS_BY_RECORD_TYPE = {
