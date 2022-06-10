@@ -14,7 +14,10 @@ import { useCallout } from '@folio/stripes/core';
 
 import ExportFieldsSection from './export-fields-section';
 import { useExportPackageTitle } from '../../hooks';
-import { formatExportFieldsPayload } from './utils';
+import {
+  formatExportFieldsPayload,
+  sortAlphabetically,
+} from './utils';
 import {
   FIELDS_BY_RECORD_TYPE,
   RECORD_TYPES,
@@ -107,6 +110,13 @@ const ExportPackageResourcesModal = ({
     }));
   };
 
+  const formatOptions = (options) => {
+    return sortAlphabetically(options.map(option => ({
+      ...option,
+      label: intl.formatMessage({ id: option.label }),
+    })));
+  };
+
   return (
     <Modal
       open={open}
@@ -137,7 +147,7 @@ const ExportPackageResourcesModal = ({
       <ExportFieldsSection
         id="package-fields"
         title={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.package' })}
-        options={FIELDS_BY_RECORD_TYPE[RECORD_TYPES.PACKAGE]}
+        options={formatOptions(FIELDS_BY_RECORD_TYPE[RECORD_TYPES.PACKAGE])}
         name="packageFields"
         onChange={getChangeHandler(RECORD_TYPES.PACKAGE)}
         sectionState={fieldSectionState[RECORD_TYPES.PACKAGE]}
@@ -145,7 +155,7 @@ const ExportPackageResourcesModal = ({
       <ExportFieldsSection
         id="title-fields"
         title={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.title' })}
-        options={FIELDS_BY_RECORD_TYPE[RECORD_TYPES.RESOURCE]}
+        options={formatOptions(FIELDS_BY_RECORD_TYPE[RECORD_TYPES.RESOURCE])}
         name="titleFields"
         onChange={getChangeHandler(RECORD_TYPES.RESOURCE)}
         sectionState={fieldSectionState[RECORD_TYPES.RESOURCE]}

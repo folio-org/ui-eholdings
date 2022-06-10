@@ -38,11 +38,6 @@ const ExportFieldsSection = ({
 }) => {
   const intl = useIntl();
 
-  const formattedOptions = useMemo(() => options.map(option => ({
-    ...option,
-    label: intl.formatMessage({ id: option.label }),
-  })), [options]);
-
   const handleRadioChange = (allSelected) => {
     onChange({ ...sectionState, allSelected });
   };
@@ -84,7 +79,7 @@ const ExportFieldsSection = ({
           </Label>
           <MultiSelection
             aria-labelledby={`selected-${id}`}
-            dataOptions={formattedOptions}
+            dataOptions={options}
             marginBottom0
             onChange={handleSelectChange}
             value={sectionState.selectedFields}
