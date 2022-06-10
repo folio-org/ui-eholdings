@@ -119,14 +119,14 @@ const RESOURCE_EXPORT_FIELDS = [
     value: 'customLabel',
     label: 'ui-eholdings.exportPackageResources.fields.title.customLabel'
   },
-  // {
-  //   value: 'titleAgreements',
-  //   label: 'ui-eholdings.exportPackageResources.fields.title.agreements'
-  // },
-  // {
-  //   value: 'titleNotes',
-  //   label: 'ui-eholdings.exportPackageResources.fields.title.notes'
-  // },
+  {
+    value: 'titleAgreements',
+    label: 'ui-eholdings.exportPackageResources.fields.title.agreements'
+  },
+  {
+    value: 'titleNotes',
+    label: 'ui-eholdings.exportPackageResources.fields.title.notes'
+  },
 ];
 
 const PACKAGE_EXPORT_FIELDS = [
@@ -154,10 +154,10 @@ const PACKAGE_EXPORT_FIELDS = [
     value: 'packageContentType',
     label: 'ui-eholdings.exportPackageResources.fields.package.contentType'
   },
-  // {
-  //   value: 'packageHoldingsStatus',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.holdingStatus'
-  // },
+  {
+    value: 'packageHoldingsStatus',
+    label: 'ui-eholdings.exportPackageResources.fields.package.holdingStatus'
+  },
   {
     value: 'packageCustomCoverage',
     label: 'ui-eholdings.exportPackageResources.fields.package.customCoverage'
@@ -182,14 +182,14 @@ const PACKAGE_EXPORT_FIELDS = [
     value: 'packageTags',
     label: 'ui-eholdings.exportPackageResources.fields.package.tags'
   },
-  // {
-  //   value: 'packageAgreements',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.agreements'
-  // },
-  // {
-  //   value: 'packageNotes',
-  //   label: 'ui-eholdings.exportPackageResources.fields.package.notes'
-  // },
+  {
+    value: 'packageAgreements',
+    label: 'ui-eholdings.exportPackageResources.fields.package.agreements'
+  },
+  {
+    value: 'packageNotes',
+    label: 'ui-eholdings.exportPackageResources.fields.package.notes'
+  },
 ];
 
 export const FIELDS_BY_RECORD_TYPE = {
@@ -213,8 +213,8 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     packageProxy: () => ['packageProxy'],
     packageAccessStatusType: () => ['packageAccessStatusType'],
     packageTags: () => ['packageTags'],
-    packageAgreements: () => ['packageAgreementStartDate', 'packageAgreementName', 'packageAgreementStatus'],
-    packageNotes: () => ['packageNoteLastUpdatedDate', 'packageNoteType', 'packageNoteTitle', 'packageNoteDetails'],
+    packageAgreements: () => ['packageAgreements'],
+    packageNotes: () => ['packageNotes'],
   },
   [RECORD_TYPES.RESOURCE]: {
     titleName: () => ['titleName'],
@@ -244,7 +244,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     peerReviewed: () => ['peerReviewed'],
     description: () => ['description'],
     customLabel: () => ['customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
-    titleAgreements: () => ['titleAgreementStartDate', 'titleAgreementName', 'titleAgreementStatus'],
-    titleNotes: () => ['titleNoteLastUpdatedDate', 'titleNoteType', 'titleNoteTitle', 'titleNoteDetails'],
+    titleAgreements: () => ['titleAgreements'],
+    titleNotes: () => ['titleNotes'],
   },
 };
