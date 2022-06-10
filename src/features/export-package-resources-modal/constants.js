@@ -213,8 +213,8 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     packageProxy: () => ['packageProxy'],
     packageAccessStatusType: () => ['packageAccessStatusType'],
     packageTags: () => ['packageTags'],
-    packageAgreements: () => ['packageAgreementStartDate', 'packageAgreementName', 'packageAgreementStatus'],
-    packageNotes: () => ['packageNoteLastUpdatedDate', 'packageNoteType', 'packageNoteTitle', 'packageNoteDetails'],
+    packageAgreements: () => ['packageAgreements'],
+    packageNotes: () => ['packageNotes'],
   },
   [RECORD_TYPES.RESOURCE]: {
     titleName: () => ['titleName'],
@@ -244,7 +244,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     peerReviewed: () => ['peerReviewed'],
     description: () => ['description'],
     customLabel: () => ['customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
-    titleAgreements: () => ['titleAgreementStartDate', 'titleAgreementName', 'titleAgreementStatus'],
-    titleNotes: () => ['titleNoteLastUpdatedDate', 'titleNoteType', 'titleNoteTitle', 'titleNoteDetails'],
+    titleAgreements: () => ['titleAgreements'],
+    titleNotes: () => ['titleNotes'],
   },
 };
