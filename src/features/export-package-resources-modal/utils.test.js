@@ -13,7 +13,7 @@ describe('ExportPackageResourcesModal utils', () => {
     describe('when some fields are not defined in a constant', () => {
       it('should return correct mapped values', () => {
         expect(utils.formatExportFieldsPayload(['providerName', 'nonExistingField', 'packageAgreements'], RECORD_TYPES.PACKAGE))
-          .toEqual(['providerName', 'packageAgreement']);
+          .toEqual(['providerName', 'packageAgreements']);
       });
     });
   });
