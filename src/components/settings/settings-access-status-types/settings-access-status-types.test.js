@@ -119,7 +119,7 @@ describe('Given SettingsAccessStatusTypes', () => {
     Object.values(accessStatusTypesColumns).forEach(column => {
       expect(getByText(`ui-eholdings.settings.accessStatusTypes.${column}`)).toBeDefined();
     });
-    expect(getByText('stripes-smart-components.actions')).toBeDefined();
+    expect(getByText('stripes-smart-components.editableList.actionsColumnHeader')).toBeDefined();
   });
 
   it('should display access status type info', () => {

@@ -16,6 +16,7 @@
 * Jest+RTL > Test UsageConsolidationContentTitle(UIEH-1278)
 * Export package/resources > Display Export settings modal. (UIEH-1285)
 * Export eholdings package or resource details: Display toast notification  (UIEH-1284)
+* Enable Agreements, Notes and Package Holdings Status export fields (UIEH-1298)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
