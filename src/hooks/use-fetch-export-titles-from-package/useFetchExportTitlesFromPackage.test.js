@@ -13,7 +13,6 @@ const packageName = 'packageName';
 const packageId = 'packageId';
 const platformType = 'platformType';
 
-
 const sendCalloutMock = jest.fn();
 const removeCalloutMock = jest.fn();
 
@@ -31,14 +30,12 @@ const TestComponent = () => {
   const { setIsLoading } = useFetchExportTitlesFromPackage(props);
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => setIsLoading(true)}
-      >
-        Export titles
-      </button>
-    </>
+    <button
+      type="button"
+      onClick={() => setIsLoading(true)}
+    >
+      Export titles
+    </button>
   );
 };
 

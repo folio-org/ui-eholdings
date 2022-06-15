@@ -21,6 +21,7 @@ import {
   AgreementsAccordion,
   CustomLabelsAccordion,
   UsageConsolidationAccordion,
+  ExportPackageResourcesModal,
 } from '../../features';
 import { useSectionToggle } from '../../hooks';
 import Toaster from '../toaster';
@@ -76,6 +77,7 @@ const ResourceShow = ({
   const intl = useIntl();
 
   const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const [isExportPackageModalOpen, setIsExportPackageModalOpen] = useState(false);
   const [resourceSelected, setResourceSelected] = useState(model.isSelected);
   const [sections, {
     handleSectionToggle,
@@ -145,14 +147,26 @@ const ResourceShow = ({
     );
   };
 
+  const renderExportCSVButton = (onToggle) => {
+    return (
+      <Button
+        data-testid="export-to-csv-button"
+        buttonStyle="dropdownItem fullWidth"
+        onClick={() => {
+          setIsExportPackageModalOpen(true);
+          onToggle();
+        }}
+      >
+        <FormattedMessage id="ui-eholdings.resource.actionMenu.exportToCSV" />
+      </Button>
+    );
+  };
+
   const getActionMenu = () => {
     const hasCreateAndDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
     const hasSelectionPermission = stripes.hasPerm(PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION);
     const canEdit = hasEditPermission();
     const canSelectAndUnselect = hasSelectionPermission || hasCreateAndDeletePermission;
-    const isMenuNeeded = canEdit || hasSelectionPermission;
-
-    if (!isMenuNeeded) return null;
 
     // eslint-disable-next-line react/prop-types
     return ({ onToggle }) => (
@@ -164,8 +178,10 @@ const ResourceShow = ({
             onClick={onEdit}
           >
             <FormattedMessage id="ui-eholdings.actionMenu.edit" />
-          </Button>}
+          </Button>
+        }
         {canSelectAndUnselect && renderSelectionButton(onToggle)}
+        {renderExportCSVButton(onToggle)}
       </>
     );
   };
@@ -336,6 +352,12 @@ const ResourceShow = ({
             )
         }
       </Modal>
+      <ExportPackageResourcesModal
+        recordId={model.id}
+        recordType="RESOURCE"
+        open={isExportPackageModalOpen}
+        onClose={() => setIsExportPackageModalOpen(false)}
+      />
     </KeyShortcutsWrapper>
   );
 };

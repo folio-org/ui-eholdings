@@ -210,48 +210,58 @@ describe('Given ResourceShow', () => {
     expect(getAllByText('title-name')).toBeDefined();
   });
 
-  describe('when clicking on remove from holdings', () => {
-    it('should show confirmation modal', () => {
-      const { getByTestId } = renderResourceShow();
+  it('should show enabled Export title package (CSV) menu action', () => {
+    const { getByTestId } = renderResourceShow();
 
-      fireEvent.click(getByTestId('toggle-resource-holdings'));
-
-      expect(getByTestId('selection-modal')).toBeDefined();
-    });
-
-    it('should confirm selection', () => {
-      const { getByTestId } = renderResourceShow();
-
-      fireEvent.click(getByTestId('toggle-resource-holdings'));
-      fireEvent.click(getByTestId('resource-deselection-confirmation-yes'));
-
-      expect(toggleSelectedMock.mock.calls.length).toEqual(1);
-    });
-
-    it('should cancel selection', async () => {
-      const {
-        getByTestId,
-        queryByTestId,
-      } = renderResourceShow();
-
-      fireEvent.click(getByTestId('toggle-resource-holdings'));
-      await wait(500);
-      fireEvent.click(getByTestId('resource-deselection-confirmation-no'));
-      await wait(500);
-
-      expect(queryByTestId('selection-modal')).toBeNull();
-    }, 2000);
+    expect(getByTestId('export-to-csv-button')).toBeEnabled();
   });
 
-  describe('when clicking on add to holdings', () => {
-    it('should toggle selection', () => {
-      const { getByTestId } = renderResourceShow({
-        isSelected: false,
+  describe('when resource is selected', () => {
+    describe('when clicking on remove from holdings', () => {
+      it('should show confirmation modal', () => {
+        const { getByTestId } = renderResourceShow();
+
+        fireEvent.click(getByTestId('toggle-resource-holdings'));
+
+        expect(getByTestId('selection-modal')).toBeDefined();
       });
 
-      fireEvent.click(getByTestId('toggle-resource-holdings'));
+      it('should confirm selection', () => {
+        const { getByTestId } = renderResourceShow();
 
-      expect(toggleSelectedMock.mock.calls.length).toEqual(1);
+        fireEvent.click(getByTestId('toggle-resource-holdings'));
+        fireEvent.click(getByTestId('resource-deselection-confirmation-yes'));
+
+        expect(toggleSelectedMock.mock.calls.length).toEqual(1);
+      });
+
+      it('should cancel selection', async () => {
+        const {
+          getByTestId,
+          queryByTestId,
+        } = renderResourceShow();
+
+        fireEvent.click(getByTestId('toggle-resource-holdings'));
+        await wait(500);
+        fireEvent.click(getByTestId('resource-deselection-confirmation-no'));
+        await wait(500);
+
+        expect(queryByTestId('selection-modal')).toBeNull();
+      }, 2000);
+    });
+  });
+
+  describe('when resource is not selected', () => {
+    describe('when clicking on add to holdings', () => {
+      it('should toggle selection', () => {
+        const { getByTestId } = renderResourceShow({
+          isSelected: false,
+        });
+
+        fireEvent.click(getByTestId('toggle-resource-holdings'));
+
+        expect(toggleSelectedMock.mock.calls.length).toEqual(1);
+      });
     });
   });
 
@@ -262,6 +272,16 @@ describe('Given ResourceShow', () => {
       });
 
       expect(getByText('ui-eholdings.resource.toast.isFreshlySaved')).toBeDefined();
+    });
+  });
+
+  describe('when clicking on Export package', () => {
+    it('should show Export modal', () => {
+      const { getByText } = renderResourceShow();
+
+      fireEvent.click(getByText('ui-eholdings.resource.actionMenu.exportToCSV'));
+
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
     });
   });
 });

@@ -221,6 +221,12 @@ describe('Given PackageShow', () => {
     expect(getByText('UsageConsolidation accordion')).toBeDefined();
   });
 
+  it('should show enabled Export package (CSV) menu action', () => {
+    const { getByTestId } = renderPackageShow();
+
+    expect(getByTestId('export-to-csv-button')).toBeEnabled();
+  });
+
   describe('when package is managed', () => {
     it('should render remove from holdings button', () => {
       const { getByText } = renderPackageShow({
@@ -322,17 +328,6 @@ describe('Given PackageShow', () => {
       });
 
       expect(getByTestId('add-to-holdings-dropdown-button')).toBeDefined();
-    });
-
-    it('should disable Export package (CSV) menu action', () => {
-      const { getByTestId } = renderPackageShow({
-        model: {
-          ...testModel,
-          isSelected: false,
-        },
-      });
-
-      expect(getByTestId('export-to-csv-button')).toBeDisabled();
     });
 
     describe('when clicking add to holdings button', () => {
@@ -443,6 +438,16 @@ describe('Given PackageShow', () => {
       });
 
       expect(getByRole('button', { name: 'ui-eholdings.addAllToHoldings' })).toBeDefined();
+    });
+  });
+
+  describe('when clicking on Export package', () => {
+    it('should show Export modal', () => {
+      const { getByText } = renderPackageShow();
+
+      fireEvent.click(getByText('ui-eholdings.package.actionMenu.exportToCSV'));
+
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
     });
   });
 });

@@ -1,21 +1,21 @@
 import {
   useState,
   useEffect,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
+import omit from 'lodash/omit';
 
 import {
   useStripes,
   IfPermission,
 } from '@folio/stripes/core';
-
 import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-
 import {
   Button,
   Icon,
@@ -29,6 +29,7 @@ import TagsAccordion from '../../tags';
 import {
   AgreementsAccordion,
   UsageConsolidationAccordion,
+  ExportPackageResourcesModal,
 } from '../../../features';
 import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
@@ -53,6 +54,8 @@ import {
 } from '../../../constants';
 import {
   processErrors,
+  transformQueryParams,
+  qs,
 } from '../../utilities';
 
 import styles from './package-show.css';
@@ -75,6 +78,7 @@ const propTypes = {
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
   packageTitles: PropTypes.object.isRequired,
+  pkgSearchParams: PropTypes.object.isRequired,
   provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   searchModal: PropTypes.node,
@@ -104,10 +108,12 @@ const PackageShow = ({
   tagsModel,
   toggleSelected,
   updateFolioTags,
+  pkgSearchParams,
 }) => {
   const stripes = useStripes();
   const intl = useIntl();
   const [showSelectionConfirmationModal, setShowSelectionConfirmationModal] = useState(false);
+  const [isExportPackageModalOpen, setIsExportPackageModalOpen] = useState(false);
   const [showDeselectionModal, setShowDeselectionModal] = useState(false);
   const [packageSelected, setPackageSelected] = useState(model.isSelected);
   const [packageAllowedToAddTitles, setPackageAllowedToAddTitles] = useState(model.allowKbToAddTitles);
@@ -126,6 +132,12 @@ const PackageShow = ({
     packageShowNotes: true,
     packageShowUsageConsolidation: false,
   });
+
+  const titleSearchFilters = useMemo(() => {
+    const params = transformQueryParams('titles', omit(pkgSearchParams, ['page', 'count']));
+
+    return qs.stringify(params);
+  }, [pkgSearchParams]);
 
   useEffect(() => {
     if (!model.isSaving) {
@@ -186,8 +198,10 @@ const PackageShow = ({
       <Button
         data-testid="export-to-csv-button"
         buttonStyle="dropdownItem fullWidth"
-        disabled={!model.isSelected}
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          setIsExportPackageModalOpen(true);
+        }}
       >
         <FormattedMessage id="ui-eholdings.package.actionMenu.exportToCSV" />
       </Button>
@@ -475,6 +489,13 @@ const PackageShow = ({
         {modalMessage.body}
       </SelectionModal>
       {showSelectionConfirmationModal && renderSelectionConfirmationModal()}
+      <ExportPackageResourcesModal
+        recordId={model.id}
+        recordType="PACKAGE"
+        open={isExportPackageModalOpen}
+        onClose={() => setIsExportPackageModalOpen(false)}
+        titleSearchFilters={titleSearchFilters}
+      />
     </KeyShortcutsWrapper>
   );
 };

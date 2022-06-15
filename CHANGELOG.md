@@ -10,6 +10,13 @@
 * View Package Details record > Actions menu > Add a Export record option. (UIEH-1279)
 * Pin @vue/compiler-sfc to fix formatjs-compile errors
 * update NodeJS to v16 in GitHub Actions. (UIEH-1283)
+* View Title+Package Details record > Actions menu > Add a Export record option. (UIEH-1280)
+* Requirement Change - View Package Details record > Actions menu > Add a Export record option. (UIEH-1287)
+* SettingsAccessStatusTypes - Use react-final-form (UIEH-1282)
+* Jest+RTL > Test UsageConsolidationContentTitle(UIEH-1278)
+* Export package/resources > Display Export settings modal. (UIEH-1285)
+* Export eholdings package or resource details: Display toast notification  (UIEH-1284)
+* Enable Agreements, Notes and Package Holdings Status export fields (UIEH-1298)
 * Remove parameters from POST request for '/eholdings/kb-credentials/{kb-credentials-id}/users'. (UIEH-1237)
 * Remove call to "/groups" api in settings/eholdings/assigned users. (UIEH-1236)
 * Rework-kb-credentials: Remove attributes from user schema. (UIEH-1286)
