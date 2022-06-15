@@ -17,6 +17,9 @@
 * Export package/resources > Display Export settings modal. (UIEH-1285)
 * Export eholdings package or resource details: Display toast notification  (UIEH-1284)
 * Enable Agreements, Notes and Package Holdings Status export fields (UIEH-1298)
+* Remove parameters from POST request for '/eholdings/kb-credentials/{kb-credentials-id}/users'. (UIEH-1237)
+* Remove call to "/groups" api in settings/eholdings/assigned users. (UIEH-1236)
+* Rework-kb-credentials: Remove attributes from user schema. (UIEH-1286)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 

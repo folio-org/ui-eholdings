@@ -55,7 +55,6 @@ jest.mock('../../components/settings/settings-assigned-users', () => ({
 const mockGetKBCredentialsUsers = jest.fn();
 const mockDeleteKBCredentialsUser = jest.fn();
 const mockPostKBCredentialsUser = jest.fn();
-const mockGetUserGroups = jest.fn();
 
 const assignedUsers = {
   errors: [],
@@ -130,7 +129,6 @@ const renderSettingsAssignedUsersRoute = (props = {}) => render(
         assignedUsers={assignedUsers}
         deleteKBCredentialsUser={mockDeleteKBCredentialsUser}
         getKBCredentialsUsers={mockGetKBCredentialsUsers}
-        getUserGroups={mockGetUserGroups}
         kbCredentials={kbCredentials}
         match={match}
         postKBCredentialsUser={mockPostKBCredentialsUser}
@@ -146,7 +144,6 @@ describe('Given SettingsAssignedUsersRoute', () => {
     mockGetKBCredentialsUsers.mockClear();
     mockDeleteKBCredentialsUser.mockClear();
     mockPostKBCredentialsUser.mockClear();
-    mockGetUserGroups.mockClear();
   });
 
   afterEach(cleanup);
@@ -158,14 +155,6 @@ describe('Given SettingsAssignedUsersRoute', () => {
 
     expect(mockGetKBCredentialsUsers).toHaveBeenCalled();
     expect(mockGetKBCredentialsUsers).toHaveBeenCalledWith(kbId);
-  });
-
-  it('should handle getUserGroups', async () => {
-    await act(async () => {
-      await renderSettingsAssignedUsersRoute();
-    });
-
-    expect(mockGetUserGroups).toHaveBeenCalled();
   });
 
   describe('when click on unassign user button', () => {

@@ -47,14 +47,10 @@ const handlers = {
     hasLoaded: false,
     isLoading: true,
   }),
-  [POST_KB_CREDENTIALS_USER_SUCCESS]: (state, action) => ({
+  [POST_KB_CREDENTIALS_USER_SUCCESS]: (state) => ({
     ...state,
     isLoading: false,
     hasLoaded: true,
-    items: [
-      ...state.items,
-      action.payload,
-    ]
   }),
   [POST_KB_CREDENTIALS_USER_FAILURE]: (state, action) => ({
     ...state,
