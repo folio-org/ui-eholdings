@@ -215,10 +215,10 @@ const SettingsAccessStatusTypes = ({
 
   return (
     <Pane
+      id="settings-access-status-types-paneset"
       paneTitle={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />}
       data-test-settings-access-status-types
       data-testid="settings-access-status-types"
-      defaultWidth="fill"
       firstMenu={(
         <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
           {([ariaLabel]) => (

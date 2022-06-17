@@ -26,6 +26,7 @@ export default class SettingsForm extends Component {
       invalid: PropTypes.bool,
       pristine: PropTypes.bool,
     }).isRequired,
+    id: PropTypes.string.isRequired,
     lastMenu: PropTypes.element,
     title: PropTypes.node,
     toasts: PropTypes.array.isRequired,
@@ -85,6 +86,7 @@ export default class SettingsForm extends Component {
       formState,
       toasts,
       lastMenu,
+      id,
       ...formProps
     } = this.props;
 
@@ -99,6 +101,7 @@ export default class SettingsForm extends Component {
           {...formProps}
         >
           <Pane
+            id={id}
             paneTitle={title}
             defaultWidth="fill"
             firstMenu={(
