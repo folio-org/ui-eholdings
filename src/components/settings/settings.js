@@ -23,6 +23,7 @@ import {
 import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
 
 import css from './settings.css';
+import { PersistedPaneset } from '@folio/stripes/smart-components';
 
 class Settings extends Component {
   static propTypes = {
@@ -190,9 +191,12 @@ class Settings extends Component {
     const { children } = this.props;
 
     return (
-      <>
-        <KeyShortcutsWrapper
-          openCreateNewEntity={this.goToCreateKnowledgeBasePage}
+      <KeyShortcutsWrapper
+        openCreateNewEntity={this.goToCreateKnowledgeBasePage}
+      >
+        <PersistedPaneset
+          appId="@folio/eholdings"
+          id="eholdings-paneset"
         >
           <Pane
             data-test-eholdings-settings-pane
@@ -209,9 +213,9 @@ class Settings extends Component {
           >
             {this.renderKnowledgeBaseConfigurations()}
           </Pane>
-        </KeyShortcutsWrapper>
-        {children}
-      </>
+          {children}
+        </PersistedPaneset>
+      </KeyShortcutsWrapper>
     );
   }
 }

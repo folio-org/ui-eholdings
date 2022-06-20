@@ -11,7 +11,6 @@ import {
   Pluggable,
 } from '@folio/stripes/core';
 import {
-  Paneset,
   Pane,
   MultiColumnList,
   Row,
@@ -116,7 +115,7 @@ const SettingsAssignedUsers = ({
         columnWidths={{
           name: '50%',
           patronGroup: '41%',
-          id: '9%'
+          id: '30px'
         }}
         formatter={{
           id: user => (
@@ -226,22 +225,21 @@ const SettingsAssignedUsers = ({
   );
 
   return (
-    <Paneset data-testid="settings-assigned-users">
-      <Pane
-        defaultWidth="100%"
-        paneTitle={pageTitle}
-      >
-        {header}
-        {requestIsPending ?
-          renderLoadingIndicator()
-          : assignedUsers.length
-            ? renderList()
-            : renderEmptyMessage()
-        }
-        {userToBeUnassigned && renderUnassignConfirmationModal()}
-        {alreadyAssignedMessageDisplayed && renderAlreadyAssignedMessage()}
-      </Pane>
-    </Paneset>
+    <Pane
+      id="settings-assigned-users-paneset"
+      paneTitle={pageTitle}
+      data-testid="settings-assigned-users"
+    >
+      {header}
+      {requestIsPending ?
+        renderLoadingIndicator()
+        : assignedUsers.length
+          ? renderList()
+          : renderEmptyMessage()
+      }
+      {userToBeUnassigned && renderUnassignConfirmationModal()}
+      {alreadyAssignedMessageDisplayed && renderAlreadyAssignedMessage()}
+    </Pane>
   );
 };
 

@@ -15,6 +15,7 @@ const renderSettingsForm = ({
 } = {}) => render(
   <Harness>
     <SettingsForm
+      id="test-form"
       formState={{
         form: {},
         handleSubmit: handleSubmitMock,
