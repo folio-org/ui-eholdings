@@ -188,23 +188,27 @@ const SettingsUsageConsolidation = ({
             showButton={usageConsolidation.isKeyLoaded}
             data-testId="field-customerKey"
           />
-          <Field
+          <ShowHidePasswordField
             id="eholdings-settings-usage-consolidation-client-id"
-            type="password"
             name="clientId"
             className={css.passwordField}
             component={TextField}
             label={usageConsolidationClientId}
+            aria-label={usageConsolidationClientId}
+            showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.clientId.show" />}
+            hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.clientId.hide" />}
             required
             data-testId="field-clientId"
           />
-          <Field
+          <ShowHidePasswordField
             id="eholdings-settings-usage-consolidation-api-key"
-            type="password"
             name="clientSecret"
             className={css.passwordField}
             component={TextField}
             label={usageConsolidationApiKey}
+            aria-label={usageConsolidationApiKey}
+            showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.apiKey.show" />}
+            hideButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.apiKey.hide" />}
             required
             data-testId="field-clientSecret"
           />
