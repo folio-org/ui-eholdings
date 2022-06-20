@@ -80,7 +80,7 @@ class ApplicationRoute extends Component {
       return <FailedBackendErrorScreen />;
     }
 
-    if (status.isLoaded && !status.isConfigurationValid) {
+    if (status.isLoaded && !status.isConfigurationValid && !showSettings) {
       return hasMultipleKbCredentials
         ? <UserNotAssignedToKbErrorScreen />
         : <InvalidBackendErrorScreen />;
