@@ -1,9 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import {
-  render,
-  cleanup,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import ApplicationRoute from './application-route';
 import Harness from '../../../test/jest/helpers/harness';
@@ -62,8 +59,6 @@ describe('Given ApplicationRoute', () => {
     mockGetBackendStatus.mockClear();
     mockGetKbCredentials.mockClear();
   });
-
-  afterEach(cleanup);
 
   describe('when page is not settings', () => {
     it('should call status endpoint', () => {
@@ -209,6 +204,26 @@ describe('Given ApplicationRoute', () => {
             isRejected: true,
             status: 429,
           },
+        },
+        showSettings: true,
+      });
+
+      expect(getByText('Page content')).toBeDefined();
+    });
+  });
+
+  describe('when kb credentials are now configured', () => {
+    it('should render page content', () => {
+      const { getByText } = renderApplicationRoute({
+        status: {
+          ...status,
+          isLoaded: true,
+          isConfigurationValid: false,
+        },
+        kbCredentials: {
+          ...kbCredentials,
+          isLoaded: true,
+          items: [],
         },
         showSettings: true,
       });

@@ -20,6 +20,7 @@
 * Remove parameters from POST request for '/eholdings/kb-credentials/{kb-credentials-id}/users'. (UIEH-1237)
 * Remove call to "/groups" api in settings/eholdings/assigned users. (UIEH-1236)
 * Rework-kb-credentials: Remove attributes from user schema. (UIEH-1286)
+* Fix error message "Knowledge base not configured" still displayed when user go to "Settings/eHoldings" link. (UIEH-1297)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
