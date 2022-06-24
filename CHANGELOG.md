@@ -22,6 +22,7 @@
 * Rework-kb-credentials: Remove attributes from user schema. (UIEH-1286)
 * Fix error message "Knowledge base not configured" still displayed when user go to "Settings/eHoldings" link. (UIEH-1297)
 * Fix Settings > eholdings > Assigned users page does not look right. (UIEH-1296)
+* Improve error messaging when user cannot be assigned to a KB. (UIEH-1301)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 

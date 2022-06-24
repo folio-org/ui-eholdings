@@ -46,6 +46,11 @@ const SettingsAssignedUsersRoute = ({
     setAlreadyAssignedMessageDisplayed,
   ] = useState(false);
 
+  const [
+    userToBeAssigned,
+    setUserToBeAssigned,
+  ] = useState(null);
+
   useEffect(() => {
     const lastError = assignedUsers.errors[assignedUsers.errors.length - 1];
 
@@ -70,7 +75,7 @@ const SettingsAssignedUsersRoute = ({
     return assignedUsers.errors
       .filter(error => error.title !== ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR)
       .map(() => ({
-        message: <FormattedMessage id="ui-eholdings.settings.assignedUsers.networkErrorMessage" />,
+        message: <FormattedMessage id="ui-eholdings.settings.assignedUsers.networkErrorMessage" values={{ personal: getFullName(userToBeAssigned.personal) }} />,
         type: 'error',
         id: `kbId-${Date.now()}`,
       }));
@@ -94,6 +99,8 @@ const SettingsAssignedUsersRoute = ({
     if (!userIsAlreadyAssignedToCurrentKB) {
       postKBCredentialsUser(kbId, getFormattedUserData(user));
     }
+
+    setUserToBeAssigned(user);
   };
 
   const assignedUsersLoaded = assignedUsers.hasLoaded || assignedUsers.hasFailed;
