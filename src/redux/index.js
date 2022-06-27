@@ -87,6 +87,7 @@ import {
   createGetProviderPackagesEpic,
   createGetUcCredentialsEpic,
   createGetUcCredentialsClientIdEpic,
+  createGetUcCredentialsClientSecretEpic,
   createUpdateUcCredentialsEpic,
 } from './epics';
 
@@ -163,5 +164,6 @@ export const epics = combineEpics(
   createGetProviderPackagesEpic({ providerPackagesApi }),
   createGetUcCredentialsEpic({ ucCredentialsApi }),
   createGetUcCredentialsClientIdEpic({ ucCredentialsApi }),
+  createGetUcCredentialsClientSecretEpic({ ucCredentialsApi }),
   createUpdateUcCredentialsEpic({ ucCredentialsApi }),
 );
