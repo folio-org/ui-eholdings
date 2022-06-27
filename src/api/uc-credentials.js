@@ -16,6 +16,16 @@ export default {
 
     return doRequest(url, params);
   },
+  getUcCredentialsClientId: (okapi) => {
+    const method = 'GET';
+    const url = `${okapi.url}${API_URL}/clientId`;
+    const params = {
+      method,
+      headers: getHeaders(method, okapi, url),
+    };
+
+    return doRequest(url, params);
+  },
   updateUcCredentials: (okapi, data) => {
     const method = 'PUT';
     const url = `${okapi.url}${API_URL}`;

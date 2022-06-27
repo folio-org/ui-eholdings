@@ -21,6 +21,7 @@ export { default as createGetProxyTypesEpic } from './get-proxy-types';
 export { default as createGetAgreementLinesEpic } from './get-agreement-lines';
 export { default as createDeleteAgreementLinesEpic } from './delete-agreement-lines';
 export { default as createGetUsageConsolidationEpic } from './get-usage-consolidation';
+export { default as createGetUcCredentialsClientIdEpic } from './get-uc-credentials-client-id';
 export { default as createGetUsageConsolidationKeyEpic } from './get-usage-consolidation-key';
 export { default as createPostUsageConsolidationEpic } from './post-usage-consolidation';
 export { default as createPatchUsageConsolidationEpic } from './patch-usage-consolidation';
