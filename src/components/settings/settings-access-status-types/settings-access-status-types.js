@@ -8,7 +8,6 @@ import {
 } from 'react-intl';
 import { sortBy, noop } from 'lodash';
 
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { useStripes } from '@folio/stripes/core';
 import {
   Pane,
@@ -264,7 +263,7 @@ const SettingsAccessStatusTypes = ({
         heading={<FormattedMessage id="ui-eholdings.settings.accessStatusTypes.delete" />}
         ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes.delete' })}
         message={
-          <SafeHTMLMessage
+          <FormattedMessage
             id="ui-eholdings.settings.accessStatusTypes.delete.description"
             values={{ name: selectedStatusType?.attributes?.name || '' }}
           />
