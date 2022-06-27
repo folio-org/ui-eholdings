@@ -23,6 +23,7 @@
 * Fix error message "Knowledge base not configured" still displayed when user go to "Settings/eHoldings" link. (UIEH-1297)
 * Fix Settings > eholdings > Assigned users page does not look right. (UIEH-1296)
 * Fix Usage Consolidation - does not return 12 months when starting period is not January. (UIEH-1304)
+* refactor away from `react-intl-safe-html`; `react-intl` `v5` subsumes it. Refs UIEH-1305.
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
