@@ -21,6 +21,8 @@ import { selectPropFromData } from '../redux/selectors';
 import {
   clearUsageConsolidationErrors as clearUsageConsolidationErrorsAction,
   getUsageConsolidation as getUsageConsolidationAction,
+  getUcCredentialsClientId as getUcCredentialsClientIdAction,
+  getUcCredentialsClientSecret as getUcCredentialsClientSecretAction,
   getUsageConsolidationKey as getUsageConsolidationKeyAction,
   patchUsageConsolidation as patchUsageConsolidationAction,
   postUsageConsolidation as postUsageConsolidationAction,
@@ -42,6 +44,8 @@ const propTypes = {
   }),
   getCurrencies: PropTypes.func.isRequired,
   getUcCredentials: PropTypes.func.isRequired,
+  getUcCredentialsClientId: PropTypes.func.isRequired,
+  getUcCredentialsClientSecret: PropTypes.func.isRequired,
   getUsageConsolidation: PropTypes.func.isRequired,
   getUsageConsolidationKey: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
@@ -63,6 +67,8 @@ const SettingsUsageConsolidationRoute = ({
   getCurrencies,
   getUcCredentials,
   getUsageConsolidation,
+  getUcCredentialsClientId,
+  getUcCredentialsClientSecret,
   getUsageConsolidationKey,
   match: { params: { kbId } },
   patchUsageConsolidation,
@@ -93,6 +99,18 @@ const SettingsUsageConsolidationRoute = ({
       getUsageConsolidationKey(kbId);
     }
   }, [getUsageConsolidationKey, kbId, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      getUcCredentialsClientId();
+    }
+  }, [getUcCredentialsClientId, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      getUcCredentialsClientSecret();
+    }
+  }, [getUcCredentialsClientSecret, isLoaded]);
 
   useEffect(() => {
     getCurrencies();
@@ -192,6 +210,8 @@ export default connect(
     patchUsageConsolidation: patchUsageConsolidationAction,
     postUsageConsolidation: postUsageConsolidationAction,
     getCurrencies: getCurrenciesAction,
+    getUcCredentialsClientId: getUcCredentialsClientIdAction,
+    getUcCredentialsClientSecret: getUcCredentialsClientSecretAction,
     getUcCredentials: getUcCredentialsAction,
     updateUcCredentials: updateUcCredentialsAction,
   }

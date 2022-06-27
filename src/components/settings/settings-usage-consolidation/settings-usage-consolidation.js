@@ -156,8 +156,7 @@ const SettingsUsageConsolidation = ({
   if (ucCredentials.isPresent) {
     initialValues = {
       ...initialValues,
-      clientId: '***',
-      clientSecret: '***',
+      ...ucCredentials.data,
     };
   }
 
