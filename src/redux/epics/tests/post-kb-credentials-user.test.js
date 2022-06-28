@@ -31,6 +31,7 @@ describe('(epic) postKbCredentialsUser', () => {
       userData: {
         credentialsId: 'kb-id',
         id: 'user-id',
+        attributes: 'kb-id',
       },
     };
 
@@ -81,7 +82,7 @@ describe('(epic) postKbCredentialsUser', () => {
 
     const dependencies = {
       kbCredentialsUsersApi: {
-        assignUser: () => testScheduler.createColdObservable('--#', null, { errors: ['error'] }),
+        assignUser: () => testScheduler.createColdObservable('--#', null, { errors: 'error' }),
       },
     };
 
@@ -90,7 +91,7 @@ describe('(epic) postKbCredentialsUser', () => {
     testScheduler.expectObservable(output$).toBe('---a', {
       a: {
         type: POST_KB_CREDENTIALS_USER_FAILURE,
-        payload: { errors: ['error'] },
+        payload: 'error',
       },
     });
 

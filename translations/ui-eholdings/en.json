@@ -347,7 +347,7 @@
     "settings.assignedUsers.confirmationModal.confirmButton": "Unassign",
     "settings.assignedUsers.confirmationModal.cancelButton": "Cancel",
     "settings.assignedUsers.assignmentModal.label": "Select user",
-    "settings.assignedUsers.networkErrorMessage": "<strong>{personal}</strong> has already been assigned to another knowledge base and cannot be assigned to this knowledge base",
+    "settings.assignedUsers.networkErrorMessage": "Unable to complete this operation. Please try again.",
     "settings.usageConsolidation": "Usage consolidation",
     "settings.usageConsolidation.id": "Usage consolidation ID",
     "settings.usageConsolidation.id.validation.empty": "Please enter a Usage Consolidation ID.",
