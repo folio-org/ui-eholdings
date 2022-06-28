@@ -20,7 +20,7 @@ export default ({ ucCredentialsApi }) => (action$, state$) => {
         .getUcCredentialsClientId(state$.value.okapi)
         .pipe(
           map(response => getUcCredentialsClientIdSuccess(response)),
-          catchError(errors => of(getUcCredentialsClientIdFailure({ errors })))
+          catchError(errors => of(getUcCredentialsClientIdFailure(errors)))
         );
     }),
   );

@@ -101,16 +101,12 @@ const SettingsUsageConsolidationRoute = ({
   }, [getUsageConsolidationKey, kbId, isLoaded]);
 
   useEffect(() => {
-    if (isLoaded) {
-      getUcCredentialsClientId();
-    }
-  }, [getUcCredentialsClientId, isLoaded]);
+    getUcCredentialsClientId();
+  }, [getUcCredentialsClientId]);
 
   useEffect(() => {
-    if (isLoaded) {
-      getUcCredentialsClientSecret();
-    }
-  }, [getUcCredentialsClientSecret, isLoaded]);
+    getUcCredentialsClientSecret();
+  }, [getUcCredentialsClientSecret]);
 
   useEffect(() => {
     getCurrencies();

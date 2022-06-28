@@ -34,6 +34,38 @@ describe('ucCredentialsApi', () => {
     });
   });
 
+  describe('getUcCredentialsClientId', () => {
+    const method = 'GET';
+
+    it('should handle getHeaders action', () => {
+      ucCredentialsApi.getUcCredentialsClientId(okapi);
+
+      expect(getHeaders).toHaveBeenCalledWith(method, okapi, url);
+    });
+
+    it('should handle doRequest action', () => {
+      ucCredentialsApi.getUcCredentialsClientId(okapi);
+
+      expect(doRequest).toHaveBeenCalledWith(url, { method, headers: 'headers' });
+    });
+  });
+
+  describe('getUcCredentialsClientSecret', () => {
+    const method = 'GET';
+
+    it('should handle getHeaders action', () => {
+      ucCredentialsApi.getUcCredentialsClientSecret(okapi);
+
+      expect(getHeaders).toHaveBeenCalledWith(method, okapi, url);
+    });
+
+    it('should handle doRequest action', () => {
+      ucCredentialsApi.getUcCredentialsClientSecret(okapi);
+
+      expect(doRequest).toHaveBeenCalledWith(url, { method, headers: 'headers' });
+    });
+  });
+
   describe('updateUcCredentials', () => {
     const method = 'PUT';
     const data = { data: 'data' };
