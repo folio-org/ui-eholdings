@@ -74,7 +74,6 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@folio/react-intl-safe-html": "^3.0.0",
     "classnames": "^2.2.5",
     "currency-symbol-map": "^4.0.4",
     "file-saver": "^2.0.5",

@@ -13,7 +13,6 @@ import {
 import { useHistory } from 'react-router';
 
 import { IfPermission } from '@folio/stripes/core';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Icon,
   TextField,
@@ -236,7 +235,7 @@ const SettingsKnowledgeBase = ({
         onClose={toggleDeleteConfirmationModal}
         id="delete-kb-confirmation-modal"
       >
-        <SafeHTMLMessage
+        <FormattedMessage
           id="ui-eholdings.settings.kb.delete.warning"
           values={{ kbName: currentKBName }}
         />

@@ -12,7 +12,7 @@ import FullTextRequestUsageTable from './full-text-request-usage-table';
 const usageData = {
   totals: {
     publisher: {
-      counts: [5, 4, 3, 2],
+      counts: [5, 4, 3, 2, 1, null, null, null, null, null, null, null],
       total: 14,
     },
   },
@@ -96,6 +96,19 @@ describe('Given FullTextRequestUsageTable', () => {
       });
 
       expect(getByText('10')).toBeDefined();
+    });
+  });
+
+  describe('when start month is not Jan', () => {
+    it('should display all 12 months starting with start month', () => {
+      const { getByText } = renderFullTextRequestUsageTable();
+
+      const months = ['sep', 'oct', 'nov', 'dec', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug'];
+      const foundMonthsCount = months
+        .map(month => getByText(`ui-eholdings.usageConsolidation.fullTextRequestUsageTable.header.${month}`))
+        .filter(el => !!el);
+
+      expect(foundMonthsCount.length).toEqual(12);
     });
   });
 });

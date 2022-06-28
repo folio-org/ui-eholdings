@@ -13,7 +13,6 @@ import {
   pickBy,
 } from 'lodash';
 
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   Col,
   ConfirmationModal,
@@ -168,12 +167,12 @@ const SettingsCustomLabels = ({
             ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.customLabels.remove' })}
             message={
               <>
-                <SafeHTMLMessage
+                <FormattedMessage
                   id="ui-eholdings.settings.customLabels.remove.description"
                   values={{ label: removingLabels }}
                 />
                 <br />
-                <SafeHTMLMessage id="ui-eholdings.settings.customLabels.remove.note" />
+                <FormattedMessage id="ui-eholdings.settings.customLabels.remove.note" />
               </>
             }
             onCancel={closeModal}

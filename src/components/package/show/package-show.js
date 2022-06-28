@@ -14,7 +14,6 @@ import {
   useStripes,
   IfPermission,
 } from '@folio/stripes/core';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -278,7 +277,7 @@ const PackageShow = ({
         cancelButtonLabel={<FormattedMessage id="ui-eholdings.cancel" />}
         confirmButtonLabel={<FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.confirmationButtonText" />}
       >
-        <SafeHTMLMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
+        <FormattedMessage id="ui-eholdings.selectPackage.confirmationModal.message" />
       </SelectionModal>
     );
   };

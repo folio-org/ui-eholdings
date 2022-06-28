@@ -59,7 +59,7 @@ const FullTextRequestUsageTable = ({
   const fullTextRequestUsageMCLRef = useRef(null);
 
   const indexOfStartMonth = Object.values(monthsNames).indexOf(startMonth);
-  const months = Object.values(monthsNames).slice(indexOfStartMonth);
+  const months = Object.values(monthsNames).slice(indexOfStartMonth).concat(Object.values(monthsNames).slice(0, indexOfStartMonth));
 
   const monthsColumnNames = months.reduce((acc, month) => ({
     ...acc,
