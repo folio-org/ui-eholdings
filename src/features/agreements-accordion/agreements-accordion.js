@@ -18,7 +18,6 @@ import {
   Modal,
   ModalFooter,
 } from '@folio/stripes/components';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 
 import Toaster from '../../components/toaster';
 
@@ -221,7 +220,7 @@ const AgreementsAccordion = ({
           </ModalFooter>
         )}
       >
-        <SafeHTMLMessage
+        <FormattedMessage
           id="ui-eholdings.agreements.unassignModal.description"
           values={{
             agreementName: currentAgreement.name,

@@ -6,7 +6,6 @@ import {
 } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import { MultiSelection } from '@folio/stripes/components';
 
 const propTypes = {
@@ -126,7 +125,7 @@ const Tags = ({
 
     return (
       <div>
-        <SafeHTMLMessage
+        <FormattedMessage
           id="ui-eholdings.tags.addTagFor"
           values={{ filter: filterValue }}
         />

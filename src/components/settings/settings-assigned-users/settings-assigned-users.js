@@ -5,7 +5,6 @@ import {
   useIntl,
 } from 'react-intl';
 
-import SafeHTMLMessage from '@folio/react-intl-safe-html';
 import {
   IfPermission,
   Pluggable,
@@ -190,7 +189,7 @@ const SettingsAssignedUsers = ({
           </ModalFooter>
         )}
       >
-        <SafeHTMLMessage
+        <FormattedMessage
           id="ui-eholdings.settings.assignedUsers.confirmationModal.prompt"
           values={{
             userName: userToBeUnassigned.name,
@@ -217,7 +216,7 @@ const SettingsAssignedUsers = ({
         </ModalFooter>
       )}
     >
-      <SafeHTMLMessage
+      <FormattedMessage
         id="ui-eholdings.settings.assignedUsers.alreadyAssignedModal.message"
         values={{ userName: getFullName(userToBeAssigned.personal) }}
       />
