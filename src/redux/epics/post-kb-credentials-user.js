@@ -24,7 +24,7 @@ export default ({ kbCredentialsUsersApi }) => (action$, state$) => {
         .pipe(
           map(postKBCredentialsUserSuccess),
           map(() => getKBCredentialsUsers(credentialsId)),
-          catchError(errors => of(postKBCredentialsUserFailure({ errors }))),
+          catchError(errors => of(postKBCredentialsUserFailure(errors))),
         );
     }),
   );

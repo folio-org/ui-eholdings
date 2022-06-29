@@ -44,7 +44,7 @@ const handlers = {
   }),
   [POST_KB_CREDENTIALS_USER]: state => ({
     ...state,
-    hasLoaded: false,
+    hasLoaded: true,
     isLoading: true,
   }),
   [POST_KB_CREDENTIALS_USER_SUCCESS]: (state) => ({

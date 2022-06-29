@@ -25,6 +25,7 @@
 * Fix Usage Consolidation - does not return 12 months when starting period is not January. (UIEH-1304)
 * refactor away from `react-intl-safe-html`; `react-intl` `v5` subsumes it. Refs UIEH-1305.
 * Fix Multiselect list overlaps the input field at "Package fields to export" section. (UIEH-1307)
+* Improve error messaging when user already has been assigned to another KB. (UIEH-1303)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
