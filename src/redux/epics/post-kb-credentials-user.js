@@ -23,7 +23,7 @@ export default ({ kbCredentialsUsersApi }) => (action$, state$) => {
         .assignUser(state$.value.okapi, credentialsId, userData)
         .pipe(
           map(postKBCredentialsUserSuccess),
-          map(() => getKBCredentialsUsers(userData.attributes)),
+          map(() => getKBCredentialsUsers(credentialsId)),
           catchError(errors => of(postKBCredentialsUserFailure(errors))),
         );
     }),

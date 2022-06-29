@@ -29,9 +29,10 @@ describe('(epic) postKbCredentialsUser', () => {
     const payload = {
       credentialsId: 'kb-id',
       userData: {
-        credentialsId: 'kb-id',
-        id: 'user-id',
-        attributes: 'kb-id',
+        data: {
+          credentialsId: 'kb-id',
+          id: 'user-id',
+        },
       },
     };
 
@@ -68,8 +69,10 @@ describe('(epic) postKbCredentialsUser', () => {
     const payload = {
       credentialsId: 'kb-id',
       userData: {
-        credentialsId: 'kb-id',
-        id: 'user-id',
+        data:{
+          credentialsId: 'kb-id',
+          id: 'user-id',
+        },
       },
     };
 
