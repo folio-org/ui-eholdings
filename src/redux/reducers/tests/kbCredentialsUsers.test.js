@@ -66,6 +66,7 @@ describe('kbCredentialsUsersReducer', () => {
     expect(kbCredentialsUsersReducer(state, action)).toEqual({
       ...state,
       isLoading: true,
+      hasLoaded: true,
     });
   });
 
