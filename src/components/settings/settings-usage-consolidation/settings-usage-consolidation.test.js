@@ -30,6 +30,13 @@ const ucCredentials = {
   isLoading: false,
   isFailed: false,
   isUpdated: false,
+  isClientIdLoading: false,
+  isClientIdFailed: false,
+  isClientIdLoaded: false,
+  isClientSecretLoading: false,
+  isClientSecretFailed: false,
+  isClientSecretLoaded: false,
+  data: {},
   errors: [],
 };
 
@@ -157,11 +164,15 @@ describe('Given SettingsUsageConsolidationRoute', () => {
         ucCredentials: {
           ...ucCredentials,
           isPresent: true,
+          data: {
+            clientId: 'client-id',
+            clientSecret: 'client-secret',
+          }
         },
       });
 
-      expect(getByTestId('field-clientId').value).toEqual('***');
-      expect(getByTestId('field-clientSecret').value).toEqual('***');
+      expect(getByTestId('field-clientId').value).toEqual('client-id');
+      expect(getByTestId('field-clientSecret').value).toEqual('client-secret');
     });
   });
 });

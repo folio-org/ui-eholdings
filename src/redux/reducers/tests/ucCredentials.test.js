@@ -3,6 +3,12 @@ import {
   GET_UC_CREDENTIALS,
   GET_UC_CREDENTIALS_FAILURE,
   GET_UC_CREDENTIALS_SUCCESS,
+  GET_UC_CREDENTIALS_CLIENT_ID,
+  GET_UC_CREDENTIALS_CLIENT_ID_FAILURE,
+  GET_UC_CREDENTIALS_CLIENT_ID_SUCCESS,
+  GET_UC_CREDENTIALS_CLIENT_SECRET,
+  GET_UC_CREDENTIALS_CLIENT_SECRET_FAILURE,
+  GET_UC_CREDENTIALS_CLIENT_SECRET_SUCCESS,
   UPDATE_UC_CREDENTIALS,
   UPDATE_UC_CREDENTIALS_FAILURE,
   UPDATE_UC_CREDENTIALS_SUCCESS,
@@ -13,6 +19,13 @@ const state = {
   isLoading: false,
   isFailed: false,
   isUpdated: false,
+  isClientIdLoading: false,
+  isClientIdFailed: false,
+  isClientIdLoaded: false,
+  isClientSecretLoading: false,
+  isClientSecretFailed: false,
+  isClientSecretLoaded: false,
+  data: {},
   errors: [],
 };
 
@@ -48,6 +61,88 @@ describe('ucCredentialsReducer', () => {
       ...state,
       isFailed: true,
       errors: [{ title: 'error1' }],
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_ID action', () => {
+    const action = { type: GET_UC_CREDENTIALS_CLIENT_ID };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientIdLoading: true,
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_ID_SUCCESS action', () => {
+    const action = {
+      type: GET_UC_CREDENTIALS_CLIENT_ID_SUCCESS,
+      payload: 'client-id',
+    };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientIdLoading: false,
+      isClientIdFailed: false,
+      isClientIdLoaded: true,
+      data: {
+        clientId: 'client-id',
+      },
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_ID_FAILURE action', () => {
+    const action = {
+      type: GET_UC_CREDENTIALS_CLIENT_ID_FAILURE,
+      payload: { errors: ['client-id-error'] },
+    };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientIdLoading: false,
+      isClientIdFailed: true,
+      isClientIdLoaded: false,
+      errors: [{ title: 'client-id-error' }],
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_SECRET action', () => {
+    const action = { type: GET_UC_CREDENTIALS_CLIENT_SECRET };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientSecretLoading: true,
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_SECRET_SUCCESS action', () => {
+    const action = {
+      type: GET_UC_CREDENTIALS_CLIENT_SECRET_SUCCESS,
+      payload: 'client-secret',
+    };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientSecretLoading: false,
+      isClientSecretFailed: false,
+      isClientSecretLoaded: true,
+      data: {
+        clientSecret: 'client-secret',
+      },
+    });
+  });
+
+  it('should handle GET_UC_CREDENTIALS_CLIENT_SECRET_FAILURE action', () => {
+    const action = {
+      type: GET_UC_CREDENTIALS_CLIENT_SECRET_FAILURE,
+      payload: { errors: ['client-id-error'] },
+    };
+
+    expect(ucCredentialsReducer(state, action)).toEqual({
+      ...state,
+      isClientSecretLoading: false,
+      isClientSecretFailed: true,
+      isClientSecretLoaded: false,
+      errors: [{ title: 'client-id-error' }],
     });
   });
 

@@ -364,7 +364,11 @@
     "settings.usageConsolidation.platformType.publisher": "Publisher platforms only",
     "settings.usageConsolidation.platformType.nonPublisher": "Non-publisher platforms only",
     "settings.usageConsolidation.clientId": "Usage consolidation client ID",
+    "settings.usageConsolidation.clientId.show": "Show ID",
+    "settings.usageConsolidation.clientId.hide": "Hide ID",
     "settings.usageConsolidation.apiKey": "Usage consolidation API key",
+    "settings.usageConsolidation.apiKey.show": "Show key",
+    "settings.usageConsolidation.apiKey.hide": "Hide key",
     "settings.usageConsolidation.credentials.validation.invalid": "Usage Consolidation credentials are not valid.",
     "settings.usageConsolidation.credentials.systemError": "Usage Consolidation credentials cannot be saved due to a system error. Please try again.",
 

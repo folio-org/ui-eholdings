@@ -17,6 +17,8 @@ const mockPatchUsageConsolidation = jest.fn();
 const mockPostUsageConsolidation = jest.fn();
 const mockGetCurrencies = jest.fn();
 const mockGetUcCredentials = jest.fn();
+const mockGetUcCredentialsClientId = jest.fn();
+const mockGetUcCredentialsClientSecret = jest.fn();
 const mockUpdateUcCredentials = jest.fn();
 
 jest.mock('../redux/actions', () => ({
@@ -27,6 +29,8 @@ jest.mock('../redux/actions', () => ({
   postUsageConsolidation: mockPostUsageConsolidation,
   getCurrencies: mockGetCurrencies,
   getUcCredentials: mockGetUcCredentials,
+  getUcCredentialsClientId: mockGetUcCredentialsClientId,
+  getUcCredentialsClientSecret: mockGetUcCredentialsClientSecret,
   updateUcCredentials: mockUpdateUcCredentials,
 }));
 
@@ -50,6 +54,13 @@ const ucCredentials = {
   isLoading: false,
   isFailed: false,
   isUpdated: false,
+  isClientIdLoading: false,
+  isClientIdLoaded: false,
+  isClientIdFailed: false,
+  isClientSecretLoading: false,
+  isClientSecretLoaded: false,
+  isClientSecretFailed: false,
+  data: {},
   errors: [],
 };
 const usageConsolidation = {
@@ -84,6 +95,8 @@ const renderSettingsUsageConsolidationRoute = ({ harnessProps = {}, props = {} }
         postUsageConsolidation={noop}
         getCurrencies={noop}
         getUcCredentials={noop}
+        getUcCredentialsClientId={noop}
+        getUcCredentialsClientSecret={noop}
         updateUcCredentials={noop}
         {...props}
       />
@@ -99,6 +112,8 @@ describe('Given SettingsUsageConsolidationRoute', () => {
     mockPostUsageConsolidation.mockClear();
     mockGetCurrencies.mockClear();
     mockGetUcCredentials.mockClear();
+    mockGetUcCredentialsClientId.mockClear();
+    mockGetUcCredentialsClientSecret.mockClear();
     mockUpdateUcCredentials.mockClear();
   });
 
@@ -122,6 +137,26 @@ describe('Given SettingsUsageConsolidationRoute', () => {
     });
 
     expect(mockGetUcCredentials).toHaveBeenCalled();
+  });
+
+  it('should handle getUcCredentialsClientId', async () => {
+    await act(async () => {
+      await renderSettingsUsageConsolidationRoute({
+        props: { getUcCredentialsClientId: mockGetUcCredentialsClientId },
+      });
+    });
+
+    expect(mockGetUcCredentialsClientId).toHaveBeenCalled();
+  });
+
+  it('should handle getUcCredentialsClientSecret', async () => {
+    await act(async () => {
+      await renderSettingsUsageConsolidationRoute({
+        props: { getUcCredentialsClientSecret: mockGetUcCredentialsClientSecret },
+      });
+    });
+
+    expect(mockGetUcCredentialsClientSecret).toHaveBeenCalled();
   });
 
   describe('when usage consolidation is loading', () => {
