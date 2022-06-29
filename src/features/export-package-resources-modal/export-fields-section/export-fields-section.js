@@ -37,6 +37,10 @@ const ExportFieldsSection = ({
 }) => {
   const intl = useIntl();
 
+  const modifiers = {
+    preventOverflow: { boundariesElement: 'viewport', padding: 0 },
+  };
+
   const handleRadioChange = (allSelected) => {
     onChange({ ...sectionState, allSelected });
   };
@@ -82,6 +86,8 @@ const ExportFieldsSection = ({
             marginBottom0
             onChange={handleSelectChange}
             value={sectionState.selectedFields}
+            modifiers={modifiers}
+            renderToOverlay
           />
         </Layout>
       </Layout>
