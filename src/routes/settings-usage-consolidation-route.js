@@ -5,6 +5,7 @@ import {
 } from 'react';
 import {
   isEmpty,
+  every,
 } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ import View from '../components/settings/settings-usage-consolidation';
 
 import { selectPropFromData } from '../redux/selectors';
 import {
+  clearUsageConsolidation as clearUsageConsolidationAction,
   clearUsageConsolidationErrors as clearUsageConsolidationErrorsAction,
   getUsageConsolidation as getUsageConsolidationAction,
   getUcCredentialsClientId as getUcCredentialsClientIdAction,
@@ -39,6 +41,7 @@ import {
 } from '../constants';
 
 const propTypes = {
+  clearUsageConsolidation: PropTypes.func.isRequired,
   clearUsageConsolidationErrors: PropTypes.func.isRequired,
   currencies: PropTypes.shape({
     errors: PropTypes.array.isRequired,
@@ -65,6 +68,7 @@ const propTypes = {
 };
 
 const SettingsUsageConsolidationRoute = ({
+  clearUsageConsolidation,
   clearUsageConsolidationErrors,
   currencies,
   getCurrencies,
@@ -82,11 +86,13 @@ const SettingsUsageConsolidationRoute = ({
   history,
 }) => {
   const [formData, setFormData] = useState({});
+  const [usageConsolidationWasCleared, setUsageConsolidationWasCleared] = useState(false);
   const stripes = useStripes();
   const {
     data: usageConsolidationData,
     isLoading,
     isLoaded,
+    isFailed,
   } = usageConsolidation;
 
   if (!stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view')) {
@@ -94,14 +100,26 @@ const SettingsUsageConsolidationRoute = ({
   }
 
   useEffect(() => {
+    clearUsageConsolidation();
+  }, [kbId]);
+
+  useEffect(() => {
+    if (every(usageConsolidation, isEmpty)) {
+      setUsageConsolidationWasCleared(true);
+    } else {
+      setUsageConsolidationWasCleared(false);
+    }
+  }, [usageConsolidation]);
+
+  useEffect(() => {
     getUsageConsolidation(kbId);
   }, [getUsageConsolidation, kbId]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (usageConsolidationWasCleared && isLoaded && !isFailed) {
       getUsageConsolidationKey(kbId);
     }
-  }, [getUsageConsolidationKey, kbId, isLoaded]);
+  }, [getUsageConsolidationKey, kbId, isLoaded, isFailed, usageConsolidationWasCleared]);
 
   useEffect(() => {
     getUcCredentialsClientId();
@@ -203,6 +221,7 @@ export default connect(
     currencies: selectPropFromData(store, 'currencies'),
     ucCredentials: selectPropFromData(store, 'ucCredentials'),
   }), {
+    clearUsageConsolidation: clearUsageConsolidationAction,
     clearUsageConsolidationErrors: clearUsageConsolidationErrorsAction,
     getUsageConsolidation: getUsageConsolidationAction,
     getUsageConsolidationKey: getUsageConsolidationKeyAction,
