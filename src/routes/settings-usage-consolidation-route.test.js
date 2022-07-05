@@ -296,8 +296,10 @@ describe('Given SettingsUsageConsolidationRoute', () => {
 
     describe('when credentials id is present', () => {
       it('should handle patchUsageConsolidation', async () => {
+        let getByTestId;
+
         await act(async () => {
-          await renderSettingsUsageConsolidationRoute({
+          getByTestId = await renderSettingsUsageConsolidationRoute({
             props: { patchUsageConsolidation: mockPatchUsageConsolidation },
             harnessProps: {
               storeInitialState: {
@@ -318,8 +320,14 @@ describe('Given SettingsUsageConsolidationRoute', () => {
                 },
               },
             },
-          });
+          }).getByTestId;
         });
+
+        fireEvent.change(getByTestId('field-customerKey'), { target: { value: '123' } });
+        fireEvent.change(getByTestId('field-clientId'), { target: { value: '***' } });
+        fireEvent.change(getByTestId('field-clientSecret'), { target: { value: '***' } });
+        fireEvent.change(getByTestId('field-currency'), { target: { value: 'AFN' } });
+        fireEvent.click(getByTestId('settings-form-save-button'));
 
         expect(mockPatchUsageConsolidation).toHaveBeenCalled();
       });

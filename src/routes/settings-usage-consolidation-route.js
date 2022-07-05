@@ -3,6 +3,9 @@ import {
   useState,
   useCallback,
 } from 'react';
+import {
+  isEmpty,
+} from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -152,7 +155,7 @@ const SettingsUsageConsolidationRoute = ({
   ]);
 
   useEffect(() => {
-    if (ucCredentials.isUpdated && ucCredentials.isPresent) {
+    if (ucCredentials.isUpdated && ucCredentials.isPresent && !isEmpty(formData)) {
       updateUsageConsolidation(formData);
     }
   }, [ucCredentials, formData, updateUsageConsolidation]);
