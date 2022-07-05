@@ -4,7 +4,6 @@ import createPostKbCredentialsUserEpic from '../post-kb-credentials-user';
 
 import {
   POST_KB_CREDENTIALS_USER,
-  POST_KB_CREDENTIALS_USER_SUCCESS,
   POST_KB_CREDENTIALS_USER_FAILURE,
   GET_KB_CREDENTIALS_USERS,
 } from '../../actions';
