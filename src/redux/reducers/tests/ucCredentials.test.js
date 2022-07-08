@@ -150,7 +150,7 @@ describe('ucCredentialsReducer', () => {
     const action = {
       type: UPDATE_UC_CREDENTIALS,
       payload: {
-
+        attributes: {},
       }
     };
 

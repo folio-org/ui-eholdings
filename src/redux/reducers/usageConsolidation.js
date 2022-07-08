@@ -10,8 +10,21 @@ import {
   PATCH_USAGE_CONSOLIDATION_FAILURE,
   PATCH_USAGE_CONSOLIDATION_SUCCESS,
   CLEAR_USAGE_CONSOLIDATION_ERRORS,
+  CLEAR_USAGE_CONSOLIDATION,
 } from '../actions';
 import { formatErrors } from '../helpers';
+
+const initialState = {
+  isLoading: false,
+  isLoaded: false,
+  isFailed: false,
+  isKeyLoading: false,
+  isKeyLoaded: false,
+  isKeyFailed: false,
+  hasSaved: false,
+  data: {},
+  errors: [],
+};
 
 const handleError = (state, { payload }) => ({
   ...state,
@@ -71,9 +84,13 @@ const handlers = {
   [POST_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [PATCH_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [POST_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
+    const {
+      attributes,
+    } = payload;
+
     return {
       ...state,
-      data: payload,
+      data: attributes,
       isLoading: false,
       isLoaded: true,
       isFailed: false,
@@ -97,18 +114,7 @@ const handlers = {
     ...state,
     errors: [],
   }),
-};
-
-const initialState = {
-  isLoading: false,
-  isLoaded: false,
-  isFailed: false,
-  isKeyLoading: false,
-  isKeyLoaded: false,
-  isKeyFailed: false,
-  hasSaved: false,
-  data: {},
-  errors: [],
+  [CLEAR_USAGE_CONSOLIDATION]: () => initialState,
 };
 
 export default function usageConsolidation(state, action) {

@@ -1,3 +1,6 @@
+import {
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -22,7 +25,6 @@ import {
 } from '../../constants';
 
 import style from './usage-consolidation-content.css';
-import { useRef } from 'react';
 
 const propTypes = {
   costPerUseData: costPerUseShape.CostPerUseReduxStateShape.isRequired,
