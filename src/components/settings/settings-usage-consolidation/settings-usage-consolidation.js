@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import {
+  omit,
+  isEqual,
+} from 'lodash';
 import PropTypes from 'prop-types';
 import {
   Form,
@@ -20,6 +24,9 @@ import {
 
 import SettingsForm from '../settings-form';
 import ShowHidePasswordField from '../../show-hide-password-field';
+import {
+  usePrevious,
+} from '../../../hooks';
 import {
   platformTypes,
   usageConsolidation as ucReduxStateShape,
@@ -50,12 +57,16 @@ const SettingsUsageConsolidation = ({
   usageConsolidation,
   onSubmit,
 }) => {
+  const usageConsolidationWithoutKey = omit(usageConsolidation, 'isKeyLoading', 'isKeyLoaded', 'isKeyFailed');
   const [toasts, setToasts] = useState([]);
+  const prevUsageConsolidation = usePrevious(usageConsolidationWithoutKey);
   const stripes = useStripes();
   const disabled = !stripes.hasPerm('ui-eholdings.settings.usage-consolidation.create-edit');
   const { formatMessage } = useIntl();
 
   useEffect(() => {
+    if (isEqual(usageConsolidationWithoutKey, prevUsageConsolidation)) return;
+
     if (usageConsolidation.hasSaved) {
       setToasts(t => [...t, {
         id: `settings-uc-${Date.now()}`,

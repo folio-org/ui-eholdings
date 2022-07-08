@@ -84,9 +84,13 @@ const handlers = {
   [POST_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [PATCH_USAGE_CONSOLIDATION_FAILURE]: handleError,
   [POST_USAGE_CONSOLIDATION_SUCCESS]: (state, { payload }) => {
+    const {
+      attributes,
+    } = payload;
+
     return {
       ...state,
-      data: payload,
+      data: attributes,
       isLoading: false,
       isLoaded: true,
       isFailed: false,

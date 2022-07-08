@@ -101,9 +101,14 @@ const handlers = {
     isClientSecretFailed: true,
     errors: formatErrors(payload.errors),
   }),
-  [UPDATE_UC_CREDENTIALS]: (state) => {
+  [UPDATE_UC_CREDENTIALS]: (state, { payload }) => {
+    const {
+      attributes,
+    } = payload;
+
     return {
       ...state,
+      data: attributes,
       isLoading: true,
       isFailed: false,
       errors: [],

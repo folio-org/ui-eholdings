@@ -5,3 +5,4 @@ export { default as useFetchExportTitlesFromPackage } from './use-fetch-export-t
 export { default as useExportPackageTitle } from './use-export-package-title/useExportPackageTitle';
 export { default as useSectionToggle } from './use-section-toggle/useSectionToggle';
 export { default as useStateCallback } from './use-state-callback/use-state-callback';
+export { default as usePrevious } from './use-previous/usePrevious';

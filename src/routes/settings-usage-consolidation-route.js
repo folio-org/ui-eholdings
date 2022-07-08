@@ -36,6 +36,9 @@ import {
   updateUcCredentials as updateUcCredentialsAction,
 } from '../redux/actions';
 import {
+  usePrevious,
+} from '../hooks';
+import {
   usageConsolidation as ucReduxStateShape,
   ucCredentialsReduxStateShape,
 } from '../constants';
@@ -86,7 +89,8 @@ const SettingsUsageConsolidationRoute = ({
   history,
 }) => {
   const [formData, setFormData] = useState({});
-  const [usageConsolidationWasCleared, setUsageConsolidationWasCleared] = useState(false);
+  const [usageConsolidationWasCleared, setUsageConsolidationWasCleared] = useState({});
+  const prevKbId = usePrevious(kbId);
   const stripes = useStripes();
   const {
     data: usageConsolidationData,
@@ -100,23 +104,34 @@ const SettingsUsageConsolidationRoute = ({
   }
 
   useEffect(() => {
-    clearUsageConsolidation();
+    const isNewPage = kbId !== prevKbId;
+
+    if (isNewPage) {
+      setFormData({});
+      setUsageConsolidationWasCleared({ [kbId]: false });
+    }
   }, [kbId]);
 
   useEffect(() => {
-    if (every(usageConsolidation, isEmpty)) {
-      setUsageConsolidationWasCleared(true);
-    } else {
-      setUsageConsolidationWasCleared(false);
+    if (!usageConsolidationWasCleared[kbId]) {
+      clearUsageConsolidation();
     }
-  }, [usageConsolidation]);
+  }, [usageConsolidationWasCleared]);
 
   useEffect(() => {
-    getUsageConsolidation(kbId);
-  }, [getUsageConsolidation, kbId]);
+    if (!usageConsolidationWasCleared[kbId] && every(usageConsolidation, isEmpty)) {
+      setUsageConsolidationWasCleared({ [kbId]: true });
+    }
+  }, [usageConsolidation, usageConsolidationWasCleared]);
 
   useEffect(() => {
-    if (usageConsolidationWasCleared && isLoaded && !isFailed) {
+    if (usageConsolidationWasCleared[kbId]) {
+      getUsageConsolidation(kbId);
+    }
+  }, [getUsageConsolidation, kbId, usageConsolidationWasCleared]);
+
+  useEffect(() => {
+    if (usageConsolidationWasCleared[kbId] && isLoaded && !isFailed) {
       getUsageConsolidationKey(kbId);
     }
   }, [getUsageConsolidationKey, kbId, isLoaded, isFailed, usageConsolidationWasCleared]);
@@ -164,7 +179,7 @@ const SettingsUsageConsolidationRoute = ({
       patchUsageConsolidation({ data, credentialsId });
     }
   }, [
-    usageConsolidation.data.credentialsId,
+    usageConsolidation.data?.credentialsId,
     usageConsolidation.credentialsId,
     usageConsolidation.customerKey,
     kbId,
@@ -173,19 +188,30 @@ const SettingsUsageConsolidationRoute = ({
   ]);
 
   useEffect(() => {
-    if (ucCredentials.isUpdated && ucCredentials.isPresent && !isEmpty(formData)) {
+    if (
+      usageConsolidationWasCleared[kbId] &&
+      ucCredentials.isUpdated &&
+      ucCredentials.isPresent &&
+      !isEmpty(formData)
+    ) {
       updateUsageConsolidation(formData);
     }
-  }, [ucCredentials, formData, updateUsageConsolidation]);
+  }, [ucCredentials, formData, updateUsageConsolidation, usageConsolidationWasCleared]);
 
-  const onSubmit = (params, form) => {
+  const onSubmit = (params) => {
     const {
       clientId,
       clientSecret,
     } = params;
-    const { modified } = form.getState();
+    const {
+      clientId: initialClientId,
+      clientSecret: initialClientSecret,
+    } = ucCredentials.data;
 
-    if (modified.clientId || modified.clientSecret) {
+    if (
+      clientId !== initialClientId ||
+      clientSecret !== initialClientSecret
+    ) {
       updateUcCredentials({
         type: 'ucCredentials',
         attributes: {
