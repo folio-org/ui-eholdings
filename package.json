@@ -330,7 +330,9 @@
           "ui-eholdings.settings.enabled",
           "kb-ebsco.kb-credentials.uc.item.get",
           "kb-ebsco.currencies.collection.get",
-          "kb-ebsco.uc-credentials.item.get"
+          "kb-ebsco.uc-credentials.item.get",
+          "kb-ebsco.uc-credentials.client-id.get",
+          "kb-ebsco.uc-credentials.client-secret.get"
         ]
       },
       {
