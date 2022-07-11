@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.2.0] (IN PROGRESS)
+## [7.2.0] (https://github.com/folio-org/ui-eholdings/tree/v7.2.0) (2022-07-08)
 
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
