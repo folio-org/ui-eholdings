@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.2.0] (IN PROGRESS)
+## [7.2.0] (https://github.com/folio-org/ui-eholdings/tree/v7.2.0) (2022-07-08)
 
 * Add tests for useFetchExportTitlesFromPackage hook. (UIEH-1182)
 * Replace or remove react-hot-loader. (UIEH-1265)
@@ -27,6 +27,7 @@
 * Fix Multiselect list overlaps the input field at "Package fields to export" section. (UIEH-1307)
 * Improve error messaging when user already has been assigned to another KB. (UIEH-1303)
 * eholdings settings > Usage Consolidation > Add Show/Hide toggle. (UIEH-1169)
+* The errors appear when user switch to "User consolidation" pane. (UIEH-1308)
 
 ## [7.1.4] (https://github.com/folio-org/ui-eholdings/tree/v7.1.4) (2022-04-08)
 
