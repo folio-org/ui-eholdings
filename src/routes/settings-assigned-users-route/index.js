@@ -5,6 +5,7 @@ import {
   getKBCredentialsUsers as getKBCredentialsUsersAction,
   deleteKBCredentialsUser as deleteKBCredentialsUserAction,
   postKBCredentialsUser as postKBCredentialsUserAction,
+  clearKBCredentialsUser as clearKBCredentialsUserAction,
 } from '../../redux/actions';
 
 export default connect(
@@ -16,5 +17,6 @@ export default connect(
     getKBCredentialsUsers: getKBCredentialsUsersAction,
     postKBCredentialsUser: postKBCredentialsUserAction,
     deleteKBCredentialsUser: deleteKBCredentialsUserAction,
+    clearKBCredentialsUser: clearKBCredentialsUserAction,
   }
 )(SettingsAssignedUsersRoute);
