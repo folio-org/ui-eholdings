@@ -8,6 +8,7 @@ import {
   POST_KB_CREDENTIALS_USER,
   POST_KB_CREDENTIALS_USER_SUCCESS,
   POST_KB_CREDENTIALS_USER_FAILURE,
+  CLEAR_KB_CREDENTIALS_USER,
 } from '../actions';
 
 import { formatErrors } from '../helpers';
@@ -72,6 +73,9 @@ const handlers = {
     isLoading: false,
     hasFailed: true,
     errors: formatErrors(action.payload),
+  }),
+  [CLEAR_KB_CREDENTIALS_USER]: () => ({
+    ...initialState,
   }),
 };
 export default function kbCredentialsUsers(state, action) {

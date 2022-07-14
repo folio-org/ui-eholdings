@@ -22,6 +22,7 @@ const ASSIGNED_TO_ANOTHER_CREDENTIALS_BACKEND_ERROR = 'The user is already assig
 
 const propTypes = {
   assignedUsers: KbCredentialsUsers.kbCredentialsUsersReduxStateShape.isRequired,
+  clearKBCredentialsUser: PropTypes.func.isRequired,
   deleteKBCredentialsUser: PropTypes.func.isRequired,
   getKBCredentialsUsers: PropTypes.func.isRequired,
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
@@ -33,6 +34,7 @@ const SettingsAssignedUsersRoute = ({
   getKBCredentialsUsers,
   deleteKBCredentialsUser,
   postKBCredentialsUser,
+  clearKBCredentialsUser,
   assignedUsers,
   kbCredentials,
   match: { params: { kbId } },
@@ -53,6 +55,10 @@ const SettingsAssignedUsersRoute = ({
       setAlreadyAssignedMessageDisplayed(true);
     }
   }, [assignedUsers.errors]);
+
+  useEffect(() => {
+    return () => clearKBCredentialsUser();
+  }, []);
 
   const hideAlreadyAssignedMessage = () => {
     setAlreadyAssignedMessageDisplayed(false);

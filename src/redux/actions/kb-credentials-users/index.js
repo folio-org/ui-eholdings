@@ -7,3 +7,4 @@ export * from './post-kb-credentials-user-failure';
 export * from './delete-kb-credentials-user';
 export * from './delete-kb-credentials-user-success';
 export * from './delete-kb-credentials-user-failure';
+export * from './clear-kb-credentials-user';
