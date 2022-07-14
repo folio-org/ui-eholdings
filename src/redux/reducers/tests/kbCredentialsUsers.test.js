@@ -9,6 +9,7 @@ import {
   POST_KB_CREDENTIALS_USER,
   POST_KB_CREDENTIALS_USER_SUCCESS,
   POST_KB_CREDENTIALS_USER_FAILURE,
+  CLEAR_KB_CREDENTIALS_USER,
 } from '../../actions';
 
 const state = {
@@ -138,6 +139,21 @@ describe('kbCredentialsUsersReducer', () => {
       hasFailed: true,
       errors: [{ title: 'error1' }],
     });
+  });
+
+  it('should handle CLEAR_KB_CREDENTIALS_USER action', () => {
+    const action = {
+      type: CLEAR_KB_CREDENTIALS_USER,
+    };
+
+    const changedState = {
+      ...state,
+      isLoading: false,
+      hasLoaded: true,
+      errors: [],
+    };
+
+    expect(kbCredentialsUsersReducer(changedState, action)).toEqual(state);
   });
 
   describe('when handle other action', () => {
