@@ -8,6 +8,10 @@ import update from 'lodash/fp/update';
 import sortBy from 'lodash/sortBy';
 
 import {
+  IfPermission,
+} from '@folio/stripes/core';
+
+import {
   Button,
   ButtonGroup,
   FilterAccordionHeader,
@@ -350,7 +354,9 @@ class SearchForm extends Component {
           )}
           {Filters && (
             <div role="tablist">
-              {this.renderTagFilter()}
+              <IfPermission perm="ui-tags.all">
+                {this.renderTagFilter()}
+              </IfPermission>
               {this.renderAccessTypesFilter()}
               <Filters
                 activeFilters={combinedFilters}
