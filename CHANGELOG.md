@@ -3,6 +3,7 @@
 ## [7.3.0] (IN PROGRESS)
 
 * Clear assigned users redux when leaving Assigned Users page. (UIEH-1315)
+* Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
 
 ## [7.2.0] (https://github.com/folio-org/ui-eholdings/tree/v7.2.0) (2022-07-08)
 
