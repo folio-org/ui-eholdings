@@ -1,7 +1,8 @@
 # Change history for ui-eholdings
 
-## [7.3.0] (IN PROGRESS)
+## [7.2.1] (https://github.com/folio-org/ui-eholdings/tree/v7.2.1) (2022-07-25)
 
+* eholdings settings > Usage Consolidation > Add missing permissions (UIEH-1169)
 * Clear assigned users redux when leaving Assigned Users page. (UIEH-1315)
 
 ## [7.2.0] (https://github.com/folio-org/ui-eholdings/tree/v7.2.0) (2022-07-08)
