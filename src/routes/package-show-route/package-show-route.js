@@ -160,6 +160,7 @@ class PackageShowRoute extends Component {
     if (!isEqual(pkgSearchParams, prevState.pkgSearchParams)) {
       const params = transformQueryParams('titles', pkgSearchParams);
 
+      console.log('didUpdate getPackageTitles');
       getPackageTitles({ packageId, params });
     }
   }
@@ -199,13 +200,12 @@ class PackageShowRoute extends Component {
       return { isTitlesUpdating: true };
     });
 
-    this.timeout = window.setTimeout(() => {
-      getPackageTitles({ packageId, params });
+    console.log('getUpdatedTitles getPackageTitles');
+    getPackageTitles({ packageId, params });
 
-      this.setState(() => {
-        return { isTitlesUpdating: false };
-      });
-    }, DELAY_BEFORE_UPDATE);
+    this.setState(() => {
+      return { isTitlesUpdating: false };
+    });
   }
 
   updateTitles(packageId) {
@@ -232,6 +232,7 @@ class PackageShowRoute extends Component {
           return { isTitlesUpdating: false };
         });
       } else {
+        console.log('updateTitles getPackageTitles');
         getPackageTitles({ packageId, params });
       }
     }, INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
@@ -289,6 +290,7 @@ class PackageShowRoute extends Component {
     }, []);
 
     if (!(paramDifference.length === 1 && paramDifference[0] === 'page')) {
+      console.log('cleared');
       clearPackageTitles();
     }
 
@@ -377,6 +379,8 @@ class PackageShowRoute extends Component {
       queryId,
       isTitlesUpdating,
     } = this.state;
+
+    console.log(packageTitles);
 
     return (
       <TitleManager record={model.name}>
