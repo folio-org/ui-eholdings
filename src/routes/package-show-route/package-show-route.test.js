@@ -12,10 +12,8 @@ import { createMemoryHistory } from 'history';
 
 import PackageShowRoute from './package-show-route';
 import Harness from '../../../test/jest/helpers/harness';
-import {
-  DELAY_BEFORE_UPDATE,
-  INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
-} from '../../constants';
+import { INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE } from '../../constants';
+import wait from '../../../test/jest/helpers/wait';
 
 jest.mock('../../features/agreements-accordion', () => () => (<div>AgreementsAccordion component</div>));
 jest.mock('../../components/package/show/components/coverage-settings', () => () => (<div>CoverageSettings component</div>));
@@ -241,23 +239,25 @@ const costPerUse = {
   isPackageTitlesLoading: false,
 };
 
+const resource = {
+  attributes: {
+    name: 'Title name 1',
+    isSelected: false,
+    visibilityData: { isHidden: false },
+    tags: {
+      tagList: [],
+    },
+  },
+  id: packageId,
+  relationships: {},
+  type: 'resources',
+};
+
 const packageTitles = {
   totalResults: 1,
   page: 1,
   isLoading: false,
-  items: [{
-    attributes: {
-      name: 'Title name 1',
-      isSelected: true,
-      visibilityData: { isHidden: false },
-      tags: {
-        tagList: [],
-      },
-    },
-    id: packageId,
-    relationships: {},
-    type: 'resources',
-  }],
+  items: [resource],
   hasFailed: false,
   errors: [],
 };
@@ -355,17 +355,11 @@ describe('Given PackageShowRoute', () => {
   });
 
   it('should handle getPackageTitles after delay before update', () => {
-    jest.useFakeTimers();
-
     renderPackageShowRoute({
       getPackageTitles: mockGetPackageTitles,
     });
 
-    setTimeout(() => {
-      expect(mockGetPackageTitles).toHaveBeenCalled();
-    }, DELAY_BEFORE_UPDATE);
-
-    jest.runAllTimers();
+    expect(mockGetPackageTitles).toHaveBeenCalled();
   });
 
   describe('when package was selected and is freshly saved', () => {
@@ -595,21 +589,41 @@ describe('Given PackageShowRoute', () => {
     });
 
     describe('when package titles are updated', () => {
-      it('should not handle getPackageTitles', () => {
-        jest.useFakeTimers();
-
-        const { getByRole } = renderPackageShowRoute({
+      it('should call getPackageTitles until resources select status is updated', async () => {
+        const { getByRole, rerender } = renderPackageShowRoute({
           getPackageTitles: mockGetPackageTitles,
         });
+
+        mockGetPackageTitles.mockClear();
 
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
-        setTimeout(() => {
-          expect(mockGetPackageTitles).not.toHaveBeenCalled();
-        }, INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+        rerender(getPackageShowRoute({
+          model: {
+            ...model,
+            isSelected: true,
+          },
+        }));
 
-        jest.runAllTimers();
+        await wait(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+
+        expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+        rerender(getPackageShowRoute({
+          packageTitles: {
+            ...packageTitles,
+            items: [{
+              ...resource,
+              attributes: {
+                ...resource.attributes,
+                isSelected: true,
+              },
+            }],
+          },
+        }));
+
+        await wait(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+        expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
       });
     });
   });

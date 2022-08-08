@@ -15,10 +15,7 @@ import {
   IfPermission,
 } from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-import {
-  Button,
-  Icon,
-} from '@folio/stripes/components';
+import { Button } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
 import QuerySearchList from '../../query-search-list';
@@ -56,8 +53,6 @@ import {
   transformQueryParams,
   qs,
 } from '../../utilities';
-
-import styles from './package-show.css';
 
 const ITEM_HEIGHT = 62;
 const MAX_EXPORT_TITLE_LIMIT = 200000;
@@ -379,26 +374,21 @@ const PackageShow = ({
   };
 
   const renderTitlesList = () => {
-    return isTitlesUpdating
-      ? (
-        <div className={styles.titlesUpdatingSpinner}>
-          <Icon icon="spinner-ellipsis" />
-        </div>
-      )
-      : (
-        <QuerySearchList
-          type="package-titles"
-          fetch={fetchPackageTitles}
-          collection={packageTitles}
-          itemHeight={ITEM_HEIGHT}
-          notFoundMessage={
-            <QueryNotFound type="package-titles">
-              <FormattedMessage id="ui-eholdings.notFound" />
-            </QueryNotFound>
-          }
-          renderItem={renderTitlesListItem}
-        />
-      );
+    return (
+      <QuerySearchList
+        isUpdating={isTitlesUpdating}
+        type="package-titles"
+        fetch={fetchPackageTitles}
+        collection={packageTitles}
+        itemHeight={ITEM_HEIGHT}
+        notFoundMessage={
+          <QueryNotFound type="package-titles">
+            <FormattedMessage id="ui-eholdings.notFound" />
+          </QueryNotFound>
+        }
+        renderItem={renderTitlesListItem}
+      />
+    );
   };
 
   const modalMessage = model.isCustom

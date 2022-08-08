@@ -14,7 +14,6 @@ import {
   costPerUse as costPerUseShape,
   PAGE_SIZE,
   FIRST_PAGE,
-  DELAY_BEFORE_UPDATE,
   INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
 } from '../../constants';
 
@@ -199,13 +198,11 @@ class PackageShowRoute extends Component {
       return { isTitlesUpdating: true };
     });
 
-    this.timeout = window.setTimeout(() => {
-      getPackageTitles({ packageId, params });
+    getPackageTitles({ packageId, params });
 
-      this.setState(() => {
-        return { isTitlesUpdating: false };
-      });
-    }, DELAY_BEFORE_UPDATE);
+    this.setState(() => {
+      return { isTitlesUpdating: false };
+    });
   }
 
   updateTitles(packageId) {

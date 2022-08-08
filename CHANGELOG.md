@@ -3,6 +3,7 @@
 ## [7.3.0] (IN PROGRESS)
 
 * Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
+* Package Detail: Remove the six second delay when retrieving titles in a package. (UIEH-1322)
 
 ## [7.2.1] (https://github.com/folio-org/ui-eholdings/tree/v7.2.1) (2022-07-25)
 
