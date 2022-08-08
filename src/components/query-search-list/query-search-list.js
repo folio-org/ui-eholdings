@@ -5,6 +5,8 @@ import {
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
+import { Icon } from '@folio/stripes/components';
+
 import useImpagination from '../../hooks/useImpagination';
 
 import ScrollView from '../scroll-view';
@@ -27,6 +29,7 @@ const QuerySearchList = ({
   renderItem,
   scrollable,
   type,
+  isUpdating,
 }) => {
   const listFirstItem = useRef(null);
 
@@ -100,6 +103,14 @@ const QuerySearchList = ({
     listFirstItem.current.focus();
   };
 
+  if (isUpdating) {
+    return (
+      <div className={styles.updatingSpinner}>
+        <Icon icon="spinner-ellipsis" />
+      </div>
+    );
+  }
+
   return (
     <ScrollView
       items={isMainPageSearch ? state : items}
@@ -143,6 +154,7 @@ QuerySearchList.propTypes = {
   fetch: PropTypes.func.isRequired,
   fullWidth: PropTypes.bool,
   isMainPageSearch: PropTypes.bool,
+  isUpdating: PropTypes.bool,
   itemHeight: PropTypes.number.isRequired,
   notFoundMessage: PropTypes.oneOfType([
     PropTypes.string,
@@ -158,6 +170,7 @@ QuerySearchList.propTypes = {
 QuerySearchList.defaultProps = {
   fullWidth: false,
   pageSize: PAGE_SIZE,
+  isUpdating: false,
 };
 
 export default QuerySearchList;
