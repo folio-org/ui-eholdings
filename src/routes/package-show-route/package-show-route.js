@@ -14,7 +14,6 @@ import {
   costPerUse as costPerUseShape,
   PAGE_SIZE,
   FIRST_PAGE,
-  DELAY_BEFORE_UPDATE,
   INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
 } from '../../constants';
 
