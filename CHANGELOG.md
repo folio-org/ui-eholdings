@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.2.2] (IN PROGRESS)
+## [7.2.2] (https://github.com/folio-org/ui-eholdings/tree/v7.2.2) (2022-08-15)
 
 * Package Detail: Remove the six second delay when retrieving titles in a package. (UIEH-1322)
 
