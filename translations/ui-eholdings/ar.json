@@ -563,7 +563,7 @@
     "exportPackageResources.fields.title.titleType": "نوع العنوان",
     "exportPackageResources.fields.title.holdingStatus": "حالة المقتنيات",
     "exportPackageResources.fields.title.showToPatron": "عرض للمستفيد",
-    "exportPackageResources.fields.title.managedCoverageDates": "Managed coverage dates",
+    "exportPackageResources.fields.title.managedCoverageDates": "أدر تواريخ التغطية",
     "exportPackageResources.fields.title.managedEmbargo": "Managed Embargo",
     "exportPackageResources.fields.title.customCoverageDates": "تخصيص تواريخ التغطية",
     "exportPackageResources.fields.title.customEmbargo": "حظر مخصص",
@@ -591,6 +591,6 @@
     "resource.actionMenu.exportToCSV": "تصدير حزمة العناوين (CSV)",
     "settings.usageConsolidation.clientId.show": "عرض المعرّف",
     "settings.usageConsolidation.clientId.hide": "إخفاء المعرّف",
-    "settings.usageConsolidation.apiKey.show": "Show key",
+    "settings.usageConsolidation.apiKey.show": "عرض المفتاح",
     "settings.usageConsolidation.apiKey.hide": "إخفاء المفتاح"
 }
