@@ -252,7 +252,7 @@ const PackageShow = ({
           </Button>}
         {isRemoveButtonNeeded && renderRemoveFromHoldingsButton(onToggle)}
         {isAddButtonNeeded && renderAddToHoldingsButton(onToggle)}
-        {renderExportCSVButton(onToggle)}
+        {/* renderExportCSVButton(onToggle) TODO: uncomment to enable export functionality, and don't forget to enable tests too */}
       </>
     );
   };

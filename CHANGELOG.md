@@ -3,6 +3,7 @@
 ## [7.3.0] (IN PROGRESS)
 
 * Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
+* Morning Glory: Disable eholdings export. (UIEH-1324)
 
 ## [7.2.2] (https://github.com/folio-org/ui-eholdings/tree/v7.2.2) (2022-08-15)
 
