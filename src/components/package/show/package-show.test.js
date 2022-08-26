@@ -221,7 +221,7 @@ describe('Given PackageShow', () => {
     expect(getByText('UsageConsolidation accordion')).toBeDefined();
   });
 
-  it('should show enabled Export package (CSV) menu action', () => {
+  it.skip('should show enabled Export package (CSV) menu action', () => {
     const { getByTestId } = renderPackageShow();
 
     expect(getByTestId('export-to-csv-button')).toBeEnabled();
@@ -441,7 +441,7 @@ describe('Given PackageShow', () => {
     });
   });
 
-  describe('when clicking on Export package', () => {
+  describe.skip('when clicking on Export package', () => {
     it('should show Export modal', () => {
       const { getByText } = renderPackageShow();
 
