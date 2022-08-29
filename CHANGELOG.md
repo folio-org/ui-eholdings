@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.2.3] (IN PROGRESS)
+## [7.2.3] (https://github.com/folio-org/ui-eholdings/tree/v7.2.3) (2022-08-29)
 
 * Morning Glory: Disable eholdings export. (UIEH-1324)
 
