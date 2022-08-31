@@ -210,7 +210,7 @@ describe('Given ResourceShow', () => {
     expect(getAllByText('title-name')).toBeDefined();
   });
 
-  it.skip('should show enabled Export title package (CSV) menu action', () => {
+  it('should show enabled Export title package (CSV) menu action', () => {
     const { getByTestId } = renderResourceShow();
 
     expect(getByTestId('export-to-csv-button')).toBeEnabled();
@@ -275,7 +275,7 @@ describe('Given ResourceShow', () => {
     });
   });
 
-  describe.skip('when clicking on Export package', () => {
+  describe('when clicking on Export package', () => {
     it('should show Export modal', () => {
       const { getByText } = renderResourceShow();
 
