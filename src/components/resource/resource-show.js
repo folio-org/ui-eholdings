@@ -181,7 +181,7 @@ const ResourceShow = ({
           </Button>
         }
         {canSelectAndUnselect && renderSelectionButton(onToggle)}
-        {/* renderExportCSVButton(onToggle) TODO: uncomment to enable export functionality, and don't forget to enable tests too */}
+        {renderExportCSVButton(onToggle)}
       </>
     );
   };
