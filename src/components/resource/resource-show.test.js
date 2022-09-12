@@ -189,6 +189,17 @@ const renderResourceShow = ({
                 },
               },
             },
+            attributes: {
+              isTokenNeeded: true,
+              alternateTitles: [{
+                alternateTitle: 'alternateTitle1',
+              }, {
+                alternateTitle: 'alternateTitle2',
+              }, {
+                alternateTitle: 'alternateTitle3',
+              },
+              ],
+            },
           },
         }}
         {...props}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -48,6 +49,15 @@ const ResourceInformation = ({
             </InternalLink>
           </KeyValue>
 
+          {!isEmpty(model.data.attributes.alternateTitles) && (
+            <KeyValue label={<FormattedMessage id="ui-eholdings.label.alternateTitle" />}>
+              {model.data.attributes.alternateTitles
+                .map(({ alternateTitle }) => alternateTitle)
+                .join('; ')
+              }
+            </KeyValue>
+          )}
+
           {model.title.edition && (
             <KeyValue label={<FormattedMessage id="ui-eholdings.label.edition" />}>
               <div data-test-eholdings-resource-show-edition>
@@ -83,32 +93,6 @@ const ResourceInformation = ({
               </div>
             </KeyValue>
           )}
-
-          <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
-            <div
-              data-test-eholdings-peer-reviewed-field
-              data-testid="peer-reviewed-field"
-            >
-              {
-                model.title.isPeerReviewed
-                  ? (<FormattedMessage id="ui-eholdings.yes" />)
-                  : (<FormattedMessage id="ui-eholdings.no" />)
-              }
-            </div>
-          </KeyValue>
-
-          <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
-            <div
-              data-test-eholdings-package-details-type
-              data-testid="package-details-type"
-            >
-              {
-                model.title.isTitleCustom
-                  ? (<FormattedMessage id="ui-eholdings.custom" />)
-                  : (<FormattedMessage id="ui-eholdings.managed" />)
-              }
-            </div>
-          </KeyValue>
 
           {model.title.description && (
             <KeyValue label={<FormattedMessage id="ui-eholdings.label.description" />}>
@@ -154,6 +138,32 @@ const ResourceInformation = ({
               </div>
             </KeyValue>
           )}
+
+          <KeyValue label={<FormattedMessage id="ui-eholdings.label.titleType" />}>
+            <div
+              data-test-eholdings-package-details-type
+              data-testid="package-details-type"
+            >
+              {
+                model.title.isTitleCustom
+                  ? (<FormattedMessage id="ui-eholdings.custom" />)
+                  : (<FormattedMessage id="ui-eholdings.managed" />)
+              }
+            </div>
+          </KeyValue>
+
+          <KeyValue label={<FormattedMessage id="ui-eholdings.label.peerReviewed" />}>
+            <div
+              data-test-eholdings-peer-reviewed-field
+              data-testid="peer-reviewed-field"
+            >
+              {
+                model.title.isPeerReviewed
+                  ? (<FormattedMessage id="ui-eholdings.yes" />)
+                  : (<FormattedMessage id="ui-eholdings.no" />)
+              }
+            </div>
+          </KeyValue>
         </Col>
       </Row>
     </Accordion>

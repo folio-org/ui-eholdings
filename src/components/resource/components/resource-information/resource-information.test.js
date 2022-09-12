@@ -18,6 +18,14 @@ describe('Given ResourceInformation', () => {
     data: {
       attributes: {
         isTokenNeeded: true,
+        alternateTitles: [{
+          alternateTitle: 'alternateTitle1',
+        }, {
+          alternateTitle: 'alternateTitle2',
+        }, {
+          alternateTitle: 'alternateTitle3',
+        },
+        ],
       },
     },
     titleId: 'title-id',
@@ -70,6 +78,11 @@ describe('Given ResourceInformation', () => {
   it('should display a link to title', () => {
     component = renderResourceInformation();
     expect(component.getByText('title name').href).toBe('http://localhost/eholdings/titles/title-id');
+  });
+
+  it('should display an alternates titles', () => {
+    component = renderResourceInformation();
+    expect(component.getByText('alternateTitle1; alternateTitle2; alternateTitle3')).toBeDefined();
   });
 
   it('should display title edition', () => {
