@@ -131,6 +131,17 @@ const model = {
         },
       },
     },
+    attributes: {
+      isTokenNeeded: true,
+      alternateTitles: [{
+        alternateTitle: 'alternateTitle1',
+      }, {
+        alternateTitle: 'alternateTitle2',
+      }, {
+        alternateTitle: 'alternateTitle3',
+      },
+      ],
+    },
   },
 };
 

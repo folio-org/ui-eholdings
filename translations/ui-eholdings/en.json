@@ -407,6 +407,7 @@
     "label.titles": "Titles",
     "label.totalTitles": "Total titles: {count}",
     "label.isxn": "ISSN/ISBN",
+    "label.alternateTitle": "Alternate title(s)",
     "label.edition": "Edition",
     "label.publisher": "Publisher",
     "label.package": "Package",
