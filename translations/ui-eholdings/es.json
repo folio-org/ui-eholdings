@@ -592,5 +592,6 @@
     "settings.usageConsolidation.clientId.show": "Show ID",
     "settings.usageConsolidation.clientId.hide": "Hide ID",
     "settings.usageConsolidation.apiKey.show": "Show key",
-    "settings.usageConsolidation.apiKey.hide": "Hide key"
+    "settings.usageConsolidation.apiKey.hide": "Hide key",
+    "label.alternateTitle": "Alternate title(s)"
 }
