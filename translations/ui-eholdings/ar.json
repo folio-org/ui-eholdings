@@ -592,5 +592,6 @@
     "settings.usageConsolidation.clientId.show": "عرض المعرّف",
     "settings.usageConsolidation.clientId.hide": "إخفاء المعرّف",
     "settings.usageConsolidation.apiKey.show": "عرض المفتاح",
-    "settings.usageConsolidation.apiKey.hide": "إخفاء المفتاح"
+    "settings.usageConsolidation.apiKey.hide": "إخفاء المفتاح",
+    "label.alternateTitle": "عناوين بديلة"
 }
