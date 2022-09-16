@@ -592,5 +592,6 @@
     "settings.usageConsolidation.clientId.show": "ID 표시",
     "settings.usageConsolidation.clientId.hide": "ID 숨기기",
     "settings.usageConsolidation.apiKey.show": "Key 표시",
-    "settings.usageConsolidation.apiKey.hide": "Key 숨기기"
+    "settings.usageConsolidation.apiKey.hide": "Key 숨기기",
+    "label.alternateTitle": "Alternate title(s)"
 }

@@ -592,5 +592,6 @@
     "settings.usageConsolidation.clientId.show": "ID anzeigen",
     "settings.usageConsolidation.clientId.hide": "ID ausblenden",
     "settings.usageConsolidation.apiKey.show": "Schlüssel anzeigen",
-    "settings.usageConsolidation.apiKey.hide": "Schlüssel ausblenden"
+    "settings.usageConsolidation.apiKey.hide": "Schlüssel ausblenden",
+    "label.alternateTitle": "Alternate title(s)"
 }
