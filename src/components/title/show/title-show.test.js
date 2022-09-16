@@ -170,6 +170,7 @@ describe('Given TitleShow', () => {
 
   it('should display an alternate titles', () => {
     const { getByText } = renderTitleShow();
+
     expect(getByText('alternateTitle1; alternateTitle2; alternateTitle3')).toBeDefined();
   });
 
