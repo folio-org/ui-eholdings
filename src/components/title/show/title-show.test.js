@@ -96,6 +96,18 @@ const testModel = {
     isRejected: false,
     isResolved: false,
   },
+  data: {
+    attributes: {
+      alternateTitles: [{
+        alternateTitle: 'alternateTitle1',
+      }, {
+        alternateTitle: 'alternateTitle2',
+      }, {
+        alternateTitle: 'alternateTitle3',
+      },
+      ],
+    },
+  },
 };
 
 const testModelExtended = {
@@ -154,6 +166,11 @@ describe('Given TitleShow', () => {
     const { getByRole } = renderTitleShow();
 
     expect(getByRole('button', { name: 'stripes-components.collapseAll' })).toBeDefined();
+  });
+
+  it('should display an alternate titles', () => {
+    const { getByText } = renderTitleShow();
+    expect(getByText('alternateTitle1; alternateTitle2; alternateTitle3')).toBeDefined();
   });
 
   describe('when all sections are collapsed', () => {

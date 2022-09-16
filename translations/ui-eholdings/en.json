@@ -267,6 +267,7 @@
     "title.identifier.notSet": "No identifiers set. Saving will remove any previously set.",
     "title.identifier.addIdentifier": "Add identifier",
     "title.peerReviewed": "Peer reviewed",
+    "title.alternateTitle": "Alternate title(s)",
     "title.publicationType": "Publication type",
     "title.publisherName": "Publisher",
     "title.subjects": "Subjects",
