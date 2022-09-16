@@ -3,6 +3,8 @@
 ## [7.3.0] (IN PROGRESS)
 
 * Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
+* Resource (aka title+package) Detail Record: Add Alternate title(s) field. (UIEH-1328)
+* Title Detail Record: Add Alternate title(s) field. (UIEH-1327)
 
 ## [7.2.3] (https://github.com/folio-org/ui-eholdings/tree/v7.2.3) (2022-08-29)
 
