@@ -10,6 +10,7 @@ import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
+import isEmpty from 'lodash/isEmpty';
 import qs from 'qs';
 
 import {
@@ -309,21 +310,21 @@ class TitleShow extends Component {
                   >
                     <ContributorsList data={model.contributors} />
 
+                    {!isEmpty(model.data.attributes?.alternateTitles) && (
+                      <KeyValue label={<FormattedMessage id="ui-eholdings.title.alternateTitle" />}>
+                        {model.data.attributes.alternateTitles
+                          .map(({ alternateTitle }) => alternateTitle)
+                          .join('; ')
+                        }
+                      </KeyValue>
+                    )}
+
                     {model.edition && (
                       <KeyValue
                         label={<FormattedMessage id="ui-eholdings.title.edition" />}
                         data-test-eholdings-title-show-edition
                       >
                         {model.edition}
-                      </KeyValue>
-                    )}
-
-                    {model.publisherName && (
-                      <KeyValue
-                        label={<FormattedMessage id="ui-eholdings.title.publisherName" />}
-                        data-test-eholdings-title-show-publisher-name
-                      >
-                        {model.publisherName}
                       </KeyValue>
                     )}
 
@@ -343,6 +344,15 @@ class TitleShow extends Component {
                     sm={12}
                     xs={12}
                   >
+                    {model.publisherName && (
+                      <KeyValue
+                        label={<FormattedMessage id="ui-eholdings.title.publisherName" />}
+                        data-test-eholdings-title-show-publisher-name
+                      >
+                        {model.publisherName}
+                      </KeyValue>
+                    )}
+
                     {model.subjects.length > 0 && (
                       <KeyValue
                         label={<FormattedMessage id="ui-eholdings.title.subjects" />}
