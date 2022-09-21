@@ -236,7 +236,7 @@
     "server.errors.configureKbLinkText": "Nastavení/eHoldingy",
     "server.errors.noKbDetected": "Nebyla zjištěna žádná znalostní báze",
     "server.errors.kbRequired": "Balíček eHoldingy vyžaduje pro správnou funkci znalostní bázi.",
-    "server.errors.installBackend": "Nainstalujte si prosím příslušný backendový modul s vaší instancí OKAPI.",
+    "server.errors.installBackend": "Nainstalujte si prosím příslušný backendový modul s Vaším katalogem OKAPI.",
     "search.apply": "Použít",
     "search.addNew": "Nový",
     "search.loading": "Načítání...",
@@ -400,7 +400,7 @@
     "settings.kb.delete": "Smazat",
     "settings.kb.delete.modalHeading": "Smazat přihlašovací údaje znalostní báze",
     "settings.kb.delete.toast": "{kbName} byl odstraněn.",
-    "settings.kb.delete.warning": "Opravdu chcete smazat přihlašovací údaje <strong>{kbName}</strong>? Pokud budete pokračovat v mazání, nebudou již pověření pro tuto instanci FOLIO k dispozici. Kořenový proxy server, vlastní popisky, typy stavu přístupu a přiřazení uživatelé také nebudou k dispozici.",
+    "settings.kb.delete.warning": "Opravdu chcete smazat přihlašovací údaje <strong>{kbName}</strong>? Pokud budete pokračovat v mazání, nebudou již pověření pro tento katalog FOLIO k dispozici. Kořenový proxy server, vlastní popisky, typy stavu přístupu a přiřazení uživatelé také nebudou k dispozici.",
     "server.errors.unableToCompleteOperation": "Operaci nelze dokončit.",
     "server.errors.apiLimitExceeded": "Byl překročen limit HoldingsIQ API. Obraťte se prosím na kontakt podpory EBSCO Holdings IQ.",
     "permission.settings.kb.delete": "Nastavení (eHoldingy): Může smazat přihlašovací údaje znalostní báze",
@@ -593,5 +593,6 @@
     "settings.usageConsolidation.clientId.hide": "Skrýt ID",
     "settings.usageConsolidation.apiKey.show": "Zobrazit klíč",
     "settings.usageConsolidation.apiKey.hide": "Skrýt klíč",
-    "label.alternateTitle": "Alternativní názvy"
+    "label.alternateTitle": "Alternativní názvy",
+    "title.alternateTitle": "Alternativní názvy"
 }
