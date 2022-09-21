@@ -593,5 +593,6 @@
     "settings.usageConsolidation.clientId.hide": "隐藏ID",
     "settings.usageConsolidation.apiKey.show": "显示密钥",
     "settings.usageConsolidation.apiKey.hide": "隐藏密钥",
-    "label.alternateTitle": "Alternate title(s)"
+    "label.alternateTitle": "Alternate title(s)",
+    "title.alternateTitle": "Alternate title(s)"
 }

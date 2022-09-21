@@ -593,5 +593,6 @@
     "settings.usageConsolidation.clientId.hide": "Ocultar ID",
     "settings.usageConsolidation.apiKey.show": "Mostrar chave",
     "settings.usageConsolidation.apiKey.hide": "Ocultar chave",
-    "label.alternateTitle": "Alternate title(s)"
+    "label.alternateTitle": "Alternate title(s)",
+    "title.alternateTitle": "Alternate title(s)"
 }
