@@ -8,7 +8,7 @@ import { Form } from 'react-final-form';
 import CoverageStatementFields from './coverage-statement-fields';
 
 describe('Given CoverageStatementFields', () => {
-  const renderCoverageStatementFields = ({ ...props }) => render(
+  const renderCoverageStatementFields = (props = {}) => render(
     <Form
       onSubmit={() => {}}
       render={() => (
