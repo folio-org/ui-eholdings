@@ -9,7 +9,7 @@ import arrayMutators from 'final-form-arrays';
 import ContributorField from './contributor-field';
 
 describe('Given ContributorField', () => {
-  const renderContributorField = ({ ...props }) => render(
+  const renderContributorField = (props = {}) => render(
     <Form
       onSubmit={() => {}}
       mutators={{ ...arrayMutators }}

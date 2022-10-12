@@ -11,7 +11,7 @@ import IdentifiersFields from './identifiers-fields';
 import { identifiersTypes } from '../../../../constants';
 
 describe('Given IdentifiersFields', () => {
-  const renderIdentifiersFields = ({ ...props }) => render(
+  const renderIdentifiersFields = (props = {}) => render(
     <Form
       onSubmit={() => {}}
       mutators={{ ...arrayMutators }}

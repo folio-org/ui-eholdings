@@ -50,7 +50,7 @@ jest.mock('./query-search-list', () => ({ renderItem }) => (
 describe('Given PackageSearchList', () => {
   const mockOnClickItem = jest.fn();
 
-  const renderPackageSearchList = ({ ...props }) => render(
+  const renderPackageSearchList = (props = {}) => render(
     <Harness>
       <PackageSearchList
         collection={collection}
