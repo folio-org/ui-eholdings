@@ -15,8 +15,14 @@ const PACKAGE_LEVEL_TOKEN = {
   label: 'ui-eholdings.exportPackageResources.fields.package.packageLevelToken'
 };
 
+const PROVIDER_LEVEL_TOKEN = {
+  value: 'providerLevelToken',
+  label: 'ui-eholdings.exportPackageResources.fields.package.providerLevelToken'
+};
+
 const RESOURCE_EXPORT_FIELDS = [
   PACKAGE_LEVEL_TOKEN,
+  PROVIDER_LEVEL_TOKEN,
   {
     value: 'titleName',
     label: 'ui-eholdings.exportPackageResources.fields.title.titleName'
@@ -137,6 +143,7 @@ const RESOURCE_EXPORT_FIELDS = [
 
 const PACKAGE_EXPORT_FIELDS = [
   PACKAGE_LEVEL_TOKEN,
+  PROVIDER_LEVEL_TOKEN,
   {
     value: 'providerName',
     label: 'ui-eholdings.exportPackageResources.fields.package.providerName'
@@ -208,6 +215,7 @@ export const FIELDS_BY_RECORD_TYPE = {
 export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
   [RECORD_TYPES.PACKAGE]: {
     packageLevelToken: () => [PACKAGE_LEVEL_TOKEN.value],
+    providerLevelToken: () => [PROVIDER_LEVEL_TOKEN.value],
     providerName: () => ['providerName'],
     providerId: () => ['providerId'],
     packageName: () => ['packageName'],
@@ -226,6 +234,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
   },
   [RECORD_TYPES.RESOURCE]: {
     packageLevelToken: () => [PACKAGE_LEVEL_TOKEN.value],
+    providerLevelToken: () => [PROVIDER_LEVEL_TOKEN.value],
     titleName: () => ['titleName'],
     alternateTitles: () => ['alternateTitles'],
     titleId: () => ['titleId'],

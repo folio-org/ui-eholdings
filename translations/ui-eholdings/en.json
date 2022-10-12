@@ -94,6 +94,7 @@
     "exportPackageResources.toast.fail": "The export request has failed. Please try again.",
     "exportPackageResources.fields.package": "Package fields to export",
     "exportPackageResources.fields.package.packageLevelToken": "Package Level Token",
+    "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
     "exportPackageResources.fields.package.providerName": "Provider Name",
     "exportPackageResources.fields.package.providerId": "Provider Id",
     "exportPackageResources.fields.package.name": "Package Name",
