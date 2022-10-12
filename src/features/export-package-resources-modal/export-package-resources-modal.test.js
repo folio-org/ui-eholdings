@@ -72,13 +72,14 @@ describe('Given ExportPackageResourcesModal', () => {
 
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.title.titleName'));
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.package.providerName'));
+      fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.package.providerLevelToken'));
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.title.customLabel'));
       fireEvent.click(getByTestId('export-button'));
 
       expect(mockDoExport).toHaveBeenCalledWith({
         recordId: 'record-id',
         recordType: 'PACKAGE',
-        packageFields: ['providerName'],
+        packageFields: ['providerName', 'providerLevelToken'],
         titleFields: ['titleName', 'customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
       });
     });
