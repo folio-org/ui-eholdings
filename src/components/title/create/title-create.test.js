@@ -36,7 +36,7 @@ const request = {
 };
 
 describe('Given TitleCreate', () => {
-  const renderTitleCreate = ({ ...props }) => render(
+  const renderTitleCreate = (props = {}) => render(
     <TitleCreate
       customPackages={customPackages}
       onCancel={() => {}}

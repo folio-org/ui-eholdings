@@ -8,7 +8,7 @@ import { Form } from 'react-final-form';
 import VisibilityField from './visibility-field';
 
 describe('Given VisibilityField', () => {
-  const renderVisibilityField = ({ ...props }) => render(
+  const renderVisibilityField = (props = {}) => render(
     <Form
       onSubmit={() => {}}
       render={() => (
