@@ -10,12 +10,18 @@ export const RECORD_TYPES = {
   RESOURCE: 'resource',
 };
 
+const PACKAGE_LEVEL_TOKEN = {
+  value: 'packageLevelToken',
+  label: 'ui-eholdings.exportPackageResources.fields.package.packageLevelToken'
+};
+
 const PROVIDER_LEVEL_TOKEN = {
   value: 'providerLevelToken',
   label: 'ui-eholdings.exportPackageResources.fields.package.providerLevelToken'
 };
 
 const RESOURCE_EXPORT_FIELDS = [
+  PACKAGE_LEVEL_TOKEN,
   PROVIDER_LEVEL_TOKEN,
   {
     value: 'titleName',
@@ -136,6 +142,7 @@ const RESOURCE_EXPORT_FIELDS = [
 ];
 
 const PACKAGE_EXPORT_FIELDS = [
+  PACKAGE_LEVEL_TOKEN,
   PROVIDER_LEVEL_TOKEN,
   {
     value: 'providerName',
@@ -207,6 +214,7 @@ export const FIELDS_BY_RECORD_TYPE = {
 // some fields, like customLabels should be sent to backend like several combined fields: customValue1, customValue2 etc
 export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
   [RECORD_TYPES.PACKAGE]: {
+    packageLevelToken: () => [PACKAGE_LEVEL_TOKEN.value],
     providerLevelToken: () => [PROVIDER_LEVEL_TOKEN.value],
     providerName: () => ['providerName'],
     providerId: () => ['providerId'],
@@ -225,6 +233,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     packageNotes: () => ['packageNotes'],
   },
   [RECORD_TYPES.RESOURCE]: {
+    packageLevelToken: () => [PACKAGE_LEVEL_TOKEN.value],
     providerLevelToken: () => [PROVIDER_LEVEL_TOKEN.value],
     titleName: () => ['titleName'],
     alternateTitles: () => ['alternateTitles'],
