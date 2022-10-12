@@ -20,7 +20,7 @@ const accessStatusTypes = {
   },
 };
 
-const renderPackageCreate = ({ ...props }) => render(
+const renderPackageCreate = (props = {}) => render(
   <PackageCreate
     request={{ errors: [] }}
     onSubmit={noop}

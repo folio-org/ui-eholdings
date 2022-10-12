@@ -389,6 +389,7 @@ describe('Given SettingsAccessStatusTypes', () => {
       const {
         getByRole,
         getByText,
+        getAllByText,
       } = renderSettingsAccessStatusTypes({});
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
@@ -398,7 +399,7 @@ describe('Given SettingsAccessStatusTypes', () => {
       const confirmationModalCancelButton = 'ui-eholdings.settings.accessStatusTypes.delete.cancel';
       const confirmationModalDeleteButton = 'ui-eholdings.settings.accessStatusTypes.delete.confirm';
 
-      expect(getByText(confirmationModalTitle)).toBeDefined();
+      expect(getAllByText(confirmationModalTitle)).toBeDefined();
       expect(getByText(confirmationModalText)).toBeDefined();
       expect(getByText(confirmationModalCancelButton)).toBeDefined();
       expect(getByText(confirmationModalDeleteButton)).toBeDefined();
@@ -411,6 +412,7 @@ describe('Given SettingsAccessStatusTypes', () => {
         getByRole,
         getByText,
         queryByText,
+        getAllByText,
       } = renderSettingsAccessStatusTypes({});
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
@@ -420,7 +422,7 @@ describe('Given SettingsAccessStatusTypes', () => {
       const confirmationModalCancelButton = 'ui-eholdings.settings.accessStatusTypes.delete.cancel';
       const confirmationModalDeleteButton = 'ui-eholdings.settings.accessStatusTypes.delete.confirm';
 
-      expect(getByText(confirmationModalTitle)).toBeDefined();
+      expect(getAllByText(confirmationModalTitle)).toBeDefined();
       expect(getByText(confirmationModalText)).toBeDefined();
       expect(getByText(confirmationModalCancelButton)).toBeDefined();
       expect(getByText(confirmationModalDeleteButton)).toBeDefined();
