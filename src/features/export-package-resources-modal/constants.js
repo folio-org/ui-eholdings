@@ -12,6 +12,10 @@ export const RECORD_TYPES = {
 
 const RESOURCE_EXPORT_FIELDS = [
   {
+    value: 'packageLevelToken',
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageLevelToken'
+  },
+  {
     value: 'titleName',
     label: 'ui-eholdings.exportPackageResources.fields.title.titleName'
   },
@@ -222,6 +226,7 @@ export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
     packageNotes: () => ['packageNotes'],
   },
   [RECORD_TYPES.RESOURCE]: {
+    packageLevelToken: () => ['packageLevelToken'],
     titleName: () => ['titleName'],
     alternateTitles: () => ['alternateTitles'],
     titleId: () => ['titleId'],
