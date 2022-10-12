@@ -131,6 +131,10 @@ const RESOURCE_EXPORT_FIELDS = [
 
 const PACKAGE_EXPORT_FIELDS = [
   {
+    value: 'packageLevelToken',
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageLevelToken'
+  },
+  {
     value: 'providerName',
     label: 'ui-eholdings.exportPackageResources.fields.package.providerName'
   },
@@ -200,6 +204,7 @@ export const FIELDS_BY_RECORD_TYPE = {
 // some fields, like customLabels should be sent to backend like several combined fields: customValue1, customValue2 etc
 export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
   [RECORD_TYPES.PACKAGE]: {
+    packageLevelToken: () => ['packageLevelToken'],
     providerName: () => ['providerName'],
     providerId: () => ['providerId'],
     packageName: () => ['packageName'],
