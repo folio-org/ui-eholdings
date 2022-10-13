@@ -68,18 +68,11 @@ describe('Given ExportPackageResourcesModal', () => {
       const {
         getByTestId,
         getByText,
-        getAllByText,
       } = renderExportPackageResourcesModal();
-
-      const [
-        providerLevelTokenForPackageFields,
-        providerLevelTokenForTitleFields,
-      ] = getAllByText('ui-eholdings.exportPackageResources.fields.package.providerLevelToken');
 
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.title.titleName'));
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.package.providerName'));
-      fireEvent.click(providerLevelTokenForPackageFields);
-      fireEvent.click(providerLevelTokenForTitleFields);
+      fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.package.providerLevelToken'));
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.title.customLabel'));
       fireEvent.click(getByText('ui-eholdings.exportPackageResources.fields.package.packageLevelToken'));
       fireEvent.click(getByTestId('export-button'));
@@ -88,7 +81,7 @@ describe('Given ExportPackageResourcesModal', () => {
         recordId: 'record-id',
         recordType: 'PACKAGE',
         packageFields: ['providerName', 'providerLevelToken', 'packageLevelToken'],
-        titleFields: ['titleName', 'providerLevelToken', 'customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
+        titleFields: ['titleName', 'customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
       });
     });
   });
