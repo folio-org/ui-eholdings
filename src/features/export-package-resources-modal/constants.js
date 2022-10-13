@@ -135,6 +135,10 @@ const PACKAGE_EXPORT_FIELDS = [
     label: 'ui-eholdings.exportPackageResources.fields.package.providerLevelToken'
   },
   {
+    value: 'packageLevelToken',
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageLevelToken'
+  },
+  {
     value: 'providerName',
     label: 'ui-eholdings.exportPackageResources.fields.package.providerName'
   },
@@ -205,6 +209,7 @@ export const FIELDS_BY_RECORD_TYPE = {
 export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
   [RECORD_TYPES.PACKAGE]: {
     providerLevelToken: () => ['providerLevelToken'],
+    packageLevelToken: () => ['packageLevelToken'],
     providerName: () => ['providerName'],
     providerId: () => ['providerId'],
     packageName: () => ['packageName'],
