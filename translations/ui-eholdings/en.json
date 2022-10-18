@@ -93,6 +93,7 @@
     "exportPackageResources.toast.success": "Your <b>eholdings export (Job ID: {jobName})</b> is in progress and will be available on the <b>Export manager</b> app. The export may take several minutes to complete.",
     "exportPackageResources.toast.fail": "The export request has failed. Please try again.",
     "exportPackageResources.fields.package": "Package fields to export",
+    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token",
     "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
     "exportPackageResources.fields.package.providerName": "Provider Name",
     "exportPackageResources.fields.package.providerId": "Provider Id",
