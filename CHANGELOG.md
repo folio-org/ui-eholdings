@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.3.0] (IN PROGRESS)
+## [7.3.0] (https://github.com/folio-org/ui-eholdings/tree/v7.3.0) (2022-10-24)
 
 * Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
 * Resource (aka title+package) Detail Record: Add Alternate title(s) field. (UIEH-1328)
