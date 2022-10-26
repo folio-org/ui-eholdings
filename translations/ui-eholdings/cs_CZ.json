@@ -179,7 +179,7 @@
     "filter.contentType.aggregated": "Agregovaný plný text",
     "filter.contentType.abstract": "Abstrakt a rejstřík",
     "filter.contentType.ebook": "E-kniha",
-    "filter.contentType.ejournal": "E-časopis",
+    "filter.contentType.ejournal": "E-Časopis",
     "filter.contentType.print": "Tisk",
     "filter.contentType.onlineReference": "Online Reference",
     "filter.contentType.unknown": "Neznámý",
@@ -187,7 +187,7 @@
     "filter.pubType.book": "Kniha",
     "filter.pubType.bookSeries": "Knižní série",
     "filter.pubType.database": "Databáze",
-    "filter.pubType.journal": "Periodikum",
+    "filter.pubType.journal": "Časopis",
     "filter.pubType.newsletter": "Zpravodaj",
     "filter.pubType.newspaper": "Noviny",
     "filter.pubType.proceedings": "Jednání",
@@ -594,5 +594,7 @@
     "settings.usageConsolidation.apiKey.show": "Zobrazit klíč",
     "settings.usageConsolidation.apiKey.hide": "Skrýt klíč",
     "label.alternateTitle": "Alternativní názvy",
-    "title.alternateTitle": "Alternativní názvy"
+    "title.alternateTitle": "Alternativní názvy",
+    "exportPackageResources.fields.package.providerLevelToken": "Token úrovně poskytovatele",
+    "exportPackageResources.fields.package.packageLevelToken": "Token úrovně balíčku"
 }
