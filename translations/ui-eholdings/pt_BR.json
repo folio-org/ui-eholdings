@@ -593,6 +593,8 @@
     "settings.usageConsolidation.clientId.hide": "Ocultar ID",
     "settings.usageConsolidation.apiKey.show": "Mostrar chave",
     "settings.usageConsolidation.apiKey.hide": "Ocultar chave",
-    "label.alternateTitle": "Alternate title(s)",
-    "title.alternateTitle": "Alternate title(s)"
+    "label.alternateTitle": "Título(s) alternado(s)",
+    "title.alternateTitle": "Título(s) alternado(s)",
+    "exportPackageResources.fields.package.providerLevelToken": "Token de nível do provedor",
+    "exportPackageResources.fields.package.packageLevelToken": "Token de nível de pacote"
 }

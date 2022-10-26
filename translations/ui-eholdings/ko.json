@@ -594,5 +594,7 @@
     "settings.usageConsolidation.apiKey.show": "Key 표시",
     "settings.usageConsolidation.apiKey.hide": "Key 숨기기",
     "label.alternateTitle": "Alternate title(s)",
-    "title.alternateTitle": "Alternate title(s)"
+    "title.alternateTitle": "Alternate title(s)",
+    "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
+    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token"
 }

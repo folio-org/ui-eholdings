@@ -594,5 +594,7 @@
     "settings.usageConsolidation.apiKey.show": "Schlüssel anzeigen",
     "settings.usageConsolidation.apiKey.hide": "Schlüssel ausblenden",
     "label.alternateTitle": "Alternate title(s)",
-    "title.alternateTitle": "Alternate title(s)"
+    "title.alternateTitle": "Alternate title(s)",
+    "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
+    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token"
 }

@@ -392,7 +392,7 @@
     "permission.settings.access-types.all": "Configuración (eRecursos): puede crear, editar, ver y eliminar tipos de estado de acceso",
     "permission.settings.access-types.create-edit": "Configuración (eRecursos): puede crear, editar y ver tipos de estado de acceso",
     "permission.settings.access-types.view": "Configuración (eRecursos): puede ver los tipos de estado de acceso",
-    "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.app.enabled": "eHoldings: Puede ver proveedores, paquetes, detalles de títulos",
     "permission.settings.enabled": "Settings (eHoldings): View settings",
     "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
     "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
@@ -594,5 +594,7 @@
     "settings.usageConsolidation.apiKey.show": "Show key",
     "settings.usageConsolidation.apiKey.hide": "Hide key",
     "label.alternateTitle": "Alternate title(s)",
-    "title.alternateTitle": "Alternate title(s)"
+    "title.alternateTitle": "Alternate title(s)",
+    "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
+    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token"
 }

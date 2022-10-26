@@ -418,7 +418,7 @@
     "agreements.unassignModal.cancel": "取消",
     "agreements.unassignModal.unassign": "取消分配",
     "permission.settings.custom-labels.all": "设置（电子馆藏）：可以创建、编辑、查看和删除自定义标签",
-    "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
+    "contributorType.narrator": "{count, plural, other {空}}",
     "permission.settings.assignedUser": "设置（电子馆藏）：可以从KB中分配/取消分配用户",
     "server.errors.errorDuringFetch.ebscoConnect": "EBSCO Connect",
     "usageConsolidation": "使用和分析",
@@ -593,6 +593,8 @@
     "settings.usageConsolidation.clientId.hide": "隐藏ID",
     "settings.usageConsolidation.apiKey.show": "显示密钥",
     "settings.usageConsolidation.apiKey.hide": "隐藏密钥",
-    "label.alternateTitle": "Alternate title(s)",
-    "title.alternateTitle": "Alternate title(s)"
+    "label.alternateTitle": "交替题名",
+    "title.alternateTitle": "交替题名",
+    "exportPackageResources.fields.package.providerLevelToken": "提供者级别令牌",
+    "exportPackageResources.fields.package.packageLevelToken": "资源包级令牌"
 }
