@@ -537,7 +537,7 @@
     "exportPackageResources.button.export": "Esporta",
     "exportPackageResources.all": "Tutti",
     "exportPackageResources.subtitle": "Il completamento dell'esportazione potrebbe richiedere alcuni minuti. Al termine, sarà disponibile nell'applicazione <strong>Export manager</strong>. NOTA: Questa esportazione non include le informazioni disponibili nell'accordion Utilizzo e analisi (disponibile solo per gli abbonati al Consolidamento consumi). Si prega di utilizzare l'opzione <i>Esportazione titoli</i> disponibile in tale accordion.",
-    "exportPackageResources.toast.success": "L'<b>esportazione di eholdings (job ID: {nome lavoro})</b> è in corso e sarà disponibile nell'app <b>Export manager</b>. Il completamento dell'esportazione potrebbe richiedere alcuni minuti.",
+    "exportPackageResources.toast.success": "L'<b>esportazione di eholdings (job ID: {jobName})</b> è in corso e sarà disponibile nell'app <b>Export manager</b>. Il completamento dell'esportazione potrebbe richiedere alcuni minuti.",
     "exportPackageResources.toast.fail": "La richiesta di esportazione non è riuscita. Riprovare.",
     "exportPackageResources.fields.package": "Campi del pacchetto da esportare",
     "exportPackageResources.fields.package.providerName": "Nome del fornitore",
