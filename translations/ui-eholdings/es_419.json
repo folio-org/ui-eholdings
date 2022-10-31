@@ -361,7 +361,7 @@
     "label.totalPackages": "Paquetes totales: {count}",
     "accessTypes.filter": "Filtro de tipos de estado de acceso",
     "settings.accessStatusTypes.validation.duplicate": "Tipo duplicado. Por favor revisa.",
-    "permission.settings.kb": "Configuración (eHoldings): puede crear, editar y ver credenciales de la knowledge base",
+    "permission.settings.kb": "Configuración (eHoldings): puede crear, editar y ver credenciales de la Base de Conhecimento",
     "permission.settings.root-proxy": "Configuración (eRecursos): configure la configuración del proxy raíz",
     "permission.package-title.select-unselect": "eRecursos: Puede seleccionar/anular la selección de paquetes y títulos hacia/desde sus participaciones",
     "permission.records.edit": "eRecursos: puede editar proveedores, paquetes, registros de detalles de títulos",
