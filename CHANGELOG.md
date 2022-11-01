@@ -7,6 +7,7 @@
 * Title Detail Record: Add Alternate title(s) field. (UIEH-1327)
 * Export package/title modal: Include Package level token in list of fields to select. (UIEH-1316)
 * Export package/title modal: Include Provider level token in list of fields to select. (UIEH-1317)
+* eHoldings export: Remove "sort" from "titleSearchFilters" export config field. (UIEH-1333)
 
 ## [7.2.3] (https://github.com/folio-org/ui-eholdings/tree/v7.2.3) (2022-08-29)
 
