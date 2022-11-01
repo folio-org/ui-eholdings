@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [7.3.1] (IN PROGRESS)
+
+* eHoldings export: Remove "sort" from "titleSearchFilters" export config field. (UIEH-1334)
+
 ## [7.3.0] (https://github.com/folio-org/ui-eholdings/tree/v7.3.0) (2022-10-24)
 
 * Hide filter by Tag when user doesn't have related permissions. (UIEH-1313)
