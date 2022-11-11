@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.3.1] (IN PROGRESS)
+## [7.3.1] (https://github.com/folio-org/ui-eholdings/tree/v7.3.1) (2022-11-11)
 
 * eHoldings export: Remove "sort" from "titleSearchFilters" export config field. (UIEH-1334)
 
