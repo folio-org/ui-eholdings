@@ -17,6 +17,10 @@ import {
 import styles from './accordion-list-header.css';
 
 const AccordionListHeader = (props) => {
+  const {
+    open,
+    isLoading,
+  } = props;
   // RM API does not return exact number of results when count is over 10K
   // For title lists, resultsLength of 10000 indicates this.
   // For other lists (package and provider) resultsLength of 10001 indicates this.
@@ -40,8 +44,8 @@ const AccordionListHeader = (props) => {
   return (
     <div className={styles['accordion-list-header']}>
       <DefaultAccordionHeader {...props} />
-      {props.open && (
-        <div className={styles['accordion-list-count']}>
+      {open && !isLoading && (
+        <div className={styles['accordion-list-count']} data-testid="accordion-list-count">
           <KeyValue label={<FormattedMessage id="ui-eholdings.label.accordionList" />}>
             <div data-test-eholdings-details-view-results-count>
               {getOverCount()}
@@ -54,6 +58,7 @@ const AccordionListHeader = (props) => {
 };
 
 AccordionListHeader.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   listType: PropTypes.node.isRequired,
   open: PropTypes.bool.isRequired,
   resultsLength: PropTypes.number.isRequired,

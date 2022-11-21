@@ -267,6 +267,7 @@ class ProviderShow extends Component {
             renderList={this.renderPackagesList}
             ariaRole="tablist"
             bodyAriaRole="tab"
+            accordionHeaderLoading={providerPackages.isLoading}
           />
         </div>
       </KeyShortcutsWrapper>
