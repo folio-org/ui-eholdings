@@ -59,6 +59,38 @@ describe('Given ExportPackageResourcesModal', () => {
     });
   });
 
+  describe('when there is no export limit', () => {
+    it('should not disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        recordsCount: 100000,
+      });
+
+      expect(getByTestId('export-button')).not.toBeDisabled();
+    });
+  });
+
+  describe('when there is an export limit and resources count exceeds it', () => {
+    it('should not disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        exportLimit: 100,
+        recordsCount: 101,
+      });
+
+      expect(getByTestId('export-button')).toBeDisabled();
+    });
+  });
+
+  describe('when there is an export limit and resources count does not exceed it', () => {
+    it('should disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        exportLimit: 100,
+        recordsCount: 10,
+      });
+
+      expect(getByTestId('export-button'))..not.toBeDisabled();
+    });
+  });
+
   describe('when clicking export', () => {
     it('should call doExport with correct data', () => {
       useExportPackageTitle.mockImplementation(({ onSuccess }) => ({

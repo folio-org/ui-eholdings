@@ -55,7 +55,8 @@ import {
 } from '../../utilities';
 
 const ITEM_HEIGHT = 62;
-const MAX_EXPORT_TITLE_LIMIT = 200000;
+const UC_MAX_EXPORT_TITLE_LIMIT = 200000;
+const CSV_MAX_EXPORT_TITLE_LIMIT = 10000;
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -355,7 +356,7 @@ const PackageShow = ({
             recordId={model.id}
             recordName={model.name}
             costPerUseData={costPerUse}
-            isExportDisabled={model.selectedCount >= MAX_EXPORT_TITLE_LIMIT}
+            isExportDisabled={model.selectedCount >= UC_MAX_EXPORT_TITLE_LIMIT}
           />
         )}
       </>
@@ -482,6 +483,8 @@ const PackageShow = ({
         recordId={model.id}
         recordType="PACKAGE"
         open={isExportPackageModalOpen}
+        exportLimit={CSV_MAX_EXPORT_TITLE_LIMIT}
+        resourcesCount={packageTitles.totalResults}
         onClose={() => setIsExportPackageModalOpen(false)}
         titleSearchFilters={titleSearchFilters}
       />

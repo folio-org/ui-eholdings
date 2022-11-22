@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [7.4.0] (IN PROGRESS)
+
+* Update Export eholdings modal to not allow user to export more than 10000 titles. (UIEH-1336)
+
 ## [7.3.1] (https://github.com/folio-org/ui-eholdings/tree/v7.3.1) (2022-11-11)
 
 * eHoldings export: Remove "sort" from "titleSearchFilters" export config field. (UIEH-1334)

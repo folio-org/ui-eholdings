@@ -24,11 +24,17 @@ import {
 } from './constants';
 
 const propTypes = {
+  exportLimit: PropTypes.number,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   recordId: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
+  resourcesCount: PropTypes.number,
   titleSearchFilters: PropTypes.string,
+};
+
+const defaultProps = {
+  exportLimit: null,
 };
 
 const ExportPackageResourcesModal = ({
@@ -37,6 +43,8 @@ const ExportPackageResourcesModal = ({
   recordId,
   recordType,
   titleSearchFilters,
+  exportLimit,
+  resourcesCount,
 }) => {
   const intl = useIntl();
   const callout = useCallout();
@@ -71,6 +79,10 @@ const ExportPackageResourcesModal = ({
   });
 
   const canExport = useMemo(() => {
+    if (exportLimit && resourcesCount > exportLimit) {
+      return false;
+    }
+
     const selectedPackageFields = fieldSectionState[RECORD_TYPES.PACKAGE].allSelected
       || fieldSectionState[RECORD_TYPES.PACKAGE].selectedFields.length > 0;
 
@@ -78,7 +90,7 @@ const ExportPackageResourcesModal = ({
       || fieldSectionState[RECORD_TYPES.RESOURCE].selectedFields.length > 0;
 
     return selectedPackageFields || selectedTitleFields;
-  }, [fieldSectionState]);
+  }, [fieldSectionState, exportLimit, resourcesCount]);
 
   const getFieldsForRecord = (_recordType) => {
     let fields = [];
@@ -125,6 +137,7 @@ const ExportPackageResourcesModal = ({
       id="eholdings-export-modal"
       data-testid="eholdings-export-modal"
       aria-label={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.label' })}
+      onClose={onClose}
       footer={(
         <ModalFooter>
           <Button
@@ -143,7 +156,11 @@ const ExportPackageResourcesModal = ({
         </ModalFooter>
     )}
     >
-      <p>{intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.subtitle' })}</p>
+      <p>
+        {intl.formatMessage({ id: `ui-eholdings.exportPackageResources.subtitle.${recordType.toLowerCase()}` }, {
+          exportLimit,
+        })}
+      </p>
       <ExportFieldsSection
         id="package-fields"
         title={intl.formatMessage({ id: 'ui-eholdings.exportPackageResources.fields.package' })}
@@ -165,6 +182,7 @@ const ExportPackageResourcesModal = ({
 };
 
 ExportPackageResourcesModal.propTypes = propTypes;
+ExportPackageResourcesModal.defaultProps = defaultProps;
 
 export default ExportPackageResourcesModal;
 
