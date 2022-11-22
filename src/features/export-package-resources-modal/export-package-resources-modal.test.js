@@ -42,7 +42,7 @@ describe('Given ExportPackageResourcesModal', () => {
   it('should display the component', () => {
     const { getByText } = renderExportPackageResourcesModal();
 
-    expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+    expect(getByText('ui-eholdings.exportPackageResources.subtitle.package')).toBeDefined();
   });
 
   describe('when none of the fields are selected', () => {
@@ -87,7 +87,7 @@ describe('Given ExportPackageResourcesModal', () => {
         recordsCount: 10,
       });
 
-      expect(getByTestId('export-button'))..not.toBeDisabled();
+      expect(getByTestId('export-button')).not.toBeDisabled();
     });
   });
 

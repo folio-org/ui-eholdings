@@ -79,7 +79,7 @@ const ExportPackageResourcesModal = ({
   });
 
   const canExport = useMemo(() => {
-    if (exportLimit && resourcesCount > exportLimit) {
+    if (exportLimit && resourcesCount >= exportLimit) {
       return false;
     }
 
