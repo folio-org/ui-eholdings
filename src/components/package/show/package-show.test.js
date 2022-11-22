@@ -100,6 +100,7 @@ const mockFetchPackageCostPerUse = jest.fn();
 const mockFetchPackageTitles = jest.fn();
 const mockLoadMoreCostPerUsePackageTitles = jest.fn();
 const mockOnEdit = jest.fn();
+const mockOnToggleTitles = jest.fn();
 const mockToggleSelected = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 
@@ -131,6 +132,7 @@ const renderPackageShow = (props = {}) => render(
       loadMoreCostPerUsePackageTitles={mockLoadMoreCostPerUsePackageTitles}
       model={testModel}
       onEdit={mockOnEdit}
+      onToggleTitles={mockOnToggleTitles}
       packageTitles={{
         totalResults: 5,
         items: [],
@@ -157,14 +159,7 @@ const renderPackageShow = (props = {}) => render(
 describe('Given PackageShow', () => {
   beforeEach(() => {
     cleanup();
-    mockAddPackageToHoldings.mockClear();
-    mockFetchCostPerUsePackageTitles.mockClear();
-    mockFetchPackageCostPerUse.mockClear();
-    mockFetchPackageTitles.mockClear();
-    mockLoadMoreCostPerUsePackageTitles.mockClear();
-    mockOnEdit.mockClear();
-    mockToggleSelected.mockClear();
-    mockUpdateFolioTags.mockClear();
+    jest.clearAllMocks();
   });
 
   it('should display package name in the pane and in the headline', () => {
@@ -304,6 +299,38 @@ describe('Given PackageShow', () => {
 
       expect(getAllByText('ui-eholdings.label.accordionList')).toBeDefined();
       expect(getAllByText('223')).toBeDefined();
+    });
+
+    describe('when opening', () => {
+      describe('and the titles are loaded', () => {
+        it('should not render the accordion list count', () => {
+          const { queryByTestId } = renderPackageShow({
+            isTitlesUpdating: false,
+            packageTitles: {
+              isLoading: true,
+            },
+          });
+
+          expect(queryByTestId('accordion-list-count')).not.toBeInTheDocument();
+        });
+      });
+
+      it('should call onToggleTitles', () => {
+        const { getByTestId } = renderPackageShow();
+
+        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        expect(mockOnToggleTitles).toHaveBeenCalled();
+      });
+    });
+
+    describe('when closing', () => {
+      it('should not invoke onToggleTitles', () => {
+        const { getByTestId } = renderPackageShow();
+
+        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        expect(mockOnToggleTitles).not.toHaveBeenCalled();
+      });
     });
   });
 

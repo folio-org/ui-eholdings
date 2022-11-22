@@ -71,6 +71,7 @@ const propTypes = {
   loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onToggleTitles: PropTypes.func.isRequired,
   packageTitles: PropTypes.object.isRequired,
   pkgSearchParams: PropTypes.object.isRequired,
   provider: PropTypes.object.isRequired,
@@ -103,6 +104,7 @@ const PackageShow = ({
   toggleSelected,
   updateFolioTags,
   pkgSearchParams,
+  onToggleTitles,
 }) => {
   const stripes = useStripes();
   const intl = useIntl();
@@ -166,6 +168,13 @@ const PackageShow = ({
     const hasEditPerm = stripes.hasPerm(RECORDS_EDIT_PERMISSION);
 
     return !!(hasEditPerm && packageSelected);
+  };
+
+  const toggleTitles = (section) => {
+    if (!sections.packageShowTitles) {
+      onToggleTitles();
+    }
+    handleSectionToggle(section);
   };
 
   const renderRemoveFromHoldingsButton = (onToggle) => {
@@ -461,11 +470,12 @@ const PackageShow = ({
         bodyContent={getBodyContent()}
         listType={listTypes.TITLES}
         listSectionId="packageShowTitles"
-        onListToggle={handleSectionToggle}
+        onListToggle={toggleTitles}
         resultsLength={packageTitles.totalResults}
         renderList={renderTitlesList}
         ariaRole="tablist"
         bodyAriaRole="tab"
+        accordionHeaderLoading={!isTitlesUpdating && packageTitles.isLoading}
       />
       <SelectionModal
         showSelectionModal={showDeselectionModal}

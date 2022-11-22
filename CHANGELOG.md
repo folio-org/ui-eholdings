@@ -3,6 +3,7 @@
 ## [7.3.1] (https://github.com/folio-org/ui-eholdings/tree/v7.3.1) (2022-11-11)
 
 * eHoldings export: Remove "sort" from "titleSearchFilters" export config field. (UIEH-1334)
+* Provider and Package detail records: Close Package and Titles accordion returns 0 titles. (UIEH-1335)
 
 ## [7.3.0] (https://github.com/folio-org/ui-eholdings/tree/v7.3.0) (2022-10-24)
 
