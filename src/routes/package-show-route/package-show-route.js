@@ -356,6 +356,21 @@ class PackageShowRoute extends Component {
     history.replace(editRouteState);
   }
 
+  toggleTitles = () => {
+    const {
+      getPackageTitles,
+      match,
+    } = this.props;
+    const {
+      pkgSearchParams,
+    } = this.state;
+    const { packageId } = match.params;
+
+    const params = transformQueryParams('titles', pkgSearchParams);
+
+    getPackageTitles({ packageId, params });
+  }
+
   render() {
     const {
       history,
@@ -398,6 +413,7 @@ class PackageShowRoute extends Component {
           costPerUse={costPerUse}
           isTitlesUpdating={isTitlesUpdating}
           pkgSearchParams={pkgSearchParams}
+          onToggleTitles={this.toggleTitles}
           isFreshlySaved={
             history.location.state &&
             history.location.state.isFreshlySaved
