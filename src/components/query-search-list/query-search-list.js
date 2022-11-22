@@ -75,7 +75,7 @@ const QuerySearchList = ({
   }
 
   if ((isMainPageSearch && !collection.isLoading && !length)
-    || (!isMainPageSearch && !length)) {
+    || (!isMainPageSearch && !isLoading && !length)) {
     return notFoundMessage;
   }
 
@@ -103,7 +103,7 @@ const QuerySearchList = ({
     listFirstItem.current.focus();
   };
 
-  if (isUpdating) {
+  if (isUpdating || isLoading) {
     return (
       <div className={styles.updatingSpinner}>
         <Icon icon="spinner-ellipsis" />
