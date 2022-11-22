@@ -23,13 +23,14 @@ jest.mock('../../hooks', () => ({
   }),
 }));
 
-const renderExportPackageResourcesModal = () => render((
+const renderExportPackageResourcesModal = (props = {}) => render((
   <Harness>
     <ExportPackageResourcesModal
       open
       onClose={mockOnClose}
       recordId="record-id"
       recordType="PACKAGE"
+      {...props}
     />
   </Harness>
 ));
@@ -62,7 +63,7 @@ describe('Given ExportPackageResourcesModal', () => {
   describe('when there is no export limit', () => {
     it('should not disable export button', () => {
       const { getByTestId } = renderExportPackageResourcesModal({
-        recordsCount: 100000,
+        resourcesCount: 100000,
       });
 
       expect(getByTestId('export-button')).not.toBeDisabled();
@@ -70,10 +71,10 @@ describe('Given ExportPackageResourcesModal', () => {
   });
 
   describe('when there is an export limit and resources count exceeds it', () => {
-    it('should not disable export button', () => {
+    it('should disable export button', () => {
       const { getByTestId } = renderExportPackageResourcesModal({
         exportLimit: 100,
-        recordsCount: 101,
+        resourcesCount: 101,
       });
 
       expect(getByTestId('export-button')).toBeDisabled();
@@ -81,10 +82,10 @@ describe('Given ExportPackageResourcesModal', () => {
   });
 
   describe('when there is an export limit and resources count does not exceed it', () => {
-    it('should disable export button', () => {
+    it('should not disable export button', () => {
       const { getByTestId } = renderExportPackageResourcesModal({
         exportLimit: 100,
-        recordsCount: 10,
+        resourcesCount: 10,
       });
 
       expect(getByTestId('export-button')).not.toBeDisabled();

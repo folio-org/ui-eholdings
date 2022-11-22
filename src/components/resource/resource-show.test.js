@@ -292,7 +292,7 @@ describe('Given ResourceShow', () => {
 
       fireEvent.click(getByText('ui-eholdings.resource.actionMenu.exportToCSV'));
 
-      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle.resource')).toBeDefined();
     });
   });
 });

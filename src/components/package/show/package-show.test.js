@@ -474,7 +474,7 @@ describe('Given PackageShow', () => {
 
       fireEvent.click(getByText('ui-eholdings.package.actionMenu.exportToCSV'));
 
-      expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+      expect(getByText('ui-eholdings.exportPackageResources.subtitle.package')).toBeDefined();
     });
   });
 });
