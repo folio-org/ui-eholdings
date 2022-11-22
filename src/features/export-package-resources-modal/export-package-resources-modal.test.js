@@ -23,13 +23,14 @@ jest.mock('../../hooks', () => ({
   }),
 }));
 
-const renderExportPackageResourcesModal = () => render((
+const renderExportPackageResourcesModal = (props = {}) => render((
   <Harness>
     <ExportPackageResourcesModal
       open
       onClose={mockOnClose}
       recordId="record-id"
       recordType="PACKAGE"
+      {...props}
     />
   </Harness>
 ));
@@ -42,7 +43,7 @@ describe('Given ExportPackageResourcesModal', () => {
   it('should display the component', () => {
     const { getByText } = renderExportPackageResourcesModal();
 
-    expect(getByText('ui-eholdings.exportPackageResources.subtitle')).toBeDefined();
+    expect(getByText('ui-eholdings.exportPackageResources.subtitle.package')).toBeDefined();
   });
 
   describe('when none of the fields are selected', () => {
@@ -56,6 +57,38 @@ describe('Given ExportPackageResourcesModal', () => {
       fireEvent.click(getAllByLabelText('ui-eholdings.exportPackageResources.fields.selected')[1]);
 
       expect(getByTestId('export-button')).toBeDisabled();
+    });
+  });
+
+  describe('when there is no export limit', () => {
+    it('should not disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        resourcesCount: 100000,
+      });
+
+      expect(getByTestId('export-button')).not.toBeDisabled();
+    });
+  });
+
+  describe('when there is an export limit and resources count exceeds it', () => {
+    it('should disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        exportLimit: 100,
+        resourcesCount: 101,
+      });
+
+      expect(getByTestId('export-button')).toBeDisabled();
+    });
+  });
+
+  describe('when there is an export limit and resources count does not exceed it', () => {
+    it('should not disable export button', () => {
+      const { getByTestId } = renderExportPackageResourcesModal({
+        exportLimit: 100,
+        resourcesCount: 10,
+      });
+
+      expect(getByTestId('export-button')).not.toBeDisabled();
     });
   });
 
