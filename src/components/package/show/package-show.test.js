@@ -477,4 +477,15 @@ describe('Given PackageShow', () => {
       expect(getByText('ui-eholdings.exportPackageResources.subtitle.package')).toBeDefined();
     });
   });
+
+  describe('when clicking the expandAll button', () => {
+    it('should call onToggleTitles', () => {
+      renderPackageShow();
+      const expandAllButton = document.querySelector('[data-tast-expand-button]');
+
+      fireEvent.click(expandAllButton);
+      fireEvent.click(expandAllButton);
+      expect(mockOnToggleTitles).toHaveBeenCalled();
+    });
+  });
 });
