@@ -170,11 +170,20 @@ const PackageShow = ({
     return !!(hasEditPerm && packageSelected);
   };
 
-  const toggleTitles = (section) => {
+  const toggleTitles = () => {
     if (!sections.packageShowTitles) {
       onToggleTitles();
     }
+  };
+
+  const handleTitlesToggle = (section) => {
+    toggleTitles();
     handleSectionToggle(section);
+  };
+
+  const toggleExpandAll = (expandedSections) => {
+    toggleTitles();
+    handleExpandAll(expandedSections);
   };
 
   const renderRemoveFromHoldingsButton = (onToggle) => {
@@ -465,12 +474,12 @@ const PackageShow = ({
         paneTitle={model.name}
         actionMenu={getActionMenu()}
         sections={sections}
-        handleExpandAll={handleExpandAll}
+        handleExpandAll={toggleExpandAll}
         searchModal={searchModal}
         bodyContent={getBodyContent()}
         listType={listTypes.TITLES}
         listSectionId="packageShowTitles"
-        onListToggle={toggleTitles}
+        onListToggle={handleTitlesToggle}
         resultsLength={packageTitles.totalResults}
         renderList={renderTitlesList}
         ariaRole="tablist"
