@@ -536,7 +536,6 @@
     "exportPackageResources.button.cancel": "Cancel",
     "exportPackageResources.button.export": "Export",
     "exportPackageResources.all": "All",
-    "exportPackageResources.subtitle": "This export may take several minutes to complete. When finished, it will be available in the <strong>Export manager</strong> app. NOTE: This export does not include information available under Usage & analysis accordion (only available to Usage Consolidation subscribers). Please use the <i>Export titles</i> option available under that accordion.",
     "exportPackageResources.toast.success": "Your <b>eholdings export (Job ID: {jobName})</b> is in progress and will be available on the <b>Export manager</b> app. The export may take several minutes to complete.",
     "exportPackageResources.toast.fail": "The export request has failed. Please try again.",
     "exportPackageResources.fields.package": "Package fields to export",
@@ -596,5 +595,7 @@
     "label.alternateTitle": "Alternate title(s)",
     "title.alternateTitle": "Alternate title(s)",
     "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
-    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token"
+    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token",
+    "exportPackageResources.subtitle.package": "This export may take several minutes to complete. When finished, it will be available in the <strong>Export manager</strong> app. NOTE: Maximum number of titles in a package you can export is {exportLimit}. Filter your search within titles list to not exceed the limit or only choose to export package details only. This export does not include information available under Usage & analysis accordion (only available to Usage Consolidation subscribers). Please use the <i>Export titles</i> option available under that accordion.",
+    "exportPackageResources.subtitle.resource": "This export may take several minutes to complete. When finished, it will be available in the <strong>Export manager</strong> app. NOTE: This export does not include information available under Usage & analysis accordion (only available to Usage Consolidation subscribers). Please use the <i>Export titles</i> option available under that accordion."
 }
