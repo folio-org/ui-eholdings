@@ -536,7 +536,6 @@
     "exportPackageResources.button.cancel": "Cancelar",
     "exportPackageResources.button.export": "Exportar",
     "exportPackageResources.all": "Todos",
-    "exportPackageResources.subtitle": "Esta exportação pode levar vários minutos para ser concluída. Quando concluída, ela estará disponível no aplicativo do <strong>Trabalhos de Exportação</strong>. NOTA: Esta exportação não inclui informações disponíveisna seção Uso & Análise (disponível apenas para assinantes do Usage Consolidation). Favor usar a opção <i>Exportar títulos</i> disponível sob essa seção.",
     "exportPackageResources.toast.success": "Sua <b>exportação de acervo eletrônico (Job ID: {jobName})</b> está em andamento e estará disponível no aplicativo do <b>Gerenciador de exportação</b>. A exportação pode levar vários minutos para ser concluída.",
     "exportPackageResources.toast.fail": "O pedido de exportação falhou. Por favor, tente novamente.",
     "exportPackageResources.fields.package": "Campos do pacote para exportar",
@@ -596,5 +595,7 @@
     "label.alternateTitle": "Título(s) alternado(s)",
     "title.alternateTitle": "Título(s) alternado(s)",
     "exportPackageResources.fields.package.providerLevelToken": "Token de nível do provedor",
-    "exportPackageResources.fields.package.packageLevelToken": "Token de nível de pacote"
+    "exportPackageResources.fields.package.packageLevelToken": "Token de nível de pacote",
+    "exportPackageResources.subtitle.package": "Essa exportação pode levar vários minutos para ser concluída. Quando terminar, estará disponível no aplicativo <strong> Gerenciador de exportação </strong> . NOTA: O número máximo de títulos em um pacote que você pode exportar é {exportLimit} . Filtre sua pesquisa na lista de títulos para não exceder o limite ou opte por exportar apenas os detalhes do pacote. Esta exportação não inclui informações disponíveis em Uso e análise sanfona (disponível apenas para assinantes do Usage Consolidation). Use a opção <i> Exportar títulos </i> disponível nessa seção.",
+    "exportPackageResources.subtitle.resource": "Esta exportação pode levar vários minutos para ser concluída. Quando concluída, ela estará disponível no aplicativo do <strong>Gerenciador de exportação</strong>. NOTA: Esta exportação não inclui informações disponíveis na seção Uso & Análise (disponível apenas para assinantes do Usage Consolidation). Favor usar a opção <i>Exportar títulos</i> disponível nessa seção."
 }
