@@ -1,7 +1,8 @@
 # Change history for ui-eholdings
 
-## [7.4.0] (IN PROGRESS)
+## [7.3.2] (https://github.com/folio-org/ui-eholdings/tree/v7.3.2) (2022-11-30)
 
+* Provider and Package detail records: Close Package and Titles accordion returns 0 titles. (UIEH-1335)
 * Update Export eholdings modal to not allow user to export more than 10000 titles. (UIEH-1336)
 
 ## [7.3.1] (https://github.com/folio-org/ui-eholdings/tree/v7.3.1) (2022-11-11)
