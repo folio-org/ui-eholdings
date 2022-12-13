@@ -223,7 +223,7 @@
     "validate.errors.identifiers.exceedsLength": "Musí mít méně než 20 znaků.",
     "validate.errors.contributor.empty": "Musíte uvést autora",
     "validate.errors.contributor.exceedsLength": "Autor musí mít méně než 250 znaků",
-    "validate.errors.embargoPeriod.moreThanZero": "Zadatejte číslo větší než 0",
+    "validate.errors.embargoPeriod.moreThanZero": "Zadejte číslo větší než 0",
     "validate.errors.embargoPeriod.number": "Musí to být číslo",
     "validate.errors.embargoPeriod.unit": "Výběr jednotky",
     "validate.errors.customUrl.length": "Vlastní adresy URL musí mít 600 znaků nebo méně.",
