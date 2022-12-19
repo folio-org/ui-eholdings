@@ -40,6 +40,7 @@ const getDetailView = props => (
       paneTitle={model.name}
       type="testtype"
       resultsLength={10000}
+      accordionHeaderLoading={false}
       {...props}
     />
   </Harness>
@@ -230,31 +231,21 @@ describe('Given DetailsView', () => {
   });
 
   describe('when click on the close icon in the first menu pane', () => {
-    describe('when location search includes searchType', () => {
-      it('should navigate back to the previous eholdings location', () => {
-        const { getByRole } = renderDetailsView({
-          location: {
-            ...location,
-            search: '?searchType=packages&q=test',
-          },
-        });
-
-        const closeIcon = getByRole('button', { name: 'ui-eholdings.label.icon.closeX' });
-
-        fireEvent.click(closeIcon);
-
-        expect(historyPushSpy).toBeCalled();
+    it('should navigate to the Eholdings search page', () => {
+      const search = '?searchType=packages&q=b&offset=1&searchfield=title';
+      const { getByRole } = renderDetailsView({
+        location: {
+          ...location,
+          search,
+        },
       });
-    });
 
-    it('should navigate to /eholdings', () => {
-      const { getByRole } = renderDetailsView();
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
 
-      const closeIcon = getByRole('button', { name: 'ui-eholdings.label.icon.closeX' });
-
-      fireEvent.click(closeIcon);
-
-      expect(history.location.pathname).toBe('/eholdings');
+      expect(historyPushSpy).toHaveBeenCalledWith({
+        pathname: '/eholdings',
+        search,
+      });
     });
   });
 });
