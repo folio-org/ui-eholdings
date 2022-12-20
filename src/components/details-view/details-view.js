@@ -102,20 +102,10 @@ class DetailsView extends Component {
       location,
     } = this.props;
 
-    const previousEHoldingsLocationKnown = location.search.includes('searchType');
-
-    if (location.state && location.state.eholdings) {
-      history.goBack();
-    } else if (previousEHoldingsLocationKnown) {
-      history.push({
-        pathname: '/eholdings',
-        search: location.search,
-      });
-    } else {
-      history.push({
-        pathname: '/eholdings',
-      });
-    }
+    history.push({
+      pathname: '/eholdings',
+      search: location.search,
+    });
   };
 
   renderFirstMenu = () => {

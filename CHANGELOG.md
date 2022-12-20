@@ -1,8 +1,7 @@
 # Change history for ui-eholdings
 
 ## [7.4.0] (IN PROGRESS)
-
-
+* Difficulty returning to the eholdings page after adding a new Agreement. (UIEH-1219)
 
 ## [7.3.2] (https://github.com/folio-org/ui-eholdings/tree/v7.3.2) (2022-11-30)
 
