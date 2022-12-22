@@ -50,7 +50,7 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'react/sort-prop-types': ['error'],
     'no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
-    'react-hooks/exhaustive-deps':  'off'
+    'react-hooks/exhaustive-deps':  'warn'
   },
   plugins: ['jest']
 };

@@ -35,7 +35,7 @@ const QuerySearchList = ({
 
   useEffect(() => {
     fetch(collection.page);
-  }, []);
+  }, [collection.page, fetch]);
 
   const {
     totalResults,

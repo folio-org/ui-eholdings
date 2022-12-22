@@ -2,6 +2,7 @@ import {
   useEffect,
   useState,
   useRef,
+  useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
@@ -59,72 +60,83 @@ const SettingsKnowledgeBase = ({
   const intl = useIntl();
   const history = useHistory();
 
-  const [toasts, setToasts] = useState([]);
+  const [toasts, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'UPDATE':
+        return ([
+          ...state,
+          {
+            id: `settings-kb-${config.id}`,
+            message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
+            type: 'success',
+          },
+        ]);
+      case 'SAVE':
+        return ([
+          ...state,
+          {
+            id: `settings-kb-${config.id}-${Date.now()}`,
+            message: (
+              <FormattedMessage
+                id="ui-eholdings.settings.kb.saved"
+                values={{ name: config.attributes.name }}
+              />
+            ),
+            type: 'success',
+          },
+        ]);
+      case 'ERROR':
+        return ([
+          ...state,
+          ...kbCredentials.errors.map(error => ({
+            id: `settings-kb-${config.id}-${Date.now()}`,
+            message: error.title,
+            type: 'error',
+          })),
+        ]);
+      default:
+        throw new Error();
+    }
+  }, []);
   const [deleteConfirmationModalDisplayed, setDeleteConfirmationModalDisplayed] = useState(false);
 
   useEffect(() => {
     if (kbCredentials.hasUpdated) {
       history.push({
-        pathname: `/settings/eholdings/knowledge-base/${config.id}`,
+        pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
           eholdings: true,
           isFreshlySaved: true,
         },
       });
 
-      setToasts([
-        ...toasts,
-        {
-          id: `settings-kb-${config.id}`,
-          message: <FormattedMessage id="ui-eholdings.settings.kb.updated" />,
-          type: 'success',
-        },
-      ]);
+      dispatch({ type: 'UPDATE' });
     }
-  }, [kbCredentials.hasUpdated]);
+  }, [config?.id, history, kbCredentials.hasUpdated]);
 
   useEffect(() => {
     if (kbCredentials.hasSaved) {
       history.push({
-        pathname: `/settings/eholdings/knowledge-base/${config.id}`,
+        pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
           eholdings: true,
           isFreshlySaved: true,
         },
       });
 
-      setToasts([
-        ...toasts,
-        {
-          id: `settings-kb-${config.id}-${Date.now()}`,
-          message: (
-            <FormattedMessage
-              id="ui-eholdings.settings.kb.saved"
-              values={{ name: config.attributes.name }}
-            />
-          ),
-          type: 'success',
-        },
-      ]);
+      dispatch({ type: 'SAVE' });
     }
-  }, [kbCredentials.hasSaved]);
+  }, [config?.id, history, kbCredentials.hasSaved]);
 
   const prevErrors = useRef(kbCredentials.errors).current;
 
   useEffect(() => {
     if (prevErrors !== kbCredentials.errors) {
-      setToasts([
-        ...toasts,
-        ...kbCredentials.errors.map(error => ({
-          id: `settings-kb-${config.id}-${Date.now()}`,
-          message: error.title,
-          type: 'error',
-        })),
-      ]);
+      dispatch({ type: 'ERROR' });
     }
 
     prevErrors.current = kbCredentials.errors;
-  }, [kbCredentials.errors]);
+  }, [kbCredentials.errors, prevErrors]);
 
   if (!config) {
     return null;

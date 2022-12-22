@@ -19,7 +19,7 @@ const SettingsRoute = ({
 
   useEffect(() => {
     getKbCredentials();
-  }, []);
+  }, [getKbCredentials]);
 
   const sortKbCredentials = () => {
     const kbCredentialsItems = kbCredentials.items;

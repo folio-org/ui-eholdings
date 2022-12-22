@@ -110,19 +110,19 @@ const SettingsUsageConsolidationRoute = ({
       setFormData({});
       setUsageConsolidationWasCleared({ [kbId]: false });
     }
-  }, [kbId]);
+  }, [kbId, prevKbId]);
 
   useEffect(() => {
     if (!usageConsolidationWasCleared[kbId]) {
       clearUsageConsolidation();
     }
-  }, [usageConsolidationWasCleared]);
+  }, [clearUsageConsolidation, kbId, usageConsolidationWasCleared]);
 
   useEffect(() => {
     if (!usageConsolidationWasCleared[kbId] && every(usageConsolidation, isEmpty)) {
       setUsageConsolidationWasCleared({ [kbId]: true });
     }
-  }, [usageConsolidation, usageConsolidationWasCleared]);
+  }, [kbId, usageConsolidation, usageConsolidationWasCleared]);
 
   useEffect(() => {
     if (usageConsolidationWasCleared[kbId]) {
@@ -178,14 +178,7 @@ const SettingsUsageConsolidationRoute = ({
     } else if (credentialsId) {
       patchUsageConsolidation({ data, credentialsId });
     }
-  }, [
-    usageConsolidation.data?.credentialsId,
-    usageConsolidation.credentialsId,
-    usageConsolidation.customerKey,
-    kbId,
-    postUsageConsolidation,
-    patchUsageConsolidation,
-  ]);
+  }, [usageConsolidationData.customerKey, usageConsolidationData?.credentialsId, postUsageConsolidation, kbId, patchUsageConsolidation]);
 
   useEffect(() => {
     if (
@@ -196,7 +189,7 @@ const SettingsUsageConsolidationRoute = ({
     ) {
       updateUsageConsolidation(formData);
     }
-  }, [ucCredentials, formData, updateUsageConsolidation, usageConsolidationWasCleared]);
+  }, [ucCredentials, formData, updateUsageConsolidation, usageConsolidationWasCleared, kbId]);
 
   const onSubmit = (params) => {
     const {

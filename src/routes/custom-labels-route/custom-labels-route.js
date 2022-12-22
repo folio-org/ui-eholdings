@@ -29,11 +29,7 @@ const SettingsCustomLabelsRoute = ({
 
   useEffect(() => {
     getCustomLabels(match.params.kbId);
-  }, []);
-
-  useEffect(() => {
-    getCustomLabels(match.params.kbId);
-  }, [match.params.kbId]);
+  }, [getCustomLabels, match.params.kbId]);
 
   return (
     <TitleManager
