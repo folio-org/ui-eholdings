@@ -41,6 +41,7 @@ class ProviderShow extends Component {
     fetchPackages: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     listType: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     providerPackages: PropTypes.shape({
@@ -186,11 +187,18 @@ class ProviderShow extends Component {
   }
 
   renderPackagesListItem = (item) => {
-    const itemLink = item.attributes && `/eholdings/packages/${item.id}`;
+    const { location } = this.props;
+
+    const link = {
+      pathname: `/eholdings/packages/${item.id}`,
+      state: {
+        locationSearch: location?.search,
+      },
+    };
 
     return (
       <SearchPackageListItem
-        link={itemLink}
+        link={item.attributes && link}
         item={item.attributes}
         showTitleCount
         showSelectedCount
