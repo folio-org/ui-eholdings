@@ -50,11 +50,6 @@ const SettingsRootProxyRoute = ({
     }
   }, [confirmUpdateRootProxy, history, match.params.kbId, rootProxy.isUpdated]);
 
-  useEffect(() => {
-    getProxyTypes(match.params.kbId);
-    getRootProxy(match.params.kbId);
-  }, [getProxyTypes, getRootProxy, match.params.kbId]);
-
   const rootProxySubmitted = (values) => {
     const { credentialsId, ...rootProxyData } = rootProxy.data;
     rootProxyData.attributes.proxyTypeId = values.rootProxyServer;

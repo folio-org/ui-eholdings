@@ -83,7 +83,8 @@ const AgreementsAccordion = ({
     if (stripes.hasPerm('erm.agreements.collection.get')) {
       getAgreements(refId);
     }
-  }, [getAgreements, refId, stripes]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (agreements.isUnassigned) {

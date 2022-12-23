@@ -19,7 +19,8 @@ const SettingsRoute = ({
 
   useEffect(() => {
     getKbCredentials();
-  }, [getKbCredentials]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const sortKbCredentials = () => {
     const kbCredentialsItems = kbCredentials.items;
