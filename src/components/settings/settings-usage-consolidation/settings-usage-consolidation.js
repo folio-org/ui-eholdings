@@ -82,7 +82,7 @@ const SettingsUsageConsolidation = ({
         type: 'error',
       }]);
     }
-  }, [usageConsolidation]);
+  }, [prevUsageConsolidation, usageConsolidation, usageConsolidationWithoutKey]);
 
   useEffect(() => {
     if (ucCredentials.isFailed) {

@@ -35,6 +35,7 @@ const QuerySearchList = ({
 
   useEffect(() => {
     fetch(collection.page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {

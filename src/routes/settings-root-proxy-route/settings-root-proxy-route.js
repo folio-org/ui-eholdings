@@ -34,7 +34,7 @@ const SettingsRootProxyRoute = ({
   useEffect(() => {
     getProxyTypes(match.params.kbId);
     getRootProxy(match.params.kbId);
-  }, []);
+  }, [getProxyTypes, getRootProxy, match.params.kbId]);
 
   useEffect(() => {
     if (rootProxy.isUpdated) {
@@ -48,12 +48,7 @@ const SettingsRootProxyRoute = ({
 
       confirmUpdateRootProxy();
     }
-  }, [rootProxy.isUpdated]);
-
-  useEffect(() => {
-    getProxyTypes(match.params.kbId);
-    getRootProxy(match.params.kbId);
-  }, [match.params.kbId]);
+  }, [confirmUpdateRootProxy, history, match.params.kbId, rootProxy.isUpdated]);
 
   const rootProxySubmitted = (values) => {
     const { credentialsId, ...rootProxyData } = rootProxy.data;

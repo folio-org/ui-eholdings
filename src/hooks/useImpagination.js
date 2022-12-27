@@ -46,7 +46,7 @@ const useImpagination = ({
     } else if (isMainPageSearch) {
       fetch(page);
     }
-  }, [page]);
+  }, [fetch, isMainPageSearch, page]);
 
   useEffect(() => {
     if (isInitialMount.current[1]) {
@@ -54,7 +54,7 @@ const useImpagination = ({
     } else if (isMainPageSearch) {
       fetch(1);
     }
-  }, [collection.key]);
+  }, [collection.key, fetch, isMainPageSearch]);
 
   if (!isMainPageSearch) {
     return false;
