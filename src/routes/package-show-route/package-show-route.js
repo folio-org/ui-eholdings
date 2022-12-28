@@ -304,7 +304,7 @@ class PackageShowRoute extends Component {
     history.replace({
       ...location,
       search,
-    }, { eholdings: true });
+    }, { ...location.state, eholdings: true });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams: {
@@ -413,6 +413,7 @@ class PackageShowRoute extends Component {
           costPerUse={costPerUse}
           isTitlesUpdating={isTitlesUpdating}
           pkgSearchParams={pkgSearchParams}
+          location={history.location}
           onToggleTitles={this.toggleTitles}
           isFreshlySaved={
             history.location.state &&

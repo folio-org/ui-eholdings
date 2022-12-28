@@ -242,6 +242,7 @@ class TitleShow extends Component {
       costPerUse,
       intl,
       customPackages,
+      location,
       onPackageFilter,
     } = this.props;
     const {
@@ -450,7 +451,12 @@ class TitleShow extends Component {
               >
                 {item => (
                   <SearchPackageListItem
-                    link={`/eholdings/resources/${item.id}`}
+                    link={{
+                      pathname: `/eholdings/resources/${item.id}`,
+                      state: {
+                        locationSearch: location.search,
+                      },
+                    }}
                     packageName={item.packageName}
                     item={item}
                     headingLevel='h4'

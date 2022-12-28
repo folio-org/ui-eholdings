@@ -202,6 +202,7 @@ class ProviderShowRoute extends Component {
           rootProxy={rootProxy}
           listType={listTypes.PACKAGES}
           updateFolioTags={updateFolioTags}
+          location={history.location}
           searchModal={
             <SearchModal
               tagsModel={tagsModel}
