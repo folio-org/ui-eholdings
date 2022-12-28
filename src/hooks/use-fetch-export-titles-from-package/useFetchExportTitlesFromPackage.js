@@ -2,6 +2,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from 'react';
 import { useStripes } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
@@ -23,18 +24,18 @@ const useFetchExportTitlesFromPackage = ({
   const queryString = qs.stringify(params, { addQueryPrefix: true });
   const url = `${okapi.url}/eholdings/packages/${packageId}/resources/costperuse/export${queryString}`;
 
-  const headers = {
+  const headers = useMemo(() => ({
     'X-Okapi-Tenant': okapi.tenant,
     'X-Okapi-Token': okapi.token,
     'Content-Type': 'application/json',
-  };
+  }), [okapi.tenant, okapi.token]);
 
-  const saveReport = reportData => {
+  const saveReport = useCallback(reportData => {
     const blob = new Blob([reportData], { type: EXPORT_TITLES_FILE_FORMAT });
     const fileName = `${packageName}_Usage.${EXPORT_TITLES_FILE_FORMAT}`;
 
     saveAs(blob, fileName);
-  };
+  }, [packageName]);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -72,7 +73,7 @@ const useFetchExportTitlesFromPackage = ({
     }
 
     setIsLoading(false);
-  });
+  }, [callout, headers, saveReport, url]);
 
   useEffect(() => {
     if (isLoading) {

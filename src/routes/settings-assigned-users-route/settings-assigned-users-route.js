@@ -58,7 +58,7 @@ const SettingsAssignedUsersRoute = ({
 
   useEffect(() => {
     return () => clearKBCredentialsUser();
-  }, []);
+  }, [clearKBCredentialsUser]);
 
   const hideAlreadyAssignedMessage = () => {
     setAlreadyAssignedMessageDisplayed(false);

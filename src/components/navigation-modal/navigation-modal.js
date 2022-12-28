@@ -46,10 +46,9 @@ const NavigationModal = ({
   const intl = useIntl();
   const history = useHistory();
   const [modalState, setModalState] = useState(INITIAL_MODAL_STATE);
-  let unblock;
 
   useEffect(() => {
-    unblock = history.block(location => {
+    const unblock = history.block(location => {
       if (when) {
         setModalState({
           open: true,
