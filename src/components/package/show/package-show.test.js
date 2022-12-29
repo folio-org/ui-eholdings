@@ -151,7 +151,6 @@ const renderPackageShow = (props = {}) => render(
       }}
       toggleSelected={mockToggleSelected}
       updateFolioTags={mockUpdateFolioTags}
-      location={{}}
       {...props}
     />
   </Harness>

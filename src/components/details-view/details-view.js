@@ -104,7 +104,7 @@ class DetailsView extends Component {
 
     history.push({
       pathname: '/eholdings',
-      search: location.state?.locationSearch || location.search,
+      search: location.search,
     });
   };
 
