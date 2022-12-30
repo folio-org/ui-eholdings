@@ -57,8 +57,10 @@ class ResourceEditRoute extends Component {
     const { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
-      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
-        { eholdings: true, isDestroyed: true });
+      history.replace(
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`, // OK REDIRECT
+        { eholdings: true, isDestroyed: true },
+      );
     }
 
     if (id !== prevProps.match.params.id) {
@@ -73,7 +75,7 @@ class ResourceEditRoute extends Component {
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
     if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,
         state: {
@@ -178,7 +180,7 @@ class ResourceEditRoute extends Component {
       }
     };
 
-    history.replace(viewRouteState);
+    history.replace(viewRouteState); // OK REDIRECT
   }
 
   render() {

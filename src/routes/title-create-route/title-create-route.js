@@ -26,7 +26,7 @@ export default class TitleCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.replace(
+      this.props.history.replace( // OK REDIRECT
         `/eholdings/titles/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -57,12 +57,6 @@ export default class TitleCreateRoute extends Component {
       createRequest,
     } = this.props;
 
-    let onCancel = noop;
-
-    if (location.state && location.state.eholdings) {
-      onCancel = () => history.goBack();
-    }
-
     return (
       <FormattedMessage id="ui-eholdings.label.create.title">
         {([pageTitle]) => (
@@ -72,7 +66,7 @@ export default class TitleCreateRoute extends Component {
               customPackages={customPackages}
               onSubmit={this.createTitle}
               onPackageFilter={this.onPackageFilter}
-              onCancel={onCancel}
+              onCancel={location.state?.eholdings ? () => history.goBack() : null} // DONE REDIRECT
               removeCreateRequests={removeCreateRequests}
             />
           </TitleManager>

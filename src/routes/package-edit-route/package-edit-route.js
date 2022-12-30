@@ -62,13 +62,13 @@ class PackageEditRoute extends Component {
     if (!prevProps.model.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
       if (location.search) {
-        history.replace({
+        history.replace({ // OK REDIRECT
           pathname: '/eholdings',
           search: this.props.location.search
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
-        history.replace('/eholdings?searchType=packages', { eholdings: true });
+        history.replace('/eholdings?searchType=packages', { eholdings: true }); // OK REDIRECT
       }
     }
 
@@ -88,7 +88,7 @@ class PackageEditRoute extends Component {
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
     if (isFreshlySaved || (next.isLoaded && !next.isSelected)) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/packages/${next.id}`,
         search: this.props.location.search,
         state: { eholdings: true, isFreshlySaved }
@@ -231,7 +231,7 @@ class PackageEditRoute extends Component {
       },
     };
 
-    history.replace(viewRouteState);
+    history.replace(viewRouteState); // OK REDIRECT
   }
 
   render() {

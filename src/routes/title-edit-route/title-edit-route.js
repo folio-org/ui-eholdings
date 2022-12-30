@@ -47,14 +47,15 @@ class TitleEditRoute extends Component {
 
     // prevent being able to visit an edit form for uneditable managed titles
     if (model.isLoaded && !model.isTitleCustom) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/titles/${model.id}`,
         search: location.search,
-      }, { eholdings: true });
+        state: { eholdings: true },
+      });
     }
 
     if (!prevProps.updateRequest.isResolved && updateRequest.isResolved) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/titles/${model.id}`,
         state: {
           eholdings: true,
@@ -72,7 +73,7 @@ class TitleEditRoute extends Component {
     const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/titles/${model.id}`,
         search: location.search,
         state: {
@@ -100,7 +101,7 @@ class TitleEditRoute extends Component {
       state: { eholdings: true },
     };
 
-    history.replace(viewRouteState);
+    history.replace(viewRouteState); // OK REDIRECT
   }
 
   titleEditSubmitted = (values) => {

@@ -139,13 +139,13 @@ class PackageShowRoute extends Component {
     if (!old.destroy.isResolved && next.destroy.isResolved) {
       // if package was reached based on search
       if (location.search) {
-        history.replace({
+        history.replace({ // OK REDIRECT
           pathname: '/eholdings',
           search: location.search,
         }, { eholdings: true });
         // package was reached directly from url not by search
       } else {
-        history.replace('/eholdings?searchType=packages', { eholdings: true });
+        history.replace('/eholdings?searchType=packages', { eholdings: true }); // OK REDIRECT
       }
     }
 
@@ -301,10 +301,10 @@ class PackageShowRoute extends Component {
       searchfield: pkgSearchParams.searchfield,
     });
 
-    history.replace({
+    history.replace({ // OK REDIRECT
       ...location,
       search,
-    }, { eholdings: true });
+    });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams: {
@@ -353,7 +353,7 @@ class PackageShowRoute extends Component {
       },
     };
 
-    history.replace(editRouteState);
+    history.replace(editRouteState); // OK REDIRECT
   }
 
   toggleTitles = () => {

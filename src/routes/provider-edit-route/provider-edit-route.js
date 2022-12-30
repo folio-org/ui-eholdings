@@ -46,7 +46,7 @@ export default class ProviderEditRoute extends Component {
     const isRejected = model.update.isRejected;
 
     if (wasPending && needsUpdate && !isRejected) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/providers/${model.id}`,
         search: location.search,
         state: { eholdings: true, isFreshlySaved: true }
@@ -85,7 +85,7 @@ export default class ProviderEditRoute extends Component {
       }
     };
 
-    history.replace(viewRouteState);
+    history.replace(viewRouteState); // OK REDIRECT
   }
 
   render() {

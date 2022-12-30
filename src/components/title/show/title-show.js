@@ -152,7 +152,7 @@ class TitleShow extends Component {
       countOfAppliedPackagesFilters,
       packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
-    history.replace({ search: newSearch }, { eholdings: true });
+    history.replace({ search: newSearch }); // OK REDIRECT
   }
 
   get lastMenu() {

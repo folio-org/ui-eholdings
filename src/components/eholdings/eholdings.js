@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+
 import { CommandList } from '@folio/stripes/components';
 
 import {
@@ -38,6 +39,7 @@ import SettingsUsageConsolidationRoute from '../../routes/settings-usage-consoli
 
 import KeyShortcutsWrapper from '../key-shortcuts-wrapper';
 import EHoldingsAppContext from '../eholdings-app-context';
+import { RouteHistoryContextProvider } from '../route-history';
 import { commands } from '../../commands';
 
 class EHoldings extends Component {
@@ -74,7 +76,10 @@ class EHoldings extends Component {
     if (searchElement) {
       searchElement.focus();
     } else {
-      history.push({ pathname: '/eholdings', search });
+      history.push({
+        pathname: '/eholdings',
+        search,
+      }); // DONE REDIRECT
     }
   };
 
@@ -85,45 +90,47 @@ class EHoldings extends Component {
     } = this.props;
 
     return (
-      <CommandList commands={commands}>
-        {showSettings
-          ? (
-            <Route path={rootPath} component={SettingsRoute}>
-              <Route path={`${rootPath}/knowledge-base/:kbId`} exact component={SettingsKnowledgeBaseRoute} />
-              <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
-              <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
-              <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
-              <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
-              <Route path={`${rootPath}/:kbId/usage-consolidation`} exact component={SettingsUsageConsolidationRoute} />
-            </Route>
-          )
-          : (
-            <>
-              <EHoldingsAppContext />
-              <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
-                <Route path={rootPath} component={ApplicationRoute}>
-                  <Switch>
-                    <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShowRoute} />
-                    <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEditRoute} />
-                    <Route path={`${rootPath}/packages/new`} exact component={PackageCreateRoute} />
-                    <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShowRoute} />
-                    <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEditRoute} />
-                    <Route path={`${rootPath}/titles/new`} exact component={TitleCreateRoute} />
-                    <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShowRoute} />
-                    <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEditRoute} />
-                    <Route path={`${rootPath}/resources/:id`} exact component={ResourceShowRoute} />
-                    <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEditRoute} />
-                    <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
-                    <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
-                    <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
-                    <Route path={`${rootPath}/`} exact component={SearchRoute} />
-                  </Switch>
-                </Route>
-              </KeyShortcutsWrapper>
-            </>
-          )
-        }
-      </CommandList>
+      <RouteHistoryContextProvider>
+        <CommandList commands={commands}>
+          {showSettings
+            ? (
+              <Route path={rootPath} component={SettingsRoute}>
+                <Route path={`${rootPath}/knowledge-base/:kbId`} exact component={SettingsKnowledgeBaseRoute} />
+                <Route path={`${rootPath}/:kbId/root-proxy`} exact component={SettingsRootProxyRoute} />
+                <Route path={`${rootPath}/:kbId/custom-labels`} exact component={SettingsCustomLabelsRoute} />
+                <Route path={`${rootPath}/:kbId/access-status-types`} exact component={SettingsAccessStatusTypesRoute} />
+                <Route path={`${rootPath}/:kbId/users`} exact component={SettingsAssignedUsersRoute} />
+                <Route path={`${rootPath}/:kbId/usage-consolidation`} exact component={SettingsUsageConsolidationRoute} />
+              </Route>
+            )
+            : (
+              <>
+                <EHoldingsAppContext />
+                <KeyShortcutsWrapper focusSearchField={this.focusSearchField}>
+                  <Route path={rootPath} component={ApplicationRoute}>
+                    <Switch>
+                      <Route path={`${rootPath}/providers/:providerId`} exact component={ProviderShowRoute} />
+                      <Route path={`${rootPath}/providers/:providerId/edit`} exact component={ProviderEditRoute} />
+                      <Route path={`${rootPath}/packages/new`} exact component={PackageCreateRoute} />
+                      <Route path={`${rootPath}/packages/:packageId`} exact component={PackageShowRoute} />
+                      <Route path={`${rootPath}/packages/:packageId/edit`} exact component={PackageEditRoute} />
+                      <Route path={`${rootPath}/titles/new`} exact component={TitleCreateRoute} />
+                      <Route path={`${rootPath}/titles/:titleId`} exact component={TitleShowRoute} />
+                      <Route path={`${rootPath}/titles/:titleId/edit`} exact component={TitleEditRoute} />
+                      <Route path={`${rootPath}/resources/:id`} exact component={ResourceShowRoute} />
+                      <Route path={`${rootPath}/resources/:id/edit`} exact component={ResourceEditRoute} />
+                      <Route path={`${rootPath}/notes/new`} exact component={NoteCreate} />
+                      <Route path={`${rootPath}/notes/:noteId`} exact component={NoteView} />
+                      <Route path={`${rootPath}/notes/:id/edit`} exact component={NoteEdit} />
+                      <Route path={`${rootPath}/`} exact component={SearchRoute} />
+                    </Switch>
+                  </Route>
+                </KeyShortcutsWrapper>
+              </>
+            )
+          }
+        </CommandList>
+      </RouteHistoryContextProvider>
     );
   }
 }

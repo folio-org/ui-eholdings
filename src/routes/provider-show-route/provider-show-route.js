@@ -131,10 +131,10 @@ class ProviderShowRoute extends Component {
       searchfield: pkgSearchParams.searchfield,
     });
 
-    history.replace({
+    history.replace({ // OK REDIRECT
       ...location,
       search,
-    }, { eholdings: true });
+    });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams: {
@@ -171,7 +171,7 @@ class ProviderShowRoute extends Component {
       },
     };
 
-    history.replace(editRouteState);
+    history.replace(editRouteState); // OK REDIRECT
   }
 
   render() {

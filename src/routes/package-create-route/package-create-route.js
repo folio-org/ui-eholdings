@@ -28,7 +28,7 @@ export default class PackageCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.replace(
+      this.props.history.replace( // OK REDIRECT
         `/eholdings/packages/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );
@@ -68,11 +68,6 @@ export default class PackageCreateRoute extends Component {
       accessStatusTypes,
     } = this.props;
 
-    let onCancel;
-    if (location.state && location.state.eholdings) {
-      onCancel = () => history.goBack();
-    }
-
     return (
       <FormattedMessage id="ui-eholdings.label.create.package">
         {([pageTitle]) => (
@@ -80,7 +75,7 @@ export default class PackageCreateRoute extends Component {
             <View
               request={this.props.createRequest}
               onSubmit={this.packageCreateSubmitted}
-              onCancel={onCancel}
+              onCancel={location.state?.eholdings ? () => history.goBack : null} // OK REDIRECT
               removeCreateRequests={removeCreateRequests}
               accessStatusTypes={accessStatusTypes}
             />

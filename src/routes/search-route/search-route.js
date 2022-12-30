@@ -85,7 +85,7 @@ class SearchRoute extends Component {
     const { location, history, match } = nextProps;
     const { searchType, ...params } = qs.parse(location.search);
     if (!searchType) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: '/eholdings',
         search: '?searchType=providers',
       });
@@ -277,9 +277,9 @@ class SearchRoute extends Component {
 
       // if only the filters have changed, just replace the current location
       if (params.q === this.state.params.q) {
-        history.replace(url);
+        history.replace(url); // OK REDIRECT
       } else {
-        history.push(url);
+        history.push(url); // OK REDIRECT
       }
     }
   };
@@ -386,7 +386,7 @@ class SearchRoute extends Component {
       onUpdateOffset: this.handleOffset,
       fetch: this.fetchPage,
       onClickItem: (detailUrl) => {
-        history.push({
+        history.push({ // OK REDIRECT
           pathname: detailUrl,
           search: location.search,
           state: { eholdings: true },

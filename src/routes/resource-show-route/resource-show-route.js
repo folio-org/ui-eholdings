@@ -83,11 +83,13 @@ class ResourceShowRoute extends Component {
     } = old;
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
-      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+      history.replace(
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`, // OK REDIRECT
         {
           eholdings: true,
           isDestroyed: true,
-        });
+        },
+      );
     }
 
     if (isSelectedChanged) {
@@ -95,7 +97,7 @@ class ResourceShowRoute extends Component {
     }
 
     if (wasUpdated) {
-      history.replace({
+      history.replace({ // OK REDIRECT
         pathname: `/eholdings/resources/${next.id}`,
         search: location.search,
         state: {
@@ -159,7 +161,7 @@ class ResourceShowRoute extends Component {
       state: { eholdings: true },
     };
 
-    history.replace(editRouteState);
+    history.replace(editRouteState); // OK REDIRECT
   }
 
   fetchResourceCostPerUse = (filterData) => {

@@ -56,11 +56,14 @@ class Settings extends Component {
   }
 
   handleKnowledgeBaseHeadingClick = (id) => {
-    this.props.history.push(`/settings/eholdings/knowledge-base/${id}`);
+    this.props.history.push({
+      pathname: `/settings/eholdings/knowledge-base/${id}`,
+      state: { eholdings: true },
+    }); // DONE REDIRECT
   }
 
   goToCreateKnowledgeBasePage = () => {
-    this.props.history.push({
+    this.props.history.push({ // OK REDIRECT
       pathname: '/settings/eholdings/knowledge-base/new',
       state: { eholdings: true }
     });

@@ -75,7 +75,7 @@ const SearchPaneset = ({
     const createDeletePermission = stripes.hasPerm(TITLES_PACKAGES_CREATE_DELETE_PERMISSION);
 
     if (isPackageOrTitle && createDeletePermission) {
-      history.push({
+      history.push({ // OK REDIRECT
         pathname: `/eholdings/${resultsType}/new`,
         state: { eholdings: true },
       });
