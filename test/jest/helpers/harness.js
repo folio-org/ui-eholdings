@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 
+import { RouteHistoryContext } from '../../../src/components/route-history';
 import IntlProvider from './intl';
 import buildStripes from '../__mock__/stripesCore.mock';
 
@@ -38,16 +39,23 @@ const Harness = ({
 
   const store = createStore(reducer);
 
+  const routeHistoryCtx = {
+    routeHistory: [],
+    navigateBack: jest.fn(),
+  };
+
   return (
     <StripesContext.Provider value={stripes || STRIPES}>
       <Router history={history}>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <IntlProvider>
-              {children}
-            </IntlProvider>
-          </QueryClientProvider>
-        </Provider>
+        <RouteHistoryContext.Provider value={routeHistoryCtx}>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <IntlProvider>
+                {children}
+              </IntlProvider>
+            </QueryClientProvider>
+          </Provider>
+        </RouteHistoryContextProvider>
       </Router>
     </StripesContext.Provider>
   );
