@@ -75,7 +75,7 @@ export default class PackageCreateRoute extends Component {
             <View
               request={this.props.createRequest}
               onSubmit={this.packageCreateSubmitted}
-              onCancel={location.state?.eholdings ? () => history.goBack : null} // OK REDIRECT
+              onCancel={location.state?.eholdings ? () => history.goBack() : null}
               removeCreateRequests={removeCreateRequests}
               accessStatusTypes={accessStatusTypes}
             />

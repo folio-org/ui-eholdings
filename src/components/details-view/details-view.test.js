@@ -10,7 +10,6 @@ import Harness from '../../../test/jest/helpers/harness';
 import DetailsView from './details-view';
 
 const history = createMemoryHistory();
-const historyPushSpy = jest.spyOn(history, 'push');
 
 const location = {
   pathname: 'pathname',
@@ -30,6 +29,8 @@ const model = {
   },
 };
 
+const mockGoBack = jest.fn();
+
 const getDetailView = props => (
   <Harness>
     <DetailsView
@@ -40,6 +41,7 @@ const getDetailView = props => (
       paneTitle={model.name}
       type="testtype"
       resultsLength={10000}
+      goBack={mockGoBack}
       {...props}
     />
   </Harness>
@@ -51,6 +53,10 @@ const renderDetailsView = (props = {}) => render(
 
 describe('Given DetailsView', () => {
   const mockRenderList = jest.fn();
+
+  beforeEach(() => {
+    mockGoBack.mockClear();
+  });
 
   it('should render DetailsView component', () => {
     const { getByTestId } = renderDetailsView();
@@ -230,31 +236,19 @@ describe('Given DetailsView', () => {
   });
 
   describe('when click on the close icon in the first menu pane', () => {
-    describe('when location search includes searchType', () => {
-      it('should navigate back to the previous eholdings location', () => {
-        const { getByRole } = renderDetailsView({
-          location: {
-            ...location,
-            search: '?searchType=packages&q=test',
-          },
-        });
-
-        const closeIcon = getByRole('button', { name: 'ui-eholdings.label.icon.closeX' });
-
-        fireEvent.click(closeIcon);
-
-        expect(historyPushSpy).toBeCalled();
+    it('should call goBack', () => {
+      const { getByRole } = renderDetailsView({
+        location: {
+          ...location,
+          search: '?searchType=packages&q=test',
+        },
       });
-    });
-
-    it('should navigate to /eholdings', () => {
-      const { getByRole } = renderDetailsView();
 
       const closeIcon = getByRole('button', { name: 'ui-eholdings.label.icon.closeX' });
 
       fireEvent.click(closeIcon);
 
-      expect(history.location.pathname).toBe('/eholdings');
+      expect(mockGoBack).toBeCalled();
     });
   });
 });

@@ -40,7 +40,7 @@ const Harness = ({
   const store = createStore(reducer);
 
   const routeHistoryCtx = {
-    routeHistory: [],
+    routeHistory: [{ pathname: '/eholdings' }],
     navigateBack: jest.fn(),
   };
 
