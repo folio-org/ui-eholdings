@@ -1,6 +1,8 @@
 import {
   createContext,
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -41,7 +43,7 @@ const RouteHistoryContextProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const navigateBack = () => {
+  const navigateBack = useCallback(() => {
     const nonEholdingsPagesCount = routeHistory.current.findIndex((page) => page.pathname.includes('eholdings') && page.pathname !== location.pathname);
 
     if (nonEholdingsPagesCount > 0) {
@@ -52,12 +54,12 @@ const RouteHistoryContextProvider = ({ children }) => {
     } else {
       history.goBack();
     }
-  };
+  }, [history, routeHistory, location.pathname]);
 
-  const contextValue = {
+  const contextValue = useMemo(() => ({
     navigateBack,
     routeHistory: routeHistory.current,
-  };
+  }), [routeHistory, navigateBack]);
 
   return (
     <RouteHistoryContext.Provider value={contextValue}>{children}</RouteHistoryContext.Provider>
