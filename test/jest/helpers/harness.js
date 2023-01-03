@@ -55,7 +55,7 @@ const Harness = ({
               </IntlProvider>
             </QueryClientProvider>
           </Provider>
-        </RouteHistoryContextProvider>
+        </RouteHistoryContext.Provider>
       </Router>
     </StripesContext.Provider>
   );

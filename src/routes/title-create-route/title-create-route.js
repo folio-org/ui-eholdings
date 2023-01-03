@@ -2,7 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import noop from 'lodash/noop';
 
 import { TitleManager } from '@folio/stripes/core';
 
