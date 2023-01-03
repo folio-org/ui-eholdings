@@ -78,9 +78,9 @@ const NavigationModal = ({
 
     if ((historyAction === historyActions.REPLACE)
       || history.action === historyActions.REPLACE) {
-      history.replace(modalState.location); // OK REDIRECT
+      history.replace(modalState.location);
     } else {
-      history.push(modalState.location); // OK REDIRECT
+      history.push(modalState.location);
     }
   };
 

@@ -79,7 +79,7 @@ class EHoldings extends Component {
       history.push({
         pathname: '/eholdings',
         search,
-      }); // DONE REDIRECT
+      });
     }
   };
 

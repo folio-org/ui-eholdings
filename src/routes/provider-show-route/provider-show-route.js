@@ -131,7 +131,7 @@ class ProviderShowRoute extends Component {
       searchfield: pkgSearchParams.searchfield,
     });
 
-    history.replace({ // OK REDIRECT
+    history.replace({
       ...location,
       search,
     });
@@ -171,7 +171,7 @@ class ProviderShowRoute extends Component {
       },
     };
 
-    history.replace(editRouteState); // OK REDIRECT
+    history.replace(editRouteState);
   }
 
   render() {

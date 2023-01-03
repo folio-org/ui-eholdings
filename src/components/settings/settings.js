@@ -59,11 +59,11 @@ class Settings extends Component {
     this.props.history.push({
       pathname: `/settings/eholdings/knowledge-base/${id}`,
       state: { eholdings: true },
-    }); // DONE REDIRECT
+    });
   }
 
   goToCreateKnowledgeBasePage = () => {
-    this.props.history.push({ // OK REDIRECT
+    this.props.history.push({
       pathname: '/settings/eholdings/knowledge-base/new',
       state: { eholdings: true }
     });

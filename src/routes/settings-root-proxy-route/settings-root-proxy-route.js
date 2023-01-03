@@ -38,7 +38,7 @@ const SettingsRootProxyRoute = ({
 
   useEffect(() => {
     if (rootProxy.isUpdated) {
-      history.push({ // OK REDIRECT
+      history.push({
         pathname: `/settings/eholdings/${match.params.kbId}/root-proxy`,
         state: {
           eholdings: true,

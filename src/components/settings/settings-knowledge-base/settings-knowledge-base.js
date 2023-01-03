@@ -102,7 +102,7 @@ const SettingsKnowledgeBase = ({
 
   useEffect(() => {
     if (kbCredentials.hasUpdated) {
-      history.push({ // OK REDIRECT
+      history.push({
         pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
           eholdings: true,
@@ -116,7 +116,7 @@ const SettingsKnowledgeBase = ({
 
   useEffect(() => {
     if (kbCredentials.hasSaved) {
-      history.push({ // OK REDIRECT
+      history.push({
         pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
           eholdings: true,

@@ -28,7 +28,7 @@ class NoteCreateRoute extends Component {
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         paneHeaderAppIcon={APP_ICON_NAME}
         domain={DOMAIN_NAME}
-        navigateBack={goBack} // OK REDIRECT
+        navigateBack={goBack}
       />
     );
   }

@@ -51,7 +51,7 @@ class TitleShowRoute extends Component {
     }
 
     if (!createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.push( // OK REDIRECT
+      this.props.history.push(
         `/eholdings/resources/${this.props.createRequest.records[0]}`,
         {
           eholdings: true,
@@ -104,7 +104,7 @@ class TitleShowRoute extends Component {
       state: { eholdings: true },
     };
 
-    history.replace(editRouteState); // OK REDIRECT
+    history.replace(editRouteState);
   }
 
   onPackageFilter = (searchParam) => {

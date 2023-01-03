@@ -31,7 +31,7 @@ class NoteViewRoute extends Component {
       match,
     } = this.props;
 
-    history.push({ // OK REDIRECT
+    history.push({
       pathname: `/eholdings/notes/${match.params.noteId}/edit/`,
       state: location.state,
     });

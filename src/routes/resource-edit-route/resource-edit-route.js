@@ -58,7 +58,7 @@ class ResourceEditRoute extends Component {
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
       history.replace(
-        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`, // OK REDIRECT
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         { eholdings: true, isDestroyed: true },
       );
     }
@@ -75,7 +75,7 @@ class ResourceEditRoute extends Component {
     const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
 
     if (isFreshlySaved || (model.isLoaded && !model.isSelected)) {
-      history.replace({ // OK REDIRECT
+      history.replace({
         pathname: `/eholdings/resources/${model.id}`,
         search: location.search,
         state: {
@@ -180,7 +180,7 @@ class ResourceEditRoute extends Component {
       }
     };
 
-    history.replace(viewRouteState); // OK REDIRECT
+    history.replace(viewRouteState);
   }
 
   render() {

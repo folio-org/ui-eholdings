@@ -84,7 +84,7 @@ class ResourceShowRoute extends Component {
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
       history.replace(
-        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`, // OK REDIRECT
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         {
           eholdings: true,
           isDestroyed: true,
@@ -97,7 +97,7 @@ class ResourceShowRoute extends Component {
     }
 
     if (wasUpdated) {
-      history.replace({ // OK REDIRECT
+      history.replace({
         pathname: `/eholdings/resources/${next.id}`,
         search: location.search,
         state: {
@@ -161,7 +161,7 @@ class ResourceShowRoute extends Component {
       state: { eholdings: true },
     };
 
-    history.replace(editRouteState); // OK REDIRECT
+    history.replace(editRouteState);
   }
 
   fetchResourceCostPerUse = (filterData) => {

@@ -28,7 +28,7 @@ export default class PackageCreateRoute extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.createRequest.isResolved && this.props.createRequest.isResolved) {
-      this.props.history.replace( // OK REDIRECT
+      this.props.history.replace(
         `/eholdings/packages/${this.props.createRequest.records[0]}`,
         { eholdings: true, isNewRecord: true }
       );

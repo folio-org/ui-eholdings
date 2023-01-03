@@ -25,7 +25,7 @@ class NoteEditRoute extends Component {
   };
 
   goToNoteView = () => {
-    this.props.goBack(); // OK REDIRECT
+    this.props.goBack();
   }
 
   render() {
