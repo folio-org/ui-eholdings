@@ -108,9 +108,9 @@ const TitleListItem = ({
           <div className={cx('itemMetadata')}>
             <SelectedLabel isSelected={item.isSelected} />
 
-            {item.visibilityData.isHidden && <HiddenLabel />}
+            {item.visibilityData?.isHidden && <HiddenLabel />}
 
-            {!isEmpty(item.tags.tagList) && <TagsLabel tagList={item.tags.tagList} />}
+            {!isEmpty(item.tags?.tagList) && <TagsLabel tagList={item.tags?.tagList} />}
           </div>
         )}
       </InternalLink>
