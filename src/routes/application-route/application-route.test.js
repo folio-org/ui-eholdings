@@ -249,12 +249,13 @@ describe('Given ApplicationRoute', () => {
     });
   });
 
-  describe('when eholdings interface is missing, status is not loading and page is not settings', () => {
+  describe('when eholdings interface is missing, status is finished and page is not settings', () => {
     it('should render no backend error', () => {
       const { getByText } = renderApplicationRoute({
         interfaces: {
           eholdings: null,
         },
+        isFinished: true,
       });
 
       expect(getByText('ui-eholdings.server.errors.noKbDetected')).toBeDefined();

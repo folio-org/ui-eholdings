@@ -16,6 +16,7 @@ export default connect(
     return {
       status: createResolver(eholdings?.data || {}).find('statuses', 'status'),
       interfaces: discovery?.interfaces || {},
+      isFinished: !!discovery?.isFinished,
       kbCredentials: selectPropFromData(store, 'kbCredentials'),
     };
   }, {
