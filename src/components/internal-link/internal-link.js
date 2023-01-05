@@ -38,7 +38,7 @@ const InternalLink = ({
   to,
   ...props
 }) => {
-  let location = { state: { ...to.state, eholdings: true, } };
+  let location = { state: { eholdings: true } };
 
   if (typeof to === 'string') {
     location.pathname = to;

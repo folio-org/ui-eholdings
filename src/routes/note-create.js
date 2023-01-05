@@ -11,17 +11,16 @@ import {
   APP_ICON_NAME,
 } from '../constants';
 import { formatNoteReferrerEntityData } from '../components/utilities';
+import { withHistoryBack } from '../hooks';
 
-export default class NoteCreateRoute extends Component {
+class NoteCreateRoute extends Component {
   static propTypes = {
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-    }).isRequired,
+    goBack: PropTypes.func.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
   };
 
   renderCreatePage() {
-    const { history } = this.props;
+    const { goBack } = this.props;
 
     return (
       <NoteCreatePage
@@ -29,7 +28,7 @@ export default class NoteCreateRoute extends Component {
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         paneHeaderAppIcon={APP_ICON_NAME}
         domain={DOMAIN_NAME}
-        navigateBack={history.goBack}
+        navigateBack={goBack}
       />
     );
   }
@@ -42,3 +41,5 @@ export default class NoteCreateRoute extends Component {
       : <Redirect to="/eholdings" />;
   }
 }
+
+export default withHistoryBack(NoteCreateRoute);

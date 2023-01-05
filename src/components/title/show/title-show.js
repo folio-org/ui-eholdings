@@ -152,7 +152,7 @@ class TitleShow extends Component {
       countOfAppliedPackagesFilters,
       packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
-    history.replace({ search: newSearch }, { eholdings: true });
+    history.replace({ search: newSearch });
   }
 
   get lastMenu() {
@@ -242,7 +242,6 @@ class TitleShow extends Component {
       costPerUse,
       intl,
       customPackages,
-      location,
       onPackageFilter,
     } = this.props;
     const {
@@ -451,12 +450,7 @@ class TitleShow extends Component {
               >
                 {item => (
                   <SearchPackageListItem
-                    link={{
-                      pathname: `/eholdings/resources/${item.id}`,
-                      state: {
-                        locationSearch: location.search,
-                      },
-                    }}
+                    link={`/eholdings/resources/${item.id}`}
                     packageName={item.packageName}
                     item={item}
                     headingLevel='h4'

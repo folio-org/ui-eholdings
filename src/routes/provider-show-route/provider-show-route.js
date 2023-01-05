@@ -134,7 +134,7 @@ class ProviderShowRoute extends Component {
     history.replace({
       ...location,
       search,
-    }, { eholdings: true });
+    });
 
     this.setState(({ queryId }) => ({
       pkgSearchParams: {
@@ -202,7 +202,6 @@ class ProviderShowRoute extends Component {
           rootProxy={rootProxy}
           listType={listTypes.PACKAGES}
           updateFolioTags={updateFolioTags}
-          location={history.location}
           searchModal={
             <SearchModal
               tagsModel={tagsModel}

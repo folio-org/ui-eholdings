@@ -33,7 +33,6 @@ jest.mock('@folio/stripes/smart-components', () => ({
 }));
 
 const history = {
-  goBack: jest.fn(),
   push: jest.fn(),
 };
 
@@ -49,6 +48,8 @@ const match = {
   },
 };
 
+const mockGoBack = jest.fn();
+
 const getNoteViewRoute = (props = {}) => (
   <MemoryRouter>
     <Harness>
@@ -56,6 +57,7 @@ const getNoteViewRoute = (props = {}) => (
         history={history}
         location={location}
         match={match}
+        goBack={mockGoBack}
         {...props}
       />
       Page content
@@ -67,7 +69,7 @@ const renderNoteViewRoute = (props) => render(getNoteViewRoute(props));
 
 describe('Given NoteViewRoute', () => {
   beforeEach(() => {
-    history.goBack.mockClear();
+    mockGoBack.mockClear();
     history.push.mockClear();
   });
 
@@ -85,7 +87,7 @@ describe('Given NoteViewRoute', () => {
 
       fireEvent.click(getByRole('button', { name: 'navigate back' }));
 
-      expect(history.push).toHaveBeenCalled();
+      expect(mockGoBack).toHaveBeenCalled();
     });
   });
 

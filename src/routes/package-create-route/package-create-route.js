@@ -68,11 +68,6 @@ export default class PackageCreateRoute extends Component {
       accessStatusTypes,
     } = this.props;
 
-    let onCancel;
-    if (location.state && location.state.eholdings) {
-      onCancel = () => history.goBack();
-    }
-
     return (
       <FormattedMessage id="ui-eholdings.label.create.package">
         {([pageTitle]) => (
@@ -80,7 +75,7 @@ export default class PackageCreateRoute extends Component {
             <View
               request={this.props.createRequest}
               onSubmit={this.packageCreateSubmitted}
-              onCancel={onCancel}
+              onCancel={location.state?.eholdings ? () => history.goBack() : null}
               removeCreateRequests={removeCreateRequests}
               accessStatusTypes={accessStatusTypes}
             />

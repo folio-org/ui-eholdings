@@ -143,7 +143,7 @@ const SettingsKnowledgeBaseRoute = ({
 
   useEffect(() => {
     if (kbCredentials.hasDeleted) {
-      history.replace('/settings/eholdings');
+      history.replace('/settings/eholdings', { eholdings: true });
 
       if (callout) {
         callout.sendCallout({
@@ -164,7 +164,7 @@ const SettingsKnowledgeBaseRoute = ({
   }, [kbCredentials.hasDeleted, confirmDeleteKBCredentials, callout, history, currentKBName]);
 
   if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
-    history.push('/settings/eholdings');
+    history.push('/settings/eholdings', { eholdings: true });
   }
 
   return (
