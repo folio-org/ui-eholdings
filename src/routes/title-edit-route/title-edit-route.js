@@ -50,7 +50,8 @@ class TitleEditRoute extends Component {
       history.replace({
         pathname: `/eholdings/titles/${model.id}`,
         search: location.search,
-      }, { eholdings: true });
+        state: { eholdings: true },
+      });
     }
 
     if (!prevProps.updateRequest.isResolved && updateRequest.isResolved) {

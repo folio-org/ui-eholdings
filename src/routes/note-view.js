@@ -10,9 +10,11 @@ import {
   entityTypePluralizedTranslationKeys,
   APP_ICON_NAME,
 } from '../constants';
+import { withHistoryBack } from '../hooks';
 
 class NoteViewRoute extends Component {
   static propTypes = {
+    goBack: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
@@ -35,25 +37,11 @@ class NoteViewRoute extends Component {
     });
   };
 
-  navigateBack = () => {
-    const {
-      history,
-      location,
-    } = this.props;
-
-    if (location.state) {
-      history.goBack();
-    } else {
-      history.push({
-        pathname: '/eholdings',
-      });
-    }
-  };
-
   render() {
     const {
       match,
       location,
+      goBack,
     } = this.props;
 
     const { noteId } = match.params;
@@ -63,7 +51,7 @@ class NoteViewRoute extends Component {
       <NoteViewPage
         entityTypeTranslationKeys={entityTypeTranslationKeys}
         entityTypePluralizedTranslationKeys={entityTypePluralizedTranslationKeys}
-        navigateBack={this.navigateBack}
+        navigateBack={goBack}
         onEdit={this.onEdit}
         paneHeaderAppIcon={APP_ICON_NAME}
         referredEntityData={referredEntityData}
@@ -73,4 +61,4 @@ class NoteViewRoute extends Component {
   }
 }
 
-export default NoteViewRoute;
+export default withHistoryBack(NoteViewRoute);

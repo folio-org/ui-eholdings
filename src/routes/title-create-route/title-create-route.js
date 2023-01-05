@@ -2,7 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
-import noop from 'lodash/noop';
 
 import { TitleManager } from '@folio/stripes/core';
 
@@ -57,12 +56,6 @@ export default class TitleCreateRoute extends Component {
       createRequest,
     } = this.props;
 
-    let onCancel = noop;
-
-    if (location.state && location.state.eholdings) {
-      onCancel = () => history.goBack();
-    }
-
     return (
       <FormattedMessage id="ui-eholdings.label.create.title">
         {([pageTitle]) => (
@@ -72,7 +65,7 @@ export default class TitleCreateRoute extends Component {
               customPackages={customPackages}
               onSubmit={this.createTitle}
               onPackageFilter={this.onPackageFilter}
-              onCancel={onCancel}
+              onCancel={location.state?.eholdings ? () => history.goBack() : null}
               removeCreateRequests={removeCreateRequests}
             />
           </TitleManager>

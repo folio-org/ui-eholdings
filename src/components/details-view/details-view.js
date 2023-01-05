@@ -15,6 +15,7 @@ import {
 } from '@folio/stripes/components';
 
 import AccordionListHeader from '../accordion-list-header';
+import { withHistoryBack } from '../../hooks';
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -40,6 +41,7 @@ class DetailsView extends Component {
     bodyAriaRole: PropTypes.string,
     bodyContent: PropTypes.node.isRequired,
     footer: PropTypes.node,
+    goBack: PropTypes.func.isRequired,
     handleExpandAll: PropTypes.func,
     history: ReactRouterPropTypes.history.isRequired,
     lastMenu: PropTypes.node,
@@ -97,15 +99,7 @@ class DetailsView extends Component {
   }
 
   navigateBack = () => {
-    const {
-      history,
-      location,
-    } = this.props;
-
-    history.push({
-      pathname: '/eholdings',
-      search: location.state?.locationSearch || location.search,
-    });
+    this.props.goBack();
   };
 
   renderFirstMenu = () => {
@@ -307,4 +301,4 @@ class DetailsView extends Component {
   }
 }
 
-export default DetailsView;
+export default withHistoryBack(DetailsView);

@@ -72,6 +72,11 @@ const SelectionStatusMessage = ({ model }) => {
   }
 };
 
+SelectionStatusMessage.propTypes = {
+  model: PropTypes.object.isRequired,
+};
+
+
 const SelectionStatusButton = ({
   model,
   onAddToHoldings,
@@ -96,6 +101,11 @@ const SelectionStatusButton = ({
   } else {
     return null;
   }
+};
+
+SelectionStatusButton.propTypes = {
+  model: PropTypes.object.isRequired,
+  onAddToHoldings: PropTypes.func.isRequired,
 };
 
 export default SelectionStatus;

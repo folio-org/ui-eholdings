@@ -10,7 +10,6 @@ import Harness from '../../../test/jest/helpers/harness';
 import DetailsView from './details-view';
 
 const history = createMemoryHistory();
-const historyPushSpy = jest.spyOn(history, 'push');
 
 const location = {
   pathname: 'pathname',
@@ -30,6 +29,8 @@ const model = {
   },
 };
 
+const mockGoBack = jest.fn();
+
 const getDetailView = props => (
   <Harness>
     <DetailsView
@@ -40,7 +41,7 @@ const getDetailView = props => (
       paneTitle={model.name}
       type="testtype"
       resultsLength={10000}
-      accordionHeaderLoading={false}
+      goBack={mockGoBack}
       {...props}
     />
   </Harness>
@@ -52,6 +53,10 @@ const renderDetailsView = (props = {}) => render(
 
 describe('Given DetailsView', () => {
   const mockRenderList = jest.fn();
+
+  beforeEach(() => {
+    mockGoBack.mockClear();
+  });
 
   it('should render DetailsView component', () => {
     const { getByTestId } = renderDetailsView();
@@ -231,21 +236,19 @@ describe('Given DetailsView', () => {
   });
 
   describe('when click on the close icon in the first menu pane', () => {
-    it('should navigate to the Eholdings search page', () => {
-      const search = '?searchType=packages&q=b&offset=1&searchfield=title';
+    it('should call goBack', () => {
       const { getByRole } = renderDetailsView({
         location: {
           ...location,
-          search,
+          search: '?searchType=packages&q=test',
         },
       });
 
-      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
+      const closeIcon = getByRole('button', { name: 'ui-eholdings.label.icon.closeX' });
 
-      expect(historyPushSpy).toHaveBeenCalledWith({
-        pathname: '/eholdings',
-        search,
-      });
+      fireEvent.click(closeIcon);
+
+      expect(mockGoBack).toBeCalled();
     });
   });
 });

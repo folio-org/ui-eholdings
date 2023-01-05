@@ -60,7 +60,10 @@ describe('Given Settings Display', () => {
 
       getByTestId('kb-credentials-heading-1').click();
 
-      expect(historyPushSpy.mock.calls[0][0]).toEqual('/settings/eholdings/knowledge-base/1');
+      expect(historyPushSpy.mock.calls[0][0]).toEqual({
+        pathname: '/settings/eholdings/knowledge-base/1',
+        state: { eholdings: true },
+      });
     });
   });
 

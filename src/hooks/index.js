@@ -6,3 +6,4 @@ export { default as useExportPackageTitle } from './use-export-package-title/use
 export { default as useSectionToggle } from './use-section-toggle/useSectionToggle';
 export { default as useStateCallback } from './use-state-callback/use-state-callback';
 export { default as usePrevious } from './use-previous/usePrevious';
+export * from './use-history-back/useHistoryBack';
