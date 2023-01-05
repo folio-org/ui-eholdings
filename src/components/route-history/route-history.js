@@ -6,10 +6,7 @@ import {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useHistory,
-  useLocation,
-} from 'react-router';
+import { useHistory } from 'react-router';
 
 const RouteHistoryContext = createContext();
 
@@ -22,21 +19,28 @@ const propTypes = {
 
 const RouteHistoryContextProvider = ({ children }) => {
   const history = useHistory();
-  const location = useLocation();
   const routeHistory = useRef(JSON.parse(sessionStorage.getItem('eholdings-history')) || []);
 
+  const markLeavingEHoldings = () => {
+    // will be called on a non-eholdings page, so mark last eholdings location as one where we left
+    routeHistory.current.find(page => page.pathname.includes('/eholdings')).leavingEholdings = true;
+  };
+
+  const saveToStorage = () => {
+    sessionStorage.setItem('eholdings-history', JSON.stringify(routeHistory.current));
+  };
+
   useEffect(() => {
-    const unlisten = history.listen((_location, action) => {
-      if (action === 'POP') {
-        routeHistory.current.shift();
-      } else {
-        routeHistory.current.unshift(_location);
-      }
+    // don't unlisten so we can record navigation in other apps
+    history.listen((_location) => {
+      routeHistory.current.unshift(_location);
+
+      saveToStorage();
     });
 
     const onUnmount = () => {
-      unlisten();
-      sessionStorage.setItem('eholdings-history', JSON.stringify(routeHistory.current));
+      markLeavingEHoldings();
+      saveToStorage();
     };
 
     return onUnmount;
@@ -44,17 +48,17 @@ const RouteHistoryContextProvider = ({ children }) => {
   }, []);
 
   const navigateBack = useCallback(() => {
-    const nonEholdingsPagesCount = routeHistory.current.findIndex((page) => page.pathname.includes('eholdings') && page.pathname !== location.pathname);
+    const countToPagesWhereLeft = routeHistory.current.findIndex((page) => page.leavingEholdings);
 
-    if (nonEholdingsPagesCount > 0) {
+    if (countToPagesWhereLeft > 0) {
       // go(-1) will return to previous page
       // if previous page was non eholdings - need to call go(-2)
       // and this extends to N non-eholdings pages - call go(-(N + 1))
-      history.go(-(nonEholdingsPagesCount + 1));
+      history.go(-(countToPagesWhereLeft + 1));
     } else {
       history.goBack();
     }
-  }, [history, routeHistory, location.pathname]);
+  }, [history, routeHistory]);
 
   const contextValue = useMemo(() => ({
     navigateBack,
