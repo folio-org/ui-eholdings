@@ -22,6 +22,7 @@ class ApplicationRoute extends Component {
         version: PropTypes.string,
       }),
     }),
+    isFinished: PropTypes.bool,
     kbCredentials: KbCredentials.KbCredentialsReduxStateShape.isRequired,
     showSettings: PropTypes.bool,
     status: PropTypes.shape({
@@ -49,6 +50,7 @@ class ApplicationRoute extends Component {
     const {
       status,
       interfaces: { eholdings: version },
+      isFinished,
       showSettings,
       children,
       kbCredentials,
@@ -56,7 +58,7 @@ class ApplicationRoute extends Component {
 
     const hasMultipleKbCredentials = kbCredentials.items?.length > 1;
 
-    if (!version && !status.isLoading && !showSettings) {
+    if (!version && isFinished && !showSettings) {
       return <NoBackendErrorScreen />;
     }
 

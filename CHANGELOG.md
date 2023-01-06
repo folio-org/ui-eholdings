@@ -5,6 +5,7 @@
 * Enable react-hooks/exhaustive-deps ESLint rule. (UIEH-1339)
 * Error while accessing undefined properties in eHolidngs Titles list. (UIEH-1344)
 * Difficulty returning to the eholdings page after adding a new Agreement. (UIEH-1219)
+* Fixed no KB detected error incorrectly popping up on eholdings page. (UIEH-1346)
 
 ## [7.3.2] (https://github.com/folio-org/ui-eholdings/tree/v7.3.2) (2022-11-30)
 
