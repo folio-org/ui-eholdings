@@ -70,7 +70,6 @@ const propTypes = {
   isNewRecord: PropTypes.bool,
   isTitlesUpdating: PropTypes.bool,
   loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
   model: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
   onToggleTitles: PropTypes.func.isRequired,
@@ -106,7 +105,6 @@ const PackageShow = ({
   toggleSelected,
   updateFolioTags,
   pkgSearchParams,
-  location,
   onToggleTitles,
 }) => {
   const stripes = useStripes();
@@ -384,17 +382,10 @@ const PackageShow = ({
   };
 
   const renderTitlesListItem = (item) => {
-    const link = {
-      pathname: `/eholdings/resources/${item.id}`,
-      state: {
-        locationSearch: location.state?.locationSearch || location.search,
-      },
-    };
-
     return (
       <TitleListItem
         item={item.attributes}
-        link={item.attributes && link}
+        link={item.attributes && `/eholdings/resources/${item.id}`}
         showSelected
         headingLevel='h4'
       />

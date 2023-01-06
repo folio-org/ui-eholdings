@@ -57,8 +57,10 @@ class ResourceEditRoute extends Component {
     const { id } = match.params;
 
     if (!prevProps.model.destroy.isResolved && this.props.model.destroy.isResolved) {
-      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
-        { eholdings: true, isDestroyed: true });
+      history.replace(
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+        { eholdings: true, isDestroyed: true },
+      );
     }
 
     if (id !== prevProps.match.params.id) {

@@ -83,11 +83,13 @@ class ResourceShowRoute extends Component {
     } = old;
 
     if (!old.destroy.isResolved && next.destroy.isResolved) {
-      history.replace(`/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
+      history.replace(
+        `/eholdings/packages/${packageId}?searchType=packages&q=${packageName}`,
         {
           eholdings: true,
           isDestroyed: true,
-        });
+        },
+      );
     }
 
     if (isSelectedChanged) {

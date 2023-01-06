@@ -11,10 +11,11 @@ import {
   APP_ICON_NAME,
   DOMAIN_NAME,
 } from '../constants';
+import { withHistoryBack } from '../hooks';
 
-export default class NoteEditRoute extends Component {
+class NoteEditRoute extends Component {
   static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
+    goBack: PropTypes.func.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -24,7 +25,7 @@ export default class NoteEditRoute extends Component {
   };
 
   goToNoteView = () => {
-    this.props.history.goBack();
+    this.props.goBack();
   }
 
   render() {
@@ -50,3 +51,5 @@ export default class NoteEditRoute extends Component {
     );
   }
 }
+
+export default withHistoryBack(NoteEditRoute);

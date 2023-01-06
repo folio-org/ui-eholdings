@@ -97,7 +97,6 @@ describe('Given ProviderShow', () => {
           providerPackages={providerPackages}
           proxyTypes={{}}
           rootProxy={{}}
-          location={{}}
           {...props}
         />
       </CommandList>
