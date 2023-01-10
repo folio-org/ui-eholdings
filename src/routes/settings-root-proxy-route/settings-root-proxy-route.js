@@ -41,7 +41,6 @@ const SettingsRootProxyRoute = ({
       history.push({
         pathname: `/settings/eholdings/${match.params.kbId}/root-proxy`,
         state: {
-          eholdings: true,
           isFreshlySaved: true,
         },
       });

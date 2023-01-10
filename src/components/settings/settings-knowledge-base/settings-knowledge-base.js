@@ -105,7 +105,6 @@ const SettingsKnowledgeBase = ({
       history.push({
         pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
-          eholdings: true,
           isFreshlySaved: true,
         },
       });
@@ -119,7 +118,6 @@ const SettingsKnowledgeBase = ({
       history.push({
         pathname: `/settings/eholdings/knowledge-base/${config?.id}`,
         state: {
-          eholdings: true,
           isFreshlySaved: true,
         },
       });

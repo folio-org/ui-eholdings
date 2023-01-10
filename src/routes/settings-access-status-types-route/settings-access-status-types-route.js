@@ -26,7 +26,7 @@ const SettingsAccessStatusTypesRoute = ({
   const { items: { data } } = accessTypes;
 
   if (!stripes.hasPerm('ui-eholdings.settings.access-types.view')) {
-    history.push('/settings/eholdings', { eholdings: true });
+    history.push('/settings/eholdings');
   }
 
   useEffect(() => {
