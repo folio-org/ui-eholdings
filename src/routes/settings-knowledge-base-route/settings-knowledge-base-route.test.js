@@ -134,7 +134,7 @@ describe('Given SettingsKnowledgeBaseRoute', () => {
         });
       });
 
-      expect(mockHistory.replace).toHaveBeenCalledWith('/settings/eholdings', { eholdings: true });
+      expect(mockHistory.replace).toHaveBeenCalledWith('/settings/eholdings');
     });
 
     it('should handle confirmDeleteKBCredentials', async () => {
