@@ -54,11 +54,15 @@ const RouteHistoryContextProvider = ({ children }) => {
     });
   };
 
-
   useEffect(() => {
     if (!Array.isArray(getRouteHistory())) {
       saveToStorage([]);
     }
+
+    window.addEventListener('beforeunload', () => {
+      // reset listener flag storage when page is refreshed
+      sessionStorage.setItem(LISTENER_REGISTERED_KEY, false);
+    });
 
     if (!isListenerRegistered()) {
       // don't unlisten so we can record navigation in other apps
@@ -68,6 +72,7 @@ const RouteHistoryContextProvider = ({ children }) => {
           return routeHistory;
         });
       });
+
       sessionStorage.setItem(LISTENER_REGISTERED_KEY, true);
     }
 
