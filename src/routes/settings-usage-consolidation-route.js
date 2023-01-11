@@ -102,7 +102,6 @@ const SettingsUsageConsolidationRoute = ({
   if (!stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view')) {
     history.push({
       pathname: '/settings/eholdings',
-      state: { eholdings: true },
     });
   }
 

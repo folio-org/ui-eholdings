@@ -3,12 +3,30 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router';
 
 const RouteHistoryContext = createContext();
+
+const LISTENER_REGISTERED_KEY = 'eholdings-listener-registered';
+const HISTORY_KEY = 'eholdings-history';
+
+const saveToStorage = (routeHistory) => {
+  sessionStorage.setItem(HISTORY_KEY, JSON.stringify(routeHistory));
+};
+
+const getRouteHistory = () => JSON.parse(sessionStorage.getItem(HISTORY_KEY)) || [];
+const updateRouteHistory = (updater) => {
+  const updatedRouteHistory = updater(getRouteHistory());
+
+  saveToStorage(updatedRouteHistory);
+};
+
+const isListenerRegistered = () => JSON.parse(sessionStorage.getItem(LISTENER_REGISTERED_KEY));
 
 const propTypes = {
   children: PropTypes.oneOfType([
@@ -19,28 +37,47 @@ const propTypes = {
 
 const RouteHistoryContextProvider = ({ children }) => {
   const history = useHistory();
-  const routeHistory = useRef(JSON.parse(sessionStorage.getItem('eholdings-history')) || []);
+  const location = useLocation();
 
   const markLeavingEHoldings = () => {
-    // will be called on a non-eholdings page, so mark last eholdings location as one where we left
-    routeHistory.current.find(page => page.pathname.includes('/eholdings')).leavingEholdings = true;
-  };
+    if (!location.pathname.startsWith('/eholdings')) {
+      return;
+    }
 
-  const saveToStorage = () => {
-    sessionStorage.setItem('eholdings-history', JSON.stringify(routeHistory.current));
+    // will be called on a non-eholdings page, so mark last eholdings location as one where we left
+    updateRouteHistory(routeHistory => {
+      const lastEholdingsPage = routeHistory.findIndex(page => page.pathname.startsWith('/eholdings'));
+
+      routeHistory[lastEholdingsPage].leavingEholdings = true;
+
+      return routeHistory;
+    });
   };
 
   useEffect(() => {
-    // don't unlisten so we can record navigation in other apps
-    history.listen((_location) => {
-      routeHistory.current.unshift(_location);
+    if (!Array.isArray(getRouteHistory())) {
+      saveToStorage([]);
+    }
 
-      saveToStorage();
+    window.addEventListener('beforeunload', () => {
+      // reset listener flag storage when page is refreshed
+      sessionStorage.setItem(LISTENER_REGISTERED_KEY, false);
     });
+
+    if (!isListenerRegistered()) {
+      // don't unlisten so we can record navigation in other apps
+      history.listen((_location) => {
+        updateRouteHistory(routeHistory => {
+          routeHistory.unshift(_location);
+          return routeHistory;
+        });
+      });
+
+      sessionStorage.setItem(LISTENER_REGISTERED_KEY, true);
+    }
 
     const onUnmount = () => {
       markLeavingEHoldings();
-      saveToStorage();
     };
 
     return onUnmount;
@@ -48,7 +85,8 @@ const RouteHistoryContextProvider = ({ children }) => {
   }, []);
 
   const navigateBack = useCallback(() => {
-    const countToPagesWhereLeft = routeHistory.current.findIndex((page) => page.leavingEholdings);
+    const routeHistory = getRouteHistory();
+    const countToPagesWhereLeft = routeHistory.findIndex((page) => page.leavingEholdings);
 
     if (countToPagesWhereLeft > 0) {
       // go(-1) will return to previous page
@@ -58,12 +96,12 @@ const RouteHistoryContextProvider = ({ children }) => {
     } else {
       history.goBack();
     }
-  }, [history, routeHistory]);
+  }, [history]);
 
   const contextValue = useMemo(() => ({
     navigateBack,
-    routeHistory: routeHistory.current,
-  }), [routeHistory, navigateBack]);
+    routeHistory: getRouteHistory(),
+  }), [navigateBack]);
 
   return (
     <RouteHistoryContext.Provider value={contextValue}>{children}</RouteHistoryContext.Provider>
