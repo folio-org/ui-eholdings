@@ -98,10 +98,10 @@ const RouteHistoryContextProvider = ({ children }) => {
     }
   }, [history]);
 
-  const contextValue = useMemo(() => ({
+  const contextValue = {
     navigateBack,
     routeHistory: getRouteHistory(),
-  }), [navigateBack]);
+  };
 
   return (
     <RouteHistoryContext.Provider value={contextValue}>{children}</RouteHistoryContext.Provider>
