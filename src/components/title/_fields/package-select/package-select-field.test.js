@@ -57,14 +57,14 @@ describe('Given PackageSelectField', () => {
   });
 
   it('should debounce onFilter function', async () => {
-    const { getByLabelText } = renderPackageSelectField({
+    const { getAllByLabelText } = renderPackageSelectField({
       options: [{
         label: 'label1',
         key: 'key1',
       }],
     });
 
-    const input = getByLabelText('stripes-components.selection.filterOptionsLabel');
+    const input = getAllByLabelText('stripes-components.selection.filterOptionsLabel')[0];
 
     fireEvent.change(input, { target: { value: 'packageName' } });
     expect(mockOnFilter).not.toHaveBeenCalled();
