@@ -7,6 +7,7 @@
 * Difficulty returning to the eholdings page after adding a new Agreement. (UIEH-1219)
 * Fixed no KB detected error incorrectly popping up on eholdings page. (UIEH-1346)
 * Bump stripes to 8.0.0 for Orchid/2023-R1. (UIEH-1352)
+* Upgrade react-redux to v8. (UIEH-1353)
 
 ## [7.3.2] (https://github.com/folio-org/ui-eholdings/tree/v7.3.2) (2022-11-30)
 
