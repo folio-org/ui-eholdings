@@ -481,7 +481,7 @@ describe('Given PackageShow', () => {
   describe('when clicking the expandAll button', () => {
     it('should call onToggleTitles', () => {
       renderPackageShow();
-      const expandAllButton = document.querySelector('[data-tast-expand-button]');
+      const expandAllButton = document.querySelector('[data-test-expand-button]');
 
       fireEvent.click(expandAllButton);
       fireEvent.click(expandAllButton);
