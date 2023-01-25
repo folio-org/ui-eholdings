@@ -392,7 +392,7 @@
     "permission.settings.access-types.all": "設定（電子リソース）：アクセスステータスタイプを作成、編集、表示、および削除できます",
     "permission.settings.access-types.create-edit": "設定（電子リソース）：アクセスステータスタイプを作成、編集、および表示できます",
     "permission.settings.access-types.view": "設定（電子リソース）：アクセスステータスタイプを表示できます",
-    "permission.app.enabled": "UI: 電子所蔵モジュールが有効になっています",
+    "permission.app.enabled": "UI: 電子所蔵モジュールを有効にする",
     "permission.settings.enabled": "設定（電子所蔵）：設定ページのリストを表示します",
     "selectPackage.confirmationModal.label": "パッケージ内のすべてのタイトルを所蔵に追加",
     "selectPackage.confirmationModal.message": "このアクションを選択すると、このパッケージの<strong>すべてのタイトルが</strong>所蔵に追加されます。この操作を続行するには、「<strong>パッケージ（すべてのタイトル）を所蔵に追加</strong>」を選択します。",
