@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [7.4.0] (IN PROGRESS)
+## [8.0.0] (https://github.com/folio-org/ui-eholdings/tree/v8.0.0) (2023-02-15)
 
 * Enable react-hooks/exhaustive-deps ESLint rule. (UIEH-1339)
 * Error while accessing undefined properties in eHolidngs Titles list. (UIEH-1344)
