@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [8.0.1] (IN PROGRESS)
+
+* Stop infinity loading of package titles when a user edits the package record while they are being added/removed to holdings. (UIEH-1349)
+
 ## [8.0.0] (https://github.com/folio-org/ui-eholdings/tree/v8.0.0) (2023-02-15)
 
 * Enable react-hooks/exhaustive-deps ESLint rule. (UIEH-1339)
@@ -8,7 +12,6 @@
 * Fixed no KB detected error incorrectly popping up on eholdings page. (UIEH-1346)
 * Bump stripes to 8.0.0 for Orchid/2023-R1. (UIEH-1352)
 * Upgrade react-redux to v8. (UIEH-1353)
-* Stop infinity loading of package titles when a user edits the package record while they are being added/removed to holdings. (UIEH-1349)
 
 ## [7.3.2] (https://github.com/folio-org/ui-eholdings/tree/v7.3.2) (2022-11-30)
 
