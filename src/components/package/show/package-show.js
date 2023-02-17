@@ -196,6 +196,7 @@ const PackageShow = ({
       <Button
         data-test-eholdings-package-remove-from-holdings-action
         buttonStyle="dropdownItem fullWidth"
+        data-testid={translationId}
         onClick={() => {
           onToggle();
           handleSelectionToggle();
