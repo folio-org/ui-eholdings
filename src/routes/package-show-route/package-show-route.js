@@ -165,7 +165,7 @@ class PackageShowRoute extends Component {
 
   componentWillUnmount() {
     this.props.clearCostPerUseData();
-    window.clearTimeout(this.timeout);
+    clearInterval(this.interval);
   }
 
   /* This method is common between package-show and package-edit routes
@@ -217,6 +217,8 @@ class PackageShowRoute extends Component {
     this.setState(() => {
       return { isTitlesUpdating: true };
     });
+
+    clearInterval(this.interval);
 
     this.interval = window.setInterval(() => {
       const arePackageTitlesUpdated = this.props.packageTitles.items

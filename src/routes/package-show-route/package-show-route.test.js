@@ -269,7 +269,7 @@ const getPackageShowRoute = (props = {}) => (
         history={history}
         location={location}
         match={match}
-        model={model}
+        model={{ ...model }}
         proxyTypes={proxyTypes}
         provider={provider}
         tagsModel={tagsModel}
@@ -624,6 +624,61 @@ describe('Given PackageShowRoute', () => {
 
         await wait(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
         expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+      });
+
+      describe('and a user navigates to another route', () => {
+        it('should stop invoking interval calls of getPackageTitles', () => {
+          jest.useFakeTimers();
+
+          const { getByRole, unmount } = renderPackageShowRoute({
+            getPackageTitles: mockGetPackageTitles,
+          });
+
+          mockGetPackageTitles.mockClear();
+
+          fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
+          fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
+
+          expect(setInterval).toHaveBeenCalled();
+          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+          unmount();
+          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      describe('and a user tries to update the package titles again', () => {
+        it('should stop firing previous interval calls of getPackageTitles', async () => {
+          jest.useFakeTimers();
+
+          const { getByRole, getByTestId, rerender } = renderPackageShowRoute({
+            getPackageTitles: mockGetPackageTitles,
+          });
+
+          mockGetPackageTitles.mockClear();
+
+          fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
+          fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
+
+          expect(setInterval).toHaveBeenCalledTimes(1);
+          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+
+          rerender(getPackageShowRoute({
+            model: {
+              ...model,
+              isSelected: true,
+            },
+          }));
+
+          fireEvent.click(getByTestId('ui-eholdings.package.removeFromHoldings'));
+          fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
+
+          expect(setInterval).toHaveBeenCalledTimes(2);
+          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
+        });
       });
     });
   });
