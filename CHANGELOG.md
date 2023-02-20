@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [8.0.1] (IN PROGRESS)
+
+* Stop infinity loading of package titles when a user edits the package record while they are being added/removed to holdings. (UIEH-1349)
+
 ## [8.0.0] (https://github.com/folio-org/ui-eholdings/tree/v8.0.0) (2023-02-15)
 
 * Enable react-hooks/exhaustive-deps ESLint rule. (UIEH-1339)
