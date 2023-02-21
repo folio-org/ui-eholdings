@@ -329,7 +329,7 @@
     "tags.filter": "Filtro per i tag",
     "resource.customLabels": "Etichette personalizzate",
     "validate.errors.customLabels.length": "Il valore ha superato il limite di {amount} caratteri. Si prega di rivedere il valore.",
-    "settings.customLabels.displayLabel": "Etichetta di visualizzata",
+    "settings.customLabels.displayLabel": "Etichetta da visualizzare",
     "settings.customLabels.publicationFinder": "Mostra in publication finder",
     "settings.customLabels.textFinder": "Mostra in full text finder",
     "settings.customLabels.remove": "Rimuovi etichetta/e personalizzata/e",
