@@ -6,7 +6,6 @@ import {
   filter,
 } from 'rxjs/operators';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 
 import { qs } from '../components/utilities';
 import {
@@ -407,46 +406,42 @@ const handlers = {
     if (request.type === 'destroy') {
       next = handlers[actionTypes.UNLOAD](next, action);
     } else if (request.resource === 'tags' && request.path === tagPaths.alreadyAddedToRecords) {
-      if (isEmpty(records)) {
-        const filteredRecords = Object.values(next.tags.records)
-          .filter(record => record.attributes.label)
-          .reduce((acc, record) => ({
-            ...acc,
-            [record.id]: record,
-          }), {});
+      const tagsWithoutAlreadyAddedInRecords = Object.values(next.tags.records)
+        .filter(record => record.attributes.label)
+        .reduce((acc, record) => ({
+          ...acc,
+          [record.id]: record,
+        }), {});
 
-        next = {
-          ...next,
-          tags: {
-            ...next.tags,
-            records: filteredRecords,
-          },
-        };
-      } else {
-        next = records.reduce((reducedRecordsSet, record) => {
-          return reduceData(record.type, reducedRecordsSet, (store) => {
-            const recordState = getRecord(store, record.id);
-            // can't rely on id of the tag, as it's different for each request for the same tag.
-            const isUniqueTag = !Object.values(store.records).some(tag => tag.attributes.value === record.attributes.value);
+      next = records.reduce((reducedRecordsSet, record) => {
+        return reduceData(record.type, reducedRecordsSet, (store) => {
+          const recordState = getRecord(store, record.id);
+          // can't rely on id of the tag, as it's different for each request for the same tag.
+          const isUniqueTag = !Object.values(store.records).some(tag => tag.attributes.value === record.attributes.value);
 
-            return {
-              records: {
-                ...store.records,
-                ...(isUniqueTag && {
-                  [record.id]: {
-                    ...recordState,
-                    attributes: mergeAttributes(recordState.attributes, record.attributes),
-                    relationships: mergeRelationships(recordState.relationships, record.relationships),
-                    isSaving: false,
-                    isLoading: false,
-                    isLoaded: true
-                  }
-                }),
-              },
-            };
-          });
-        }, next);
-      }
+          return {
+            records: {
+              ...store.records,
+              ...(isUniqueTag && {
+                [record.id]: {
+                  ...recordState,
+                  attributes: mergeAttributes(recordState.attributes, record.attributes),
+                  relationships: mergeRelationships(recordState.relationships, record.relationships),
+                  isSaving: false,
+                  isLoading: false,
+                  isLoaded: true
+                }
+              }),
+            },
+          };
+        });
+      }, {
+        ...next,
+        tags: {
+          ...next.tags,
+          records: tagsWithoutAlreadyAddedInRecords,
+        },
+      });
     } else {
       // then we reduce each record in the set of records
       next = records.reduce((reducedRecordsSet, record) => {
