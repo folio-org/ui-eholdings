@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import noop from 'lodash/noop';
 import {
   FormattedMessage,
   injectIntl,
@@ -45,8 +46,13 @@ class SearchModal extends PureComponent {
       searchTypes.TITLES,
     ]).isRequired,
     onFilter: PropTypes.func.isRequired,
+    onToggle: PropTypes.func,
     query: PropTypes.object,
-    tagsModel: PropTypes.object.isRequired,
+    tagsModelOfAlreadyAddedTags: PropTypes.object,
+  };
+
+  static defaultProps = {
+    onToggle: noop,
   };
 
   constructor(props) {
@@ -92,6 +98,8 @@ class SearchModal extends PureComponent {
   }
 
   toggle = () => {
+    this.props.onToggle(!this.state.isModalVisible);
+
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
     }));
@@ -172,7 +180,7 @@ class SearchModal extends PureComponent {
   render() {
     const {
       listType,
-      tagsModel,
+      tagsModelOfAlreadyAddedTags,
       accessTypes,
       intl,
     } = this.props;
@@ -233,7 +241,7 @@ class SearchModal extends PureComponent {
             }
           >
             <SearchForm
-              tagsModel={tagsModel}
+              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
               searchType={listType}
               searchString={query.q}
               searchFilter={query.filter}

@@ -56,7 +56,7 @@ const match = {
   url: '/eholdings',
 };
 
-const tagsModel = {
+const tagsModelOfAlreadyAddedTags = {
   request: {
     isResolved: true,
   },
@@ -167,7 +167,7 @@ const renderSearchRoute = (props = {}) => render(
         searchPackages={noop}
         searchProviders={noop}
         searchTitles={noop}
-        tagsModel={tagsModel}
+        tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
         {...props}
       />
     </Harness>
@@ -199,7 +199,12 @@ describe('Given SearchRoute', () => {
       });
     });
 
-    expect(mockGetTags).toHaveBeenCalled();
+    expect(mockGetTags).toHaveBeenCalledWith(
+      undefined,
+      {
+        path: '/eholdings/tags/summary?filter[rectype]=provider&filter[rectype]=package&filter[rectype]=title&filter[rectype]=resource'
+      },
+    );
   });
 
   describe('when search type is providers', () => {

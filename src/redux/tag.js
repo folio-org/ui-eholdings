@@ -1,4 +1,5 @@
 import model from './model';
+import { tagPaths } from '../constants/tagPaths';
 
 class Tag {
   id = '';
@@ -14,6 +15,5 @@ class Tag {
 }
 export default model({
   type: 'tags',
-  path: '/tags?limit=100000'
-
+  path: tagPaths.allTags,
 })(Tag);

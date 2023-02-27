@@ -9,6 +9,7 @@ import Title from '../../redux/title';
 import Tag from '../../redux/tag';
 import { getAccessTypes as getAccessTypesAction } from '../../redux/actions';
 import { selectPropFromData } from '../../redux/selectors';
+import { tagPaths } from '../../constants/tagPaths';
 
 export default connect(
   (store) => {
@@ -16,7 +17,7 @@ export default connect(
     const resolver = createResolver(data);
 
     return {
-      tagsModel: resolver.query('tags'),
+      tagsModelOfAlreadyAddedTags: resolver.query('tags', undefined, { path: tagPaths.alreadyAddedToRecords }),
       resolver,
       accessTypes: selectPropFromData(store, 'accessStatusTypes'),
     };
@@ -24,7 +25,7 @@ export default connect(
     searchProviders: params => Provider.query(params),
     searchPackages: params => Package.query(params),
     searchTitles: params => Title.query(params),
-    getTags: () => Tag.query(),
+    getTags: (params, options) => Tag.query(params, options),
     getAccessTypes: getAccessTypesAction,
   }
 )(SearchRoute);

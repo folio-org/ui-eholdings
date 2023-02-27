@@ -11,6 +11,7 @@ import {
 import SearchModal from './search-modal';
 
 const mockOnFilter = jest.fn();
+const mockOnToggle = jest.fn();
 
 const accessTypes = {
   errors: [],
@@ -25,7 +26,7 @@ const accessTypes = {
   },
 };
 
-const tagsModel = {
+const tagsModelOfAlreadyAddedTags = {
   isLoading: false,
   request: {
     isResolved: true,
@@ -37,9 +38,14 @@ const tagsModel = {
           'tag-id': {
             attributes: {
               id: 'tag-id',
-              label: 'test-tag',
+              label: 'tag-not-added-to-any-record',
             },
             id: 'tag-id',
+          },
+          'tag-id2': {
+            attributes: {
+              value: 'already-added-tag-to-record',
+            },
           },
         },
       },
@@ -52,7 +58,8 @@ const renderSearchModal = (props = {}) => render(
     accessTypes={accessTypes}
     listType={searchTypes.TITLES}
     onFilter={mockOnFilter}
-    tagsModel={tagsModel}
+    onToggle={mockOnToggle}
+    tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
     {...props}
   />
 );
@@ -60,6 +67,7 @@ const renderSearchModal = (props = {}) => render(
 describe('Given SearchModal', () => {
   afterEach(() => {
     mockOnFilter.mockClear();
+    mockOnToggle.mockClear();
   });
 
   it('should render SearchModal component', () => {
@@ -117,6 +125,16 @@ describe('Given SearchModal', () => {
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
 
     expect(getByRole('button', { name: 'stripes-components.dismissModal' })).toBeDefined();
+  });
+
+  describe('when click the button open the modal', () => {
+    it('should invoke onToggle callback', () => {
+      const { getByRole } = renderSearchModal();
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.filter.togglePane' }));
+
+      expect(mockOnToggle).toHaveBeenCalledWith(true);
+    });
   });
 
   describe('when click on close button', () => {
@@ -227,12 +245,12 @@ describe('Given SearchModal', () => {
       expect(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' })).toBeDisabled();
 
       fireEvent.click(getByTestId('search-form-tag-filter'));
-      fireEvent.click(getByText('test-tag'));
+      fireEvent.click(getByText('already-added-tag-to-record'));
 
       expect(queryByTestId('search-modal')).toBeNull();
       expect(mockOnFilter).toBeCalledWith({
         filter: {
-          tags: ['test-tag'],
+          tags: ['already-added-tag-to-record'],
           'access-type': undefined,
         },
         q: undefined,

@@ -15,6 +15,7 @@ import {
   PAGE_SIZE,
   FIRST_PAGE,
   INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
+  tagPaths,
 } from '../../constants';
 
 import View from '../../components/package/show';
@@ -47,6 +48,7 @@ class PackageShowRoute extends Component {
     proxyTypes: PropTypes.object.isRequired,
     removeUpdateRequests: PropTypes.func.isRequired,
     tagsModel: PropTypes.object.isRequired,
+    tagsModelOfAlreadyAddedTags: PropTypes.object,
     unloadResources: PropTypes.func.isRequired,
     updateFolioTags: PropTypes.func.isRequired,
     updatePackage: PropTypes.func.isRequired,
@@ -318,6 +320,12 @@ class PackageShowRoute extends Component {
     }));
   }
 
+  toggleSearchModal = (isModalVisible) => {
+    if (isModalVisible) {
+      this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
+    }
+  }
+
   fetchPackageCostPerUse = (filterData) => {
     const {
       getCostPerUse,
@@ -378,6 +386,7 @@ class PackageShowRoute extends Component {
       history,
       model,
       tagsModel,
+      tagsModelOfAlreadyAddedTags,
       provider,
       proxyTypes,
       updateFolioTags,
@@ -433,10 +442,11 @@ class PackageShowRoute extends Component {
           searchModal={
             <SearchModal
               key={queryId}
-              tagsModel={tagsModel}
+              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
               listType={listTypes.TITLES}
               query={pkgSearchParams}
               onSearch={this.searchTitles}
+              onToggle={this.toggleSearchModal}
               onFilter={this.searchTitles}
               accessTypes={accessStatusTypes}
             />
