@@ -27,7 +27,7 @@ const accessTypesStoreData = {
   },
 };
 
-const tagsModel = {
+const tagsModelOfAlreadyAddedTags = {
   resolver: {
     state: {
       tags: {
@@ -38,6 +38,10 @@ const tagsModel = {
         }, {
           attributes: {
             label: 'tag2',
+          },
+        }, {
+          attributes: {
+            value: 'already-added-tag-to-record',
           },
         }],
       },
@@ -63,7 +67,7 @@ const renderSearchForm = (props = {}) => render(
         packages: '/packages',
         titles: '/titles',
       }}
-      tagsModel={tagsModel}
+      tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
       {...props}
     />
   </Harness>
@@ -115,20 +119,20 @@ describe('Given SearchForm', () => {
       expect(getByTestId('search-submit').disabled).toBeTruthy();
     });
 
-    it('should display tag options', () => {
-      const { getByText } = renderSearchForm({
+    it('should only display tags already added to records in the tag options', () => {
+      const { getByText, queryByText } = renderSearchForm({
         searchByTagsEnabled: true,
       });
 
-      expect(getByText('tag1')).toBeDefined();
-      expect(getByText('tag2')).toBeDefined();
+      expect(getByText('already-added-tag-to-record')).toBeDefined();
+      expect(queryByText('tag-not-added-to-any-record')).not.toBeInTheDocument();
     });
 
     describe('when no tags are provided', () => {
       it('should display an empty message instead of options', () => {
         const { getByText } = renderSearchForm({
           searchByTagsEnabled: true,
-          tagsModel: {
+          tagsModelOfAlreadyAddedTags: {
             resolver: {
               state: {
                 tags: {

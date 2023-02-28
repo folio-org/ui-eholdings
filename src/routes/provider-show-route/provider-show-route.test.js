@@ -152,6 +152,12 @@ const tagsModel = {
   },
 };
 
+const tagsModelOfAlreadyAddedTags = {
+  request: {
+    isResolved: true,
+  },
+};
+
 const renderProviderShowRoute = ({ props = {} }) => render(
   <MemoryRouter>
     <Harness>
@@ -161,6 +167,7 @@ const renderProviderShowRoute = ({ props = {} }) => render(
         proxyTypes={proxyTypes}
         rootProxy={rootProxy}
         tagsModel={tagsModel}
+        tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
         model={model}
         history={mockHistory}
         location={location}

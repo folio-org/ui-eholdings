@@ -16,6 +16,7 @@ import {
 import Tag from '../../redux/tag';
 
 import PackageShowRoute from './package-show-route';
+import { tagPaths } from '../../constants/tagPaths';
 
 export default connect(
   (store, ownProps) => {
@@ -31,6 +32,7 @@ export default connect(
       proxyTypes: resolver.query('proxyTypes'),
       provider: resolver.find('providers', model.providerId),
       tagsModel: resolver.query('tags'),
+      tagsModelOfAlreadyAddedTags: resolver.query('tags', undefined, { path: tagPaths.alreadyAddedToRecords }),
       resolver,
       accessStatusTypes: selectPropFromData(store, 'accessStatusTypes'),
       costPerUse: selectPropFromData(store, 'costPerUse'),
@@ -42,7 +44,7 @@ export default connect(
     getPackageTitles: getPackageTitlesAction,
     clearPackageTitles: clearPackageTitlesAction,
     getProxyTypes: () => ProxyType.query(),
-    getTags: () => Tag.query(),
+    getTags: (params, options) => Tag.query(params, options),
     getProvider: id => Provider.find(id),
     unloadResources: collection => Resource.unload(collection),
     updatePackage: model => Package.save(model),

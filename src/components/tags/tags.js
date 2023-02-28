@@ -52,7 +52,7 @@ const Tags = ({
 
   // add tags to global list of tags
   const saveTags = (newTags) => {
-    const newTag = difference(newTags, tags.map(t => t.label.toLowerCase()));
+    const newTag = difference(newTags, tags.map(t => t.label?.toLowerCase()));
 
     if (!newTag.length) return;
 

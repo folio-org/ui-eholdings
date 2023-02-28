@@ -102,6 +102,13 @@ class DetailsView extends Component {
     this.props.goBack();
   };
 
+  renderAccordionHeader = (props) => (
+    <AccordionListHeader
+      {...props}
+      isLoading={this.props.accordionHeaderLoading}
+    />
+  );
+
   renderFirstMenu = () => {
     const {
       paneTitle,
@@ -142,7 +149,6 @@ class DetailsView extends Component {
       onListToggle,
       ariaRole,
       bodyAriaRole,
-      accordionHeaderLoading,
     } = this.props;
 
     const isListAccordionOpen = sections && sections[listSectionId];
@@ -194,12 +200,7 @@ class DetailsView extends Component {
               data-test-eholdings-details-view-list={type}
             >
               <Accordion
-                header={props => (
-                  <AccordionListHeader
-                    {...props}
-                    isLoading={accordionHeaderLoading}
-                  />
-                )}
+                header={this.renderAccordionHeader}
                 headerProps={{
                   resultsLength,
                   'data-testid': `accordion-toggle-button-${listSectionId}`,

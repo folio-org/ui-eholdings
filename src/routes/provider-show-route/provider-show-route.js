@@ -15,6 +15,7 @@ import {
   accessTypesReduxStateShape,
   PAGE_SIZE,
   FIRST_PAGE,
+  tagPaths,
 } from '../../constants';
 
 class ProviderShowRoute extends Component {
@@ -43,6 +44,7 @@ class ProviderShowRoute extends Component {
     proxyTypes: PropTypes.object.isRequired,
     rootProxy: PropTypes.object.isRequired,
     tagsModel: PropTypes.object.isRequired,
+    tagsModelOfAlreadyAddedTags: PropTypes.object,
     updateFolioTags: PropTypes.func.isRequired,
   };
 
@@ -146,6 +148,12 @@ class ProviderShowRoute extends Component {
     }));
   };
 
+  toggleSearchModal = (isModalVisible) => {
+    if (isModalVisible) {
+      this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
+    }
+  }
+
   fetchPackages = (page) => {
     const { pkgSearchParams } = this.state;
     this.searchPackages({ ...pkgSearchParams, page });
@@ -181,6 +189,7 @@ class ProviderShowRoute extends Component {
       proxyTypes,
       rootProxy,
       tagsModel,
+      tagsModelOfAlreadyAddedTags,
       updateFolioTags,
       accessTypes,
       providerPackages,
@@ -204,11 +213,12 @@ class ProviderShowRoute extends Component {
           updateFolioTags={updateFolioTags}
           searchModal={
             <SearchModal
-              tagsModel={tagsModel}
+              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
               key={queryId}
               listType={listTypes.PACKAGES}
               query={pkgSearchParams}
               onSearch={this.searchPackages}
+              onToggle={this.toggleSearchModal}
               onFilter={this.searchPackages}
               accessTypes={accessTypes}
             />

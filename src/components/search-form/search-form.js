@@ -75,7 +75,7 @@ class SearchForm extends Component {
       titles: PropTypes.string.isRequired
     }),
     sort: PropTypes.string,
-    tagsModel: PropTypes.object.isRequired,
+    tagsModelOfAlreadyAddedTags: PropTypes.object,
   };
 
   static defaultProps = {
@@ -149,12 +149,12 @@ class SearchForm extends Component {
   };
 
   getSortedDataOptions = () => {
-    const { tagsModel } = this.props;
+    const { tagsModelOfAlreadyAddedTags } = this.props;
 
-    const dataOptions = getTagLabelsArr(tagsModel)
-      .filter(tag => tag.label)
+    const dataOptions = getTagLabelsArr(tagsModelOfAlreadyAddedTags)
+      .filter(tag => tag.value)
       .map(tag => {
-        const tagDisplay = tag.label.toLowerCase();
+        const tagDisplay = tag.value.toLowerCase();
 
         return {
           value: tagDisplay,
@@ -167,7 +167,7 @@ class SearchForm extends Component {
 
   renderTagFilter() {
     const {
-      tagsModel,
+      tagsModelOfAlreadyAddedTags,
       searchByTagsEnabled,
       searchFilter,
       onStandaloneFilterToggle,
@@ -191,7 +191,7 @@ class SearchForm extends Component {
         onToggle={this.toggleSection}
         searchByTagsEnabled={searchByTagsEnabled}
         searchFilter={searchFilter}
-        tagsModel={tagsModel}
+        tagsModel={tagsModelOfAlreadyAddedTags}
       />
     );
   }

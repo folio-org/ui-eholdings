@@ -50,13 +50,16 @@ const TagsFilterAccordion = ({
 
   let tagsList = [];
 
-  if (tags) {
+  if (tags && dataOptions.length) {
     tagsList = Array.isArray(tags)
       ? tags
       : tags.split(',');
   }
 
-  tagsList = tagsList.map(tag => tag.toLowerCase()).sort();
+  tagsList = tagsList
+    .filter(tag => dataOptions.some(option => option.value === tag))
+    .map(tag => tag.toLowerCase())
+    .sort();
 
   return tagsModel.isLoading
     ? <Icon icon="spinner-ellipsis" />

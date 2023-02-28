@@ -1,4 +1,5 @@
 import { foldl, append } from 'funcadelic';
+import { tagPaths } from '../constants/tagPaths';
 
 /**
  * Helper to merge incoming `relationship` information non-
@@ -44,7 +45,7 @@ export function mergeAttributes(existing, incoming) {
  * @param {Object} body - returned body
  * @returns {Object|Array} tags data object or array formatted according to JSON:API
  */
-export const getTagsData = (request, body) => {
+const getTagsData = (request, body) => {
   if (!body.tags) {
     return {
       type: request.resource,
@@ -58,6 +59,39 @@ export const getTagsData = (request, body) => {
     type: request.resource,
     attributes: tag,
   }));
+};
+
+/**
+ * Helper to format tags data retrieved from resolved
+ * request according to JSON:API specification
+ * @param {Object} request - the request state object associated with
+ * the request being resolved
+ * @param {Object} body - returned body
+ * @returns {Object|Array} tags data object or array formatted according to JSON:API
+ */
+
+export const formatTagsData = (request, body) => {
+  if (request.path === tagPaths.alreadyAddedToRecords) {
+    const data = body.data.map((tag) => ({
+      id: tag.id,
+      type: request.resource,
+      attributes: tag.attributes,
+    }));
+
+    return {
+      data,
+      totalRecords: body?.meta?.totalResults || 0,
+    };
+  }
+
+  if (request.path === tagPaths.allTags) {
+    return {
+      data: getTagsData(request, body),
+      totalRecords: body?.totalRecords || 0,
+    };
+  }
+
+  return {};
 };
 
 /**
