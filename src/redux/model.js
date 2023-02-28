@@ -291,10 +291,13 @@ class BaseModel {
   /**
    * Action creator for querying this specific model's resource
    * @param {Object} [params={}] - query params for the request
+   * @param {String} options.path - the path used to make the request
    */
-  static query(params = {}) {
+  static query(params = {}, options = {}) {
+    const { path } = options;
+
     return query(this.type, params, {
-      path: this.pathFor()
+      path: path || this.pathFor()
     });
   }
 

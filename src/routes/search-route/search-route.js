@@ -28,6 +28,7 @@ import {
   accessTypesReduxStateShape,
   PAGE_SIZE,
   FIRST_PAGE,
+  tagPaths,
 } from '../../constants';
 
 class SearchRoute extends Component {
@@ -42,7 +43,7 @@ class SearchRoute extends Component {
     searchPackages: PropTypes.func.isRequired,
     searchProviders: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
-    tagsModel: PropTypes.object.isRequired,
+    tagsModelOfAlreadyAddedTags: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -55,7 +56,7 @@ class SearchRoute extends Component {
     this.queries = {};
     this.path = {};
 
-    props.getTags();
+    props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     props.getAccessTypes();
 
     if (searchType) {
@@ -424,7 +425,7 @@ class SearchRoute extends Component {
   render() {
     const {
       history,
-      tagsModel,
+      tagsModelOfAlreadyAddedTags,
       accessTypes,
     } = this.props;
 
@@ -472,7 +473,7 @@ class SearchRoute extends Component {
                     searchField={searchField}
                     searchByTagsEnabled={searchByTagsEnabled}
                     searchByAccessTypesEnabled={searchByAccessTypesEnabled}
-                    tagsModel={tagsModel}
+                    tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
                     accessTypesStoreData={accessTypes}
                     searchTypeUrls={this.getSearchTypeUrls()}
                     isLoading={!!params.q && !results.hasLoaded}

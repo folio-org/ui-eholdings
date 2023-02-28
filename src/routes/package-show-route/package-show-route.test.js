@@ -181,6 +181,12 @@ const tagsModel = {
   },
 };
 
+const tagsModelOfAlreadyAddedTags = {
+  request: {
+    isResolved: true,
+  },
+};
+
 const resolver = {
   state: {
     proxyTypes: {
@@ -273,6 +279,7 @@ const getPackageShowRoute = (props = {}) => (
         proxyTypes={proxyTypes}
         provider={provider}
         tagsModel={tagsModel}
+        tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
         resolver={resolver}
         accessStatusTypes={accessStatusTypes}
         costPerUse={costPerUse}

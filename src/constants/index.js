@@ -41,3 +41,4 @@ export * from './packageShowRoute';
 export * from './permissionNames';
 export * from './querySearchListParams';
 export * from './overCount';
+export * from './tagPaths';

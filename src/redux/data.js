@@ -15,14 +15,15 @@ import {
 import {
   mergeRelationships,
   mergeAttributes,
-  getTagsData,
   getChangedAttributes,
   formatErrors,
+  formatTagsData,
   reduceData,
   getRecord,
   makeRequest,
 } from './helpers';
 import entityTagsActionTypes from './constants/entityTagsActionTypes';
+import { tagPaths } from '../constants/tagPaths';
 import entityTagsReducers from './reducers/entityTagsReducers';
 
 // actions
@@ -154,8 +155,9 @@ const resolve = (request, body, payload = {}, status) => {
   let data;
 
   if (request.resource === 'tags') {
-    data = getTagsData(request, body);
-    meta.totalResults = get(body, 'totalRecords', {});
+    const { data: tagsData, totalRecords } = formatTagsData(request, body);
+    data = tagsData;
+    meta.totalResults = totalRecords;
   } else {
     data = get(body, 'data', payload.data);
     meta = get(body, 'meta', {});
@@ -403,6 +405,43 @@ const handlers = {
 
     if (request.type === 'destroy') {
       next = handlers[actionTypes.UNLOAD](next, action);
+    } else if (request.resource === 'tags' && request.path === tagPaths.alreadyAddedToRecords) {
+      const tagsWithoutAlreadyAddedInRecords = Object.values(next.tags.records)
+        .filter(record => record.attributes.label)
+        .reduce((acc, record) => ({
+          ...acc,
+          [record.id]: record,
+        }), {});
+
+      next = records.reduce((reducedRecordsSet, record) => {
+        return reduceData(record.type, reducedRecordsSet, (store) => {
+          const recordState = getRecord(store, record.id);
+          // can't rely on id of the tag, as it's different for each request for the same tag.
+          const isUniqueTag = !Object.values(store.records).some(tag => tag.attributes.value === record.attributes.value);
+
+          return {
+            records: {
+              ...store.records,
+              ...(isUniqueTag && {
+                [record.id]: {
+                  ...recordState,
+                  attributes: mergeAttributes(recordState.attributes, record.attributes),
+                  relationships: mergeRelationships(recordState.relationships, record.relationships),
+                  isSaving: false,
+                  isLoading: false,
+                  isLoaded: true
+                }
+              }),
+            },
+          };
+        });
+      }, {
+        ...next,
+        tags: {
+          ...next.tags,
+          records: tagsWithoutAlreadyAddedInRecords,
+        },
+      });
     } else {
       // then we reduce each record in the set of records
       next = records.reduce((reducedRecordsSet, record) => {

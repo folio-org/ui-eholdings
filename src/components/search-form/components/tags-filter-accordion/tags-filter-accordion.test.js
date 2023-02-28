@@ -69,4 +69,19 @@ describe('Given TagsFilterAccordion', () => {
       expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
     });
   });
+
+  it('should display options as selected if there are such options in dataOptions', () => {
+    const { getAllByText, queryByText } = renderTagsFilterAccordion({
+      searchFilter: {
+        tags: ['opt1', 'opt2'],
+      },
+      dataOptions: [{
+        label: 'opt1',
+        value: 'opt1',
+      }],
+    });
+
+    expect(getAllByText('opt1')).toBeDefined();
+    expect(queryByText('opt2')).not.toBeInTheDocument();
+  });
 });

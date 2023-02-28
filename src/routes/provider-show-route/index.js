@@ -14,6 +14,7 @@ import {
 } from '../../redux/actions';
 
 import { selectPropFromData } from '../../redux/selectors';
+import { tagPaths } from '../../constants/tagPaths';
 
 export default connect(
   (store, { match }) => {
@@ -25,6 +26,7 @@ export default connect(
       model: resolver.find('providers', match.params.providerId),
       proxyTypes: resolver.query('proxyTypes'),
       tagsModel: resolver.query('tags'),
+      tagsModelOfAlreadyAddedTags: resolver.query('tags', undefined, { path: tagPaths.alreadyAddedToRecords }),
       rootProxy: resolver.find('rootProxies', 'root-proxy'),
       resolver,
       accessTypes: selectPropFromData(store, 'accessStatusTypes'),
@@ -35,7 +37,7 @@ export default connect(
     getProviderPackages: getProviderPackagesAction,
     clearProviderPackages: clearProviderPackagesAction,
     getProxyTypes: () => ProxyType.query(),
-    getTags: () => Tag.query(),
+    getTags: (params, options) => Tag.query(params, options),
     updateFolioTags: (model) => Tag.create(model),
     getRootProxy: () => RootProxy.find('root-proxy'),
     getAccessTypes: getAccessTypesAction,
