@@ -328,7 +328,7 @@
     "search.selectFieldToSearch": "検索するフィールドを選択する",
     "tags.filter": "タグフィルター",
     "resource.customLabels": "カスタムラベル",
-    "validate.errors.customLabels.length": "Value has exceeded {amount} character limit. Please revise your value.",
+    "validate.errors.customLabels.length": "値が{amount}文字制限を超えています。値を修正してください。",
     "settings.customLabels.displayLabel": "表示ラベル",
     "settings.customLabels.publicationFinder": "Publication Finderに表示",
     "settings.customLabels.textFinder": "Full Text Finderに表示",
