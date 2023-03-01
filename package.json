@@ -183,7 +183,9 @@
         "visible": false,
         "subPermissions": [
           "module.eholdings.enabled",
-          "settings.enabled"
+          "settings.enabled",
+          "kb-ebsco.kb-credentials.root-proxy.get",
+          "kb-ebsco.kb-credentials.item.get"
         ]
       },
       {
