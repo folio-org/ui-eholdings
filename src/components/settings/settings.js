@@ -70,21 +70,6 @@ class Settings extends Component {
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;
 
-    if (!this.hasEditPermissions()) {
-      return (
-        <FormattedMessage id="ui-eholdings.settings.kb">
-          {(message) => (
-            <span
-              data-test-configuration-heading
-              className={css.listSectionHeader}
-            >
-              {name || message}
-            </span>
-          )}
-        </FormattedMessage>
-      );
-    }
-
     return (
       <Tooltip
         id={`${id}-tooltip`}
@@ -129,27 +114,29 @@ class Settings extends Component {
           activeLink={pathname}
         >
           <div className={css.listSectionContent}>
-            <IfPermission perm="ui-eholdings.settings.root-proxy">
+            <IfPermission perm="kb-ebsco.kb-credentials.root-proxy.get">
               <NavListItem to={`/settings/eholdings/${configuration.id}/root-proxy`}>
                 <FormattedMessage id="ui-eholdings.settings.rootProxy" />
               </NavListItem>
             </IfPermission>
 
-            <IfPermission perm="ui-eholdings.settings.custom-labels.view">
+            <IfPermission perm="kb-ebsco.kb-credentials.custom-labels.collection.get">
               <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
                 <FormattedMessage id="ui-eholdings.resource.customLabels" />
               </NavListItem>
             </IfPermission>
 
-            <IfPermission perm="ui-eholdings.settings.access-types.view">
+            <IfPermission perm="kb-ebsco.kb-credentials.access-types.collection.get">
               <NavListItem to={`/settings/eholdings/${configuration.id}/access-status-types`}>
                 <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
               </NavListItem>
             </IfPermission>
 
-            <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
-              <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
-            </NavListItem>
+            <IfPermission perm="kb-ebsco.kb-credentials.users.collection.get">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+              </NavListItem>
+            </IfPermission>
 
             <IfPermission perm="ui-eholdings.settings.usage-consolidation.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/usage-consolidation`}>

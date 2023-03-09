@@ -103,6 +103,8 @@ const SettingsUsageConsolidationRoute = ({
     history.push({
       pathname: '/settings/eholdings',
     });
+
+    return null;
   }
 
   useEffect(() => {

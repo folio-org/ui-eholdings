@@ -52,6 +52,11 @@ const SettingsKnowledgeBaseRoute = ({
   const intl = useIntl();
   const callout = useContext(CalloutContext);
 
+  if (!stripes.hasPerm('kb-ebsco.kb-credentials.item.get')) {
+    history.push('/settings/eholdings');
+    return null;
+  }
+
   const getCurrentKBData = () => {
     return kbCredentials.items.find(cred => cred.id === match.params.kbId);
   };
@@ -162,10 +167,6 @@ const SettingsKnowledgeBaseRoute = ({
       confirmDeleteKBCredentials();
     }
   }, [kbCredentials.hasDeleted, confirmDeleteKBCredentials, callout, history, currentKBName]);
-
-  if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
-    history.push('/settings/eholdings');
-  }
 
   return (
     <TitleManager

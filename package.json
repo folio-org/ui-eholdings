@@ -185,7 +185,10 @@
           "module.eholdings.enabled",
           "settings.enabled",
           "kb-ebsco.kb-credentials.root-proxy.get",
-          "kb-ebsco.kb-credentials.item.get"
+          "kb-ebsco.kb-credentials.item.get",
+          "kb-ebsco.kb-credentials.access-types.collection.get",
+          "kb-ebsco.kb-credentials.users.collection.get",
+          "ui-eholdings.settings.usage-consolidation.view"
         ]
       },
       {

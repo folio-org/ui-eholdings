@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { TitleManager } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import { useIntl } from 'react-intl';
 
 import View from '../../components/settings/settings-root-proxy';
@@ -30,6 +33,12 @@ const SettingsRootProxyRoute = ({
   updateRootProxy,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
+
+  if (!stripes.hasPerm('kb-ebsco.kb-credentials.root-proxy.get')) {
+    history.push('/settings/eholdings');
+    return null;
+  }
 
   useEffect(() => {
     getProxyTypes(match.params.kbId);

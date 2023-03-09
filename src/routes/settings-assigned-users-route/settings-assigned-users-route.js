@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Icon } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 
 import View from '../../components/settings/settings-assigned-users';
 import Toaster from '../../components/toaster';
@@ -25,6 +26,7 @@ const propTypes = {
   clearKBCredentialsUser: PropTypes.func.isRequired,
   deleteKBCredentialsUser: PropTypes.func.isRequired,
   getKBCredentialsUsers: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   match: ReactRouterPropTypes.match.isRequired,
   postKBCredentialsUser: PropTypes.func.isRequired,
@@ -38,7 +40,15 @@ const SettingsAssignedUsersRoute = ({
   assignedUsers,
   kbCredentials,
   match: { params: { kbId } },
+  history,
 }) => {
+  const stripes = useStripes();
+
+  if (!stripes.hasPerm('kb-ebsco.kb-credentials.users.collection.get')) {
+    history.push('/settings/eholdings');
+    return null;
+  }
+
   useEffect(() => {
     getKBCredentialsUsers(kbId);
   }, [getKBCredentialsUsers, kbId]);

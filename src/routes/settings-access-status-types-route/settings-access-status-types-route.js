@@ -25,8 +25,9 @@ const SettingsAccessStatusTypesRoute = ({
   const intl = useIntl();
   const { items: { data } } = accessTypes;
 
-  if (!stripes.hasPerm('ui-eholdings.settings.access-types.view')) {
+  if (!stripes.hasPerm('kb-ebsco.kb-credentials.access-types.collection.get')) {
     history.push('/settings/eholdings');
+    return null;
   }
 
   useEffect(() => {

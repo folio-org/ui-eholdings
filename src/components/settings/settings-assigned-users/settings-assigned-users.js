@@ -118,18 +118,20 @@ const SettingsAssignedUsers = ({
         }}
         formatter={{
           id: user => (
-            <div className={css.unassignCell}>
-              <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
-                {([ariaLabel]) => (
-                  <IconButton
-                    icon="trash"
-                    onClick={() => { setUserToBeUnassigned(user); }}
-                    ariaLabel={ariaLabel}
-                    data-test-delete-user
-                  />
-                )}
-              </FormattedMessage>
-            </div>
+            <IfPermission perm="kb-ebsco.kb-credentials.users.item.delete">
+              <div className={css.unassignCell}>
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
+                  {([ariaLabel]) => (
+                    <IconButton
+                      icon="trash"
+                      onClick={() => { setUserToBeUnassigned(user); }}
+                      ariaLabel={ariaLabel}
+                      data-test-delete-user
+                    />
+                  )}
+                </FormattedMessage>
+              </div>
+            </IfPermission>
           ),
         }}
       />
