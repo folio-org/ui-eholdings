@@ -34,16 +34,20 @@ const SettingsRootProxyRoute = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
+  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.root-proxy.get');
 
-  if (!stripes.hasPerm('kb-ebsco.kb-credentials.root-proxy.get')) {
+  if (!hasPermToView) {
     history.push('/settings/eholdings');
-    return null;
   }
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getProxyTypes(match.params.kbId);
     getRootProxy(match.params.kbId);
-  }, [getProxyTypes, getRootProxy, match.params.kbId]);
+  }, [getProxyTypes, getRootProxy, match.params.kbId, hasPermToView]);
 
   useEffect(() => {
     if (rootProxy.isUpdated) {

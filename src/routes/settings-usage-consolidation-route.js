@@ -99,12 +99,12 @@ const SettingsUsageConsolidationRoute = ({
     isFailed,
   } = usageConsolidation;
 
-  if (!stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view')) {
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.usage-consolidation.view');
+
+  if (!hasPermToView) {
     history.push({
       pathname: '/settings/eholdings',
     });
-
-    return null;
   }
 
   useEffect(() => {
@@ -141,20 +141,36 @@ const SettingsUsageConsolidationRoute = ({
   }, [getUsageConsolidationKey, kbId, isLoaded, isFailed, usageConsolidationWasCleared]);
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getUcCredentialsClientId();
-  }, [getUcCredentialsClientId]);
+  }, [getUcCredentialsClientId, hasPermToView]);
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getUcCredentialsClientSecret();
-  }, [getUcCredentialsClientSecret]);
+  }, [getUcCredentialsClientSecret, hasPermToView]);
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getCurrencies();
-  }, [getCurrencies]);
+  }, [getCurrencies, hasPermToView]);
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getUcCredentials();
-  }, [getUcCredentials]);
+  }, [getUcCredentials, hasPermToView]);
 
   const updateUsageConsolidation = useCallback(params => {
     const {

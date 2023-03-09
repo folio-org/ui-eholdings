@@ -43,15 +43,19 @@ const SettingsAssignedUsersRoute = ({
   history,
 }) => {
   const stripes = useStripes();
+  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.users.collection.get');
 
-  if (!stripes.hasPerm('kb-ebsco.kb-credentials.users.collection.get')) {
+  if (!hasPermToView) {
     history.push('/settings/eholdings');
-    return null;
   }
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getKBCredentialsUsers(kbId);
-  }, [getKBCredentialsUsers, kbId]);
+  }, [getKBCredentialsUsers, kbId, hasPermToView]);
 
   const [
     alreadyAssignedMessageDisplayed,

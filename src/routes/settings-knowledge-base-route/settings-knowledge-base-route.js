@@ -51,10 +51,10 @@ const SettingsKnowledgeBaseRoute = ({
   const stripes = useStripes();
   const intl = useIntl();
   const callout = useContext(CalloutContext);
+  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.item.get');
 
-  if (!stripes.hasPerm('kb-ebsco.kb-credentials.item.get')) {
+  if (!hasPermToView) {
     history.push('/settings/eholdings');
-    return null;
   }
 
   const getCurrentKBData = () => {

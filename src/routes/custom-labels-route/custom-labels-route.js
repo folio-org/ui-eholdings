@@ -33,15 +33,19 @@ const SettingsCustomLabelsRoute = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
+  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.custom-labels.collection.get');
 
-  if (!stripes.hasPerm('kb-ebsco.kb-credentials.custom-labels.collection.get')) {
+  if (!hasPermToView) {
     history.push('/settings/eholdings');
-    return null;
   }
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getCustomLabels(match.params.kbId);
-  }, [getCustomLabels, match.params.kbId]);
+  }, [getCustomLabels, match.params.kbId, hasPermToView]);
 
   return (
     <TitleManager
