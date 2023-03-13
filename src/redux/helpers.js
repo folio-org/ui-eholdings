@@ -1,4 +1,5 @@
 import { foldl, append } from 'funcadelic';
+import omitBy from 'lodash/omitBy';
 import { tagPaths } from '../constants/tagPaths';
 
 /**
@@ -33,6 +34,8 @@ export function mergeRelationships(existing, incoming) {
  */
 export function mergeAttributes(existing, incoming) {
   if (!incoming) { return existing; }
+
+  existing = omitBy(existing, (_, key) => /^userDefinedField\d+$/.test(key));
 
   return append(existing, incoming);
 }
