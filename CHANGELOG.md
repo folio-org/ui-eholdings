@@ -5,6 +5,7 @@
 * Stop infinity loading of package titles when a user edits the package record while they are being added/removed to holdings. (UIEH-1349)
 * Only display tags in the tag filter that have already been added to records. (UIEH-1357)
 * Extend the "Settings (eHoldings): View settings" permission to view the "Root proxy" settings and "Knowledge Base" details. (UIEH-1355)
+* Don't display the deleted custom label. (UIEH-1364)
 
 ## [8.0.0] (https://github.com/folio-org/ui-eholdings/tree/v8.0.0) (2023-02-15)
 
