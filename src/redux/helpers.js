@@ -35,9 +35,9 @@ export function mergeRelationships(existing, incoming) {
 export function mergeAttributes(existing, incoming) {
   if (!incoming) { return existing; }
 
-  existing = omitBy(existing, (_, key) => /^userDefinedField\d+$/.test(key));
+  const omittedExisting = omitBy(existing, (_, key) => /^userDefinedField\d+$/.test(key));
 
-  return append(existing, incoming);
+  return append(omittedExisting, incoming);
 }
 
 /**
