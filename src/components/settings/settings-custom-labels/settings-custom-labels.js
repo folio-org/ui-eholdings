@@ -16,7 +16,6 @@ import {
 import {
   Col,
   ConfirmationModal,
-  KeyValue,
   Row,
   Headline,
 } from '@folio/stripes/components';
