@@ -69,7 +69,7 @@ const SettingsRootProxy = ({
           updateIsPending={rootProxy.isLoading}
           title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
           toasts={toasts}
-          hasFooter={stripes.hasPerm('ui-eholdings.settings.root-proxy')}
+          hasFooter={stripes.hasPerm('ui-eholdings.settings.root-proxy.edit')}
         >
           {proxyTypes.isLoading
             ? (

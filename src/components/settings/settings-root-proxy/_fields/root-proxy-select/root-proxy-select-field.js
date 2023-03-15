@@ -39,7 +39,7 @@ const RootProxySelectField = ({ proxyTypes }) => {
         component={Select}
         label={label}
         aria-label={label}
-        disabled={!stripes.hasPerm('ui-eholdings.settings.root-proxy')}
+        disabled={!stripes.hasPerm('ui-eholdings.settings.root-proxy.edit')}
         data-testid="root-proxy-select-field"
       >
         {options}

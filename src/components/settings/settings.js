@@ -52,7 +52,7 @@ class Settings extends Component {
   }
 
   hasEditPermissions = () => {
-    return this.props.stripes.hasPerm('ui-eholdings.settings.kb');
+    return this.props.stripes.hasPerm('ui-eholdings.settings.kb.edit');
   }
 
   handleKnowledgeBaseHeadingClick = (id) => {
@@ -114,25 +114,25 @@ class Settings extends Component {
           activeLink={pathname}
         >
           <div className={css.listSectionContent}>
-            <IfPermission perm="kb-ebsco.kb-credentials.root-proxy.get">
+            <IfPermission perm="ui-eholdings.settings.root-proxy.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/root-proxy`}>
                 <FormattedMessage id="ui-eholdings.settings.rootProxy" />
               </NavListItem>
             </IfPermission>
 
-            <IfPermission perm="kb-ebsco.kb-credentials.custom-labels.collection.get">
+            <IfPermission perm="ui-eholdings.settings.custom-labels.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/custom-labels`}>
                 <FormattedMessage id="ui-eholdings.resource.customLabels" />
               </NavListItem>
             </IfPermission>
 
-            <IfPermission perm="kb-ebsco.kb-credentials.access-types.collection.get">
+            <IfPermission perm="ui-eholdings.settings.access-types.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/access-status-types`}>
                 <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
               </NavListItem>
             </IfPermission>
 
-            <IfPermission perm="kb-ebsco.kb-credentials.users.collection.get">
+            <IfPermission perm="ui-eholdings.settings.assignedUser.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
                 <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
               </NavListItem>

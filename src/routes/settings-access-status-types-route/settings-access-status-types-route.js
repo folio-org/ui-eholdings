@@ -24,7 +24,7 @@ const SettingsAccessStatusTypesRoute = ({
   const stripes = useStripes();
   const intl = useIntl();
   const { items: { data } } = accessTypes;
-  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.access-types.collection.get');
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.access-types.view');
 
   if (!hasPermToView) {
     history.push('/settings/eholdings');

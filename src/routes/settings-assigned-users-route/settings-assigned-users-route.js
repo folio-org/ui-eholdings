@@ -43,7 +43,7 @@ const SettingsAssignedUsersRoute = ({
   history,
 }) => {
   const stripes = useStripes();
-  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.users.collection.get');
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.assignedUser.view');
 
   if (!hasPermToView) {
     history.push('/settings/eholdings');

@@ -34,7 +34,7 @@ const SettingsRootProxyRoute = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
-  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.root-proxy.get');
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.root-proxy.view');
 
   if (!hasPermToView) {
     history.push('/settings/eholdings');

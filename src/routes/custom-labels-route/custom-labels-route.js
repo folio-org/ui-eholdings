@@ -33,7 +33,7 @@ const SettingsCustomLabelsRoute = ({
 }) => {
   const intl = useIntl();
   const stripes = useStripes();
-  const hasPermToView = stripes.hasPerm('kb-ebsco.kb-credentials.custom-labels.collection.get');
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.custom-labels.view');
 
   if (!hasPermToView) {
     history.push('/settings/eholdings');

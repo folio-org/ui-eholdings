@@ -184,10 +184,11 @@
         "subPermissions": [
           "module.eholdings.enabled",
           "settings.enabled",
-          "kb-ebsco.kb-credentials.root-proxy.get",
-          "kb-ebsco.kb-credentials.item.get",
-          "kb-ebsco.kb-credentials.access-types.collection.get",
-          "kb-ebsco.kb-credentials.users.collection.get",
+          "ui-eholdings.settings.kb.view",
+          "ui-eholdings.settings.root-proxy.view",
+          "ui-eholdings.settings.custom-labels.view",
+          "ui-eholdings.settings.access-types.view",
+          "ui-eholdings.settings.assignedUser.view",
           "ui-eholdings.settings.usage-consolidation.view"
         ]
       },
@@ -199,13 +200,19 @@
         "visible": true
       },
       {
-        "permissionName": "ui-eholdings.settings.kb",
+        "permissionName": "ui-eholdings.settings.kb.view",
+        "subPermissions": [
+          "kb-ebsco.kb-credentials.collection.get",
+          "kb-ebsco.kb-credentials.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.kb.edit",
         "displayName": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
+          "ui-eholdings.settings.kb.view",
           "kb-ebsco.kb-credentials.collection.post",
-          "kb-ebsco.kb-credentials.item.get",
           "kb-ebsco.kb-credentials.item.patch",
           "kb-ebsco.kb-credentials.item.put"
         ]
@@ -215,18 +222,23 @@
         "displayName": "Settings (eHoldings): Can delete knowledge base credentials",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
-          "ui-eholdings.settings.kb",
+          "ui-eholdings.settings.kb.edit",
           "kb-ebsco.kb-credentials.item.delete"
         ]
       },
       {
-        "permissionName": "ui-eholdings.settings.root-proxy",
+        "permissionName": "ui-eholdings.settings.root-proxy.view",
+        "subPermissions": [
+          "ui-eholdings.settings.kb.view",
+          "kb-ebsco.kb-credentials.root-proxy.get"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.root-proxy.edit",
         "displayName": "Settings (eHoldings): configure root proxy setting",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.root-proxy.get",
+          "ui-eholdings.settings.root-proxy.view",
           "kb-ebsco.kb-credentials.root-proxy.put"
         ]
       },
@@ -283,7 +295,7 @@
         "displayName": "Settings (eholdings): Can view access status types",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
+          "ui-eholdings.settings.kb.view",
           "kb-ebsco.kb-credentials.access-types.collection.get",
           "kb-ebsco.kb-credentials.access-types.item.get"
         ]
@@ -293,7 +305,6 @@
         "displayName": "Settings (eholdings): Can create, edit, and view access status types",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
           "ui-eholdings.settings.access-types.view",
           "kb-ebsco.kb-credentials.access-types.collection.post",
           "kb-ebsco.kb-credentials.access-types.item.put"
@@ -304,8 +315,6 @@
         "displayName": "Settings (eholdings): Can create, edit, view, and delete access status types",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
-          "ui-eholdings.settings.access-types.view",
           "ui-eholdings.settings.access-types.create-edit",
           "kb-ebsco.kb-credentials.access-types.item.delete"
         ]
@@ -315,11 +324,12 @@
         "displayName": "Settings (eholdings): Can view custom labels",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled"
+          "ui-eholdings.settings.kb.view",
+          "kb-ebsco.kb-credentials.custom-labels.collection.get"
         ]
       },
       {
-        "permissionName": "ui-eholdings.settings.custom-labels.all",
+        "permissionName": "ui-eholdings.settings.custom-labels.edit",
         "displayName": "Settings (eholdings): Can create, edit, view, and delete custom labels",
         "visible": true,
         "subPermissions": [
@@ -332,7 +342,7 @@
         "displayName": "Settings (eholdings): View Usage Consolidation API credentials",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
+          "ui-eholdings.settings.kb.view",
           "kb-ebsco.kb-credentials.uc.item.get",
           "kb-ebsco.currencies.collection.get",
           "kb-ebsco.uc-credentials.item.get",
@@ -352,17 +362,23 @@
         ]
       },
       {
-        "permissionName": "ui-eholdings.settings.assignedUser",
+        "permissionName": "ui-eholdings.settings.assignedUser.view",
+        "subPermissions": [
+          "ui-eholdings.settings.kb.view",
+          "kb-ebsco.kb-credentials.users.collection.get",
+          "usergroups.collection.get",
+          "users.collection.get"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.assignedUser.edit",
         "displayName": "Settings (eHoldings): Can assign/unassign a user from a KB",
         "visible": true,
         "subPermissions": [
-          "ui-eholdings.settings.enabled",
-          "kb-ebsco.kb-credentials.users.collection.get",
+          "ui-eholdings.settings.assignedUser.view",
           "kb-ebsco.kb-credentials.users.collection.post",
           "kb-ebsco.kb-credentials.users.item.put",
-          "kb-ebsco.kb-credentials.users.item.delete",
-          "usergroups.collection.get",
-          "users.collection.get"
+          "kb-ebsco.kb-credentials.users.item.delete"
         ]
       }
     ]

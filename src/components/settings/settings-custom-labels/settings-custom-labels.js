@@ -136,7 +136,7 @@ const SettingsCustomLabels = ({
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
           toasts={getToastLabels()}
-          hasFooter={stripes.hasPerm('ui-eholdings.settings.custom-labels.all')}
+          hasFooter={stripes.hasPerm('ui-eholdings.settings.custom-labels.edit')}
         >
           <Row>
             <Col xs={4}>

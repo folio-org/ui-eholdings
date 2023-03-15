@@ -80,7 +80,7 @@ const SettingsAssignedUsers = ({
           {pageTitle}
         </span>
       </Col>
-      <IfPermission perm="ui-eholdings.settings.assignedUser">
+      <IfPermission perm="ui-eholdings.settings.assignedUser.edit">
         <Col>
           <Pluggable
             type="find-user"
@@ -118,7 +118,7 @@ const SettingsAssignedUsers = ({
         }}
         formatter={{
           id: user => (
-            <IfPermission perm="kb-ebsco.kb-credentials.users.item.delete">
+            <IfPermission perm="ui-eholdings.settings.assignedUser.edit">
               <div className={css.unassignCell}>
                 <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
                   {([ariaLabel]) => (
