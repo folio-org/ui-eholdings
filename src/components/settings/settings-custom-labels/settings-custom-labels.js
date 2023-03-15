@@ -18,6 +18,7 @@ import {
   ConfirmationModal,
   KeyValue,
   Row,
+  Headline,
 } from '@folio/stripes/components';
 
 import CustomLabelField from './custom-label-field';
@@ -137,13 +138,19 @@ const SettingsCustomLabels = ({
         >
           <Row>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />
+              </Headline>
             </Col>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />
+              </Headline>
             </Col>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />
+              </Headline>
             </Col>
           </Row>
 
