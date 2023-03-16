@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [8.0.2] IN PROGRESS
+
+* Custom labels | Remove a dashes below labels. (UIEH-1361)
+
 ## [8.0.1] (https://github.com/folio-org/ui-eholdings/tree/v8.0.1) (2023-03-13)
 
 * Stop infinity loading of package titles when a user edits the package record while they are being added/removed to holdings. (UIEH-1349)
