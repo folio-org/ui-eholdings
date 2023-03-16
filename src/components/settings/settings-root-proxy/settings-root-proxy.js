@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 import createFocusDecorator from 'final-form-focus';
 import { Icon } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
 
 import SettingsForm from '../settings-form';
@@ -19,6 +20,7 @@ const SettingsRootProxy = ({
   proxyTypes,
   rootProxy,
 }) => {
+  const stripes = useStripes();
   const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ const SettingsRootProxy = ({
           updateIsPending={rootProxy.isLoading}
           title={<FormattedMessage id="ui-eholdings.settings.rootProxy" />}
           toasts={toasts}
+          hasFooter={stripes.hasPerm('ui-eholdings.settings.root-proxy.edit')}
         >
           {proxyTypes.isLoading
             ? (

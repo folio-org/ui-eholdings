@@ -24,20 +24,29 @@ const SettingsAccessStatusTypesRoute = ({
   const stripes = useStripes();
   const intl = useIntl();
   const { items: { data } } = accessTypes;
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.access-types.view');
 
-  if (!stripes.hasPerm('ui-eholdings.settings.access-types.view')) {
+  if (!hasPermToView) {
     history.push('/settings/eholdings');
   }
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     if (!data) {
       getAccessTypes(params.kbId);
     }
-  }, [data, getAccessTypes, params.kbId]);
+  }, [data, getAccessTypes, params.kbId, hasPermToView]);
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getAccessTypes(params.kbId);
-  }, [getAccessTypes, params.kbId]);
+  }, [getAccessTypes, params.kbId, hasPermToView]);
 
   const pageLabel = intl.formatMessage({ id: 'ui-eholdings.label.settings' });
   const recordLabel = intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' });

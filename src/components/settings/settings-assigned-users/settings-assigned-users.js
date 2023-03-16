@@ -80,7 +80,7 @@ const SettingsAssignedUsers = ({
           {pageTitle}
         </span>
       </Col>
-      <IfPermission perm="ui-eholdings.settings.assignedUser">
+      <IfPermission perm="ui-eholdings.settings.assignedUser.edit">
         <Col>
           <Pluggable
             type="find-user"
@@ -118,18 +118,20 @@ const SettingsAssignedUsers = ({
         }}
         formatter={{
           id: user => (
-            <div className={css.unassignCell}>
-              <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
-                {([ariaLabel]) => (
-                  <IconButton
-                    icon="trash"
-                    onClick={() => { setUserToBeUnassigned(user); }}
-                    ariaLabel={ariaLabel}
-                    data-test-delete-user
-                  />
-                )}
-              </FormattedMessage>
-            </div>
+            <IfPermission perm="ui-eholdings.settings.assignedUser.edit">
+              <div className={css.unassignCell}>
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers.list.unassignUser">
+                  {([ariaLabel]) => (
+                    <IconButton
+                      icon="trash"
+                      onClick={() => { setUserToBeUnassigned(user); }}
+                      ariaLabel={ariaLabel}
+                      data-test-delete-user
+                    />
+                  )}
+                </FormattedMessage>
+              </div>
+            </IfPermission>
           ),
         }}
       />

@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { TitleManager } from '@folio/stripes/core';
+import {
+  TitleManager,
+  useStripes,
+} from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 
 import View from '../../components/settings/settings-custom-labels';
@@ -14,6 +18,7 @@ const propTypes = {
     items: PropTypes.object.isRequired,
   }).isRequired,
   getCustomLabels: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
   match: PropTypes.object.isRequired,
   updateCustomLabels: PropTypes.func.isRequired,
 };
@@ -24,12 +29,23 @@ const SettingsCustomLabelsRoute = ({
   customLabels,
   updateCustomLabels,
   confirmUpdate,
+  history,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.custom-labels.view');
+
+  if (!hasPermToView) {
+    history.push('/settings/eholdings');
+  }
 
   useEffect(() => {
+    if (!hasPermToView) {
+      return;
+    }
+
     getCustomLabels(match.params.kbId);
-  }, [getCustomLabels, match.params.kbId]);
+  }, [getCustomLabels, match.params.kbId, hasPermToView]);
 
   return (
     <TitleManager
