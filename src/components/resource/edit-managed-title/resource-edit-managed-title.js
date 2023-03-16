@@ -95,6 +95,7 @@ const ResourceEditManagedTitle = ({
       customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),
+      ...getUserDefinedFields(model),
     };
   }, [model, proxyTypes]);
 
@@ -162,8 +163,6 @@ const ResourceEditManagedTitle = ({
 
   const isSelectInFlight = model.update.isPending && hasIn(model.update.changedAttributes, 'isSelected');
 
-  const userDefinedFields = getUserDefinedFields(model);
-
   return (
     <KeyShortcutsWrapper
       toggleAllSections={toggleAllSections}
@@ -219,7 +218,6 @@ const ResourceEditManagedTitle = ({
                         isOpen={sections.resourceShowCustomLabels}
                         onToggle={handleSectionToggle}
                         section={CustomLabelsEditSection}
-                        userDefinedFields={userDefinedFields}
                       />
                     )}
 
