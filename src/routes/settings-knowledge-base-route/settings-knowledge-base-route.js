@@ -51,6 +51,11 @@ const SettingsKnowledgeBaseRoute = ({
   const stripes = useStripes();
   const intl = useIntl();
   const callout = useContext(CalloutContext);
+  const hasPermToView = stripes.hasPerm('ui-eholdings.settings.kb.view');
+
+  if (!hasPermToView) {
+    history.push('/settings/eholdings');
+  }
 
   const getCurrentKBData = () => {
     return kbCredentials.items.find(cred => cred.id === match.params.kbId);
@@ -162,10 +167,6 @@ const SettingsKnowledgeBaseRoute = ({
       confirmDeleteKBCredentials();
     }
   }, [kbCredentials.hasDeleted, confirmDeleteKBCredentials, callout, history, currentKBName]);
-
-  if (!stripes.hasPerm('ui-eholdings.settings.kb')) {
-    history.push('/settings/eholdings');
-  }
 
   return (
     <TitleManager

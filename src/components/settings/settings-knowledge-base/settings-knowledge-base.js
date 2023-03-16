@@ -13,7 +13,10 @@ import {
 } from 'react-intl';
 import { useHistory } from 'react-router';
 
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   Icon,
   TextField,
@@ -59,6 +62,8 @@ const SettingsKnowledgeBase = ({
 }) => {
   const intl = useIntl();
   const history = useHistory();
+  const stripes = useStripes();
+  const hasPermToSave = stripes.hasPerm('ui-eholdings.settings.kb.edit');
 
   const [toasts, dispatch] = useReducer((state, action) => {
     switch (action.type) {
@@ -272,6 +277,7 @@ const SettingsKnowledgeBase = ({
           updateIsPending={kbCredentials.isUpdating}
           title={<FormattedMessage id={settingsFormTitleId} />}
           toasts={toasts}
+          hasFooter={hasPermToSave}
           lastMenu={!isCreateMode ? (
             <IfPermission perm="ui-eholdings.settings.kb.delete">
               <Button
@@ -296,6 +302,7 @@ const SettingsKnowledgeBase = ({
                     label={nameFieldLabel}
                     aria-label={nameFieldLabel}
                     required
+                    disabled={!hasPermToSave}
                     validate={validateNameField}
                     data-testid="kb-name-field"
                   />
@@ -303,6 +310,7 @@ const SettingsKnowledgeBase = ({
                 <div data-test-eholdings-settings-kb-url>
                   <Field
                     name="url"
+                    disabled={!hasPermToSave}
                     component={Select}
                     label={<FormattedMessage id="ui-eholdings.settings.kb.rmapiBaseUrl" />}
                   >
@@ -327,6 +335,7 @@ const SettingsKnowledgeBase = ({
                     type="text"
                     autoComplete="off"
                     validate={validateCustomerId}
+                    disabled={!hasPermToSave}
                     required
                     aria-label={customerIDFieldLabel}
                     data-testid="customer-id-field"
@@ -339,6 +348,7 @@ const SettingsKnowledgeBase = ({
                     autoComplete="off"
                     validate={validateApiKey}
                     required
+                    disabled={!hasPermToSave}
                     label={apiKeyFieldLabel}
                     aria-label={apiKeyFieldLabel}
                     showButtonLabel={<FormattedMessage id="ui-eholdings.settings.kb.apiKey.show" />}

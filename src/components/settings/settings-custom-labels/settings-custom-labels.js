@@ -19,6 +19,7 @@ import {
   Row,
   Headline,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 
 import CustomLabelField from './custom-label-field';
 import SettingsForm from '../settings-form';
@@ -32,6 +33,7 @@ const SettingsCustomLabels = ({
   updateCustomLabels,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [removingLabels, setRemovingLabels] = useState('');
@@ -134,6 +136,7 @@ const SettingsCustomLabels = ({
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
           toasts={getToastLabels()}
+          hasFooter={stripes.hasPerm('ui-eholdings.settings.custom-labels.edit')}
         >
           <Row>
             <Col xs={4}>

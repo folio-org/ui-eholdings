@@ -15,6 +15,7 @@ const renderSettingsForm = ({
 } = {}) => render(
   <Harness>
     <SettingsForm
+      hasFooter
       id="test-form"
       formState={{
         form: {},
