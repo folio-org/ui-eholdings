@@ -183,6 +183,7 @@ const SettingsUsageConsolidation = ({
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.settings.usageConsolidation" />}
           toasts={toasts}
+          hasFooter={!disabled}
         >
           <ShowHidePasswordField
             id="eholdings-settings-usage-consolidation-id"
@@ -203,6 +204,7 @@ const SettingsUsageConsolidation = ({
             name="clientId"
             className={css.passwordField}
             component={TextField}
+            disabled={disabled}
             label={usageConsolidationClientId}
             aria-label={usageConsolidationClientId}
             showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.clientId.show" />}
@@ -215,6 +217,7 @@ const SettingsUsageConsolidation = ({
             name="clientSecret"
             className={css.passwordField}
             component={TextField}
+            disabled={disabled}
             label={usageConsolidationApiKey}
             aria-label={usageConsolidationApiKey}
             showButtonLabel={<FormattedMessage id="ui-eholdings.settings.usageConsolidation.apiKey.show" />}

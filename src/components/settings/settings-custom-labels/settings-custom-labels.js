@@ -16,9 +16,10 @@ import {
 import {
   Col,
   ConfirmationModal,
-  KeyValue,
   Row,
+  Headline,
 } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 
 import CustomLabelField from './custom-label-field';
 import SettingsForm from '../settings-form';
@@ -32,6 +33,7 @@ const SettingsCustomLabels = ({
   updateCustomLabels,
 }) => {
   const intl = useIntl();
+  const stripes = useStripes();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [removingLabels, setRemovingLabels] = useState('');
@@ -134,16 +136,23 @@ const SettingsCustomLabels = ({
           formState={formState}
           title={<FormattedMessage id="ui-eholdings.resource.customLabels" />}
           toasts={getToastLabels()}
+          hasFooter={stripes.hasPerm('ui-eholdings.settings.custom-labels.edit')}
         >
           <Row>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.displayLabel" />
+              </Headline>
             </Col>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.publicationFinder" />
+              </Headline>
             </Col>
             <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />} />
+              <Headline tag="h3">
+                <FormattedMessage id="ui-eholdings.settings.customLabels.textFinder" />
+              </Headline>
             </Col>
           </Row>
 

@@ -26,6 +26,7 @@ export default class SettingsForm extends Component {
       invalid: PropTypes.bool,
       pristine: PropTypes.bool,
     }).isRequired,
+    hasFooter: PropTypes.bool,
     id: PropTypes.string.isRequired,
     lastMenu: PropTypes.element,
     title: PropTypes.node,
@@ -87,6 +88,7 @@ export default class SettingsForm extends Component {
       toasts,
       lastMenu,
       id,
+      hasFooter,
       ...formProps
     } = this.props;
 
@@ -115,7 +117,7 @@ export default class SettingsForm extends Component {
               </FormattedMessage>
             )}
             lastMenu={lastMenu}
-            footer={this.renderFooter()}
+            footer={hasFooter && this.renderFooter()}
           >
             <Toaster
               position='bottom'

@@ -52,7 +52,7 @@ class Settings extends Component {
   }
 
   hasEditPermissions = () => {
-    return this.props.stripes.hasPerm('ui-eholdings.settings.kb');
+    return this.props.stripes.hasPerm('ui-eholdings.settings.kb.edit');
   }
 
   handleKnowledgeBaseHeadingClick = (id) => {
@@ -69,21 +69,6 @@ class Settings extends Component {
 
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;
-
-    if (!this.hasEditPermissions()) {
-      return (
-        <FormattedMessage id="ui-eholdings.settings.kb">
-          {(message) => (
-            <span
-              data-test-configuration-heading
-              className={css.listSectionHeader}
-            >
-              {name || message}
-            </span>
-          )}
-        </FormattedMessage>
-      );
-    }
 
     return (
       <Tooltip
@@ -129,7 +114,7 @@ class Settings extends Component {
           activeLink={pathname}
         >
           <div className={css.listSectionContent}>
-            <IfPermission perm="ui-eholdings.settings.root-proxy">
+            <IfPermission perm="ui-eholdings.settings.root-proxy.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/root-proxy`}>
                 <FormattedMessage id="ui-eholdings.settings.rootProxy" />
               </NavListItem>
@@ -147,9 +132,11 @@ class Settings extends Component {
               </NavListItem>
             </IfPermission>
 
-            <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
-              <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
-            </NavListItem>
+            <IfPermission perm="ui-eholdings.settings.assignedUser.view">
+              <NavListItem to={`/settings/eholdings/${configuration.id}/users`}>
+                <FormattedMessage id="ui-eholdings.settings.assignedUsers" />
+              </NavListItem>
+            </IfPermission>
 
             <IfPermission perm="ui-eholdings.settings.usage-consolidation.view">
               <NavListItem to={`/settings/eholdings/${configuration.id}/usage-consolidation`}>

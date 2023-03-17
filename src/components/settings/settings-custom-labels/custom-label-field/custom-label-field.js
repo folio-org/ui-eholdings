@@ -19,7 +19,7 @@ const propTypes = {
 
 const CustomLabelField = ({ name }) => {
   const stripes = useStripes();
-  const disabled = !stripes.hasPerm('ui-eholdings.settings.custom-labels.all');
+  const disabled = !stripes.hasPerm('ui-eholdings.settings.custom-labels.edit');
 
   const validateLabel = (label, value, allValues) => {
     const utf8Value = value ? getMatchedStringInUTF8(value) : value;
