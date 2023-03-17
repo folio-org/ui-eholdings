@@ -95,7 +95,8 @@ const ResourceEditCustomTitle = ({
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       accessTypeId: getAccessTypeId(model),
       isVisible: !visibilityData.isHidden,
-      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod)
+      customEmbargoPeriod: getEmbargoInitial(customEmbargoPeriod),
+      ...getUserDefinedFields(model),
     };
   }, [model, proxyTypes]);
 
@@ -167,8 +168,6 @@ const ResourceEditCustomTitle = ({
     );
   };
 
-  const userDefinedFields = getUserDefinedFields(model);
-
   return (
     <KeyShortcutsWrapper
       formRef={editFormRef.current}
@@ -220,7 +219,6 @@ const ResourceEditCustomTitle = ({
                       isOpen={sections.resourceShowCustomLabels}
                       onToggle={handleSectionToggle}
                       section={CustomLabelsEditSection}
-                      userDefinedFields={userDefinedFields}
                     />
 
                     <ResourceSettings

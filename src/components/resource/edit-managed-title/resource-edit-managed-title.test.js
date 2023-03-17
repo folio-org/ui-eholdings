@@ -137,7 +137,6 @@ const renderResourceEditManagedTitle = (props = {}) => render(
         handleOnSubmit={mockHandleOnSubmit}
         getFooter={() => (
           <button
-            buttonStyle="primary mega"
             type="submit"
           >
             Save & close

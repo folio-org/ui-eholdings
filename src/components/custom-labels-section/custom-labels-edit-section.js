@@ -19,7 +19,6 @@ class CustomLabelsEditSection extends Component {
         id: PropTypes.number,
       })
     })).isRequired,
-    userDefinedFields: PropTypes.objectOf(PropTypes.string).isRequired,
   }
 
   validateStringLength = (value) => {
@@ -36,7 +35,6 @@ class CustomLabelsEditSection extends Component {
   render() {
     const {
       customLabels,
-      userDefinedFields,
     } = this.props;
 
     return (
@@ -47,7 +45,6 @@ class CustomLabelsEditSection extends Component {
             id,
           } = attributes;
           const fieldName = `userDefinedField${id}`;
-          const value = userDefinedFields[fieldName] || '';
 
           return (
             <Col
@@ -57,7 +54,6 @@ class CustomLabelsEditSection extends Component {
             >
               <Field
                 component={TextField}
-                initialValue={value}
                 label={displayLabel}
                 name={fieldName}
                 parse={v => v}
