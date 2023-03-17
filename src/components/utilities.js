@@ -10,7 +10,10 @@ import {
 
 import { FormattedDate } from '@folio/stripes/components';
 
-import { searchTypes } from '../constants';
+import {
+  searchTypes,
+  USER_DEFINED_FIELD_REGEX,
+} from '../constants';
 
 export function isBookPublicationType(publicationType) {
   const publicationTypeIsBook = {
@@ -194,7 +197,7 @@ export const getTagLabelsArr = (tagsModel) => {
 export const getUserDefinedFields = (model) => {
   const attributes = get(model, ['data', 'attributes']);
 
-  return pickBy(attributes, (value, key) => key.match(/^userDefinedField\d+$/));
+  return pickBy(attributes, (value, key) => key.match(USER_DEFINED_FIELD_REGEX));
 };
 
 export function formatNoteReferrerEntityData(data) {

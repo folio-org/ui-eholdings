@@ -1,6 +1,7 @@
 import { foldl, append } from 'funcadelic';
 import omitBy from 'lodash/omitBy';
 import { tagPaths } from '../constants/tagPaths';
+import { USER_DEFINED_FIELD_REGEX } from '../constants/customLabels';
 
 /**
  * Helper to merge incoming `relationship` information non-
@@ -35,7 +36,7 @@ export function mergeRelationships(existing, incoming) {
 export function mergeAttributes(existing, incoming) {
   if (!incoming) { return existing; }
 
-  const omittedExisting = omitBy(existing, (_, key) => /^userDefinedField\d+$/.test(key));
+  const omittedExisting = omitBy(existing, (_, key) => USER_DEFINED_FIELD_REGEX.test(key));
 
   return append(omittedExisting, incoming);
 }

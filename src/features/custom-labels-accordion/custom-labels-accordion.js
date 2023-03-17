@@ -27,7 +27,7 @@ class CustomLabelsAccordion extends Component {
     isOpen: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
     section: PropTypes.func.isRequired,
-    userDefinedFields: PropTypes.objectOf(PropTypes.string).isRequired,
+    userDefinedFields: PropTypes.objectOf(PropTypes.string),
   }
 
   static defaultProps = {
