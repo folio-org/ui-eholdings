@@ -179,30 +179,31 @@
       },
       {
         "permissionName": "settings.eholdings.enabled",
-        "displayName": "Settings (eHoldings): View settings",
         "visible": false,
         "subPermissions": [
+          "settings.enabled"
+        ]
+      },
+      {
+        "permissionName": "ui-eholdings.settings.enabled",
+        "displayName": "Settings (eHoldings): View settings",
+        "subPermissions": [
           "module.eholdings.enabled",
-          "settings.enabled",
+          "settings.eholdings.enabled",
           "ui-eholdings.settings.kb.view",
           "ui-eholdings.settings.root-proxy.view",
           "ui-eholdings.settings.custom-labels.view",
           "ui-eholdings.settings.access-types.view",
           "ui-eholdings.settings.assignedUser.view",
           "ui-eholdings.settings.usage-consolidation.view"
-        ]
-      },
-      {
-        "permissionName": "ui-eholdings.settings.enabled",
-        "subPermissions": [
-          "settings.eholdings.enabled"
         ],
         "visible": true
       },
       {
         "permissionName": "ui-eholdings.settings.kb.view",
         "subPermissions": [
-          "settings.enabled",
+          "settings.eholdings.enabled",
+          "module.eholdings.enabled",
           "kb-ebsco.kb-credentials.collection.get",
           "kb-ebsco.kb-credentials.item.get"
         ]
