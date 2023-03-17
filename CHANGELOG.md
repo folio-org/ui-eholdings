@@ -4,6 +4,7 @@
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
 * Revise the 'Settings (eHoldings): View settings' permission. (UIEH-1355)
+* Add `settings.eholdings.enabled` permission to view settings (UIEH-1355)
 
 ## [8.0.1] (https://github.com/folio-org/ui-eholdings/tree/v8.0.1) (2023-03-13)
 
