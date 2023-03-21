@@ -525,7 +525,7 @@
     "settings.usageConsolidation.apiKey": "Konsolidace klíče API",
     "settings.usageConsolidation.credentials.validation.invalid": "Pověření pro konsolidaci využití nejsou platná.",
     "settings.usageConsolidation.credentials.systemError": "Přihlašovací údaje pro konsolidaci využití nelze uložit kvůli systémové chybě. Prosím zkuste to znovu.",
-    "proxy.errorMessage": "Byl vybrán neplatný zástupce. Obraťte se prosím na podporu EBSCO.",
+    "proxy.errorMessage": "Byla vybrána neplatná proxy. Obraťte se prosím na podporu EBSCO.",
     "search.searchByAccessTypeOnly": "Vyhledávání pouze podle typů stavu přístupu",
     "loadMore": "Načíst více",
     "selection-modal.buttonWorking": "Odebírání...",
