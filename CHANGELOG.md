@@ -6,6 +6,7 @@
 * Revise the 'Settings (eHoldings): View settings' permission. (UIEH-1355)
 * Display custom labels while editing. (UIEH-1364)
 * Add `settings.eholdings.enabled` permission to view settings (UIEH-1355)
+* Avoid private paths in stripes-core imports. Refs UIEH-1373.
 
 ## [8.0.1] (https://github.com/folio-org/ui-eholdings/tree/v8.0.1) (2023-03-13)
 

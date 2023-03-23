@@ -7,7 +7,7 @@ import {
 } from 'redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
+import { StripesContext } from '@folio/stripes/core';
 
 import { RouteHistoryContext } from '../../../src/components/route-history';
 import IntlProvider from './intl';
