@@ -1,8 +1,13 @@
 # Change history for ui-eholdings
 
-## [8.0.2] IN PROGRESS
+## [8.0.3] IN PROGRESS
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
+
+## [8.0.2] (https://github.com/folio-org/ui-eholdings/tree/v8.0.2) (2023-03-23)
+
+* Extend the "Settings (eHoldings): View settings" permission to view the "Root proxy" settings and "Knowledge Base" details. (UIEH-1355)
+* Don't display the deleted custom label. (UIEH-1364)
 * Revise the 'Settings (eHoldings): View settings' permission. (UIEH-1355)
 * Display custom labels while editing. (UIEH-1364)
 * Add `settings.eholdings.enabled` permission to view settings (UIEH-1355)
