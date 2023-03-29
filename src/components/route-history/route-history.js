@@ -88,6 +88,9 @@ const RouteHistoryContextProvider = ({ children }) => {
     const countToPagesWhereLeft = routeHistory.findIndex((page) => page.leavingEholdings);
 
     if (countToPagesWhereLeft > 0) {
+      delete routeHistory[countToPagesWhereLeft].leavingEholdings;
+      saveToStorage(routeHistory);
+
       // go(-1) will return to previous page
       // if previous page was non eholdings - need to call go(-2)
       // and this extends to N non-eholdings pages - call go(-(N + 1))
