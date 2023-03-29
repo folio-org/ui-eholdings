@@ -3,6 +3,7 @@
 ## [8.0.3] IN PROGRESS
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
+* Clear the last eholdings visited page flag after the user returns to the eholdings page form another plugin page. For proper work navigating through history. (UIEH-1366) 
 
 ## [8.0.2] (https://github.com/folio-org/ui-eholdings/tree/v8.0.2) (2023-03-23)
 
