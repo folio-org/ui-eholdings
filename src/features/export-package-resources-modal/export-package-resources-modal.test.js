@@ -12,6 +12,7 @@ const mockDoExport = jest.fn();
 const mockSendCallout = jest.fn();
 
 jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
   useCallout: () => ({
     sendCallout: mockSendCallout,
   }),
