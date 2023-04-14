@@ -44,6 +44,7 @@ class SearchRoute extends Component {
     searchProviders: PropTypes.func.isRequired,
     searchTitles: PropTypes.func.isRequired,
     tagsModelOfAlreadyAddedTags: PropTypes.object.isRequired,
+    titlesFacets: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -63,6 +64,8 @@ class SearchRoute extends Component {
       this.queries[searchType] = params;
       this.path[searchType] = props.location.pathname;
     }
+
+    this.packagesFilterMap = {};
 
     this.state = {
       // used in getDerivedStateFromProps
@@ -132,11 +135,25 @@ class SearchRoute extends Component {
     return null;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { titlesFacets } = this.props;
+
     // cache the query so it can be restored via the search type
     if (this.state.searchType) {
       this.queries[this.state.searchType] = this.state.params;
       this.path[this.state.searchType] = this.state.location.pathname;
+    }
+
+    // cache unique packages to restore missing filter options
+    if ((prevProps.titlesFacets !== titlesFacets) && titlesFacets.packages) {
+      titlesFacets.packages.forEach(option => {
+        this.packagesFilterMap[option.id] = {
+          ...option,
+          id: option.id.toString(),
+        };
+      });
+
+      this.packagesFilterMap = { ...this.packagesFilterMap };
     }
   }
 
@@ -427,6 +444,7 @@ class SearchRoute extends Component {
       history,
       tagsModelOfAlreadyAddedTags,
       accessTypes,
+      titlesFacets,
     } = this.props;
 
     const {
@@ -466,6 +484,10 @@ class SearchRoute extends Component {
                 history={history}
                 searchForm={(
                   <SearchForm
+                    params={params}
+                    titlesFacets={titlesFacets}
+                    packagesFilterMap={this.packagesFilterMap}
+                    results={results}
                     sort={sort}
                     searchType={searchType}
                     searchString={draftSearchString}

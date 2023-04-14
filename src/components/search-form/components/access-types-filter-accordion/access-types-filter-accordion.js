@@ -90,7 +90,7 @@ const AccessTypesFilterAccordion = ({
           />
           <FormattedMessage id="ui-eholdings.accessTypes.filter">
             {
-              label => (
+              ([label]) => (
                 <div data-testid="search-form-access-type-filter">
                   <MultiSelectionFilter
                     id="accessTypeFilterSelect"

@@ -1,6 +1,6 @@
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
-  Icon: jest.fn(({ children }) => (<span>{ children }</span>)),
+  Icon: jest.fn(({ children, icon }) => (<span data-testid={icon}>{ children }</span>)),
   KeyValue: jest.fn(({ label, children, value }) => (
     <>
       <span>{label}</span>

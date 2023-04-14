@@ -288,6 +288,7 @@
     "tags.addTagFor": "Add tag for: <strong>{filter}</strong>",
     "tags.filter": "Tags filter",
     "accessTypes.filter": "Access status types filter",
+    "packages.filter": "Packages",
 
     "settings.goBackToEholdings": "Go back to eHoldings settings",
     "settings.customLabels.displayLabel": "Display label",

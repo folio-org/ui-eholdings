@@ -9,6 +9,7 @@ import {
 } from '@testing-library/react';
 
 import SearchRoute from './search-route';
+import PackagesFilter from '../../components/search-form/components/packages-filter';
 import Harness from '../../../test/jest/helpers/harness';
 import {
   PAGE_SIZE,
@@ -23,6 +24,8 @@ jest.mock('../../redux/actions', () => ({
   getAccessTypes: mockGetAccessTypes,
   getTags: mockGetTags,
 }));
+
+jest.mock('../../components/search-form/components/packages-filter', () => jest.fn(() => <div>PackagesFilter</div>));
 
 const mockHistory = {
   replace: jest.fn(),
@@ -151,7 +154,7 @@ const getCollection = (searchType, params) => {
   };
 };
 
-const renderSearchRoute = (props = {}) => render(
+const getComponent = (props = {}) => (
   <MemoryRouter>
     <Harness>
       <SearchRoute
@@ -168,11 +171,14 @@ const renderSearchRoute = (props = {}) => render(
         searchProviders={noop}
         searchTitles={noop}
         tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+        titlesFacets={{}}
         {...props}
       />
     </Harness>
   </MemoryRouter>
 );
+
+const renderSearchRoute = (props = {}) => render(getComponent(props));
 
 describe('Given SearchRoute', () => {
   beforeEach(() => {
@@ -364,6 +370,41 @@ describe('Given SearchRoute', () => {
         expect(mockSearchTitles).toHaveBeenCalled();
       });
     });
+
+    it('should cache unique packages to restore missing filter options', () => {
+      const props = {
+        location: {
+          ...location,
+          search: '?searchType=titles&q=a',
+        },
+        titlesFacets: {},
+      };
+      const { rerender } = renderSearchRoute(props);
+
+      const expectedProps = {
+        packagesFilterMap: {
+          4591: { count: 100, id: '4591', name: 'name1' },
+          5478: { count: 200, id: '5478', name: 'name2' },
+        },
+      };
+
+      rerender(getComponent({
+        ...props,
+        titlesFacets: {
+          packages: [{
+            id: '4591',
+            name: 'name1',
+            count: 100,
+          }, {
+            id: '5478',
+            name: 'name2',
+            count: 200,
+          }],
+        }
+      }));
+
+      expect(PackagesFilter).toHaveBeenLastCalledWith(expect.objectContaining(expectedProps), {});
+    });
   });
 
   describe('when form is loading', () => {
@@ -371,7 +412,7 @@ describe('Given SearchRoute', () => {
       const { container } = renderSearchRoute({
         resolver: {
           query: () => {
-            const result = [];
+            const result = {};
 
             result.hasLoaded = false;
 

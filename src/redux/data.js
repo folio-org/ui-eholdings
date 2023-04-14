@@ -153,6 +153,7 @@ const resolve = (request, body, payload = {}, status) => {
   let ids = [];
   let meta = {};
   let data;
+  const facets = body.facets || {};
 
   if (request.resource === 'tags') {
     const { data: tagsData, totalRecords } = formatTagsData(request, body);
@@ -186,6 +187,7 @@ const resolve = (request, body, payload = {}, status) => {
     data: { type: request.resource, ids },
     request: { ...request, records: ids, meta, status },
     records,
+    facets,
   };
 };
 
@@ -387,14 +389,16 @@ const handlers = {
    * @param {Array} action.records - array of resolved records
    */
   [actionTypes.RESOLVE]: (state, action) => {
-    const { request, records } = action;
+    const { request, records, facets } = action;
     // first we reduce the request state object
     let next = reduceData(request.resource, state, store => ({
+      facets,
       requests: {
         ...store.requests,
         [request.timestamp]: {
           ...store.requests[request.timestamp],
           records: request.records,
+          facets,
           meta: request.meta,
           status: request.status,
           isPending: false,

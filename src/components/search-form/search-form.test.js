@@ -59,6 +59,9 @@ const renderSearchForm = (props = {}) => render(
       onSearchChange={noop}
       onStandaloneFilterChange={noop}
       onStandaloneFilterToggle={noop}
+      packagesFilterMap={{}}
+      params={{}}
+      results={{}}
       searchByAccessTypesEnabled={false}
       searchByTagsEnabled={false}
       searchType={searchTypes.PROVIDERS}
@@ -68,6 +71,7 @@ const renderSearchForm = (props = {}) => render(
         titles: '/titles',
       }}
       tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+      titlesFacets={{}}
       {...props}
     />
   </Harness>

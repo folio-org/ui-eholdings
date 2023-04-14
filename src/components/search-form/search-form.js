@@ -57,6 +57,9 @@ class SearchForm extends Component {
     onSearchFieldChange: PropTypes.func,
     onStandaloneFilterChange: PropTypes.func.isRequired,
     onStandaloneFilterToggle: PropTypes.func.isRequired,
+    packagesFilterMap: PropTypes.object,
+    params: PropTypes.object,
+    results: PropTypes.object,
     searchByAccessTypesEnabled: PropTypes.bool.isRequired,
     searchByTagsEnabled: PropTypes.bool.isRequired,
     searchField: PropTypes.string,
@@ -76,14 +79,19 @@ class SearchForm extends Component {
     }),
     sort: PropTypes.string,
     tagsModelOfAlreadyAddedTags: PropTypes.object,
+    titlesFacets: PropTypes.object,
   };
 
   static defaultProps = {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     isLoading: false,
+    packagesFilterMap: {},
+    params: {},
+    results: {},
     searchString: '',
     searchFilter: {},
+    titlesFacets: {},
   };
 
   constructor(props) {
@@ -246,17 +254,21 @@ class SearchForm extends Component {
 
   render() {
     const {
+      params,
       searchType,
       searchTypeUrls,
       displaySearchTypeSwitcher,
       isLoading,
       displaySearchButton,
+      packagesFilterMap,
+      results,
       searchField,
       searchFilter,
       searchString,
       sort,
       searchByTagsEnabled,
       searchByAccessTypesEnabled,
+      titlesFacets,
     } = this.props;
     const Filters = this.getFiltersComponent(searchType);
     // sort is treated separately from the rest of the filters on submit,
@@ -360,6 +372,10 @@ class SearchForm extends Component {
               {this.renderAccessTypesFilter()}
               <Filters
                 activeFilters={combinedFilters}
+                params={params}
+                packagesFilterMap={packagesFilterMap}
+                results={results}
+                titlesFacets={titlesFacets}
                 onUpdate={this.handleUpdateFilter}
                 disabled={standaloneFiltersEnabled}
               />
