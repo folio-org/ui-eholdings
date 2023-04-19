@@ -67,8 +67,10 @@ export class Collection {
         return this.resolver.find(this.type, id);
       });
 
+      const facets = request.facets;
+
       // cache this page for this instance
-      this.pages[page] = { request, records };
+      this.pages[page] = { request, records, facets };
     }
 
     return this.pages[page];

@@ -20,6 +20,7 @@ export default connect(
       tagsModelOfAlreadyAddedTags: resolver.query('tags', undefined, { path: tagPaths.alreadyAddedToRecords }),
       resolver,
       accessTypes: selectPropFromData(store, 'accessStatusTypes'),
+      titlesFacets: selectPropFromData(store, 'titles').facets || {},
     };
   }, {
     searchProviders: params => Provider.query(params),

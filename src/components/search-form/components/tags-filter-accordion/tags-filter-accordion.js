@@ -93,7 +93,7 @@ const TagsFilterAccordion = ({
           />
           <FormattedMessage id="ui-eholdings.tags.filter">
             {
-              label => (
+              ([label]) => (
                 <div data-testid="search-form-tag-filter">
                   <MultiSelectionFilter
                     id="selectTagFilter"
