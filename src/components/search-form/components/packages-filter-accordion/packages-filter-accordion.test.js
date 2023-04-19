@@ -1,9 +1,11 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import PackagesFilterAccordion from './packages-filter-accordion';
+
+const mockOnUpdate = jest.fn();
 
 const getComponent = (props = {}) => (
   <PackagesFilterAccordion
-    activeFilters={{ packageIds: '' }}
+    activeFilters={{ packageIds: undefined }}
     dataOptions={[]}
     disabled={false}
     isLoading={false}
@@ -37,15 +39,33 @@ describe('Given PackagesFilterAccordion', () => {
     });
   });
 
-  describe('when packages data is loading and it is not disabled', () => {
-    it('should show spinner and accordion', () => {
-      const { getByTestId, container } = renderComponent({
+  describe('when packages data is loading', () => {
+    it('should disable the filter', () => {
+      const { container } = renderComponent({
         isLoading: true,
         disabled: false,
       });
 
-      expect(getByTestId('spinner-ellipsis')).toBeDefined();
-      expect(container.querySelector('#packagesFilter')).toBeDefined();
+      expect(container.querySelector('#packagesFilterSelect-input')).toBeDisabled();
+    });
+  });
+
+  describe('when selecting an option', () => {
+    it('should call onUpdate with the correct arguments', () => {
+      const dataOptions = [{
+        value: '4591',
+        label: 'option1',
+        totalRecords: 100,
+      }];
+
+      const { getByText } = renderComponent({
+        dataOptions,
+        onUpdate: mockOnUpdate,
+      });
+
+      fireEvent.click(getByText('option1 (100)'));
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ packageIds: ['4591'] });
     });
   });
 });

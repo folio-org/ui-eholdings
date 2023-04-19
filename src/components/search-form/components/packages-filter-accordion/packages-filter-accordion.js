@@ -1,9 +1,8 @@
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
   Accordion,
-  Icon,
   FilterAccordionHeader,
 } from '@folio/stripes/components';
 
@@ -26,9 +25,11 @@ const PackagesFilterAccordion = ({
   isLoading,
   onUpdate,
 }) => {
+  const intl = useIntl();
   const {
     packageIds = [],
   } = activeFilters;
+  const label = intl.formatMessage({ id: 'ui-eholdings.packages.filter' });
 
   const packagesList = Array.isArray(packageIds)
     ? packageIds
@@ -43,37 +44,28 @@ const PackagesFilterAccordion = ({
       role="tab"
       data-testid="packagesFilter"
     >
-      <FormattedMessage id="ui-eholdings.packages.filter">
-        {([label]) => (
-          <Accordion
-            label={label}
-            id="packagesFilter"
-            separator={false}
-            closedByDefault
-            header={FilterAccordionHeader}
-            displayClearButton={!!packagesList.length}
-            onClearFilter={() => onUpdate({ packageIds: undefined })}
-          >
-            {isLoading && !disabled
-              ? <Icon icon="spinner-ellipsis" />
-              : (
-                <MultiSelectionFilter
-                  id="packagesFilterSelect"
-                  ariaLabel={label}
-                  dataOptions={dataOptions}
-                  name="packageIds"
-                  itemToString={itemToString}
-                  valueFormatter={({ option }) => option?.label}
-                  formatter={FacetOptionFormatter}
-                  onChange={filter => onUpdate({ packageIds: filter.values })}
-                  selectedValues={packagesList}
-                  disabled={disabled}
-                />
-              )
-            }
-          </Accordion>
-        )}
-      </FormattedMessage>
+      <Accordion
+        label={label}
+        id="packagesFilter"
+        separator={false}
+        closedByDefault
+        header={FilterAccordionHeader}
+        displayClearButton={!!packagesList.length}
+        onClearFilter={() => onUpdate({ packageIds: undefined })}
+      >
+        <MultiSelectionFilter
+          id="packagesFilterSelect"
+          ariaLabel={label}
+          dataOptions={dataOptions}
+          name="packageIds"
+          itemToString={itemToString}
+          valueFormatter={({ option }) => option?.label}
+          formatter={FacetOptionFormatter}
+          onChange={filter => onUpdate({ packageIds: filter.values })}
+          selectedValues={packagesList}
+          disabled={disabled || isLoading}
+        />
+      </Accordion>
     </div>
   );
 };
