@@ -84,11 +84,11 @@ const PackageFilterModal = ({
 
     const newSelectedPackages = allPackages
       .filter(({ id: packageId }) => {
-        return !selectedOptions.length || selectedOptions.some((({ value: optionId }) => packageId === optionId));
+        return !selectedOptions?.length || selectedOptions.some((({ value: optionId }) => packageId === optionId));
       })
       .filter(filterBySelectedStatus);
 
-    const countOfAppliedPackagesFilters = !!selectedOptions.length + size(searchFilters);
+    const countOfAppliedPackagesFilters = !!selectedOptions?.length + size(searchFilters);
 
     onSubmit(newSelectedPackages, countOfAppliedPackagesFilters);
     toggleModal();

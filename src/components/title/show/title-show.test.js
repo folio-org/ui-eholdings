@@ -9,11 +9,12 @@ import noop from 'lodash/noop';
 import Harness from '../../../../test/jest/helpers/harness';
 
 import TitleShow from './title-show';
+import ScrollView from '../../scroll-view';
 
 const history = createMemoryHistory();
 const historyReplaceSpy = jest.spyOn(history, 'replace');
 
-jest.mock('../../scroll-view', () => () => (<div>ScrollView component</div>));
+jest.mock('../../scroll-view', () => jest.fn(() => <div>ScrollView component</div>));
 jest.mock('../../../features/usage-consolidation-accordion', () => () => (<div>UsageConsolidationAccordion component</div>));
 jest.mock('../_field-groups/add-title-to-package', () => () => (<div>AddTitleToPackage component</div>));
 jest.mock('@folio/stripes/smart-components', () => ({
@@ -137,7 +138,7 @@ const testRequest = {
   isResolved: false,
 };
 
-const renderTitleShow = (props = {}) => render(
+const getComponent = (props = {}) => (
   <Harness history={history}>
     <TitleShow
       addCustomPackage={noop}
@@ -155,7 +156,13 @@ const renderTitleShow = (props = {}) => render(
   </Harness>
 );
 
+const renderTitleShow = (props = {}) => render(getComponent(props));
+
 describe('Given TitleShow', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should display title name in the pane and in the headline', () => {
     const { getAllByText } = renderTitleShow();
 
@@ -404,6 +411,108 @@ describe('Given TitleShow', () => {
       });
 
       expect(getByText('ScrollView component')).toBeDefined();
+    });
+
+    describe('when package filters were selected on the previous page', () => {
+      it('should filter the packages on the current page', () => {
+        history.push('?searchType=titles&q=Boston&filter[packageIds]=2691705&filter[packageIds]=4345');
+
+        const model = {
+          ...testModel,
+          resources: {
+            records: [
+              {
+                id: '19-5207-17119220',
+                packageName: 'package-name1',
+                isSelected: true,
+              },
+              {
+                id: '19-2691705-17119220',
+                packageName: 'package-name2',
+                isSelected: false,
+              }
+            ],
+            length: 2,
+            map: mapMock,
+          },
+        };
+
+        const { rerender } = renderTitleShow({
+          model: {
+            ...model,
+            isLoading: true,
+          },
+        });
+
+        rerender(getComponent({
+          model: {
+            ...model,
+            isLoading: false,
+          },
+        }));
+
+        expect(historyReplaceSpy).toHaveBeenLastCalledWith(expect.objectContaining({
+          search: 'searchType=titles&q=Boston&filter%5BpackageIds%5D%5B0%5D=2691705&filter%5BpackageIds%5D%5B1%5D=4345&filteredPackages%5B0%5D=19-2691705-17119220',
+        }));
+
+        expect(ScrollView).toHaveBeenLastCalledWith(expect.objectContaining({
+          items: [{
+            id: '19-2691705-17119220',
+            isSelected: false,
+            packageName: 'package-name2'
+          }],
+        }), {});
+      });
+
+      describe('and package filters were also selected on the current page', () => {
+        it('should filter packages according to filters applied only on the current page', () => {
+          history.push('?searchType=titles&q=Boston&filter%5BpackageIds%5D%5B0%5D=2691705&filteredPackages%5B0%5D=19-3579444-1186755');
+
+          const model = {
+            ...testModel,
+            resources: {
+              records: [
+                {
+                  id: '19-3579444-1186755',
+                  packageName: 'package-name1',
+                  isSelected: true,
+                },
+                {
+                  id: '19-2691705-1186755',
+                  packageName: 'package-name2',
+                  isSelected: false,
+                }
+              ],
+              length: 2,
+              map: mapMock,
+            },
+          };
+
+          const { rerender } = renderTitleShow({
+            model: {
+              ...model,
+              isLoading: true,
+            },
+          });
+
+          rerender(getComponent({
+            model: {
+              ...model,
+              isLoading: false,
+            },
+          }));
+
+          expect(historyReplaceSpy).not.toHaveBeenCalled();
+
+          expect(ScrollView).toHaveBeenLastCalledWith(expect.objectContaining({
+            items: [{
+              id: '19-3579444-1186755',
+              isSelected: true,
+              packageName: 'package-name1'
+            }],
+          }), {});
+        });
+      });
     });
 
     describe('filter packages modal window', () => {
