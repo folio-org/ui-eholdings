@@ -39,6 +39,13 @@ const PackagesFilterAccordion = ({
 
   const itemToString = option => option?.label || '';
 
+  const handleUpdate = (values) => {
+    onUpdate({
+      ...activeFilters,
+      packageIds: values,
+    });
+  };
+
   return (
     <div
       role="tab"
@@ -51,7 +58,7 @@ const PackagesFilterAccordion = ({
         closedByDefault
         header={FilterAccordionHeader}
         displayClearButton={!!packagesList.length}
-        onClearFilter={() => onUpdate({ packageIds: undefined })}
+        onClearFilter={handleUpdate}
       >
         <MultiSelectionFilter
           id="packagesFilterSelect"
@@ -61,7 +68,7 @@ const PackagesFilterAccordion = ({
           itemToString={itemToString}
           valueFormatter={({ option }) => option?.label}
           formatter={FacetOptionFormatter}
-          onChange={filter => onUpdate({ packageIds: filter.values })}
+          onChange={filter => handleUpdate(filter.values)}
           selectedValues={packagesList}
           disabled={disabled || isLoading}
         />
