@@ -101,7 +101,6 @@ class TitleShow extends Component {
     const {
       model,
       location,
-      history,
     } = this.props;
 
     const hasLoadedNewRecords = prevProps.model.isLoading !== model.isLoading;
