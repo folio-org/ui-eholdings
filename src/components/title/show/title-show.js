@@ -115,22 +115,10 @@ class TitleShow extends Component {
       const { packageIds } = filter || {};
 
       if (!filteredPackagesIds && packageIds) {
-        const packagesModels = this.getFilteredPackagesFromParams(packageIds);
+        const initialPackages = this.getFilteredPackagesFromParams(packageIds);
+        const appliedFacets = 1;
 
-        this.setState({
-          filteredPackages: packagesModels,
-          packageFilterApplied: !!packagesModels.length,
-        });
-
-        const search = qs.stringify({
-          ...searchParams,
-          filteredPackages: packagesModels.map(({ id }) => id),
-        }, { arrayFormat: 'indices' });
-
-        history.replace({
-          ...location,
-          search,
-        });
+        this.handlePackageFilterChange(initialPackages, appliedFacets);
       } else if (filteredPackagesIds) {
         const filteredPackages = this.getFilteredPackagesFromParams();
 
@@ -194,7 +182,10 @@ class TitleShow extends Component {
       countOfAppliedPackagesFilters,
       packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
-    history.replace({ search: newSearch });
+    history.replace({
+      ...location,
+      search: newSearch,
+    });
   }
 
   get lastMenu() {
