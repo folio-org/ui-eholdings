@@ -32,7 +32,7 @@ const cx = classNames.bind(styles);
  */
 class DetailsView extends Component {
   static propTypes = {
-    accordionHeaderLoading: PropTypes.bool.isRequired,
+    accordionHeaderLoading: PropTypes.bool,
     actionMenu: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.node,
@@ -47,7 +47,7 @@ class DetailsView extends Component {
     lastMenu: PropTypes.node,
     listSectionId: PropTypes.string,
     listType: PropTypes.node,
-    location: ReactRouterPropTypes.location.isRequired,
+    location: PropTypes.object.isRequired,
     model: PropTypes.shape({
       isLoaded: PropTypes.bool.isRequired,
       isLoading: PropTypes.bool.isRequired,

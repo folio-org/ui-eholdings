@@ -69,7 +69,7 @@ class TitleShow extends Component {
     }).isRequired,
     isFreshlySaved: PropTypes.bool,
     isNewRecord: PropTypes.bool,
-    location: ReactRouterPropTypes.location.isRequired,
+    location: PropTypes.object.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     onPackageFilter: PropTypes.func.isRequired,
@@ -98,13 +98,34 @@ class TitleShow extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.model.isLoaded && this.props.model.isLoaded) {
-      const filteredPackages = this.getFilteredPackagesFromParams();
+    const {
+      model,
+      location,
+    } = this.props;
 
-      this.setState({ // eslint-disable-line react/no-did-update-set-state
-        filteredPackages,
-        packageFilterApplied: !!filteredPackages.length,
-      });
+    const hasLoadedNewRecords = prevProps.model.isLoading !== model.isLoading;
+
+    if (hasLoadedNewRecords && !isEmpty(model.resources.records)) {
+      const searchParams = qs.parse(location.search, { ignoreQueryPrefix: true });
+      const {
+        filter,
+        filteredPackages: filteredPackagesIds,
+      } = searchParams;
+      const { packageIds } = filter || {};
+
+      if (!filteredPackagesIds && packageIds) {
+        const initialPackages = this.getFilteredPackagesFromParams(packageIds);
+        const appliedFacets = 1;
+
+        this.handlePackageFilterChange(initialPackages, appliedFacets);
+      } else if (filteredPackagesIds) {
+        const filteredPackages = this.getFilteredPackagesFromParams();
+
+        this.setState({
+          filteredPackages,
+          packageFilterApplied: !!filteredPackages.length,
+        });
+      }
     }
   }
 
@@ -119,7 +140,7 @@ class TitleShow extends Component {
     return !!(model.isTitleCustom && hasEditPerm);
   };
 
-  getFilteredPackagesFromParams = () => {
+  getFilteredPackagesFromParams = (packageIds) => {
     const {
       location,
       model,
@@ -128,6 +149,14 @@ class TitleShow extends Component {
     const { filteredPackages: filteredPackagesIds } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
+
+    if (packageIds) {
+      const initialPackageIds = Array.isArray(packageIds) ? packageIds : [packageIds];
+
+      return model.resources.records.filter(record => {
+        return initialPackageIds.some(id => record.id.includes(`-${id}-`));
+      });
+    }
 
     return filteredPackagesIds
       ? model.resources.records.filter(({ id: recordId }) => filteredPackagesIds.some(id => id === recordId))
@@ -141,7 +170,7 @@ class TitleShow extends Component {
     } = this.props;
 
     const filteredPackagesIds = selectedPackages.map(({ id }) => id);
-    const currentSearch = qs.parse(location.search);
+    const currentSearch = qs.parse(location.search, { ignoreQueryPrefix: true });
     const newSearch = qs.stringify({
       ...currentSearch,
       filteredPackages: filteredPackagesIds,
@@ -152,7 +181,10 @@ class TitleShow extends Component {
       countOfAppliedPackagesFilters,
       packageFilterApplied: !!countOfAppliedPackagesFilters,
     });
-    history.replace({ search: newSearch });
+    history.replace({
+      ...location,
+      search: newSearch,
+    });
   }
 
   get lastMenu() {

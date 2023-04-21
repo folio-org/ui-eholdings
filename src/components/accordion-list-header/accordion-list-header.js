@@ -58,7 +58,7 @@ const AccordionListHeader = (props) => {
 };
 
 AccordionListHeader.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   listType: PropTypes.node.isRequired,
   open: PropTypes.bool.isRequired,
   resultsLength: PropTypes.number.isRequired,

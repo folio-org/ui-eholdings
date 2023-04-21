@@ -3,6 +3,8 @@
 ## [8.1.0] IN PROGRESS
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
+* Titles tab: Add a Packages facet. (UIEH-1350)
+* Title detail record: Packages accordion - Honor Packages Facet selection(s). (UIEH-1351)
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 
