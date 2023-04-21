@@ -58,14 +58,24 @@ describe('Given PackagesFilterAccordion', () => {
         totalRecords: 100,
       }];
 
+      const activeFilters = {
+        selected: "true",
+        sort: "name",
+        type: "book",
+      };
+
       const { getByText } = renderComponent({
         dataOptions,
         onUpdate: mockOnUpdate,
+        activeFilters,
       });
 
       fireEvent.click(getByText('option1 (100)'));
 
-      expect(mockOnUpdate).toHaveBeenCalledWith({ packageIds: ['4591'] });
+      expect(mockOnUpdate).toHaveBeenCalledWith({
+        ...activeFilters,
+        packageIds: ['4591'],
+      });
     });
   });
 });
