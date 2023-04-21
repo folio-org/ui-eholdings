@@ -59,9 +59,9 @@ describe('Given PackagesFilterAccordion', () => {
       }];
 
       const activeFilters = {
-        selected: "true",
-        sort: "name",
-        type: "book",
+        selected: 'true',
+        sort: 'name',
+        type: 'book',
       };
 
       const { getByText } = renderComponent({
