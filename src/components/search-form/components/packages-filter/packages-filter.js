@@ -1,7 +1,6 @@
 import {
-  useEffect,
+  useMemo,
   useRef,
-  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,47 +30,21 @@ const PackagesFilter = ({
   const initialTitlesFacets = useRef(titlesFacets).current;
   const { packageIds: selectedPackageId = '' } = activeFilters;
 
-  const [dataOptions, setDataOptions] = useState([]);
-  const [prevPackageId, setPrevPackageId] = useState('');
-
-  const handleUpdate = (filters) => {
-    setPrevPackageId(selectedPackageId);
-    onUpdate(filters);
-  };
-
-  useEffect(() => {
-    // We block changing dataOptions when changing the `Packages` filter, because the newly selected package
-    // will be counted for the subsequent option.count and it won't match total results.
-    const isFirstPackageSelection = !prevPackageId && selectedPackageId;
-    const isNotFirstPackageSelection = prevPackageId && selectedPackageId && (prevPackageId !== selectedPackageId);
-
-    if (isFirstPackageSelection || isNotFirstPackageSelection) {
-      return;
-    }
-
-    // when the option is missing, set dataOptions to 0 for the totalRecords, or reset dataOptions.
-    if (!titlesFacets.packages) {
-      const missingOption = [{
+  const dataOptions = useMemo(() => {
+    if (selectedPackageId && !titlesFacets.packages) {
+      return [{
         value: prevDataOfOptedPackage.id,
         label: prevDataOfOptedPackage.name,
         totalRecords: 0,
       }];
-
-      const options = selectedPackageId ? missingOption : [];
-
-      setDataOptions(options);
-
-      return;
     }
 
-    const options = titlesFacets.packages.map(({ id, name, count }) => ({
+    return titlesFacets.packages?.map(({ id, name, count }) => ({
       value: id.toString(),
       label: name,
       totalRecords: count,
-    }));
-
-    setDataOptions(options);
-  }, [titlesFacets.packages, selectedPackageId, prevPackageId, prevDataOfOptedPackage]);
+    })) || [];
+  }, [titlesFacets.packages, selectedPackageId, prevDataOfOptedPackage]);
 
   // this happens when the user returns to the Titles tab from Packages/Providers or from the result view.
   const areStaleFacets = initialTitlesFacets === titlesFacets;
@@ -93,7 +66,7 @@ const PackagesFilter = ({
       dataOptions={dataOptions}
       disabled={disabled}
       isLoading={results.isLoading}
-      onUpdate={handleUpdate}
+      onUpdate={onUpdate}
     />
   );
 };
