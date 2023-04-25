@@ -11,8 +11,8 @@ const propTypes = {
   activeFilters: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  packagesFilterMap: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  prevDataOfOptedPackage: PropTypes.object.isRequired,
   results: PropTypes.object.isRequired,
   titlesFacets: PropTypes.object.isRequired,
 };
@@ -30,7 +30,7 @@ function TitleSearchFilters(props) {
     activeFilters,
     disabled,
     params,
-    packagesFilterMap,
+    prevDataOfOptedPackage,
     results,
     titlesFacets,
     onUpdate,
@@ -51,7 +51,7 @@ function TitleSearchFilters(props) {
         activeFilters={activeFilters}
         disabled={disabled}
         params={params}
-        packagesFilterMap={packagesFilterMap}
+        prevDataOfOptedPackage={prevDataOfOptedPackage}
         results={results}
         titlesFacets={titlesFacets}
         onUpdate={onUpdate}

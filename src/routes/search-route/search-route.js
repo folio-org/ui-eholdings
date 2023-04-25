@@ -65,7 +65,7 @@ class SearchRoute extends Component {
       this.path[searchType] = props.location.pathname;
     }
 
-    this.packagesFilterMap = {};
+    this.prevDataOfOptedPackage = {};
 
     this.state = {
       // used in getDerivedStateFromProps
@@ -135,8 +135,10 @@ class SearchRoute extends Component {
     return null;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { titlesFacets } = this.props;
+    const { draftSearchFilters } = this.state;
+    const selectedPackageId = draftSearchFilters?.packageIds;
 
     // cache the query so it can be restored via the search type
     if (this.state.searchType) {
@@ -144,16 +146,16 @@ class SearchRoute extends Component {
       this.path[this.state.searchType] = this.state.location.pathname;
     }
 
-    // cache unique packages to restore missing filter options
-    if ((prevProps.titlesFacets !== titlesFacets) && titlesFacets.packages) {
-      titlesFacets.packages.forEach(option => {
-        this.packagesFilterMap[option.id] = {
-          ...option,
-          id: option.id.toString(),
-        };
-      });
+    // cache selected package data
+    if (selectedPackageId) {
+      const selectedPackage = titlesFacets.packages?.find(option => option.id.toString() === selectedPackageId);
 
-      this.packagesFilterMap = { ...this.packagesFilterMap };
+      if (selectedPackage) {
+        this.prevDataOfOptedPackage = {
+          ...selectedPackage,
+          id: selectedPackage.id.toString(),
+        };
+      }
     }
   }
 
@@ -486,7 +488,7 @@ class SearchRoute extends Component {
                   <SearchForm
                     params={params}
                     titlesFacets={titlesFacets}
-                    packagesFilterMap={this.packagesFilterMap}
+                    prevDataOfOptedPackage={this.prevDataOfOptedPackage}
                     results={results}
                     sort={sort}
                     searchType={searchType}

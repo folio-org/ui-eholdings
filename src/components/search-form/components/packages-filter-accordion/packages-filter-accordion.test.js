@@ -46,7 +46,7 @@ describe('Given PackagesFilterAccordion', () => {
         disabled: false,
       });
 
-      expect(container.querySelector('#packagesFilterSelect-input')).toBeDisabled();
+      expect(container.querySelector('#packagesFilterSelect')).toBeDisabled();
     });
   });
 
@@ -74,7 +74,7 @@ describe('Given PackagesFilterAccordion', () => {
 
       expect(mockOnUpdate).toHaveBeenCalledWith({
         ...activeFilters,
-        packageIds: ['4591'],
+        packageIds: '4591',
       });
     });
   });

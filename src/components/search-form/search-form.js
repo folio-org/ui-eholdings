@@ -57,8 +57,8 @@ class SearchForm extends Component {
     onSearchFieldChange: PropTypes.func,
     onStandaloneFilterChange: PropTypes.func.isRequired,
     onStandaloneFilterToggle: PropTypes.func.isRequired,
-    packagesFilterMap: PropTypes.object,
     params: PropTypes.object,
+    prevDataOfOptedPackage: PropTypes.object,
     results: PropTypes.object,
     searchByAccessTypesEnabled: PropTypes.bool.isRequired,
     searchByTagsEnabled: PropTypes.bool.isRequired,
@@ -86,7 +86,7 @@ class SearchForm extends Component {
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     isLoading: false,
-    packagesFilterMap: {},
+    prevDataOfOptedPackage: {},
     params: {},
     results: {},
     searchString: '',
@@ -260,7 +260,7 @@ class SearchForm extends Component {
       displaySearchTypeSwitcher,
       isLoading,
       displaySearchButton,
-      packagesFilterMap,
+      prevDataOfOptedPackage,
       results,
       searchField,
       searchFilter,
@@ -373,7 +373,7 @@ class SearchForm extends Component {
               <Filters
                 activeFilters={combinedFilters}
                 params={params}
-                packagesFilterMap={packagesFilterMap}
+                prevDataOfOptedPackage={prevDataOfOptedPackage}
                 results={results}
                 titlesFacets={titlesFacets}
                 onUpdate={this.handleUpdateFilter}

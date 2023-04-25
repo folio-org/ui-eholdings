@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import {
   Accordion,
   FilterAccordionHeader,
+  Selection,
 } from '@folio/stripes/components';
-
-import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 
 import FacetOptionFormatter from '../../../facet-option-formatter';
 
@@ -27,22 +26,14 @@ const PackagesFilterAccordion = ({
 }) => {
   const intl = useIntl();
   const {
-    packageIds = [],
+    packageIds,
   } = activeFilters;
   const label = intl.formatMessage({ id: 'ui-eholdings.packages.filter' });
 
-  const packagesList = Array.isArray(packageIds)
-    ? packageIds
-    : packageIds.split(',');
-
-  packagesList.sort();
-
-  const itemToString = option => option?.label || '';
-
-  const handleUpdate = (values) => {
+  const handleUpdate = (packageId) => {
     onUpdate({
       ...activeFilters,
-      packageIds: values,
+      packageIds: packageId,
     });
   };
 
@@ -57,19 +48,17 @@ const PackagesFilterAccordion = ({
         separator={false}
         closedByDefault
         header={FilterAccordionHeader}
-        displayClearButton={!!packagesList.length}
+        displayClearButton={!!packageIds}
         onClearFilter={handleUpdate}
       >
-        <MultiSelectionFilter
+        <Selection
           id="packagesFilterSelect"
-          ariaLabel={label}
-          dataOptions={dataOptions}
           name="packageIds"
-          itemToString={itemToString}
-          valueFormatter={({ option }) => option?.label}
+          value={packageIds}
           formatter={FacetOptionFormatter}
-          onChange={filter => handleUpdate(filter.values)}
-          selectedValues={packagesList}
+          dataOptions={dataOptions}
+          onChange={handleUpdate}
+          aria-label={label}
           disabled={disabled || isLoading}
         />
       </Accordion>

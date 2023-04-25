@@ -1,38 +1,20 @@
-import { useMemo, useRef } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from '@folio/stripes/components';
 
 import PackagesFilterAccordion from '../packages-filter-accordion';
 
-const addMissingOptions = (dataOptions, packageIds = [], packagesFilterMap) => {
-  const selectedPackages = Array.isArray(packageIds)
-    ? packageIds
-    : packageIds.split(',');
-
-  const isMissingOption = (packageId) => !dataOptions.some(option => option.value === packageId);
-  const findMissingOption = (packageId) => packagesFilterMap[packageId] || {};
-
-  const formatMissionOption = ({ id, name }) => ({
-    value: id,
-    label: name,
-    totalRecords: 0,
-  });
-
-  const missingOptions = selectedPackages
-    .filter(isMissingOption)
-    .map(findMissingOption)
-    .map(formatMissionOption);
-
-  return [...dataOptions, ...missingOptions];
-};
-
 const propTypes = {
   activeFilters: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  packagesFilterMap: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  prevDataOfOptedPackage: PropTypes.object.isRequired,
   results: PropTypes.object.isRequired,
   titlesFacets: PropTypes.object.isRequired,
 };
@@ -42,22 +24,54 @@ const PackagesFilter = ({
   disabled,
   params,
   titlesFacets,
-  packagesFilterMap,
+  prevDataOfOptedPackage,
   results,
   onUpdate,
 }) => {
   const initialTitlesFacets = useRef(titlesFacets).current;
-  const { packageIds } = activeFilters;
+  const { packageIds: selectedPackageId = '' } = activeFilters;
 
-  const dataOptions = useMemo(() => {
-    const options = titlesFacets.packages?.map(({ id, name, count }) => ({
+  const [dataOptions, setDataOptions] = useState([]);
+  const [prevPackageId, setPrevPackageId] = useState('');
+
+  const handleUpdate = (filters) => {
+    setPrevPackageId(selectedPackageId);
+    onUpdate(filters);
+  };
+
+  useEffect(() => {
+    // We block changing dataOptions when changing the `Packages` filter, because the newly selected package
+    // will be counted for the subsequent option.count and it won't match total results.
+    const isFirstPackageSelection = !prevPackageId && selectedPackageId;
+    const isNotFirstPackageSelection = prevPackageId && selectedPackageId && (prevPackageId !== selectedPackageId);
+
+    if (isFirstPackageSelection || isNotFirstPackageSelection) {
+      return;
+    }
+
+    // when the option is missing, set dataOptions to 0 for the totalRecords, or reset dataOptions.
+    if (!titlesFacets.packages) {
+      const missingOption = [{
+        value: prevDataOfOptedPackage.id,
+        label: prevDataOfOptedPackage.name,
+        totalRecords: 0,
+      }];
+
+      const options = selectedPackageId ? missingOption : [];
+
+      setDataOptions(options);
+
+      return;
+    }
+
+    const options = titlesFacets.packages.map(({ id, name, count }) => ({
       value: id.toString(),
       label: name,
       totalRecords: count,
-    })) || [];
+    }));
 
-    return addMissingOptions(options, packageIds, packagesFilterMap);
-  }, [titlesFacets.packages, packageIds, packagesFilterMap]);
+    setDataOptions(options);
+  }, [titlesFacets.packages, selectedPackageId, prevPackageId, prevDataOfOptedPackage]);
 
   // this happens when the user returns to the Titles tab from Packages/Providers or from the result view.
   const areStaleFacets = initialTitlesFacets === titlesFacets;
@@ -79,7 +93,7 @@ const PackagesFilter = ({
       dataOptions={dataOptions}
       disabled={disabled}
       isLoading={results.isLoading}
-      onUpdate={onUpdate}
+      onUpdate={handleUpdate}
     />
   );
 };

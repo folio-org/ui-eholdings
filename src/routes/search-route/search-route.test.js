@@ -371,37 +371,27 @@ describe('Given SearchRoute', () => {
       });
     });
 
-    it('should cache unique packages to restore missing filter options', () => {
+    it('should cache selected package data to restore missing filter option', () => {
       const props = {
         location: {
           ...location,
-          search: '?searchType=titles&q=a',
+          search: '?searchType=titles&q=a&filter[packageIds]=4591',
         },
-        titlesFacets: {},
+        titlesFacets: {
+          packages: [
+            { count: 100, id: 4591, name: 'name1' },
+            { count: 200, id: 5478, name: 'name2' },
+          ],
+        },
       };
       const { rerender } = renderSearchRoute(props);
 
       const expectedProps = {
-        packagesFilterMap: {
-          4591: { count: 100, id: '4591', name: 'name1' },
-          5478: { count: 200, id: '5478', name: 'name2' },
-        },
+        prevDataOfOptedPackage: { count: 100, id: '4591', name: 'name1' },
       };
 
-      rerender(getComponent({
-        ...props,
-        titlesFacets: {
-          packages: [{
-            id: '4591',
-            name: 'name1',
-            count: 100,
-          }, {
-            id: '5478',
-            name: 'name2',
-            count: 200,
-          }],
-        }
-      }));
+      rerender(getComponent(props));
+      rerender(getComponent(props));
 
       expect(PackagesFilter).toHaveBeenLastCalledWith(expect.objectContaining(expectedProps), {});
     });
