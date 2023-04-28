@@ -31,7 +31,7 @@ const PackagesFilter = ({
   onUpdate,
 }) => {
   const initialTitlesPackages = useRef(titlesFacets.packages).current;
-  const prevActiveFilters = useRef(null);
+  const prevActiveFilters = useRef(activeFilters);
   const { packageIds: selectedPackageId = '' } = activeFilters;
 
   const dataOptions = useMemo(() => {
@@ -63,7 +63,7 @@ const PackagesFilter = ({
   // this happens when the user returns to the Titles tab from Packages/Providers or from the result view.
   // and when user changes a filter and packages remains the same.
   const areStalePackages = (initialTitlesPackages === titlesFacets.packages)
-    && isEqual(prevActiveFilters, activeFilters);
+    && isEqual(prevActiveFilters.current, activeFilters);
 
   const noResults = params.q && !results.length && !results.isLoading;
   const isFirstResultsLoading = !activeFilters.packageIds && results.isLoading && !results.length;

@@ -101,6 +101,7 @@ describe('data', () => {
             expect(reducer(state, action)).toEqual({
               ...prevState,
               tags: {
+                facets: { packages: undefined },
                 records: {
                   '0cba8d99-6942-4661-947e-395a9d748ce2': {
                     id: '0cba8d99-6942-4661-947e-395a9d748ce2',
@@ -127,6 +128,7 @@ describe('data', () => {
                     isResolved: true,
                     meta: { totalResults: 1 },
                     records: ['0cba8d99-6942-4661-947e-395a9d748ce2'],
+                    facets: { packages: undefined },
                     status: 200,
                   },
                 },
@@ -209,6 +211,7 @@ describe('data', () => {
             expect(reducer(state, action)).toEqual({
               ...prevState,
               tags: {
+                facets: { packages: undefined },
                 records: state.tags.records,
                 requests: {
                   ...prevRequests,
@@ -218,6 +221,7 @@ describe('data', () => {
                     isResolved: true,
                     meta: { totalResults: 1 },
                     records: ['0d1111ea-39d4-4937-bd58-7d6bd45c0bb2'],
+                    facets: { packages: undefined },
                     status: 200,
                   },
                 },

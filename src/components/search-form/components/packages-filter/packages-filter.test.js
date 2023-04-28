@@ -78,9 +78,7 @@ describe('Given PackagesFilter', () => {
         titlesFacets,
         activeFilters: { packageIds: '5478' },
       };
-      const { getByTestId, rerender } = renderComponent(props);
-
-      rerender(getComponent(props));
+      const { getByTestId } = renderComponent(props);
 
       expect(getByTestId('spinner-ellipsis')).toBeDefined();
     });
