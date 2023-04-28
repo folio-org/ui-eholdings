@@ -154,7 +154,7 @@
     "label.description": "Popis",
     "label.name": "Název",
     "label.name.isRequired": "Název *",
-    "label.sortOptions": "Volby třídění",
+    "label.sortOptions": "Možnosti seřazení",
     "label.selectionStatus": "Stav výběru",
     "label.search": "Vyhledávání",
     "label.accordionList": "Nalezených záznamů",
@@ -413,7 +413,7 @@
     "filter.search": "Vyhledávání",
     "label.tags": "Štítky: {tags}",
     "agreements.unlink": "Odpojit smlouvu od tohoto záznamu.",
-    "agreements.unassignModal.header": "Zrušení přiřazení smlouvu z tohoto záznamu",
+    "agreements.unassignModal.header": "Zrušit přiřazení smlouvy z tohoto záznamu",
     "agreements.unassignModal.description": "Opravdu chcete zrušit přiřazení <strong>{agreementName}</strong> z <strong>{recordName}</strong>? Jakmile zrušíte přiřazení, smlouva již nebude připojena k tomuto záznamu.",
     "agreements.unassignModal.cancel": "Zrušit",
     "agreements.unassignModal.unassign": "Zrušení přiřazení",
@@ -597,5 +597,6 @@
     "exportPackageResources.fields.package.providerLevelToken": "Token úrovně poskytovatele",
     "exportPackageResources.fields.package.packageLevelToken": "Token úrovně balíčku",
     "exportPackageResources.subtitle.package": "Tento export může trvat několik minut. Po dokončení bude k dispozici v aplikaci <strong>Správa exportu</strong>. POZNÁMKA: Maximální počet názvů v balíčku, který můžete exportovat, je {exportLimit}. Filtrujte vyhledávání v rámci seznamu názvů, abyste nepřekročili limit, nebo pouze exportovali podrobnosti o balíčku. Tento export nezahrnuje informace dostupné pod Využití a analýzy (k dispozici pouze pro předplatitele Konsolidace použití). Použijte prosím možnost <i>Exportovat názvy</i>, která je k dispozici pod tímto odstavcem.",
-    "exportPackageResources.subtitle.resource": "Tento export může trvat několik minut. Po dokončení bude k dispozici v aplikaci <strong>Správa exportu</strong>. POZNÁMKA: Tento export nezahrnuje informace dostupné v odstavci Využití a analýzy (dostupné pouze pro předplatitele služby Konsolidace využití). Použijte prosím možnost <i>Exportovat názvy</i> dostupnou pod tímto odstavcem."
+    "exportPackageResources.subtitle.resource": "Tento export může trvat několik minut. Po dokončení bude k dispozici v aplikaci <strong>Správa exportu</strong>. POZNÁMKA: Tento export nezahrnuje informace dostupné v odstavci Využití a analýzy (dostupné pouze pro předplatitele služby Konsolidace využití). Použijte prosím možnost <i>Exportovat názvy</i> dostupnou pod tímto odstavcem.",
+    "packages.filter": "Balíčky"
 }
