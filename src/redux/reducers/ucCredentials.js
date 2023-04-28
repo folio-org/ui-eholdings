@@ -51,7 +51,6 @@ const handlers = {
     return {
       ...state,
       isLoading: false,
-      isFailed: true,
       errors: formatErrors(payload.errors),
     };
   },

@@ -57,7 +57,13 @@ const handlers = {
       data: attributes,
     };
   },
-  [GET_USAGE_CONSOLIDATION_FAILURE]: handleError,
+  [GET_USAGE_CONSOLIDATION_FAILURE]: (state, { payload }) => ({
+    ...state,
+    isLoading: false,
+    isLoaded: false,
+    hasSaved: false,
+    errors: formatErrors(payload.errors),
+  }),
   [GET_USAGE_CONSOLIDATION_KEY]: state => ({
     ...state,
     isKeyLoading: true,
