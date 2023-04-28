@@ -64,6 +64,7 @@ describe('Given TitleSearchList', () => {
         collection={collection}
         fetch={noop}
         notFoundMessage="Not Found Message"
+        packagesFacetCollection={{}}
         onClickItem={mockOnClickItem}
         onUpdateOffset={noop}
         {...props}

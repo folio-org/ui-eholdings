@@ -8,6 +8,8 @@ import { FormattedMessage } from 'react-intl';
 import {
   isEqual,
   hasIn,
+  omit,
+  defer,
 } from 'lodash';
 
 import { TitleManager } from '@folio/stripes/core';
@@ -246,6 +248,34 @@ class SearchRoute extends Component {
     });
   }
 
+  getPackagesFacetCollection = () => {
+    const {
+      resolver,
+      titlesFacets,
+    } = this.props;
+    const {
+      searchType,
+      params,
+    } = this.state;
+    const {
+      offset = 0,
+      ...queryParams
+    } = params;
+    const searchParams = transformQueryParams(searchType, queryParams);
+
+    let collection = {};
+
+    if (searchType === 'titles' && titlesFacets.packages) {
+      collection = resolver.query(searchType, {
+        ...searchParams,
+        filter: omit(searchParams.filter, 'packageIds'),
+        page: offset,
+      });
+    }
+
+    return collection;
+  }
+
   /**
    * Build's a url for a specific search type + query
    * @param {String} pathname - the base pathname
@@ -317,7 +347,21 @@ class SearchRoute extends Component {
 
     if (searchType === searchTypes.PROVIDERS) this.props.searchProviders(searchParams);
     if (searchType === searchTypes.PACKAGES) this.props.searchPackages(searchParams);
-    if (searchType === searchTypes.TITLES) this.props.searchTitles(searchParams);
+    if (searchType === searchTypes.TITLES) {
+      // To retrieve the "Packages" facet with the correct count of packages, we need to make the request with all the
+      // search terms and without the "Packages" facet applied.
+      // So this request is for records and the second one is for facets.
+      this.props.searchTitles(searchParams);
+
+      if (searchParams.filter.packageIds) {
+        defer(() => {
+          this.props.searchTitles({
+            ...searchParams,
+            filter: omit(searchParams.filter, 'packageIds'),
+          });
+        });
+      }
+    }
   }
 
   /**
@@ -403,6 +447,7 @@ class SearchRoute extends Component {
       shouldFocusItem,
       location: this.props.location,
       collection: this.getResults(),
+      packagesFacetCollection: this.getPackagesFacetCollection(),
       onUpdateOffset: this.handleOffset,
       fetch: this.fetchPage,
       onClickItem: (detailUrl) => {
@@ -462,6 +507,7 @@ class SearchRoute extends Component {
     } = this.state;
 
     const results = this.getResults();
+    const packagesFacetCollection = this.getPackagesFacetCollection();
     const filterCount = filterCountFromQuery({
       sort: params.sort,
       q: params.q,
@@ -481,13 +527,14 @@ class SearchRoute extends Component {
                 resultsView={this.renderResults()}
                 resultPaneTitle={this.$resultPaneTitle}
                 totalResults={results.length}
-                isLoading={!results.hasLoaded}
+                isLoading={!results.hasLoaded || packagesFacetCollection.isLoading}
                 updateFilters={this.updateFilters}
                 history={history}
                 searchForm={(
                   <SearchForm
                     params={params}
                     titlesFacets={titlesFacets}
+                    packagesFacetCollection={packagesFacetCollection}
                     prevDataOfOptedPackage={this.prevDataOfOptedPackage}
                     results={results}
                     sort={sort}
@@ -500,7 +547,7 @@ class SearchRoute extends Component {
                     tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
                     accessTypesStoreData={accessTypes}
                     searchTypeUrls={this.getSearchTypeUrls()}
-                    isLoading={!!params.q && !results.hasLoaded}
+                    isLoading={(!!params.q && !results.hasLoaded) || packagesFacetCollection.isLoading}
                     onSearch={this.handleSearchButtonClick}
                     onSearchFieldChange={this.handleSearchFieldChange}
                     onFilterChange={this.handleFilterChange}

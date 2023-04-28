@@ -26,14 +26,14 @@ const PackagesFilterAccordion = ({
 }) => {
   const intl = useIntl();
   const {
-    packageIds,
+    packageIds: packageId,
   } = activeFilters;
   const label = intl.formatMessage({ id: 'ui-eholdings.packages.filter' });
 
-  const handleUpdate = (packageId) => {
+  const handleUpdate = (selectedPackageId) => {
     onUpdate({
       ...activeFilters,
-      packageIds: packageId,
+      packageIds: selectedPackageId,
     });
   };
 
@@ -48,13 +48,13 @@ const PackagesFilterAccordion = ({
         separator={false}
         closedByDefault
         header={FilterAccordionHeader}
-        displayClearButton={!!packageIds}
+        displayClearButton={!!packageId}
         onClearFilter={handleUpdate}
       >
         <Selection
           id="packagesFilterSelect"
           name="packageIds"
-          value={packageIds}
+          value={packageId}
           formatter={FacetOptionFormatter}
           dataOptions={dataOptions}
           onChange={handleUpdate}

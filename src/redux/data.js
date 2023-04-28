@@ -390,15 +390,22 @@ const handlers = {
    */
   [actionTypes.RESOLVE]: (state, action) => {
     const { request, records, facets } = action;
+    const isRequestWithPackageId = request.params?.filter?.packageIds;
     // first we reduce the request state object
     let next = reduceData(request.resource, state, store => ({
-      facets,
+      facets: {
+        ...store.facets,
+        packages: isRequestWithPackageId ? store.facets?.packages : facets?.packages,
+      },
       requests: {
         ...store.requests,
         [request.timestamp]: {
           ...store.requests[request.timestamp],
           records: request.records,
-          facets,
+          facets: {
+            ...facets,
+            packages: isRequestWithPackageId ? store.facets?.packages : facets?.packages,
+          },
           meta: request.meta,
           status: request.status,
           isPending: false,

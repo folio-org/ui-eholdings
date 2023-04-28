@@ -57,6 +57,7 @@ class SearchForm extends Component {
     onSearchFieldChange: PropTypes.func,
     onStandaloneFilterChange: PropTypes.func.isRequired,
     onStandaloneFilterToggle: PropTypes.func.isRequired,
+    packagesFacetCollection: PropTypes.object,
     params: PropTypes.object,
     prevDataOfOptedPackage: PropTypes.object,
     results: PropTypes.object,
@@ -91,6 +92,7 @@ class SearchForm extends Component {
     results: {},
     searchString: '',
     searchFilter: {},
+    packagesFacetCollection: {},
     titlesFacets: {},
   };
 
@@ -268,6 +270,7 @@ class SearchForm extends Component {
       sort,
       searchByTagsEnabled,
       searchByAccessTypesEnabled,
+      packagesFacetCollection,
       titlesFacets,
     } = this.props;
     const Filters = this.getFiltersComponent(searchType);
@@ -376,6 +379,7 @@ class SearchForm extends Component {
                 prevDataOfOptedPackage={prevDataOfOptedPackage}
                 results={results}
                 titlesFacets={titlesFacets}
+                packagesFacetCollection={packagesFacetCollection}
                 onUpdate={this.handleUpdateFilter}
                 disabled={standaloneFiltersEnabled}
               />

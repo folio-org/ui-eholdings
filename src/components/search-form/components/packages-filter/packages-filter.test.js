@@ -23,6 +23,7 @@ const getComponent = (props = {}) => (
     params={{ q: 'book' }}
     titlesFacets={{}}
     prevDataOfOptedPackage={{}}
+    packagesFacetCollection={{}}
     results={{}}
     onUpdate={() => {}}
     {...props}
@@ -72,11 +73,14 @@ describe('Given PackagesFilter', () => {
 
   describe('when the user returns to the Titles tab from Packages/Providers or from the result view', () => {
     it('should display spinner', () => {
-      const { getByTestId } = renderComponent({
+      const props = {
         params: { q: 'book' },
         titlesFacets,
         activeFilters: { packageIds: '5478' },
-      });
+      };
+      const { getByTestId, rerender } = renderComponent(props);
+
+      rerender(getComponent(props));
 
       expect(getByTestId('spinner-ellipsis')).toBeDefined();
     });
