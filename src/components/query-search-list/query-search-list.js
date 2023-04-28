@@ -19,6 +19,7 @@ const cx = classnames.bind(styles);
 
 const QuerySearchList = ({
   collection,
+  packagesFacetCollection,
   fetch,
   fullWidth,
   isMainPageSearch,
@@ -75,7 +76,7 @@ const QuerySearchList = ({
     );
   }
 
-  if ((isMainPageSearch && !collection.isLoading && !length)
+  if ((isMainPageSearch && !collection.isLoading && !packagesFacetCollection.isLoading && !length)
     || (!isMainPageSearch && !isLoading && !length)) {
     return notFoundMessage;
   }
@@ -104,7 +105,7 @@ const QuerySearchList = ({
     listFirstItem.current.focus();
   };
 
-  if (isUpdating || isLoading) {
+  if (isUpdating || isLoading || packagesFacetCollection.isLoading) {
     return (
       <div className={styles.updatingSpinner}>
         <Icon icon="spinner-ellipsis" />
@@ -121,7 +122,7 @@ const QuerySearchList = ({
       fullWidth={fullWidth}
       prevNextButtons={(
         <PrevNextButtons
-          isLoading={isLoading}
+          isLoading={isLoading || packagesFacetCollection.isLoading}
           totalResults={totalResults}
           fetch={isMainPageSearch ? (pageToUpdate) => updatePage(pageToUpdate) : fetch}
           page={page}
@@ -162,6 +163,7 @@ QuerySearchList.propTypes = {
     PropTypes.node,
   ]).isRequired,
   onUpdateOffset: PropTypes.func,
+  packagesFacetCollection: PropTypes.object,
   pageSize: PropTypes.number,
   renderItem: PropTypes.func.isRequired,
   scrollable: PropTypes.bool,
@@ -171,6 +173,7 @@ QuerySearchList.propTypes = {
 QuerySearchList.defaultProps = {
   fullWidth: false,
   pageSize: PAGE_SIZE,
+  packagesFacetCollection: {},
   isUpdating: false,
 };
 

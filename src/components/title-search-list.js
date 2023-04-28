@@ -11,6 +11,7 @@ const ITEM_HEIGHT = 70;
 const TitleSearchList = ({
   activeId,
   collection,
+  packagesFacetCollection,
   fetch,
   notFoundMessage,
   onUpdateOffset,
@@ -32,6 +33,7 @@ const TitleSearchList = ({
       type="titles"
       fetch={fetch}
       collection={packagesCollection}
+      packagesFacetCollection={packagesFacetCollection}
       onUpdateOffset={onUpdateOffset}
       itemHeight={ITEM_HEIGHT}
       isMainPageSearch
@@ -69,6 +71,7 @@ TitleSearchList.propTypes = {
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
+  packagesFacetCollection: PropTypes.object.isRequired,
   shouldFocusItem: PropTypes.string,
 };
 
