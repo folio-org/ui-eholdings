@@ -59,7 +59,6 @@ describe('ucCredentialsReducer', () => {
 
     expect(ucCredentialsReducer(state, action)).toEqual({
       ...state,
-      isFailed: true,
       errors: [{ title: 'error1' }],
     });
   });
