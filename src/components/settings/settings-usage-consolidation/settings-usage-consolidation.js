@@ -68,7 +68,7 @@ const SettingsUsageConsolidation = ({
     if (isEqual(usageConsolidationWithoutKey, prevUsageConsolidation)) return;
 
     if (usageConsolidation.hasSaved) {
-      setToasts(t => [...t, {
+      setToasts([{
         id: `settings-uc-${Date.now()}`,
         message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.saved" />,
         type: 'success',
@@ -76,7 +76,7 @@ const SettingsUsageConsolidation = ({
     }
 
     if (usageConsolidation.isFailed) {
-      setToasts(t => [...t, {
+      setToasts([{
         id: `settings-uc-${Date.now()}`,
         message: <FormattedMessage id="ui-eholdings.settings.usageConsolidation.credentials.systemError" />,
         type: 'error',
@@ -86,11 +86,11 @@ const SettingsUsageConsolidation = ({
 
   useEffect(() => {
     if (ucCredentials.isFailed) {
-      const errorMessageId = ucCredentials.errors[0].title === INVALID_UC_CREDENTIALS
+      const errorMessageId = ucCredentials.errors[0]?.title === INVALID_UC_CREDENTIALS
         ? 'ui-eholdings.settings.usageConsolidation.credentials.validation.invalid'
         : 'ui-eholdings.settings.usageConsolidation.credentials.systemError';
 
-      setToasts(t => [...t, {
+      setToasts([{
         id: `settings-uc-${Date.now()}`,
         message: <FormattedMessage id={errorMessageId} />,
         type: 'error',
