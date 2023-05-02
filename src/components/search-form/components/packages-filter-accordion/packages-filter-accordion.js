@@ -37,6 +37,10 @@ const PackagesFilterAccordion = ({
     });
   };
 
+  const handleListFiltering = (value, options) => {
+    return options.filter(option => option.label.toLowerCase().startsWith(value.toLowerCase()));
+  };
+
   return (
     <div
       role="tab"
@@ -58,6 +62,7 @@ const PackagesFilterAccordion = ({
           formatter={FacetOptionFormatter}
           dataOptions={dataOptions}
           onChange={handleUpdate}
+          onFilter={handleListFiltering}
           aria-label={label}
           disabled={disabled || isLoading}
         />

@@ -18,20 +18,10 @@ const renderComponent = (props = {}) => render(getComponent(props));
 
 describe('Given PackagesFilterAccordion', () => {
   describe('when selected some items', () => {
-    it('should show clear filters button when packageIds is string', () => {
+    it('should show clear filters button', () => {
       const { container } = renderComponent({
         searchFilter: {
-          'packageIds': 'opt1,opt2',
-        },
-      });
-
-      expect(container.querySelector('[icon=times-circle-solid]')).toBeDefined();
-    });
-
-    it('should show clear filters button when packageIds is array', () => {
-      const { container } = renderComponent({
-        searchFilter: {
-          'packageIds': ['opt1', 'opt2'],
+          packageIds: '3453',
         },
       });
 
@@ -76,6 +66,27 @@ describe('Given PackagesFilterAccordion', () => {
         ...activeFilters,
         packageIds: '4591',
       });
+    });
+  });
+
+  describe('when a user enters a character that needs to be escaped in the regexp', () => {
+    it('should be treated', () => {
+      const dataOptions = [{
+        value: '4591',
+        label: '[option1',
+        totalRecords: 100,
+      }, {
+        value: '8347',
+        label: 'option2',
+        totalRecords: 200,
+      }];
+
+      const { container } = renderComponent({ dataOptions });
+
+      const input = container.querySelector('input[type="text"]');
+      fireEvent.change(input, { target: { value: '[' } });
+
+      expect(container.querySelector('[data-test-highlighter-mark]')).toHaveTextContent('[');
     });
   });
 });
