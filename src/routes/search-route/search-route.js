@@ -251,7 +251,6 @@ class SearchRoute extends Component {
   getPackagesFacetCollection = () => {
     const {
       resolver,
-      titlesFacets,
     } = this.props;
     const {
       searchType,
@@ -265,7 +264,7 @@ class SearchRoute extends Component {
 
     let collection = {};
 
-    if (searchType === 'titles' && titlesFacets.packages) {
+    if (searchType === 'titles' && params.q) {
       collection = resolver.query(searchType, {
         ...searchParams,
         filter: omit(searchParams.filter, 'packageIds'),
