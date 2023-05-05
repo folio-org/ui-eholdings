@@ -49,6 +49,7 @@ const propTypes = {
 
 const INVALID_CUSTOMER_KEY_ERROR_MESSAGE = 'Invalid UC Credentials';
 const INVALID_UC_CREDENTIALS = 'Invalid Usage Consolidation Credentials';
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const SettingsUsageConsolidation = ({
   clearUsageConsolidationErrors,
@@ -131,9 +132,9 @@ const SettingsUsageConsolidation = ({
     return errors;
   };
 
-  const monthDataOptions = moment.months().map(month => ({
-    value: month.toLowerCase().substr(0, 3),
-    label: month,
+  const monthDataOptions = MONTHS.map((month, index) => ({
+    value: month.toLowerCase().substring(0, 3),
+    label: moment.months()[index],
   }));
 
   const parseUsageConsolidationId = value => {

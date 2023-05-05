@@ -6,6 +6,8 @@
 * Titles tab: Add a Packages facet. (UIEH-1350)
 * Title detail record: Packages accordion - Honor Packages Facet selection(s). (UIEH-1351)
 * Fix errors appearing when user switch to "User consolidation" pane. (UIEH-1362)
+* Fix errors appearing when user switch to "User consolidation" pane. (UIEH-1362)
+* Settings > Usage Consolidation naively parses start-month values. (UIEH-1371)
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 
