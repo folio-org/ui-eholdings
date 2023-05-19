@@ -19,6 +19,7 @@ import {
   Modal,
   ModalFooter,
   Icon,
+  PaneCloseLink,
 } from '@folio/stripes/components';
 
 import { getFullName } from '../../utilities';
@@ -230,6 +231,16 @@ const SettingsAssignedUsers = ({
       id="settings-assigned-users-paneset"
       paneTitle={pageTitle}
       data-testid="settings-assigned-users"
+      firstMenu={(
+        <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
+          {([ariaLabel]) => (
+            <PaneCloseLink
+              ariaLabel={ariaLabel}
+              to="/settings/eholdings"
+            />
+          )}
+        </FormattedMessage>
+      )}
     >
       {header}
       {requestIsPending ?
