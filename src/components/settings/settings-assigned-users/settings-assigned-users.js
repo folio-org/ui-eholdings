@@ -231,16 +231,12 @@ const SettingsAssignedUsers = ({
       id="settings-assigned-users-paneset"
       paneTitle={pageTitle}
       data-testid="settings-assigned-users"
-      firstMenu={(
-        <FormattedMessage id="ui-eholdings.settings.goBackToEholdings">
-          {([ariaLabel]) => (
-            <PaneCloseLink
-              ariaLabel={ariaLabel}
-              to="/settings/eholdings"
-            />
-          )}
-        </FormattedMessage>
-      )}
+      firstMenu={
+        <PaneCloseLink
+          ariaLabel={intl.formatMessage({ id: 'ui-eholdings.settings.goBackToEholdings' })}
+          to="/settings/eholdings"
+        />
+      }
     >
       {header}
       {requestIsPending ?
