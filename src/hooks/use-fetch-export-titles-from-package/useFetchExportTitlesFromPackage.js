@@ -26,7 +26,7 @@ const useFetchExportTitlesFromPackage = ({
 
   const headers = useMemo(() => ({
     'X-Okapi-Tenant': okapi.tenant,
-    'X-Okapi-Token': okapi.token,
+    ...(okapi.token && { 'X-Okapi-Token': okapi.token }),
     'Content-Type': 'application/json',
   }), [okapi.tenant, okapi.token]);
 
@@ -46,7 +46,7 @@ const useFetchExportTitlesFromPackage = ({
     });
 
     try {
-      const response = await fetch(url, { headers });
+      const response = await fetch(url, { headers, credentials: 'include' });
 
       if (response.status === 504) {
         throw new Error('timeout');

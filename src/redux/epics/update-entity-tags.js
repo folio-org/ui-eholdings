@@ -29,6 +29,7 @@ export default function updateEntityTags(action$, state$) {
           headers: getHeaders(method, state$.value.okapi, url),
           method,
           body: JSON.stringify(payload),
+          credentials: 'include',
         };
 
         const promise = fetch(url, requestOptions)
