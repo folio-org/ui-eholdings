@@ -11,7 +11,7 @@ export default function (method, okapi, url) {
   const headers = {
     'Content-Type': 'application/json',
     'X-Okapi-Tenant': okapi.tenant,
-    'X-Okapi-Token': okapi.token
+    ...(okapi.token && { 'X-Okapi-Token': okapi.token }),
   };
 
   if (method === 'PUT' || method === 'POST' || method === 'PATCH') {
