@@ -1,8 +1,8 @@
 const identifiersTypes = {
-  ISSN_ONLINE: 'issnOnline',
-  ISSN_PRINT: 'issnPrint',
-  ISBN_ONLINE: 'isbnOnline',
-  ISBN_PRINT: 'isbnPrint',
+  ISSN_ONLINE: 'ISSN (Online)',
+  ISSN_PRINT: 'ISSN (Print)',
+  ISBN_ONLINE: 'ISBN (Online)',
+  ISBN_PRINT: 'ISBN (Print)',
 };
 
 export default identifiersTypes;
