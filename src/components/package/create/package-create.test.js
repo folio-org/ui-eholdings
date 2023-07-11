@@ -82,8 +82,8 @@ describe('PackageCreate', () => {
   it('should display correct dropdown options for package content type', () => {
     const { getByText } = renderPackageCreate();
 
-    Object.values(contentTypes).forEach(contentType => {
-      expect(getByText(`ui-eholdings.filter.contentType.${contentType}`)).toBeDefined();
+    Object.keys(contentTypes).forEach(contentType => {
+      expect(getByText(`ui-eholdings.filter.contentType.${contentType.toLowerCase()}`)).toBeDefined();
     });
   });
 

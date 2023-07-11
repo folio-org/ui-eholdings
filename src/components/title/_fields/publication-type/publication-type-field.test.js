@@ -22,8 +22,8 @@ describe('Given PublicationTypeField', () => {
   it('should display options', () => {
     const { getByText } = renderPublicationTypeField();
 
-    Object.values(publicationTypes).forEach(publicationType => {
-      expect(getByText(`ui-eholdings.filter.pubType.${publicationType}`)).toBeDefined();
+    Object.keys(publicationTypes).forEach(publicationType => {
+      expect(getByText(`ui-eholdings.filter.pubType.${publicationType.toLowerCase()}`)).toBeDefined();
     });
   });
 });

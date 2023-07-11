@@ -62,8 +62,8 @@ describe('Given IdentifiersFields', () => {
 
       fireEvent.click(addIdentifierButton);
 
-      Object.values(identifiersTypes).forEach(identifiersType => {
-        expect(getByText(`ui-eholdings.label.identifier.${identifiersType}`)).toBeDefined();
+      Object.keys(identifiersTypes).forEach(identifiersType => {
+        expect(getByText(`ui-eholdings.label.identifier.${identifiersType.toLowerCase()}`)).toBeDefined();
       });
     });
 
