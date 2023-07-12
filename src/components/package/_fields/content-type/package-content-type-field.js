@@ -16,10 +16,11 @@ const PackageContentTypeField = () => {
         label="Content type"
         data-testid="contentType"
       >
-        {Object.values(contentTypes).map((contentType) => {
-          const value = formatMessage({ id: `ui-eholdings.filter.contentType.${contentType}` });
+        {Object.keys(contentTypes).map((contentType) => {
+          const label = formatMessage({ id: `ui-eholdings.filter.contentType.${contentType.toLowerCase()}` });
+          const value = contentTypes[contentType];
 
-          return (<option key={value} value={value}>{value}</option>);
+          return (<option key={value} value={value}>{label}</option>);
         })}
       </Field>
     </div>

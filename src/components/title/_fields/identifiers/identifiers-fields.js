@@ -50,10 +50,13 @@ const IdentifiersFields = () => {
             autoFocus={Object.keys(identifier).length === 0}
             label={intl.formatMessage({ id: 'ui-eholdings.type' })}
           >
-            {Object.values(identifiersTypes).map((identifiersType, index) => {
-              const value = intl.formatMessage({ id: `ui-eholdings.label.identifier.${identifiersType}` });
+            {Object.keys(identifiersTypes).map((identifiersType, index) => {
+              const label = intl.formatMessage({ id: `ui-eholdings.label.identifier.${identifiersType.toLowerCase()}` });
+              const value = identifiersTypes[identifiersType];
 
-              return <option key={value} value={index}>{value}</option>;
+              // we pass index as value because in `expandIdentifiers` function in routes/utils.js
+              // we use index to get expanded values
+              return <option key={value} value={index}>{label}</option>;
             })}
           </Field>
         </Col>

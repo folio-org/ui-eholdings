@@ -362,7 +362,7 @@ describe('Given SearchModal', () => {
 
       expect(getByTestId('search-modal')).toBeDefined();
 
-      fireEvent.click(getByText('ui-eholdings.filter.pubType.audioBook'));
+      fireEvent.click(getByText('ui-eholdings.filter.pubType.audiobook'));
 
       const searchButton = getByRole('button', { name: 'ui-eholdings.label.search' });
 

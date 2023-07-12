@@ -12,6 +12,7 @@
 * Align test babel config with stripes-webpack. (UIEH-1380, STRWEB-87)
 * Devops: leverage all available CPUs in CI. (STRIPES-854)
 * Leverage cookie-based authentication in all API requests. (UIEH-1345)
+* Fix some dropdown field using translations as values. (UIEH-1381) 
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 

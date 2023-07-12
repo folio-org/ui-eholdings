@@ -16,13 +16,13 @@ const PublicationTypeField = () => {
         name="publicationType"
         component={Select}
         label={label}
-        aria-label={label}
         data-testid="publication-type-field"
       >
-        {Object.values(publicationTypes).map((publicationType) => {
-          const value = intl.formatMessage({ id: `ui-eholdings.filter.pubType.${publicationType}` });
+        {Object.keys(publicationTypes).map((publicationType) => {
+          const optionLabel = intl.formatMessage({ id: `ui-eholdings.filter.pubType.${publicationType.toLowerCase()}` });
+          const value = publicationTypes[publicationType];
 
-          return <option key={value} value={value}>{value}</option>;
+          return <option key={value} value={value}>{optionLabel}</option>;
         })}
       </Field>
     </div>
