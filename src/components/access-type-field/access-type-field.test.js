@@ -1,5 +1,5 @@
 import { Form } from 'react-final-form';
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import AccessTypeField from './access-type-field';
 

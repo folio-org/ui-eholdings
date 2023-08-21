@@ -4,7 +4,7 @@ import {
   render,
   cleanup,
   act,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import CustomLabelsRoute from './custom-labels-route';
 import Harness from '../../../test/jest/helpers/harness';

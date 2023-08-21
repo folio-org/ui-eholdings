@@ -1,4 +1,4 @@
-import { cleanup } from '@testing-library/react';
+import { cleanup } from '@folio/jest-config-stripes/testing-library/react';
 
 import ucCredentialsApi from '../uc-credentials';
 import {

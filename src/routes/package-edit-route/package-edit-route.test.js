@@ -5,7 +5,7 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageEditRoute from './package-edit-route';
 import Harness from '../../../test/jest/helpers/harness';
@@ -352,11 +352,9 @@ describe('Given PackageEditRoute', () => {
 
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
-      await act(async () => {
-        const { unmount } = await renderPackageEditRoute();
+      const { unmount } = await renderPackageEditRoute();
 
-        unmount();
-      });
+      unmount();
 
       expect(mockRemoveUpdateRequests).toHaveBeenCalled();
     });

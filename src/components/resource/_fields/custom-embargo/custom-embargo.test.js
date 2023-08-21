@@ -2,7 +2,8 @@ import {
   render,
   cleanup,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
@@ -65,45 +66,45 @@ describe('Given CustomEmbargoFields', () => {
     });
 
     describe('when filling in not positive value', () => {
-      it('should show validation error', () => {
+      it('should show validation error', async () => {
         const {
           getByTestId,
           getByText,
         } = renderCustomEmbargoFields();
 
-        fireEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
-        fireEvent.change(getByTestId('custom-embargo-value'), { target: { value: 0 } });
-        getByText('Submit').focus();
+        await userEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
+        await userEvent.type(getByTestId('custom-embargo-value'), '0');
+        await userEvent.tab();
 
         expect(getByText('ui-eholdings.validate.errors.embargoPeriod.moreThanZero')).toBeDefined();
       });
     });
 
     describe('when filling in not integer value', () => {
-      it('should show validation error', () => {
+      it('should show validation error', async () => {
         const {
           getByTestId,
           getByText,
         } = renderCustomEmbargoFields();
 
-        fireEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
-        fireEvent.change(getByTestId('custom-embargo-value'), { target: { value: 1.1 } });
-        getByText('Submit').focus();
+        await userEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
+        await userEvent.type(getByTestId('custom-embargo-value'), '1.1');
+        await userEvent.tab();
 
         expect(getByText('ui-eholdings.validate.errors.embargoPeriod.decimal')).toBeDefined();
       });
     });
 
     describe('when filling in not a number', () => {
-      it('should show validation error', () => {
+      it('should show validation error', async () => {
         const {
           getByTestId,
           getByText,
         } = renderCustomEmbargoFields();
 
-        fireEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
-        fireEvent.change(getByTestId('custom-embargo-value'), { target: { value: 'a' } });
-        getByText('Submit').focus();
+        await userEvent.click(getByText('ui-eholdings.resource.embargoPeriod.addCustom'));
+        await userEvent.type(getByTestId('custom-embargo-value'), 'a');
+        await userEvent.tab();
 
         expect(getByText('ui-eholdings.validate.errors.embargoPeriod.number')).toBeDefined();
       });

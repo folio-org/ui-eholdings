@@ -2,7 +2,7 @@ import {
   render,
   fireEvent,
   waitFor,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 import { FormattedMessage } from 'react-intl';
 
 import useFetchExportTitlesFromPackage from './useFetchExportTitlesFromPackage';

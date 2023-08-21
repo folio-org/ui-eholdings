@@ -1,7 +1,7 @@
 import {
   cleanup,
   render,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import SettingsForm from './settings-form';
 import Harness from '../../../../test/jest/helpers/harness';

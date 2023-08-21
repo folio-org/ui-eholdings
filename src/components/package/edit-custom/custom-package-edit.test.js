@@ -3,7 +3,7 @@ import noop from 'lodash/noop';
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import Harness from '../../../../test/jest/helpers/harness';
 

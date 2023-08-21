@@ -1,14 +1,14 @@
 import { MemoryRouter } from 'react-router-dom';
 import noop from 'lodash/noop';
+import { createMemoryHistory } from 'history';
 
 import {
   render,
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
-
-import { createMemoryHistory } from 'history';
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageShowRoute from './package-show-route';
 import Harness from '../../../test/jest/helpers/harness';
@@ -313,7 +313,9 @@ describe('Given PackageShowRoute', () => {
     jest.clearAllMocks();
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+  });
 
   it('should render PackageShowRoute', () => {
     const { getByText } = renderPackageShowRoute();
@@ -597,6 +599,7 @@ describe('Given PackageShowRoute', () => {
 
     describe('when package titles are updated', () => {
       it('should call getPackageTitles until resources select status is updated', async () => {
+        jest.useFakeTimers();
         const { getByRole, rerender } = renderPackageShowRoute({
           getPackageTitles: mockGetPackageTitles,
         });
@@ -613,7 +616,7 @@ describe('Given PackageShowRoute', () => {
           },
         }));
 
-        await wait(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+        jest.runOnlyPendingTimers();
 
         expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
         rerender(getPackageShowRoute({
@@ -629,14 +632,14 @@ describe('Given PackageShowRoute', () => {
           },
         }));
 
-        await wait(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+        jest.runOnlyPendingTimers();
         expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
       });
 
       describe('and a user navigates to another route', () => {
         it('should stop invoking interval calls of getPackageTitles', () => {
           jest.useFakeTimers();
-
+          jest.spyOn(global, 'setInterval');
           const { getByRole, unmount } = renderPackageShowRoute({
             getPackageTitles: mockGetPackageTitles,
           });
@@ -647,10 +650,10 @@ describe('Given PackageShowRoute', () => {
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
           expect(setInterval).toHaveBeenCalled();
-          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
           unmount();
-          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
         });
       });
@@ -658,7 +661,7 @@ describe('Given PackageShowRoute', () => {
       describe('and a user tries to update the package titles again', () => {
         it('should stop firing previous interval calls of getPackageTitles', async () => {
           jest.useFakeTimers();
-
+          jest.spyOn(global, 'setInterval');
           const { getByRole, getByTestId, rerender } = renderPackageShowRoute({
             getPackageTitles: mockGetPackageTitles,
           });
@@ -669,7 +672,7 @@ describe('Given PackageShowRoute', () => {
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
           expect(setInterval).toHaveBeenCalledTimes(1);
-          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
 
           rerender(getPackageShowRoute({
@@ -683,7 +686,7 @@ describe('Given PackageShowRoute', () => {
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
 
           expect(setInterval).toHaveBeenCalledTimes(2);
-          jest.advanceTimersByTime(INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
+          jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
         });
       });
@@ -813,15 +816,13 @@ describe('Given PackageShowRoute', () => {
 
   describe('when component is unmounted', () => {
     it('should handle clearCostPerUseData', async () => {
-      await act(async () => {
-        const { unmount } = await renderPackageShowRoute({
-          clearCostPerUseData: mockClearCostPerUseData,
-        });
-
-        unmount();
+      const { unmount } = await renderPackageShowRoute({
+        clearCostPerUseData: mockClearCostPerUseData,
       });
 
-      expect(mockClearCostPerUseData).toHaveBeenCalled();
+      unmount();
+
+      await act(() => waitFor(() => expect(mockClearCostPerUseData).toHaveBeenCalled()));
     });
   });
 });

@@ -3,7 +3,7 @@ import {
   cleanup,
   fireEvent,
   waitFor,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 import { createMemoryHistory } from 'history';
 
 import AgreementsAccordion from './agreements-accordion';

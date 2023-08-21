@@ -5,7 +5,7 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import SettingsAssignedUsersRoute from './settings-assigned-users-route';
 import Harness from '../../../test/jest/helpers/harness';
@@ -55,6 +55,7 @@ jest.mock('../../components/settings/settings-assigned-users', () => ({
 const mockGetKBCredentialsUsers = jest.fn();
 const mockDeleteKBCredentialsUser = jest.fn();
 const mockPostKBCredentialsUser = jest.fn();
+const mockClearKBCredentialsUser = jest.fn();
 
 const assignedUsers = {
   errors: [],
@@ -132,6 +133,7 @@ const renderSettingsAssignedUsersRoute = (props = {}) => render(
         kbCredentials={kbCredentials}
         match={match}
         postKBCredentialsUser={mockPostKBCredentialsUser}
+        clearKBCredentialsUser={mockClearKBCredentialsUser}
         userGroups={userGroups}
         {...props}
       />

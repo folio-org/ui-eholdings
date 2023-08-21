@@ -5,7 +5,8 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import TitleEditRoute from './title-edit-route';
 import Harness from '../../../test/jest/helpers/harness';
@@ -237,11 +238,9 @@ describe('Given TitleEditRoute', () => {
 
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
-      await act(async () => {
-        const { unmount } = await renderTitleEditRoute();
+      const { unmount } = await renderTitleEditRoute();
 
-        unmount();
-      });
+      unmount();
 
       expect(mockRemoveUpdateRequests).toHaveBeenCalled();
     });

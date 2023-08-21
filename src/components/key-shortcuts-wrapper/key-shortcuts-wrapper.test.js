@@ -1,8 +1,7 @@
 import {
   render,
   cleanup,
-} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import {
   CommandList,

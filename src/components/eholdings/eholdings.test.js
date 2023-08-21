@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 import { noop } from 'lodash';
 
 import EHoldings from './eholdings';
