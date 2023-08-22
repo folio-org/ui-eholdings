@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 

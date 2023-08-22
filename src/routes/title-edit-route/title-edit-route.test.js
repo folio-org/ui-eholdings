@@ -5,7 +5,6 @@ import {
   cleanup,
   act,
   fireEvent,
-  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import TitleEditRoute from './title-edit-route';

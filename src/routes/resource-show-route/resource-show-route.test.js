@@ -4,7 +4,6 @@ import noop from 'lodash/noop';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 

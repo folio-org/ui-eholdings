@@ -12,8 +12,6 @@ import {
 
 import PackageShowRoute from './package-show-route';
 import Harness from '../../../test/jest/helpers/harness';
-import { INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE } from '../../constants';
-import wait from '../../../test/jest/helpers/wait';
 
 jest.mock('../../features/agreements-accordion', () => () => (<div>AgreementsAccordion component</div>));
 jest.mock('../../components/package/show/components/coverage-settings', () => () => (<div>CoverageSettings component</div>));
