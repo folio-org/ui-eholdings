@@ -2,7 +2,7 @@ import { Form } from 'react-final-form';
 import {
   fireEvent,
   render,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import wait from '../../../../../test/jest/helpers/wait';
 import PackageSelectField from './package-select-field';

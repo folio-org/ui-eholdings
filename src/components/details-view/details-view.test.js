@@ -1,7 +1,7 @@
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { createMemoryHistory } from 'history';
 

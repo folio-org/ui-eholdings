@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   cleanup,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import NoteCreateRoute from './note-create';
 import Harness from '../../test/jest/helpers/harness';

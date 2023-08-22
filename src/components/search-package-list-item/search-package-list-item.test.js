@@ -2,7 +2,7 @@ import {
   screen,
   render,
   fireEvent
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { Router } from 'react-router';
 import { createMemoryHistory } from 'history';

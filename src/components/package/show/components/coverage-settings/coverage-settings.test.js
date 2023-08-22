@@ -1,7 +1,7 @@
 import {
   render,
   cleanup,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import IntlProvider from '../../../../../../test/jest/helpers/intl';
 

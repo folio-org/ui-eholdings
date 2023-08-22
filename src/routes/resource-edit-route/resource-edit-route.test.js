@@ -4,7 +4,7 @@ import {
   render,
   cleanup,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import ResourceEditRoute from './resource-edit-route';
 import Harness from '../../../test/jest/helpers/harness';

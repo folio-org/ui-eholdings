@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@folio/jest-config-stripes/testing-library/react';
 import useSectionToggle from './useSectionToggle';
 
 describe('useSectionToggle hook', () => {

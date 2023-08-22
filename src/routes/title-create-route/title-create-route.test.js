@@ -5,7 +5,7 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import TitleCreateRoute from './title-create-route';
 import Harness from '../../../test/jest/helpers/harness';

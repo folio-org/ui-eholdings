@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@folio/jest-config-stripes/testing-library/react';
 import PackagesFilterAccordion from './packages-filter-accordion';
 
 const mockOnUpdate = jest.fn();

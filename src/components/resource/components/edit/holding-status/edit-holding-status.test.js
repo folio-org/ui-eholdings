@@ -2,7 +2,7 @@ import {
   render,
   cleanup,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import Harness from '../../../../../../test/jest/helpers/harness';
 import getAxe from '../../../../../../test/jest/helpers/get-axe';

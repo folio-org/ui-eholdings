@@ -6,21 +6,23 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import ProviderShowRoute from './provider-show-route';
+import {
+  clearProviderPackages,
+  getAccessTypes,
+  getProviderPackages,
+} from '../../redux/actions';
 import Harness from '../../../test/jest/helpers/harness';
 
-const mockGetAccessTypes = jest.fn();
-const mockGetProviderPackages = jest.fn();
-const mockClearProviderPackages = jest.fn();
 const mockGetProvider = jest.fn();
 
 jest.mock('../../redux/actions', () => ({
   ...jest.requireActual('../../redux/actions'),
-  getAccessTypes: mockGetAccessTypes,
-  getProviderPackages: mockGetProviderPackages,
-  clearProviderPackages: mockClearProviderPackages,
+  getAccessTypes: jest.fn(),
+  getProviderPackages: jest.fn(),
+  clearProviderPackages: jest.fn(),
 }));
 
 jest.mock('../../components/prev-next-buttons', () => () => (<div>PrevNextButtons component</div>));
@@ -188,9 +190,7 @@ const renderProviderShowRoute = ({ props = {} }) => render(
 
 describe('Given ProviderShowRoute', () => {
   beforeEach(() => {
-    mockGetAccessTypes.mockClear();
-    mockGetProviderPackages.mockClear();
-    mockClearProviderPackages.mockClear();
+    jest.clearAllMocks();
   });
 
   afterEach(cleanup);
@@ -198,11 +198,11 @@ describe('Given ProviderShowRoute', () => {
   it('should handle getAccessTypes', async () => {
     await act(async () => {
       await renderProviderShowRoute({
-        props: { getAccessTypes: mockGetAccessTypes },
+        props: { getAccessTypes },
       });
     });
 
-    expect(mockGetAccessTypes).toHaveBeenCalled();
+    expect(getAccessTypes).toHaveBeenCalled();
   });
 
   it('should handle getProviderPackages', async () => {
@@ -211,7 +211,7 @@ describe('Given ProviderShowRoute', () => {
 
     await act(async () => {
       const { getByRole, getByText } = await renderProviderShowRoute({
-        props: { getProviderPackages: mockGetProviderPackages },
+        props: { getProviderPackages },
       });
 
       getByRoleFunction = getByRole;
@@ -223,17 +223,17 @@ describe('Given ProviderShowRoute', () => {
     fireEvent.click(getByTextFunction('ui-eholdings.selected'));
     fireEvent.click(getByRoleFunction('button', { name: 'ui-eholdings.label.search' }));
 
-    expect(mockGetProviderPackages).toHaveBeenCalled();
+    expect(getProviderPackages).toHaveBeenCalled();
   });
 
   it('should handle clearProviderPackages', async () => {
     await act(async () => {
       await renderProviderShowRoute({
-        props: { clearProviderPackages: mockClearProviderPackages },
+        props: { clearProviderPackages },
       });
     });
 
-    expect(mockClearProviderPackages).toHaveBeenCalled();
+    expect(clearProviderPackages).toHaveBeenCalled();
   });
 
   it('should handle getProvider', async () => {

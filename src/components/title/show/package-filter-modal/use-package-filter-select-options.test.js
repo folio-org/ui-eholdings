@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 import usePackageFilterSelectOptions from './use-package-filter-select-options';
 
 describe('usePackageFilterSelectOptions hook', () => {

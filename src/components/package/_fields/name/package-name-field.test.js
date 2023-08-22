@@ -1,5 +1,5 @@
 import { Form } from 'react-final-form';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageNameField from './package-name-field';
 

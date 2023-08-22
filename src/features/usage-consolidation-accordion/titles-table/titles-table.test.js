@@ -2,7 +2,7 @@ import {
   cleanup,
   fireEvent,
   render,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 import Harness from '../../../../test/jest/helpers/harness';
 
 import TitlesTable from './titles-table';

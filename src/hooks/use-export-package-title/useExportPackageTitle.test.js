@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import {
   QueryClient,
   QueryClientProvider,
@@ -35,16 +35,14 @@ describe('Given useExportPackageTitle', () => {
   });
 
   it('should call fetch with correct data', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useExportPackageTitle({
+    const { result } = renderHook(() => useExportPackageTitle({
       onSuccess: jest.fn(),
       onError: jest.fn(),
     }), { wrapper });
 
     result.current.doExport({ test: 'data' });
 
-    await waitForNextUpdate();
-
-    expect(mockPost).toHaveBeenCalledWith('data-export-spring/jobs', {
+    await waitFor(() => expect(mockPost).toHaveBeenCalledWith('data-export-spring/jobs', {
       json: {
         exportTypeSpecificParameters: {
           eHoldingsExportConfig: {
@@ -53,7 +51,7 @@ describe('Given useExportPackageTitle', () => {
         },
         type: 'E_HOLDINGS',
       },
-    });
+    }));
   });
 
   describe('when export is successful', () => {
@@ -66,15 +64,13 @@ describe('Given useExportPackageTitle', () => {
     it('should call onSuccess callback', async () => {
       const onSuccess = jest.fn();
 
-      const { result, waitForNextUpdate } = renderHook(() => useExportPackageTitle({
+      const { result } = renderHook(() => useExportPackageTitle({
         onSuccess,
       }), { wrapper });
 
       result.current.doExport({ test: 'data' });
 
-      await waitForNextUpdate();
-
-      expect(onSuccess).toHaveBeenCalled();
+      await waitFor(() => expect(onSuccess).toHaveBeenCalled());
     });
   });
 
@@ -90,15 +86,13 @@ describe('Given useExportPackageTitle', () => {
     it('should call onError callback', async () => {
       const onError = jest.fn();
 
-      const { result, waitForNextUpdate } = renderHook(() => useExportPackageTitle({
+      const { result } = renderHook(() => useExportPackageTitle({
         onError,
       }), { wrapper });
 
       result.current.doExport({ test: 'data' });
 
-      await waitForNextUpdate();
-
-      expect(onError).toHaveBeenCalled();
+      await waitFor(() => expect(onError).toHaveBeenCalled());
     });
   });
 });

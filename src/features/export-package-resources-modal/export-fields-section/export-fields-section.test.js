@@ -1,7 +1,7 @@
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import ExportFieldsSection from './export-fields-section';
 
