@@ -3,7 +3,7 @@ import {
   render,
   cleanup,
   waitFor,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { createMemoryHistory } from 'history';
 

@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 
 import turnOffWarnings from './helpers/turn-off-warnings';
 import './helpers/monkey-patch-run';

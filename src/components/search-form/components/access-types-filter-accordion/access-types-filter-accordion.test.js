@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 import noop from 'lodash/noop';
 
 import AccessTypesFilterAccordion from './access-types-filter-accordion';

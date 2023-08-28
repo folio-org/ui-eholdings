@@ -2,7 +2,7 @@ import { Form } from 'react-final-form';
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import TitleNameField from './title-name-field';
 

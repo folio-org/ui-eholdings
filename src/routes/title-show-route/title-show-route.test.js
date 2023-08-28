@@ -5,7 +5,7 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { createMemoryHistory } from 'history';
 import Harness from '../../../test/jest/helpers/harness';
@@ -192,11 +192,7 @@ const renderTitleShowRoute = (props) => render(getTitleShowRoute(props));
 
 describe('Given TitleShowRoute', () => {
   beforeEach(() => {
-    mockClearCostPerUseData.mockClear();
-    mockCreateResource.mockClear();
-    mockGetCostPerUse.mockClear();
-    mockGetCustomPackages.mockClear();
-    mockGetTitle.mockClear();
+    jest.clearAllMocks();
   });
 
   afterEach(cleanup);
@@ -295,11 +291,9 @@ describe('Given TitleShowRoute', () => {
 
   describe('when component is unmounted', () => {
     it('should handle removeUpdateRequests', async () => {
-      await act(async () => {
-        const { unmount } = await renderTitleShowRoute();
+      const { unmount } = await renderTitleShowRoute();
 
-        unmount();
-      });
+      unmount();
 
       expect(mockClearCostPerUseData).toHaveBeenCalled();
     });

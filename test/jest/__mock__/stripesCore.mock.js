@@ -81,6 +81,10 @@ jest.mock('@folio/stripes/core', () => {
 
   const useStripes = () => STRIPES;
 
+  const useCallout = () => ({
+    sendCallout: jest.fn(),
+  });
+
   // eslint-disable-next-line react/prop-types
   const IfPermission = (props) => <>{props.children}</>;
 
@@ -95,6 +99,7 @@ jest.mock('@folio/stripes/core', () => {
     IfPermission,
     AppContextMenu,
     useStripes,
+    useCallout,
   };
 }, { virtual: true });
 

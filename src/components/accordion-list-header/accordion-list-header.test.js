@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import AccordionListHeader from './accordion-list-header';
 import { listTypes } from '../../constants';

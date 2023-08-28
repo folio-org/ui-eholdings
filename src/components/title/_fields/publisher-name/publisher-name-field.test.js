@@ -4,7 +4,7 @@ import noop from 'lodash/noop';
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import PublicationTypeField from './publisher-name-field';
 

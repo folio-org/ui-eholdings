@@ -6,7 +6,7 @@ import {
   cleanup,
   act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import SearchRoute from './search-route';
 import PackagesFilter from '../../components/search-form/components/packages-filter';

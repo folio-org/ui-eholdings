@@ -4,9 +4,8 @@ import noop from 'lodash/noop';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
 
 import { createMemoryHistory } from 'history';
 
@@ -549,13 +548,11 @@ describe('Given ResourceShowRoute', () => {
 
   describe('when component is unmounted', () => {
     it('should handle clearCostPerUseData', async () => {
-      await act(async () => {
-        const { unmount } = await renderResourceShowRoute({
-          clearCostPerUseData: mockClearCostPerUseData,
-        });
-
-        unmount();
+      const { unmount } = await renderResourceShowRoute({
+        clearCostPerUseData: mockClearCostPerUseData,
       });
+
+      unmount();
 
       expect(mockClearCostPerUseData).toHaveBeenCalled();
     });

@@ -1,26 +1,27 @@
 import {
   render,
   fireEvent,
-} from '@testing-library/react';
+} from '@folio/jest-config-stripes/testing-library/react';
+import { useCallout } from '@folio/stripes/core';
 
 import ExportPackageResourcesModal from './export-package-resources-modal';
 import { useExportPackageTitle } from '../../hooks';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockOnClose = jest.fn();
-const mockDoExport = jest.fn();
 const mockSendCallout = jest.fn();
+const mockDoExport = jest.fn();
 
 jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
-  useCallout: () => ({
-    sendCallout: mockSendCallout,
+  useCallout: jest.fn().mockReturnValue({
+    sendCallout: jest.fn(),
   }),
 }));
 
 jest.mock('../../hooks', () => ({
   useExportPackageTitle: jest.fn().mockReturnValue({
-    doExport: mockDoExport,
+    doExport: jest.fn(),
   }),
 }));
 
@@ -122,6 +123,9 @@ describe('Given ExportPackageResourcesModal', () => {
 
   describe('when export fails', () => {
     it('should show error message', () => {
+      useCallout.mockReturnValue({
+        sendCallout: mockSendCallout,
+      });
       useExportPackageTitle.mockImplementation(({ onError }) => ({
         doExport: mockDoExport.mockImplementation(() => onError()),
       }));
@@ -141,6 +145,9 @@ describe('Given ExportPackageResourcesModal', () => {
 
   describe('when export succeeds', () => {
     it('should show success message', () => {
+      useCallout.mockReturnValue({
+        sendCallout: mockSendCallout,
+      });
       useExportPackageTitle.mockImplementation(({ onSuccess }) => ({
         doExport: mockDoExport.mockImplementation(() => onSuccess({})),
       }));
