@@ -14,6 +14,7 @@
 * Leverage cookie-based authentication in all API requests. (UIEH-1345)
 * Fix some dropdown field using translations as values. (UIEH-1381)
 * *BREAKING* Bump `react` to `v18`. (UIEH-1384)
+* Unpin moment from `v2.24`; STRIPES-678 resolved long ago. Resolves CVE-2022-24785.
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 
