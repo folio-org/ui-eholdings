@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [9.0.0] IN PROGRESS
+## [9.0.0] (https://github.com/folio-org/ui-eholdings/tree/v9.0.0) (2023-10-13)
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
 * Titles tab: Add a Packages facet. (UIEH-1350)
