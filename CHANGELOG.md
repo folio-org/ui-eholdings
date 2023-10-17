@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [9.1.0] (IN PROGRESS)
+
+* Remove Bigtest tests. (UIEH-1390)
+
 ## [9.0.0] (https://github.com/folio-org/ui-eholdings/tree/v9.0.0) (2023-10-13)
 
 * Custom labels | Remove a dashes below labels. (UIEH-1361)
