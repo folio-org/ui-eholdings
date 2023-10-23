@@ -3,6 +3,7 @@
 ## [9.1.0] (IN PROGRESS)
 
 * Remove Bigtest tests. (UIEH-1390)
+* Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
 
 ## [9.0.0] (https://github.com/folio-org/ui-eholdings/tree/v9.0.0) (2023-10-13)
 
