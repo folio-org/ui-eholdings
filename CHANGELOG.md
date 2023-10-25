@@ -4,6 +4,7 @@
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
+* Fix deleting and then saving custom embargo. (UIEH-1394)
 
 ## [9.0.0] (https://github.com/folio-org/ui-eholdings/tree/v9.0.0) (2023-10-13)
 
