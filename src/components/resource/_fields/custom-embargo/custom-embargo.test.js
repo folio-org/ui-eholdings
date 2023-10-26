@@ -126,4 +126,19 @@ describe('Given CustomEmbargoFields', () => {
       expect(getByTestId('custom-embargo-value')).toBeDefined();
     });
   });
+
+  describe('when the user deleted the embargo period', () => {
+    it('should see the "Add custom embargo period" button', () => {
+      const { getByRole } = renderCustomEmbargoFields({
+        customEmbargoPeriod: [{ embargoUnit: 'Days', embargoValue: 33 }],
+      });
+
+      const deleteEmbargoBtn = getByRole('button', { name: 'ui-eholdings.resource.embargoPeriod.clear' });
+      fireEvent.click(deleteEmbargoBtn);
+
+      const addEmbargoBtn = getByRole('button', { name: 'ui-eholdings.resource.embargoPeriod.addCustom' });
+
+      expect(addEmbargoBtn).toBeDefined();
+    });
+  });
 });

@@ -176,7 +176,7 @@ export default class CustomEmbargoFields extends Component {
       initialValues,
     ];
 
-    return fields.value.length
+    return fields.value?.length
       ? this.renderInputs(...fieldsData)
       : this.renderAddButton(...fieldsData);
   }
