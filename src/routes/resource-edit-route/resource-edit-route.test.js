@@ -331,4 +331,26 @@ describe('Given ResourceEditRoute', () => {
       expect(mockUpdateResource).toHaveBeenCalled();
     });
   });
+
+  describe('when user clicks on Save & close button', () => {
+    it('should call updateResource with default embargo period', () => {
+      const defaultEmbargoPeriod = { embargoValue: 0 };
+
+      const { getByRole } = renderResourceEditRoute({
+        model: {
+          ...model,
+          isSelected: true,
+        },
+      });
+
+      const deleteEmbargoBtn = getByRole('button', { name: 'ui-eholdings.resource.embargoPeriod.clear' });
+      fireEvent.click(deleteEmbargoBtn);
+
+      fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdateResource).toHaveBeenCalledWith(expect.objectContaining({
+        customEmbargoPeriod: defaultEmbargoPeriod,
+      }));
+    });
+  });
 });

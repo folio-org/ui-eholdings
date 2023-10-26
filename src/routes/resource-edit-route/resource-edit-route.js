@@ -153,7 +153,7 @@ class ResourceEditRoute extends Component {
         url: customUrl,
         visibilityData: { isHidden: !isVisible },
         coverageStatement,
-        customEmbargoPeriod: customEmbargoPeriod[0] || defaultEmbargoPeriod,
+        customEmbargoPeriod: customEmbargoPeriod?.[0] || defaultEmbargoPeriod,
         proxy: { id: proxyId },
         accessTypeId: newAccessTypeId,
         userDefinedField1,
