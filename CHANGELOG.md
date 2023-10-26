@@ -4,6 +4,7 @@
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
+* Fix Create custom title > Packages dropdown list does not display with the label. (UIEH-1382)
 
 ## [9.0.1] (IN PROGRESS)
 
