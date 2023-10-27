@@ -156,7 +156,7 @@ const validateWithinPackageRange = (resourceDateRange, packageDateRange) => {
 const validateDateRange = (values, locale, packageDateRange) => {
   const errors = [];
 
-  values.forEach((dateRange, index) => {
+  values?.forEach((dateRange, index) => {
     const dateRangeErrors =
       validateDateFormat(dateRange, locale)
       || validateStartDateBeforeEndDate(dateRange)
