@@ -353,4 +353,22 @@ describe('Given ResourceEditRoute', () => {
       }));
     });
   });
+
+  describe('when user deletes last date range row and clicks on Save&close button', () => {
+    it('should call updateResource', () => {
+      const { getByRole } = renderResourceEditRoute({
+        model: {
+          ...model,
+          isSelected: true,
+        },
+      });
+
+      const deleteItem = getByRole('button', { name: 'stripes-components.deleteThisItem' });
+      fireEvent.click(deleteItem);
+
+      fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdateResource).toHaveBeenCalled();
+    });
+  });
 });

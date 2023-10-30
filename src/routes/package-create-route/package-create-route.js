@@ -38,7 +38,7 @@ export default class PackageCreateRoute extends Component {
   packageCreateSubmitted = (values) => {
     const attrs = {};
 
-    if (values.customCoverages[0]) {
+    if (values?.customCoverages?.[0]) {
       attrs.customCoverage = {
         beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
           moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
