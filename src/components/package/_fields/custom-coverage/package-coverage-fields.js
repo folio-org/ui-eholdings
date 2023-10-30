@@ -29,7 +29,7 @@ class PackageCoverageFields extends Component {
   validateDateRange = (values) => {
     const errorArray = [];
 
-    values.forEach(({ beginCoverage, endCoverage }) => {
+    values?.forEach(({ beginCoverage, endCoverage }) => {
       const errors = {};
 
       if (endCoverage && !moment.utc(endCoverage).isAfter(moment.utc(beginCoverage))) {

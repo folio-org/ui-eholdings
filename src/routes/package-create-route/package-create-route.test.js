@@ -164,4 +164,28 @@ describe('Given PackageCreateRoute', () => {
       expect(mockCreatePackage).toHaveBeenCalled();
     });
   });
+
+  describe('when user adds a name, adds and delete date rage and clicks on Save&close button', () => {
+    it('should call updateResource', () => {
+      const {
+        getByRole,
+        getByText,
+      } = renderPackageCreateRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+
+      const addCoverageSettingsButton = getByText('ui-eholdings.package.coverage.addDateRange');
+
+      fireEvent.click(addCoverageSettingsButton);
+
+      const deleteEmbargoBtn = getByRole('button', { name: 'stripes-components.deleteThisItem' });
+      fireEvent.click(deleteEmbargoBtn);
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockCreatePackage).toHaveBeenCalled();
+    });
+  });
 });
