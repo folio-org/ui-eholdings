@@ -209,7 +209,6 @@ const ResourceEditManagedTitle = ({
                       resourceIsCustom={false}
                       resourceSelected={managedResourceSelected}
                       isSelectInFlight={isSelectInFlight}
-                      handleToggleResourceHoldings={handleToggleResourceHoldings}
                     />
 
                     {model.isSelected && (
