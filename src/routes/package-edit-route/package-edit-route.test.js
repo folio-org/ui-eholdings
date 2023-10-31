@@ -322,6 +322,30 @@ describe('Given PackageEditRoute', () => {
     });
   });
 
+  describe('when date range in the "Coverage Settings" section is removed', () => {
+    describe('and user clicks Save&Close button', () => {
+      it('should update package with the empty customCoverage', () => {
+        const { getByRole } = renderPackageEditRoute({
+          model: {
+            ...model,
+            isSelected: true,
+            customCoverage: {
+              beginCoverage: '2023-10-30',
+              endCoverage: '2023-10-31',
+            },
+          },
+        });
+
+        fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
+        fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+        expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
+          customCoverage: {},
+        }));
+      });
+    });
+  });
+
   describe('when a custom package is deselected', () => {
     it('should call destroyPackage', () => {
       const { getByText } = renderPackageEditRoute();

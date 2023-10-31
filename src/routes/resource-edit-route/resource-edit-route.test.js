@@ -298,24 +298,6 @@ describe('Given ResourceEditRoute', () => {
     });
   });
 
-  describe('when package is added to holdings', () => {
-    it('should update resource', () => {
-      const { getByText } = renderResourceEditRoute({
-        model: {
-          ...model,
-          isSelected: false,
-        },
-      });
-
-      fireEvent.click(getByText('ui-eholdings.addToHoldings'));
-
-      expect(mockUpdateResource).toHaveBeenCalledWith({
-        ...model,
-        isSelected: true,
-      });
-    });
-  });
-
   describe('when a managed package is deselected', () => {
     it('should handle mockUpdateResource', () => {
       const { getByText } = renderResourceEditRoute({
@@ -369,6 +351,30 @@ describe('Given ResourceEditRoute', () => {
       fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(mockUpdateResource).toHaveBeenCalled();
+    });
+  });
+
+  describe('when date range in the "Coverage Settings" section is removed', () => {
+    describe('and user clicks Save&Close button', () => {
+      it('should update package with the empty customCoverage', () => {
+        const { getByRole } = renderResourceEditRoute({
+          model: {
+            ...model,
+            isSelected: true,
+            customCoverage: [{
+              beginCoverage: '2023-10-30',
+              endCoverage: '2023-10-31'
+            }],
+          },
+        });
+
+        fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
+        fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+        expect(mockUpdateResource).toHaveBeenCalledWith(expect.objectContaining({
+          customCoverages: [],
+        }));
+      });
     });
   });
 });

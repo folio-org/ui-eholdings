@@ -132,6 +132,7 @@ class ResourceEditRoute extends Component {
       }));
     } else if (values.isSelected && !values.customCoverages) {
       updateResource(Object.assign(model, {
+        customCoverages: [],
         isSelected: true,
       }));
     } else {
