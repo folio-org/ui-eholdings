@@ -124,6 +124,7 @@ class PackageEditRoute extends Component {
 
     model.isSelected = true;
     model.allowKbToAddTitles = true;
+    model.customCoverage = {};
     updatePackage(model);
   };
 
