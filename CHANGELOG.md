@@ -5,6 +5,10 @@
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
 
+## [9.0.2]  (IN PROGRESS)
+
+* The list of packages is no longer cut off in the modal window. (UIEH-1397)
+
 ## [9.0.1] (https://github.com/folio-org/ui-eholdings/tree/v9.0.1) (2023-11-03)
 
 * Fix deleting and then saving custom embargo. (UIEH-1394)

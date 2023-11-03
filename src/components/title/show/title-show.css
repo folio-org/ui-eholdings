@@ -1,3 +1,7 @@
 .add-to-custom-package-button {
   margin: 1rem 0 0;
 }
+
+.addTitleModalContent {
+  overflow: visible;
+}
