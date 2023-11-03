@@ -11,8 +11,6 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
-import css from './package-select-field.css';
-
 function validate(value) {
   return value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
 }
@@ -35,13 +33,13 @@ const PackageSelectField = ({
   };
 
   return (
-    <div
-      data-test-eholdings-package-select-field
-      className={css.packageSelectFieldContainer}
-    >
+    <div data-test-eholdings-package-select-field>
       <Field
         name="packageId"
         component={Selection}
+        popper={{
+          portal: document.getElementById('ModuleContainer'),
+        }}
         label={label}
         ariaLabel={label}
         validate={validate}
@@ -53,14 +51,6 @@ const PackageSelectField = ({
         data-testid="package-select-field"
         loading={loadingOptions}
         loadingMessage={<Icon icon="spinner-ellipsis" />}
-        tether={{
-          constraints: [
-            {
-              to: 'window',
-              attachment: 'together',
-            },
-          ],
-        }}
       />
     </div>
   );
