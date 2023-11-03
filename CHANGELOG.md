@@ -4,12 +4,12 @@
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
-* Fix Create custom title > Packages dropdown list does not display with the label. (UIEH-1382)
-* Fix deleting last date range when creating a new package or editing title. (UIEH-1383)
 
-## [9.0.1] (IN PROGRESS)
+## [9.0.1] (https://github.com/folio-org/ui-eholdings/tree/v9.0.1) (2023-11-03)
 
 * Fix deleting and then saving custom embargo. (UIEH-1394)
+* Fix Create custom title > Packages dropdown list does not display with the label. (UIEH-1382)
+* Fix deleting last date range when creating a new package or editing title. (UIEH-1383)
 
 ## [9.0.0] (https://github.com/folio-org/ui-eholdings/tree/v9.0.0) (2023-10-13)
 
