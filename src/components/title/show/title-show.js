@@ -501,6 +501,7 @@ class TitleShow extends Component {
           id="eholdings-custom-package-modal"
           wrappingElement="form"
           enforceFocus={false}
+          contentClass={styles.addTitleModalContent}
           footer={(
             <ModalFooter>
               <Button
