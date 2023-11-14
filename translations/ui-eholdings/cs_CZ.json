@@ -446,7 +446,7 @@
     "usageConsolidation.summary.exportTitles.error.timeout": "Časový limit exportu vypršel. Zkuste to znovu.",
     "usageConsolidation.summary.exportTitles.limit": "Překračuje limit 200 000 exportních názvů",
     "usageConsolidation.infoPopover.content": "Přístup k informacím o nákladech a využití balíčků a názvů, které jsou součástí holdingů vaší knihovny.",
-    "usageConsolidation.infoPopover.buttonLabel": "Zjistěte více",
+    "usageConsolidation.infoPopover.buttonLabel": "Zjistit více",
     "usageConsolidation.fullTextRequestUsageTable": "Fulltextové žádanky podle využití platformy",
     "usageConsolidation.fullTextRequestUsageTable.header.platform": "Platforma",
     "usageConsolidation.fullTextRequestUsageTable.header.jan": "Led",
