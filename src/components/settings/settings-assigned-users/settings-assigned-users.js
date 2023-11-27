@@ -95,7 +95,7 @@ const SettingsAssignedUsers = ({
               </Button>
             )}
           >
-            <span>[find-user-plugin is not available]</span>
+            <span><FormattedMessage id="ui-eholdings.settings.assignedUsers.noPluginFindUser" /></span>
           </Pluggable>
         </Col>
       </IfPermission>

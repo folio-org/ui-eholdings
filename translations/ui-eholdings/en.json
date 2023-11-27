@@ -341,6 +341,7 @@
     "settings.accessStatusTypes.delete.error": "This access status type has already been deleted.",
     "settings.assignedUsers": "Assigned users",
     "settings.assignedUsers.pluginButtonMessage": "Assign users",
+    "settings.assignedUsers.no-plugin-find-user": "[find-user plugin is not available]",
     "settings.assignedUsers.list.name": "Name",
     "settings.assignedUsers.list.patronGroup": "Patron group",
     "settings.assignedUsers.list.unassignUser": "Unassign user",
