@@ -7,8 +7,8 @@ import Harness from '../../../../test/jest/helpers/harness';
 
 import SettingsAssignedUsers from './settings-assigned-users';
 
-jest.mock('@folio/stripes-core', () => ({
-  ...jest.requireActual('@folio/stripes-core'),
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
   Pluggable: ({ selectUser, renderTrigger }) => (
     renderTrigger({ onClick: selectUser })
   ),

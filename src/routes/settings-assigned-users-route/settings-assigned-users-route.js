@@ -4,11 +4,17 @@ import {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Icon } from '@folio/stripes/components';
-import { useStripes } from '@folio/stripes/core';
+import {
+  useStripes,
+  TitleManager,
+} from '@folio/stripes/core';
 
 import View from '../../components/settings/settings-assigned-users';
 import Toaster from '../../components/toaster';
@@ -43,6 +49,7 @@ const SettingsAssignedUsersRoute = ({
   history,
 }) => {
   const stripes = useStripes();
+  const intl = useIntl();
   const hasPermToView = stripes.hasPerm('ui-eholdings.settings.assignedUser.view');
 
   if (!hasPermToView) {
@@ -119,7 +126,10 @@ const SettingsAssignedUsersRoute = ({
   const assignedUsersLoaded = assignedUsers.hasLoaded || assignedUsers.hasFailed;
 
   return (
-    <>
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+      record={intl.formatMessage({ id: 'ui-eholdings.settings.assignedUsers' })}
+    >
       {assignedUsersLoaded
         ? (
           <View
@@ -139,7 +149,7 @@ const SettingsAssignedUsersRoute = ({
         toasts={toasts}
         position="bottom"
       />
-    </>
+    </TitleManager>
   );
 };
 

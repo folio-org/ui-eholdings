@@ -4,6 +4,7 @@
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
+* Improve HTML page titles for Assigned Users and Usage Consolidation Settings pages. (UIEH-1387)
 
 ## [9.0.2] (https://github.com/folio-org/ui-eholdings/tree/v9.0.2) (2023-11-09)
 

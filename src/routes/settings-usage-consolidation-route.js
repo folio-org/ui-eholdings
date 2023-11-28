@@ -10,14 +10,14 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { useIntl } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   useStripes,
+  TitleManager,
 } from '@folio/stripes/core';
-import {
-  Icon,
-} from '@folio/stripes/components';
+import { Icon } from '@folio/stripes/components';
 
 import View from '../components/settings/settings-usage-consolidation';
 
@@ -88,6 +88,7 @@ const SettingsUsageConsolidationRoute = ({
   usageConsolidation,
   history,
 }) => {
+  const intl = useIntl();
   const [formData, setFormData] = useState({});
   const [usageConsolidationWasCleared, setUsageConsolidationWasCleared] = useState({});
   const prevKbId = usePrevious(kbId);
@@ -146,31 +147,10 @@ const SettingsUsageConsolidationRoute = ({
     }
 
     getUcCredentialsClientId();
-  }, [getUcCredentialsClientId, hasPermToView]);
-
-  useEffect(() => {
-    if (!hasPermToView) {
-      return;
-    }
-
     getUcCredentialsClientSecret();
-  }, [getUcCredentialsClientSecret, hasPermToView]);
-
-  useEffect(() => {
-    if (!hasPermToView) {
-      return;
-    }
-
     getCurrencies();
-  }, [getCurrencies, hasPermToView]);
-
-  useEffect(() => {
-    if (!hasPermToView) {
-      return;
-    }
-
     getUcCredentials();
-  }, [getUcCredentials, hasPermToView]);
+  }, [getUcCredentialsClientId, getUcCredentialsClientSecret, getCurrencies, getUcCredentials, hasPermToView]);
 
   const updateUsageConsolidation = useCallback(params => {
     const {
@@ -239,17 +219,25 @@ const SettingsUsageConsolidationRoute = ({
     }
   };
 
-  return isLoading
-    ? <Icon icon="spinner-ellipsis" />
-    : (
-      <View
-        ucCredentials={ucCredentials}
-        usageConsolidation={usageConsolidation}
-        onSubmit={onSubmit}
-        clearUsageConsolidationErrors={clearUsageConsolidationErrors}
-        currencies={currencies}
-      />
-    );
+  return (
+    <TitleManager
+      page={intl.formatMessage({ id: 'ui-eholdings.label.settings' })}
+      record={intl.formatMessage({ id: 'ui-eholdings.settings.usageConsolidation' })}
+    >
+      {isLoading
+        ? <Icon icon="spinner-ellipsis" />
+        : (
+          <View
+            ucCredentials={ucCredentials}
+            usageConsolidation={usageConsolidation}
+            onSubmit={onSubmit}
+            clearUsageConsolidationErrors={clearUsageConsolidationErrors}
+            currencies={currencies}
+          />
+        )
+      }
+    </TitleManager>
+  );
 };
 
 SettingsUsageConsolidationRoute.propTypes = propTypes;
