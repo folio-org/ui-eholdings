@@ -8,19 +8,19 @@ import {
 
 const propTypes = {
   disabled: PropTypes.bool.isRequired,
-  reset: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 const EditPaneFooter = ({
   disabled,
-  reset,
+  onCancel,
 }) => {
   const cancelButton = (
     <Button
       data-test-eholdings-package-edit-cancel-button
       buttonStyle="default mega"
       disabled={disabled}
-      onClick={reset}
+      onClick={onCancel}
       marginBottom0
     >
       <FormattedMessage id="stripes-components.cancel" />

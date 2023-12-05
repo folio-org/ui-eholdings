@@ -51,15 +51,18 @@ class PackageCreate extends Component {
 
   createFormRef = createRef();
 
-  getFooter = (pristine, reset) => {
-    const { request } = this.props;
+  getFooter = (pristine) => {
+    const {
+      request,
+      onCancel,
+    } = this.props;
 
     const cancelButton = (
       <Button
         data-test-eholdings-package-create-cancel-button
         buttonStyle="default mega"
         disabled={request.isPending || pristine}
-        onClick={reset}
+        onClick={onCancel}
         marginBottom0
       >
         <FormattedMessage id="stripes-components.cancel" />
@@ -122,7 +125,7 @@ class PackageCreate extends Component {
           decorators={[focusOnErrors]}
           mutators={{ ...arrayMutators }}
           onSubmit={onSubmit}
-          render={({ handleSubmit, pristine, form: { reset } }) => (
+          render={({ handleSubmit, pristine, }) => (
             <div
               data-test-eholdings-package-create
               data-testid="data-test-eholdings-package-create"
@@ -145,7 +148,7 @@ class PackageCreate extends Component {
                     defaultWidth="fill"
                     paneTitle={paneTitle}
                     firstMenu={this.getFirstMenu()}
-                    footer={this.getFooter(pristine, reset)}
+                    footer={this.getFooter(pristine)}
                   >
                     <div className={styles['package-create-form-container']}>
                       <DetailsViewSection

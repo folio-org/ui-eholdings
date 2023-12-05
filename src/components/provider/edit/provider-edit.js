@@ -35,15 +35,18 @@ export default class ProviderEdit extends Component {
 
   editFormRef = createRef();
 
-  getFooter = (pristine, reset) => {
-    const { model } = this.props;
+  getFooter = (pristine) => {
+    const {
+      model,
+      onCancel,
+    } = this.props;
 
     const cancelButton = (
       <Button
         data-test-eholdings-provider-edit-cancel-button
         buttonStyle="default mega"
         disabled={model.update.isPending || pristine}
-        onClick={reset}
+        onClick={onCancel}
         marginBottom0
       >
         <FormattedMessage id="stripes-components.cancel" />
@@ -146,7 +149,7 @@ export default class ProviderEdit extends Component {
               proxyId: model.proxy.id?.toLowerCase(),
               providerTokenValue: model.providerToken.value
             }}
-            render={({ handleSubmit, pristine, form: { reset } }) => (
+            render={({ handleSubmit, pristine }) => (
               <>
                 <Toaster
                   toasts={processErrors(model)}
@@ -162,7 +165,7 @@ export default class ProviderEdit extends Component {
                     model={model}
                     key={model.id}
                     paneTitle={model.name}
-                    footer={this.getFooter(pristine, reset)}
+                    footer={this.getFooter(pristine)}
                     bodyContent={this.renderBodyContent()}
                     onCancel={onCancel}
                   />

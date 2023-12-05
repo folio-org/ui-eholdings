@@ -130,15 +130,18 @@ export default class ResourceEdit extends Component {
     });
   }
 
-  getFooter = (pristine, reset) => {
-    const { model } = this.props;
+  getFooter = (pristine) => {
+    const {
+      model,
+      onCancel,
+    } = this.props;
 
     const cancelButton = (
       <Button
         data-test-eholdings-provider-edit-cancel-button
         buttonStyle="default mega"
         disabled={model.update.isPending || model.destroy.isPending || pristine}
-        onClick={reset}
+        onClick={onCancel}
         marginBottom0
       >
         <FormattedMessage id="stripes-components.cancel" />
