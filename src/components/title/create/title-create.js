@@ -71,15 +71,18 @@ class TitleCreate extends Component {
     );
   };
 
-  getFooter = (pristine, reset) => {
-    const { request } = this.props;
+  getFooter = (pristine) => {
+    const {
+      request,
+      onCancel,
+    } = this.props;
 
     const cancelButton = (
       <Button
         data-test-eholdings-title-create-cancel-button
         buttonStyle="default mega"
         disabled={request.isPending || pristine}
-        onClick={reset}
+        onClick={onCancel}
         marginBottom0
       >
         <FormattedMessage id="stripes-components.cancel" />
@@ -140,7 +143,7 @@ class TitleCreate extends Component {
             }}
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
-            render={({ handleSubmit, pristine, form: { reset } }) => (
+            render={({ handleSubmit, pristine }) => (
               <form
                 ref={this.createFormRef}
                 onSubmit={handleSubmit}
@@ -151,7 +154,7 @@ class TitleCreate extends Component {
                     defaultWidth="fill"
                     paneTitle={paneTitle}
                     firstMenu={this.renderFirstMenu()}
-                    footer={this.getFooter(pristine, reset)}
+                    footer={this.getFooter(pristine)}
                   >
                     <div className={styles['title-create-form-container']}>
                       <DetailsViewSection

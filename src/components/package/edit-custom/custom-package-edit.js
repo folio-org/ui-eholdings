@@ -187,11 +187,11 @@ const CustomPackageEdit = ({
     );
   };
 
-  const getFooter = (pristine, reset) => {
+  const getFooter = (pristine) => {
     return (
       <EditPaneFooter
         disabled={model.update.isPending || pristine}
-        reset={reset}
+        onCancel={onCancel}
       />
     );
   };
@@ -206,7 +206,7 @@ const CustomPackageEdit = ({
         decorators={[focusOnErrors]}
         mutators={{ ...arrayMutators }}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+        render={({ handleSubmit, pristine, form: { change } }) => (
           <>
             <Toaster
               toasts={processErrors(model)}
@@ -226,7 +226,7 @@ const CustomPackageEdit = ({
                 sections={sections}
                 ariaRole="tablist"
                 bodyAriaRole="tab"
-                footer={getFooter(pristine, reset)}
+                footer={getFooter(pristine)}
                 bodyContent={(
                   <>
                     <HoldingStatus

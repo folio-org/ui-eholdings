@@ -122,6 +122,10 @@ describe('Given ManagedPackageEdit', () => {
   const mockOnSubmit = jest.fn();
   const mockAddPackageToHoldings = jest.fn();
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render form to edit managed package', () => {
     const { getByTestId } = renderManagedPackageEdit();
 
@@ -185,7 +189,7 @@ describe('Given ManagedPackageEdit', () => {
 
         fireEvent.click(addAllTitlesToHoldingsActionButton);
 
-        expect(mockAddPackageToHoldings).toBeCalled();
+        expect(mockAddPackageToHoldings).toHaveBeenCalled();
       });
     });
   });
@@ -277,31 +281,32 @@ describe('Given ManagedPackageEdit', () => {
   describe('when editing a field', () => {
     it('should enable form buttons', () => {
       const {
-        getByText,
+        getByRole,
         getByLabelText,
       } = renderManagedPackageEdit();
 
       fireEvent.change(getByLabelText('ui-eholdings.date.startDate'), { target: { value: '01/01/2021' } });
       fireEvent.change(getByLabelText('ui-eholdings.date.endDate'), { target: { value: '01/31/2021' } });
 
-      expect(getByText('stripes-components.saveAndClose')).toBeEnabled();
-      expect(getByText('stripes-components.cancel')).toBeEnabled();
+      expect(getByRole('button', { name: 'stripes-components.saveAndClose' })).toBeEnabled();
+      expect(getByRole('button', { name: 'stripes-components.cancel' })).toBeEnabled();
     });
 
     describe('when click on Cancel button', () => {
-      it('should discard all changes', () => {
+      it('should open redirect confirmation modal', () => {
         const {
-          getByText,
+          getByRole,
           getByLabelText,
-        } = renderManagedPackageEdit();
+        } = renderManagedPackageEdit({
+          onCancel: mockOnCancel,
+        });
 
         fireEvent.change(getByLabelText('ui-eholdings.date.startDate'), { target: { value: '01/01/2021' } });
         fireEvent.change(getByLabelText('ui-eholdings.date.endDate'), { target: { value: '01/31/2021' } });
 
-        fireEvent.click(getByText('stripes-components.cancel'));
+        fireEvent.click(getByRole('button', { name: 'stripes-components.cancel' }));
 
-        expect(getByLabelText('ui-eholdings.date.startDate').value).toBe('');
-        expect(getByLabelText('ui-eholdings.date.endDate').value).toBe('');
+        expect(mockOnCancel).toHaveBeenCalled();
       });
     });
   });
@@ -316,7 +321,7 @@ describe('Given ManagedPackageEdit', () => {
 
       fireEvent.click(closeButton);
 
-      expect(mockOnCancel).toBeCalled();
+      expect(mockOnCancel).toHaveBeenCalled();
     });
 
     describe('when some fields were edited', () => {
@@ -324,6 +329,7 @@ describe('Given ManagedPackageEdit', () => {
         const {
           getByLabelText,
           getByText,
+          getByRole,
         } = renderManagedPackageEdit({
           model: {
             ...model,
@@ -336,7 +342,7 @@ describe('Given ManagedPackageEdit', () => {
 
         fireEvent.change(getByLabelText('ui-eholdings.date.startDate'), { target: { value: '01/01/2021' } });
 
-        fireEvent.click(getByText('stripes-components.cancel'));
+        fireEvent.click(getByRole('button', { name: 'stripes-components.cancel' }));
 
         expect(getByText('NavigationModal component')).toBeDefined();
       });
@@ -346,7 +352,7 @@ describe('Given ManagedPackageEdit', () => {
   describe('when submit changes', () => {
     it('should handle onSubmit', () => {
       const {
-        getByText,
+        getByRole,
         getByLabelText,
       } = renderManagedPackageEdit({
         onSubmit: mockOnSubmit,
@@ -355,9 +361,9 @@ describe('Given ManagedPackageEdit', () => {
       fireEvent.change(getByLabelText('ui-eholdings.date.startDate'), { target: { value: '01/01/2021' } });
       fireEvent.change(getByLabelText('ui-eholdings.date.endDate'), { target: { value: '01/31/2021' } });
 
-      fireEvent.click(getByText('stripes-components.saveAndClose'));
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
-      expect(mockOnSubmit).toBeCalled();
+      expect(mockOnSubmit).toHaveBeenCalled();
     });
   });
 
@@ -402,7 +408,7 @@ describe('Given ManagedPackageEdit', () => {
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.removeFromHoldings' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
 
-      expect(mockOnSubmit).toBeCalled();
+      expect(mockOnSubmit).toHaveBeenCalled();
     });
   });
 

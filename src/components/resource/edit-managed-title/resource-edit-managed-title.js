@@ -179,7 +179,7 @@ const ResourceEditManagedTitle = ({
         }}
         initialValuesEqual={() => true}
         initialValues={initialValues}
-        render={({ handleSubmit, pristine, form: { change, reset } }) => (
+        render={({ handleSubmit, pristine, form: { change } }) => (
           <>
             <Toaster
               toasts={processErrors(model)}
@@ -197,7 +197,7 @@ const ResourceEditManagedTitle = ({
                 paneSub={model.package.name}
                 handleExpandAll={handleExpandAll}
                 sections={sections}
-                footer={getFooter(pristine, reset)}
+                footer={getFooter(pristine)}
                 onCancel={onCancel}
                 bodyContent={(
                   <>

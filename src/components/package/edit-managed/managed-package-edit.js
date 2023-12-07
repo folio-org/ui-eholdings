@@ -215,11 +215,11 @@ const ManagedPackageEdit = ({
     );
   };
 
-  const getFooter = (pristine, reset) => {
+  const getFooter = (pristine) => {
     return (
       <EditPaneFooter
         disabled={model.update.isPending || pristine}
-        reset={reset}
+        onCancel={onCancel}
       />
     );
   };
@@ -237,7 +237,7 @@ const ManagedPackageEdit = ({
         render={({
           handleSubmit,
           pristine,
-          form: { change, reset },
+          form: { change },
         }) => (
           <>
             <Toaster
@@ -257,7 +257,7 @@ const ManagedPackageEdit = ({
                   actionMenu={getActionMenu()}
                   handleExpandAll={toggleAllSections}
                   sections={sections}
-                  footer={getFooter(pristine, reset)}
+                  footer={getFooter(pristine)}
                   bodyContent={(
                     <>
                       <HoldingStatus
