@@ -73,7 +73,7 @@
 
 .error {
   border-color: var(--error);
-  background-color: color(var(--error, #600) tint(75%));
+  background-color: oklch(from var(--error) 85% calc(c - 0.12) h);
 }
 
 .warn {
@@ -82,7 +82,7 @@
 
 .success {
   border-color: var(--success);
-  background-color: color(var(--success, #060) tint(75%));
+  background-color: oklch(from var(--success) 87% calc(c - 0.12) h);
 }
 
 .closeIcon {
