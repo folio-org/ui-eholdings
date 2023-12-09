@@ -156,7 +156,7 @@
     "label.name.isRequired": "Název *",
     "label.sortOptions": "Možnosti seřazení",
     "label.selectionStatus": "Stav výběru",
-    "label.search": "Vyhledávání",
+    "label.search": "Vyhledat",
     "label.accordionList": "Nalezených záznamů",
     "label.identifiers": "Identifikátory",
     "label.removeItem": "Odebrat {item}",
@@ -233,7 +233,7 @@
     "search.searchAndFilter": "Hledat a filtrovat",
     "search.enterQuery": "Chcete-li zobrazit výsledky vyhledávání, zadejte dotaz.",
     "search.searchType": "Vyhledat {searchType}",
-    "search.searchLink": "hledat {type}",
+    "search.searchLink": "vyhledat {type}",
     "date.present": "Současnost",
     "date.startDate": "Datum zahájení",
     "date.endDate": "Datum ukončení",
@@ -400,7 +400,7 @@
     "resource.embargoUnit.Years": "{value} rok(y)",
     "addPackageToHoldings": "Přidat balíček do holdingů",
     "permission.settings.custom-labels.view": "Nastavení (eholdingy): Lze zobrazit vlastní štítky",
-    "filter.search": "Vyhledávání",
+    "filter.search": "Vyhledat",
     "label.tags": "Štítky: {tags}",
     "agreements.unlink": "Odpojit smlouvu od tohoto záznamu.",
     "agreements.unassignModal.header": "Zrušit přiřazení smlouvy z tohoto záznamu",
@@ -598,5 +598,6 @@
     "filter.pubType.book_series": "Knižní série",
     "filter.pubType.streaming_audio": "Streamovaný zvuk",
     "filter.pubType.streaming_video": "Streamované video",
-    "filter.pubType.thesis_dissertation": "Diplomová a disertační práce"
+    "filter.pubType.thesis_dissertation": "Diplomová a disertační práce",
+    "settings.assignedUsers.noPluginFindUser": "[plugin pro vyhledání uživatele není k dispozici]"
 }

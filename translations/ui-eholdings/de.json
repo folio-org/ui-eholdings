@@ -598,5 +598,6 @@
     "filter.pubType.book_series": "Buchreihe",
     "filter.pubType.streaming_audio": "Streaming (Audio)",
     "filter.pubType.streaming_video": "Streaming (Video)",
-    "filter.pubType.thesis_dissertation": "Diplomarbeit & Dissertation"
+    "filter.pubType.thesis_dissertation": "Diplomarbeit & Dissertation",
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
 }
