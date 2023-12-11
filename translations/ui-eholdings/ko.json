@@ -598,5 +598,6 @@
     "filter.pubType.book_series": "북 시리즈",
     "filter.pubType.streaming_audio": "스트리밍 오디오",
     "filter.pubType.streaming_video": "스트리밍 비디오",
-    "filter.pubType.thesis_dissertation": "학위논문"
+    "filter.pubType.thesis_dissertation": "학위논문",
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
 }

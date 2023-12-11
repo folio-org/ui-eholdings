@@ -598,5 +598,6 @@
     "filter.pubType.book_series": "图书丛编",
     "filter.pubType.streaming_audio": "流媒体音频",
     "filter.pubType.streaming_video": "流媒体视频",
-    "filter.pubType.thesis_dissertation": "学位论文"
+    "filter.pubType.thesis_dissertation": "学位论文",
+    "settings.assignedUsers.noPluginFindUser": "[查找用户插件不可用]"
 }
