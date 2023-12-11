@@ -6,6 +6,7 @@
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
 * Improve HTML page titles for Assigned Users and Usage Consolidation Settings pages. (UIEH-1387)
 * Edit eholdings record (provider/package/title) > Cancel button does not work in same way as other apps Cancel button. (UIEH-1360)
+* Refactor CSS away from `color()` function. (UIEH-1402)
 
 ## [9.0.2] (https://github.com/folio-org/ui-eholdings/tree/v9.0.2) (2023-11-09)
 
