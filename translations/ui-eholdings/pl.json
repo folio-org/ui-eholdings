@@ -568,7 +568,7 @@
     "exportPackageResources.fields.title.isbn_online": "ISBN_Online",
     "exportPackageResources.fields.title.subjects": "Subjects",
     "exportPackageResources.fields.title.peerReviewed": "Peer reviewed",
-    "exportPackageResources.fields.title.description": "Description",
+    "exportPackageResources.fields.title.description": "Opis",
     "exportPackageResources.fields.title.customLabel": "Custom label",
     "exportPackageResources.fields.title.agreements": "Agreements",
     "exportPackageResources.fields.title.notes": "Notes",
