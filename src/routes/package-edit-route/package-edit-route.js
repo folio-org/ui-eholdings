@@ -2,11 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import isEqual from 'lodash/isEqual';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-
+import { dayjs } from '@folio/stripes/components';
 import View from '../../components/package/package-edit';
 
 import {
@@ -135,8 +134,8 @@ class PackageEditRoute extends Component {
     let endCoverage = '';
 
     if (values.customCoverages[0]) {
-      beginCoverage = !values.customCoverages[0].beginCoverage ? '' : moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
-      endCoverage = !values.customCoverages[0].endCoverage ? '' : moment.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
+      beginCoverage = !values.customCoverages[0].beginCoverage ? '' : dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
+      endCoverage = !values.customCoverages[0].endCoverage ? '' : dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
     }
 
     model.customCoverage = {

@@ -4,7 +4,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 import noop from 'lodash/noop';
 
 import { useStripes } from '@folio/stripes/core';
@@ -13,6 +12,7 @@ import {
   Headline,
   InfoPopover,
   Spinner,
+  dayjs,
 } from '@folio/stripes/components';
 
 import Toaster from '../../../components/toaster';
@@ -67,7 +67,7 @@ const UsageConsolidationAccordion = ({
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
 
   const filtersInitialState = {
-    year: moment().year(),
+    year: dayjs().year(),
     platformType: usageConsolidation.data.platformType,
   };
 

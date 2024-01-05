@@ -1,12 +1,8 @@
 import {
   FormattedMessage,
 } from 'react-intl';
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
 
-import { FormattedDate } from '@folio/stripes/components';
-
-const moment = extendMoment(Moment);
+import { FormattedDate, dayjs, DayRange } from '@folio/stripes/components';
 
 /**
    * Validator to ensure begin date is present and entered dates are valid
@@ -14,11 +10,11 @@ const moment = extendMoment(Moment);
    * @returns {} - an error object if errors are found, or `undefined` otherwise
    */
 const validateDateFormat = (dateRange, locale) => {
-  moment.locale(locale);
-  const dateFormat = moment.localeData()._longDateFormat.L;
+  dayjs.locale(locale);
+  const dateFormat = dayjs.localeData().longDateFormat('L');
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
 
-  if (!dateRange.beginCoverage || !moment.utc(dateRange.beginCoverage).isValid()) {
+  if (!dateRange.beginCoverage || !dayjs.utc(dateRange.beginCoverage).isValid()) {
     return { beginCoverage: message };
   }
 
@@ -33,7 +29,7 @@ const validateDateFormat = (dateRange, locale) => {
 const validateStartDateBeforeEndDate = (dateRange) => {
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
 
-  if (dateRange.endCoverage && moment.utc(dateRange.beginCoverage).isAfter(moment.utc(dateRange.endCoverage))) {
+  if (dateRange.endCoverage && dayjs.utc(dateRange.beginCoverage).isAfter(dayjs.utc(dateRange.endCoverage))) {
     return { beginCoverage: message };
   }
 
@@ -49,11 +45,11 @@ const validateStartDateBeforeEndDate = (dateRange) => {
  * @returns {} - an error object if errors are found, or `undefined` otherwise
  */
 const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
-  const present = moment.utc('9999-09-09T05:00:00.000Z');
+  const present = dayjs.utc('9999-09-09T05:00:00.000Z');
 
-  const beginCoverageDate = moment.utc(dateRange.beginCoverage);
-  const endCoverageDate = dateRange.endCoverage ? moment.utc(dateRange.endCoverage) : present;
-  const coverageRange = moment.range(beginCoverageDate, endCoverageDate);
+  const beginCoverageDate = dayjs.utc(dateRange.beginCoverage);
+  const endCoverageDate = dateRange.endCoverage ? dayjs.utc(dateRange.endCoverage) : present;
+  const coverageRange = dayjs.range(beginCoverageDate, endCoverageDate);
 
   for (let overlapIndex = 0, len = customCoverages.length; overlapIndex < len; overlapIndex++) {
     const overlapRange = customCoverages[overlapIndex];
@@ -63,9 +59,9 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
       continue; // eslint-disable-line no-continue
     }
 
-    const overlapCoverageBeginDate = moment.utc(overlapRange.beginCoverage);
-    const overlapCoverageEndDate = overlapRange.endCoverage ? moment.utc(overlapRange.endCoverage) : present;
-    const overlapCoverageRange = moment.range(overlapCoverageBeginDate, overlapCoverageEndDate);
+    const overlapCoverageBeginDate = dayjs.utc(overlapRange.beginCoverage);
+    const overlapCoverageEndDate = overlapRange.endCoverage ? dayjs.utc(overlapRange.endCoverage) : present;
+    const overlapCoverageRange = dayjs.range(overlapCoverageBeginDate, overlapCoverageEndDate);
 
     const startDate =
       <FormattedDate
@@ -109,16 +105,16 @@ const validateWithinPackageRange = (resourceDateRange, packageDateRange) => {
     beginCoverage: packageBeginCoverage,
     endCoverage: packageEndCoverage
   } = packageDateRange;
-  // javascript/moment has no mechanism for "infinite", so we
+  // javascript/dayjs has no mechanism for "infinite", so we
   // use an absurd future date to represent the concept of "present"
-  const present = moment.utc('9999-09-09T05:00:00.000Z');
+  const present = dayjs.utc('9999-09-09T05:00:00.000Z');
   if (packageBeginCoverage) {
-    const beginCoverageDate = moment.utc(resourceDateRange.beginCoverage);
-    const endCoverageDate = resourceDateRange.endCoverage ? moment.utc(resourceDateRange.endCoverage) : present;
+    const beginCoverageDate = dayjs.utc(resourceDateRange.beginCoverage);
+    const endCoverageDate = resourceDateRange.endCoverage ? dayjs.utc(resourceDateRange.endCoverage) : present;
 
-    const packageBeginCoverageDate = moment.utc(packageBeginCoverage);
-    const packageEndCoverageDate = packageEndCoverage ? moment.utc(packageEndCoverage) : moment.utc();
-    const packageRange = moment.range(packageBeginCoverageDate, packageEndCoverageDate);
+    const packageBeginCoverageDate = dayjs.utc(packageBeginCoverage);
+    const packageEndCoverageDate = packageEndCoverage ? dayjs.utc(packageEndCoverage) : dayjs.utc();
+    const packageRange = new DayRange(packageBeginCoverageDate, packageEndCoverageDate);
 
     const startDate =
       <FormattedDate

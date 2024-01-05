@@ -7,7 +7,6 @@ import {
   injectIntl,
 } from 'react-intl';
 
-import moment from 'moment';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -15,6 +14,7 @@ import {
   RepeatableField,
   Col,
   Row,
+  dayjs,
 } from '@folio/stripes/components';
 import {
   BACKEND_DATE_STANDARD,
@@ -32,7 +32,7 @@ class PackageCoverageFields extends Component {
     values?.forEach(({ beginCoverage, endCoverage }) => {
       const errors = {};
 
-      if (endCoverage && !moment.utc(endCoverage).isAfter(moment.utc(beginCoverage))) {
+      if (endCoverage && !dayjs.utc(endCoverage).isAfter(dayjs.utc(beginCoverage))) {
         errors.beginCoverage = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate" />;
       }
 
@@ -44,11 +44,11 @@ class PackageCoverageFields extends Component {
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
-    moment.locale(intl.locale);
-    const dateFormat = moment.localeData()._longDateFormat.L;
+    dayjs.locale(intl.locale);
+    const dateFormat = dayjs.localeData().longDateFormat('L');
     let errors;
 
-    if (value && !moment.utc(value).isValid()) {
+    if (value && !dayjs.utc(value).isValid()) {
       errors = (
         <FormattedMessage
           id="ui-eholdings.validate.errors.dateRange.format"
