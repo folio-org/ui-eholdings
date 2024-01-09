@@ -2,7 +2,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
-import { FormattedDate, dayjs, DayRange } from '@folio/stripes/components';
+import { FormattedDate, dayjs, DayRange, getLocaleDateFormat } from '@folio/stripes/components';
 
 /**
    * Validator to ensure begin date is present and entered dates are valid
@@ -10,8 +10,8 @@ import { FormattedDate, dayjs, DayRange } from '@folio/stripes/components';
    * @returns {} - an error object if errors are found, or `undefined` otherwise
    */
 const validateDateFormat = (dateRange, locale) => {
-  dayjs.locale(locale);
-  const dateFormat = dayjs.localeData().longDateFormat('L');
+  // dayjs.locale(locale);
+  const dateFormat = getLocaleDateFormat({ intl: { locale } });
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
 
   if (!dateRange.beginCoverage || !dayjs.utc(dateRange.beginCoverage).isValid()) {
@@ -49,7 +49,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
 
   const beginCoverageDate = dayjs.utc(dateRange.beginCoverage);
   const endCoverageDate = dateRange.endCoverage ? dayjs.utc(dateRange.endCoverage) : present;
-  const coverageRange = dayjs.range(beginCoverageDate, endCoverageDate);
+  const coverageRange = new DayRange(beginCoverageDate, endCoverageDate);
 
   for (let overlapIndex = 0, len = customCoverages.length; overlapIndex < len; overlapIndex++) {
     const overlapRange = customCoverages[overlapIndex];
@@ -61,7 +61,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
 
     const overlapCoverageBeginDate = dayjs.utc(overlapRange.beginCoverage);
     const overlapCoverageEndDate = overlapRange.endCoverage ? dayjs.utc(overlapRange.endCoverage) : present;
-    const overlapCoverageRange = dayjs.range(overlapCoverageBeginDate, overlapCoverageEndDate);
+    const overlapCoverageRange = new DayRange(overlapCoverageBeginDate, overlapCoverageEndDate);
 
     const startDate =
       <FormattedDate

@@ -15,6 +15,7 @@ import {
   Col,
   Row,
   dayjs,
+  getLocaleDateFormat,
 } from '@folio/stripes/components';
 import {
   BACKEND_DATE_STANDARD,
@@ -44,8 +45,9 @@ class PackageCoverageFields extends Component {
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
-    dayjs.locale(intl.locale);
-    const dateFormat = dayjs.localeData().longDateFormat('L');
+    // dayjs.locale(intl.locale);
+    // const dateFormat = dayjs.localeData().longDateFormat('L');
+    const dateFormat = getLocaleDateFormat({ intl });
     let errors;
 
     if (value && !dayjs.utc(value).isValid()) {
