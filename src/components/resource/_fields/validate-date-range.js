@@ -85,7 +85,7 @@ const validateNoRangeOverlaps = (dateRange, customCoverages, index) => {
     const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.overlap" values={{ startDate, endDate }} />;
 
     if (overlapCoverageRange.overlaps(coverageRange)
-      || overlapCoverageRange.isEqual(coverageRange)
+      || overlapCoverageRange.isSame(coverageRange)
       || overlapCoverageRange.contains(coverageRange)) {
       return { beginCoverage: message, endCoverage: message };
     }
