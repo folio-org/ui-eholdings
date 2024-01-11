@@ -10,7 +10,6 @@ import { FormattedDate, dayjs, DayRange, getLocaleDateFormat } from '@folio/stri
    * @returns {} - an error object if errors are found, or `undefined` otherwise
    */
 const validateDateFormat = (dateRange, locale) => {
-  // dayjs.locale(locale);
   const dateFormat = getLocaleDateFormat({ intl: { locale } });
   const message = <FormattedMessage id="ui-eholdings.validate.errors.dateRange.format" values={{ dateFormat }} />;
 

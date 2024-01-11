@@ -45,8 +45,6 @@ class PackageCoverageFields extends Component {
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
-    // dayjs.locale(intl.locale);
-    // const dateFormat = dayjs.localeData().longDateFormat('L');
     const dateFormat = getLocaleDateFormat({ intl });
     let errors;
 
