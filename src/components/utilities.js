@@ -7,7 +7,10 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
-import { FormattedDate, dayjs } from '@folio/stripes/components';
+import {
+  FormattedDate,
+  dayjs,
+} from '@folio/stripes/components';
 
 import {
   searchTypes,

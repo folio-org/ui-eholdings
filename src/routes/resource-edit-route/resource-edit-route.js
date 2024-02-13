@@ -2,9 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import isEqual from 'lodash/isEqual';
+import { FormattedMessage } from 'react-intl';
+
 import { TitleManager } from '@folio/stripes/core';
 import { dayjs } from '@folio/stripes/components';
-import { FormattedMessage } from 'react-intl';
 
 import View from '../../components/resource/resource-edit';
 import {

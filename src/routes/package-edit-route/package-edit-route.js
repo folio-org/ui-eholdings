@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
 import { dayjs } from '@folio/stripes/components';
+
 import View from '../../components/package/package-edit';
 
 import {

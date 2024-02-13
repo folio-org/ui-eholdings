@@ -1,8 +1,11 @@
-import {
-  FormattedMessage,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import { FormattedDate, dayjs, DayRange, getLocaleDateFormat } from '@folio/stripes/components';
+import {
+  FormattedDate,
+  dayjs,
+  DayRange,
+  getLocaleDateFormat,
+} from '@folio/stripes/components';
 
 /**
    * Validator to ensure begin date is present and entered dates are valid
