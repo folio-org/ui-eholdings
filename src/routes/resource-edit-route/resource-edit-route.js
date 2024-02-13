@@ -2,9 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import isEqual from 'lodash/isEqual';
-import moment from 'moment';
-import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+
+import { TitleManager } from '@folio/stripes/core';
+import { dayjs } from '@folio/stripes/components';
 
 import View from '../../components/resource/resource-edit';
 import {
@@ -137,8 +138,8 @@ class ResourceEditRoute extends Component {
       }));
     } else {
       const newCustomCoverages = customCoverages.map((dateRange) => {
-        const beginCoverage = !dateRange.beginCoverage ? null : moment.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
-        const endCoverage = !dateRange.endCoverage ? null : moment.utc(dateRange.endCoverage).format('YYYY-MM-DD');
+        const beginCoverage = !dateRange.beginCoverage ? null : dayjs.utc(dateRange.beginCoverage).format('YYYY-MM-DD');
+        const endCoverage = !dateRange.endCoverage ? null : dayjs.utc(dateRange.endCoverage).format('YYYY-MM-DD');
 
         return {
           beginCoverage,

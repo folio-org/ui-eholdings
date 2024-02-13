@@ -7,7 +7,6 @@ import {
   Form,
   Field,
 } from 'react-final-form';
-import moment from 'moment';
 import {
   useIntl,
   FormattedMessage,
@@ -19,6 +18,7 @@ import {
   Row,
   Col,
   Button,
+  dayjs,
 } from '@folio/stripes/components';
 
 import { platformTypes } from '../../constants';
@@ -45,7 +45,7 @@ const UsageConsolidationFilters = ({
     }
   }, [yearField]);
 
-  const currentYear = moment().year();
+  const currentYear = dayjs().year();
   const last5Years = new Array(5)
     .fill(currentYear)
     .map((year, index) => year - index);

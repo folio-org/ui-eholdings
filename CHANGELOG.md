@@ -7,6 +7,7 @@
 * Improve HTML page titles for Assigned Users and Usage Consolidation Settings pages. (UIEH-1387)
 * Edit eholdings record (provider/package/title) > Cancel button does not work in same way as other apps Cancel button. (UIEH-1360)
 * Refactor CSS away from `color()` function. (UIEH-1402)
+* Replace `moment` usage with `dayjs`. (UIEH-1407)
 
 ## [9.0.2] (https://github.com/folio-org/ui-eholdings/tree/v9.0.2) (2023-11-09)
 
@@ -37,7 +38,7 @@
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 
-* Clear the last eholdings visited page flag after the user returns to the eholdings page form another plugin page. For proper work navigating through history. (UIEH-1366) 
+* Clear the last eholdings visited page flag after the user returns to the eholdings page form another plugin page. For proper work navigating through history. (UIEH-1366)
 
 ## [8.0.2] (https://github.com/folio-org/ui-eholdings/tree/v8.0.2) (2023-03-23)
 
