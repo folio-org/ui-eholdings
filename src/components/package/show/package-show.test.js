@@ -316,19 +316,19 @@ describe('Given PackageShow', () => {
       });
 
       it('should call onToggleTitles', () => {
-        const { getByTestId } = renderPackageShow();
+        const { getByRole } = renderPackageShow();
 
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
         expect(mockOnToggleTitles).toHaveBeenCalled();
       });
     });
 
     describe('when closing', () => {
       it('should not invoke onToggleTitles', () => {
-        const { getByTestId } = renderPackageShow();
+        const { getByRole } = renderPackageShow();
 
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
         expect(mockOnToggleTitles).not.toHaveBeenCalled();
       });
     });

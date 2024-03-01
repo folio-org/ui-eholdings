@@ -203,7 +203,6 @@ class DetailsView extends Component {
                 header={this.renderAccordionHeader}
                 headerProps={{
                   resultsLength,
-                  'data-testid': `accordion-toggle-button-${listSectionId}`,
                 }}
                 label={(
                   <Headline
