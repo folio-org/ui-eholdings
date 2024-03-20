@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [9.1.0] (IN PROGRESS)
+## [9.1.0] (https://github.com/folio-org/ui-eholdings/tree/v9.1.0) (2024-03-20)
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
@@ -8,6 +8,7 @@
 * Edit eholdings record (provider/package/title) > Cancel button does not work in same way as other apps Cancel button. (UIEH-1360)
 * Refactor CSS away from `color()` function. (UIEH-1402)
 * Remove duplicates from the keyboard shortcut modal. (UIEH-1408)
+* Translation updates
 
 ## [9.0.2] (https://github.com/folio-org/ui-eholdings/tree/v9.0.2) (2023-11-09)
 
