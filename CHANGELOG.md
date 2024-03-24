@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
+
+* Add erm 7.0 interface support
+
 ## [9.1.0] (https://github.com/folio-org/ui-eholdings/tree/v9.1.0) (2024-03-20)
 
 * Remove Bigtest tests. (UIEH-1390)
@@ -39,7 +43,7 @@
 
 ## [8.0.3] (https://github.com/folio-org/ui-eholdings/tree/v8.0.3) (2023-03-30)
 
-* Clear the last eholdings visited page flag after the user returns to the eholdings page form another plugin page. For proper work navigating through history. (UIEH-1366) 
+* Clear the last eholdings visited page flag after the user returns to the eholdings page form another plugin page. For proper work navigating through history. (UIEH-1366)
 
 ## [8.0.2] (https://github.com/folio-org/ui-eholdings/tree/v8.0.2) (2023-03-23)
 
