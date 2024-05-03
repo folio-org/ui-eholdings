@@ -119,9 +119,9 @@ describe('Given AgreementsAccordion', () => {
         getByText,
       } = renderAgreementsAccordion();
 
-      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.unlink')[0]);
+      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.delete')[0]);
 
-      expect(getByText('ui-eholdings.agreements.unassignModal.header')).toBeDefined();
+      expect(getByText('ui-eholdings.agreements.deleteModal.header')).toBeDefined();
     });
   });
 
@@ -133,11 +133,11 @@ describe('Given AgreementsAccordion', () => {
         getByText,
       } = renderAgreementsAccordion();
 
-      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.unlink')[0]);
-      fireEvent.click(getByText('ui-eholdings.agreements.unassignModal.unassign'));
+      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.delete')[0]);
+      fireEvent.click(getByText('ui-eholdings.agreements.deleteModal.delete'));
 
       await waitFor(() => {
-        expect(queryByText('ui-eholdings.agreements.unassignModal.header')).toBeNull();
+        expect(queryByText('ui-eholdings.agreements.deleteModal.header')).toBeNull();
       });
     });
   });

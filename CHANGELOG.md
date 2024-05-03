@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [9.2.0] (IN PROGRESS)
+
+* Agreements accordion - Revise Are you sure you want to unassign agreement? message. (UIEH-1420)
+
 ## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
 
 * Add erm 7.0 interface support
