@@ -199,32 +199,29 @@ const AgreementsAccordion = ({
       <Modal
         open={showModal}
         size="small"
-        label={<FormattedMessage id="ui-eholdings.agreements.unassignModal.header" />}
-        id="unassign-agreement-confirmation-modal"
+        label={<FormattedMessage id="ui-eholdings.agreements.deleteModal.header" />}
+        id="delete-agreement-confirmation-modal"
         footer={(
           <ModalFooter>
             <Button
-              data-test-eholdings-agreements-unassign-modal-yes
-              buttonStyle="primary"
+              buttonStyle="danger"
               marginBottom0
               onClick={handleUnassignConfirm}
             >
-              <FormattedMessage id="ui-eholdings.agreements.unassignModal.unassign" />
+              <FormattedMessage id="ui-eholdings.agreements.deleteModal.delete" />
             </Button>
             <Button
-              data-test-eholdings-agreements-unassign-modal-no
               marginBottom0
               onClick={closeModal}
             >
-              <FormattedMessage id="ui-eholdings.agreements.unassignModal.cancel" />
+              <FormattedMessage id="ui-eholdings.agreements.deleteModal.cancel" />
             </Button>
           </ModalFooter>
         )}
       >
         <FormattedMessage
-          id="ui-eholdings.agreements.unassignModal.description"
+          id="ui-eholdings.agreements.deleteModal.description"
           values={{
-            agreementName: currentAgreement.name,
             recordName: refName,
           }}
         />
