@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "Einstellungen (eHoldings): Kann benutzerdefinierte Labels anzeigen",
     "filter.search": "Suchen",
     "label.tags": "Tag(s): {tags}",
-    "agreements.unlink": "Zuweisung der Vereinbarung zu diesem Datensatz entfernen",
-    "agreements.unassignModal.header": "Zuweisung einer Vereinbarung zu diesem Datensatz aufheben",
-    "agreements.unassignModal.description": "Zuweisung von <strong>{agreementName}</strong> von <strong>{recordName}</strong> wirklich aufheben? Mit dem Aufheben der Zuweisung wird die Vereinbarung nicht mehr mit diesem Datensatz verknüpft sein.",
-    "agreements.unassignModal.cancel": "Abbrechen",
-    "agreements.unassignModal.unassign": "Entfernen",
     "permission.settings.custom-labels.all": "Einstellungen (eHoldings): Kann benutzerdefinierte Labels erstellen, bearbeiten, anzeigen und löschen",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
     "permission.settings.assignedUser": "Einstellungen (eHoldings): Kann eine Person einer KB zuweisen und sie entfernen",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Streaming (Audio)",
     "filter.pubType.streaming_video": "Streaming (Video)",
     "filter.pubType.thesis_dissertation": "Diplomarbeit & Dissertation",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

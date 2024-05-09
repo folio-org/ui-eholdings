@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "Nastavení (eholdingy): Lze zobrazit vlastní štítky",
     "filter.search": "Vyhledat",
     "label.tags": "Štítky: {tags}",
-    "agreements.unlink": "Odpojit smlouvu od tohoto záznamu.",
-    "agreements.unassignModal.header": "Zrušit přiřazení smlouvy z tohoto záznamu",
-    "agreements.unassignModal.description": "Opravdu chcete zrušit přiřazení <strong>{agreementName}</strong> z <strong>{recordName}</strong>? Jakmile zrušíte přiřazení, smlouva již nebude připojena k tomuto záznamu.",
-    "agreements.unassignModal.cancel": "Zrušit",
-    "agreements.unassignModal.unassign": "Zrušení přiřazení",
     "permission.settings.custom-labels.all": "Nastavení (eholdingy): Můžete vytvářet, upravovat, zobrazovat a mazat vlastní štítky",
     "contributorType.narrator": "{count, plural, one {vypravěč} few {vypravěčů} many {vypravěčů} other {vypravěči}}",
     "permission.settings.assignedUser": "Nastavení (eHoldingy): Může přiřadit/zrušit přiřazení uživatele z KB",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Streamovaný zvuk",
     "filter.pubType.streaming_video": "Streamované video",
     "filter.pubType.thesis_dissertation": "Diplomová a disertační práce",
-    "settings.assignedUsers.noPluginFindUser": "[plugin pro vyhledání uživatele není k dispozici]"
+    "settings.assignedUsers.noPluginFindUser": "[plugin pro vyhledání uživatele není k dispozici]",
+    "agreements.delete": "Smazat řádek smlouvy",
+    "agreements.deleteModal.header": "Smazat řádek smlouvy",
+    "agreements.deleteModal.description": "Opravdu chcete smazat tento řádek smlouvy: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Zrušit",
+    "agreements.deleteModal.delete": "Smazat"
 }

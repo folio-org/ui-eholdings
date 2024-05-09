@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "설정 (eHoldings) : 커스텀 레이블을 볼 수 있습니다.",
     "filter.search": "검색",
     "label.tags": "태그 : {tags}",
-    "agreements.unlink": "이 레코드에서 계약 연결을 해제합니다.",
-    "agreements.unassignModal.header": "이 레코드에서 계약 연결을 해제합니다.",
-    "agreements.unassignModal.description": " <strong> {recordName} </strong> 에서 <strong> {agreementName} </strong>  할당을 취소하겠습니까? 할당을 취소하면 계약이 더 이상 이 레코드에 첨부되지 않습니다.",
-    "agreements.unassignModal.cancel": "취소",
-    "agreements.unassignModal.unassign": "할당 해제",
     "permission.settings.custom-labels.all": "설정 (eHoldings) : 커스텀 레이블을 만들고, 편집, 보고, 삭제할 수 있습니다.",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
     "permission.settings.assignedUser": "설정(eHoldings): KB에서 사용자를 할당/취소할 수 있습니다.",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "스트리밍 오디오",
     "filter.pubType.streaming_video": "스트리밍 비디오",
     "filter.pubType.thesis_dissertation": "학위논문",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "设置（电子馆藏）：可以查看自定义标签",
     "filter.search": "搜索",
     "label.tags": "标签： {tags}",
-    "agreements.unlink": "从该记录取消协议的链接。",
-    "agreements.unassignModal.header": "由此记录取消分配协议",
-    "agreements.unassignModal.description": "确定要由<strong>{recordName} </strong> 取消分配<strong> {agreementName}</strong>？一旦取消分配，该协议将不再附加到该记录。",
-    "agreements.unassignModal.cancel": "取消",
-    "agreements.unassignModal.unassign": "取消分配",
     "permission.settings.custom-labels.all": "设置（电子馆藏）：可以创建、编辑、查看和删除自定义标签",
     "contributorType.narrator": "{count, plural, other {空}}",
     "permission.settings.assignedUser": "设置（电子馆藏）：可以从KB中分配/取消分配用户",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "流媒体音频",
     "filter.pubType.streaming_video": "流媒体视频",
     "filter.pubType.thesis_dissertation": "学位论文",
-    "settings.assignedUsers.noPluginFindUser": "[查找用户插件不可用]"
+    "settings.assignedUsers.noPluginFindUser": "[查找用户插件不可用]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

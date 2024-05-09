@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "Impostazioni (eholdings): visualizzare le etichette personalizzate",
     "filter.search": "Cerca",
     "label.tags": "Tag: {tags}",
-    "agreements.unlink": "Scollega l'accordo da questo record.",
-    "agreements.unassignModal.header": "Annulla l'assegnazione di un accordo da questo record",
-    "agreements.unassignModal.description": "Vuoi annullare l'assegnazione di <strong> {agreementName} </strong> da <strong> {recordName} </strong> ? Una volta annullata l'assegnazione, l'accordo non sarà più collegato a questo record.",
-    "agreements.unassignModal.cancel": "Annulla",
-    "agreements.unassignModal.unassign": "Annulla assegnazione",
     "permission.settings.custom-labels.all": "Impostazioni (eholdings): creare, modificare, visualizzare ed eliminare etichette personalizzate",
     "contributorType.narrator": "{count, plural, one {Narratore} other {Narratori}}",
     "permission.settings.assignedUser": "Impostazioni (eholdings): assegnare/rimuovere un utente da una KB",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Streaming Audio",
     "filter.pubType.streaming_video": "Streaming Video",
     "filter.pubType.thesis_dissertation": "Thesis & Dissertation",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }
