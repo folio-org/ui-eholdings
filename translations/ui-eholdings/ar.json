@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض ملصقات التسمية المخصصة",
     "filter.search": "بحث",
     "label.tags": "وسوم: {tags}",
-    "agreements.unlink": "إلغاء ربط الاتفاقية لهذه التسجيلة",
-    "agreements.unassignModal.header": "إلغاء تعيين اتفاقية من هذه التسجيلة",
-    "agreements.unassignModal.description": "هل أنت متأكد من أنك تريد إلغاء تعيين <strong>{agreementName}</strong> من <strong>{recordName}</strong>؟ بمجرد قيامك بإلغاء التعيين، لن تكون الاتفاقية مرفقة بهذه التسجيلة بعد الآن.",
-    "agreements.unassignModal.cancel": "إلغاء",
-    "agreements.unassignModal.unassign": "إلغاء تعيين",
     "permission.settings.custom-labels.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف ملصقات التسمية المخصصة",
     "contributorType.narrator": "{count, plural, zero {راوٍ} one {راوٍ} two {رواة} few {رواة} many {رواة} other {رواة}}",
     "permission.settings.assignedUser": "الإعدادات (المقتنيات الإلكترونية): إمكانية تعيين/إلغاء تعيين مستخدم من قاعدة معرفة",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Streaming Audio",
     "filter.pubType.streaming_video": "Streaming Video",
     "filter.pubType.thesis_dissertation": "Thesis & Dissertation",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

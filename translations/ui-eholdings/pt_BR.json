@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "Configurações (Coleção Eletrônica): Pode visualizar etiquetas personalizadas",
     "filter.search": "Pesquisar",
     "label.tags": "Tag(s): {tags}",
-    "agreements.unlink": "Desvincule o contrato deste registro.",
-    "agreements.unassignModal.header": "Cancelar a atribuição de um contrato deste registro",
-    "agreements.unassignModal.description": "Tem certeza de que deseja cancelar a atribuição de <strong>{agreementName}</strong> de <strong>{recordName}</strong>? Depois de cancelar a atribuição, o contrato não será mais anexado a este registro.",
-    "agreements.unassignModal.cancel": "Cancelar",
-    "agreements.unassignModal.unassign": "Cancelar atribuição",
     "permission.settings.custom-labels.all": "Configurações (Coleção Eletrônica): Pode criar, editar, visualizar e excluir etiquetas personalizadas",
     "contributorType.narrator": "{count, plural, one {Narrador} other {Narradores}}",
     "permission.settings.assignedUser": "Configurações (Coleção Eletrônica): Pode atribuir/cancelar a atribuição de um usuário de uma base de conhecimento",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Transmissão de áudio",
     "filter.pubType.streaming_video": "Transmissão de vídeo",
     "filter.pubType.thesis_dissertation": "Teses e Dissertações",
-    "settings.assignedUsers.noPluginFindUser": "[plugin find-user não está disponível]"
+    "settings.assignedUsers.noPluginFindUser": "[plugin find-user não está disponível]",
+    "agreements.delete": "Excluir linha de contrato",
+    "agreements.deleteModal.header": "Excluir linha de contrato",
+    "agreements.deleteModal.description": "Tem certeza de que deseja excluir esta linha do contrato: <strong>{recordName}</strong> ?",
+    "agreements.deleteModal.cancel": "Cancelar",
+    "agreements.deleteModal.delete": "Excluir"
 }

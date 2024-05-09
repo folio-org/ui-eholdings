@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
     "filter.search": "Search",
     "label.tags": "Tag(s): {tags}",
-    "agreements.unlink": "Unlink agreement from this record.",
-    "agreements.unassignModal.header": "Unassign an agreement from this record",
-    "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
-    "agreements.unassignModal.cancel": "Cancel",
-    "agreements.unassignModal.unassign": "Unassign",
     "permission.settings.custom-labels.all": "Settings (eholdings): Can create, edit, view, and delete custom labels",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
     "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "Streaming Audio",
     "filter.pubType.streaming_video": "Streaming Video",
     "filter.pubType.thesis_dissertation": "Thesis & Dissertation",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "設定（電子館藏）：可以檢視自訂標籤",
     "filter.search": "檢索",
     "label.tags": "標籤： {tags}",
-    "agreements.unlink": "取消與該記錄的協議連結。",
-    "agreements.unassignModal.header": "從此記錄中取消指派協議",
-    "agreements.unassignModal.description": "您確定要從<strong> {recordName} </strong>中取消指派到 <strong> {agreementName} </strong> 嗎？取消指派後，該協議將不再附加到此記錄。",
-    "agreements.unassignModal.cancel": "取消",
-    "agreements.unassignModal.unassign": "取消指派",
     "permission.settings.custom-labels.all": "設定（電子館藏）：可以建立、編輯、檢視和刪除自訂標籤",
     "contributorType.narrator": "{count, plural, other {備註敘述}}",
     "permission.settings.assignedUser": "設定（電子館藏）：可以從知識庫中指定/取消指派使用者",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "串流音訊",
     "filter.pubType.streaming_video": "串流影像",
     "filter.pubType.thesis_dissertation": "學位論文",
-    "settings.assignedUsers.noPluginFindUser": "[尋找使用者外掛程式不可用]"
+    "settings.assignedUsers.noPluginFindUser": "[尋找使用者外掛程式不可用]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }

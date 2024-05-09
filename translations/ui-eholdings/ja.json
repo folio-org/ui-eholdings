@@ -402,11 +402,6 @@
     "permission.settings.custom-labels.view": "設定（電子所蔵）：カスタムラベルを表示できます",
     "filter.search": "検索",
     "label.tags": "タグ： {tags}",
-    "agreements.unlink": "このレコードから契約のリンクを解除します。",
-    "agreements.unassignModal.header": "このレコードから契約の割り当てを解除する",
-    "agreements.unassignModal.description": "<strong> {agreementName} </strong>を<strong> {recordName} </strong>から{recordName}割り当て解除しますか？割り当てを解除すると、契約はこのレコードに添付されなくなります。",
-    "agreements.unassignModal.cancel": "キャンセル",
-    "agreements.unassignModal.unassign": "割り当て解除",
     "permission.settings.custom-labels.all": "設定（eholdings）：カスタムラベルを作成、編集、表示、および削除できます",
     "contributorType.narrator": "{count, plural, one {Narrator} other {Narrators}}",
     "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
@@ -599,5 +594,10 @@
     "filter.pubType.streaming_audio": "ストリーミングオーディオ",
     "filter.pubType.streaming_video": "ストリーミングビデオ",
     "filter.pubType.thesis_dissertation": "学位論文・博士論文",
-    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]"
+    "settings.assignedUsers.noPluginFindUser": "[find-user plugin is not available]",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete"
 }
