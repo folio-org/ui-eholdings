@@ -4,7 +4,10 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Pluggable,
@@ -17,6 +20,7 @@ import {
   Badge,
   Modal,
   ModalFooter,
+  Tooltip,
 } from '@folio/stripes/components';
 
 import Toaster from '../../components/toaster';
@@ -75,6 +79,7 @@ const AgreementsAccordion = ({
   refType,
   unassignAgreement,
 }) => {
+  const intl = useIntl();
   const stripes = useStripes();
   const [showModal, setShowModal] = useState(false);
   const [currentAgreement, setCurrentAgreement] = useState({});
@@ -103,11 +108,29 @@ const AgreementsAccordion = ({
     );
   };
 
-  const renderFindAgreementTrigger = (props) => {
+  const renderFindAgreementTrigger = ({ buttonRef, ...props }) => {
+    const setTriggerRef = (ref) => (element) => {
+      if (!element) return;
+
+      ref.current = element;
+      buttonRef.current = element;
+    };
+
     return (
-      <Button {...props}>
-        <FormattedMessage id="ui-eholdings.add" />
-      </Button>
+      <Tooltip
+        id="agreements-accordion-add"
+        text={intl.formatMessage({ id: 'ui-eholdings.agreements.accordion.add' })}
+      >
+        {({ ref, ariaIds }) => (
+          <Button
+            ref={setTriggerRef(ref)}
+            aria-labelledby={ariaIds.text}
+            {...props}
+          >
+            <FormattedMessage id="ui-eholdings.add" />
+          </Button>
+        )}
+      </Tooltip>
     );
   };
 
@@ -131,13 +154,22 @@ const AgreementsAccordion = ({
           renderTrigger={renderFindAgreementTrigger}
           onAgreementSelected={onAddAgreementHandler}
         />
-        <Button
-          data-test-new-button
-          buttonClass={styles['new-button']}
-          to={`/erm/agreements/create?authority=${refType}&referenceId=${refId}`}
+        <Tooltip
+          id="agreements-accordion-new"
+          text={intl.formatMessage({ id: 'ui-eholdings.agreements.accordion.new' })}
         >
-          <FormattedMessage id="ui-eholdings.new" />
-        </Button>
+          {({ ref, ariaIds }) => (
+            <Button
+              data-test-new-button
+              ref={ref}
+              aria-labelledby={ariaIds.text}
+              buttonClass={styles['new-button']}
+              to={`/erm/agreements/create?authority=${refType}&referenceId=${refId}`}
+            >
+              <FormattedMessage id="ui-eholdings.new" />
+            </Button>
+          )}
+        </Tooltip>
       </>
     );
   };
