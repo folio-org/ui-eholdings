@@ -4,10 +4,18 @@ import {
   fireEvent,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
+import { Pluggable } from '@folio/stripes/core';
+
 import { createMemoryHistory } from 'history';
 
 import AgreementsAccordion from './agreements-accordion';
 import Harness from '../../../test/jest/helpers/harness';
+
+const buttonRef = { current: null };
+
+Pluggable.mockImplementation(({ renderTrigger }) => {
+  return renderTrigger({ buttonRef });
+});
 
 jest.mock('@folio/stripes-components', () => ({
   ...jest.requireActual('@folio/stripes-components'),
@@ -66,6 +74,7 @@ describe('Given AgreementsAccordion', () => {
   afterEach(() => {
     cleanup();
     history = createMemoryHistory();
+    buttonRef.current = null;
   });
 
   it('should display accordion label', () => {
@@ -159,6 +168,28 @@ describe('Given AgreementsAccordion', () => {
       fireEvent.click(getByText('ui-eholdings.agreements'));
 
       expect(mockOnToggle).toBeCalledTimes(1);
+    });
+  });
+
+  describe('"Add" button', () => {
+    it('should have a tooltip', () => {
+      const { getByText } = renderAgreementsAccordion();
+
+      expect(getByText('ui-eholdings.agreements.accordion.add')).toBeInTheDocument();
+    });
+
+    it('should assign a ref to the buttonRef so that the "Add" button will be in focus after the plugin is closed', () => {
+      renderAgreementsAccordion();
+
+      expect(buttonRef.current).toBeInstanceOf(HTMLButtonElement);
+    });
+  });
+
+  describe('New button', () => {
+    it('should have a tooltip', () => {
+      const { getByText } = renderAgreementsAccordion();
+
+      expect(getByText('ui-eholdings.agreements.accordion.new')).toBeInTheDocument();
     });
   });
 });
