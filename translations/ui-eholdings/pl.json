@@ -517,7 +517,7 @@
     "selection-modal.buttonConfirm": "Tak, usuń",
     "exportPackageResources.label": "Ustawienia eksportu",
     "exportPackageResources.button.cancel": "Anuluj",
-    "exportPackageResources.button.export": "Export",
+    "exportPackageResources.button.export": "Eksport",
     "exportPackageResources.all": "Wszystko",
     "exportPackageResources.toast.success": "Your <b>eholdings export (Job ID: {jobName})</b> is in progress and will be available on the <b>Export manager</b> app. The export may take several minutes to complete.",
     "exportPackageResources.toast.fail": "The export request has failed. Please try again.",
@@ -599,5 +599,5 @@
     "agreements.deleteModal.header": "Delete agreement line",
     "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
     "agreements.deleteModal.cancel": "Cancel",
-    "agreements.deleteModal.delete": "Delete"
+    "agreements.deleteModal.delete": "Usuń"
 }

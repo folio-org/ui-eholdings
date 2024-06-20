@@ -503,7 +503,7 @@
     "shortcut.copy": "Copier",
     "shortcut.cut": "Couper",
     "shortcut.paste": "Coller",
-    "shortcut.find": "Trouver",
+    "shortcut.find": "Rechercher",
     "settings.kb.rmapiBaseUrl.sandbox": "Sandbox: {url}",
     "settings.kb.rmapiBaseUrl.production": "Production: {url}",
     "settings.usageConsolidation.clientId": "Usage consolidation client ID",
