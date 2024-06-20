@@ -586,7 +586,7 @@
     "label.identifier.issn_print": "ISSN (Print)",
     "label.identifier.isbn_online": "ISBN (Online)",
     "label.identifier.isbn_print": "ISBN (Druckausgabe)",
-    "filter.contentType.mixed_content": "Mixed Content",
+    "filter.contentType.mixed_content": "Gemischter Inhalt",
     "filter.contentType.online_reference": "Onlinequelle",
     "filter.contentType.streaming_media": "Streaming",
     "filter.pubType.audiobook": "Hörbuch",

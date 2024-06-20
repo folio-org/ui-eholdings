@@ -599,5 +599,5 @@
     "agreements.deleteModal.header": "Delete agreement line",
     "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
     "agreements.deleteModal.cancel": "Cancel",
-    "agreements.deleteModal.delete": "Delete"
+    "agreements.deleteModal.delete": "Borrar"
 }
