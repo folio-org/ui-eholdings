@@ -174,7 +174,7 @@
     "filter.sortOptions.relevance": "Relevância",
     "filter.contentType.aggregated": "Texto Completo Agregado",
     "filter.contentType.abstract": "Resumo e índice",
-    "filter.contentType.ebook": "E-Book",
+    "filter.contentType.ebook": "Livro eletrônico",
     "filter.contentType.ejournal": "Periódico eletrônico",
     "filter.contentType.print": "Imprimir",
     "filter.contentType.unknown": "Desconhecido",
@@ -534,7 +534,7 @@
     "exportPackageResources.fields.package.automaticallySelectTitles": "Selecionar títulos automaticamente",
     "exportPackageResources.fields.package.proxy": "Procurador",
     "exportPackageResources.fields.package.accessStatusType": "Tipo de status de acesso",
-    "exportPackageResources.fields.package.tags": "Etiquetas",
+    "exportPackageResources.fields.package.tags": "Tags",
     "exportPackageResources.fields.package.agreements": "Contratos",
     "exportPackageResources.fields.package.notes": "Notas",
     "exportPackageResources.fields.title": "Campos de título para exportar",
@@ -553,7 +553,7 @@
     "exportPackageResources.fields.title.proxy": "Procurador",
     "exportPackageResources.fields.title.url": "URL",
     "exportPackageResources.fields.title.accessStatusType": "Tipo de status de acesso",
-    "exportPackageResources.fields.title.tags": "Etiquetas",
+    "exportPackageResources.fields.title.tags": "Tags",
     "exportPackageResources.fields.title.contributors": "Colaboradores",
     "exportPackageResources.fields.title.edition": "Edição",
     "exportPackageResources.fields.title.publisher": "Editora",
@@ -599,5 +599,7 @@
     "agreements.deleteModal.header": "Excluir linha de contrato",
     "agreements.deleteModal.description": "Tem certeza de que deseja excluir esta linha do contrato: <strong>{recordName}</strong> ?",
     "agreements.deleteModal.cancel": "Cancelar",
-    "agreements.deleteModal.delete": "Excluir"
+    "agreements.deleteModal.delete": "Excluir",
+    "agreements.accordion.new": "Cria um novo contrato e, em seguida, adiciona o registro de pacote/título eHoldings como uma Linha de Contrato a ele",
+    "agreements.accordion.add": "Adiciona registro de pacote/título eHoldings como uma Linha de Contrato para outro Contrato"
 }

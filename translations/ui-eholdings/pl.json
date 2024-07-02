@@ -599,5 +599,7 @@
     "agreements.deleteModal.header": "Delete agreement line",
     "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
     "agreements.deleteModal.cancel": "Cancel",
-    "agreements.deleteModal.delete": "Usuń"
+    "agreements.deleteModal.delete": "Usuń",
+    "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
+    "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement"
 }

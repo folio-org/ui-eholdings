@@ -595,9 +595,11 @@
     "filter.pubType.streaming_video": "流媒体视频",
     "filter.pubType.thesis_dissertation": "学位论文",
     "settings.assignedUsers.noPluginFindUser": "[查找用户插件不可用]",
-    "agreements.delete": "Delete agreement line",
-    "agreements.deleteModal.header": "Delete agreement line",
-    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
-    "agreements.deleteModal.cancel": "Cancel",
-    "agreements.deleteModal.delete": "Delete"
+    "agreements.delete": "删除协议行",
+    "agreements.deleteModal.header": "删除协议行",
+    "agreements.deleteModal.description": "确定要删除此协议行： <strong> {recordName} </strong>吗？",
+    "agreements.deleteModal.cancel": "取消",
+    "agreements.deleteModal.delete": "删除",
+    "agreements.accordion.new": "创建新协议，然后将 eHoldings 包/标题记录作为协议行添加到其中",
+    "agreements.accordion.add": "将 eHoldings 包/标题记录作为协议行添加到另一份协议中"
 }
