@@ -27,6 +27,7 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
@@ -38,6 +39,7 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
@@ -50,6 +52,7 @@ describe('Given PackageSelectField', () => {
         disabled: true,
         label: 'label2',
         key: 'key2',
+        value: 'value2',
       }],
     });
 
@@ -61,6 +64,7 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
