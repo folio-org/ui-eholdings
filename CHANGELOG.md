@@ -4,6 +4,7 @@
 
 * Agreements accordion - Revise Are you sure you want to unassign agreement? message. (UIEH-1420)
 * Agreements accordion - Add a tooltip for the `New` and `Add` buttons. (UIEH-1424)
+* eHoldings package-title (resource) view: display Proxied URL. (UIEH-1419)
 
 ## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
 
