@@ -35,6 +35,9 @@ describe('Given ResourceSettings', () => {
     title: {
       isTitleCustom: false,
     },
+    proxy: {
+      proxiedUrl: 'http://some.proxied.url',
+    },
     package: defaultPackage,
     data: {
       relationships: {
@@ -142,17 +145,35 @@ describe('Given ResourceSettings', () => {
       });
       expect(component.getByText('ui-eholdings.managed')).toBeDefined();
     });
-  });
 
+    it('should display a managed link', () => {
+      component = renderResourceSettings();
+      expect(component.getByText('some-url')).toBeDefined();
+    });
+  });
 
   it('should render proxy display', () => {
     component = renderResourceSettings();
     expect(component.getByText('Proxy display')).toBeDefined();
   });
 
-  it('should display a link', () => {
+  it('should show proxied url', () => {
     component = renderResourceSettings();
-    expect(component.getByText('some-url')).toBeDefined();
+
+    expect(component.getByText('http://some.proxied.url')).toBeDefined();
+  });
+
+  describe('when there is no proxiedUrl in the proxy', () => {
+    it('should not show proxied url', () => {
+      component = renderResourceSettings({
+        model: {
+          ...defaultModel,
+          proxy: {},
+        },
+      });
+
+      expect(component.queryByText('http://some.proxied.url')).not.toBeInTheDocument();
+    });
   });
 
   it('should render access type display', () => {

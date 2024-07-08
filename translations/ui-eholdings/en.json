@@ -381,6 +381,7 @@
     "settings.usageConsolidation.credentials.systemError": "Usage Consolidation credentials cannot be saved due to a system error. Please try again.",
 
     "proxy": "Proxy",
+    "proxiedUrl": "Proxied URL",
     "proxy.inherited": "Inherited - {proxy}",
     "proxy.errorMessage": "Invalid proxy selected. Please contact EBSCO support.",
 

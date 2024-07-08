@@ -14,12 +14,7 @@ import AccessTypeDisplay from '../../../access-type-display';
 import ProxyDisplay from '../../../proxy-display';
 import ExternalLink from '../../../external-link/external-link';
 
-import {
-  accessTypesReduxStateShape,
-  MAX_COLUMN_WIDTH,
-  ONE_THIRD_OF_COLUMN_WIDTH,
-  QUARTER_OF_COLUMN_WIDTH,
-} from '../../../../constants';
+import { accessTypesReduxStateShape } from '../../../../constants';
 
 import { getAccessTypeId } from '../../../utilities';
 
@@ -30,6 +25,11 @@ const propTypes = {
   onToggle: PropTypes.func.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   resourceSelected: PropTypes.bool.isRequired,
+};
+
+const COL_SIZES = {
+  md: 6,
+  xs: 12,
 };
 
 const ResourceSettings = ({
@@ -45,17 +45,10 @@ const ResourceSettings = ({
     : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
   const hasInheritedProxy = !!model.package?.proxy?.id;
+  const hasProxiedUrl = !!model.proxy?.proxiedUrl;
 
   const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
   const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
-
-  const resourceSettingsColumnWidth = isAccessStatusTypes
-    ? MAX_COLUMN_WIDTH
-    : ONE_THIRD_OF_COLUMN_WIDTH;
-
-  const proxyAndAccessStatusTypeColumnWidth = isAccessStatusTypes
-    ? QUARTER_OF_COLUMN_WIDTH
-    : MAX_COLUMN_WIDTH;
 
   return (
     <Accordion
@@ -69,76 +62,79 @@ const ResourceSettings = ({
       onToggle={onToggle}
     >
       <Row>
-        <Col xs>
-          <Row>
-            <Col xs={6}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
-                <div
-                  data-test-eholdings-resource-show-visibility
-                  data-testid="resource-show-visibility"
-                >
-                  {(model.visibilityData.isHidden || !resourceSelected)
-                    ? (
-                      <FormattedMessage
-                        id="ui-eholdings.package.visibility.no"
-                        values={{ visibilityMessage }}
-                      />
-                    )
-                    : <FormattedMessage id="ui-eholdings.yes" />
-                  }
-                </div>
-              </KeyValue>
-            </Col>
-            {model.url && (
-              <Col xs={6}>
-                <KeyValue label={model.package.isCustom
-                  ? <FormattedMessage id="ui-eholdings.custom" />
-                  : <FormattedMessage id="ui-eholdings.managed" />}
-                >
-                  <div data-test-eholdings-resource-show-url>
-                    <ExternalLink
-                      href={model.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  </div>
-                </KeyValue>
-              </Col>
-            )}
-          </Row>
+        <Col {...COL_SIZES}>
+          <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
+            <div
+              data-test-eholdings-resource-show-visibility
+              data-testid="resource-show-visibility"
+            >
+              {(model.visibilityData.isHidden || !resourceSelected)
+                ? (
+                  <FormattedMessage
+                    id="ui-eholdings.package.visibility.no"
+                    values={{ visibilityMessage }}
+                  />
+                )
+                : <FormattedMessage id="ui-eholdings.yes" />
+              }
+            </div>
+          </KeyValue>
         </Col>
-        <Col xs={resourceSettingsColumnWidth}>
-          <Row>
-            {hasInheritedProxy && (
-              <Col xs={proxyAndAccessStatusTypeColumnWidth}>
-                {!proxyTypes.request.isResolved || model.isLoading
-                  ? <Icon icon="spinner-ellipsis" />
-                  : (
-                    <ProxyDisplay
-                      proxy={model.proxy}
-                      proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
-                      inheritedProxyId={model.package.proxy.id}
-                    />
-                  )}
-              </Col>
-            )}
-            {isAccessStatusTypes && (
-              <Col xsOffset={3} xs={proxyAndAccessStatusTypeColumnWidth}>
-                <div data-test-eholdings-access-type>
-                  {haveAccessTypesLoaded
-                    ? (
-                      <AccessTypeDisplay
-                        accessTypeId={getAccessTypeId(model)}
-                        accessStatusTypes={accessStatusTypes}
-                      />
-                    )
-                    : <Icon icon="spinner-ellipsis" />
-                  }
-                </div>
-              </Col>
-            )}
-          </Row>
-        </Col>
+        {model.url && (
+          <Col {...COL_SIZES}>
+            <KeyValue label={model.package.isCustom
+              ? <FormattedMessage id="ui-eholdings.custom" />
+              : <FormattedMessage id="ui-eholdings.managed" />}
+            >
+              <div data-test-eholdings-resource-show-url>
+                <ExternalLink
+                  href={model.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              </div>
+            </KeyValue>
+          </Col>
+        )}
+        {hasInheritedProxy && (
+          <Col {...COL_SIZES}>
+            {!proxyTypes.request.isResolved || model.isLoading
+              ? <Icon icon="spinner-ellipsis" />
+              : (
+                <ProxyDisplay
+                  proxy={model.proxy}
+                  proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
+                  inheritedProxyId={model.package.proxy.id}
+                />
+              )}
+          </Col>
+        )}
+        {hasProxiedUrl && (
+          <Col {...COL_SIZES}>
+            <KeyValue label={<FormattedMessage id="ui-eholdings.proxiedUrl" />}>
+              <ExternalLink
+                href={model.proxy.proxiedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </KeyValue>
+          </Col>
+        )}
+        {isAccessStatusTypes && (
+          <Col {...COL_SIZES}>
+            <div data-test-eholdings-access-type>
+              {haveAccessTypesLoaded
+                ? (
+                  <AccessTypeDisplay
+                    accessTypeId={getAccessTypeId(model)}
+                    accessStatusTypes={accessStatusTypes}
+                  />
+                )
+                : <Icon icon="spinner-ellipsis" />
+              }
+            </div>
+          </Col>
+        )}
       </Row>
     </Accordion>
   );
