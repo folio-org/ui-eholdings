@@ -599,5 +599,8 @@
     "agreements.deleteModal.header": "Smazat řádek smlouvy",
     "agreements.deleteModal.description": "Opravdu chcete smazat tento řádek smlouvy: <strong>{recordName}</strong>?",
     "agreements.deleteModal.cancel": "Zrušit",
-    "agreements.deleteModal.delete": "Smazat"
+    "agreements.deleteModal.delete": "Smazat",
+    "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
+    "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
+    "proxiedUrl": "Proxied URL"
 }
