@@ -602,5 +602,5 @@
     "agreements.deleteModal.delete": "Excluir",
     "agreements.accordion.new": "Cria um novo contrato e, em seguida, adiciona o registro de pacote/título eHoldings como uma Linha de Contrato a ele",
     "agreements.accordion.add": "Adiciona registro de pacote/título eHoldings como uma Linha de Contrato para outro Contrato",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "URL com proxy"
 }
