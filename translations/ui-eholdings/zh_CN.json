@@ -602,5 +602,5 @@
     "agreements.deleteModal.delete": "删除",
     "agreements.accordion.new": "创建新协议，然后将 eHoldings 包/标题记录作为协议行添加到其中",
     "agreements.accordion.add": "将 eHoldings 包/标题记录作为协议行添加到另一份协议中",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "代理 URL"
 }
