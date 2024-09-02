@@ -1,5 +1,4 @@
 import {
-  useCallback,
   useMemo,
   useRef,
 } from 'react';
@@ -36,10 +35,6 @@ const PackagesFilter = ({
   const initialTitlesPackages = useRef(titlesFacets.packages).current;
   const prevActiveFilters = useRef(activeFilters);
   const { packageIds: selectedPackageId = '' } = activeFilters;
-
-  useCallback(() => {
-    console.log(params);
-  }, [params]);
 
   const dataOptions = useMemo(() => {
     const options = titlesFacets.packages?.map(({ id, name, count }) => ({
