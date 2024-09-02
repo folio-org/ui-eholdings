@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useMemo,
   useRef,
 } from 'react';
@@ -12,11 +13,12 @@ import PackagesFilterAccordion from '../packages-filter-accordion';
 const propTypes = {
   activeFilters: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
+  isPackagesLoading: PropTypes.bool.isRequired,
+  isResultsLoading: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  packagesFacetCollection: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   prevDataOfOptedPackage: PropTypes.object.isRequired,
-  results: PropTypes.object.isRequired,
+  resultsLength: PropTypes.number.isRequired,
   titlesFacets: PropTypes.object.isRequired,
 };
 
@@ -24,15 +26,20 @@ const PackagesFilter = ({
   activeFilters,
   disabled,
   params,
-  packagesFacetCollection,
+  isPackagesLoading,
   titlesFacets,
   prevDataOfOptedPackage,
-  results,
+  resultsLength,
+  isResultsLoading,
   onUpdate,
 }) => {
   const initialTitlesPackages = useRef(titlesFacets.packages).current;
   const prevActiveFilters = useRef(activeFilters);
   const { packageIds: selectedPackageId = '' } = activeFilters;
+
+  useCallback(() => {
+    console.log(params);
+  }, [params]);
 
   const dataOptions = useMemo(() => {
     const options = titlesFacets.packages?.map(({ id, name, count }) => ({
@@ -65,8 +72,8 @@ const PackagesFilter = ({
   const areStalePackages = (initialTitlesPackages === titlesFacets.packages)
     && isEqual(prevActiveFilters.current, activeFilters);
 
-  const noResults = params.q && !results.length && !results.isLoading;
-  const isFirstResultsLoading = !activeFilters.packageIds && results.isLoading && !results.length;
+  const noResults = params.q && !resultsLength && !isResultsLoading;
+  const isFirstResultsLoading = !activeFilters.packageIds && isResultsLoading && !resultsLength;
 
   if (!params.q || (noResults && !activeFilters.packageIds)) {
     return null;
@@ -83,7 +90,7 @@ const PackagesFilter = ({
       activeFilters={activeFilters}
       dataOptions={dataOptions}
       disabled={disabled}
-      isLoading={results.isLoading || packagesFacetCollection.isLoading}
+      isLoading={isResultsLoading || isPackagesLoading}
       onUpdate={onUpdate}
     />
   );

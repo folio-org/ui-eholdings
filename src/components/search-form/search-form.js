@@ -377,9 +377,10 @@ class SearchForm extends Component {
                 activeFilters={combinedFilters}
                 params={params}
                 prevDataOfOptedPackage={prevDataOfOptedPackage}
-                results={results}
+                resultsLength={results.length}
+                isResultsLoading={results.isLoading}
                 titlesFacets={titlesFacets}
-                packagesFacetCollection={packagesFacetCollection}
+                isPackagesLoading={packagesFacetCollection.isLoading}
                 onUpdate={this.handleUpdateFilter}
                 disabled={standaloneFiltersEnabled}
               />
