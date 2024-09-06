@@ -401,7 +401,7 @@
     "addPackageToHoldings": "Pakket toevoegen aan holdings",
     "permission.settings.custom-labels.view": "Instellingen (E-holdings): Kan aangepaste labels bekijken",
     "filter.search": "Zoeken",
-    "label.tags": "Tags",
+    "label.tags": "Tags: {tags}",
     "permission.settings.custom-labels.all": "Instellingen (E-holdings): Kan aangepaste labels aanmaken, bewerken, bekijken en verwijderen.",
     "contributorType.narrator": "{count, plural, one {Verteller} other {Vertellers}}",
     "permission.settings.assignedUser": "Instellingen (E-holdings): Kan een gebruiker aan een knowledgebase toewijzen/verwijderen",
