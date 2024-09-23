@@ -484,7 +484,7 @@
     "permission.costperuse.view": "eHoldingy: Může zobrazit data využití a analýzy pro balíčky, názvy a zdroje",
     "permission.settings.usage-consolidation.view": "Nastavení (eholdingy): Zobrazit pověření API pro konsolidaci využití",
     "permission.settings.usage-consolidation.create-edit": "Nastavení (eholdingy): Vytvořit, upravit a zobrazit přihlašovací údaje rozhraní API pro konsolidaci využití",
-    "usageConsolidation.holdingsSummary": "Souhrn holdingů",
+    "usageConsolidation.holdingsSummary": "Shrnutí holdingů",
     "navigation.app": "Vyhledat v aplikaci eholdingy",
     "navigation.content": "Odeslat dotaz na obsah KB",
     "navigation.systemStatus": "Stav systému EBSCO",
