@@ -181,7 +181,7 @@
           "settings.eholdings.enabled",
           "module.eholdings.enabled",
           "kb-ebsco.kb-credentials.collection.get",
-          "kb-ebsco.kb-credentials.item.get"
+          "kb-ebsco.kb-credentials.key.item.get"
         ]
       },
       {
@@ -321,7 +321,7 @@
         "visible": true,
         "subPermissions": [
           "ui-eholdings.settings.kb.view",
-          "kb-ebsco.kb-credentials.uc.item.get",
+          "kb-ebsco.kb-credentials.uc.key.item.get",
           "kb-ebsco.currencies.collection.get",
           "kb-ebsco.uc-credentials.item.get",
           "kb-ebsco.uc-credentials.client-id.get",
