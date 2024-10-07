@@ -1,6 +1,8 @@
 import { render, fireEvent } from '@folio/jest-config-stripes/testing-library/react';
 import PackagesFilterAccordion from './packages-filter-accordion';
 
+jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+
 const mockOnUpdate = jest.fn();
 
 const getComponent = (props = {}) => (
@@ -60,6 +62,9 @@ describe('Given PackagesFilterAccordion', () => {
         activeFilters,
       });
 
+      fireEvent.click(getByText('ui-eholdings.packages.filter'));
+      fireEvent.click(getByText('stripes-components.selection.controlLabel'));
+
       fireEvent.click(getByText('option1 (100)'));
 
       expect(mockOnUpdate).toHaveBeenCalledWith({
@@ -81,7 +86,10 @@ describe('Given PackagesFilterAccordion', () => {
         totalRecords: 200,
       }];
 
-      const { container } = renderComponent({ dataOptions });
+      const { container, getByText } = renderComponent({ dataOptions });
+
+      fireEvent.click(getByText('ui-eholdings.packages.filter'));
+      fireEvent.click(getByText('stripes-components.selection.controlLabel'));
 
       const input = container.querySelector('input[type="text"]');
       fireEvent.change(input, { target: { value: '[' } });

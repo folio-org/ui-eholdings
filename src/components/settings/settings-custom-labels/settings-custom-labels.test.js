@@ -153,13 +153,14 @@ describe('Given SettingsCustomLabels', () => {
         getByRole,
         getByTestId,
       } = renderSettingsCustomLabels();
-      const name = 'ui-eholdings.settings.customLabels.remove ' +
+      const name =
         'ui-eholdings.settings.customLabels.remove.description ' +
         'ui-eholdings.settings.customLabels.remove.note';
 
       fireEvent.change(getByTestId('customLabel2-display-label'), { target: { value: '' } });
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
+      expect(getByRole('heading', { name: 'ui-eholdings.settings.customLabels.remove' })).toBeInTheDocument();
       expect(getByRole('dialog', { name })).toBeDefined();
     });
   });
