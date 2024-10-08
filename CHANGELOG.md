@@ -1,12 +1,12 @@
 # Change history for ui-eholdings
 
-## [9.2.0] (IN PROGRESS)
+## [10.0.0] (IN PROGRESS)
 
 * Agreements accordion - Revise Are you sure you want to unassign agreement? message. (UIEH-1420)
 * Agreements accordion - Add a tooltip for the `New` and `Add` buttons. (UIEH-1424)
 * eHoldings package-title (resource) view: display Proxied URL. (UIEH-1419)
 * Fix title search is slow with many Packages filter options. (UIEH-1428)
-* Change permission `kb-ebsco.kb-credentials.item.get` to `kb-ebsco.kb-credentials.key.item.get` and `kb-ebsco.kb-credentials.uc.item.get` to `kb-ebsco.kb-credentials.uc.key.item.get`. (UIEH-1431)
+* *BREAKING* Upgrade `eholdings` to `4.0`. Change permission `kb-ebsco.kb-credentials.item.get` to `kb-ebsco.kb-credentials.key.item.get` and `kb-ebsco.kb-credentials.uc.item.get` to `kb-ebsco.kb-credentials.uc.key.item.get`. (UIEH-1431)
 
 ## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
 
