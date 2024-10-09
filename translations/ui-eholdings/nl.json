@@ -600,7 +600,7 @@
     "agreements.deleteModal.description": "Weet u zeker dat u deze overeenkomstregel wilt verwijderen? <strong>{recordName}</strong>?",
     "agreements.deleteModal.cancel": "Annuleren",
     "agreements.deleteModal.delete": "Verwijderen",
-    "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
-    "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
+    "agreements.accordion.new": "Maakt een nieuwe overeenkomst aan en voegt vervolgens digitale holdingspakket-/titelrecord toe als een overeenkomstregel.",
+    "agreements.accordion.add": "Voegt digitale holdingspakket-/titelrecord toe als een overeenkomstregel aan een andere overeenkomst.",
     "proxiedUrl": "Proxied URL"
 }
