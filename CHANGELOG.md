@@ -7,6 +7,7 @@
 * eHoldings package-title (resource) view: display Proxied URL. (UIEH-1419)
 * Fix title search is slow with many Packages filter options. (UIEH-1428)
 * *BREAKING* Upgrade `eholdings` to `4.0`. Change permission `kb-ebsco.kb-credentials.item.get` to `kb-ebsco.kb-credentials.key.item.get` and `kb-ebsco.kb-credentials.uc.item.get` to `kb-ebsco.kb-credentials.uc.key.item.get`. (UIEH-1431)
+* Return permissions: `kb-ebsco.kb-credentials.uc.item.get`, `kb-ebsco.kb-credentials.item.get`. (UIEH-1434)
 
 ## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
 
