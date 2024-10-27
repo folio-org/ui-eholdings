@@ -552,7 +552,7 @@
     "exportPackageResources.fields.title.coverageStatement": "Coverage statement",
     "exportPackageResources.fields.title.proxy": "Proxy",
     "exportPackageResources.fields.title.url": "URL",
-    "exportPackageResources.fields.title.accessStatusType": "Access status type",
+    "exportPackageResources.fields.title.accessStatusType": "Typ statusu dostępu",
     "exportPackageResources.fields.title.tags": "Tagi",
     "exportPackageResources.fields.title.contributors": "Współtwórcy",
     "exportPackageResources.fields.title.edition": "Wydanie",
