@@ -147,7 +147,7 @@ const ResourceEditCustomTitle = ({
   };
 
   const getActionMenu = () => {
-    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.select-unselect');
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.manage');
 
     if (!hasSelectPermission || !resourceSelected) {
       return null;

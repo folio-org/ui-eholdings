@@ -39,7 +39,7 @@ const EditHoldingStatus = ({
   const renderToggleSelectionStatusButton = () => {
     if ((!resourceSelected && !isSelectInFlight) || (!model.isSelected && isSelectInFlight)) {
       return (
-        <IfPermission perm="ui-eholdings.package-title.select-unselect">
+        <IfPermission perm="ui-eholdings.package-title.manage">
           <Button
             buttonStyle="primary"
             onClick={handleToggleResourceHoldings}

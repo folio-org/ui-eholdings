@@ -24,7 +24,7 @@ const SelectionStatus = ({
     >
       <SelectionStatusMessage model={model} />
       <br />
-      <IfPermission perm="ui-eholdings.package-title.select-unselect">
+      <IfPermission perm="ui-eholdings.package-title.manage">
         <SelectionStatusButton
           model={model}
           onAddToHoldings={onAddToHoldings}
