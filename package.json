@@ -222,7 +222,7 @@
         ]
       },
       {
-        "permissionName": "ui-eholdings.package-title.manage",
+        "permissionName": "ui-eholdings.package-title.execute",
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [

@@ -202,7 +202,7 @@ const ManagedPackageEdit = ({
 
   const getActionMenu = () => {
     const isAddButtonNeeded = !packageSelected || model.isPartiallySelected;
-    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.manage');
+    const hasSelectPermission = stripes.hasPerm('ui-eholdings.package-title.execute');
 
     if (!hasSelectPermission) return null;
 
