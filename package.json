@@ -147,7 +147,7 @@
         ]
       },
       {
-        "permissionName": "ui-eholdings.app.enabled",
+        "permissionName": "ui-eholdings.app.view",
         "subPermissions": [
           "module.eholdings.enabled"
         ],
@@ -222,7 +222,7 @@
         ]
       },
       {
-        "permissionName": "ui-eholdings.package-title.select-unselect",
+        "permissionName": "ui-eholdings.package-title.manage",
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
         "visible": true,
         "subPermissions": [
@@ -244,7 +244,7 @@
         ]
       },
       {
-        "permissionName": "ui-eholdings.titles-packages.create-delete",
+        "permissionName": "ui-eholdings.titles-packages.manage",
         "displayName": "eHoldings: Can create and delete custom packages and titles",
         "visible": true,
         "subPermissions": [

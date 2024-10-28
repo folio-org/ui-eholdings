@@ -619,7 +619,7 @@
     "selection-modal.buttonWorking": "Removing...",
     "selection-modal.buttonConfirm": "Yes, remove",
 
-    "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
     "permission.settings.enabled": "Settings (eHoldings): View settings",
     "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
     "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
