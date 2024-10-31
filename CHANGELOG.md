@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [10.0.0] (IN PROGRESS)
+## [10.0.0] (https://github.com/folio-org/ui-eholdings/tree/v10.0.0) (2024-10-30)
 
 * Agreements accordion - Revise Are you sure you want to unassign agreement? message. (UIEH-1420)
 * Agreements accordion - Add a tooltip for the `New` and `Add` buttons. (UIEH-1424)
