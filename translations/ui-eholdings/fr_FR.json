@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Type en double. Merci de corriger.",
     "permission.settings.kb": "Paramètres (eHoldings) : peut créer, modifier et afficher les informations d'identification de la base de connaissances",
     "permission.settings.root-proxy": "Paramètres (eHoldings) : configurer les paramètres du proxy racine",
-    "permission.package-title.select-unselect": "eHoldings : peut (dé)sélectionner des bouquets et des titres de/vers vos localisations",
     "permission.records.edit": "eHoldings : peut éditer les fournisseurs, les bouquets, les notices de détail des titres",
-    "permission.titles-packages.create-delete": "eHoldings : peut créer et supprimer des bouquets et des titres personnalisés",
     "settings.accessStatusTypes.delete.error": "Ce type de statut d'accès a déjà été supprimé.",
     "settings.kb.new": "Nouvelles informations d'identification de la base de connaissances",
     "settings.kb.edit": "Modifier les informations d'identification de la base de connaissances",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Paramètres (eHoldings) : peut créer, modifier, afficher et supprimer des types de statut d'accès",
     "permission.settings.access-types.create-edit": "Paramètres (eHoldings) : peut créer, modifier et afficher les types de statut d'accès",
     "permission.settings.access-types.view": "Paramètres (eHoldings) : peut afficher les types de statut d'accès",
-    "permission.app.enabled": "eHoldings : peut afficher les fournisseurs, les bouquets, les notices de détails des titres",
     "permission.settings.enabled": "Paramètres (eHoldings) : afficher les paramètres",
     "selectPackage.confirmationModal.label": "Ajouter tous les titres d'un bouquet aux localisations",
     "selectPackage.confirmationModal.message": "La sélection de cette action <strong>ajoutera tous les titres</strong> de ce bouquet à vos localisations. Pour continuer cette action, sélectionnez <strong>Ajouter le bouquet (tous les titres) aux localisations</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Crée un nouvel accord puis y ajoute le bouquet eHoldings/la notice de titre comme Ligne d'Accord",
     "agreements.accordion.add": "Ajoute le bouquet eHoldings/la notice de titre comme Ligne d'Accord à un autre Accord",
-    "proxiedUrl": "URL proxy"
+    "proxiedUrl": "URL proxy",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

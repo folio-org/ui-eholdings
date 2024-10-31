@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "類型重複。請修改。",
     "permission.settings.kb": "設定（電子館藏）：可以建立、編輯和檢視知識庫的憑證",
     "permission.settings.root-proxy": "設定 (eHoldings)：配置根代理設定",
-    "permission.package-title.select-unselect": "電子館藏：可以從館藏中選擇/取消選擇資源包和題名",
     "permission.records.edit": "電子館藏：可以編輯供應商、資源包、題名詳細記錄",
-    "permission.titles-packages.create-delete": "電子館藏：可以建立和刪除自訂的資源包和題名",
     "settings.accessStatusTypes.delete.error": "此存取狀態類型已被刪除。",
     "settings.kb.new": "新知識庫的憑證",
     "settings.kb.edit": "編輯知識庫憑證",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "設定（電子館藏）：可以建立、編輯、檢視和刪除存取狀態類型",
     "permission.settings.access-types.create-edit": "設定（電子館藏）：可以建立、編輯和檢視存取狀態類型",
     "permission.settings.access-types.view": "設定（電子館藏）：可以檢視存取狀態類型",
-    "permission.app.enabled": "電子館藏：可以檢視供應商、資源包、題名詳細記錄",
     "permission.settings.enabled": "設定（電子館藏）：檢視設定",
     "selectPackage.confirmationModal.label": "將所有資源包中的題名全部新增到館藏",
     "selectPackage.confirmationModal.message": "選擇此操作會將這個資源包中 <strong>所有的題名增加</strong>到館藏中。確定要繼續執行這項操作，請選擇<strong>將資源包（所有題名）新增到館藏中</strong> 。",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

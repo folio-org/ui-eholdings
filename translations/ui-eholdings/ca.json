@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Duplicate type. Please revise.",
     "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
-    "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
     "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
-    "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles",
     "settings.accessStatusTypes.delete.error": "This access status type has already been deleted.",
     "settings.kb.new": "New knowledge base credentials",
     "settings.kb.edit": "Edit knowledge base credentials",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
     "permission.settings.access-types.view": "Settings (eholdings): Can view access status types",
-    "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
     "permission.settings.enabled": "Settings (eHoldings): View settings",
     "selectPackage.confirmationModal.label": "Add all titles in a package to holdings",
     "selectPackage.confirmationModal.message": "Selecting this action will <strong>add all titles</strong> in this package to your holdings. To continue this action, select <strong>Add package (all titles) to holdings</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

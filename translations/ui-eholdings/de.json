@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Typ bereits vorhanden. Bitte korrigieren.",
     "permission.settings.kb": "Einstellungen (eHoldings): Kann Knowledge Base-Anmeldeinformationen erstellen, bearbeiten und anzeigen",
     "permission.settings.root-proxy": "Einstellungen (eHoldings): Kann Root-Proxy-Einstellung konfigurieren",
-    "permission.package-title.select-unselect": "eHoldings: Kann Pakete und Titel für Bestand aus- und abwählen",
     "permission.records.edit": "eHoldings: Kann Anbieter-, Paket-, Titeldetaildatensätze bearbeiten",
-    "permission.titles-packages.create-delete": "eHoldings: Kann benutzerdefinierte Pakete und Titel erstellen und löschen",
     "settings.accessStatusTypes.delete.error": "Dieser Zugriffsstatustyp wurde bereits gelöscht.",
     "settings.kb.new": "Neue Knowledge Base-Anmeldeinformationen",
     "settings.kb.edit": "Knowledge Base-Anmeldeinformationen bearbeiten",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Einstellungen (eHoldings): Kann Zugriffsstatustypen erstellen, bearbeiten, anzeigen und löschen",
     "permission.settings.access-types.create-edit": "Einstellungen (eHoldings): Kann Zugriffsstatustypen erstellen, bearbeiten und anzeigen",
     "permission.settings.access-types.view": "Einstellungen (eHoldings): Kann Zugriffsstatustypen anzeigen",
-    "permission.app.enabled": "eHoldings: Kann Anbieter-, Pakete- und Titeldatensatzdetails anzeigen",
     "permission.settings.enabled": "Einstellungen (eHoldings): Einstellungen anzeigen",
     "selectPackage.confirmationModal.label": "Alle Titel in einem Paket zum Bestand hinzufügen",
     "selectPackage.confirmationModal.message": "Mit dieser Aktion <strong>werden alle Titel</strong> dieses Pakets zum Bestand <strong>hinzugefügt</strong>. Um diese Aktion fortzusetzen,  <strong>Paket (alle Titel) zum Bestand hinzufügen</strong> wählen.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

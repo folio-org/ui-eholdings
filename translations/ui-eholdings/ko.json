@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "중복 유형입니다. 수정하십시오.",
     "permission.settings.kb": "설정 (eHoldings) : Knowledge base 인증 정보를 생성, 편집 및 볼 수 있습니다.",
     "permission.settings.root-proxy": "설정 (eHoldings) : 루트 프록시 설정 구성",
-    "permission.package-title.select-unselect": "eHoldings : 보유하고있는 패키지와 타이틀을 선택 / 취소 할 수 있습니다.",
     "permission.records.edit": "eHoldings : 공급사, 패키지, 타이틀 상세 레코드를 편집 할 수 있습니다.",
-    "permission.titles-packages.create-delete": "eHoldings : 사용자 지정 패키지 및 타이틀을 만들고 삭제할 수 있습니다.",
     "settings.accessStatusTypes.delete.error": "이 액세스 상태 유형은 이미 삭제되었습니다.",
     "settings.kb.new": "새로운 Knowledge base 인증 정보",
     "settings.kb.edit": "Knowledge base 인증 정보 편집",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "설정 (eholdings) : 액세스 상태 유형을 생성, 편집, 조회 및 삭제할 수 있습니다.",
     "permission.settings.access-types.create-edit": "설정 (eholdings) : 액세스 상태 유형을 생성, 편집 및 볼 수 있습니다.",
     "permission.settings.access-types.view": "설정 (eholdings) : 액세스 상태 유형을 볼 수 있습니다.",
-    "permission.app.enabled": "UI : eHoldings 모듈이 활성화되었습니다.",
     "permission.settings.enabled": "설정 (eHoldings) : 설정 페이지 목록 표시",
     "selectPackage.confirmationModal.label": "패키지의 모든 타이틀을 홀딩에 추가",
     "selectPackage.confirmationModal.message": "이 작업을 선택하면이 패키지의 <strong> 모든 타이틀이 귀하의 홀딩에 추가됩니다 </strong> . 이 작업을 계속하려면 <strong> 홀딩에 패키지 (모든 타이틀) 추가 </strong> .",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }
