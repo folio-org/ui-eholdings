@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "タイプが重複しています。変更してください。",
     "permission.settings.kb": "設定（電子所蔵）：ナレッジベースの資格情報を作成、編集、および表示できます",
     "permission.settings.root-proxy": "設定（電子所蔵）：ルートプロキシ設定の構成",
-    "permission.package-title.select-unselect": "電子所蔵：所蔵パッケージとタイトルを選択/選択解除できます",
     "permission.records.edit": "電子所蔵：プロバイダー、パッケージ、タイトルの詳細レコードを編集できます",
-    "permission.titles-packages.create-delete": "電子所蔵：カスタムパッケージとタイトルを作成および削除できます",
     "settings.accessStatusTypes.delete.error": "このアクセスステータスタイプはすでに削除されています。",
     "settings.kb.new": "新規ナレッジベース資格情報",
     "settings.kb.edit": "ナレッジベースの資格情報を編集する",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "設定（電子リソース）：アクセスステータスタイプを作成、編集、表示、および削除できます",
     "permission.settings.access-types.create-edit": "設定（電子リソース）：アクセスステータスタイプを作成、編集、および表示できます",
     "permission.settings.access-types.view": "設定（電子リソース）：アクセスステータスタイプを表示できます",
-    "permission.app.enabled": "UI: 電子所蔵モジュールを有効にする",
     "permission.settings.enabled": "設定（電子所蔵）：設定ページのリストを表示します",
     "selectPackage.confirmationModal.label": "パッケージ内のすべてのタイトルを所蔵に追加",
     "selectPackage.confirmationModal.message": "このアクションを選択すると、このパッケージの<strong>すべてのタイトルが</strong>所蔵に追加されます。この操作を続行するには、「<strong>パッケージ（すべてのタイトル）を所蔵に追加</strong>」を選択します。",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "削除",
     "agreements.accordion.new": "新しい契約を作成し、eHoldings パッケージ/タイトル レコードを契約明細として追加します。",
     "agreements.accordion.add": "eHoldings パッケージ/タイトル レコードを別の契約に契約明細として追加します。",
-    "proxiedUrl": "プロキシ URL"
+    "proxiedUrl": "プロキシ URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

@@ -219,7 +219,7 @@
     "validate.errors.customUrl.length": "Las URLs personalizadas deben tener 600 caracteres o menos.",
     "validate.errors.customUrl.include": "La URL debe incluir http: // o https: //",
     "server.errors.failedBackend": "La aplicación eHoldings no está disponible en este momento.",
-    "server.errors.errorDuringFetch": "Si el problema persiste, comuníquese con el administrador del sistema FOLIO o visite",
+    "server.errors.errorDuringFetch": "Si el problema persiste, comuníquese con el administrador del sistema FOLIO",
     "server.errors.kbNotConfigured": "Base de conocimiento no configurada",
     "server.errors.detectedUnconfiguredKb": "La aplicación eHoldings detectó la presencia de una base de conocimientos, pero la base de conocimientos no parece estar configurada.",
     "server.errors.configureKbLinkMsg": "Configure la base de conocimientos con sus credenciales en {link} .",
@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Tipo duplicado. Por favor revisa.",
     "permission.settings.kb": "Configuración (eHoldings): puede crear, editar y ver credenciales de la Base de Conhecimento",
     "permission.settings.root-proxy": "Configuración (eRecursos): configure la configuración del proxy raíz",
-    "permission.package-title.select-unselect": "eRecursos: Puede seleccionar/anular la selección de paquetes y títulos hacia/desde sus participaciones",
     "permission.records.edit": "eRecursos: puede editar proveedores, paquetes, registros de detalles de títulos",
-    "permission.titles-packages.create-delete": "eRecursos: puede editar proveedores, paquetes, registros de detalles de títulos",
     "settings.accessStatusTypes.delete.error": "Este tipo de estado de acceso ya ha sido eliminado.",
     "settings.kb.new": "Nuevas credenciales de la base de conocimientos",
     "settings.kb.edit": "Editar las credenciales de la base de conocimientos",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Configuración (eRecursos): puede crear, editar, ver y eliminar tipos de estado de acceso",
     "permission.settings.access-types.create-edit": "Configuración (eRecursos): puede crear, editar y ver tipos de estado de acceso",
     "permission.settings.access-types.view": "Configuración (eRecursos): puede ver los tipos de estado de acceso",
-    "permission.app.enabled": "eHoldings: Puede ver proveedores, paquetes, detalles de títulos",
     "permission.settings.enabled": "Ajustes (eHoldings): Ver configuración",
     "selectPackage.confirmationModal.label": "Añadir todos los títulos de un paquete a las Holdings",
     "selectPackage.confirmationModal.message": "Al seleccionar esta acción <strong>se añadirán todos los títulos</strong> de este paquete a sus Holdings. Para continuar con esta acción, seleccione <strong>Añadir paquete (todos los títulos) a las</strong> Holdings.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Borrar",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

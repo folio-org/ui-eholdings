@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Typ duplikátu. Prosíme o revizi.",
     "permission.settings.kb": "Nastavení (eHoldingy): Může vytvářet, upravovat a zobrazovat přihlašovací údaje znalostní báze",
     "permission.settings.root-proxy": "Nastavení (eHoldingy): konfigurace nastavení kořenového proxy serveru",
-    "permission.package-title.select-unselect": "eHoldingy: Může vybrat/zrušit výběr balíčků a názvů do/z holdingů",
     "permission.records.edit": "eHoldingy: Může upravovat poskytovatele, balíčky, detailní záznamy o názvech",
-    "permission.titles-packages.create-delete": "eHoldingy: Může vytvářet a mazat vlastní balíčky a názvy",
     "settings.accessStatusTypes.delete.error": "Tento typ stavu přístupu byl již smazán.",
     "settings.kb.new": "Nové přihlašovací údaje znalostní báze",
     "settings.kb.edit": "Úprava pověření znalostní báze",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Nastavení (eholdingy): Může vytvářet, upravovat, zobrazovat a mazat typy stavů přístupu",
     "permission.settings.access-types.create-edit": "Nastavení (eholdingy): Může vytvářet, upravovat a zobrazovat typy stavů přístupu",
     "permission.settings.access-types.view": "Nastavení (eholdingy): Může zobrazit typy stavu přístupu",
-    "permission.app.enabled": "eHoldingy: Může zobrazit poskytovatele, balíčky, detailní záznamy o názvech",
     "permission.settings.enabled": "Nastavení (eHoldingy): Zobrazit nastavení",
     "selectPackage.confirmationModal.label": "Přidat všechny názvy v balíčku do holdingů",
     "selectPackage.confirmationModal.message": "Výběrem této akce <strong>přidáte všechny názvy</strong> v tomto balíčku do svých holdingů. Chcete-li v této akci pokračovat, vyberte <strong>Přidat balíček (všechny názvy) do holdingů</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Smazat",
     "agreements.accordion.new": "Vytvoří novou smlouvu a poté k ní přidá záznam o balíčku/názvu eHoldingu jako řádek smlouvy",
     "agreements.accordion.add": "Přidá záznam o balíku/názvu eHoldingu jako řádek smlouvy k jiné smlouvě",
-    "proxiedUrl": "Proxy URL"
+    "proxiedUrl": "Proxy URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Dubbel type. Wijzigen a.u.b.",
     "permission.settings.kb": "Instellingen (E-holdings): Kan inloggegevens knowledgebase aanmaken, bewerken en bekijken",
     "permission.settings.root-proxy": "Instellingen (E-holdings): Root proxy-instelling configureren",
-    "permission.package-title.select-unselect": "E-holdings: Kan pakketten en titels selecteren en verwijderen uit uw holdings.",
     "permission.records.edit": "E-holdings: Kan gedetailleerde records van leveranciers, pakketten en titels bewerken.",
-    "permission.titles-packages.create-delete": "E-holdings: Kan aangepaste pakketten en titels aanmaken en verwijderen",
     "settings.accessStatusTypes.delete.error": "Dit toegangstatustype is al verwijderd.",
     "settings.kb.new": "Nieuwe inloggegevens voor knowledgebase",
     "settings.kb.edit": "Inloggegevens voor knowledgebase bewerken",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Instellingen (E-holdings): Kan toegangsstatustypen aanmaken, bewerken, bekijken en verwijderen.",
     "permission.settings.access-types.create-edit": "Instellingen (E-holdings): Kan toegangsstatustypen aanmaken, bewerken en bekijken.",
     "permission.settings.access-types.view": "Instellingen (E-holdings): Kan toegangsstatustypen bekijken",
-    "permission.app.enabled": "E-holdings: Kan gedetailleerde records van leveranciers, pakketten en titels bekijken",
     "permission.settings.enabled": "Instellingen (E-holdings): Instellingen weergeven",
     "selectPackage.confirmationModal.label": "Alle titels in een pakket aan holdings toevoegen",
     "selectPackage.confirmationModal.message": "Als u deze actie selecteert, worden <strong>alle titels</strong> in dit pakket aan uw holdings toegevoegd. Om verder te gaan met deze actie, selecteert u <strong>Pakket (alle titels) toevoegen aan holdings</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Verwijderen",
     "agreements.accordion.new": "Maakt een nieuwe overeenkomst aan en voegt vervolgens digitale holdingspakket-/titelrecord toe als een overeenkomstregel.",
     "agreements.accordion.add": "Voegt digitale holdingspakket-/titelrecord toe als een overeenkomstregel aan een andere overeenkomst.",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

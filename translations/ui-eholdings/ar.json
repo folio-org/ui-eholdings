@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "نوع مكرر. يرجى المراجعة.",
     "permission.settings.kb": "الإعدادت (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، وعرض بيانات اعتماد قاعدة المعرفة",
     "permission.settings.root-proxy": "الإعدادت (المقتنيات الإلكترونية): تهيئة إعدادات البروكسي الجذري",
-    "permission.package-title.select-unselect": "المقتنيات الإلكترونية: إمكانية تحديد/إلغاء تحديد الحزم والعناوين إلى المقتنيات ومنها.",
     "permission.records.edit": "المقتنيات الإلكترونية: إمكانية تحرير تسجيلات تفاصيل مقدمي الخدمة، الحزم، والعناوين.",
-    "permission.titles-packages.create-delete": "المقتنيات الإلكترونية: إمكانية إنشاء وحذف العناوين والحزم المخصصة",
     "settings.accessStatusTypes.delete.error": "تم حذف نوع حالة الوصول هذا بالفعل",
     "settings.kb.new": "بيانات اعتماد قاعدة معرفة جديدة",
     "settings.kb.edit": "تحرير بيانات اعتماد قاعدة المعرفة",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير، عرض، وحذف أنواع حالة الوصول",
     "permission.settings.access-types.create-edit": "الإعدادات (المقتنيات الإلكترونية): إمكانية إنشاء، تحرير وعرض أنواع حالة الوصول",
     "permission.settings.access-types.view": "الإعدادات (المقتنيات الإلكترونية): إمكانية عرض أنواع حالة الوصول",
-    "permission.app.enabled": "المقتنيات الإلكترونية: إمكانية عرض تسجيلات تفاصيل العناوين، ومقدمي الخدمات، والحزم",
     "permission.settings.enabled": "الإعدادت (المقتنيات الإلكترونية): اعرض الإعدادات",
     "selectPackage.confirmationModal.label": "إضافة كل العناوين الموجودة في حزمة إلى المقتنيات",
     "selectPackage.confirmationModal.message": "سيؤدي تحديد هذا الإجراء إلى <strong>إضافة كل المواد</strong> الموجودة في هذه الحزمة إلى مقتنياتك. للاستمرار في هذا الإجراء، قم بتحديد <strong>إضافة الحزمة (كل المواد) إلى المقتنيات</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Delete",
     "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
     "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
-    "proxiedUrl": "Proxied URL"
+    "proxiedUrl": "Proxied URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

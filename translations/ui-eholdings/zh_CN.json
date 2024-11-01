@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "类型重复。请修改。",
     "permission.settings.kb": "设置（电子馆藏）：可以创建、编辑和查看知识库凭证",
     "permission.settings.root-proxy": "设置（电子馆藏）：配置根代理设置",
-    "permission.package-title.select-unselect": "电子馆藏：可以从馆藏中选择/取消选择资源包和标题",
     "permission.records.edit": "电子馆藏：可以编辑提供者、资源包、标题详细记录",
-    "permission.titles-packages.create-delete": "电子馆藏：可以创建和删除自定义资源包和标题",
     "settings.accessStatusTypes.delete.error": "本访问状态类型已被删除。",
     "settings.kb.new": "新建知识库凭证",
     "settings.kb.edit": "编辑知识库凭证",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "设置（电子馆藏）：可以创建、编辑、查看和删除访问状态类型",
     "permission.settings.access-types.create-edit": "设置（电子馆藏）：可以创建、编辑和查看访问状态类型",
     "permission.settings.access-types.view": "设置（电子馆藏）：可以查看访问状态类型",
-    "permission.app.enabled": "电子馆藏：可以查看提供者、资源包、标题详细记录",
     "permission.settings.enabled": "设置（电子馆藏）：查看设置",
     "selectPackage.confirmationModal.label": "将资源包中所有标题添加到馆藏",
     "selectPackage.confirmationModal.message": "选择此操作会将此包中<strong>所有标题添加</strong>到馆藏中。要继续执行此操作，请选择<strong>将资源包（所有标题）添加到馆藏</strong> 。",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "删除",
     "agreements.accordion.new": "创建新协议，然后将 eHoldings 包/标题记录作为协议行添加到其中",
     "agreements.accordion.add": "将 eHoldings 包/标题记录作为协议行添加到另一份协议中",
-    "proxiedUrl": "代理 URL"
+    "proxiedUrl": "代理 URL",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
 }

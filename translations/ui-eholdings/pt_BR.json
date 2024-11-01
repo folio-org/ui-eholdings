@@ -353,9 +353,7 @@
     "settings.accessStatusTypes.validation.duplicate": "Tipo duplicado. Por favor revise.",
     "permission.settings.kb": "Configurações (Coleção eletrônica): Podem criar, editar e visualizar credenciais da base de conhecimento",
     "permission.settings.root-proxy": "Configurações (Coleção eletrônica): define a configuração da raiz do procurador",
-    "permission.package-title.select-unselect": "Coleção eletrônica: Pode selecionar/desmarcar pacotes e títulos de/para sua coleção",
     "permission.records.edit": "Coleção eletrônica: Pode editar provedores, pacotes, registros detalhados de títulos",
-    "permission.titles-packages.create-delete": "Coleção eletrônica: Pode criar e excluir pacotes e títulos personalizados",
     "settings.accessStatusTypes.delete.error": "Este tipo de status de acesso já foi excluído.",
     "settings.kb.new": "Novas credenciais da Base de Conhecimento",
     "settings.kb.edit": "Editar credenciais da Base de Conhecimento",
@@ -382,7 +380,6 @@
     "permission.settings.access-types.all": "Configurações (Coleção eletrônica): Pode criar, editar, visualizar e excluir tipos de status de acesso",
     "permission.settings.access-types.create-edit": "Configurações (Coleção eletrônica): Pode criar, editar e visualizar tipos de status de acesso",
     "permission.settings.access-types.view": "Configurações (Coleção eletrônica): Pode ver os tipos de status de acesso",
-    "permission.app.enabled": "Coleção eletrônica: Pode visualizar fornecedores, pacotes, registros detalhados de títulos",
     "permission.settings.enabled": "Configurações (Coleção eletrônica): Ver configurações",
     "selectPackage.confirmationModal.label": "Adicionar todos os títulos em um pacote a coleção",
     "selectPackage.confirmationModal.message": "Selecionar esta ação <strong>adicionará todos os títulos</strong> neste pacote aos sua coleção. Para continuar esta ação, selecione <strong>Adicionar pacote (todos os títulos) a coleção</strong>.",
@@ -602,5 +599,8 @@
     "agreements.deleteModal.delete": "Excluir",
     "agreements.accordion.new": "Cria um novo contrato e, em seguida, adiciona o registro de pacote/título Coleção eletrônica como uma Linha de Contrato a ele",
     "agreements.accordion.add": "Adiciona registro de pacote/título Coleção eletrônica como uma Linha de Contrato para outro Contrato",
-    "proxiedUrl": "URL com proxy"
+    "proxiedUrl": "URL com proxy",
+    "permission.app.view": "Coleção eletrônica: Pode visualizar fornecedores, pacotes, registros detalhados de títulos",
+    "permission.package-title.select-unselect.execute": "Coleção eletrônica: Pode selecionar/desmarcar pacotes e títulos de/para sua coleção",
+    "permission.titles-packages.create-delete.manage": "Coleção eletrônica: Pode criar e excluir pacotes e títulos personalizados"
 }
