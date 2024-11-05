@@ -10,6 +10,7 @@
 * Return permissions: `kb-ebsco.kb-credentials.uc.item.get`, `kb-ebsco.kb-credentials.item.get`. (UIEH-1434)
 * migrate to shared CI workflows. (UIEH-1429)
 * Rename permissions to match the naming convention. (UIEH-1436)
+* Pass the `asyncFilter` property to the `Selection` component of packages. (UIEH-1439)
 
 ## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
 

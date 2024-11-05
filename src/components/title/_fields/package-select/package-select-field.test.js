@@ -75,7 +75,7 @@ describe('Given PackageSelectField', () => {
     const input = getAllByLabelText('stripes-components.selection.filterOptionsLabel')[0];
 
     fireEvent.change(input, { target: { value: 'packageName' } });
-    expect(debounce).toHaveBeenCalledWith(mockOnFilter, 1000);
+    expect(debounce).toHaveBeenCalledWith(mockOnFilter, 800);
     expect(mockOnFilter).toHaveBeenCalled();
   });
 });
