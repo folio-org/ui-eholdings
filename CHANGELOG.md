@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [10.0.1] IN PROGRESS
+## [10.0.1] (https://github.com/folio-org/ui-eholdings/tree/v10.0.1) (2024-11-12)
 
 * Pass the `asyncFilter` property to the `Selection` component of packages. (UIEH-1439)
 
