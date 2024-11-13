@@ -600,7 +600,7 @@
     "agreements.accordion.new": "Vytvoří novou smlouvu a poté k ní přidá záznam o balíčku/názvu eHoldingu jako řádek smlouvy",
     "agreements.accordion.add": "Přidá záznam o balíku/názvu eHoldingu jako řádek smlouvy k jiné smlouvě",
     "proxiedUrl": "Proxy URL",
-    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
-    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
-    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
+    "permission.app.view": "eHoldingy: Může zobrazit poskytovatele, balíčky, detailní záznamy o názvech",
+    "permission.package-title.select-unselect.execute": "eHoldingy: Může vybrat/zrušit výběr balíčků a názvů do/z holdingů",
+    "permission.titles-packages.create-delete.manage": "eHoldingy: Může vytvářet a mazat vlastní balíčky a názvy"
 }
