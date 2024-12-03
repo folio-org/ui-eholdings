@@ -363,7 +363,7 @@
     "settings.assignedUsers": "Przypisani użytkownicy",
     "settings.assignedUsers.pluginButtonMessage": "Przypisz użytkowników",
     "settings.assignedUsers.list.name": "Nazwa",
-    "settings.assignedUsers.list.patronGroup": "Grupa czytelników",
+    "settings.assignedUsers.list.patronGroup": "Grupa czytelnika",
     "settings.assignedUsers.list.unassignUser": "Cofnij przypisanie użytkownika",
     "settings.assignedUsers.list.emptyMessage": "Użyj tylko wtedy, gdy planujesz skonfigurować wiele Baz Wiedzy EBSCO.",
     "settings.assignedUsers.alreadyAssignedModal.title": "Już przypisany do bazy wiedzy",
