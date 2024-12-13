@@ -600,7 +600,7 @@
     "agreements.accordion.new": "Crée un nouvel accord puis y ajoute le bouquet eHoldings/la notice de titre comme Ligne d'Accord",
     "agreements.accordion.add": "Ajoute le bouquet eHoldings/la notice de titre comme Ligne d'Accord à un autre Accord",
     "proxiedUrl": "URL proxy",
-    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
-    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
-    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
+    "permission.app.view": "eHoldings : peut afficher les fournisseurs, les bouquets, les notices de détails des titres",
+    "permission.package-title.select-unselect.execute": "eHoldings : peut (dé)sélectionner des bouquets et des titres de/vers vos localisations",
+    "permission.titles-packages.create-delete.manage": "eHoldings : peut créer et supprimer des bouquets et des titres personnalisés"
 }
