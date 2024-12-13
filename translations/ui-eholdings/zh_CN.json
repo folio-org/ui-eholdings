@@ -600,7 +600,7 @@
     "agreements.accordion.new": "创建新协议，然后将 eHoldings 包/标题记录作为协议行添加到其中",
     "agreements.accordion.add": "将 eHoldings 包/标题记录作为协议行添加到另一份协议中",
     "proxiedUrl": "代理 URL",
-    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
-    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
-    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
+    "permission.app.view": "电子馆藏：可以查看提供者、资源包、标题详细记录",
+    "permission.package-title.select-unselect.execute": "电子馆藏：可以从馆藏中选择/取消选择资源包和标题",
+    "permission.titles-packages.create-delete.manage": "电子馆藏：可以创建和删除自定义资源包和标题"
 }
