@@ -89,20 +89,17 @@ describe('Given AgreementsAccordion', () => {
     expect(getByText('ui-eholdings.new')).toBeDefined();
   });
 
-  describe('after click on "New" button', () => {
-    it('should redirect to create page of agreements app', () => {
-      const { getByText } = renderAgreementsAccordion();
-
-      fireEvent.click(getByText('ui-eholdings.new'));
-
-      expect(history.location.pathname + history.location.search).toEqual('/erm/agreements/create?authority=ref-type&referenceId=ref-id');
-    });
-  });
-
   it('should not display badge with agreements quantity', () => {
     const { queryByText } = renderAgreementsAccordion();
 
     expect(queryByText('Badge')).toBeNull();
+  });
+
+  it('should have correct props in the "New" button', () => {
+    const { getByText } = renderAgreementsAccordion();
+
+    expect(getByText('ui-eholdings.new')).toHaveAttribute('target', '_blank');
+    expect(getByText('ui-eholdings.new')).toHaveAttribute('href', '/erm/agreements/create?authority=ref-type&referenceId=ref-id');
   });
 
   it('should render agreements list', () => {

@@ -164,6 +164,7 @@ const AgreementsAccordion = ({
               ref={ref}
               aria-labelledby={ariaIds.text}
               buttonClass={styles['new-button']}
+              target="_blank"
               to={`/erm/agreements/create?authority=${refType}&referenceId=${refId}`}
             >
               <FormattedMessage id="ui-eholdings.new" />
