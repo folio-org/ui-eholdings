@@ -14,7 +14,6 @@ const PackageSearchList = ({
   fetch,
   notFoundMessage,
   onUpdateOffset,
-  shouldFocusItem,
   onClickItem,
 }) => {
   const packagesCollection = extend(Object.create(collection), {
@@ -48,7 +47,6 @@ const PackageSearchList = ({
             pathname: `/eholdings/packages/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
-          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => onClickItem(`/eholdings/packages/${item.content.id}`)}
           showProviderName
           showTitleCount
@@ -69,7 +67,6 @@ PackageSearchList.propTypes = {
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
-  shouldFocusItem: PropTypes.string,
 };
 
 export default PackageSearchList;

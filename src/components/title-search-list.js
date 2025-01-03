@@ -15,7 +15,6 @@ const TitleSearchList = ({
   fetch,
   notFoundMessage,
   onUpdateOffset,
-  shouldFocusItem,
   onClickItem,
 }) => {
   const packagesCollection = extend(Object.create(collection), {
@@ -53,7 +52,6 @@ const TitleSearchList = ({
             pathname: `/eholdings/titles/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
-          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => onClickItem(`/eholdings/titles/${item.content.id}`)}
         />
       )}
@@ -72,7 +70,6 @@ TitleSearchList.propTypes = {
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
   packagesFacetCollection: PropTypes.object.isRequired,
-  shouldFocusItem: PropTypes.string,
 };
 
 export default TitleSearchList;

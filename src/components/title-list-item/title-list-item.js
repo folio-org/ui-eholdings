@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import { Headline } from '@folio/stripes/components';
 
-import shouldFocus from '../should-focus';
 import InternalLink from '../internal-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
@@ -152,6 +151,4 @@ TitleListItem.propTypes = {
   showSelected: PropTypes.bool,
 };
 
-// this HOC adds a prop, `shouldFocus` that will focus the component's
-// rendered DOM node on mount and update (when the prop is toggled)
-export default shouldFocus(TitleListItem);
+export default TitleListItem;
