@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 import { Headline } from '@folio/stripes/components';
 
-import shouldFocus from '../should-focus';
 import InternalLink from '../internal-link';
 import SelectedLabel from '../selected-label';
 
@@ -94,6 +93,4 @@ ProviderListItem.defaultProps = {
   headingLevel: 'h3',
 };
 
-// this HOC adds a prop, `shouldFocus` that will focus the component's
-// rendered DOM node on mount and update (when the prop is toggled)
-export default shouldFocus(ProviderListItem);
+export default ProviderListItem;

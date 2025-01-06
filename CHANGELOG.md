@@ -3,6 +3,7 @@
 ## [10.1.0] (IN PROGRESS)
 
 * Add `target="_blank"` to the `New` button of agreements accordion. (UIEH-1446)
+* Remove `shouldFocus` HOC and all related code. (UIEH-1444)
 
 ## [10.0.1] (https://github.com/folio-org/ui-eholdings/tree/v10.0.1) (2024-11-12)
 

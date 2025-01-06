@@ -103,11 +103,7 @@ class SearchRoute extends Component {
     const searchTypeChanged = searchType !== prevState.searchType;
     const urlContainsTagsFilter = hasIn(params, ['filter', 'tags']);
     const urlContainsAccessTypesFilter = hasIn(params, ['filter', 'access-type']);
-    let shouldFocusItem = null;
 
-    if (hideDetails && match.params.id !== (prevState.match && prevState.match.params.id)) {
-      shouldFocusItem = prevState.match.params.id || null;
-    }
     // update searchstring state only when it actually changes in the location instead of updating it each time on
     // input to text field. This eliminates re-rendering of the text field on each keyboard in and solves problem
     // stated in https://issues.folio.org/browse/UIEH-558
@@ -118,7 +114,6 @@ class SearchRoute extends Component {
         searchType,
         params,
         hideDetails,
-        shouldFocusItem,
         sort: params.sort,
         submittedSearchFilters: params.filter || {},
         draftSearchFilters: searchTypeChanged
@@ -437,13 +432,12 @@ class SearchRoute extends Component {
    * Renders the search component specific to the current search type
    */
   renderResults() {
-    const { searchType, params, shouldFocusItem } = this.state;
+    const { searchType, params } = this.state;
     const { history, location, match: { params: { id } } } = this.props;
 
     const props = {
       params,
       activeId: id,
-      shouldFocusItem,
       location: this.props.location,
       collection: this.getResults(),
       packagesFacetCollection: this.getPackagesFacetCollection(),
