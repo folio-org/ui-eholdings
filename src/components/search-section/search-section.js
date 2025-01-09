@@ -27,6 +27,7 @@ const EMPTY_OBJECT = {};
 const propTypes = {
   accessTypes: PropTypes.object.isRequired,
   onFilter: PropTypes.func.isRequired,
+  onToggleActions: PropTypes.func.isRequired,
   packagesFacetCollection: PropTypes.object,
   params: PropTypes.object,
   prevDataOfOptedPackage: PropTypes.object,
@@ -48,6 +49,7 @@ const SearchSection = ({
   titlesFacets = EMPTY_OBJECT,
   packagesFacetCollection = EMPTY_OBJECT,
   onFilter,
+  onToggleActions,
 }) => {
   const intl = useIntl();
 
@@ -194,6 +196,7 @@ const SearchSection = ({
       <ActionMenu
         searchType={searchType}
         onStandaloneFilterChange={handleStandaloneFilterChange}
+        onToggleActions={onToggleActions}
         tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
         searchByTagsEnabled={searchByTagsEnabled}
         searchByAccessTypesEnabled={searchByAccessTypesEnabled}

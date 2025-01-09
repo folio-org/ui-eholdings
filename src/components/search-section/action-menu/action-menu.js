@@ -40,6 +40,7 @@ const propTypes = {
   filterCount: PropTypes.number.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onStandaloneFilterChange: PropTypes.func.isRequired,
+  onToggleActions: PropTypes.func.isRequired,
   onToggleFilter: PropTypes.func.isRequired,
   packagesFacetCollection: PropTypes.object,
   params: PropTypes.object,
@@ -70,6 +71,7 @@ const ActionMenu = ({
   filterCount,
   onFilterChange,
   onToggleFilter,
+  onToggleActions,
   onStandaloneFilterChange,
 }) => {
   const intl = useIntl();
@@ -137,7 +139,7 @@ const ActionMenu = ({
     const tagsOptions = getSortedDataOptions();
 
     return (
-      <div role="tablist">
+      <div>
         <IfPermission perm="ui-tags.all">
           <TagsFilter
             isLoading={tagsModelOfAlreadyAddedTags.isLoading}
@@ -167,47 +169,53 @@ const ActionMenu = ({
     );
   };
 
-  const renderActionMenuContent = ({ onToggle, open, keyHandler }) => (
+  const renderActionMenuContent = () => (
     <DropdownMenu>
-      {renderActionMenu({ onToggle, open, keyHandler })}
+      {renderActionMenu()}
     </DropdownMenu>
   );
 
-  // // eslint-disable-next-line react/prop-types
-  const renderActionMenuToggle = ({ onToggle, triggerRef, keyHandler, open, ariaProps, getTriggerProps }) => (
-    <div className={styles.actionMenuToggle}>
-      <Button
-        buttonStyle="primary"
-        marginBottom0
-        onClick={onToggle}
-        onKeyDown={keyHandler}
-        ref={triggerRef}
-        {...getTriggerProps()}
-        {...ariaProps}
-      >
-        <Icon icon={open ? 'triangle-up' : 'triangle-down'} iconPosition="end">
-          <FormattedMessage id="stripes-components.paneMenuActionsToggleLabel" />
-        </Icon>
-      </Button>
-      {filterCount > 0 && (
-        <Tooltip
-          text={intl.formatMessage({ id: 'ui-eholdings.actionMenu.filterBadgeTooltip' }, { count: filterCount })}
-          id="filter-badge-tooltip"
+  const renderActionMenuToggle = ({ onToggle, triggerRef, keyHandler, open, ariaProps, getTriggerProps }) => {
+    const handleActionMenuToggle = (e) => {
+      onToggleActions(!open);
+      onToggle(e);
+    };
+
+    return (
+      <div className={styles.actionMenuToggle}>
+        <Button
+          buttonStyle="primary"
+          marginBottom0
+          onKeyDown={keyHandler}
+          ref={triggerRef}
+          {...getTriggerProps()}
+          {...ariaProps}
+          onClick={handleActionMenuToggle}
         >
-          {({ ref, ariaIds }) => (
-            <div
-              ref={ref}
-              aria-labelledby={ariaIds.text}
-            >
-              <Badge>
-                {filterCount}
-              </Badge>
-            </div>
-          )}
-        </Tooltip>
-      )}
-    </div>
-  );
+          <Icon icon={open ? 'triangle-up' : 'triangle-down'} iconPosition="end">
+            <FormattedMessage id="stripes-components.paneMenuActionsToggleLabel" />
+          </Icon>
+        </Button>
+        {filterCount > 0 && (
+          <Tooltip
+            text={intl.formatMessage({ id: 'ui-eholdings.actionMenu.filterBadgeTooltip' }, { count: filterCount })}
+            id="filter-badge-tooltip"
+          >
+            {({ ref, ariaIds }) => (
+              <div
+                ref={ref}
+                aria-labelledby={ariaIds.text}
+              >
+                <Badge>
+                  {filterCount}
+                </Badge>
+              </div>
+            )}
+          </Tooltip>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Dropdown

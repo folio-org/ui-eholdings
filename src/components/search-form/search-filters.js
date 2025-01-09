@@ -124,7 +124,10 @@ const SearchFilters = ({
           const hasSelectedOption = ![undefined, defaultValue].includes(activeFilters[name]);
 
           return (
-            <div className={styles.groupContainer}>
+            <div
+              key={name}
+              className={styles.groupContainer}
+            >
               <div className={styles.groupTitle}>
                 <Label
                   id={accordionLabelId}

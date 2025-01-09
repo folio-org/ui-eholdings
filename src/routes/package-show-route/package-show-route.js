@@ -397,7 +397,6 @@ class PackageShowRoute extends Component {
 
     const {
       pkgSearchParams,
-      queryId,
       isTitlesUpdating,
     } = this.state;
 
@@ -446,6 +445,7 @@ class PackageShowRoute extends Component {
               accessTypes={accessStatusTypes}
               searchType={listTypes.TITLES}
               onFilter={this.searchTitles}
+              onToggleActions={this.toggleSearchModal}
             />
           }
         />

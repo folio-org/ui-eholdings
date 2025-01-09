@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
-import { Icon } from '@folio/stripes/components';
 import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 
 import { ClearButton } from '../clear-button';
@@ -44,10 +43,6 @@ const TagsFilter = ({
     labelRef.current?.focus();
   };
 
-  if (isLoading) {
-    return <Icon icon="spinner-ellipsis" />;
-  }
-
   return (
     <>
       <div className={styles.headline}>
@@ -81,6 +76,7 @@ const TagsFilter = ({
           selectedValues={selectedValues}
           disabled={!searchByTagsEnabled}
           aria-labelledby="selectTagFilter-label"
+          showLoading={isLoading}
         />
       </div>
     </>
