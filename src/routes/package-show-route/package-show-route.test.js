@@ -10,6 +10,8 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+
 import PackageShowRoute from './package-show-route';
 import Harness from '../../../test/jest/helpers/harness';
 
@@ -510,9 +512,8 @@ describe('Given PackageShowRoute', () => {
   });
 
   describe('when package search params change', () => {
-    it('should handle getPackageTitles', () => {
+    it('should handle getPackageTitles', async () => {
       const {
-        getAllByTestId,
         getByRole,
       } = renderPackageShowRoute({
         getPackageTitles: mockGetPackageTitles,
@@ -525,11 +526,9 @@ describe('Given PackageShowRoute', () => {
         },
       });
 
-      fireEvent.click(getAllByTestId('search-badge')[0]);
-      fireEvent.change(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }), {
-        target: { value: 'Title name' },
-      });
-      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.search' }));
+      const searchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
+
+      await userEvent.type(searchBox, 'Title name{enter}');
 
       expect(mockGetPackageTitles).toHaveBeenCalledWith({
         packageId,
@@ -550,9 +549,8 @@ describe('Given PackageShowRoute', () => {
     });
 
     describe('when changed param is not single and it is not "page"', () => {
-      it('should handle clearPackageTitles', () => {
+      it('should handle clearPackageTitles', async () => {
         const {
-          getAllByTestId,
           getByRole,
         } = renderPackageShowRoute({
           clearPackageTitles: mockClearPackageTitles,
@@ -565,11 +563,9 @@ describe('Given PackageShowRoute', () => {
           },
         });
 
-        fireEvent.click(getAllByTestId('search-badge')[0]);
-        fireEvent.change(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }), {
-          target: { value: 'Title name' },
-        });
-        fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.search' }));
+        const searchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
+
+        await userEvent.type(searchBox, 'Title name{enter}');
 
         expect(mockClearPackageTitles).toHaveBeenCalled();
       });
@@ -694,7 +690,7 @@ describe('Given PackageShowRoute', () => {
   describe('when remove package from holdings', () => {
     describe('when model is not custom', () => {
       it('should handle updatePackage', () => {
-        const { getByRole } = renderPackageShowRoute({
+        const { getAllByRole, getByRole } = renderPackageShowRoute({
           updatePackage: mockUpdatePackage,
           model: {
             ...model,
@@ -702,7 +698,7 @@ describe('Given PackageShowRoute', () => {
           },
         });
 
-        fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+        fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.removeFromHoldings' }));
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
 
@@ -712,7 +708,7 @@ describe('Given PackageShowRoute', () => {
 
     describe('when model is custom', () => {
       it('should handle destroyPackage', () => {
-        const { getByRole } = renderPackageShowRoute({
+        const { getByRole, getAllByRole } = renderPackageShowRoute({
           destroyPackage: mockDestroyPackage,
           model: {
             ...model,
@@ -721,7 +717,7 @@ describe('Given PackageShowRoute', () => {
           },
         });
 
-        fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+        fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }));
 
@@ -792,14 +788,14 @@ describe('Given PackageShowRoute', () => {
 
   describe('when click on Edit button', () => {
     it('should redirect to edit package page', () => {
-      const { getByRole } = renderPackageShowRoute({
+      const { getByRole, getAllByRole } = renderPackageShowRoute({
         model: {
           ...model,
           isSelected: true,
         },
       });
 
-      fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+      fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));
 
       expect(historyReplaceSpy).toHaveBeenCalledWith({

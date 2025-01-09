@@ -5,9 +5,9 @@ import {
   Accordion,
   Icon,
 } from '@folio/stripes/components';
-import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 
-import SearchByCheckbox from '../search-by-checkbox';
+import { TagsFilter } from '../../../tags-filter';
+import { getTagsList } from '../../../utilities';
 
 import styles from './tags-filter-accordion.css';
 
@@ -48,18 +48,7 @@ const TagsFilterAccordion = ({
     tags = '',
   } = searchFilter;
 
-  let tagsList = [];
-
-  if (tags && dataOptions.length) {
-    tagsList = Array.isArray(tags)
-      ? tags
-      : tags.split(',');
-  }
-
-  tagsList = tagsList
-    .filter(tag => dataOptions.some(option => option.value === tag))
-    .map(tag => tag.toLowerCase())
-    .sort();
+  const tagsList = getTagsList(tags, dataOptions);
 
   return tagsModel.isLoading
     ? <Icon icon="spinner-ellipsis" />
@@ -80,35 +69,15 @@ const TagsFilterAccordion = ({
           onToggle={onToggle}
           className={styles['search-filter-accordion']}
         >
-          <span
-            className="sr-only"
-            id="selectTagFilter-label"
-          >
-            <FormattedMessage id="ui-eholdings.tags" />
-          </span>
-          <SearchByCheckbox
-            filterType="tags"
-            isEnabled={searchByTagsEnabled}
+          <TagsFilter
+            isLoading={tagsModel.isLoading}
+            selectedValues={tagsList}
+            searchByTagsEnabled={searchByTagsEnabled}
+            onStandaloneFilterChange={onStandaloneFilterChange}
             onStandaloneFilterToggle={onStandaloneFilterToggle}
+            handleStandaloneFilterChange={handleStandaloneFilterChange}
+            dataOptions={dataOptions}
           />
-          <FormattedMessage id="ui-eholdings.tags.filter">
-            {
-              ([label]) => (
-                <div data-testid="search-form-tag-filter">
-                  <MultiSelectionFilter
-                    id="selectTagFilter"
-                    ariaLabel={label}
-                    dataOptions={dataOptions}
-                    name="tags"
-                    onChange={handleStandaloneFilterChange}
-                    selectedValues={tagsList}
-                    disabled={!searchByTagsEnabled}
-                    aria-labelledby="selectTagFilter-label"
-                  />
-                </div>
-              )
-            }
-          </FormattedMessage>
         </Accordion>
       </div>
     );
