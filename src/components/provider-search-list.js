@@ -14,7 +14,6 @@ const ProviderSearchList = ({
   fetch,
   notFoundMessage,
   onUpdateOffset,
-  shouldFocusItem,
   onClickItem,
 }) => {
   const packagesCollection = extend(Object.create(collection), {
@@ -48,7 +47,6 @@ const ProviderSearchList = ({
             pathname: `/eholdings/providers/${item.content.id}`,
           }}
           active={item.content && activeId && item.content.id === activeId}
-          shouldFocus={item.content && shouldFocusItem && item.content.id === shouldFocusItem}
           onClick={() => onClickItem(`/eholdings/providers/${item.content.id}`)}
         />
       )}
@@ -66,7 +64,6 @@ ProviderSearchList.propTypes = {
   ]),
   onClickItem: PropTypes.func.isRequired,
   onUpdateOffset: PropTypes.func.isRequired,
-  shouldFocusItem: PropTypes.string,
 };
 
 export default ProviderSearchList;
