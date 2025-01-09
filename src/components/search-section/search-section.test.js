@@ -1,3 +1,5 @@
+import { act } from 'react';
+
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
@@ -63,20 +65,20 @@ describe('SearchSection', () => {
   });
 
   describe('when search option changes', () => {
-    it('should not fetch data', () => {
+    it('should not fetch data', async () => {
       const { getByRole } = renderSearchSection();
 
-      userEvent.selectOptions(getByRole('combobox'), searchableIndexes.ISNX);
+      await userEvent.selectOptions(getByRole('combobox'), searchableIndexes.ISNX);
 
       expect(mockOnFilter).not.toHaveBeenCalled();
     });
   });
 
   describe('when search query changes', () => {
-    it('should not fetch data', () => {
+    it('should not fetch data', async () => {
       const { getByRole } = renderSearchSection();
 
-      userEvent.type(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }), 'Test query');
+      await userEvent.type(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }), 'Test query');
 
       expect(mockOnFilter).not.toHaveBeenCalled();
     });
@@ -88,7 +90,7 @@ describe('SearchSection', () => {
 
       const searchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
 
-      await userEvent.type(searchBox, 'Title name{enter}');
+      await act(() => userEvent.type(searchBox, 'Title name{enter}'));
 
       expect(mockOnFilter).toHaveBeenCalledWith(expect.objectContaining({ q: 'Title name' }));
     });
