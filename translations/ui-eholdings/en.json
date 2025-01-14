@@ -635,5 +635,8 @@
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}"
   }

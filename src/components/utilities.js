@@ -295,3 +295,48 @@ export const handleSaveKeyFormSubmit = (formRef) => (event) => {
 export const filterCountFromQuery = ({ q, sort, filter = [] }) => {
   return [q, sort].concat(Object.values(filter)).filter(Boolean).length;
 };
+
+export const getTagsList = (tags, dataOptions) => {
+  let tagsList = [];
+
+  if (tags && dataOptions.length) {
+    tagsList = Array.isArray(tags)
+      ? tags
+      : tags.split(',');
+  }
+
+  tagsList = tagsList
+    .filter(tag => dataOptions.some(option => option.value === tag))
+    .map(tag => tag.toLowerCase())
+    .sort();
+
+  return tagsList;
+};
+
+export const getAccessTypesList = (accessTypes) => {
+  let accessTypesList = [];
+
+  if (accessTypes) {
+    accessTypesList = Array.isArray(accessTypes)
+      ? accessTypes
+      : accessTypes.split(',');
+  }
+
+  accessTypesList.sort();
+
+  return accessTypesList;
+};
+
+export const normalize = (query = {}) => {
+  return {
+    filter: query.filter || {
+      tags: undefined,
+      type: undefined,
+      selected: undefined,
+      'access-type': undefined,
+    },
+    q: query.q || '',
+    searchfield: query.searchfield,
+    sort: query.sort,
+  };
+};

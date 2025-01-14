@@ -19,21 +19,10 @@ import {
   accessTypesReduxStateShape,
   searchTypes,
 } from '../../constants';
-import { filterCountFromQuery } from '../utilities';
-
-export const normalize = (query = {}) => {
-  return {
-    filter: query.filter || {
-      tags: undefined,
-      type: undefined,
-      selected: undefined,
-      'access-type': undefined,
-    },
-    q: query.q || '',
-    searchfield: query.searchfield,
-    sort: query.sort,
-  };
-};
+import {
+  filterCountFromQuery,
+  normalize,
+} from '../utilities';
 
 class SearchModal extends PureComponent {
   static propTypes = {

@@ -19,7 +19,7 @@ import {
 } from '../../constants';
 
 import View from '../../components/package/show';
-import SearchModal from '../../components/search-modal';
+import { SearchSection } from '../../components/search-section';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -397,7 +397,6 @@ class PackageShowRoute extends Component {
 
     const {
       pkgSearchParams,
-      queryId,
       isTitlesUpdating,
     } = this.state;
 
@@ -440,15 +439,13 @@ class PackageShowRoute extends Component {
             history.location.state.isDestroyed
           }
           searchModal={
-            <SearchModal
-              key={queryId}
+            <SearchSection
+              queryProp={pkgSearchParams}
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-              listType={listTypes.TITLES}
-              query={pkgSearchParams}
-              onSearch={this.searchTitles}
-              onToggle={this.toggleSearchModal}
-              onFilter={this.searchTitles}
               accessTypes={accessStatusTypes}
+              searchType={listTypes.TITLES}
+              onFilter={this.searchTitles}
+              onToggleActions={this.toggleSearchModal}
             />
           }
         />
