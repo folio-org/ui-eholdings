@@ -602,5 +602,7 @@
     "proxiedUrl": "代理 URL",
     "permission.app.view": "电子馆藏：可以查看提供者、资源包、标题详细记录",
     "permission.package-title.select-unselect.execute": "电子馆藏：可以从馆藏中选择/取消选择资源包和标题",
-    "permission.titles-packages.create-delete.manage": "电子馆藏：可以创建和删除自定义资源包和标题"
+    "permission.titles-packages.create-delete.manage": "电子馆藏：可以创建和删除自定义资源包和标题",
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}"
 }

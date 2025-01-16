@@ -602,5 +602,7 @@
     "proxiedUrl": "Proxy URL",
     "permission.app.view": "eHoldingy: Může zobrazit poskytovatele, balíčky, detailní záznamy o názvech",
     "permission.package-title.select-unselect.execute": "eHoldingy: Může vybrat/zrušit výběr balíčků a názvů do/z holdingů",
-    "permission.titles-packages.create-delete.manage": "eHoldingy: Může vytvářet a mazat vlastní balíčky a názvy"
+    "permission.titles-packages.create-delete.manage": "eHoldingy: Může vytvářet a mazat vlastní balíčky a názvy",
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}"
 }

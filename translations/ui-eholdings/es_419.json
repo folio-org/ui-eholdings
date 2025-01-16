@@ -602,5 +602,7 @@
     "proxiedUrl": "Proxied URL",
     "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
     "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
-    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles"
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles",
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}"
 }

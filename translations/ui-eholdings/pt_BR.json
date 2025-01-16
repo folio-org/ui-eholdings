@@ -602,5 +602,7 @@
     "proxiedUrl": "URL com proxy",
     "permission.app.view": "Coleção eletrônica: Pode visualizar fornecedores, pacotes, registros detalhados de títulos",
     "permission.package-title.select-unselect.execute": "Coleção eletrônica: Pode selecionar/desmarcar pacotes e títulos de/para sua coleção",
-    "permission.titles-packages.create-delete.manage": "Coleção eletrônica: Pode criar e excluir pacotes e títulos personalizados"
+    "permission.titles-packages.create-delete.manage": "Coleção eletrônica: Pode criar e excluir pacotes e títulos personalizados",
+    "actionMenu.label": "Ações",
+    "actionMenu.filterBadgeTooltip": "{count} aplicado {count, plural, one {filtro} other {filtros}}"
 }
