@@ -250,17 +250,17 @@ const resource = {
     name: 'Title name 1',
     isSelected: false,
     managedCoverages: [{
-      'beginCoverage': '2005-01-01',
-      'endCoverage': '2005-12-31'
+      beginCoverage: '2005-01-01',
+      endCoverage: '2005-12-31'
     }],
     customCoverages: [
       {
-        'beginCoverage': '2025-01-09',
-        'endCoverage': '2026-01-01'
+        beginCoverage: '2025-01-09',
+        endCoverage: '2026-01-01'
       },
       {
-        'beginCoverage': '2025-01-07',
-        'endCoverage': '2025-01-08'
+        beginCoverage: '2025-01-07',
+        endCoverage: '2025-01-08'
       },
     ],
     managedEmbargoPeriod: {

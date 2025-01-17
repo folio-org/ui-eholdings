@@ -98,12 +98,7 @@ const pkgSearchParams = {
   searchfield: 'title',
   count: 100,
   page: 1,
-  filter: {
-    'access-type': undefined,
-    selected: undefined,
-    tags: undefined,
-    type: undefined,
-  }
+  filter: {},
 };
 
 const mockAddPackageToHoldings = jest.fn();
