@@ -49,23 +49,23 @@ class Settings extends Component {
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
-  }
+  };
 
   hasEditPermissions = () => {
     return this.props.stripes.hasPerm('ui-eholdings.settings.kb.edit');
-  }
+  };
 
   handleKnowledgeBaseHeadingClick = (id) => {
     this.props.history.push({
       pathname: `/settings/eholdings/knowledge-base/${id}`,
     });
-  }
+  };
 
   goToCreateKnowledgeBasePage = () => {
     this.props.history.push({
       pathname: '/settings/eholdings/knowledge-base/new',
     });
-  }
+  };
 
   renderKnowledgeBaseHeading(configuration) {
     const { id, attributes: { name } } = configuration;

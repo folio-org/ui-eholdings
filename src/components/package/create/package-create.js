@@ -87,7 +87,7 @@ class PackageCreate extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
   getFirstMenu = () => {
     const { onCancel } = this.props;
@@ -109,7 +109,7 @@ class PackageCreate extends Component {
         </FormattedMessage>
       )
       : null;
-  }
+  };
 
   render() {
     const {

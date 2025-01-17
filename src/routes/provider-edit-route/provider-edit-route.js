@@ -68,7 +68,7 @@ export default class ProviderEditRoute extends Component {
   getSearchType = () => {
     const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
     return searchType;
-  }
+  };
 
   handleCancel = () => {
     const {
@@ -86,7 +86,7 @@ export default class ProviderEditRoute extends Component {
     };
 
     history.replace(viewRouteState);
-  }
+  };
 
   render() {
     const {

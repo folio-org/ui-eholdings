@@ -276,7 +276,7 @@ class PackageShowRoute extends Component {
     const { pkgSearchParams } = this.state;
 
     this.searchTitles({ ...pkgSearchParams, page });
-  }
+  };
 
   searchTitles = (pkgSearchParams) => {
     const {
@@ -318,13 +318,13 @@ class PackageShowRoute extends Component {
       },
       queryId: (queryId + 1),
     }));
-  }
+  };
 
   toggleSearchModal = (isModalVisible) => {
     if (isModalVisible) {
       this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
-  }
+  };
 
   fetchPackageCostPerUse = (filterData) => {
     const {
@@ -333,7 +333,7 @@ class PackageShowRoute extends Component {
     } = this.props;
 
     getCostPerUse(listTypes.PACKAGES, id, filterData);
-  }
+  };
 
   fetchCostPerUsePackageTitles = (filterData) => {
     const {
@@ -342,11 +342,11 @@ class PackageShowRoute extends Component {
     } = this.props;
 
     getCostPerUsePackageTitles(id, filterData);
-  }
+  };
 
   loadMoreCostPerUsePackageTitles = (filterData) => {
     this.fetchCostPerUsePackageTitles(filterData, true);
-  }
+  };
 
   handleEdit = () => {
     const {
@@ -364,7 +364,7 @@ class PackageShowRoute extends Component {
     };
 
     history.replace(editRouteState);
-  }
+  };
 
   toggleTitles = () => {
     const {
@@ -379,7 +379,7 @@ class PackageShowRoute extends Component {
     const params = transformQueryParams('titles', pkgSearchParams);
 
     getPackageTitles({ packageId, params });
-  }
+  };
 
   render() {
     const {

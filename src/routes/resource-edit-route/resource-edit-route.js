@@ -164,7 +164,7 @@ class ResourceEditRoute extends Component {
         userDefinedField5,
       }));
     }
-  }
+  };
 
   handleCancel = () => {
     const {
@@ -182,7 +182,7 @@ class ResourceEditRoute extends Component {
     };
 
     history.replace(viewRouteState);
-  }
+  };
 
   render() {
     const {

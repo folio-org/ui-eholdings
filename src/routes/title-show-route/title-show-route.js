@@ -89,7 +89,7 @@ class TitleShowRoute extends Component {
     } = this.props;
 
     getCostPerUse(listTypes.TITLES, id, filterData);
-  }
+  };
 
   handleEdit = () => {
     const {
@@ -105,7 +105,7 @@ class TitleShowRoute extends Component {
     };
 
     history.replace(editRouteState);
-  }
+  };
 
   onPackageFilter = (searchParam) => {
     this.props.getCustomPackages(searchParam);

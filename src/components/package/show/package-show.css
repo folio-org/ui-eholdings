@@ -1,0 +1,6 @@
+@import "@folio/stripes-components/lib/variables";
+
+.titlesListContainer {
+  max-width: calc(var(--container-max-width) - 2rem);
+  margin: 0 auto;
+}

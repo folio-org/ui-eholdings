@@ -152,7 +152,7 @@ class ProviderShowRoute extends Component {
     if (isModalVisible) {
       this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
-  }
+  };
 
   fetchPackages = (page) => {
     const { pkgSearchParams } = this.state;
@@ -162,7 +162,7 @@ class ProviderShowRoute extends Component {
   getSearchType = () => {
     const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
     return searchType;
-  }
+  };
 
   handleEdit = () => {
     const {
@@ -180,7 +180,7 @@ class ProviderShowRoute extends Component {
     };
 
     history.replace(editRouteState);
-  }
+  };
 
   render() {
     const {

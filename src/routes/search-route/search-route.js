@@ -184,7 +184,7 @@ class SearchRoute extends Component {
           [filterToBeDisabled]: false,
         };
     }, this.handleSearch);
-  }
+  };
 
   handleSearchChange = draftSearchString => {
     this.setState({ draftSearchString });
@@ -215,11 +215,11 @@ class SearchRoute extends Component {
       },
       submittedSearchString: '',
     }), this.handleSearch);
-  }
+  };
 
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
-  }
+  };
 
   updateFilters = fn => this.setState(({ hideFilters }) => ({
     hideFilters: fn(hideFilters),
@@ -268,7 +268,7 @@ class SearchRoute extends Component {
     }
 
     return collection;
-  }
+  };
 
   /**
    * Build's a url for a specific search type + query
