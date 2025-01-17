@@ -173,7 +173,7 @@ class SearchForm extends Component {
       });
 
     return sortBy(dataOptions, ['value']);
-  }
+  };
 
   renderTagFilter() {
     const {

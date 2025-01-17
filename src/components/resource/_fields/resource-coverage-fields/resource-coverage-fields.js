@@ -47,7 +47,7 @@ class ResourceCoverageFields extends Component {
     } = this.props;
 
     return validateDateRange(values, locale, packageDateRange);
-  }
+  };
 
   renderCustomCoverageFields = (formData) => {
     const {
@@ -69,7 +69,7 @@ class ResourceCoverageFields extends Component {
         renderField={this.renderField}
       />
     );
-  }
+  };
 
   renderManagedCoverageFields = (formData) => {
     const { model } = this.props;
@@ -193,7 +193,7 @@ class ResourceCoverageFields extends Component {
         </Col>
       </Row>
     );
-  }
+  };
 
   renderEmptyMessage(initialValues) {
     const isCoverageDatesRemoved = has(initialValues, '[0].beginCoverage');

@@ -71,7 +71,7 @@ export default class ProviderEdit extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
   renderProxySelectField() {
     const {

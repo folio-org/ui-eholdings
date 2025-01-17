@@ -49,7 +49,7 @@ function validateEmbargoUnit(embargoUnit, { customEmbargoPeriod }) {
 export default class CustomEmbargoFields extends Component {
   static propTypes = {
     ariaLabelledBy: PropTypes.string.isRequired,
-  }
+  };
 
   renderEmbargoUnitField({ name: fieldsName }) {
     const { ariaLabelledBy } = this.props;
@@ -179,7 +179,7 @@ export default class CustomEmbargoFields extends Component {
     return fields.value?.length
       ? this.renderInputs(...fieldsData)
       : this.renderAddButton(...fieldsData);
-  }
+  };
 
   render() {
     return (

@@ -34,7 +34,7 @@ class ApplicationRoute extends Component {
         status: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);

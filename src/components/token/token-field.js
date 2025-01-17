@@ -31,7 +31,7 @@ class TokenField extends Component {
     this.setState(({ showInputs }) => ({
       showInputs: !showInputs
     }));
-  }
+  };
 
   validate(value) {
     return value && value.length > 500 ? (

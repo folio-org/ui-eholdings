@@ -70,7 +70,7 @@ export default class TitleEdit extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
   render() {
     const {

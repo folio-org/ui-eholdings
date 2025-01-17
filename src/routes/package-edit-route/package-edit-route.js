@@ -233,7 +233,7 @@ class PackageEditRoute extends Component {
     };
 
     history.replace(viewRouteState);
-  }
+  };
 
   render() {
     const {

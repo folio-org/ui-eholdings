@@ -148,7 +148,7 @@ class ResourceShowRoute extends Component {
     } else {
       updateResource(model);
     }
-  }
+  };
 
   handleEdit = () => {
     const {
@@ -162,7 +162,7 @@ class ResourceShowRoute extends Component {
     };
 
     history.replace(editRouteState);
-  }
+  };
 
   fetchResourceCostPerUse = (filterData) => {
     const {
@@ -171,7 +171,7 @@ class ResourceShowRoute extends Component {
     } = this.props;
 
     getCostPerUse(listTypes.RESOURCES, id, filterData);
-  }
+  };
 
   render() {
     const {
