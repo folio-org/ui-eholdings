@@ -602,5 +602,7 @@
     "proxiedUrl": "Proxied URL",
     "permission.app.view": "eZasoby: można przeglądać szczegółowe rekordy dostawców, pakietów, tytułów",
     "permission.package-title.select-unselect.execute": "e-Zasoby: można zaznaczać/odznaczać pakiety i tytuły do/z Twoich zasobów",
-    "permission.titles-packages.create-delete.manage": "e-Zasoby: można tworzyć i usuwać własne pakiety i tytuły"
+    "permission.titles-packages.create-delete.manage": "e-Zasoby: można tworzyć i usuwać własne pakiety i tytuły",
+    "actionMenu.label": "Akcje",
+    "actionMenu.filterBadgeTooltip": "{count} zastosowano {count, plural, one {filtr} other {filtry}}"
 }

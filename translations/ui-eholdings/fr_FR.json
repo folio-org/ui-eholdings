@@ -602,5 +602,7 @@
     "proxiedUrl": "URL proxy",
     "permission.app.view": "eHoldings : peut afficher les fournisseurs, les bouquets, les notices de détails des titres",
     "permission.package-title.select-unselect.execute": "eHoldings : peut (dé)sélectionner des bouquets et des titres de/vers vos localisations",
-    "permission.titles-packages.create-delete.manage": "eHoldings : peut créer et supprimer des bouquets et des titres personnalisés"
+    "permission.titles-packages.create-delete.manage": "eHoldings : peut créer et supprimer des bouquets et des titres personnalisés",
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}"
 }
