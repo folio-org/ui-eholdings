@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'qs';
 import isEqual from 'lodash/isEqual';
-import reduce from 'lodash/reduce';
 
 import { TitleManager } from '@folio/stripes/core';
 
@@ -25,7 +24,6 @@ class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     clearCostPerUseData: PropTypes.func.isRequired,
-    clearPackageTitles: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
@@ -282,16 +280,7 @@ class PackageShowRoute extends Component {
     const {
       location,
       history,
-      clearPackageTitles,
     } = this.props;
-
-    const paramDifference = reduce(pkgSearchParams, (result, item, key) => {
-      return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
-    }, []);
-
-    if (!(paramDifference.length === 1 && paramDifference[0] === 'page')) {
-      clearPackageTitles();
-    }
 
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
