@@ -12,7 +12,7 @@ import InternalLink from '../../../../internal-link';
 import CoverageDateList from '../../../../coverage-date-list';
 import { isBookPublicationType } from '../../../../utilities';
 
-import styles from '../../package-show.css';
+import styles from './PackageTitleList.css';
 
 const COLUMNS = {
   STATUS: 'status',
@@ -22,7 +22,7 @@ const COLUMNS = {
   MANAGED_EMBARGO: 'managedEmbargo',
 };
 
-const MAX_HEIGHT = 526;
+const MAX_HEIGHT = 520;
 
 const propTypes = {
   count: PropTypes.number.isRequired,

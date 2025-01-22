@@ -567,8 +567,8 @@ describe('Given PackageShowRoute', () => {
       });
     });
 
-    describe('when changed param is not single and it is not "page"', () => {
-      it('should handle clearPackageTitles', async () => {
+    describe('when packages are being fetched', () => {
+      it('should not clear old ones', async () => {
         const {
           getByRole,
         } = renderPackageShowRoute({
@@ -586,7 +586,7 @@ describe('Given PackageShowRoute', () => {
 
         await userEvent.type(searchBox, 'Title name{enter}');
 
-        expect(mockClearPackageTitles).toHaveBeenCalled();
+        expect(mockClearPackageTitles).not.toHaveBeenCalled();
       });
     });
   });
