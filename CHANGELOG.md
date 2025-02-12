@@ -6,6 +6,8 @@
 * Remove `shouldFocus` HOC and all related code. (UIEH-1444)
 * *BREAKING* Package Record - Title List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1440)
 * *BREAKING* Package Record - Title List view - Apply MCL component, add display of managed, custom coverage dates. (UIEH-1442)
+* *BREAKING* migrate react-intl to v7. (UIEH-1454)
+* *BREAKING* migrate stripes-* dependencies. (UIEH-1453)
 
 ## [10.0.1] (https://github.com/folio-org/ui-eholdings/tree/v10.0.1) (2024-11-12)
 
