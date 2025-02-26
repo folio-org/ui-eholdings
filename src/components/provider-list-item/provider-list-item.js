@@ -13,9 +13,9 @@ const cx = classNames.bind(styles);
 const ProviderListItem = ({
   item,
   link,
-  active,
+  active = false,
   onClick,
-  headingLevel,
+  headingLevel = 'h3',
 }) => {
   return !item
     ? (
@@ -86,11 +86,6 @@ ProviderListItem.propTypes = {
     }).isRequired,
   ]),
   onClick: PropTypes.func,
-};
-
-ProviderListItem.defaultProps = {
-  active: false,
-  headingLevel: 'h3',
 };
 
 export default ProviderListItem;

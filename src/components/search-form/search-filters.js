@@ -31,19 +31,13 @@ const propTypes = {
   searchType: PropTypes.string.isRequired,
 };
 
-const defaultProps = {
-  activeFilters: {},
-  closedByDefault: true,
-  disabled: false,
-};
-
 const SearchFilters = ({
   searchType,
-  activeFilters,
+  activeFilters = {},
   availableFilters,
   onUpdate,
-  closedByDefault,
-  disabled,
+  closedByDefault = true,
+  disabled = false,
   hasAccordion = true,
 }) => {
   const labelRef = useRef(null);
@@ -173,6 +167,5 @@ const SearchFilters = ({
 };
 
 SearchFilters.propTypes = propTypes;
-SearchFilters.defaultProps = defaultProps;
 
 export default SearchFilters;

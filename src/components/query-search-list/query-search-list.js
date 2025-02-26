@@ -19,18 +19,18 @@ const cx = classnames.bind(styles);
 
 const QuerySearchList = ({
   collection,
-  packagesFacetCollection,
+  packagesFacetCollection = {},
   fetch,
-  fullWidth,
+  fullWidth = false,
   isMainPageSearch,
   itemHeight,
   notFoundMessage,
   onUpdateOffset,
-  pageSize,
+  pageSize = PAGE_SIZE,
   renderItem,
   scrollable,
   type,
-  isUpdating,
+  isUpdating = false,
 }) => {
   const listFirstItem = useRef(null);
 
@@ -168,13 +168,6 @@ QuerySearchList.propTypes = {
   renderItem: PropTypes.func.isRequired,
   scrollable: PropTypes.bool,
   type: PropTypes.string.isRequired,
-};
-
-QuerySearchList.defaultProps = {
-  fullWidth: false,
-  pageSize: PAGE_SIZE,
-  packagesFacetCollection: {},
-  isUpdating: false,
 };
 
 export default QuerySearchList;

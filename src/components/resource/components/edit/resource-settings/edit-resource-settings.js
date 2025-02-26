@@ -34,7 +34,7 @@ const EditResourceSettings = ({
   proxyTypes,
   model,
   accessStatusTypes,
-  resourceIsCustom,
+  resourceIsCustom = false,
   resourceSelected,
 }) => {
   const renderFields = (resourceIsCustom && resourceSelected) || !resourceIsCustom;
@@ -101,9 +101,5 @@ const EditResourceSettings = ({
 };
 
 EditResourceSettings.propTypes = propTypes;
-
-EditResourceSettings.defaultProps = {
-  resourceIsCustom: false,
-};
 
 export default EditResourceSettings;

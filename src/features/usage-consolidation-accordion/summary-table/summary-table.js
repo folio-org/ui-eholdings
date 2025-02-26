@@ -24,11 +24,8 @@ const propTypes = {
   customProperties: PropTypes.object,
   entityType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  isExportDisabled: PropTypes.bool,
   metricType: PropTypes.string,
   noCostPerUseAvailable: PropTypes.bool.isRequired,
-  onExportTitles: PropTypes.func,
-  onViewTitles: PropTypes.func,
 };
 
 const SummaryTable = ({
@@ -36,11 +33,8 @@ const SummaryTable = ({
   customProperties,
   id,
   costPerUseType,
-  onViewTitles,
   entityType,
   metricType,
-  onExportTitles,
-  isExportDisabled,
   noCostPerUseAvailable,
   ...rest
 }) => {
@@ -87,12 +81,6 @@ const SummaryTable = ({
       />
     </KeyValue>
   );
-};
-
-SummaryTable.defaultProps = {
-  isExportDisabled: false,
-  onExportTitles: noop,
-  onViewTitles: noop,
 };
 
 SummaryTable.propTypes = propTypes;

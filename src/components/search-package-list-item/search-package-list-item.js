@@ -24,10 +24,10 @@ const SearchPackageListItem = ({
   packageName,
   onClick,
   headingLevel,
-  showProviderName,
-  showTitleCount,
-  showSelectedCount,
-  showTags,
+  showProviderName = false,
+  showTitleCount = false,
+  showSelectedCount = false,
+  showTags = false,
 }) => {
   return !item
     ? (
@@ -118,13 +118,6 @@ SearchPackageListItem.propTypes = {
   showSelectedCount: PropTypes.bool,
   showTags: PropTypes.bool,
   showTitleCount: PropTypes.bool,
-};
-
-SearchPackageListItem.defaultProps = {
-  showProviderName: false,
-  showSelectedCount: false,
-  showTags: false,
-  showTitleCount: false,
 };
 
 export default SearchPackageListItem;

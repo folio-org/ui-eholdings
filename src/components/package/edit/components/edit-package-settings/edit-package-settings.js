@@ -40,11 +40,6 @@ const propTypes = {
   proxyTypes: PropTypes.object.isRequired,
 };
 
-const defaultProps = {
-  accessStatusTypes: {},
-  packageIsCustom: false,
-};
-
 const EditPackageSettings = ({
   getSectionHeader,
   isOpen,
@@ -53,8 +48,8 @@ const EditPackageSettings = ({
   initialValues,
   proxyTypes,
   provider,
-  packageIsCustom,
-  accessStatusTypes,
+  packageIsCustom = false,
+  accessStatusTypes = {},
   model,
 }) => {
   const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
@@ -271,6 +266,5 @@ const EditPackageSettings = ({
 };
 
 EditPackageSettings.propTypes = propTypes;
-EditPackageSettings.defaultProps = defaultProps;
 
 export default EditPackageSettings;

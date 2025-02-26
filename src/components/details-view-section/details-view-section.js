@@ -5,12 +5,12 @@ import styles from './details-view-section.css';
 
 const cx = classNames.bind(styles);
 
-export default function DetailsViewSection(props) {
+export default function DetailsViewSection({ separator = true, label, children }) {
   return (
-    <div className={cx('details-view-section', { 'hide-separator': !props.separator })}>
-      <Headline tag="h3" size="large" faded>{props.label}</Headline>
+    <div className={cx('details-view-section', { 'hide-separator': !separator })}>
+      <Headline tag="h3" size="large" faded>{label}</Headline>
       <div className={styles['details-view-section-value']}>
-        {props.children}
+        {children}
       </div>
     </div>
   );
@@ -23,8 +23,4 @@ DetailsViewSection.propTypes = {
     PropTypes.string
   ]).isRequired,
   separator: PropTypes.bool
-};
-
-DetailsViewSection.defaultProps = {
-  separator: true
 };

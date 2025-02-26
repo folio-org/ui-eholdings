@@ -33,8 +33,8 @@ const EditHoldingStatus = ({
   model,
   resourceIsCustom,
   resourceSelected,
-  isSelectInFlight,
-  handleToggleResourceHoldings,
+  isSelectInFlight = false,
+  handleToggleResourceHoldings = noop,
 }) => {
   const renderToggleSelectionStatusButton = () => {
     if ((!resourceSelected && !isSelectInFlight) || (!model.isSelected && isSelectInFlight)) {
@@ -89,10 +89,5 @@ const EditHoldingStatus = ({
 };
 
 EditHoldingStatus.propTypes = propTypes;
-
-EditHoldingStatus.defaultProps = {
-  handleToggleResourceHoldings: noop,
-  isSelectInFlight: false,
-};
 
 export default EditHoldingStatus;

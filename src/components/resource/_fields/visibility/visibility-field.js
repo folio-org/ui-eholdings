@@ -5,7 +5,7 @@ import { Headline, RadioButton } from '@folio/stripes/components';
 
 import fieldsetStyles from '../../../fieldset-styles.css';
 
-const VisibilityField = ({ disabled }) => {
+const VisibilityField = ({ disabled = false }) => {
   const disabledReason = typeof disabled === 'boolean' ? '' : disabled;
 
   return (
@@ -56,10 +56,6 @@ VisibilityField.propTypes = {
     PropTypes.bool,
     PropTypes.node,
   ]),
-};
-
-VisibilityField.defaultProps = {
-  disabled: false,
 };
 
 export default VisibilityField;
