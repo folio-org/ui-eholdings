@@ -4,7 +4,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import noop from 'lodash/noop';
 
 import {
   MultiColumnList,
