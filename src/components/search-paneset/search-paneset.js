@@ -48,15 +48,9 @@ const propTypes = {
   updateFilters: PropTypes.func.isRequired,
 };
 
-const defaultProps = {
-  filterCount: 0,
-  hideFilters: false,
-  totalResults: 0,
-};
-
 const SearchPaneset = ({
-  filterCount,
-  hideFilters,
+  filterCount = 0,
+  hideFilters = false,
   history,
   isLoading,
   resultPaneTitle,
@@ -64,7 +58,7 @@ const SearchPaneset = ({
   resultsType,
   resultsView,
   searchForm,
-  totalResults,
+  totalResults = 0,
   updateFilters,
 }) => {
   const stripes = useStripes();
@@ -188,6 +182,5 @@ const SearchPaneset = ({
 };
 
 SearchPaneset.propTypes = propTypes;
-SearchPaneset.defaultProps = defaultProps;
 
 export default SearchPaneset;

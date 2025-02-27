@@ -28,18 +28,13 @@ const propTypes = {
   searchFilter: PropTypes.object,
 };
 
-const defaultProps = {
-  isOpen: false,
-  searchFilter: {},
-};
-
 const AccessTypesFilterAccordion = ({
   accessTypesStoreData,
   searchByAccessTypesEnabled,
-  searchFilter,
+  searchFilter = {},
   onStandaloneFilterChange,
   onStandaloneFilterToggle,
-  isOpen,
+  isOpen = false,
   header,
   dataOptions,
   handleStandaloneFilterChange,
@@ -86,6 +81,5 @@ const AccessTypesFilterAccordion = ({
 };
 
 AccessTypesFilterAccordion.propTypes = propTypes;
-AccessTypesFilterAccordion.defaultProps = defaultProps;
 
 export default AccessTypesFilterAccordion;

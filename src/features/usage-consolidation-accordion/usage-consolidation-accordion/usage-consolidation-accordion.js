@@ -51,18 +51,18 @@ const UsageConsolidationAccordion = ({
   getUsageConsolidation,
   headerProps,
   id,
-  isOpen,
+  isOpen = false,
   onToggle,
   usageConsolidation,
   onFilterSubmit,
   costPerUseData,
   recordType,
-  recordId,
+  recordId = '',
   recordName,
-  publicationType,
-  onViewTitles,
-  onLoadMoreTitles,
-  isExportDisabled,
+  publicationType = '',
+  onViewTitles = noop,
+  onLoadMoreTitles = noop,
+  isExportDisabled = false,
 }) => {
   const { isLoading: isCostPerUseDataLoading } = costPerUseData;
 
@@ -250,15 +250,6 @@ const UsageConsolidationAccordion = ({
       )
       : null
   );
-};
-
-UsageConsolidationAccordion.defaultProps = {
-  onViewTitles: noop,
-  onLoadMoreTitles: noop,
-  isExportDisabled: false,
-  isOpen: false,
-  publicationType: '',
-  recordId: '',
 };
 
 UsageConsolidationAccordion.propTypes = propTypes;

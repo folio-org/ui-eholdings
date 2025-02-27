@@ -27,18 +27,13 @@ const propTypes = {
   tagsModel: PropTypes.object.isRequired,
 };
 
-const defaultProps = {
-  isOpen: false,
-  searchFilter: {},
-};
-
 const TagsFilterAccordion = ({
   tagsModel,
   searchByTagsEnabled,
-  searchFilter,
+  searchFilter = {},
   onStandaloneFilterChange,
   onStandaloneFilterToggle,
-  isOpen,
+  isOpen = false,
   onToggle,
   header,
   handleStandaloneFilterChange,
@@ -84,6 +79,5 @@ const TagsFilterAccordion = ({
 };
 
 TagsFilterAccordion.propTypes = propTypes;
-TagsFilterAccordion.defaultProps = defaultProps;
 
 export default TagsFilterAccordion;

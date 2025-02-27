@@ -20,7 +20,7 @@ const FILTER_DEBOUNCE_MS = 800;
 const PackageSelectField = ({
   options,
   onFilter,
-  loadingOptions,
+  loadingOptions = false,
 }) => {
   const intl = useIntl();
   const onFilterDebounced = debounce(onFilter, FILTER_DEBOUNCE_MS);
@@ -65,10 +65,6 @@ PackageSelectField.propTypes = {
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
   })).isRequired,
-};
-
-PackageSelectField.defaultProps = {
-  loadingOptions: false,
 };
 
 export default PackageSelectField;

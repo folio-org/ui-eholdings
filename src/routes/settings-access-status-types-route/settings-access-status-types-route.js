@@ -12,7 +12,9 @@ import {
 import View from '../../components/settings/settings-access-status-types';
 
 const SettingsAccessStatusTypesRoute = ({
-  accessTypes,
+  accessTypes = {
+    items: { data: [] },
+  },
   getAccessTypes,
   attachAccessType,
   deleteAccessType,
@@ -96,12 +98,6 @@ SettingsAccessStatusTypesRoute.propTypes = {
     }).isRequired,
   }).isRequired,
   updateAccessType: PropTypes.func.isRequired,
-};
-
-SettingsAccessStatusTypesRoute.defaultProps = {
-  accessTypes: {
-    items: { data: [] },
-  },
 };
 
 export default SettingsAccessStatusTypesRoute;

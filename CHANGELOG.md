@@ -8,6 +8,7 @@
 * *BREAKING* Package Record - Title List view - Apply MCL component, add display of managed, custom coverage dates. (UIEH-1442)
 * *BREAKING* migrate react-intl to v7. (UIEH-1454)
 * *BREAKING* migrate stripes-* dependencies. (UIEH-1453)
+* React v19: refactor away from default props for functional components. (UIEH-1421)
 
 ## [10.0.1] (https://github.com/folio-org/ui-eholdings/tree/v10.0.1) (2024-11-12)
 
