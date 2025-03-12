@@ -481,7 +481,7 @@
     "permission.costperuse.view": "eZasoby: możliwość przeglądania danych dotyczących wykorzystania i analizy pakietów, tytułów i zasobów",
     "permission.settings.usage-consolidation.view": "Ustawienia (eZasoby): wyświetlanie danych uwierzytelniających konsolidację użycia interfejsu API",
     "permission.settings.usage-consolidation.create-edit": "Ustawienia (eZasoby): tworzenie, edycja i wyświetlanie danych uwierzytelniających konsolidację użycia interfejsu API",
-    "usageConsolidation.holdingsSummary": "Holdings Summary",
+    "usageConsolidation.holdingsSummary": "Podsumowanie zasobów",
     "navigation.app": "Szukaj w aplikacji e-Zasoby",
     "navigation.content": "Prześlij zapytanie dotyczące zawartości bazy wiedzy",
     "navigation.systemStatus": "Status systemu EBSCO",
