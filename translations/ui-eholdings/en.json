@@ -644,5 +644,5 @@
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
-    "titlesList.tags": "Tags"
+    "titlesList.tags": "Tag(s)"
 }
