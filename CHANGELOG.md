@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [11.0.0] (IN PROGRESS)
+## [11.0.0] (https://github.com/folio-org/ui-eholdings/tree/v11.0.0) (2025-03-13)
 
 * Add `target="_blank"` to the `New` button of agreements accordion. (UIEH-1446)
 * Remove `shouldFocus` HOC and all related code. (UIEH-1444)
