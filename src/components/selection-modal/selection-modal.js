@@ -22,17 +22,12 @@ const propTypes = {
   showSelectionModal: PropTypes.bool.isRequired,
 };
 
-const defaultProps = {
-  modelIsUpdating: false,
-  change: noop,
-};
-
 const SelectionModal = ({
   showSelectionModal,
-  modelIsUpdating,
+  modelIsUpdating = false,
   handleDeleteConfirmation,
   cancelSelectionToggle,
-  change,
+  change = noop,
   children,
   label,
   confirmButtonLabel,
@@ -73,6 +68,5 @@ const SelectionModal = ({
 };
 
 SelectionModal.propTypes = propTypes;
-SelectionModal.defaultProps = defaultProps;
 
 export default SelectionModal;

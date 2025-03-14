@@ -107,7 +107,7 @@ class TitleCreate extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
   render() {
     const {

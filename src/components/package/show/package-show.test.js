@@ -94,6 +94,13 @@ const testModel = {
   },
 };
 
+const pkgSearchParams = {
+  searchfield: 'title',
+  count: 100,
+  page: 1,
+  filter: {},
+};
+
 const mockAddPackageToHoldings = jest.fn();
 const mockFetchCostPerUsePackageTitles = jest.fn();
 const mockFetchPackageCostPerUse = jest.fn();
@@ -151,6 +158,7 @@ const renderPackageShow = (props = {}) => render(
       }}
       toggleSelected={mockToggleSelected}
       updateFolioTags={mockUpdateFolioTags}
+      pkgSearchParams={pkgSearchParams}
       {...props}
     />
   </Harness>
@@ -302,33 +310,20 @@ describe('Given PackageShow', () => {
     });
 
     describe('when opening', () => {
-      describe('and the titles are loaded', () => {
-        it('should not render the accordion list count', () => {
-          const { queryByTestId } = renderPackageShow({
-            isTitlesUpdating: false,
-            packageTitles: {
-              isLoading: true,
-            },
-          });
-
-          expect(queryByTestId('accordion-list-count')).not.toBeInTheDocument();
-        });
-      });
-
       it('should call onToggleTitles', () => {
-        const { getByTestId } = renderPackageShow();
+        const { getByRole } = renderPackageShow();
 
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
         expect(mockOnToggleTitles).toHaveBeenCalled();
       });
     });
 
     describe('when closing', () => {
       it('should not invoke onToggleTitles', () => {
-        const { getByTestId } = renderPackageShow();
+        const { getByRole } = renderPackageShow();
 
-        fireEvent.click(getByTestId('accordion-toggle-button-packageShowTitles'));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.listType.titles' }));
         expect(mockOnToggleTitles).not.toHaveBeenCalled();
       });
     });

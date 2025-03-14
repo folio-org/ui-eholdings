@@ -1,13 +1,47 @@
 # Change history for ui-eholdings
 
-## [9.1.0] (IN PROGRESS)
+## [11.1.0] (IN PROGRESS)
+
+* Replace `moment` usage with `dayjs`. (UIEH-1407)
+
+## [11.0.0] (IN PROGRESS)
+
+* Add `target="_blank"` to the `New` button of agreements accordion. (UIEH-1446)
+* Remove `shouldFocus` HOC and all related code. (UIEH-1444)
+* *BREAKING* Package Record - Title List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1440)
+* *BREAKING* Package Record - Title List view - Apply MCL component, add display of managed, custom coverage dates. (UIEH-1442)
+* *BREAKING* migrate react-intl to v7. (UIEH-1454)
+* *BREAKING* migrate stripes-* dependencies. (UIEH-1453)
+* React v19: refactor away from default props for functional components. (UIEH-1421)
+
+## [10.0.1] (https://github.com/folio-org/ui-eholdings/tree/v10.0.1) (2024-11-12)
+
+* Pass the `asyncFilter` property to the `Selection` component of packages. (UIEH-1439)
+
+## [10.0.0] (https://github.com/folio-org/ui-eholdings/tree/v10.0.0) (2024-10-30)
+
+* Agreements accordion - Revise Are you sure you want to unassign agreement? message. (UIEH-1420)
+* Agreements accordion - Add a tooltip for the `New` and `Add` buttons. (UIEH-1424)
+* eHoldings package-title (resource) view: display Proxied URL. (UIEH-1419)
+* Fix title search is slow with many Packages filter options. (UIEH-1428)
+* *BREAKING* Upgrade `eholdings` to `4.0`. Change permission `kb-ebsco.kb-credentials.item.get` to `kb-ebsco.kb-credentials.key.item.get` and `kb-ebsco.kb-credentials.uc.item.get` to `kb-ebsco.kb-credentials.uc.key.item.get`. (UIEH-1431)
+* Return permissions: `kb-ebsco.kb-credentials.uc.item.get`, `kb-ebsco.kb-credentials.item.get`. (UIEH-1434)
+* migrate to shared CI workflows. (UIEH-1429)
+* Rename permissions to match the naming convention. (UIEH-1436)
+
+## [9.1.1] (https://github.com/folio-org/ui-eholdings/tree/v9.1.1) (2024-03-24)
+
+* Add erm 7.0 interface support
+
+## [9.1.0] (https://github.com/folio-org/ui-eholdings/tree/v9.1.0) (2024-03-20)
 
 * Remove Bigtest tests. (UIEH-1390)
 * Remove eslint deps that are already listed in eslint-config-stripes. (UIEH-1389)
 * Improve HTML page titles for Assigned Users and Usage Consolidation Settings pages. (UIEH-1387)
 * Edit eholdings record (provider/package/title) > Cancel button does not work in same way as other apps Cancel button. (UIEH-1360)
 * Refactor CSS away from `color()` function. (UIEH-1402)
-* Replace `moment` usage with `dayjs`. (UIEH-1407)
+* Remove duplicates from the keyboard shortcut modal. (UIEH-1408)
+* Translation updates
 
 ## [9.0.2] (https://github.com/folio-org/ui-eholdings/tree/v9.0.2) (2023-11-09)
 

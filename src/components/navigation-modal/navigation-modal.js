@@ -30,17 +30,12 @@ const propTypes = {
   message: PropTypes.node,
   when: PropTypes.bool.isRequired,
 };
-const defaultProps = {
-  historyAction: '',
-  label: <FormattedMessage id="ui-eholdings.navModal.modalLabel" />,
-  message: <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />,
-};
 
 const NavigationModal = ({
   ariaLabel,
-  historyAction,
-  label,
-  message,
+  historyAction = '',
+  label = <FormattedMessage id="ui-eholdings.navModal.modalLabel" />,
+  message = <FormattedMessage id="ui-eholdings.navModal.unsavedChangesMsg" />,
   when,
 }) => {
   const intl = useIntl();
@@ -119,6 +114,5 @@ const NavigationModal = ({
 };
 
 NavigationModal.propTypes = propTypes;
-NavigationModal.defaultProps = defaultProps;
 
 export default NavigationModal;

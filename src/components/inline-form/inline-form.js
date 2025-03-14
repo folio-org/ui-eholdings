@@ -11,7 +11,7 @@ export default class InlineForm extends Component {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired
-  }
+  };
 
   render() {
     const {

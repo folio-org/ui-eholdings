@@ -47,14 +47,10 @@ const propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const defaultProps = {
-  isCreateMode: false,
-};
-
 const SettingsKnowledgeBase = ({
   config,
   currentKBName,
-  isCreateMode,
+  isCreateMode = false,
   kbCredentials,
   kbId,
   onDelete,
@@ -376,6 +372,5 @@ const SettingsKnowledgeBase = ({
 };
 
 SettingsKnowledgeBase.propTypes = propTypes;
-SettingsKnowledgeBase.defaultProps = defaultProps;
 
 export default SettingsKnowledgeBase;

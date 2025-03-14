@@ -19,7 +19,7 @@ class CustomLabelsEditSection extends Component {
         id: PropTypes.number,
       })
     })).isRequired,
-  }
+  };
 
   validateStringLength = (value) => {
     const message = (
@@ -30,7 +30,7 @@ class CustomLabelsEditSection extends Component {
     );
 
     return value && value.length > CUSTOM_LABELS_VALUE_MAX_LENGTH ? message : undefined;
-  }
+  };
 
   render() {
     const {

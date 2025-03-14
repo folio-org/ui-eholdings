@@ -47,7 +47,9 @@ const RouteHistoryContextProvider = ({ children }) => {
     updateRouteHistory(routeHistory => {
       const lastEholdingsPage = routeHistory.findIndex(page => page.pathname.startsWith('/eholdings'));
 
-      routeHistory[lastEholdingsPage].leavingEholdings = true;
+      if (lastEholdingsPage !== -1) {
+        routeHistory[lastEholdingsPage].leavingEholdings = true;
+      }
 
       return routeHistory;
     });

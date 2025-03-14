@@ -17,7 +17,7 @@ const propTypes = {
 };
 
 const HoldingStatus = ({
-  id,
+  id = 'packageHoldingStatus',
   isOpen,
   onToggle,
   onAddToHoldings,
@@ -44,6 +44,5 @@ const HoldingStatus = ({
 );
 
 HoldingStatus.propTypes = propTypes;
-HoldingStatus.defaultProps = { id: 'packageHoldingStatus' };
 
 export default HoldingStatus;

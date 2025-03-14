@@ -5,7 +5,7 @@ import styles from './list.css';
 
 const cx = classNames.bind(styles);
 
-const List = ({ className, fullWidth, ...props }) => {
+const List = ({ className = '', fullWidth = false, ...props }) => {
   return (
     <ul
       className={cx(styles.list, { 'full-width': fullWidth }, className)}
@@ -17,11 +17,6 @@ const List = ({ className, fullWidth, ...props }) => {
 List.propTypes = {
   className: PropTypes.string,
   fullWidth: PropTypes.bool,
-};
-
-List.defaultProps = {
-  className: '',
-  fullWidth: false,
 };
 
 export default List;

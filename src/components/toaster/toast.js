@@ -62,7 +62,7 @@ class Toast extends Component {
     this.setState({ isOpen: false }, () => {
       this.props.onClose(this.props.id);
     });
-  }
+  };
 
   getIconForType(type) {
     switch (type) {

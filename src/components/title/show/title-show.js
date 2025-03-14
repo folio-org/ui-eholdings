@@ -161,7 +161,7 @@ class TitleShow extends Component {
     return filteredPackagesIds
       ? model.resources.records.filter(({ id: recordId }) => filteredPackagesIds.some(id => id === recordId))
       : [];
-  }
+  };
 
   handlePackageFilterChange = (selectedPackages, countOfAppliedPackagesFilters) => {
     const {
@@ -185,7 +185,7 @@ class TitleShow extends Component {
       ...location,
       search: newSearch,
     });
-  }
+  };
 
   get lastMenu() {
     const {
@@ -246,17 +246,17 @@ class TitleShow extends Component {
     this.setState(({ showCustomPackageModal }) => ({
       showCustomPackageModal: !showCustomPackageModal
     }));
-  }
+  };
 
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
-  }
+  };
 
   handleExpandAll = (sections) => {
     const next = set('sections', sections, this.state);
     this.setState(next);
-  }
+  };
 
   toggleAllSections = (expand) => {
     this.setState((curState) => {

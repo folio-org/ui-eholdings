@@ -14,7 +14,7 @@ class ToggleSwitch extends Component {
     isPending: PropTypes.bool,
     name: PropTypes.string,
     onChange: PropTypes.func
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -39,7 +39,7 @@ class ToggleSwitch extends Component {
     if (this.props.onChange) {
       this.props.onChange(e);
     }
-  }
+  };
 
   render() {
     const { isPending, id, name, disabled, checked } = this.props;

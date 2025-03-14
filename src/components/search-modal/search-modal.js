@@ -19,21 +19,10 @@ import {
   accessTypesReduxStateShape,
   searchTypes,
 } from '../../constants';
-import { filterCountFromQuery } from '../utilities';
-
-export const normalize = (query = {}) => {
-  return {
-    filter: query.filter || {
-      tags: undefined,
-      type: undefined,
-      selected: undefined,
-      'access-type': undefined,
-    },
-    q: query.q || '',
-    searchfield: query.searchfield,
-    sort: query.sort,
-  };
-};
+import {
+  filterCountFromQuery,
+  normalize,
+} from '../utilities';
 
 class SearchModal extends PureComponent {
   static propTypes = {
@@ -103,23 +92,23 @@ class SearchModal extends PureComponent {
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
     }));
-  }
+  };
 
   close = () => {
     this.setState({
       isModalVisible: false,
     });
-  }
+  };
 
   updateSearch = () => {
     this.close();
     this.updateFilter(this.state.query);
-  }
+  };
 
   resetSearch = () => {
     this.close();
     this.updateFilter({});
-  }
+  };
 
   toggleFilter = filterName => () => {
     const filterToBeToggled = filterName === 'access-type'
@@ -134,7 +123,7 @@ class SearchModal extends PureComponent {
       [filterToBeToggled]: !currentState[filterToBeToggled],
       [filterToBeDisabled]: false,
     }));
-  }
+  };
 
   handleSearchFieldChange = (searchfield) => {
     this.setState(({ query }) => ({
@@ -143,7 +132,7 @@ class SearchModal extends PureComponent {
         searchfield,
       }),
     }));
-  }
+  };
 
   handleSearchQueryChange = q => {
     this.setState(({ query }) => ({
@@ -152,7 +141,7 @@ class SearchModal extends PureComponent {
         q,
       },
     }));
-  }
+  };
 
   handleFilterChange = (sort, filter) => {
     this.setState(({ query }) => ({
@@ -163,7 +152,7 @@ class SearchModal extends PureComponent {
         q: query.q,
       }),
     }));
-  }
+  };
 
   handleStandaloneFilterChange = filter => {
     this.setState(({ query }) => ({
@@ -175,7 +164,7 @@ class SearchModal extends PureComponent {
       this.updateFilter(this.state.query);
       this.close();
     });
-  }
+  };
 
   render() {
     const {

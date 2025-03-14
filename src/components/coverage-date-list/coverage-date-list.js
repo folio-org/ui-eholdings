@@ -10,8 +10,8 @@ import {
 const CoverageDateList = ({
   coverageArray,
   id,
-  isYearOnly,
-  isManagedCoverage,
+  isYearOnly = false,
+  isManagedCoverage = false,
 }) => {
   const dateRanges = [...coverageArray].sort(compareCoveragesToBeSortedInDescOrder);
 
@@ -45,11 +45,6 @@ CoverageDateList.propTypes = {
   id: PropTypes.string,
   isManagedCoverage: PropTypes.bool,
   isYearOnly: PropTypes.bool,
-};
-
-CoverageDateList.defaultProps = {
-  isManagedCoverage: false,
-  isYearOnly: false,
 };
 
 export default CoverageDateList;

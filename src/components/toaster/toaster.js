@@ -58,7 +58,7 @@ class Toaster extends Component {
     this.setState(({ toasts }) => ({
       toasts: toasts.filter(toast => toast.id !== toastId)
     }));
-  }
+  };
 
   renderToasts() {
     const { position } = this.props;

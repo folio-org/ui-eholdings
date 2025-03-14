@@ -5,8 +5,8 @@ import { KeyValue } from '@folio/stripes/components';
 
 const ContributorsList = ({
   data,
-  showInline,
-  contributorsInlineLimit,
+  showInline = false,
+  contributorsInlineLimit = 3,
 }) => {
   const contributorsByType = data.reduce((byType, contributor) => {
     byType[contributor.type] = byType[contributor.type] || [];
@@ -74,11 +74,6 @@ ContributorsList.propTypes = {
     type: PropTypes.string,
   })).isRequired,
   showInline: PropTypes.bool,
-};
-
-ContributorsList.defaultProps = {
-  contributorsInlineLimit: 3,
-  showInline: false,
 };
 
 export default ContributorsList;

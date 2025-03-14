@@ -27,7 +27,7 @@ export default class ResourceEdit extends Component {
     allowFormToSubmit: false,
     showSelectionModal: false,
     formValues: {},
-  }
+  };
 
   static getDerivedStateFromProps(nextProps) {
     const stateUpdates = {};
@@ -65,7 +65,7 @@ export default class ResourceEdit extends Component {
 
   handleDeleteConfirmation = () => {
     this.commitSelectionToggle(this.state.formValues);
-  }
+  };
 
   renderView() {
     const {
@@ -128,7 +128,7 @@ export default class ResourceEdit extends Component {
     this.setState({
       showSelectionModal: false,
     });
-  }
+  };
 
   getFooter = (pristine) => {
     const {
@@ -164,7 +164,7 @@ export default class ResourceEdit extends Component {
         renderEnd={saveButton}
       />
     );
-  }
+  };
 
   render() {
     const {

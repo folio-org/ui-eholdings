@@ -43,26 +43,6 @@ const commandsGeneral = [
     label: (<FormattedMessage id="ui-eholdings.shortcut.expandCollapse" />),
     shortcut: 'spacebar'
   },
-  {
-    label: (<FormattedMessage id="ui-eholdings.shortcut.closeModal" />),
-    shortcut: 'esc'
-  },
-  {
-    label: (<FormattedMessage id="ui-eholdings.shortcut.copy" />),
-    shortcut: 'mod+c'
-  },
-  {
-    label: (<FormattedMessage id="ui-eholdings.shortcut.cut" />),
-    shortcut: 'mod+x'
-  },
-  {
-    label: (<FormattedMessage id="ui-eholdings.shortcut.paste" />),
-    shortcut: 'mod+v'
-  },
-  {
-    label: (<FormattedMessage id="ui-eholdings.shortcut.find" />),
-    shortcut: 'mod+f'
-  }
 ];
 
 export {

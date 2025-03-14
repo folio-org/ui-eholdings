@@ -89,12 +89,12 @@ class ProviderShow extends Component {
   handleSectionToggle = ({ id }) => {
     const next = update(`sections.${id}`, value => !value, this.state);
     this.setState(next);
-  }
+  };
 
   handleExpandAll = (sections) => {
     const next = set('sections', sections, this.state);
     this.setState(next);
-  }
+  };
 
   get toasts() {
     const { model, isFreshlySaved } = this.props;
@@ -198,7 +198,7 @@ class ProviderShow extends Component {
         headingLevel='h4'
       />
     );
-  }
+  };
 
   renderPackagesList = () => {
     const {
@@ -220,7 +220,7 @@ class ProviderShow extends Component {
         renderItem={this.renderPackagesListItem}
       />
     );
-  }
+  };
 
   toggleAllSections = (expand) => {
     this.setState((curState) => {

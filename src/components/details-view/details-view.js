@@ -75,7 +75,7 @@ class DetailsView extends Component {
 
   static defaultProps = {
     searchModal: null,
-  }
+  };
 
   // used to focus the heading when the model loads
   $heading = createRef(); // eslint-disable-line react/sort-comp
@@ -105,7 +105,6 @@ class DetailsView extends Component {
   renderAccordionHeader = (props) => (
     <AccordionListHeader
       {...props}
-      isLoading={this.props.accordionHeaderLoading}
     />
   );
 
@@ -131,7 +130,7 @@ class DetailsView extends Component {
         )}
       </FormattedMessage>
     );
-  }
+  };
 
   renderItemData() {
     const {
@@ -203,7 +202,6 @@ class DetailsView extends Component {
                 header={this.renderAccordionHeader}
                 headerProps={{
                   resultsLength,
-                  'data-testid': `accordion-toggle-button-${listSectionId}`,
                 }}
                 label={(
                   <Headline

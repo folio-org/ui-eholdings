@@ -102,7 +102,7 @@ class TitleEditRoute extends Component {
     };
 
     history.replace(viewRouteState);
-  }
+  };
 
   titleEditSubmitted = (values) => {
     const {
@@ -116,7 +116,7 @@ class TitleEditRoute extends Component {
     };
 
     updateTitle(Object.assign(model, newValues));
-  }
+  };
 
   renderView() {
     const {

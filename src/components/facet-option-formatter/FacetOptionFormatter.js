@@ -7,7 +7,7 @@ const propTypes = {
   searchTerm: PropTypes.string,
 };
 
-const FacetOptionFormatter = ({ option, searchTerm }) => {
+const FacetOptionFormatter = ({ option = null, searchTerm = '' }) => {
   if (!option) {
     return null;
   }
@@ -18,11 +18,6 @@ const FacetOptionFormatter = ({ option, searchTerm }) => {
       innerText={`${option.label} (${option.totalRecords})`}
     />
   );
-};
-
-FacetOptionFormatter.defaultProps = {
-  option: null,
-  searchTerm: '',
 };
 
 FacetOptionFormatter.propTypes = propTypes;

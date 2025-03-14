@@ -90,6 +90,11 @@ jest.mock('@folio/stripes/core', () => {
 
   const AppContextMenu = (props) => <>{props.children()}</>;
 
+  const Pluggable = jest.fn(({ renderTrigger }) => {
+    const buttonRef = { current: null };
+    return renderTrigger({ buttonRef });
+  });
+
   STRIPES.connect = stripesConnect;
 
   return {
@@ -100,6 +105,7 @@ jest.mock('@folio/stripes/core', () => {
     AppContextMenu,
     useStripes,
     useCallout,
+    Pluggable,
   };
 }, { virtual: true });
 

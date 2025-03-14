@@ -19,18 +19,11 @@ const propTypes = {
   showButtonLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
-const defaultProps = {
-  isHiddenByDefault: true,
-  showButton: true,
-  showButtonLabel: <FormattedMessage id="ui-eholdings.showHidePasswordField.show" />,
-  hideButtonLabel: <FormattedMessage id="ui-eholdings.showHidePasswordField.hide" />,
-};
-
 const ShowHidePasswordField = ({
-  isHiddenByDefault,
-  showButtonLabel,
-  hideButtonLabel,
-  showButton,
+  isHiddenByDefault = true,
+  showButtonLabel = <FormattedMessage id="ui-eholdings.showHidePasswordField.show" />,
+  hideButtonLabel = <FormattedMessage id="ui-eholdings.showHidePasswordField.hide" />,
+  showButton = true,
   ...rest
 }) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(isHiddenByDefault);
@@ -67,6 +60,5 @@ const ShowHidePasswordField = ({
 };
 
 ShowHidePasswordField.propTypes = propTypes;
-ShowHidePasswordField.defaultProps = defaultProps;
 
 export default ShowHidePasswordField;

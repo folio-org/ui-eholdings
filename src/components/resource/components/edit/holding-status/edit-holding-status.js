@@ -33,13 +33,13 @@ const EditHoldingStatus = ({
   model,
   resourceIsCustom,
   resourceSelected,
-  isSelectInFlight,
-  handleToggleResourceHoldings,
+  isSelectInFlight = false,
+  handleToggleResourceHoldings = noop,
 }) => {
   const renderToggleSelectionStatusButton = () => {
     if ((!resourceSelected && !isSelectInFlight) || (!model.isSelected && isSelectInFlight)) {
       return (
-        <IfPermission perm="ui-eholdings.package-title.select-unselect">
+        <IfPermission perm="ui-eholdings.package-title.select-unselect.execute">
           <Button
             buttonStyle="primary"
             onClick={handleToggleResourceHoldings}
@@ -89,10 +89,5 @@ const EditHoldingStatus = ({
 };
 
 EditHoldingStatus.propTypes = propTypes;
-
-EditHoldingStatus.defaultProps = {
-  handleToggleResourceHoldings: noop,
-  isSelectInFlight: false,
-};
 
 export default EditHoldingStatus;

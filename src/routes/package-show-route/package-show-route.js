@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'qs';
 import isEqual from 'lodash/isEqual';
-import reduce from 'lodash/reduce';
 
 import { TitleManager } from '@folio/stripes/core';
 
@@ -19,13 +18,12 @@ import {
 } from '../../constants';
 
 import View from '../../components/package/show';
-import SearchModal from '../../components/search-modal';
+import { SearchSection } from '../../components/search-section';
 
 class PackageShowRoute extends Component {
   static propTypes = {
     accessStatusTypes: accessTypesReduxStateShape.isRequired,
     clearCostPerUseData: PropTypes.func.isRequired,
-    clearPackageTitles: PropTypes.func.isRequired,
     costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
     destroyPackage: PropTypes.func.isRequired,
     getAccessTypes: PropTypes.func.isRequired,
@@ -276,22 +274,13 @@ class PackageShowRoute extends Component {
     const { pkgSearchParams } = this.state;
 
     this.searchTitles({ ...pkgSearchParams, page });
-  }
+  };
 
   searchTitles = (pkgSearchParams) => {
     const {
       location,
       history,
-      clearPackageTitles,
     } = this.props;
-
-    const paramDifference = reduce(pkgSearchParams, (result, item, key) => {
-      return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
-    }, []);
-
-    if (!(paramDifference.length === 1 && paramDifference[0] === 'page')) {
-      clearPackageTitles();
-    }
 
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
@@ -318,13 +307,13 @@ class PackageShowRoute extends Component {
       },
       queryId: (queryId + 1),
     }));
-  }
+  };
 
   toggleSearchModal = (isModalVisible) => {
     if (isModalVisible) {
       this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
-  }
+  };
 
   fetchPackageCostPerUse = (filterData) => {
     const {
@@ -333,7 +322,7 @@ class PackageShowRoute extends Component {
     } = this.props;
 
     getCostPerUse(listTypes.PACKAGES, id, filterData);
-  }
+  };
 
   fetchCostPerUsePackageTitles = (filterData) => {
     const {
@@ -342,11 +331,11 @@ class PackageShowRoute extends Component {
     } = this.props;
 
     getCostPerUsePackageTitles(id, filterData);
-  }
+  };
 
   loadMoreCostPerUsePackageTitles = (filterData) => {
     this.fetchCostPerUsePackageTitles(filterData, true);
-  }
+  };
 
   handleEdit = () => {
     const {
@@ -364,7 +353,7 @@ class PackageShowRoute extends Component {
     };
 
     history.replace(editRouteState);
-  }
+  };
 
   toggleTitles = () => {
     const {
@@ -379,7 +368,7 @@ class PackageShowRoute extends Component {
     const params = transformQueryParams('titles', pkgSearchParams);
 
     getPackageTitles({ packageId, params });
-  }
+  };
 
   render() {
     const {
@@ -397,7 +386,6 @@ class PackageShowRoute extends Component {
 
     const {
       pkgSearchParams,
-      queryId,
       isTitlesUpdating,
     } = this.state;
 
@@ -440,15 +428,13 @@ class PackageShowRoute extends Component {
             history.location.state.isDestroyed
           }
           searchModal={
-            <SearchModal
-              key={queryId}
+            <SearchSection
+              queryProp={pkgSearchParams}
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-              listType={listTypes.TITLES}
-              query={pkgSearchParams}
-              onSearch={this.searchTitles}
-              onToggle={this.toggleSearchModal}
-              onFilter={this.searchTitles}
               accessTypes={accessStatusTypes}
+              searchType={listTypes.TITLES}
+              onFilter={this.searchTitles}
+              onToggleActions={this.toggleSearchModal}
             />
           }
         />
