@@ -5,3 +5,11 @@
   height: 560px;
   margin: 0 auto;
 }
+
+.cellTopAlign {
+  align-items: flex-start;
+}
+
+.headerCell {
+  padding: var(--gutter-static-two-thirds) 0 var(--gutter-static-one-third) var(--gutter-static-two-thirds);
+}

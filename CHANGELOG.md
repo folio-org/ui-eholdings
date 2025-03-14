@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [11.1.0] (IN PROGRESS)
+
+* Package Record - Titlelist Display - Add Column for Tags and few column width adjustments. (UIEH-1449)
+
 ## [11.0.0] (IN PROGRESS)
 
 * Add `target="_blank"` to the `New` button of agreements accordion. (UIEH-1446)

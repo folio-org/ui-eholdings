@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {
   MCLPagingTypes,
@@ -20,6 +22,7 @@ const COLUMNS = {
   MANAGED_COVERAGE: 'managedCoverage',
   CUSTOM_COVERAGE: 'customCoverage',
   MANAGED_EMBARGO: 'managedEmbargo',
+  TAGS: 'tags',
 };
 
 const MAX_HEIGHT = 520;
@@ -49,7 +52,11 @@ const PackageTitleList = ({
     [COLUMNS.MANAGED_COVERAGE]: intl.formatMessage({ id: 'ui-eholdings.titlesList.managedCoverage' }),
     [COLUMNS.CUSTOM_COVERAGE]: intl.formatMessage({ id: 'ui-eholdings.titlesList.customCoverage' }),
     [COLUMNS.MANAGED_EMBARGO]: intl.formatMessage({ id: 'ui-eholdings.titlesList.managedEmbargo' }),
+    [COLUMNS.TAGS]: intl.formatMessage({ id: 'ui-eholdings.titlesList.tags' }),
   };
+
+  const formatCellStyles = defaultClass => classNames(defaultClass, styles.cellTopAlign);
+  const formatHeaderCellStyles = () => styles.headerCell;
 
   const handleMore = (askAmount, index, firstIndex, direction) => {
     const newPage = direction === 'next' ? page + 1 : page - 1;
@@ -104,7 +111,21 @@ const PackageTitleList = ({
         value: embargoValue,
       });
     },
+    [COLUMNS.TAGS]: item => {
+      const { tagList } = item.attributes.tags;
+
+      return tagList.join(', ');
+    },
   };
+
+  const columnWidths = useMemo(() => ({
+    [COLUMNS.STATUS]: '11%',
+    [COLUMNS.TITLE]: '25%',
+    [COLUMNS.MANAGED_COVERAGE]: '16%',
+    [COLUMNS.CUSTOM_COVERAGE]: '16%',
+    [COLUMNS.MANAGED_EMBARGO]: '17%',
+    [COLUMNS.TAGS]: '13%',
+  }), []);
 
   return (
     <div className={styles.titlesListContainer}>
@@ -114,15 +135,17 @@ const PackageTitleList = ({
         contentData={records}
         visibleColumns={Object.values(COLUMNS)}
         columnMapping={columnMappings}
+        columnWidths={columnWidths}
         formatter={formatter}
         isEmptyMessage={intl.formatMessage({ id: 'ui-eholdings.notFound' })}
         loading={isLoading}
-        hasMargin
         totalCount={totalResults}
         onNeedMoreData={handleMore}
         pageAmount={count}
         pagingType={MCLPagingTypes.PREV_NEXT}
         pagingOffset={count * (page - 1)}
+        getCellClass={formatCellStyles}
+        getHeaderCellClass={formatHeaderCellStyles}
       />
     </div>
   );
