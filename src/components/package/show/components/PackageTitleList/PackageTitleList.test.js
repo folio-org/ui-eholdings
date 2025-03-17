@@ -31,6 +31,9 @@ const records = [
         embargoValue: 11,
       },
       publicationType: 'book',
+      tags: {
+        tagList: ['testtag'],
+      },
     },
   },
   {
@@ -47,6 +50,9 @@ const records = [
         embargoValue: 0,
       },
       publicationType: 'book',
+      tags: {
+        tagList: [],
+      },
     },
   },
 ];
@@ -96,6 +102,7 @@ describe('Given PackageTitleList', () => {
     expect(getByText('ui-eholdings.titlesList.managedCoverage')).toBeDefined();
     expect(getByText('ui-eholdings.titlesList.customCoverage')).toBeDefined();
     expect(getByText('ui-eholdings.titlesList.managedEmbargo')).toBeDefined();
+    expect(getByText('ui-eholdings.titlesList.tags')).toBeDefined();
   });
 
   it('should call onFetchPackageTitles when fetching more data', async () => {
@@ -129,6 +136,7 @@ describe('Given PackageTitleList', () => {
     expect(getByText('1/1/2005 - 12/31/2005')).toBeDefined();
     expect(getByText('1/9/2025 - 1/1/2026, 1/7/2025 - 1/8/2025')).toBeDefined();
     expect(getByText('ui-eholdings.resource.embargoUnit.Days')).toBeDefined();
+    expect(getByText('testtag')).toBeDefined();
 
     expect(getByText('ui-eholdings.notSelected')).toBeDefined();
     expect(getByText('Title name2')).toBeDefined();
