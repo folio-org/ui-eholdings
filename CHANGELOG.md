@@ -6,6 +6,10 @@
 
 ## [11.0.0] (IN PROGRESS)
 
+* Package Record - Titlelist Display - Add Column for Tags and few column width adjustments. (UIEH-1449)
+
+## [11.0.0] (https://github.com/folio-org/ui-eholdings/tree/v11.0.0) (2025-03-13)
+
 * Add `target="_blank"` to the `New` button of agreements accordion. (UIEH-1446)
 * Remove `shouldFocus` HOC and all related code. (UIEH-1444)
 * *BREAKING* Package Record - Title List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1440)
