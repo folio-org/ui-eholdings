@@ -18,17 +18,13 @@ const propTypes = {
   packageSelected: PropTypes.bool.isRequired,
 };
 
-const defaultProps = {
-  packageIsCustom: false,
-};
-
 const EditCoverageSettings = ({
   isOpen,
   getSectionHeader,
   onToggle,
   packageSelected,
   initialValues,
-  packageIsCustom,
+  packageIsCustom = false,
 }) => {
   return (
     <Accordion
@@ -49,6 +45,5 @@ const EditCoverageSettings = ({
 };
 
 EditCoverageSettings.propTypes = propTypes;
-EditCoverageSettings.defaultProps = defaultProps;
 
 export default EditCoverageSettings;

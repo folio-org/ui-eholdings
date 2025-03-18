@@ -19,7 +19,7 @@ export default class CustomLabelsShowSection extends Component {
       }),
     })).isRequired,
     userDefinedFields: PropTypes.objectOf(PropTypes.string).isRequired,
-  }
+  };
 
   render() {
     const {

@@ -22,11 +22,13 @@
     "shortcut.find": "Find",
     "agreements": "Agreements",
     "agreements.notFound": "No agreements found",
-    "agreements.unlink": "Unlink agreement from this record.",
-    "agreements.unassignModal.header": "Unassign an agreement from this record",
-    "agreements.unassignModal.description": "Are you sure you want to unassign <strong>{agreementName}</strong> from <strong>{recordName}</strong>? Once you unsassign, the agreement will no longer be attached to this record.",
-    "agreements.unassignModal.cancel": "Cancel",
-    "agreements.unassignModal.unassign": "Unassign",
+    "agreements.delete": "Delete agreement line",
+    "agreements.deleteModal.header": "Delete agreement line",
+    "agreements.deleteModal.description": "Are you sure you want to delete this agreement line: <strong>{recordName}</strong>?",
+    "agreements.deleteModal.cancel": "Cancel",
+    "agreements.deleteModal.delete": "Delete",
+    "agreements.accordion.new": "Creates a new agreement and then adds eHoldings package/title record as an Agreement Line to it",
+    "agreements.accordion.add": "Adds eHoldings package/title record as an Agreement Line to another Agreement",
     "usageConsolidation": "Usage & analysis",
     "usageConsolidation.filters.year": "Year",
     "usageConsolidation.filters.platformType": "Platform",
@@ -379,6 +381,7 @@
     "settings.usageConsolidation.credentials.systemError": "Usage Consolidation credentials cannot be saved due to a system error. Please try again.",
 
     "proxy": "Proxy",
+    "proxiedUrl": "Proxied URL",
     "proxy.inherited": "Inherited - {proxy}",
     "proxy.errorMessage": "Invalid proxy selected. Please contact EBSCO support.",
 
@@ -616,14 +619,14 @@
     "selection-modal.buttonWorking": "Removing...",
     "selection-modal.buttonConfirm": "Yes, remove",
 
-    "permission.app.enabled": "eHoldings: Can view providers, packages, titles detail records",
+    "permission.app.view": "eHoldings: Can view providers, packages, titles detail records",
     "permission.settings.enabled": "Settings (eHoldings): View settings",
     "permission.settings.kb": "Settings (eHoldings): Can create, edit, and view knowledge base credentials",
     "permission.settings.kb.delete": "Settings (eHoldings): Can delete knowledge base credentials",
     "permission.settings.root-proxy": "Settings (eHoldings): configure root proxy setting",
-    "permission.package-title.select-unselect": "eHoldings: Can select/unselect packages and titles to/from your holdings",
+    "permission.package-title.select-unselect.execute": "eHoldings: Can select/unselect packages and titles to/from your holdings",
     "permission.records.edit": "eHoldings: Can edit providers, packages, titles detail records",
-    "permission.titles-packages.create-delete": "eHoldings: Can create and delete custom packages and titles",
+    "permission.titles-packages.create-delete.manage": "eHoldings: Can create and delete custom packages and titles",
     "permission.costperuse.view": "eHoldings: Can view Usage & analysis data for packages, titles and resources",
     "permission.settings.access-types.all": "Settings (eholdings): Can create, edit, view, and delete access status types",
     "permission.settings.access-types.create-edit": "Settings (eholdings): Can create, edit, and view access status types",
@@ -632,5 +635,14 @@
     "permission.settings.custom-labels.view": "Settings (eholdings): Can view custom labels",
     "permission.settings.usage-consolidation.view": "Settings (eholdings): View Usage Consolidation API credentials",
     "permission.settings.usage-consolidation.create-edit": "Settings (eholdings): Create, edit, and view Usage Consolidation API credentials",
-    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB"
-  }
+    "permission.settings.assignedUser": "Settings (eHoldings): Can assign/unassign a user from a KB",
+
+    "actionMenu.label": "Actions",
+    "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}",
+    "titlesList.title": "Title",
+    "titlesList.status": "Status",
+    "titlesList.managedCoverage": "Managed coverage",
+    "titlesList.customCoverage": "Custom coverage",
+    "titlesList.managedEmbargo": "Managed embargo period",
+    "titlesList.tags": "Tag(s)"
+}

@@ -33,17 +33,13 @@ const propTypes = {
   titleSearchFilters: PropTypes.string,
 };
 
-const defaultProps = {
-  exportLimit: null,
-};
-
 const ExportPackageResourcesModal = ({
   open,
   onClose,
   recordId,
   recordType,
   titleSearchFilters,
-  exportLimit,
+  exportLimit = null,
   resourcesCount,
 }) => {
   const intl = useIntl();
@@ -182,7 +178,6 @@ const ExportPackageResourcesModal = ({
 };
 
 ExportPackageResourcesModal.propTypes = propTypes;
-ExportPackageResourcesModal.defaultProps = defaultProps;
 
 export default ExportPackageResourcesModal;
 

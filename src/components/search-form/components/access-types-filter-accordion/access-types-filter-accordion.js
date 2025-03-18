@@ -5,9 +5,9 @@ import {
   Accordion,
   Icon,
 } from '@folio/stripes/components';
-import { MultiSelectionFilter } from '@folio/stripes/smart-components';
 
-import SearchByCheckbox from '../search-by-checkbox';
+import { AccessTypesFilter } from '../../../access-type-filter';
+import { getAccessTypesList } from '../../../utilities';
 import { accessTypesReduxStateShape } from '../../../../constants';
 
 import styles from './access-types-filter-accordion.css';
@@ -28,18 +28,13 @@ const propTypes = {
   searchFilter: PropTypes.object,
 };
 
-const defaultProps = {
-  isOpen: false,
-  searchFilter: {},
-};
-
 const AccessTypesFilterAccordion = ({
   accessTypesStoreData,
   searchByAccessTypesEnabled,
-  searchFilter,
+  searchFilter = {},
   onStandaloneFilterChange,
   onStandaloneFilterToggle,
-  isOpen,
+  isOpen = false,
   header,
   dataOptions,
   handleStandaloneFilterChange,
@@ -49,17 +44,8 @@ const AccessTypesFilterAccordion = ({
     'access-type': accessTypes = [],
   } = searchFilter;
 
-  let accessTypesList = [];
-
-  if (accessTypes) {
-    accessTypesList = Array.isArray(accessTypes)
-      ? accessTypes
-      : accessTypes.split(',');
-  }
-
-  accessTypesList.sort();
-
   const accessStatusTypesExist = !!accessTypesStoreData?.items?.data?.length;
+  const accessTypesList = getAccessTypesList(accessTypes);
 
   return accessTypesStoreData?.isLoading
     ? <Icon icon="spinner-ellipsis" />
@@ -80,38 +66,20 @@ const AccessTypesFilterAccordion = ({
           onToggle={onToggle}
           className={styles['search-filter-accordion']}
         >
-          <span className="sr-only" id="accessTypesFilter-label">
-            <FormattedMessage id="ui-eholdings.settings.accessStatusTypes" />
-          </span>
-          <SearchByCheckbox
-            filterType="access-type"
-            isEnabled={searchByAccessTypesEnabled}
+          <AccessTypesFilter
+            accessTypesStoreData={accessTypesStoreData}
+            searchByAccessTypesEnabled={searchByAccessTypesEnabled}
+            selectedValues={accessTypesList}
+            onStandaloneFilterChange={onStandaloneFilterChange}
             onStandaloneFilterToggle={onStandaloneFilterToggle}
+            dataOptions={dataOptions}
+            handleStandaloneFilterChange={handleStandaloneFilterChange}
           />
-          <FormattedMessage id="ui-eholdings.accessTypes.filter">
-            {
-              ([label]) => (
-                <div data-testid="search-form-access-type-filter">
-                  <MultiSelectionFilter
-                    id="accessTypeFilterSelect"
-                    ariaLabel={label}
-                    dataOptions={dataOptions}
-                    name="access-type"
-                    onChange={handleStandaloneFilterChange}
-                    selectedValues={accessTypesList}
-                    disabled={!searchByAccessTypesEnabled}
-                    aria-labelledby="accessTypesFilter-label"
-                  />
-                </div>
-              )
-            }
-          </FormattedMessage>
         </Accordion>
       </div>
     );
 };
 
 AccessTypesFilterAccordion.propTypes = propTypes;
-AccessTypesFilterAccordion.defaultProps = defaultProps;
 
 export default AccessTypesFilterAccordion;

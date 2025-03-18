@@ -15,12 +15,12 @@ function validate(value) {
   return value ? undefined : <FormattedMessage id="ui-eholdings.validate.errors.packageSelect.required" />;
 }
 
-const FILTER_DEBOUNCE_MS = 1000;
+const FILTER_DEBOUNCE_MS = 800;
 
 const PackageSelectField = ({
   options,
   onFilter,
-  loadingOptions,
+  loadingOptions = false,
 }) => {
   const intl = useIntl();
   const onFilterDebounced = debounce(onFilter, FILTER_DEBOUNCE_MS);
@@ -47,6 +47,7 @@ const PackageSelectField = ({
         placeholder={intl.formatMessage({ id: 'ui-eholdings.title.chooseAPackage' })}
         dataOptions={options.filter(option => option.label && !option.disabled)}
         required
+        asyncFilter
         onFilter={handleFilter}
         data-testid="package-select-field"
         loading={loadingOptions}
@@ -64,10 +65,6 @@ PackageSelectField.propTypes = {
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
   })).isRequired,
-};
-
-PackageSelectField.defaultProps = {
-  loadingOptions: false,
 };
 
 export default PackageSelectField;

@@ -18,8 +18,6 @@ import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import { Button } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
-import QuerySearchList from '../../query-search-list';
-import TitleListItem from '../../title-list-item';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
 import {
@@ -27,13 +25,13 @@ import {
   UsageConsolidationAccordion,
   ExportPackageResourcesModal,
 } from '../../../features';
-import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 import HoldingStatus from './components/holding-status';
 import PackageInformation from './components/package-information';
 import PackageSettings from './components/package-settings';
 import CoverageSettings from './components/coverage-settings';
 import SelectionModal from '../../selection-modal';
+import { PackageTitleList } from './components/PackageTitleList';
 import { useSectionToggle } from '../../../hooks';
 
 import {
@@ -54,7 +52,6 @@ import {
   qs,
 } from '../../utilities';
 
-const ITEM_HEIGHT = 62;
 const UC_MAX_EXPORT_TITLE_LIMIT = 200000;
 const CSV_MAX_EXPORT_TITLE_LIMIT = 10000;
 
@@ -382,31 +379,15 @@ const PackageShow = ({
     );
   };
 
-  const renderTitlesListItem = (item) => {
-    return (
-      <TitleListItem
-        item={item.attributes}
-        link={item.attributes && `/eholdings/resources/${item.id}`}
-        showSelected
-        headingLevel='h4'
-      />
-    );
-  };
-
   const renderTitlesList = () => {
     return (
-      <QuerySearchList
-        isUpdating={isTitlesUpdating}
-        type="package-titles"
-        fetch={fetchPackageTitles}
-        collection={packageTitles}
-        itemHeight={ITEM_HEIGHT}
-        notFoundMessage={
-          <QueryNotFound type="package-titles">
-            <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>
-        }
-        renderItem={renderTitlesListItem}
+      <PackageTitleList
+        records={packageTitles.items}
+        isLoading={!isTitlesUpdating && packageTitles.isLoading}
+        totalResults={packageTitles.totalResults}
+        page={pkgSearchParams.page}
+        count={pkgSearchParams.count}
+        onFetchPackageTitles={fetchPackageTitles}
       />
     );
   };

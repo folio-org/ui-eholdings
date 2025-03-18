@@ -1,11 +1,14 @@
 import { Form } from 'react-final-form';
+import debounce from 'lodash/debounce';
+
 import {
   fireEvent,
   render,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import wait from '../../../../../test/jest/helpers/wait';
 import PackageSelectField from './package-select-field';
+
+jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
 
 const mockOnFilter = jest.fn();
 
@@ -27,6 +30,7 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
@@ -38,9 +42,11 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
+    fireEvent.click(getByText('ui-eholdings.title.chooseAPackage'));
     expect(getByText('label1')).toBeDefined();
   });
 
@@ -50,6 +56,7 @@ describe('Given PackageSelectField', () => {
         disabled: true,
         label: 'label2',
         key: 'key2',
+        value: 'value2',
       }],
     });
 
@@ -61,14 +68,14 @@ describe('Given PackageSelectField', () => {
       options: [{
         label: 'label1',
         key: 'key1',
+        value: 'value1',
       }],
     });
 
     const input = getAllByLabelText('stripes-components.selection.filterOptionsLabel')[0];
 
     fireEvent.change(input, { target: { value: 'packageName' } });
-    expect(mockOnFilter).not.toHaveBeenCalled();
-    await wait(1100);
+    expect(debounce).toHaveBeenCalledWith(mockOnFilter, 800);
     expect(mockOnFilter).toHaveBeenCalled();
   });
 });

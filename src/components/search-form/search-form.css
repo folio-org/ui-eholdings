@@ -23,3 +23,16 @@
 .search-field {
   margin-bottom: calc(var(--control-margin-bottom) / 2);
 }
+
+.groupContainer {
+  margin-bottom: 1rem;
+}
+
+.clearButton {
+  margin-bottom: var(--control-label-margin-bottom);
+}
+
+.groupTitle {
+  display: flex;
+  align-items: center;
+}

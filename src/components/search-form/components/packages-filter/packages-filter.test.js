@@ -23,8 +23,9 @@ const getComponent = (props = {}) => (
     params={{ q: 'book' }}
     titlesFacets={{}}
     prevDataOfOptedPackage={{}}
-    packagesFacetCollection={{}}
-    results={{}}
+    isPackagesLoading={false}
+    resultsLength={0}
+    isResultsLoading={false}
     onUpdate={() => {}}
     {...props}
   />
@@ -42,7 +43,6 @@ describe('Given PackagesFilter', () => {
       const { container } = renderComponent({
         params: { q: 'book' },
         activeFilters: { packageIds: '' },
-        results: { length: 0, isLoading: false },
       });
 
       expect(container).toBeEmptyDOMElement();
@@ -64,7 +64,7 @@ describe('Given PackagesFilter', () => {
       const { getByTestId } = renderComponent({
         params: { q: 'book' },
         activeFilters: { packageIds: '' },
-        results: { length: 0, isLoading: true },
+        isResultsLoading: true,
       });
 
       expect(getByTestId('spinner-ellipsis')).toBeDefined();

@@ -18,15 +18,11 @@ const propTypes = {
   selectedCount: PropTypes.number,
   showSelectedCount: PropTypes.bool,
 };
-const defaultProps = {
-  selectedCount: 0,
-  showSelectedCount: false,
-};
 
 const SelectedLabel = ({
   isSelected,
-  selectedCount,
-  showSelectedCount,
+  selectedCount = 0,
+  showSelectedCount = false,
 }) => {
   const titleCount = showSelectedCount
     ? (
@@ -61,6 +57,5 @@ const SelectedLabel = ({
 };
 
 SelectedLabel.propTypes = propTypes;
-SelectedLabel.defaultProps = defaultProps;
 
 export default SelectedLabel;

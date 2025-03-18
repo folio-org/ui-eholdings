@@ -1,4 +1,7 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
+
 import SearchFilters from './search-form/search-filters';
 import PackagesFilter from './search-form/components/packages-filter';
 import {
@@ -10,11 +13,12 @@ import {
 const propTypes = {
   activeFilters: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
+  isPackagesLoading: PropTypes.bool.isRequired,
+  isResultsLoading: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  packagesFacetCollection: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   prevDataOfOptedPackage: PropTypes.object.isRequired,
-  results: PropTypes.object.isRequired,
+  resultsLength: PropTypes.number.isRequired,
   titlesFacets: PropTypes.object.isRequired,
 };
 
@@ -32,8 +36,9 @@ function TitleSearchFilters(props) {
     disabled,
     params,
     prevDataOfOptedPackage,
-    results,
-    packagesFacetCollection,
+    resultsLength,
+    isResultsLoading,
+    isPackagesLoading,
     titlesFacets,
     onUpdate,
   } = props;
@@ -54,9 +59,10 @@ function TitleSearchFilters(props) {
         disabled={disabled}
         params={params}
         prevDataOfOptedPackage={prevDataOfOptedPackage}
-        results={results}
+        resultsLength={resultsLength}
+        isResultsLoading={isResultsLoading}
         titlesFacets={titlesFacets}
-        packagesFacetCollection={packagesFacetCollection}
+        isPackagesLoading={isPackagesLoading}
         onUpdate={onUpdate}
       />
     </>
@@ -65,4 +71,4 @@ function TitleSearchFilters(props) {
 
 TitleSearchFilters.propTypes = propTypes;
 
-export default TitleSearchFilters;
+export default memo(TitleSearchFilters, isEqual);

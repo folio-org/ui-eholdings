@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import camelCase from 'lodash/camelCase';
 import upperFirst from 'lodash/upperFirst';
 
@@ -13,19 +14,16 @@ const propTypes = {
   onStandaloneFilterToggle: PropTypes.func.isRequired,
 };
 
-const defaultProps = {
-  isEnabled: false,
-};
-
-const SearchByCheckbox = ({
+const SearchByCheckbox = forwardRef(({
   filterType,
-  isEnabled,
+  isEnabled = false,
   onStandaloneFilterToggle,
-}) => {
+}, ref) => {
   const upperFilterType = upperFirst(camelCase(filterType));
 
   return (
     <Checkbox
+      inputRef={ref}
       checked={isEnabled}
       label={(
         <span className={styles['search-warning']}>
@@ -36,9 +34,8 @@ const SearchByCheckbox = ({
       data-test-search-by={filterType}
     />
   );
-};
+});
 
 SearchByCheckbox.propTypes = propTypes;
-SearchByCheckbox.defaultProps = defaultProps;
 
-export default SearchByCheckbox;
+export { SearchByCheckbox };

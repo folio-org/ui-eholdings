@@ -4,10 +4,18 @@ import {
   fireEvent,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
+import { Pluggable } from '@folio/stripes/core';
+
 import { createMemoryHistory } from 'history';
 
 import AgreementsAccordion from './agreements-accordion';
 import Harness from '../../../test/jest/helpers/harness';
+
+const buttonRef = { current: null };
+
+Pluggable.mockImplementation(({ renderTrigger }) => {
+  return renderTrigger({ buttonRef });
+});
 
 jest.mock('@folio/stripes-components', () => ({
   ...jest.requireActual('@folio/stripes-components'),
@@ -66,6 +74,7 @@ describe('Given AgreementsAccordion', () => {
   afterEach(() => {
     cleanup();
     history = createMemoryHistory();
+    buttonRef.current = null;
   });
 
   it('should display accordion label', () => {
@@ -80,20 +89,17 @@ describe('Given AgreementsAccordion', () => {
     expect(getByText('ui-eholdings.new')).toBeDefined();
   });
 
-  describe('after click on "New" button', () => {
-    it('should redirect to create page of agreements app', () => {
-      const { getByText } = renderAgreementsAccordion();
-
-      fireEvent.click(getByText('ui-eholdings.new'));
-
-      expect(history.location.pathname + history.location.search).toEqual('/erm/agreements/create?authority=ref-type&referenceId=ref-id');
-    });
-  });
-
   it('should not display badge with agreements quantity', () => {
     const { queryByText } = renderAgreementsAccordion();
 
     expect(queryByText('Badge')).toBeNull();
+  });
+
+  it('should have correct props in the "New" button', () => {
+    const { getByText } = renderAgreementsAccordion();
+
+    expect(getByText('ui-eholdings.new')).toHaveAttribute('target', '_blank');
+    expect(getByText('ui-eholdings.new')).toHaveAttribute('href', '/erm/agreements/create?authority=ref-type&referenceId=ref-id');
   });
 
   it('should render agreements list', () => {
@@ -119,9 +125,9 @@ describe('Given AgreementsAccordion', () => {
         getByText,
       } = renderAgreementsAccordion();
 
-      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.unlink')[0]);
+      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.delete')[0]);
 
-      expect(getByText('ui-eholdings.agreements.unassignModal.header')).toBeDefined();
+      expect(getByText('ui-eholdings.agreements.deleteModal.header')).toBeDefined();
     });
   });
 
@@ -133,11 +139,11 @@ describe('Given AgreementsAccordion', () => {
         getByText,
       } = renderAgreementsAccordion();
 
-      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.unlink')[0]);
-      fireEvent.click(getByText('ui-eholdings.agreements.unassignModal.unassign'));
+      fireEvent.click(getAllByLabelText('ui-eholdings.agreements.delete')[0]);
+      fireEvent.click(getByText('ui-eholdings.agreements.deleteModal.delete'));
 
       await waitFor(() => {
-        expect(queryByText('ui-eholdings.agreements.unassignModal.header')).toBeNull();
+        expect(queryByText('ui-eholdings.agreements.deleteModal.header')).toBeNull();
       });
     });
   });
@@ -159,6 +165,28 @@ describe('Given AgreementsAccordion', () => {
       fireEvent.click(getByText('ui-eholdings.agreements'));
 
       expect(mockOnToggle).toBeCalledTimes(1);
+    });
+  });
+
+  describe('"Add" button', () => {
+    it('should have a tooltip', () => {
+      const { getByText } = renderAgreementsAccordion();
+
+      expect(getByText('ui-eholdings.agreements.accordion.add')).toBeInTheDocument();
+    });
+
+    it('should assign a ref to the buttonRef so that the "Add" button will be in focus after the plugin is closed', () => {
+      renderAgreementsAccordion();
+
+      expect(buttonRef.current).toBeInstanceOf(HTMLButtonElement);
+    });
+  });
+
+  describe('New button', () => {
+    it('should have a tooltip', () => {
+      const { getByText } = renderAgreementsAccordion();
+
+      expect(getByText('ui-eholdings.agreements.accordion.new')).toBeInTheDocument();
     });
   });
 });

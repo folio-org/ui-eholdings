@@ -41,7 +41,7 @@ class PackageCoverageFields extends Component {
     });
 
     return errorArray;
-  }
+  };
 
   validateCoverageDate = (value) => {
     const { intl } = this.props;
@@ -58,7 +58,7 @@ class PackageCoverageFields extends Component {
     }
 
     return errors;
-  }
+  };
 
   renderField = (dateRange, index) => {
     return (
@@ -111,7 +111,7 @@ class PackageCoverageFields extends Component {
         </Col>
       </Row>
     );
-  }
+  };
 
   renderRepeatableField = ({ fields, meta: { initial } }) => {
     const hasAddButton = fields.length === 0;

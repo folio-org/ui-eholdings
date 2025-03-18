@@ -28,11 +28,11 @@ class CustomLabelsAccordion extends Component {
     onToggle: PropTypes.func.isRequired,
     section: PropTypes.func.isRequired,
     userDefinedFields: PropTypes.objectOf(PropTypes.string),
-  }
+  };
 
   static defaultProps = {
     isOpen: true,
-  }
+  };
 
   componentDidMount() {
     const { getCustomLabels } = this.props;
@@ -59,7 +59,7 @@ class CustomLabelsAccordion extends Component {
         <FormattedMessage id="ui-eholdings.resource.customLabels" />
       </Headline>
     );
-  }
+  };
 
   render() {
     const {

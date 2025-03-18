@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { KeyValue } from '@folio/stripes/components';
 
-const IdentifiersList = ({ data, displayInline }) => {
+const IdentifiersList = ({ data, displayInline = false }) => {
   // get rid of identifiers we received that aren't ISSN or ISBN
   const filteredData = data.filter(identifier => ['ISSN', 'ISBN'].includes(identifier.type));
 
@@ -66,10 +66,6 @@ IdentifiersList.propTypes = {
     type: PropTypes.string,
   })),
   displayInline: PropTypes.bool,
-};
-
-IdentifiersList.defaultProps = {
-  displayInline: false,
 };
 
 export default IdentifiersList;
