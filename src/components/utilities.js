@@ -1,4 +1,3 @@
-import moment from 'moment';
 import queryString from 'qs';
 import {
   get,
@@ -8,7 +7,10 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
-import { FormattedDate } from '@folio/stripes/components';
+import {
+  FormattedDate,
+  dayjs,
+} from '@folio/stripes/components';
 
 import {
   searchTypes,
@@ -68,7 +70,7 @@ export function formatCoverageYear({ beginCoverage, endCoverage }) {
 
   if (!startYear) {
     return endCoverage ? endYear : '';
-  } else if ((moment.utc(beginCoverage).format('YYYY') === moment.utc(endCoverage).format('YYYY')) || (!endYear)) {
+  } else if ((dayjs.utc(beginCoverage).format('YYYY') === dayjs.utc(endCoverage).format('YYYY')) || (!endYear)) {
     return startYear;
   } else {
     return <>{startYear}{' - '}{endYear}</>;
@@ -77,10 +79,10 @@ export function formatCoverageYear({ beginCoverage, endCoverage }) {
 
 export function isValidCoverage(coverageObj) {
   if (coverageObj.beginCoverage) {
-    if (!moment.utc(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) { return false; }
+    if (!dayjs.utc(coverageObj.beginCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   if (coverageObj.endCoverage) {
-    if (!moment.utc(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) { return false; }
+    if (!dayjs.utc(coverageObj.endCoverage, 'YYYY-MM-DD').isValid()) { return false; }
   }
   return true;
 }
@@ -274,7 +276,7 @@ export const getFullName = user => {
 
 export const parseDate = value => value;
 
-export const formatDate = value => (value ? moment.utc(value) : '');
+export const formatDate = value => (value ? dayjs.utc(value) : '');
 
 export const combineMCLProps = defaultProps => customProps => {
   return {

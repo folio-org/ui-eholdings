@@ -231,9 +231,14 @@ describe('Given ResourceEditRoute', () => {
         model: {
           ...model,
           isSelected: true,
+          customCoverage: [{
+            beginCoverage: '2023-10-30',
+            endCoverage: '2023-10-31'
+          }],
         },
       });
 
+      fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
       fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(getByText('ui-eholdings.resource.customLabels')).toBeDefined();
@@ -322,13 +327,14 @@ describe('Given ResourceEditRoute', () => {
         model: {
           ...model,
           isSelected: true,
+          isTitleCustom: true,
         },
       });
 
       const deleteEmbargoBtn = getByRole('button', { name: 'ui-eholdings.resource.embargoPeriod.clear' });
       fireEvent.click(deleteEmbargoBtn);
 
-      fireEvent.submit(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(mockUpdateResource).toHaveBeenCalledWith(expect.objectContaining({
         customEmbargoPeriod: defaultEmbargoPeriod,
