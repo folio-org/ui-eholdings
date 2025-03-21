@@ -607,7 +607,8 @@
     "actionMenu.filterBadgeTooltip": "{count} aplicado {count, plural, one {filtro} other {filtros}}",
     "titlesList.title": "Título",
     "titlesList.status": "Status",
-    "titlesList.managedCoverage": "Datas de cobertura gerenciadas",
-    "titlesList.customCoverage": "Datas de cobertura personalizadas",
-    "titlesList.managedEmbargo": "Período de embargo gerenciado"
+    "titlesList.managedCoverage": "Cobertura gerenciada",
+    "titlesList.customCoverage": "Cobertura personalizada",
+    "titlesList.managedEmbargo": "Período de embargo gerenciado",
+    "titlesList.tags": "Tag(s)"
 }

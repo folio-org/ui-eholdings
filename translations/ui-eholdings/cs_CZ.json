@@ -94,7 +94,7 @@
     "title.contributor.notSet": "Nejsou nastaveni žádní autoři. Uložení odstraní všechny dříve nastavené.",
     "title.contributor.addContributor": "Přidat autora",
     "title.description": "Popis",
-    "title.edition": "Edice",
+    "title.edition": "Vydání",
     "title.identifier.notSet": "Nejsou nastaveny žádné identifikátory. Uložením se odstraní všechny dříve nastavené.",
     "title.identifier.addIdentifier": "Přidat identifikátor",
     "title.peerReviewed": "Druh zkontrolován",
@@ -141,7 +141,7 @@
     "label.title": "Název",
     "label.titles": "Názvy",
     "label.isxn": "ISSN/ISBN",
-    "label.edition": "Edice",
+    "label.edition": "Vydání",
     "label.publisher": "Vydavatel",
     "label.package": "Balíček",
     "label.packages": "Balíčky",
@@ -552,7 +552,7 @@
     "exportPackageResources.fields.title.accessStatusType": "Typ stavu přístupu",
     "exportPackageResources.fields.title.tags": "Štítky",
     "exportPackageResources.fields.title.contributors": "Autoři",
-    "exportPackageResources.fields.title.edition": "Edice",
+    "exportPackageResources.fields.title.edition": "Vydání",
     "exportPackageResources.fields.title.publisher": "Vydavatel",
     "exportPackageResources.fields.title.issn_print": "ISSN_Print",
     "exportPackageResources.fields.title.issn_online": "ISSN_Online",
@@ -609,5 +609,6 @@
     "titlesList.status": "Stav",
     "titlesList.managedCoverage": "Data řízeného pokrytí",
     "titlesList.customCoverage": "Vlastní data pokrytí",
-    "titlesList.managedEmbargo": "Období řízeného embarga"
+    "titlesList.managedEmbargo": "Období řízeného embarga",
+    "titlesList.tags": "Štítek(y)"
 }
