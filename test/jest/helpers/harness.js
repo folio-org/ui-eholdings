@@ -50,7 +50,7 @@ const Harness = ({
         <RouteHistoryContext.Provider value={routeHistoryCtx}>
           <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-              <IntlProvider>
+              <IntlProvider locale="en">
                 {children}
               </IntlProvider>
             </QueryClientProvider>

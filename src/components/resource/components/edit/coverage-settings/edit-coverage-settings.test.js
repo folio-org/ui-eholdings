@@ -148,7 +148,7 @@ describe('Given EditCoverageSettings', () => {
     });
   });
 
-  describe('when setting incorrect coverage dates', () => {
+  describe('when setting start coverage date after end coverage date', () => {
     it('should show error message', () => {
       const {
         getByLabelText,
@@ -163,6 +163,42 @@ describe('Given EditCoverageSettings', () => {
       fireEvent.blur(endDateInput);
 
       expect(getByText('ui-eholdings.validate.errors.dateRange.startDateBeforeEndDate')).toBeDefined();
+    });
+  });
+
+  describe('when setting coverage dates are outside of package coverage dates', () => {
+    it('should show error message', () => {
+      const {
+        getByLabelText,
+        getByText,
+      } = renderCoverageSettings();
+
+      const startDateInput = getByLabelText('ui-eholdings.date.startDate');
+      const endDateInput = getByLabelText('ui-eholdings.date.endDate');
+
+      fireEvent.change(startDateInput, { target: { value: '01/02/2021' } });
+      fireEvent.change(endDateInput, { target: { value: '02/01/2021' } });
+      fireEvent.blur(endDateInput);
+
+      expect(getByText('ui-eholdings.validate.errors.dateRange.packageRange')).toBeDefined();
+    });
+  });
+
+  describe('when setting coverage dates are within package coverage dates', () => {
+    it('should show error message', () => {
+      const {
+        getByLabelText,
+        queryByText,
+      } = renderCoverageSettings();
+
+      const startDateInput = getByLabelText('ui-eholdings.date.startDate');
+      const endDateInput = getByLabelText('ui-eholdings.date.endDate');
+
+      fireEvent.change(startDateInput, { target: { value: '01/01/2021' } });
+      fireEvent.change(endDateInput, { target: { value: '01/31/2021' } });
+      fireEvent.blur(endDateInput);
+
+      expect(queryByText('ui-eholdings.validate.errors.dateRange.packageRange')).not.toBeInTheDocument();
     });
   });
 });

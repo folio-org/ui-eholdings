@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import moment from 'moment';
-import { TitleManager } from '@folio/stripes/core';
 import { FormattedMessage } from 'react-intl';
+
+import { TitleManager } from '@folio/stripes/core';
+import { dayjs } from '@folio/stripes/components';
 
 import View from '../../components/package/create';
 
@@ -41,9 +42,9 @@ export default class PackageCreateRoute extends Component {
     if (values?.customCoverages?.[0]) {
       attrs.customCoverage = {
         beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
-          moment.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
+          dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
         endCoverage: !values.customCoverages[0].endCoverage ? '' :
-          moment.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
+          dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
       };
     }
 

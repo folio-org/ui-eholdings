@@ -12,7 +12,6 @@ import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import moment from 'moment';
 
 import {
   useStripes,
@@ -20,6 +19,7 @@ import {
 import {
   Select,
   TextField,
+  dayjs,
 } from '@folio/stripes/components';
 
 import SettingsForm from '../settings-form';
@@ -134,7 +134,7 @@ const SettingsUsageConsolidation = ({
 
   const monthDataOptions = MONTHS.map((month, index) => ({
     value: month.toLowerCase().substring(0, 3),
-    label: moment.months()[index],
+    label: dayjs.months()[index],
   }));
 
   const parseUsageConsolidationId = value => {
