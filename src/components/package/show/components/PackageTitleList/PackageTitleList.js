@@ -122,9 +122,9 @@ const PackageTitleList = ({
     [COLUMNS.STATUS]: '11%',
     [COLUMNS.TITLE]: '25%',
     [COLUMNS.MANAGED_COVERAGE]: '16%',
-    [COLUMNS.CUSTOM_COVERAGE]: '16%',
+    [COLUMNS.CUSTOM_COVERAGE]: '17%',
     [COLUMNS.MANAGED_EMBARGO]: '17%',
-    [COLUMNS.TAGS]: '13%',
+    [COLUMNS.TAGS]: '12%',
   }), []);
 
   return (
