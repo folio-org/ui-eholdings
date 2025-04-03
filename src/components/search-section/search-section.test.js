@@ -120,4 +120,17 @@ describe('SearchSection', () => {
       expect(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' })).toBeDisabled();
     });
   });
+
+  describe('when "subject" search index is selected', () => {
+    it('should be visible', async () => {
+      const { getByRole } = renderSearchSection({
+        queryProp: {
+          ...queryProp,
+          searchfield: searchableIndexes.SUBJECT,
+        },
+      });
+
+      expect(getByRole('option', { name: 'ui-eholdings.label.subject' }).selected).toBeTruthy();
+    });
+  });
 });
