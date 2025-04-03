@@ -161,7 +161,7 @@ const SearchSection = ({
         <Select
           marginBottom0
           onChange={handleSearchFieldChange}
-          value={query.searchField}
+          value={query.searchfield}
           aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
           data-testid="field-to-search-select"
         >

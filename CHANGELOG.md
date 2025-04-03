@@ -3,6 +3,8 @@
 ## [11.0.0] (IN PROGRESS)
 
 * Package Record - Titlelist Display - Add Column for Tags and few column width adjustments. (UIEH-1449)
+* Replace `moment` usage with `dayjs`. (UIEH-1407)
+* SearchSection - update the value of Select to match state variable. (UIEH-1462)
 
 ## [11.0.0] (https://github.com/folio-org/ui-eholdings/tree/v11.0.0) (2025-03-13)
 
