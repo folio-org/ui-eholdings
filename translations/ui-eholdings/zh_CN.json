@@ -610,5 +610,5 @@
     "titlesList.managedCoverage": "管理覆盖日期",
     "titlesList.customCoverage": "自定义覆盖日期",
     "titlesList.managedEmbargo": "管理排除时期",
-    "titlesList.tags": "Tag(s)"
+    "titlesList.tags": "标签"
 }
