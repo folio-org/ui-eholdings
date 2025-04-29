@@ -211,7 +211,7 @@
     "validate.errors.packageSelect.required": "Vlastní názvy musí patřit k balíčku.",
     "validate.errors.identifiers.noBlank": "ID nesmí být prázdné.",
     "validate.errors.identifiers.exceedsLength": "Musí mít méně než 20 znaků.",
-    "validate.errors.contributor.empty": "Musíte uvést autora",
+    "validate.errors.contributor.empty": "Autor musí být uveden",
     "validate.errors.contributor.exceedsLength": "Autor musí mít méně než 250 znaků",
     "validate.errors.embargoPeriod.moreThanZero": "Zadejte číslo větší než 0",
     "validate.errors.embargoPeriod.number": "Musí to být číslo",
