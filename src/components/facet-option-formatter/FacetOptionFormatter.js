@@ -8,7 +8,7 @@ const propTypes = {
 };
 
 const FacetOptionFormatter = ({ option = null, searchTerm = '' }) => {
-  if (!option) {
+  if (!option || !option?.value) {
     return null;
   }
 

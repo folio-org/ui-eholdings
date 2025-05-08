@@ -22,4 +22,11 @@ describe('Given FacetOptionFormatter', () => {
     const { container } = renderFacetOptionFormatter({ option: null });
     expect(container).toBeEmptyDOMElement();
   });
+
+  describe('when option.value is empty', () => {
+    it('should render nothing', () => {
+      const { container } = renderFacetOptionFormatter({ option: { value: '' } });
+      expect(container).toBeEmptyDOMElement();
+    });
+  });
 });

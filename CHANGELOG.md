@@ -3,6 +3,7 @@
 ## [11.1.0] (IN PROGRESS)
 
 * Replace `moment` usage with `dayjs`. (UIEH-1407)
+* Fix "Undefined" displays in input field of "Packages" facet on "Titles" search pane when facet selection is canceled. (UIEH-1470).
 
 ## [11.0.1] (https://github.com/folio-org/ui-eholdings/tree/v11.0.1) (2025-04-16)
 
