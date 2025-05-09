@@ -4,6 +4,7 @@
 
 * Replace `moment` usage with `dayjs`. (UIEH-1407)
 * Show a loading indicator under Package Titles list when package titles are updating. (UIEH-1471)
+* Package-Title MCL: indicate HLM title visibility (ie Hidden) in status column. (UIEH-1464)
 
 ## [11.0.1] (https://github.com/folio-org/ui-eholdings/tree/v11.0.1) (2025-04-16)
 
