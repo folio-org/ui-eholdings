@@ -13,3 +13,10 @@
 .headerCell {
   padding: var(--gutter-static-two-thirds) 0 var(--gutter-static-one-third) var(--gutter-static-two-thirds);
 }
+
+.statusCellWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

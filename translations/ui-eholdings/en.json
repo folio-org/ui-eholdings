@@ -641,6 +641,7 @@
     "actionMenu.filterBadgeTooltip": "{count} applied {count, plural, one {filter} other {filters}}",
     "titlesList.title": "Title",
     "titlesList.status": "Status",
+    "titlesList.hidden": "Title is set to hide",
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",

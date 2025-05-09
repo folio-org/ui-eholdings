@@ -34,6 +34,9 @@ const records = [
       tags: {
         tagList: ['testtag'],
       },
+      visibilityData: {
+        isHidden: true,
+      },
     },
   },
   {
@@ -113,6 +116,14 @@ describe('Given PackageTitleList', () => {
     expect(getByText('ui-eholdings.titlesList.customCoverage')).toBeDefined();
     expect(getByText('ui-eholdings.titlesList.managedEmbargo')).toBeDefined();
     expect(getByText('ui-eholdings.titlesList.tags')).toBeDefined();
+  });
+
+  describe('when a resource is hidden', () => {
+    it('should show a "hidden" icon', () => {
+      const { container } = renderPackageTitleList();
+
+      expect(container.querySelector('.icon-eye-closed')).toBeDefined();
+    });
   });
 
   it('should call onFetchPackageTitles when fetching more data', async () => {
