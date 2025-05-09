@@ -4,6 +4,7 @@ import FacetOptionFormatter from './FacetOptionFormatter';
 
 const option = {
   label: 'fakeLabel',
+  value: 'fakeValue',
   totalRecords: 500,
 };
 
