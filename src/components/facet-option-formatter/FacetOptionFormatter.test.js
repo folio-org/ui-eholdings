@@ -4,6 +4,7 @@ import FacetOptionFormatter from './FacetOptionFormatter';
 
 const option = {
   label: 'fakeLabel',
+  value: 'fakeValue',
   totalRecords: 500,
 };
 
@@ -21,5 +22,12 @@ describe('Given FacetOptionFormatter', () => {
   it('should render nothing', () => {
     const { container } = renderFacetOptionFormatter({ option: null });
     expect(container).toBeEmptyDOMElement();
+  });
+
+  describe('when option.value is empty', () => {
+    it('should render nothing', () => {
+      const { container } = renderFacetOptionFormatter({ option: { value: '' } });
+      expect(container).toBeEmptyDOMElement();
+    });
   });
 });
