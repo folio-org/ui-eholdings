@@ -383,7 +383,8 @@ const PackageShow = ({
     return (
       <PackageTitleList
         records={packageTitles.items}
-        isLoading={!isTitlesUpdating && packageTitles.isLoading}
+        isLoading={packageTitles.isLoading}
+        isTitlesUpdating={isTitlesUpdating}
         totalResults={packageTitles.totalResults}
         page={pkgSearchParams.page}
         count={pkgSearchParams.count}

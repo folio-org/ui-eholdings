@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {
+  Icon,
   MCLPagingTypes,
   MultiColumnList,
   TextLink,
@@ -30,6 +31,7 @@ const MAX_HEIGHT = 520;
 const propTypes = {
   count: PropTypes.number.isRequired,
   isLoading: PropTypes.bool,
+  isTitlesUpdating: PropTypes.bool,
   onFetchPackageTitles: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   records: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -43,6 +45,7 @@ const PackageTitleList = ({
   page,
   count,
   onFetchPackageTitles,
+  isTitlesUpdating,
 }) => {
   const intl = useIntl();
 
@@ -129,24 +132,28 @@ const PackageTitleList = ({
 
   return (
     <div className={styles.titlesListContainer}>
-      <MultiColumnList
-        id="package-title-list"
-        maxHeight={MAX_HEIGHT}
-        contentData={records}
-        visibleColumns={Object.values(COLUMNS)}
-        columnMapping={columnMappings}
-        columnWidths={columnWidths}
-        formatter={formatter}
-        isEmptyMessage={intl.formatMessage({ id: 'ui-eholdings.notFound' })}
-        loading={isLoading}
-        totalCount={totalResults}
-        onNeedMoreData={handleMore}
-        pageAmount={count}
-        pagingType={MCLPagingTypes.PREV_NEXT}
-        pagingOffset={count * (page - 1)}
-        getCellClass={formatCellStyles}
-        getHeaderCellClass={formatHeaderCellStyles}
-      />
+      {isTitlesUpdating
+        ? <Icon icon="spinner-ellipsis" width="35px" />
+        : (
+          <MultiColumnList
+            id="package-title-list"
+            maxHeight={MAX_HEIGHT}
+            contentData={records}
+            visibleColumns={Object.values(COLUMNS)}
+            columnMapping={columnMappings}
+            columnWidths={columnWidths}
+            formatter={formatter}
+            isEmptyMessage={intl.formatMessage({ id: 'ui-eholdings.notFound' })}
+            loading={isLoading}
+            totalCount={totalResults}
+            onNeedMoreData={handleMore}
+            pageAmount={count}
+            pagingType={MCLPagingTypes.PREV_NEXT}
+            pagingOffset={count * (page - 1)}
+            getCellClass={formatCellStyles}
+            getHeaderCellClass={formatHeaderCellStyles}
+          />
+        )}
     </div>
   );
 };
