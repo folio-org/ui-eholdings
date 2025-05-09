@@ -94,6 +94,16 @@ describe('Given PackageTitleList', () => {
     expect(a11yResults.violations.length).toEqual(0);
   });
 
+  describe('when isTitlesUpdating is true', () => {
+    it('should show a loading indicator', async () => {
+      const { container } = renderPackageTitleList({
+        isTitlesUpdating: true,
+      });
+
+      expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
+    });
+  });
+
   it('should display the correct columns', () => {
     const { getByText } = renderPackageTitleList();
 
