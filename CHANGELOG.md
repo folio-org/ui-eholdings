@@ -5,6 +5,7 @@
 * Replace `moment` usage with `dayjs`. (UIEH-1407)
 * Show a loading indicator under Package Titles list when package titles are updating. (UIEH-1471)
 * Fix "Undefined" displays in input field of "Packages" facet on "Titles" search pane when facet selection is canceled. (UIEH-1470).
+* Package detail record > Titles accordion > Change Publication type radio button filter to single select. (UIEH-1463)
 
 ## [11.0.1] (https://github.com/folio-org/ui-eholdings/tree/v11.0.1) (2025-04-16)
 

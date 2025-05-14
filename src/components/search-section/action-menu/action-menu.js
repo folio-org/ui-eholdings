@@ -25,14 +25,28 @@ import {
   getTagLabelsArr,
   getTagsList,
 } from '../../utilities';
-import { searchTypes } from '../../../constants';
+import {
+  searchTypes,
+  titleSortFilterConfig,
+  selectionStatusFilterConfig,
+  publicationTypeTitlesListFilterConfig,
+} from '../../../constants';
 
 import styles from './action-menu.css';
 
 const searchFiltersComponents = {
   [searchTypes.PACKAGES]: PackageSearchFilters,
   [searchTypes.PROVIDERS]: ProviderSearchFilters,
-  [searchTypes.TITLES]: TitleSearchFilters,
+  [searchTypes.TITLES]: (props = {}) => (
+    <TitleSearchFilters
+      availableFilters={[
+        titleSortFilterConfig,
+        selectionStatusFilterConfig,
+        publicationTypeTitlesListFilterConfig,
+      ]}
+      {...props}
+    />
+  ),
 };
 
 const propTypes = {

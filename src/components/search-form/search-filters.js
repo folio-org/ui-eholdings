@@ -6,12 +6,14 @@ import {
   Accordion,
   FilterAccordionHeader,
   Label,
-  RadioButton
+  RadioButton,
+  Select
 } from '@folio/stripes/components';
 
 import { ClearButton } from '../clear-button';
 
 import styles from './search-form.css';
+import { FILTER_TYPES } from '../../constants';
 
 const propTypes = {
   activeFilters: PropTypes.object, // { filterName: filterValue }
@@ -56,6 +58,32 @@ const SearchFilters = ({
     setTimeout(() => {
       document.querySelector(`[aria-labelledby="${labelId}"] input[tabindex="0"]`)?.focus();
     });
+  };
+
+  const renderSingleSelect = ({ name, options, accordionLabelId, defaultValue }) => {
+    return (
+      <div
+        role="radiogroup"
+        aria-labelledby={accordionLabelId}
+      >
+        <Select
+          dataOptions={options}
+          validationEnabled={false}
+          value={activeFilters[name] || defaultValue}
+          onChange={(e) => {
+            const { value } = e.target;
+            const replaced = {
+              ...activeFilters,
+              // if this option is a default, clear the filter
+              [name]: value === defaultValue ? undefined : value
+            };
+            const withoutDefault = filter(item => item.value !== undefined, replaced);
+
+            return onUpdate(withoutDefault);
+          }}
+        />
+      </div>
+    );
   };
 
   const renderRadioGroup = ({ name, options, accordionLabelId, defaultValue }) => {
@@ -103,10 +131,10 @@ const SearchFilters = ({
       data-test-eholdings-search-filters={searchType}
       data-testid={`${searchType}-search-filters`}
     >
-      {availableFilters.map(({ name, label, defaultValue, options }) => {
+      {availableFilters.map(({ type, name, label, defaultValue, options }) => {
         const accordionLabelId = `filter-${searchType}-${name}-label`;
 
-        const radioGroupProps = {
+        const filterProps = {
           name,
           options,
           accordionLabelId,
@@ -136,7 +164,10 @@ const SearchFilters = ({
                   onClick={() => handleClearButtonClick(accordionLabelId, name)}
                 />
               </div>
-              {renderRadioGroup(radioGroupProps)}
+              {type === FILTER_TYPES.SELECT
+                ? renderSingleSelect(filterProps)
+                : renderRadioGroup(filterProps)
+              }
             </div>
           );
         }
@@ -158,7 +189,10 @@ const SearchFilters = ({
             id={`filter-${searchType}-${name}`}
             className={styles['search-filter-accordion']}
           >
-            {renderRadioGroup(radioGroupProps)}
+            {type === FILTER_TYPES.SELECT
+              ? renderSingleSelect(filterProps)
+              : renderRadioGroup(filterProps)
+            }
           </Accordion>
         );
       })}
