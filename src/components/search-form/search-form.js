@@ -26,6 +26,9 @@ import {
   searchTypes,
   accessTypesReduxStateShape,
   searchableIndexes,
+  titleSortFilterConfig,
+  selectionStatusFilterConfig,
+  publicationTypeFilterConfig,
 } from '../../constants';
 import { getTagLabelsArr } from '../utilities';
 import TagFilterAccordion from './components/tags-filter-accordion';
@@ -42,7 +45,16 @@ const validSearchTypes = [
 const searchFiltersComponents = {
   [searchTypes.PACKAGES]: PackageSearchFilters,
   [searchTypes.PROVIDERS]: ProviderSearchFilters,
-  [searchTypes.TITLES]: TitleSearchFilters,
+  [searchTypes.TITLES]: (props = {}) => (
+    <TitleSearchFilters
+      availableFilters={[
+        titleSortFilterConfig,
+        selectionStatusFilterConfig,
+        publicationTypeFilterConfig,
+      ]}
+      {...props}
+    />
+  ),
 };
 
 class SearchForm extends Component {

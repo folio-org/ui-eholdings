@@ -423,7 +423,7 @@
     "label.packages": "Packages",
     "label.totalPackages": "Total packages: {count}",
     "label.provider": "Provider",
-    "label.publicationType": "Publication Type",
+    "label.publicationType": "Publication type",
     "label.subjects": "Subjects",
     "label.subject": "Subject",
     "label.peerReviewed": "Peer reviewed",

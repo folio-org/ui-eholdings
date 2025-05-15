@@ -4,11 +4,6 @@ import isEqual from 'lodash/isEqual';
 
 import SearchFilters from './search-form/search-filters';
 import PackagesFilter from './search-form/components/packages-filter';
-import {
-  titleSortFilterConfig,
-  selectionStatusFilterConfig,
-  publicationTypeFilterConfig,
-} from '../constants';
 
 const propTypes = {
   activeFilters: PropTypes.object.isRequired,
@@ -41,17 +36,14 @@ function TitleSearchFilters(props) {
     isPackagesLoading,
     titlesFacets,
     onUpdate,
+    availableFilters,
   } = props;
 
   return (
     <>
       <SearchFilters
         searchType="titles"
-        availableFilters={[
-          titleSortFilterConfig,
-          selectionStatusFilterConfig,
-          publicationTypeFilterConfig,
-        ]}
+        availableFilters={availableFilters}
         {...props}
       />
       <PackagesFilter
