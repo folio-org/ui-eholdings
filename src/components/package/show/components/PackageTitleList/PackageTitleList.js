@@ -8,6 +8,7 @@ import {
   MCLPagingTypes,
   MultiColumnList,
   TextLink,
+  Tooltip,
 } from '@folio/stripes/components';
 
 import SelectedLabel from '../../../../selected-label';
@@ -69,7 +70,17 @@ const PackageTitleList = ({
   const formatter = {
     [COLUMNS.STATUS]: item => {
       return (
-        <SelectedLabel isSelected={item.attributes.isSelected} />
+        <div className={styles.statusCellWrapper}>
+          <SelectedLabel isSelected={item.attributes.isSelected} />
+          {item.attributes.visibilityData?.isHidden && (
+            <Tooltip
+              text={intl.formatMessage({ id: 'ui-eholdings.titlesList.hidden' })}
+              id="resource-hidden-tooltip"
+            >
+              {({ ref, ariaIds }) => <Icon icon="eye-closed" ref={ref} aria-labelledby={ariaIds.text} />}
+            </Tooltip>
+          )}
+        </div>
       );
     },
     [COLUMNS.TITLE]: item => {
