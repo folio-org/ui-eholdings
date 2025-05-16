@@ -610,5 +610,6 @@
     "titlesList.managedCoverage": "Data řízeného pokrytí",
     "titlesList.customCoverage": "Vlastní data pokrytí",
     "titlesList.managedEmbargo": "Období řízeného embarga",
-    "titlesList.tags": "Štítek(y)"
+    "titlesList.tags": "Štítek(y)",
+    "titlesList.hidden": "Titul je skrytý"
 }

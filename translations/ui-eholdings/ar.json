@@ -610,5 +610,6 @@
     "titlesList.managedCoverage": "تغطية مدارة",
     "titlesList.customCoverage": "تغطية مخصصة",
     "titlesList.managedEmbargo": "إدارة فترة الحظر",
-    "titlesList.tags": "الوسوم"
+    "titlesList.tags": "الوسوم",
+    "titlesList.hidden": "Title is set to hide"
 }

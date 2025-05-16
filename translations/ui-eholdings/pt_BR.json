@@ -610,5 +610,6 @@
     "titlesList.managedCoverage": "Cobertura gerenciada",
     "titlesList.customCoverage": "Cobertura personalizada",
     "titlesList.managedEmbargo": "Período de embargo gerenciado",
-    "titlesList.tags": "Tag(s)"
+    "titlesList.tags": "Tag(s)",
+    "titlesList.hidden": "O título está definido como oculto"
 }
