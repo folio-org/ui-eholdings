@@ -610,5 +610,6 @@
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
-    "titlesList.tags": "標籤"
+    "titlesList.tags": "標籤",
+    "titlesList.hidden": "Title is set to hide"
 }

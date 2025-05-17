@@ -146,7 +146,7 @@
     "label.package": "Package",
     "label.packages": "Packages",
     "label.provider": "Provider",
-    "label.publicationType": "Publication Type",
+    "label.publicationType": "Publication type",
     "label.subjects": "Subjects",
     "label.subject": "Subject",
     "label.peerReviewed": "Peer reviewed",
@@ -610,5 +610,6 @@
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
-    "titlesList.tags": "Tag(s)"
+    "titlesList.tags": "Tag(s)",
+    "titlesList.hidden": "Title is set to hide"
 }
