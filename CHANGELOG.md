@@ -7,6 +7,7 @@
 * Fix "Undefined" displays in input field of "Packages" facet on "Titles" search pane when facet selection is canceled. (UIEH-1470).
 * Package detail record > Titles accordion > Change Publication type radio button filter to single select. (UIEH-1463)
 * Package-Title MCL: indicate HLM title visibility (ie Hidden) in status column. (UIEH-1464)
+* Package Details Record: Title List Search within: Make reset action work. (UIEH-1466)
 
 ## [11.0.1] (https://github.com/folio-org/ui-eholdings/tree/v11.0.1) (2025-04-16)
 
