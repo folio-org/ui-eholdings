@@ -113,6 +113,7 @@ const SearchSection = ({
       ...cur,
       q: '',
     }));
+    updateFilter('');
   };
 
   const toggleFilter = filterName => () => {
