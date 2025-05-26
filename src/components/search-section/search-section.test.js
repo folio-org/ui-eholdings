@@ -107,6 +107,17 @@ describe('SearchSection', () => {
 
       expect(searchBox.value).toBe('');
     });
+
+    it('should fetch data with empty query', async () => {
+      const { getByRole } = renderSearchSection();
+
+      const searchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
+
+      await userEvent.type(searchBox, 'Title name');
+      await userEvent.click(getByRole('button', { name: 'stripes-components.clearThisField' }));
+
+      expect(mockOnFilter).toHaveBeenCalledWith(expect.objectContaining({ q: undefined }));
+    });
   });
 
   describe('when search by tags filter is enabled', () => {
