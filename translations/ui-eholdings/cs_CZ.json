@@ -607,7 +607,7 @@
     "actionMenu.filterBadgeTooltip": "Použito {count} {count, plural, one {filtr} other {filtrů}}",
     "titlesList.title": "Název",
     "titlesList.status": "Stav",
-    "titlesList.managedCoverage": "Data řízeného pokrytí",
+    "titlesList.managedCoverage": "Řízené pokrytí",
     "titlesList.customCoverage": "Vlastní data pokrytí",
     "titlesList.managedEmbargo": "Období řízeného embarga",
     "titlesList.tags": "Štítek(y)",
