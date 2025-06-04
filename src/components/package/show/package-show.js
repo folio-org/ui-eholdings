@@ -13,6 +13,7 @@ import omit from 'lodash/omit';
 import {
   useStripes,
   IfPermission,
+  IfInterface,
 } from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import { Button } from '@folio/stripes/components';
@@ -338,15 +339,17 @@ const PackageShow = ({
           customCoverage={model.customCoverage}
         />
 
-        <AgreementsAccordion
-          id="packageShowAgreements"
-          stripes={stripes}
-          refId={model.id}
-          refType={entityAuthorityTypes.PACKAGE}
-          isOpen={sections.packageShowAgreements}
-          onToggle={handleSectionToggle}
-          refName={model.name}
-        />
+        <IfInterface name="erm">
+          <AgreementsAccordion
+            id="packageShowAgreements"
+            stripes={stripes}
+            refId={model.id}
+            refType={entityAuthorityTypes.PACKAGE}
+            isOpen={sections.packageShowAgreements}
+            onToggle={handleSectionToggle}
+            refName={model.name}
+          />
+        </IfInterface>
 
         <NotesSmartAccordion
           id="packageShowNotes"
