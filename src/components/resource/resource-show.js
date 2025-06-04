@@ -8,7 +8,10 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { IfInterface, useStripes } from '@folio/stripes/core';
+import {
+  IfInterface,
+  useStripes,
+} from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,
