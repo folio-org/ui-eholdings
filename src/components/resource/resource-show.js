@@ -8,7 +8,10 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  IfInterface,
+  useStripes,
+} from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -270,15 +273,17 @@ const ResourceShow = ({
                 userDefinedFields={userDefinedFields}
               />}
 
-            <AgreementsAccordion
-              id="resourceShowAgreements"
-              stripes={stripes}
-              refId={model.id}
-              refType={entityAuthorityTypes.RESOURCE}
-              isOpen={sections.resourceShowAgreements}
-              onToggle={handleSectionToggle}
-              refName={model.title.name}
-            />
+            <IfInterface name="erm">
+              <AgreementsAccordion
+                id="resourceShowAgreements"
+                stripes={stripes}
+                refId={model.id}
+                refType={entityAuthorityTypes.RESOURCE}
+                isOpen={sections.resourceShowAgreements}
+                onToggle={handleSectionToggle}
+                refName={model.title.name}
+              />
+            </IfInterface>
 
             <NotesSmartAccordion
               id="resourceShowNotes"
