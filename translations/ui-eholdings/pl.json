@@ -573,7 +573,7 @@
     "settings.usageConsolidation.apiKey.show": "Pokaż klucz",
     "settings.usageConsolidation.apiKey.hide": "Hide key",
     "label.alternateTitle": "Inny tytuł(y)",
-    "title.alternateTitle": "Alternate title(s)",
+    "title.alternateTitle": "Wariant tytułu(ów)",
     "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
     "exportPackageResources.fields.package.packageLevelToken": "Package Level Token",
     "exportPackageResources.subtitle.package": "Ten eksport może potrwać kilka minut. Po zakończeniu będzie dostępny w aplikacji <strong>Menedżer eksportu</strong>. UWAGA: Maksymalna liczba tytułów w pakiecie, które możesz wyeksportować, to {exportLimit}. Filtruj wyszukiwanie na liście tytułów, aby nie przekroczyć limitu lub wybierz opcję eksportu tylko szczegółów pakietu. Ten eksport nie obejmuje informacji dostępnych w sekcji Użycie i analiza (dostępnym tylko dla subskrybentów Konsolidacja użycia). Proszę użyć opcji <i>Eksportuj tytuły</i> dostępnej w tej sekcji.",
