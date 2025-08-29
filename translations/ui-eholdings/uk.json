@@ -534,7 +534,7 @@
     "exportPackageResources.fields.package.tags": "Теги",
     "exportPackageResources.fields.package.agreements": "Угоди",
     "exportPackageResources.fields.package.notes": "Примітки",
-    "exportPackageResources.fields.title": "Title fields to export",
+    "exportPackageResources.fields.title": "Поля назви для експорту",
     "exportPackageResources.fields.title.titleName": "Title name",
     "exportPackageResources.fields.title.alternateTitles": "Альтернативна назва(и)",
     "exportPackageResources.fields.title.titleId": "ІД назви",
