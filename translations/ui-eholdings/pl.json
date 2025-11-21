@@ -575,7 +575,7 @@
     "label.alternateTitle": "Inny tytuł(y)",
     "title.alternateTitle": "Wariant tytułu(ów)",
     "exportPackageResources.fields.package.providerLevelToken": "Provider Level Token",
-    "exportPackageResources.fields.package.packageLevelToken": "Package Level Token",
+    "exportPackageResources.fields.package.packageLevelToken": "Token na poziomie pakietu",
     "exportPackageResources.subtitle.package": "Ten eksport może potrwać kilka minut. Po zakończeniu będzie dostępny w aplikacji <strong>Menedżer eksportu</strong>. UWAGA: Maksymalna liczba tytułów w pakiecie, które możesz wyeksportować, to {exportLimit}. Filtruj wyszukiwanie na liście tytułów, aby nie przekroczyć limitu lub wybierz opcję eksportu tylko szczegółów pakietu. Ten eksport nie obejmuje informacji dostępnych w sekcji Użycie i analiza (dostępnym tylko dla subskrybentów Konsolidacja użycia). Proszę użyć opcji <i>Eksportuj tytuły</i> dostępnej w tej sekcji.",
     "exportPackageResources.subtitle.resource": "Ten eksport może potrwać kilka minut. Po zakończeniu będzie dostępny w aplikacji <strong>Menedżer eksportu</strong>. UWAGA: Ten eksport nie obejmuje informacji dostępnych w sekcji Użycie i analiza (dostępnym tylko dla subskrybentów Konsolidacja użycia). Proszę użyć opcji <i>Eksportuj tytuły</i> dostępnej w tej sekcji.",
     "packages.filter": "Pakiety",
@@ -609,7 +609,7 @@
     "titlesList.status": "Status",
     "titlesList.managedCoverage": "Zarządzane pokrycie",
     "titlesList.customCoverage": "Niestandardowe pokrycie",
-    "titlesList.managedEmbargo": "Managed embargo period",
+    "titlesList.managedEmbargo": "Zarządzany okres embarga",
     "titlesList.tags": "Tag(i)",
     "titlesList.hidden": "Tytuł jest ustawiony na ukryty"
 }
