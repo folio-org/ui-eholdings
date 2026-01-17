@@ -472,7 +472,7 @@
     "settings.usageConsolidation.currency": "Waluta",
     "settings.usageConsolidation.currency.default": "Wybierz walutę",
     "settings.usageConsolidation.currency.validation": "Wybierz walutę",
-    "settings.usageConsolidation.platformType": "Pokaż widok domyślny dla statystyk użycia platformy",
+    "settings.usageConsolidation.platformType": "Pokaż platformę dla domyślnego wyświetlania statystyk użycia",
     "settings.usageConsolidation.platformType.all": "Wszystkie platformy",
     "settings.usageConsolidation.platformType.publisher": "Tylko platformy wydawców",
     "settings.usageConsolidation.platformType.nonPublisher": "Tylko platformy inne niż wydawcy",
