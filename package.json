@@ -107,6 +107,7 @@
         "displayName": "eHoldings: Can view providers, packages, titles detail records",
         "visible": false,
         "subPermissions": [
+          "stripes-core.settings.read",
           "kb-ebsco.status.get",
           "kb-ebsco.kb-credentials.collection.get",
           "kb-ebsco.user-kb-credential.get",
@@ -157,7 +158,8 @@
         "permissionName": "settings.eholdings.enabled",
         "visible": false,
         "subPermissions": [
-          "settings.enabled"
+          "settings.enabled",
+          "stripes-core.settings.read"
         ]
       },
       {
