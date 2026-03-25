@@ -33,6 +33,7 @@ import {
 } from '../../../constants';
 
 import styles from './action-menu.css';
+import { useEffect } from 'react';
 
 const searchFiltersComponents = {
   [searchTypes.PACKAGES]: PackageSearchFilters,
@@ -236,6 +237,10 @@ const ActionMenu = ({
       </div>
     );
   };
+
+  useEffect(() => {
+    return () => console.log('unmount action-menu');
+  }, []);
 
   return (
     <Dropdown
