@@ -645,5 +645,8 @@
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
+    "titlesList.customEmbargo": "Custom embargo period",
+    "titlesList.publicationType": "Publication type",
+    "titlesList.accessStatusType": "Access status type",
     "titlesList.tags": "Tag(s)"
 }

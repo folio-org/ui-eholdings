@@ -33,6 +33,7 @@ const cx = classNames.bind(styles);
 class DetailsView extends Component {
   static propTypes = {
     accordionHeaderLoading: PropTypes.bool,
+    accordionHeaderSearch: PropTypes.node,
     actionMenu: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.node,
@@ -68,13 +69,12 @@ class DetailsView extends Component {
     ]).isRequired,
     renderList: PropTypes.func,
     resultsLength: PropTypes.number,
-    searchModal: PropTypes.node,
     sections: PropTypes.object,
     type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    searchModal: null,
+    accordionHeaderSearch: null,
   };
 
   // used to focus the heading when the model loads
@@ -141,7 +141,7 @@ class DetailsView extends Component {
       paneTitle,
       paneSub,
       resultsLength,
-      searchModal,
+      accordionHeaderSearch,
       sections,
       handleExpandAll,
       listSectionId,
@@ -211,7 +211,7 @@ class DetailsView extends Component {
                     <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
                   </Headline>
                 )}
-                displayWhenOpen={searchModal}
+                displayWhenOpen={accordionHeaderSearch}
                 contentRef={(n) => { this.$list = n; }}
                 open={isListAccordionOpen}
                 id={listSectionId}

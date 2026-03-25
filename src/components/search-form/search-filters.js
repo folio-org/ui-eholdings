@@ -1,4 +1,7 @@
-import { useRef } from 'react';
+import {
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { filter } from 'funcadelic';
 
@@ -7,13 +10,21 @@ import {
   FilterAccordionHeader,
   Label,
   RadioButton,
-  Select
+  Select,
 } from '@folio/stripes/components';
+import {
+  ColumnManagerMenu,
+  useColumnManager,
+} from '@folio/stripes/smart-components';
 
 import { ClearButton } from '../clear-button';
+import { FILTER_TYPES } from '../../constants';
+import {
+  PACKAGE_TITLE_LIST_COLUMN_MAPPING,
+  PACKAGE_TITLES_LIST_COLUMNS,
+} from '../../constants/package-titles-list-columns';
 
 import styles from './search-form.css';
-import { FILTER_TYPES } from '../../constants';
 
 const propTypes = {
   activeFilters: PropTypes.object, // { filterName: filterValue }
@@ -43,6 +54,10 @@ const SearchFilters = ({
   hasAccordion = true,
 }) => {
   const labelRef = useRef(null);
+  const columnManagerPrefix = `eholdings-${searchType}`;
+
+  // TODO: update constant
+  const { visibleColumns, toggleColumn } = useColumnManager(columnManagerPrefix, PACKAGE_TITLE_LIST_COLUMN_MAPPING);
 
   const handleClearFilter = (name) => {
     onUpdate({
@@ -124,6 +139,98 @@ const SearchFilters = ({
     );
   };
 
+  const renderFilters = () => {
+    return (
+      <>
+        {availableFilters.map(({ type, name, label, defaultValue, options }) => {
+          const accordionLabelId = `filter-${searchType}-${name}-label`;
+
+          const filterProps = {
+            name,
+            options,
+            accordionLabelId,
+            defaultValue,
+            label,
+          };
+
+          if (!hasAccordion) {
+            const hasSelectedOption = ![undefined, defaultValue].includes(activeFilters[name]);
+
+            return (
+              <div
+                key={name}
+                className={styles.groupContainer}
+              >
+                <div className={styles.groupTitle}>
+                  <Label
+                    id={accordionLabelId}
+                    ref={labelRef}
+                  >
+                    {label}
+                  </Label>
+                  <ClearButton
+                    show={hasSelectedOption}
+                    label={label}
+                    className={styles.clearButton}
+                    onClick={() => handleClearButtonClick(accordionLabelId, name)}
+                  />
+                </div>
+                {type === FILTER_TYPES.SELECT
+                  ? renderSingleSelect(filterProps)
+                  : renderRadioGroup(filterProps)
+                }
+              </div>
+            );
+          }
+
+          return (
+            <Accordion
+              key={name}
+              name={name}
+              label={
+                <span id={accordionLabelId}>
+                  {label}
+                </span>
+              }
+              separator={false}
+              closedByDefault={closedByDefault}
+              header={FilterAccordionHeader}
+              displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
+              onClearFilter={() => handleClearFilter(name)}
+              id={`filter-${searchType}-${name}`}
+              className={styles['search-filter-accordion']}
+            >
+              {type === FILTER_TYPES.SELECT
+                ? renderSingleSelect(filterProps)
+                : renderRadioGroup(filterProps)
+              }
+            </Accordion>
+          );
+        })}
+      </>
+    );
+  };
+
+  const handleToggleColumn = useCallback(() => {
+    // this.setState(({ visibleColumns }) => ({
+    //   visibleColumns: visibleColumns.includes(key) ? visibleColumns.filter(k => key !== k) : [...visibleColumns, key]
+    // }), () => {
+    //   setItem(VISIBLE_COLUMNS_STORAGE_KEY, this.state.visibleColumns);
+    // });
+  }, []);
+
+  const renderColumnManager = () => {
+    return (
+      <ColumnManagerMenu
+        prefix={columnManagerPrefix}
+        columnMapping={PACKAGE_TITLE_LIST_COLUMN_MAPPING} // TODO: update it so it depends on searchType
+        visibleColumns={visibleColumns}
+        excludeColumns={[PACKAGE_TITLES_LIST_COLUMNS.TITLE]}
+        toggleColumn={toggleColumn}
+      />
+    );
+  };
+
   return (
     <div
       className={styles['search-filters']}
@@ -131,71 +238,8 @@ const SearchFilters = ({
       data-test-eholdings-search-filters={searchType}
       data-testid={`${searchType}-search-filters`}
     >
-      {availableFilters.map(({ type, name, label, defaultValue, options }) => {
-        const accordionLabelId = `filter-${searchType}-${name}-label`;
-
-        const filterProps = {
-          name,
-          options,
-          accordionLabelId,
-          defaultValue,
-          label,
-        };
-
-        if (!hasAccordion) {
-          const hasSelectedOption = ![undefined, defaultValue].includes(activeFilters[name]);
-
-          return (
-            <div
-              key={name}
-              className={styles.groupContainer}
-            >
-              <div className={styles.groupTitle}>
-                <Label
-                  id={accordionLabelId}
-                  ref={labelRef}
-                >
-                  {label}
-                </Label>
-                <ClearButton
-                  show={hasSelectedOption}
-                  label={label}
-                  className={styles.clearButton}
-                  onClick={() => handleClearButtonClick(accordionLabelId, name)}
-                />
-              </div>
-              {type === FILTER_TYPES.SELECT
-                ? renderSingleSelect(filterProps)
-                : renderRadioGroup(filterProps)
-              }
-            </div>
-          );
-        }
-
-        return (
-          <Accordion
-            key={name}
-            name={name}
-            label={
-              <span id={accordionLabelId}>
-                {label}
-              </span>
-            }
-            separator={false}
-            closedByDefault={closedByDefault}
-            header={FilterAccordionHeader}
-            displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
-            onClearFilter={() => handleClearFilter(name)}
-            id={`filter-${searchType}-${name}`}
-            className={styles['search-filter-accordion']}
-          >
-            {type === FILTER_TYPES.SELECT
-              ? renderSingleSelect(filterProps)
-              : renderRadioGroup(filterProps)
-            }
-          </Accordion>
-        );
-      })}
+      {renderFilters()}
+      {renderColumnManager()}
     </div>
   );
 };

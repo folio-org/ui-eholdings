@@ -58,6 +58,7 @@ const CSV_MAX_EXPORT_TITLE_LIMIT = 10000;
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  accordionHeaderSearch: PropTypes.node,
   addPackageToHoldings: PropTypes.func.isRequired,
   costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
   fetchCostPerUsePackageTitles: PropTypes.func.isRequired,
@@ -75,7 +76,6 @@ const propTypes = {
   pkgSearchParams: PropTypes.object.isRequired,
   provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
-  searchModal: PropTypes.node,
   tagsModel: PropTypes.object,
   toggleSelected: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,
@@ -98,7 +98,7 @@ const PackageShow = ({
   packageTitles,
   provider,
   proxyTypes,
-  searchModal,
+  accordionHeaderSearch,
   tagsModel,
   toggleSelected,
   updateFolioTags,
@@ -462,7 +462,7 @@ const PackageShow = ({
         actionMenu={getActionMenu()}
         sections={sections}
         handleExpandAll={toggleExpandAll}
-        searchModal={searchModal}
+        accordionHeaderSearch={accordionHeaderSearch}
         bodyContent={getBodyContent()}
         listType={listTypes.TITLES}
         listSectionId="packageShowTitles"
