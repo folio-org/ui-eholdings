@@ -427,7 +427,7 @@ class PackageShowRoute extends Component {
             history.location.state &&
             history.location.state.isDestroyed
           }
-          accordionHeaderSearch={
+          renderAccordionHeaderSearch={(props) => (
             <SearchSection
               queryProp={pkgSearchParams}
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
@@ -435,8 +435,9 @@ class PackageShowRoute extends Component {
               searchType={listTypes.TITLES}
               onFilter={this.searchTitles}
               onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
+              {...props}
             />
-          }
+          )}
         />
       </TitleManager>
     );

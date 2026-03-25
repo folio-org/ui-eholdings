@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
+import noop from 'lodash/noop';
 
 import {
   Accordion,
@@ -16,6 +17,7 @@ import {
 
 import AccordionListHeader from '../accordion-list-header';
 import { withHistoryBack } from '../../hooks';
+
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
@@ -33,7 +35,6 @@ const cx = classNames.bind(styles);
 class DetailsView extends Component {
   static propTypes = {
     accordionHeaderLoading: PropTypes.bool,
-    accordionHeaderSearch: PropTypes.node,
     actionMenu: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.node,
@@ -67,6 +68,7 @@ class DetailsView extends Component {
       PropTypes.element,
       PropTypes.node,
     ]).isRequired,
+    renderAccordionHeaderSearch: PropTypes.func,
     renderList: PropTypes.func,
     resultsLength: PropTypes.number,
     sections: PropTypes.object,
@@ -74,7 +76,7 @@ class DetailsView extends Component {
   };
 
   static defaultProps = {
-    accordionHeaderSearch: null,
+    renderAccordionHeaderSearch: noop,
   };
 
   // used to focus the heading when the model loads
@@ -141,7 +143,7 @@ class DetailsView extends Component {
       paneTitle,
       paneSub,
       resultsLength,
-      accordionHeaderSearch,
+      renderAccordionHeaderSearch,
       sections,
       handleExpandAll,
       listSectionId,
@@ -211,7 +213,7 @@ class DetailsView extends Component {
                     <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
                   </Headline>
                 )}
-                displayWhenOpen={accordionHeaderSearch}
+                displayWhenOpen={renderAccordionHeaderSearch({})}// TODO: refactor as func component and pass props
                 contentRef={(n) => { this.$list = n; }}
                 open={isListAccordionOpen}
                 id={listSectionId}

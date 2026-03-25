@@ -67,6 +67,8 @@ const propTypes = {
   standaloneFiltersEnabled: PropTypes.bool.isRequired,
   tagsModelOfAlreadyAddedTags: PropTypes.object.isRequired,
   titlesFacets: PropTypes.object,
+  toggleColumn: PropTypes.func,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 const ActionMenu = ({
@@ -87,6 +89,8 @@ const ActionMenu = ({
   onToggleFilter,
   onToggleActions,
   onStandaloneFilterChange,
+  visibleColumns,
+  toggleColumn,
 }) => {
   const intl = useIntl();
 
@@ -178,6 +182,8 @@ const ActionMenu = ({
           onUpdate={onFilterChange}
           disabled={standaloneFiltersEnabled}
           hasAccordion={false}
+          visibleColumns={visibleColumns}
+          toggleColumn={toggleColumn}
         />
       </div>
     );

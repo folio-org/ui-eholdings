@@ -1,9 +1,7 @@
-import {
-  useCallback,
-  useRef,
-} from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { filter } from 'funcadelic';
+import noop from 'lodash/noop';
 
 import {
   Accordion,
@@ -12,10 +10,7 @@ import {
   RadioButton,
   Select,
 } from '@folio/stripes/components';
-import {
-  ColumnManagerMenu,
-  useColumnManager,
-} from '@folio/stripes/smart-components';
+import { ColumnManagerMenu } from '@folio/stripes/smart-components';
 
 import { ClearButton } from '../clear-button';
 import { FILTER_TYPES } from '../../constants';
@@ -42,6 +37,8 @@ const propTypes = {
   hasAccordion: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
   searchType: PropTypes.string.isRequired,
+  toggleColumn: PropTypes.func,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 const SearchFilters = ({
@@ -52,12 +49,11 @@ const SearchFilters = ({
   closedByDefault = true,
   disabled = false,
   hasAccordion = true,
+  visibleColumns = [],
+  toggleColumn = noop,
 }) => {
   const labelRef = useRef(null);
   const columnManagerPrefix = `eholdings-${searchType}`;
-
-  // TODO: update constant
-  const { visibleColumns, toggleColumn } = useColumnManager(columnManagerPrefix, PACKAGE_TITLE_LIST_COLUMN_MAPPING);
 
   const handleClearFilter = (name) => {
     onUpdate({
@@ -210,14 +206,6 @@ const SearchFilters = ({
       </>
     );
   };
-
-  const handleToggleColumn = useCallback(() => {
-    // this.setState(({ visibleColumns }) => ({
-    //   visibleColumns: visibleColumns.includes(key) ? visibleColumns.filter(k => key !== k) : [...visibleColumns, key]
-    // }), () => {
-    //   setItem(VISIBLE_COLUMNS_STORAGE_KEY, this.state.visibleColumns);
-    // });
-  }, []);
 
   const renderColumnManager = () => {
     return (
