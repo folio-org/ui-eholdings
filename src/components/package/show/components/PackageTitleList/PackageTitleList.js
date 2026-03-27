@@ -10,7 +10,6 @@ import {
   TextLink,
   Tooltip,
 } from '@folio/stripes/components';
-import { useColumnManager } from '@folio/stripes/smart-components';
 
 import SelectedLabel from '../../../../selected-label';
 import InternalLink from '../../../../internal-link';
@@ -33,6 +32,7 @@ const propTypes = {
   page: PropTypes.number.isRequired,
   records: PropTypes.arrayOf(PropTypes.object).isRequired,
   totalResults: PropTypes.number.isRequired,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const PackageTitleList = ({
@@ -43,10 +43,9 @@ const PackageTitleList = ({
   count,
   onFetchPackageTitles,
   isTitlesUpdating,
+  visibleColumns,
 }) => {
   const intl = useIntl();
-
-  const { visibleColumns } = useColumnManager('eholdings-titles', PACKAGE_TITLE_LIST_COLUMN_MAPPING);
 
   const formatCellStyles = defaultClass => classNames(defaultClass, styles.cellTopAlign);
   const formatHeaderCellStyles = () => styles.headerCell;

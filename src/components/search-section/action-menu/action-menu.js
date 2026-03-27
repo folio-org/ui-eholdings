@@ -33,7 +33,6 @@ import {
 } from '../../../constants';
 
 import styles from './action-menu.css';
-import { useEffect } from 'react';
 
 const searchFiltersComponents = {
   [searchTypes.PACKAGES]: PackageSearchFilters,
@@ -185,6 +184,7 @@ const ActionMenu = ({
           hasAccordion={false}
           visibleColumns={visibleColumns}
           toggleColumn={toggleColumn}
+          hasColumnManager
         />
       </div>
     );
@@ -237,10 +237,6 @@ const ActionMenu = ({
       </div>
     );
   };
-
-  useEffect(() => {
-    return () => console.log('unmount action-menu');
-  }, []);
 
   return (
     <Dropdown

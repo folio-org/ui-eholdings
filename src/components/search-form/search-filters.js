@@ -35,6 +35,7 @@ const propTypes = {
   closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool,
   hasAccordion: PropTypes.bool,
+  hasColumnManager: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
   searchType: PropTypes.string.isRequired,
   toggleColumn: PropTypes.func,
@@ -51,6 +52,7 @@ const SearchFilters = ({
   hasAccordion = true,
   visibleColumns = [],
   toggleColumn = noop,
+  hasColumnManager = false,
 }) => {
   const labelRef = useRef(null);
   const columnManagerPrefix = `eholdings-${searchType}`;
@@ -227,7 +229,7 @@ const SearchFilters = ({
       data-testid={`${searchType}-search-filters`}
     >
       {renderFilters()}
-      {renderColumnManager()}
+      {hasColumnManager && renderColumnManager()}
     </div>
   );
 };

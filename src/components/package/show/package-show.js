@@ -382,7 +382,7 @@ const PackageShow = ({
     );
   };
 
-  const renderTitlesList = () => {
+  const renderTitlesList = ({ visibleColumns }) => {
     return (
       <PackageTitleList
         records={packageTitles.items}
@@ -392,6 +392,7 @@ const PackageShow = ({
         page={pkgSearchParams.page}
         count={pkgSearchParams.count}
         onFetchPackageTitles={fetchPackageTitles}
+        visibleColumns={visibleColumns}
       />
     );
   };

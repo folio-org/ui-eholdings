@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -14,9 +14,11 @@ import {
   Pane,
   Paneset,
 } from '@folio/stripes/components';
+import { useColumnManager } from '@folio/stripes/smart-components';
 
-import AccordionListHeader from '../accordion-list-header';
 import { withHistoryBack } from '../../hooks';
+import AccordionListHeader from '../accordion-list-header';
+import { PACKAGE_TITLE_LIST_COLUMN_MAPPING } from '../../constants/package-titles-list-columns';
 
 import styles from './details-view.css';
 
@@ -97,8 +99,6 @@ const DetailsView = ({
       // it is off-screen during the pane enter animation
       $heading.current.focus();
     }
-
-    return () => console.log('unmount details-view');
   }, []);
 
   useEffect(() => {
@@ -108,15 +108,22 @@ const DetailsView = ({
     }
   }, [props.model.isLoaded]);
 
+  const { visibleColumns, toggleColumn } = useColumnManager(`eholdings-${props.type}`, PACKAGE_TITLE_LIST_COLUMN_MAPPING);
+
+  const accordionHeaderSearch = useMemo(() => renderAccordionHeaderSearch({
+    visibleColumns,
+    toggleColumn,
+  }), [renderAccordionHeaderSearch, visibleColumns, toggleColumn]);
+
   const navigateBack = () => {
     props.goBack();
   };
 
-  const renderAccordionHeader = (accordionHeaderProps) => (
+  const renderAccordionHeader = useCallback((accordionHeaderProps) => (
     <AccordionListHeader
       {...accordionHeaderProps}
     />
-  );
+  ), []);
 
   const renderFirstMenu = () => {
     const { onCancel } = props;
@@ -138,11 +145,6 @@ const DetailsView = ({
       </FormattedMessage>
     );
   };
-
-  const accordionHeaderSearch = useMemo(() => {
-    console.log('render');
-    return renderAccordionHeaderSearch({});
-  }, [renderAccordionHeaderSearch]);
 
   const renderItemData = () => {
     const {
@@ -207,7 +209,7 @@ const DetailsView = ({
               data-test-eholdings-details-view-list={type}
             >
               <Accordion
-                header={accordionHeaderProps => renderAccordionHeader(accordionHeaderProps)}
+                header={renderAccordionHeader}
                 headerProps={{
                   resultsLength,
                 }}
@@ -225,7 +227,7 @@ const DetailsView = ({
                 onToggle={onListToggle}
                 listType={listType}
               >
-                {isListAccordionOpen && renderList()}
+                {isListAccordionOpen && renderList({ visibleColumns })}
               </Accordion>
             </div>
           )}
