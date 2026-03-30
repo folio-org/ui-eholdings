@@ -10,6 +10,7 @@
 * Package Details Record: Title List Search within: Make reset action work. (UIEH-1466)
 * Make "erm" an optional interface in eHoldings. (UIEH-1476)
 * include global permissions in package.json base permissions. (UIEH-1481)
+* eHoldings Package record titlelist: Add Results list column chooser to Search within Actions button menu. (UIEH-1455)
 
 ## [11.0.1] (https://github.com/folio-org/ui-eholdings/tree/v11.0.1) (2025-04-16)
 

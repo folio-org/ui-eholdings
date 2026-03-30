@@ -97,7 +97,7 @@ describe('Given SearchFilters', () => {
           hasColumnManager: true,
         });
 
-        fireEvent.click(getByRole('checkbox', { name: 'ui-eholdings.titleList.status' }));
+        fireEvent.click(getByRole('checkbox', { name: 'ui-eholdings.titlesList.status' }));
 
         expect(mockToggleColumn).toHaveBeenCalledWith('status');
       });
