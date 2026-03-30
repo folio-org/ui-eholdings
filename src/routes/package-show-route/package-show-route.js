@@ -370,31 +370,12 @@ class PackageShowRoute extends Component {
     getPackageTitles({ packageId, params });
   };
 
-  renderAccordionHeaderSearch = (props) => {
-    const {
-      pkgSearchParams,
-      tagsModelOfAlreadyAddedTags,
-      accessStatusTypes,
-    } = this.props;
-
-    return (
-      <SearchSection
-        queryProp={pkgSearchParams}
-        tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-        accessTypes={accessStatusTypes}
-        searchType={listTypes.TITLES}
-        onFilter={this.searchTitles}
-        onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
-        {...props}
-      />
-    );
-  }
-
   render() {
     const {
       history,
       model,
       tagsModel,
+      tagsModelOfAlreadyAddedTags,
       provider,
       proxyTypes,
       updateFolioTags,
@@ -446,7 +427,17 @@ class PackageShowRoute extends Component {
             history.location.state &&
             history.location.state.isDestroyed
           }
-          renderAccordionHeaderSearch={this.renderAccordionHeaderSearch}
+          renderAccordionHeaderSearch={(props) => (
+            <SearchSection
+              queryProp={pkgSearchParams}
+              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+              accessTypes={accessStatusTypes}
+              searchType={listTypes.TITLES}
+              onFilter={this.searchTitles}
+              onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
+              {...props}
+            />
+          )}
         />
       </TitleManager>
     );

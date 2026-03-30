@@ -1,3 +1,5 @@
+import { createMemoryHistory } from 'history';
+
 import {
   fireEvent,
   render,
@@ -5,19 +7,14 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import { createMemoryHistory } from 'history';
+import PackageShow from './package-show';
 
 import Harness from '../../../../test/jest/helpers/harness';
-
-import PackageShow from './package-show';
 
 const history = createMemoryHistory();
 
 jest.mock('../../../features/agreements-accordion', () => () => (<div>Agreements accordion</div>));
 jest.mock('../../../features/usage-consolidation-accordion', () => () => (<div>UsageConsolidation accordion</div>));
-jest.mock('@folio/stripes/smart-components', () => ({
-  NotesSmartAccordion: jest.fn(() => <div>Notes accordion</div>),
-}));
 
 const testCostPerUse = {
   data: {
@@ -215,7 +212,7 @@ describe('Given PackageShow', () => {
   it('should render Notes accordion', () => {
     const { getByText } = renderPackageShow();
 
-    expect(getByText('Notes accordion')).toBeDefined();
+    expect(getByText('content of NotesSmartAccordion')).toBeDefined();
   });
 
   it('should render UsageConsolidation accordion', () => {

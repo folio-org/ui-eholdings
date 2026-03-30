@@ -211,7 +211,7 @@ class ProviderShowRoute extends Component {
           rootProxy={rootProxy}
           listType={listTypes.PACKAGES}
           updateFolioTags={updateFolioTags}
-          searchModal={
+          renderAccordionHeaderSearch={() => (
             <SearchModal
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
               key={queryId}
@@ -222,7 +222,7 @@ class ProviderShowRoute extends Component {
               onFilter={this.searchPackages}
               accessTypes={accessTypes}
             />
-          }
+          )}
           onEdit={this.handleEdit}
           isFreshlySaved={
             history.action === 'REPLACE' &&

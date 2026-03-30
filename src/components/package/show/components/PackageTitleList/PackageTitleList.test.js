@@ -1,8 +1,10 @@
+import { createMemoryHistory } from 'history';
+
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import { createMemoryHistory } from 'history';
 import { PackageTitleList } from './PackageTitleList';
+import { PACKAGE_TITLES_LIST_COLUMNS } from '../../../../../constants/package-titles-list-columns';
 import getAxe from '../../../../../../test/jest/helpers/get-axe';
 import Harness from '../../../../../../test/jest/helpers/harness';
 
@@ -38,6 +40,7 @@ const records = [
         isHidden: true,
       },
     },
+    included: [],
   },
   {
     id: '2',
@@ -57,6 +60,7 @@ const records = [
         tagList: [],
       },
     },
+    included: [],
   },
 ];
 
@@ -77,6 +81,7 @@ const renderPackageTitleList = (props = {}) => render(
       page={1}
       count={2}
       onFetchPackageTitles={mockOnFetchPackageTitles}
+      visibleColumns={Object.values(PACKAGE_TITLES_LIST_COLUMNS)}
       {...props}
     />
   </Harness>

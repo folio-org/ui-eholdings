@@ -1,15 +1,15 @@
+import { createMemoryHistory } from 'history';
+import noop from 'lodash/noop';
+
 import {
   fireEvent,
   render,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import { createMemoryHistory } from 'history';
-import noop from 'lodash/noop';
-
-import Harness from '../../../../test/jest/helpers/harness';
-
 import TitleShow from './title-show';
 import ScrollView from '../../scroll-view';
+
+import Harness from '../../../../test/jest/helpers/harness';
 
 const history = createMemoryHistory();
 const historyReplaceSpy = jest.spyOn(history, 'replace');
@@ -17,9 +17,6 @@ const historyReplaceSpy = jest.spyOn(history, 'replace');
 jest.mock('../../scroll-view', () => jest.fn(() => <div>ScrollView component</div>));
 jest.mock('../../../features/usage-consolidation-accordion', () => () => (<div>UsageConsolidationAccordion component</div>));
 jest.mock('../_field-groups/add-title-to-package', () => () => (<div>AddTitleToPackage component</div>));
-jest.mock('@folio/stripes/smart-components', () => ({
-  NotesSmartAccordion: jest.fn(() => <div>NotesSmartAccordion component</div>),
-}));
 
 const mapMock = jest.fn();
 
@@ -374,7 +371,7 @@ describe('Given TitleShow', () => {
   it('should render NotesSmartAccordion component', () => {
     const { getByText } = renderTitleShow();
 
-    expect(getByText('NotesSmartAccordion component')).toBeDefined();
+    expect(getByText('content of NotesSmartAccordion')).toBeDefined();
   });
 
   it('should render UsageConsolidationAccordion component', () => {
