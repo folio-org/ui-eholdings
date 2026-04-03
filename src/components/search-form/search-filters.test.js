@@ -9,6 +9,7 @@ import SearchFilters from './search-filters';
 import { FILTER_TYPES } from '../../constants';
 
 const mockOnUpdate = jest.fn();
+const mockToggleColumn = jest.fn();
 
 const renderSearchFilters = (props = {}) => render(
   <Harness>
@@ -42,6 +43,7 @@ const renderSearchFilters = (props = {}) => render(
       }]}
       onUpdate={mockOnUpdate}
       searchType="packages"
+      toggleColumn={mockToggleColumn}
       {...props}
     />
   </Harness>
@@ -51,6 +53,7 @@ describe('Given SearchFilters', () => {
   afterEach(() => {
     cleanup();
     mockOnUpdate.mockClear();
+    mockToggleColumn.mockClear();
   });
 
   it('should render available filters', () => {
@@ -76,6 +79,28 @@ describe('Given SearchFilters', () => {
       fireEvent.change(getByRole('combobox'), { target: { value: 'book' } });
 
       expect(mockOnUpdate).toHaveBeenCalledWith(expect.objectContaining({ publicationType: 'book' }));
+    });
+  });
+
+  describe('when passing hasColumnManager prop', () => {
+    it('should render ColumnManager', () => {
+      const { getByText } = renderSearchFilters({
+        hasColumnManager: true,
+      });
+
+      expect(getByText('stripes-smart-components.columnManager.showColumns')).toBeInTheDocument();
+    });
+
+    describe('when clicking on a column checkbox', () => {
+      it('should call toggleColumn', () => {
+        const { getByRole } = renderSearchFilters({
+          hasColumnManager: true,
+        });
+
+        fireEvent.click(getByRole('checkbox', { name: 'ui-eholdings.titlesList.status' }));
+
+        expect(mockToggleColumn).toHaveBeenCalledWith('status');
+      });
     });
   });
 });

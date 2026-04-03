@@ -58,8 +58,8 @@ class ProviderShow extends Component {
       totalResults: PropTypes.number.isRequired,
     }).isRequired,
     proxyTypes: PropTypes.object.isRequired,
+    renderAccordionHeaderSearch: PropTypes.func.isRequired,
     rootProxy: PropTypes.object.isRequired,
-    searchModal: PropTypes.node,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
     }).isRequired,
@@ -234,7 +234,7 @@ class ProviderShow extends Component {
       listType,
       model,
       providerPackages,
-      searchModal,
+      renderAccordionHeaderSearch,
     } = this.props;
 
     const { sections } = this.state;
@@ -259,7 +259,7 @@ class ProviderShow extends Component {
             handleExpandAll={this.handleExpandAll}
             bodyContent={this.getBodyContent()}
             lastMenu={this.renderLastMenu()}
-            searchModal={searchModal}
+            renderAccordionHeaderSearch={renderAccordionHeaderSearch}
             listType={listType}
             listSectionId="providerShowProviderList"
             onListToggle={this.handleSectionToggle}

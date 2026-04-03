@@ -314,14 +314,14 @@ class TitleShow extends Component {
           ariaRole="tablist"
           bodyAriaRole="tab"
           listSectionId="titleShowPackages"
-          searchModal={(
+          renderAccordionHeaderSearch={() => (
             <PackageFilterModal
               allPackages={model.resources.records}
               selectedPackages={filteredPackages}
               onSubmit={this.handlePackageFilterChange}
               filterCount={countOfAppliedPackagesFilters}
-            />)
-          }
+            />
+          )}
           bodyContent={(
             <>
               <Accordion

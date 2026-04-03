@@ -309,8 +309,8 @@ class PackageShowRoute extends Component {
     }));
   };
 
-  toggleSearchModal = (isModalVisible) => {
-    if (isModalVisible) {
+  handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
+    if (isActionsDropdownOpen) {
       this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
   };
@@ -427,16 +427,17 @@ class PackageShowRoute extends Component {
             history.location.state &&
             history.location.state.isDestroyed
           }
-          searchModal={
+          renderAccordionHeaderSearch={(props) => (
             <SearchSection
               queryProp={pkgSearchParams}
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
               accessTypes={accessStatusTypes}
               searchType={listTypes.TITLES}
               onFilter={this.searchTitles}
-              onToggleActions={this.toggleSearchModal}
+              onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
+              {...props}
             />
-          }
+          )}
         />
       </TitleManager>
     );

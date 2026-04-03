@@ -273,6 +273,7 @@ const resource = {
       tagList: [],
     },
   },
+  included: [],
   id: packageId,
   relationships: {},
   type: 'resources',

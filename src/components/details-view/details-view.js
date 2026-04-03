@@ -1,8 +1,9 @@
-import { createRef, Component } from 'react';
+import { useRef, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames/bind';
+import noop from 'lodash/noop';
 
 import {
   Accordion,
@@ -13,12 +14,57 @@ import {
   Pane,
   Paneset,
 } from '@folio/stripes/components';
+import { useColumnManager } from '@folio/stripes/smart-components';
 
-import AccordionListHeader from '../accordion-list-header';
 import { withHistoryBack } from '../../hooks';
+import AccordionListHeader from '../accordion-list-header';
+import { PACKAGE_TITLE_LIST_COLUMN_MAPPING } from '../../constants/package-titles-list-columns';
+
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
+
+const propTypes = {
+  accordionHeaderLoading: PropTypes.bool,
+  actionMenu: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  ariaRole: PropTypes.string,
+  bodyAriaRole: PropTypes.string,
+  bodyContent: PropTypes.node.isRequired,
+  footer: PropTypes.node,
+  goBack: PropTypes.func.isRequired,
+  handleExpandAll: PropTypes.func,
+  history: ReactRouterPropTypes.history.isRequired,
+  lastMenu: PropTypes.node,
+  listSectionId: PropTypes.string,
+  listType: PropTypes.node,
+  location: PropTypes.object.isRequired,
+  model: PropTypes.shape({
+    isLoaded: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    request: PropTypes.object.isRequired,
+  }).isRequired,
+  onCancel: PropTypes.func,
+  onListToggle: PropTypes.func,
+  paneSub: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
+  paneTitle: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.node,
+  ]).isRequired,
+  renderAccordionHeaderSearch: PropTypes.func,
+  renderList: PropTypes.func,
+  resultsLength: PropTypes.number,
+  sections: PropTypes.object,
+  type: PropTypes.string.isRequired,
+};
 
 /**
  * This component will render a details view which includes the type
@@ -30,89 +76,57 @@ const cx = classNames.bind(styles);
  * various details views, which may or may not require their own
  * header component.
  */
-class DetailsView extends Component {
-  static propTypes = {
-    accordionHeaderLoading: PropTypes.bool,
-    actionMenu: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    ariaRole: PropTypes.string,
-    bodyAriaRole: PropTypes.string,
-    bodyContent: PropTypes.node.isRequired,
-    footer: PropTypes.node,
-    goBack: PropTypes.func.isRequired,
-    handleExpandAll: PropTypes.func,
-    history: ReactRouterPropTypes.history.isRequired,
-    lastMenu: PropTypes.node,
-    listSectionId: PropTypes.string,
-    listType: PropTypes.node,
-    location: PropTypes.object.isRequired,
-    model: PropTypes.shape({
-      isLoaded: PropTypes.bool.isRequired,
-      isLoading: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-      request: PropTypes.object.isRequired,
-    }).isRequired,
-    onCancel: PropTypes.func,
-    onListToggle: PropTypes.func,
-    paneSub: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-      PropTypes.node,
-    ]),
-    paneTitle: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-      PropTypes.node,
-    ]).isRequired,
-    renderList: PropTypes.func,
-    resultsLength: PropTypes.number,
-    searchModal: PropTypes.node,
-    sections: PropTypes.object,
-    type: PropTypes.string.isRequired,
-  };
-
-  static defaultProps = {
-    searchModal: null,
-  };
+const DetailsView = ({
+  renderAccordionHeaderSearch = noop,
+  ...props
+}) => {
+  const {
+    type,
+    model,
+    paneTitle,
+    actionMenu,
+    lastMenu,
+    footer,
+  } = props;
 
   // used to focus the heading when the model loads
-  $heading = createRef(); // eslint-disable-line react/sort-comp
+  const $heading = useRef(null);
 
-  componentDidMount() {
+  useEffect(() => {
     // if the heading exists on mount, focus it
-    if (this.$heading.current) {
+    if ($heading.current) {
       // TODO: fix safari auto-scrolling to this focused element when
       // it is off-screen during the pane enter animation
-      this.$heading.current.focus();
+      $heading.current.focus();
     }
-  }
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    const { model } = this.props;
-
+  useEffect(() => {
     // if the model just finished loading focus the heading
-    if (!prevProps.model.isLoaded && model.isLoaded) {
-      this.$heading.current.focus();
+    if (props.model.isLoaded) {
+      $heading.current.focus();
     }
-  }
+  }, [props.model.isLoaded]);
 
-  navigateBack = () => {
-    this.props.goBack();
+  const { visibleColumns, toggleColumn } = useColumnManager(`eholdings-${props.type}`, PACKAGE_TITLE_LIST_COLUMN_MAPPING);
+
+  const accordionHeaderSearch = useMemo(() => renderAccordionHeaderSearch({
+    visibleColumns,
+    toggleColumn,
+  }), [renderAccordionHeaderSearch, visibleColumns, toggleColumn]);
+
+  const navigateBack = () => {
+    props.goBack();
   };
 
-  renderAccordionHeader = (props) => (
+  const renderAccordionHeader = useCallback((accordionHeaderProps) => (
     <AccordionListHeader
-      {...props}
+      {...accordionHeaderProps}
     />
-  );
+  ), []);
 
-  renderFirstMenu = () => {
-    const {
-      paneTitle,
-      onCancel,
-    } = this.props;
+  const renderFirstMenu = () => {
+    const { onCancel } = props;
 
     return (
       <FormattedMessage
@@ -123,7 +137,7 @@ class DetailsView extends Component {
           <IconButton
             icon="times"
             ariaLabel={ariaLabel}
-            onClick={onCancel || this.navigateBack}
+            onClick={onCancel || navigateBack}
             data-test-eholdings-details-view-back-button
             data-testid="close-details-view-button"
           />
@@ -132,23 +146,20 @@ class DetailsView extends Component {
     );
   };
 
-  renderItemData() {
+  const renderItemData = () => {
     const {
-      type,
       bodyContent,
       listType,
       renderList,
-      paneTitle,
       paneSub,
       resultsLength,
-      searchModal,
       sections,
       handleExpandAll,
       listSectionId,
       onListToggle,
       ariaRole,
       bodyAriaRole,
-    } = this.props;
+    } = props;
 
     const isListAccordionOpen = sections && sections[listSectionId];
 
@@ -160,7 +171,7 @@ class DetailsView extends Component {
             tag="h2"
             margin="none"
             tabIndex={-1}
-            ref={this.$heading}
+            ref={$heading}
             data-test-eholdings-details-view-name={type}
             data-testid="details-view-name-heading"
           >
@@ -194,12 +205,11 @@ class DetailsView extends Component {
           </div>
           {!!renderList && (
             <div
-              ref={(n) => { this.$sticky = n; }}
               className={styles.sticky}
               data-test-eholdings-details-view-list={type}
             >
               <Accordion
-                header={this.renderAccordionHeader}
+                header={renderAccordionHeader}
                 headerProps={{
                   resultsLength,
                 }}
@@ -211,27 +221,23 @@ class DetailsView extends Component {
                     <FormattedMessage id={`ui-eholdings.listType.${listType}`} />
                   </Headline>
                 )}
-                displayWhenOpen={searchModal}
-                contentRef={(n) => { this.$list = n; }}
+                displayWhenOpen={accordionHeaderSearch}
                 open={isListAccordionOpen}
                 id={listSectionId}
                 onToggle={onListToggle}
                 listType={listType}
               >
-                {isListAccordionOpen && renderList()}
+                {isListAccordionOpen && renderList({ visibleColumns })}
               </Accordion>
             </div>
           )}
         </div>
       </>
     );
-  }
+  };
 
-  indicateItemIsNotLoaded() {
-    const {
-      type,
-      model: { request },
-    } = this.props;
+  const indicateItemIsNotLoaded = () => {
+    const { model: { request } } = props;
 
     return request.isRejected
       ? (
@@ -240,64 +246,54 @@ class DetailsView extends Component {
         </p>
       )
       : <Icon icon="spinner-ellipsis" />;
-  }
+  };
 
-  render() {
-    const {
-      type,
-      model,
-      paneTitle,
-      actionMenu,
-      lastMenu,
-      footer,
-    } = this.props;
+  const containerClassName = cx('container', { hasFooter: !!footer });
 
-    const containerClassName = cx('container', { hasFooter: !!footer });
+  const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
+  const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
 
-    const paneIdFromTitle = paneTitle.replace(/\s+/g, '-').toLowerCase();
-    const paneTitleId = `details-view-pane-title ${paneIdFromTitle}`;
-
-    return (
-      <div
-        data-test-eholdings-details-view={type}
-        data-testid={`details-view-type-${type}`}
-      >
-        <Paneset>
-          <Pane
-            id={paneIdFromTitle}
-            defaultWidth="fill"
-            padContent={false}
-            actionMenu={actionMenu}
-            footer={footer}
-            firstMenu={this.renderFirstMenu()}
-            paneTitle={
-              <span
-                data-test-eholdings-details-view-pane-title
-                data-testid="details-view-pane-title"
-                id={paneTitleId}
-              >
-                {paneTitle}
-              </span>
-            }
-            lastMenu={lastMenu}
-            aria-labelledby={paneTitleId}
-          >
-            <div
-              ref={(n) => { this.$container = n; }}
-              className={containerClassName}
-              data-test-eholdings-detail-pane-contents
-              data-testid="scroll-container"
+  return (
+    <div
+      data-test-eholdings-details-view={type}
+      data-testid={`details-view-type-${type}`}
+    >
+      <Paneset>
+        <Pane
+          id={paneIdFromTitle}
+          defaultWidth="fill"
+          padContent={false}
+          actionMenu={actionMenu}
+          footer={footer}
+          firstMenu={renderFirstMenu()}
+          paneTitle={
+            <span
+              data-test-eholdings-details-view-pane-title
+              data-testid="details-view-pane-title"
+              id={paneTitleId}
             >
-              {model.isLoaded
-                ? this.renderItemData()
-                : this.indicateItemIsNotLoaded()
-              }
-            </div>
-          </Pane>
-        </Paneset>
-      </div>
-    );
-  }
-}
+              {paneTitle}
+            </span>
+          }
+          lastMenu={lastMenu}
+          aria-labelledby={paneTitleId}
+        >
+          <div
+            className={containerClassName}
+            data-test-eholdings-detail-pane-contents
+            data-testid="scroll-container"
+          >
+            {model.isLoaded
+              ? renderItemData()
+              : indicateItemIsNotLoaded()
+            }
+          </div>
+        </Pane>
+      </Paneset>
+    </div>
+  );
+};
+
+DetailsView.propTypes = propTypes;
 
 export default withHistoryBack(DetailsView);

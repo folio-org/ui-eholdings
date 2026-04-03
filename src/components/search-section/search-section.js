@@ -36,6 +36,8 @@ const propTypes = {
   searchType: PropTypes.string.isRequired,
   tagsModelOfAlreadyAddedTags: PropTypes.object,
   titlesFacets: PropTypes.object,
+  toggleColumn: PropTypes.func,
+  visibleColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
 const SearchSection = ({
@@ -50,6 +52,8 @@ const SearchSection = ({
   packagesFacetCollection = EMPTY_OBJECT,
   onFilter,
   onToggleActions,
+  visibleColumns,
+  toggleColumn,
 }) => {
   const intl = useIntl();
 
@@ -212,6 +216,8 @@ const SearchSection = ({
         packagesFacetCollection={packagesFacetCollection}
         onFilterChange={handleFilterChange}
         filterCount={filterCount}
+        visibleColumns={visibleColumns}
+        toggleColumn={toggleColumn}
       />
     </div>
   );

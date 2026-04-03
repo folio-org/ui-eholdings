@@ -75,7 +75,7 @@ const propTypes = {
   pkgSearchParams: PropTypes.object.isRequired,
   provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
-  searchModal: PropTypes.node,
+  renderAccordionHeaderSearch: PropTypes.func,
   tagsModel: PropTypes.object,
   toggleSelected: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,
@@ -98,7 +98,7 @@ const PackageShow = ({
   packageTitles,
   provider,
   proxyTypes,
-  searchModal,
+  renderAccordionHeaderSearch,
   tagsModel,
   toggleSelected,
   updateFolioTags,
@@ -382,7 +382,7 @@ const PackageShow = ({
     );
   };
 
-  const renderTitlesList = () => {
+  const renderTitlesList = ({ visibleColumns }) => {
     return (
       <PackageTitleList
         records={packageTitles.items}
@@ -392,6 +392,7 @@ const PackageShow = ({
         page={pkgSearchParams.page}
         count={pkgSearchParams.count}
         onFetchPackageTitles={fetchPackageTitles}
+        visibleColumns={visibleColumns}
       />
     );
   };
@@ -462,7 +463,7 @@ const PackageShow = ({
         actionMenu={getActionMenu()}
         sections={sections}
         handleExpandAll={toggleExpandAll}
-        searchModal={searchModal}
+        renderAccordionHeaderSearch={renderAccordionHeaderSearch}
         bodyContent={getBodyContent()}
         listType={listTypes.TITLES}
         listSectionId="packageShowTitles"
