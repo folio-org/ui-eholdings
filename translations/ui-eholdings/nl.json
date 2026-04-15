@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "Dekkingsinformatie op maat",
     "titlesList.managedEmbargo": "Embargo periode Beheren",
     "titlesList.tags": "Tag(s)",
-    "titlesList.hidden": "Titel is ingesteld op Verbergen"
+    "titlesList.hidden": "Titel is ingesteld op Verbergen",
+    "titlesList.customEmbargo": "Custom embargo period",
+    "titlesList.publicationType": "Publication type",
+    "titlesList.accessStatusType": "Access status type"
 }

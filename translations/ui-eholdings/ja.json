@@ -178,7 +178,7 @@
     "filter.contentType.ejournal": "電子ジャーナル",
     "filter.contentType.print": "紙",
     "filter.contentType.unknown": "不明",
-    "filter.pubType.book": "本",
+    "filter.pubType.book": "図書",
     "filter.pubType.database": "データベース",
     "filter.pubType.journal": "ジャーナル",
     "filter.pubType.newsletter": "ニュースレター",
@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
     "titlesList.tags": "Tag(s)",
-    "titlesList.hidden": "タイトルは非表示に設定されています"
+    "titlesList.hidden": "タイトルは非表示に設定されています",
+    "titlesList.customEmbargo": "カスタムエンバーゴ期間",
+    "titlesList.publicationType": "出版物タイプ",
+    "titlesList.accessStatusType": "アクセスステータスタイプ"
 }

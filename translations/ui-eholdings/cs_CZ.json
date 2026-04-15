@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "Vlastní data pokrytí",
     "titlesList.managedEmbargo": "Období řízeného embarga",
     "titlesList.tags": "Štítek(y)",
-    "titlesList.hidden": "Titul je skrytý"
+    "titlesList.hidden": "Titul je skrytý",
+    "titlesList.customEmbargo": "Vlastní období embarga",
+    "titlesList.publicationType": "Typ publikace",
+    "titlesList.accessStatusType": "Typ stavu přístupu"
 }

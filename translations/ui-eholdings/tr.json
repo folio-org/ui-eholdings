@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "Özel kapsama",
     "titlesList.managedEmbargo": "Yönet ambargo dönemi",
     "titlesList.tags": "Etiket(ler)",
-    "titlesList.hidden": "Başlık gizle şekilde ayarlandı"
+    "titlesList.hidden": "Başlık gizle şekilde ayarlandı",
+    "titlesList.customEmbargo": "Custom embargo period",
+    "titlesList.publicationType": "Publication type",
+    "titlesList.accessStatusType": "Access status type"
 }
