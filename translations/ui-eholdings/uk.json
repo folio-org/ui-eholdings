@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "Користувацьке покриття",
     "titlesList.managedEmbargo": "Керований період ембарго",
     "titlesList.tags": "Тег(и)",
-    "titlesList.hidden": "Назву налаштовано на приховування"
+    "titlesList.hidden": "Назву налаштовано на приховування",
+    "titlesList.customEmbargo": "Custom embargo period",
+    "titlesList.publicationType": "Publication type",
+    "titlesList.accessStatusType": "Access status type"
 }

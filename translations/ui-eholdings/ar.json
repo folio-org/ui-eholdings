@@ -611,5 +611,8 @@
     "titlesList.customCoverage": "تغطية مخصصة",
     "titlesList.managedEmbargo": "إدارة فترة الحظر",
     "titlesList.tags": "الوسوم",
-    "titlesList.hidden": "Title is set to hide"
+    "titlesList.hidden": "Title is set to hide",
+    "titlesList.customEmbargo": "Custom embargo period",
+    "titlesList.publicationType": "Publication type",
+    "titlesList.accessStatusType": "Access status type"
 }
