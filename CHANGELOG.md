@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [11.1.0] (IN PROGRESS)
+## [11.1.0] (https://github.com/folio-org/ui-eholdings/tree/v11.1.0) (2026-04-16)
 
 * Replace `moment` usage with `dayjs`. (UIEH-1407)
 * Show a loading indicator under Package Titles list when package titles are updating. (UIEH-1471)
