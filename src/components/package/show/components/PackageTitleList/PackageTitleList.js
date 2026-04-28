@@ -124,7 +124,7 @@ const PackageTitleList = ({
         value: embargoValue,
       });
     },
-    [PACKAGE_TITLES_LIST_COLUMNS.PUBLICATION_TYPE]: item => item.publicationType,
+    [PACKAGE_TITLES_LIST_COLUMNS.PUBLICATION_TYPE]: item => item.attributes.publicationType,
     [PACKAGE_TITLES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: item => item.included.find(included => included.type === 'accessTypes')?.attributes?.name,
     [PACKAGE_TITLES_LIST_COLUMNS.TAGS]: item => {
       const { tagList } = item.attributes.tags;
