@@ -612,7 +612,7 @@
     "titlesList.managedEmbargo": "Embargo periode Beheren",
     "titlesList.tags": "Tag(s)",
     "titlesList.hidden": "Titel is ingesteld op Verbergen",
-    "titlesList.customEmbargo": "Custom embargo period",
-    "titlesList.publicationType": "Publication type",
-    "titlesList.accessStatusType": "Access status type"
+    "titlesList.customEmbargo": "Maatwerk Embargo periode",
+    "titlesList.publicationType": "Soorten publicaties",
+    "titlesList.accessStatusType": "Type toegangsstatus"
 }

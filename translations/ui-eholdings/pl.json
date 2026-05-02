@@ -612,7 +612,7 @@
     "titlesList.managedEmbargo": "Zarządzany okres embarga",
     "titlesList.tags": "Tag(i)",
     "titlesList.hidden": "Tytuł jest ustawiony na ukryty",
-    "titlesList.customEmbargo": "Custom embargo period",
-    "titlesList.publicationType": "Publication type",
-    "titlesList.accessStatusType": "Access status type"
+    "titlesList.customEmbargo": "Niestandardowy okres embarga",
+    "titlesList.publicationType": "Rodzaj publikacji",
+    "titlesList.accessStatusType": "Typ statusu dostępu"
 }
