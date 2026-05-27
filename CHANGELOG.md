@@ -3,6 +3,7 @@
 ## [11.2.0] (IN PROGRESS)
 
 * Fix "Publication type" column is empty in "Titles" accordion of "Package" record. (UIEH-1487)
+* Populate `resourceName` when adding an eHoldings resource to an agreement line via "eHoldings". (ERM-4007)
 
 ## [11.1.0] (https://github.com/folio-org/ui-eholdings/tree/v11.1.0) (2026-04-16)
 
