@@ -1,6 +1,6 @@
 # Change history for ui-eholdings
 
-## [11.1.1] (IN PROGRESS)
+## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 
 * Remove duplicate requests for KB list and Access Types when opening Settings. (UIEH-1493)
 
