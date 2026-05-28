@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   cleanup,
-  act,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import SettingsAccessStatusTypesRoute from './settings-access-status-types-route';
@@ -82,29 +82,38 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
   afterEach(cleanup);
 
   it('should handle getAccessTypes', async () => {
-    await act(async () => {
-      await renderSettingsAccessStatusTypesRoute();
+    await renderSettingsAccessStatusTypesRoute({
+      accessTypes: {
+        items: {
+          data: null,
+        },
+        errors: [],
+      },
     });
 
-    expect(mockGetAccessTypes).toHaveBeenCalledWith(match.params.kbId);
+    await waitFor(() => expect(mockGetAccessTypes).toHaveBeenCalledWith(match.params.kbId));
   });
 
   describe('when kbId changes', () => {
     it('should call getAccessTypes with new kbId', async () => {
-      await act(async () => {
-        const { rerender } = await renderSettingsAccessStatusTypesRoute();
+      const { rerender } = await renderSettingsAccessStatusTypesRoute();
 
-        rerender(getSettingsAccessStatusTypesRoute({
-          match: {
-            ...match,
-            params: {
-              kbId: 'new-test-kb-id',
-            },
+      rerender(getSettingsAccessStatusTypesRoute({
+        match: {
+          ...match,
+          params: {
+            kbId: 'new-test-kb-id',
           },
-        }));
-      });
+        },
+        accessTypes: {
+          items: {
+            data: null,
+          },
+          errors: [],
+        },
+      }));
 
-      expect(mockGetAccessTypes).toHaveBeenCalledWith('new-test-kb-id');
+      await waitFor(() => expect(mockGetAccessTypes).toHaveBeenCalledWith('new-test-kb-id'));
     });
   });
 

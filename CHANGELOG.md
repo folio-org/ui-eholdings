@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [11.1.1] (IN PROGRESS)
+
+* Remove duplicate requests for KB list and Access Types when opening Settings. (UIEH-1493)
+
 ## [11.1.0] (https://github.com/folio-org/ui-eholdings/tree/v11.1.0) (2026-04-16)
 
 * Replace `moment` usage with `dayjs`. (UIEH-1407)

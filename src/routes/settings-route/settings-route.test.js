@@ -1,15 +1,9 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import {
-  render,
-  cleanup,
-  act,
-} from '@folio/jest-config-stripes/testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import SettingsRoute from './settings-route';
 import Harness from '../../../test/jest/helpers/harness';
-
-const mockGetKbCredentials = jest.fn();
 
 const kbCredentials = {
   errors: [],
@@ -70,7 +64,6 @@ const renderSettingsRoute = (props = {}) => render(
   <MemoryRouter>
     <Harness>
       <SettingsRoute
-        getKbCredentials={mockGetKbCredentials}
         kbCredentials={kbCredentials}
         location={location}
         {...props}
@@ -82,12 +75,6 @@ const renderSettingsRoute = (props = {}) => render(
 );
 
 describe('Given SettingsRoute', () => {
-  beforeEach(() => {
-    mockGetKbCredentials.mockClear();
-  });
-
-  afterEach(cleanup);
-
   it('should render children', () => {
     const { getByText } = renderSettingsRoute();
 
@@ -98,13 +85,5 @@ describe('Given SettingsRoute', () => {
     renderSettingsRoute();
 
     expect(document.title).toEqual('ui-eholdings.label.settings - FOLIO');
-  });
-
-  it('should handle getKbCredentials', async () => {
-    await act(async () => {
-      await renderSettingsRoute();
-    });
-
-    expect(mockGetKbCredentials).toHaveBeenCalled();
   });
 });
