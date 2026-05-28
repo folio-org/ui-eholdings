@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { useIntl } from 'react-intl';
@@ -11,16 +10,10 @@ import { KbCredentials } from '../../constants';
 
 const SettingsRoute = ({
   children,
-  getKbCredentials,
   kbCredentials,
   location,
 }) => {
   const intl = useIntl();
-
-  useEffect(() => {
-    getKbCredentials();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const sortKbCredentials = () => {
     const kbCredentialsItems = kbCredentials.items;
@@ -44,7 +37,6 @@ const SettingsRoute = ({
 
 SettingsRoute.propTypes = {
   children: PropTypes.node.isRequired,
-  getKbCredentials: PropTypes.func.isRequired,
   kbCredentials: KbCredentials.KbCredentialsReduxStateShape,
   location: ReactRouterPropTypes.location.isRequired,
 };

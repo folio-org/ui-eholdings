@@ -42,14 +42,6 @@ const SettingsAccessStatusTypesRoute = ({
     }
   }, [data, getAccessTypes, params.kbId, hasPermToView]);
 
-  useEffect(() => {
-    if (!hasPermToView) {
-      return;
-    }
-
-    getAccessTypes(params.kbId);
-  }, [getAccessTypes, params.kbId, hasPermToView]);
-
   const pageLabel = intl.formatMessage({ id: 'ui-eholdings.label.settings' });
   const recordLabel = intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' });
 
