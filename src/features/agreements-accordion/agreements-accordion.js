@@ -140,6 +140,7 @@ const AgreementsAccordion = ({
       refId,
       authorityType: refType,
       label: name,
+      resourceName: refName,
     };
 
     attachAgreement(new Agreement(agreementParams));
