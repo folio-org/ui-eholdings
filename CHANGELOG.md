@@ -5,6 +5,10 @@
 * Fix "Publication type" column is empty in "Titles" accordion of "Package" record. (UIEH-1487)
 * Populate `resourceName` when adding an eHoldings resource to an agreement line via "eHoldings". (ERM-4007)
 
+## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
+
+* Remove duplicate requests for KB list and Access Types when opening Settings. (UIEH-1493)
+
 ## [11.1.0] (https://github.com/folio-org/ui-eholdings/tree/v11.1.0) (2026-04-16)
 
 * Replace `moment` usage with `dayjs`. (UIEH-1407)

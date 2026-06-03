@@ -36,14 +36,12 @@ class ApplicationRoute extends Component {
     }).isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    if (!props.showSettings) {
-      props.getBackendStatus();
+  componentDidMount() {
+    if (!this.props.showSettings) {
+      this.props.getBackendStatus();
     }
 
-    props.getKbCredentials();
+    this.props.getKbCredentials();
   }
 
   render() {
