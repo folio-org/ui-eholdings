@@ -648,5 +648,5 @@
     "titlesList.customEmbargo": "Custom embargo period",
     "titlesList.publicationType": "Publication type",
     "titlesList.accessStatusType": "Access status type",
-    "titlesList.tags": "Tag(s)"
+    "titlesList.tags": "Tags"
 }
