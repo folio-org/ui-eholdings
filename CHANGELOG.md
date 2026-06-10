@@ -1,5 +1,9 @@
 # Change history for ui-eholdings
 
+## [11.1.3] (IN PROGRESS)
+
+* Show `createdDate` when `updatedDate` is not available in Access Status Types metadata. (UIEH-1490)
+
 ## [11.1.2] (https://github.com/folio-org/ui-eholdings/tree/v11.1.2) (2026-06-30)
 
 * Show createdDate when updatedDate is not available in Access Status Types metadata. (UIEH-1490)

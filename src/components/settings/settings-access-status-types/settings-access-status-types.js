@@ -86,7 +86,7 @@ const SettingsAccessStatusTypes = ({
           <FormattedMessage
             id="ui-eholdings.settings.accessStatusTypes.lastUpdated.data"
             values={{
-              date: <FormattedDate value={data.metadata.updatedDate} />,
+              date: <FormattedDate value={data.metadata.updatedDate || data.metadata.createdDate} />,
               name: `${user?.lastName} ${user?.firstName}`,
             }}
           />
