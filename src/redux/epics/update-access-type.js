@@ -7,6 +7,7 @@ import {
 } from 'rxjs/operators';
 
 import {
+  getAccessTypes,
   updateAccessTypeFailure,
   updateAccessTypeSuccess,
   UPDATE_ACCESS_TYPE,
@@ -23,6 +24,7 @@ export default ({ accessTypesApi }) => (action$, state$) => {
           .updateAccessType(state$.value.okapi, accessType, credentialId)
           .pipe(
             map(() => updateAccessTypeSuccess(accessType)),
+            map(() => getAccessTypes()),
             catchError(errors => of(updateAccessTypeFailure({ errors })))
           );
       }),
