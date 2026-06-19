@@ -117,7 +117,12 @@ describe('Given SettingsKnowledgeBaseRoute', () => {
 
   it('should handle getKbCredentialsKey', async () => {
     await act(async () => {
-      await renderSettingsKnowledgeBaseRoute();
+      await renderSettingsKnowledgeBaseRoute({
+        kbCredentials: {
+          ...kbCredentials,
+          hasLoaded: true,
+        }
+      });
     });
 
     expect(mockGetKbCredentialsKey).toHaveBeenCalledWith('kbId');
