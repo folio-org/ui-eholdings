@@ -610,7 +610,7 @@
     "titlesList.managedCoverage": "Managed coverage",
     "titlesList.customCoverage": "Custom coverage",
     "titlesList.managedEmbargo": "Managed embargo period",
-    "titlesList.tags": "Tag(s)",
+    "titlesList.tags": "Tags",
     "titlesList.hidden": "タイトルは非表示に設定されています",
     "titlesList.customEmbargo": "カスタムエンバーゴ期間",
     "titlesList.publicationType": "出版物タイプ",
