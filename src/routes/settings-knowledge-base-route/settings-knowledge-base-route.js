@@ -2,6 +2,7 @@ import {
   useState,
   useEffect,
   useContext,
+  useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -57,9 +58,9 @@ const SettingsKnowledgeBaseRoute = ({
     history.push('/settings/eholdings');
   }
 
-  const getCurrentKBData = () => {
+  const getCurrentKBData = useCallback(() => {
     return kbCredentials.items.find(cred => cred.id === match.params.kbId);
-  };
+  }, [kbCredentials, match.params.kbId]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getCurrentKBName = () => {
@@ -69,14 +70,13 @@ const SettingsKnowledgeBaseRoute = ({
   const [isCreateMode, setIsCreateMode] = useState(location.pathname === '/settings/eholdings/knowledge-base/new');
   const [currentKBName, setCurrentKBName] = useState(getCurrentKBName());
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const loadCurrentConfigKey = () => {
+  const loadCurrentConfigKey = useCallback(() => {
     const config = getCurrentKBData();
 
     if (config && !config.meta.isKeyLoaded && !kbCredentials.isKeyLoading) {
       getKbCredentialsKey(config.id);
     }
-  };
+  }, [getCurrentKBData, getKbCredentialsKey, kbCredentials.isKeyLoading]);
 
   const getCurrentConfig = () => {
     const {
@@ -123,8 +123,7 @@ const SettingsKnowledgeBaseRoute = ({
   useEffect(() => {
     // eslint-disable-next-line react/no-did-update-set-state
     setIsCreateMode(location.pathname === '/settings/eholdings/knowledge-base/new');
-    loadCurrentConfigKey();
-  }, [location.pathname, loadCurrentConfigKey]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (kbCredentials.hasLoaded) {
