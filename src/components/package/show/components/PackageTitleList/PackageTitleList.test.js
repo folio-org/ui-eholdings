@@ -4,7 +4,8 @@ import { render } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import { PackageTitleList } from './PackageTitleList';
-import { PACKAGE_TITLES_LIST_COLUMNS } from '../../../../../constants/package-titles-list-columns';
+import { PACKAGE_TITLES_LIST_COLUMNS } from '../../../../../constants/list-columns';
+
 import getAxe from '../../../../../../test/jest/helpers/get-axe';
 import Harness from '../../../../../../test/jest/helpers/harness';
 

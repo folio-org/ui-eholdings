@@ -32,6 +32,7 @@ const propTypes = {
   params: PropTypes.object,
   prevDataOfOptedPackage: PropTypes.object,
   queryProp: PropTypes.object.isRequired,
+  renderFilters: PropTypes.func.isRequired,
   results: PropTypes.object,
   searchType: PropTypes.string.isRequired,
   tagsModelOfAlreadyAddedTags: PropTypes.object,
@@ -54,6 +55,7 @@ const SearchSection = ({
   onToggleActions,
   visibleColumns,
   toggleColumn,
+  renderFilters,
 }) => {
   const intl = useIntl();
 
@@ -218,6 +220,7 @@ const SearchSection = ({
         filterCount={filterCount}
         visibleColumns={visibleColumns}
         toggleColumn={toggleColumn}
+        renderFilters={renderFilters}
       />
     </div>
   );

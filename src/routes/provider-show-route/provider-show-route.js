@@ -9,14 +9,19 @@ import reduce from 'lodash/reduce';
 import queryString from 'qs';
 
 import View from '../../components/provider/show';
-import SearchModal from '../../components/search-modal';
 import {
   listTypes,
   accessTypesReduxStateShape,
   PAGE_SIZE,
   FIRST_PAGE,
   tagPaths,
+  searchTypes,
+  packageSortFilterConfig,
+  selectionStatusFilterConfig,
 } from '../../constants';
+import { SearchSection } from '../../components/search-section';
+import PackageSearchFilters from '../../components/package-search-filters';
+import { contentTypeFilterConfig } from './package-search-filters-config';
 
 class ProviderShowRoute extends Component {
   static propTypes = {
@@ -148,8 +153,8 @@ class ProviderShowRoute extends Component {
     }));
   };
 
-  toggleSearchModal = (isModalVisible) => {
-    if (isModalVisible) {
+  handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
+    if (isActionsDropdownOpen) {
       this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
   };
@@ -182,6 +187,20 @@ class ProviderShowRoute extends Component {
     history.replace(editRouteState);
   };
 
+  renderSearchSectionFilters = (props) => {
+    return (
+      <PackageSearchFilters
+        searchType={searchTypes.PACKAGES}
+        availableFilters={[
+          packageSortFilterConfig,
+          selectionStatusFilterConfig,
+          contentTypeFilterConfig,
+        ]}
+        {...props}
+      />
+    );
+  };
+
   render() {
     const {
       history,
@@ -195,10 +214,7 @@ class ProviderShowRoute extends Component {
       providerPackages,
     } = this.props;
 
-    const {
-      pkgSearchParams,
-      queryId,
-    } = this.state;
+    const { pkgSearchParams } = this.state;
 
     return (
       <TitleManager record={model.name}>
@@ -211,16 +227,16 @@ class ProviderShowRoute extends Component {
           rootProxy={rootProxy}
           listType={listTypes.PACKAGES}
           updateFolioTags={updateFolioTags}
-          renderAccordionHeaderSearch={() => (
-            <SearchModal
+          renderAccordionHeaderSearch={(props) => (
+            <SearchSection
+              queryProp={pkgSearchParams}
               tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-              key={queryId}
-              listType={listTypes.PACKAGES}
-              query={pkgSearchParams}
-              onSearch={this.searchPackages}
-              onToggle={this.toggleSearchModal}
-              onFilter={this.searchPackages}
               accessTypes={accessTypes}
+              searchType={listTypes.PACKAGES}
+              onFilter={this.searchPackages}
+              onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
+              renderFilters={this.renderSearchSectionFilters}
+              {...props}
             />
           )}
           onEdit={this.handleEdit}

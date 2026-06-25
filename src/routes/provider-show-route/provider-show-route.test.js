@@ -4,8 +4,8 @@ import noop from 'lodash/noop';
 import {
   render,
   cleanup,
-  act,
   fireEvent,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import ProviderShowRoute from './provider-show-route';
@@ -160,7 +160,7 @@ const tagsModelOfAlreadyAddedTags = {
   },
 };
 
-const renderProviderShowRoute = ({ props = {} }) => render(
+const renderProviderShowRoute = (props = {}) => render(
   <MemoryRouter>
     <Harness>
       <ProviderShowRoute
@@ -174,10 +174,10 @@ const renderProviderShowRoute = ({ props = {} }) => render(
         history={mockHistory}
         location={location}
         match={match}
-        clearProviderPackages={noop}
-        getAccessTypes={noop}
-        getProviderPackages={noop}
-        getProvider={noop}
+        clearProviderPackages={clearProviderPackages}
+        getAccessTypes={getAccessTypes}
+        getProviderPackages={getProviderPackages}
+        getProvider={mockGetProvider}
         getProxyTypes={noop}
         getRootProxy={noop}
         getTags={noop}
@@ -195,69 +195,43 @@ describe('Given ProviderShowRoute', () => {
 
   afterEach(cleanup);
 
-  it('should handle getAccessTypes', async () => {
-    await act(async () => {
-      await renderProviderShowRoute({
-        props: { getAccessTypes },
-      });
-    });
+  it('should call getAccessTypes', async () => {
+    await renderProviderShowRoute();
 
     expect(getAccessTypes).toHaveBeenCalled();
   });
 
-  it('should handle getProviderPackages', async () => {
-    let getByRoleFunction;
-    let getByTextFunction;
-
-    await act(async () => {
-      const { getByRole, getByText } = await renderProviderShowRoute({
-        props: { getProviderPackages },
-      });
-
-      getByRoleFunction = getByRole;
-      getByTextFunction = getByText;
-    });
-
-    fireEvent.click(getByRoleFunction('button', { name: 'ui-eholdings.filter.togglePane' }));
-    fireEvent.click(getByRoleFunction('radiogroup', { name: 'ui-eholdings.label.selectionStatus' }));
-    fireEvent.click(getByTextFunction('ui-eholdings.selected'));
-    fireEvent.click(getByRoleFunction('button', { name: 'ui-eholdings.label.search' }));
+  it('should call getProviderPackages', async () => {
+    await renderProviderShowRoute();
 
     expect(getProviderPackages).toHaveBeenCalled();
   });
 
-  it('should handle clearProviderPackages', async () => {
-    await act(async () => {
-      await renderProviderShowRoute({
-        props: { clearProviderPackages },
-      });
-    });
+  it('should show search input and actions menu within packages accordion', () => {
+    const { getByRole } = renderProviderShowRoute();
 
-    expect(clearProviderPackages).toHaveBeenCalled();
+    expect(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' })).toBeInTheDocument();
   });
 
-  it('should handle getProvider', async () => {
-    await act(async () => {
-      await renderProviderShowRoute({
-        props: {
-          getProvider: mockGetProvider,
-          match: {
-            ...match,
-            params: { providerId: 'other-provider-id' },
-          },
-        },
-      });
+  it('should call clearProviderPackages', async () => {
+    await renderProviderShowRoute();
+
+    await waitFor(() => expect(clearProviderPackages).toHaveBeenCalled());
+  });
+
+  it('should call getProvider', async () => {
+    await renderProviderShowRoute({
+      match: {
+        ...match,
+        params: { providerId: 'other-provider-id' },
+      },
     });
 
     expect(mockGetProvider).toHaveBeenCalled();
   });
 
   it('should handle Edit', async () => {
-    let getByRole;
-
-    await act(async () => {
-      getByRole = await renderProviderShowRoute({}).getByRole;
-    });
+    const { getByRole } = await renderProviderShowRoute();
 
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));
 

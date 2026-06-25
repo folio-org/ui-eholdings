@@ -17,7 +17,7 @@ import CoverageDateList from '../../../../coverage-date-list';
 import {
   PACKAGE_TITLE_LIST_COLUMN_MAPPING,
   PACKAGE_TITLES_LIST_COLUMNS,
-} from '../../../../../constants/package-titles-list-columns';
+} from '../../../../../constants/list-columns';
 import { isBookPublicationType } from '../../../../utilities';
 
 import styles from './PackageTitleList.css';

@@ -26,16 +26,32 @@ import {
   getTagsList,
 } from '../../utilities';
 import {
+  packageSortFilterConfig,
   searchTypes,
   titleSortFilterConfig,
   selectionStatusFilterConfig,
   publicationTypeTitlesListFilterConfig,
+  contentTypeFilterConfig,
+  FILTER_TYPES,
 } from '../../../constants';
 
 import styles from './action-menu.css';
 
 const searchFiltersComponents = {
-  [searchTypes.PACKAGES]: PackageSearchFilters,
+  [searchTypes.PACKAGES]: (props = {}) => (
+    <PackageSearchFilters
+      searchType={searchTypes.PACKAGES}
+      availableFilters={[
+        packageSortFilterConfig,
+        selectionStatusFilterConfig,
+        {
+          ...contentTypeFilterConfig,
+          type: FILTER_TYPES.SELECT
+        },
+      ]}
+      {...props}
+    />
+  ),
   [searchTypes.PROVIDERS]: ProviderSearchFilters,
   [searchTypes.TITLES]: (props = {}) => (
     <TitleSearchFilters
@@ -60,6 +76,7 @@ const propTypes = {
   params: PropTypes.object,
   prevDataOfOptedPackage: PropTypes.object,
   query: PropTypes.object.isRequired,
+  renderFilters: PropTypes.func.isRequired,
   results: PropTypes.object,
   searchByAccessTypesEnabled: PropTypes.bool.isRequired,
   searchByTagsEnabled: PropTypes.bool.isRequired,
@@ -91,10 +108,9 @@ const ActionMenu = ({
   onStandaloneFilterChange,
   visibleColumns,
   toggleColumn,
+  renderFilters,
 }) => {
   const intl = useIntl();
-
-  const Filters = searchFiltersComponents[searchType];
 
   // sort is treated separately from the rest of the filters on submit,
   // but treated together when rendering the filters.
@@ -171,21 +187,21 @@ const ActionMenu = ({
           />
         </IfPermission>
         {renderAccessTypesFilter()}
-        <Filters
-          activeFilters={combinedFilters}
-          params={params}
-          prevDataOfOptedPackage={prevDataOfOptedPackage}
-          resultsLength={results.length}
-          isResultsLoading={results.isLoading}
-          titlesFacets={titlesFacets}
-          isPackagesLoading={packagesFacetCollection.isLoading}
-          onUpdate={onFilterChange}
-          disabled={standaloneFiltersEnabled}
-          hasAccordion={false}
-          visibleColumns={visibleColumns}
-          toggleColumn={toggleColumn}
-          hasColumnManager
-        />
+        {renderFilters({
+          activeFilters: combinedFilters,
+          params,
+          prevDataOfOptedPackage,
+          resultsLength: results.length,
+          isResultsLoading: results.isLoading,
+          titlesFacets,
+          isPackagesLoading: packagesFacetCollection.isLoading,
+          onUpdate: onFilterChange,
+          disabled: standaloneFiltersEnabled,
+          hasAccordion: false,
+          visibleColumns,
+          toggleColumn,
+          hasColumnManager: true,
+        })}
       </div>
     );
   };
