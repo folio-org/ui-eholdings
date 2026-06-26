@@ -6,6 +6,7 @@ import {
   cleanup,
   fireEvent,
   waitFor,
+  within,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import ProviderShowRoute from './provider-show-route';
@@ -15,6 +16,7 @@ import {
   getProviderPackages,
 } from '../../redux/actions';
 import Harness from '../../../test/jest/helpers/harness';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 const mockGetProvider = jest.fn();
 
@@ -211,6 +213,37 @@ describe('Given ProviderShowRoute', () => {
     const { getByRole } = renderProviderShowRoute();
 
     expect(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' })).toBeInTheDocument();
+  });
+
+  describe('when entering some value in the search input and filters', () => {
+    it('should perform package search with correct parameters', async () => {
+      const { getByRole, getByLabelText } = renderProviderShowRoute();
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+
+      const packagesSearchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
+      const packagesSearchSelectionStatusSelected = getByLabelText('ui-eholdings.selected');
+      const packagesSearchContentType = within(
+        getByRole('radiogroup', { name: 'ui-eholdings.package.contentType' })
+      ).getByRole('combobox');
+
+      fireEvent.change(packagesSearchBox, { target: { value: 'Test package name' } });
+      userEvent.click(packagesSearchSelectionStatusSelected);
+      userEvent.selectOptions(packagesSearchContentType, ['ebook']);
+
+      await waitFor(() => expect(getProviderPackages).toHaveBeenCalledWith({
+        providerId: 'provider-id',
+        params: expect.objectContaining({
+          filter: {
+            'access-type': undefined,
+            selected: 'true',
+            tags: undefined,
+            type: 'ebook',
+          },
+          q: 'Test package name',
+        }),
+      }));
+    });
   });
 
   it('should call clearProviderPackages', async () => {

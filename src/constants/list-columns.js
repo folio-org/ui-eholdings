@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl';
+
 import listTypes from './listTypes';
 
 export const PACKAGE_TITLES_LIST_COLUMNS = {

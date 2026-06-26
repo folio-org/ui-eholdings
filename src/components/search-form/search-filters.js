@@ -16,7 +16,6 @@ import { ClearButton } from '../clear-button';
 import { FILTER_TYPES } from '../../constants';
 import {
   COLUMN_MAPPING_BY_LIST_TYPE,
-  PACKAGE_TITLE_LIST_COLUMN_MAPPING,
   PACKAGE_TITLES_LIST_COLUMNS,
 } from '../../constants/list-columns';
 

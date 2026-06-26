@@ -17,53 +17,14 @@ import { IfPermission } from '@folio/stripes/core';
 
 import { TagsFilter } from '../../tags-filter';
 import { AccessTypesFilter } from '../../access-type-filter';
-import PackageSearchFilters from '../../package-search-filters';
-import ProviderSearchFilters from '../../provider-search-filters';
-import TitleSearchFilters from '../../title-search-filters';
 import {
   getAccessTypesList,
   getTagLabelsArr,
   getTagsList,
 } from '../../utilities';
-import {
-  packageSortFilterConfig,
-  searchTypes,
-  titleSortFilterConfig,
-  selectionStatusFilterConfig,
-  publicationTypeTitlesListFilterConfig,
-  contentTypeFilterConfig,
-  FILTER_TYPES,
-} from '../../../constants';
+import { searchTypes } from '../../../constants';
 
 import styles from './action-menu.css';
-
-const searchFiltersComponents = {
-  [searchTypes.PACKAGES]: (props = {}) => (
-    <PackageSearchFilters
-      searchType={searchTypes.PACKAGES}
-      availableFilters={[
-        packageSortFilterConfig,
-        selectionStatusFilterConfig,
-        {
-          ...contentTypeFilterConfig,
-          type: FILTER_TYPES.SELECT
-        },
-      ]}
-      {...props}
-    />
-  ),
-  [searchTypes.PROVIDERS]: ProviderSearchFilters,
-  [searchTypes.TITLES]: (props = {}) => (
-    <TitleSearchFilters
-      availableFilters={[
-        titleSortFilterConfig,
-        selectionStatusFilterConfig,
-        publicationTypeTitlesListFilterConfig,
-      ]}
-      {...props}
-    />
-  ),
-};
 
 const propTypes = {
   accessTypes: PropTypes.object.isRequired,
