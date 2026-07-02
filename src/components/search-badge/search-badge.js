@@ -25,3 +25,4 @@ SearchBadge.propTypes = {
 };
 
 export default SearchBadge;
+

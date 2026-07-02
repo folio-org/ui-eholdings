@@ -80,7 +80,6 @@ class ProviderShowRoute extends Component {
           'access-type': accessType,
         },
       },
-      queryId: 0,
     };
     const { providerId } = props.match.params;
     props.getProvider(providerId);
@@ -143,14 +142,13 @@ class ProviderShowRoute extends Component {
       search,
     });
 
-    this.setState(({ queryId }) => ({
+    this.setState({
       pkgSearchParams: {
         ...pkgSearchParams,
         count: PAGE_SIZE,
         page: pkgSearchParams?.page || FIRST_PAGE,
       },
-      queryId: (queryId + 1),
-    }));
+    });
   };
 
   handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
@@ -164,10 +162,6 @@ class ProviderShowRoute extends Component {
     this.searchPackages({ ...pkgSearchParams, page });
   };
 
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
-  };
 
   handleEdit = () => {
     const {
