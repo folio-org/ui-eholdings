@@ -15,10 +15,14 @@ import {
   FIRST_PAGE,
   INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
   tagPaths,
+  titleSortFilterConfig,
+  selectionStatusFilterConfig,
+  publicationTypeTitlesListFilterConfig,
 } from '../../constants';
 
 import View from '../../components/package/show';
 import { SearchSection } from '../../components/search-section';
+import TitleSearchFilters from '../../components/title-search-filters';
 
 class PackageShowRoute extends Component {
   static propTypes = {
@@ -79,7 +83,6 @@ class PackageShowRoute extends Component {
           'access-type': accessType,
         },
       },
-      queryId: 0,
       isTitlesUpdating: false,
     };
 
@@ -299,14 +302,13 @@ class PackageShowRoute extends Component {
       search,
     });
 
-    this.setState(({ queryId }) => ({
+    this.setState({
       pkgSearchParams: {
         ...pkgSearchParams,
         count: PAGE_SIZE,
         page: pkgSearchParams?.page || FIRST_PAGE,
       },
-      queryId: (queryId + 1),
-    }));
+    });
   };
 
   handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
@@ -368,6 +370,19 @@ class PackageShowRoute extends Component {
     const params = transformQueryParams('titles', pkgSearchParams);
 
     getPackageTitles({ packageId, params });
+  };
+
+  renderSearchSectionFilters = (props) => {
+    return (
+      <TitleSearchFilters
+        availableFilters={[
+          titleSortFilterConfig,
+          selectionStatusFilterConfig,
+          publicationTypeTitlesListFilterConfig,
+        ]}
+        {...props}
+      />
+    );
   };
 
   render() {
@@ -435,6 +450,7 @@ class PackageShowRoute extends Component {
               searchType={listTypes.TITLES}
               onFilter={this.searchTitles}
               onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
+              renderFilters={this.renderSearchSectionFilters}
               {...props}
             />
           )}

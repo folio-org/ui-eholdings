@@ -18,7 +18,7 @@ import {
 
 import useModalToggle from './use-modal-toggle';
 import usePackageFilterSelectOptions from './use-package-filter-select-options';
-import SearchBadge from '../../../search-modal/search-badge';
+import { SearchBadge } from '../../../search-badge';
 import SearchFilters from '../../../search-form/search-filters';
 import {
   searchTypes,

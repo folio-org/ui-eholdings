@@ -65,11 +65,6 @@ export default class ProviderEditRoute extends Component {
     updateProvider(model);
   };
 
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
-  };
-
   handleCancel = () => {
     const {
       history,

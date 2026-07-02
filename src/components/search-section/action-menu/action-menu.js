@@ -17,37 +17,14 @@ import { IfPermission } from '@folio/stripes/core';
 
 import { TagsFilter } from '../../tags-filter';
 import { AccessTypesFilter } from '../../access-type-filter';
-import PackageSearchFilters from '../../package-search-filters';
-import ProviderSearchFilters from '../../provider-search-filters';
-import TitleSearchFilters from '../../title-search-filters';
 import {
   getAccessTypesList,
   getTagLabelsArr,
   getTagsList,
 } from '../../utilities';
-import {
-  searchTypes,
-  titleSortFilterConfig,
-  selectionStatusFilterConfig,
-  publicationTypeTitlesListFilterConfig,
-} from '../../../constants';
+import { searchTypes } from '../../../constants';
 
 import styles from './action-menu.css';
-
-const searchFiltersComponents = {
-  [searchTypes.PACKAGES]: PackageSearchFilters,
-  [searchTypes.PROVIDERS]: ProviderSearchFilters,
-  [searchTypes.TITLES]: (props = {}) => (
-    <TitleSearchFilters
-      availableFilters={[
-        titleSortFilterConfig,
-        selectionStatusFilterConfig,
-        publicationTypeTitlesListFilterConfig,
-      ]}
-      {...props}
-    />
-  ),
-};
 
 const propTypes = {
   accessTypes: PropTypes.object.isRequired,
@@ -60,6 +37,7 @@ const propTypes = {
   params: PropTypes.object,
   prevDataOfOptedPackage: PropTypes.object,
   query: PropTypes.object.isRequired,
+  renderFilters: PropTypes.func.isRequired,
   results: PropTypes.object,
   searchByAccessTypesEnabled: PropTypes.bool.isRequired,
   searchByTagsEnabled: PropTypes.bool.isRequired,
@@ -91,10 +69,9 @@ const ActionMenu = ({
   onStandaloneFilterChange,
   visibleColumns,
   toggleColumn,
+  renderFilters,
 }) => {
   const intl = useIntl();
-
-  const Filters = searchFiltersComponents[searchType];
 
   // sort is treated separately from the rest of the filters on submit,
   // but treated together when rendering the filters.
@@ -171,21 +148,21 @@ const ActionMenu = ({
           />
         </IfPermission>
         {renderAccessTypesFilter()}
-        <Filters
-          activeFilters={combinedFilters}
-          params={params}
-          prevDataOfOptedPackage={prevDataOfOptedPackage}
-          resultsLength={results.length}
-          isResultsLoading={results.isLoading}
-          titlesFacets={titlesFacets}
-          isPackagesLoading={packagesFacetCollection.isLoading}
-          onUpdate={onFilterChange}
-          disabled={standaloneFiltersEnabled}
-          hasAccordion={false}
-          visibleColumns={visibleColumns}
-          toggleColumn={toggleColumn}
-          hasColumnManager
-        />
+        {renderFilters({
+          activeFilters: combinedFilters,
+          params,
+          prevDataOfOptedPackage,
+          resultsLength: results.length,
+          isResultsLoading: results.isLoading,
+          titlesFacets,
+          isPackagesLoading: packagesFacetCollection.isLoading,
+          onUpdate: onFilterChange,
+          disabled: standaloneFiltersEnabled,
+          hasAccordion: false,
+          visibleColumns,
+          toggleColumn,
+          hasColumnManager: true,
+        })}
       </div>
     );
   };
