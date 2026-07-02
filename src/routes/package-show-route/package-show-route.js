@@ -83,7 +83,6 @@ class PackageShowRoute extends Component {
           'access-type': accessType,
         },
       },
-      queryId: 0,
       isTitlesUpdating: false,
     };
 
@@ -303,14 +302,13 @@ class PackageShowRoute extends Component {
       search,
     });
 
-    this.setState(({ queryId }) => ({
+    this.setState({
       pkgSearchParams: {
         ...pkgSearchParams,
         count: PAGE_SIZE,
         page: pkgSearchParams?.page || FIRST_PAGE,
       },
-      queryId: (queryId + 1),
-    }));
+    });
   };
 
   handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {

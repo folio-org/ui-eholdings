@@ -213,7 +213,7 @@ const SearchFilters = ({
     return (
       <ColumnManagerMenu
         prefix={columnManagerPrefix}
-        columnMapping={COLUMN_MAPPING_BY_LIST_TYPE[searchType]}
+        columnMapping={COLUMN_MAPPING_BY_LIST_TYPE[searchType] || {}}
         visibleColumns={visibleColumns}
         excludeColumns={[PACKAGE_TITLES_LIST_COLUMNS.TITLE]}
         toggleColumn={toggleColumn}
