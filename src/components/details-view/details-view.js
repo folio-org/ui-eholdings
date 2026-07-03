@@ -18,7 +18,7 @@ import { useColumnManager } from '@folio/stripes/smart-components';
 
 import { withHistoryBack } from '../../hooks';
 import AccordionListHeader from '../accordion-list-header';
-import { PACKAGE_TITLE_LIST_COLUMN_MAPPING } from '../../constants/package-titles-list-columns';
+import { COLUMN_MAPPING_BY_LIST_TYPE } from '../../constants/list-columns';
 
 import styles from './details-view.css';
 
@@ -108,7 +108,8 @@ const DetailsView = ({
     }
   }, [props.model.isLoaded]);
 
-  const { visibleColumns, toggleColumn } = useColumnManager(`eholdings-${props.type}`, PACKAGE_TITLE_LIST_COLUMN_MAPPING);
+  const columnMapping = COLUMN_MAPPING_BY_LIST_TYPE[props.listType] || {};
+  const { visibleColumns, toggleColumn } = useColumnManager(`eholdings-${props.listType}`, columnMapping);
 
   const accordionHeaderSearch = useMemo(() => renderAccordionHeaderSearch({
     visibleColumns,

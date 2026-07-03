@@ -7,6 +7,7 @@
 * Update Tags label in "Titles" accordion of "Package" record. (UIEH-1488)
 * Show `createdDate` when `updatedDate` is not available in Access Status Types metadata. (UIEH-1490)
 * Remove requests with "undefined" UUID are sent when opening eHoldings Knowledge Base credentials settings. (UIEH-1512)
+* Provider Record - Package List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1451)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 

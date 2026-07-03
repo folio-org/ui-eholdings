@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 
-const baseSortFilterConfig = {
+export const baseSortFilterConfig = {
   name: 'sort',
   label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
   defaultValue: 'relevance',
@@ -19,14 +19,6 @@ export const packageSortFilterConfig = {
   options: [
     { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
     { label: <FormattedMessage id="ui-eholdings.label.package" />, value: 'name' }
-  ],
-};
-
-export const titleSortFilterConfig = {
-  ...baseSortFilterConfig,
-  options: [
-    { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
-    { label: <FormattedMessage id="ui-eholdings.label.title" />, value: 'name' }
   ],
 };
 
@@ -66,30 +58,6 @@ export const selectionStatusFilterConfig = {
   ]
 };
 
-export const publicationTypeFilterConfig = {
-  type: FILTER_TYPES.CHECKBOX,
-  name: 'type',
-  label: <FormattedMessage id="ui-eholdings.label.publicationType" />,
-  defaultValue: 'all',
-  options: [
-    { label: <FormattedMessage id="ui-eholdings.filter.all" />, value: 'all' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.audiobook" />, value: 'audiobook' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.book" />, value: 'book' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.book_series" />, value: 'bookseries' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.database" />, value: 'database' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.journal" />, value: 'journal' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.newsletter" />, value: 'newsletter' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.newspaper" />, value: 'newspaper' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.proceedings" />, value: 'proceedings' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.report" />, value: 'report' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.streaming_audio" />, value: 'streamingaudio' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.streaming_video" />, value: 'streamingvideo' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.thesis_dissertation" />, value: 'thesisdissertation' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.website" />, value: 'website' },
-    { label: <FormattedMessage id="ui-eholdings.filter.pubType.unspecified" />, value: 'unspecified' }
-  ]
-};
-
 export const publicationTypeTitlesListFilterConfig = {
   type: FILTER_TYPES.SELECT,
   name: 'type',
@@ -112,6 +80,14 @@ export const publicationTypeTitlesListFilterConfig = {
     { label: <FormattedMessage id="ui-eholdings.filter.pubType.website" />, value: 'website' },
     { label: <FormattedMessage id="ui-eholdings.filter.pubType.unspecified" />, value: 'unspecified' }
   ]
+};
+
+export const titleSortFilterConfig = {
+  ...baseSortFilterConfig,
+  options: [
+    { label: <FormattedMessage id="ui-eholdings.filter.sortOptions.relevance" />, value: 'relevance' },
+    { label: <FormattedMessage id="ui-eholdings.label.title" />, value: 'name' }
+  ],
 };
 
 export const contentTypeFilterConfig = {

@@ -15,9 +15,9 @@ import { ColumnManagerMenu } from '@folio/stripes/smart-components';
 import { ClearButton } from '../clear-button';
 import { FILTER_TYPES } from '../../constants';
 import {
-  PACKAGE_TITLE_LIST_COLUMN_MAPPING,
+  COLUMN_MAPPING_BY_LIST_TYPE,
   PACKAGE_TITLES_LIST_COLUMNS,
-} from '../../constants/package-titles-list-columns';
+} from '../../constants/list-columns';
 
 import styles from './search-form.css';
 
@@ -213,7 +213,7 @@ const SearchFilters = ({
     return (
       <ColumnManagerMenu
         prefix={columnManagerPrefix}
-        columnMapping={PACKAGE_TITLE_LIST_COLUMN_MAPPING}
+        columnMapping={COLUMN_MAPPING_BY_LIST_TYPE[searchType] || {}}
         visibleColumns={visibleColumns}
         excludeColumns={[PACKAGE_TITLES_LIST_COLUMNS.TITLE]}
         toggleColumn={toggleColumn}

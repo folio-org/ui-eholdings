@@ -648,5 +648,14 @@
     "titlesList.customEmbargo": "Custom embargo period",
     "titlesList.publicationType": "Publication type",
     "titlesList.accessStatusType": "Access status type",
-    "titlesList.tags": "Tags"
+    "titlesList.tags": "Tags",
+
+    "packagesList.status": "Status",
+    "packagesList.selectedCount": "Titles selected",
+    "packagesList.titlesCount": "Total titles",
+    "packagesList.contentType": "Content type",
+    "packagesList.customCoverage": "Package custom coverage",
+    "packagesList.packageType": "Package type",
+    "packagesList.accessStatusType": "Access status type",
+    "packagesList.tags": "Tags"
 }
