@@ -31,10 +31,8 @@ import { useProviderPackages } from './use-provider-packages';
 
 const propTypes = {
   accessTypes: accessTypesReduxStateShape.isRequired,
-  clearProviderPackages: PropTypes.func.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
   getProvider: PropTypes.func.isRequired,
-  getProviderPackages: PropTypes.func.isRequired,
   getProxyTypes: PropTypes.func.isRequired,
   getRootProxy: PropTypes.func.isRequired,
   getTags: PropTypes.func.isRequired,

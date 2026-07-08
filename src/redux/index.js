@@ -13,7 +13,6 @@ import {
   currenciesApi,
   costPerUseApi,
   packageTitlesApi,
-  providerPackagesApi,
   ucCredentialsApi,
 } from '../api';
 
@@ -84,7 +83,6 @@ import {
   createGetCostPerUseEpic,
   createGetCostPerUsePackageTitlesEpic,
   createGetPackageTitlesEpic,
-  createGetProviderPackagesEpic,
   createGetUcCredentialsEpic,
   createGetUcCredentialsClientIdEpic,
   createGetUcCredentialsClientSecretEpic,
@@ -161,7 +159,6 @@ export const epics = combineEpics(
   createGetCostPerUseEpic({ costPerUseApi }),
   createGetCostPerUsePackageTitlesEpic({ costPerUseApi }),
   createGetPackageTitlesEpic({ packageTitlesApi }),
-  createGetProviderPackagesEpic({ providerPackagesApi }),
   createGetUcCredentialsEpic({ ucCredentialsApi }),
   createGetUcCredentialsClientIdEpic({ ucCredentialsApi }),
   createGetUcCredentialsClientSecretEpic({ ucCredentialsApi }),
