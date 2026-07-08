@@ -1,15 +1,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormattedMessage,
-} from 'react-intl';
-
+import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import set from 'lodash/fp/set';
 
-import {
-  withStripes,
-} from '@folio/stripes/core';
+import { withStripes } from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -17,14 +12,13 @@ import {
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
-import QuerySearchList from '../../query-search-list';
 import SearchPackageListItem from '../../search-package-list-item';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
-import QueryNotFound from '../../query-search-list/not-found';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 import ProviderInformation from './components/provider-information';
 import ProviderSettings from './components/provider-settings';
+import { ProviderPackageList } from './components/provider-package-list';
 
 import { processErrors } from '../../utilities';
 import {
@@ -33,29 +27,21 @@ import {
   paths,
   RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
-import { ProviderPackageList } from './components/provider-package-list/provider-package-list';
-
-const ITEM_HEIGHT = 62;
 
 class ProviderShow extends Component {
   static propTypes = {
-    fetchPackages: PropTypes.func.isRequired,
     isFreshlySaved: PropTypes.bool,
     listType: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
     providerPackages: PropTypes.shape({
-      errors: PropTypes.array,
-      hasFailed: PropTypes.bool,
-      hasLoaded: PropTypes.bool,
-      isLoading: PropTypes.bool,
-      items: PropTypes.arrayOf(PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
         attributes: PropTypes.object.isRequired,
         id: PropTypes.string.isRequired,
         relationships: PropTypes.object,
         type: PropTypes.string,
       })).isRequired,
-      page: PropTypes.number,
+      isLoading: PropTypes.bool,
       totalResults: PropTypes.number.isRequired,
     }).isRequired,
     proxyTypes: PropTypes.object.isRequired,
@@ -202,21 +188,17 @@ class ProviderShow extends Component {
   };
 
   renderPackagesList = ({ visibleColumns }) => {
-    const { model } = this.props;
+    const {
+      model,
+      providerPackages,
+    } = this.props;
 
     return (
       <ProviderPackageList
         providerId={model.id}
         visibleColumns={visibleColumns}
+        providerPackages={providerPackages}
       />
-        // records={providerPackages.items}
-        // isLoading={providerPackages.isLoading}
-        // // isTitlesUpdating={}
-        // totalResults={providerPackages.totalResults}
-        // // page={pkgSearchParams.page}
-        // // count={pkgSearchParams.count}
-        // // onFetchPackageTitles={fetchPackageTitles}
-        // visibleColumns={visibleColumns}
     );
   };
 

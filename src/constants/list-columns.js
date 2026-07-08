@@ -40,12 +40,13 @@ export const PROVIDER_PACKAGES_LIST_COLUMNS = {
 
 export const PROVIDER_PACKAGES_LIST_COLUMN_MAPPING = {
   [PROVIDER_PACKAGES_LIST_COLUMNS.STATUS]: <FormattedMessage id="ui-eholdings.packagesList.status" />,
+  [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_NAME]: <FormattedMessage id="ui-eholdings.packagesList.name" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT]: <FormattedMessage id="ui-eholdings.packagesList.selectedCount" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.TITLES_COUNT]: <FormattedMessage id="ui-eholdings.packagesList.titlesCount" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.contentType" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.CUSTOM_COVERAGE]: <FormattedMessage id="ui-eholdings.packagesList.customCoverage" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.packageType" />,
-  [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.accessStatusType" />,
+  // [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.accessStatusType" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.TAGS]: <FormattedMessage id="ui-eholdings.packagesList.tags" />,
 };
 

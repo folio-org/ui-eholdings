@@ -18,49 +18,51 @@ import {
   PROVIDER_PACKAGES_LIST_COLUMN_MAPPING,
   PROVIDER_PACKAGES_LIST_COLUMNS,
 } from '../../../../../constants/list-columns';
-import { isBookPublicationType } from '../../../../utilities';
 
 import styles from './provider-package-list.css';
-import { useProviderPackages } from './use-provider-packages';
 
 const MAX_HEIGHT = 520;
 
 const propTypes = {
-  count: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool,
-  isPackagesUpdating: PropTypes.bool,
-  onFetchPackages: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  records: PropTypes.arrayOf(PropTypes.object).isRequired,
-  totalResults: PropTypes.number.isRequired,
+  providerId: PropTypes.string.isRequired,
+  providerPackages: PropTypes.shape({
+    data: PropTypes.array.isRequired,
+    fetchNextPage: PropTypes.func.isRequired,
+    fetchPreviousPage: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    totalResults: PropTypes.number,
+  }),
   visibleColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const ProviderPackageList = ({
-  // records,
-  // isLoading,
-  // totalResults,
-  // page,
-  // count,
-  // onFetchPackages,
-  // isPackagesUpdating,
+  providerPackages,
   providerId,
   visibleColumns,
 }) => {
   const intl = useIntl();
 
   const {
-    providerPackages,
+    data: providerPackagesList,
+    page,
+    pageSize,
+    isLoading,
     totalResults,
-    isLoading: isPackagesLoading,
-  } = useProviderPackages({ providerId });
+    fetchNextPage,
+    fetchPreviousPage,
+  } = providerPackages;
 
   const formatCellStyles = defaultClass => classNames(defaultClass, styles.cellTopAlign);
   const formatHeaderCellStyles = () => styles.headerCell;
 
-  const handleMore = (askAmount, index, firstIndex, direction) => {
-    // const newPage = direction === 'next' ? page + 1 : page - 1;
-    // onFetchPackages(newPage);
+  const handleMore = (_askAmount, _index, _firstIndex, direction) => {
+    if (direction === 'next') {
+      fetchNextPage();
+    } else {
+      fetchPreviousPage();
+    }
   };
 
   const formatter = {
@@ -119,24 +121,24 @@ const ProviderPackageList = ({
 
   return (
     <div className={styles.packagesListContainer}>
-      {isPackagesLoading
+      {isLoading
         ? <Icon icon="spinner-ellipsis" width="35px" />
         : (
           <MultiColumnList
             id="provider-package-list"
             maxHeight={MAX_HEIGHT}
-            contentData={providerPackages}
+            contentData={providerPackagesList}
             visibleColumns={visibleColumns}
             columnMapping={PROVIDER_PACKAGES_LIST_COLUMN_MAPPING}
             columnWidths={columnWidths}
             formatter={formatter}
             isEmptyMessage={intl.formatMessage({ id: 'ui-eholdings.notFound' })}
-            loading={isPackagesLoading}
+            loading={isLoading}
             totalCount={totalResults}
             onNeedMoreData={handleMore}
-            pageAmount={100} // TODO: do I need to pass this?
+            pageAmount={pageSize}
             pagingType={MCLPagingTypes.PREV_NEXT}
-            pagingOffset={100 * (1 - 1)} // TODO: do I need to pass this?
+            pagingOffset={pageSize * (page - 1)}
             getCellClass={formatCellStyles}
             getHeaderCellClass={formatHeaderCellStyles}
           />
