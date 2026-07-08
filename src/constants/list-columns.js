@@ -28,6 +28,7 @@ export const PACKAGE_TITLE_LIST_COLUMN_MAPPING = {
 
 export const PROVIDER_PACKAGES_LIST_COLUMNS = {
   STATUS: 'status',
+  PACKAGE_NAME: 'packageName',
   SELECTED_COUNT: 'selectedCount',
   TITLES_COUNT: 'titlesCount',
   CONTENT_TYPE: 'contentType',

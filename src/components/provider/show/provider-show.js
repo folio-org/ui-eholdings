@@ -33,6 +33,7 @@ import {
   paths,
   RECORDS_EDIT_PERMISSION,
 } from '../../../constants';
+import { ProviderPackageList } from './components/provider-package-list/provider-package-list';
 
 const ITEM_HEIGHT = 62;
 
@@ -200,25 +201,22 @@ class ProviderShow extends Component {
     );
   };
 
-  renderPackagesList = () => {
-    const {
-      fetchPackages,
-      providerPackages,
-    } = this.props;
+  renderPackagesList = ({ visibleColumns }) => {
+    const { model } = this.props;
 
     return (
-      <QuerySearchList
-        type="provider-packages"
-        fetch={fetchPackages}
-        collection={providerPackages}
-        itemHeight={ITEM_HEIGHT}
-        notFoundMessage={
-          <QueryNotFound type="provider-packages">
-            <FormattedMessage id="ui-eholdings.notFound" />
-          </QueryNotFound>
-        }
-        renderItem={this.renderPackagesListItem}
+      <ProviderPackageList
+        providerId={model.id}
+        visibleColumns={visibleColumns}
       />
+        // records={providerPackages.items}
+        // isLoading={providerPackages.isLoading}
+        // // isTitlesUpdating={}
+        // totalResults={providerPackages.totalResults}
+        // // page={pkgSearchParams.page}
+        // // count={pkgSearchParams.count}
+        // // onFetchPackageTitles={fetchPackageTitles}
+        // visibleColumns={visibleColumns}
     );
   };
 
