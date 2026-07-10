@@ -48,7 +48,6 @@ import {
   currencies,
   costPerUse,
   packageTitles,
-  providerPackages,
   ucCredentials,
 } from './reducers';
 

@@ -81,6 +81,8 @@ jest.mock('@folio/stripes/core', () => {
 
   const useStripes = () => STRIPES;
 
+  const useNamespace = () => ['@folio/eholdings'];
+
   const useCallout = () => ({
     sendCallout: jest.fn(),
   });
@@ -105,6 +107,7 @@ jest.mock('@folio/stripes/core', () => {
     AppContextMenu,
     useStripes,
     useCallout,
+    useNamespace,
     Pluggable,
   };
 }, { virtual: true });

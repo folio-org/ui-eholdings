@@ -8,15 +8,11 @@ import {
   waitFor,
   within,
 } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import ProviderShowRoute from './provider-show-route';
-import {
-  clearProviderPackages,
-  getAccessTypes,
-  getProviderPackages,
-} from '../../redux/actions';
+import { getAccessTypes } from '../../redux/actions';
 import Harness from '../../../test/jest/helpers/harness';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 const mockGetProvider = jest.fn();
 
@@ -176,9 +172,7 @@ const renderProviderShowRoute = (props = {}) => render(
         history={mockHistory}
         location={location}
         match={match}
-        clearProviderPackages={clearProviderPackages}
         getAccessTypes={getAccessTypes}
-        getProviderPackages={getProviderPackages}
         getProvider={mockGetProvider}
         getProxyTypes={noop}
         getRootProxy={noop}
@@ -244,12 +238,6 @@ describe('Given ProviderShowRoute', () => {
         }),
       }));
     });
-  });
-
-  it('should call clearProviderPackages', async () => {
-    await renderProviderShowRoute();
-
-    await waitFor(() => expect(clearProviderPackages).toHaveBeenCalled());
   });
 
   it('should call getProvider', async () => {
