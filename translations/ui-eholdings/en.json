@@ -651,6 +651,7 @@
     "titlesList.tags": "Tags",
 
     "packagesList.status": "Status",
+    "packagesList.hidden": "Package is hidden",
     "packagesList.name": "Package name",
     "packagesList.selectedCount": "Titles selected",
     "packagesList.titlesCount": "Total titles",

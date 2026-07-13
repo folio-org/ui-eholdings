@@ -71,7 +71,7 @@ const ProviderPackageList = ({
         <div className={styles.statusCellWrapper}>
           <SelectedLabel isSelected={item.attributes.isSelected} />
           {item.attributes.visibilityData?.isHidden && (
-            <Tooltip text={intl.formatMessage({ id: 'ui-eholdings.titlesList.hidden' })}>
+            <Tooltip text={intl.formatMessage({ id: 'ui-eholdings.packagesList.hidden' })}>
               {({ ref, ariaIds }) => <Icon icon="eye-closed" ref={ref} aria-labelledby={ariaIds.text} />}
             </Tooltip>
           )}
