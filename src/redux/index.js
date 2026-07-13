@@ -120,7 +120,6 @@ export const reducer = combineReducers({
       currencies: currencies(currentState.currencies, action),
       costPerUse: costPerUse(currentState.costPerUse, action),
       packageTitles: packageTitles(currentState.packageTitles, action),
-      providerPackages: providerPackages(currentState.providerPackages, action),
       ucCredentials: ucCredentials(currentState.ucCredentials, action),
     };
   }

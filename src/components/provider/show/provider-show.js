@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
-import SearchPackageListItem from '../../search-package-list-item';
 import Toaster from '../../toaster';
 import TagsAccordion from '../../tags';
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
@@ -171,21 +170,6 @@ class ProviderShow extends Component {
       </>
     );
   }
-
-  renderPackagesListItem = (item) => {
-    const itemLink = item.attributes && `/eholdings/packages/${item.id}`;
-
-    return (
-      <SearchPackageListItem
-        link={itemLink}
-        item={item.attributes}
-        showTitleCount
-        showSelectedCount
-        showTags
-        headingLevel='h4'
-      />
-    );
-  };
 
   renderPackagesList = ({ visibleColumns }) => {
     const {

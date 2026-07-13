@@ -17,8 +17,6 @@ import View from '../../components/provider/show';
 import {
   listTypes,
   accessTypesReduxStateShape,
-  PAGE_SIZE,
-  FIRST_PAGE,
   tagPaths,
   searchTypes,
   packageSortFilterConfig,
@@ -27,7 +25,7 @@ import {
 import { SearchSection } from '../../components/search-section';
 import PackageSearchFilters from '../../components/package-search-filters';
 import { contentTypeFilterConfig } from './package-search-filters-config';
-import { useProviderPackages } from './use-provider-packages';
+import { useProviderPackages } from '../../hooks';
 
 const propTypes = {
   accessTypes: accessTypesReduxStateShape.isRequired,
@@ -76,8 +74,6 @@ const ProviderShowRoute = ({
     q: filterPackages,
     sort,
     searchfield,
-    count: PAGE_SIZE,
-    page: FIRST_PAGE,
     filter: {
       tags,
       type,
@@ -118,8 +114,6 @@ const ProviderShowRoute = ({
 
     setPkgSearchParams({
       ..._pkgSearchParams,
-      count: PAGE_SIZE,
-      page: _pkgSearchParams?.page || FIRST_PAGE,
     });
   };
 

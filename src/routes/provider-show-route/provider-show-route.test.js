@@ -1,4 +1,5 @@
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import noop from 'lodash/noop';
 
 import {
@@ -11,23 +12,29 @@ import {
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import ProviderShowRoute from './provider-show-route';
+import { useProviderPackages } from '../../hooks';
 import { getAccessTypes } from '../../redux/actions';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockGetProvider = jest.fn();
 
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useHistory: jest.fn(),
+  useParams: jest.fn().mockReturnValue({ providerId: 'provider-id' }),
+}));
+
 jest.mock('../../redux/actions', () => ({
   ...jest.requireActual('../../redux/actions'),
   getAccessTypes: jest.fn(),
-  getProviderPackages: jest.fn(),
-  clearProviderPackages: jest.fn(),
+}));
+
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useProviderPackages: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('../../components/prev-next-buttons', () => () => (<div>PrevNextButtons component</div>));
-
-const mockHistory = {
-  replace: jest.fn(),
-};
 
 const accessTypes = {
   isDeleted: false,
@@ -41,18 +48,6 @@ const accessTypes = {
       },
     }],
   },
-};
-
-const location = {
-  pathname: 'pathname',
-  search: '',
-  hash: '',
-};
-
-const match = {
-  params: { providerId: 'provider-id' },
-  path: 'path',
-  url: 'url',
 };
 
 const model = {
@@ -92,36 +87,6 @@ const model = {
   },
 };
 
-const providerPackages = {
-  errors: [],
-  hasFailed: false,
-  hasLoaded: true,
-  isLoading: false,
-  page: 1,
-  items: [
-    {
-      id: 'package-id',
-      attributes: {
-        packageId: 'package-id',
-        name: 'package-name',
-        providerId: 'provider-id',
-        providerName: 'provider-name',
-        isSelected: true,
-        selectedCount: 10,
-        titleCount: 100,
-        visibilityData: {
-          isHidden: true,
-        },
-        tags: {
-          tagList: [],
-        },
-      },
-      type: 'packages',
-    },
-  ],
-  totalResults: 151,
-};
-
 const proxyTypes = {
   resolver: {
     state: {
@@ -159,34 +124,38 @@ const tagsModelOfAlreadyAddedTags = {
 };
 
 const renderProviderShowRoute = (props = {}) => render(
-  <MemoryRouter>
-    <Harness>
-      <ProviderShowRoute
-        accessTypes={accessTypes}
-        providerPackages={providerPackages}
-        proxyTypes={proxyTypes}
-        rootProxy={rootProxy}
-        tagsModel={tagsModel}
-        tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-        model={model}
-        history={mockHistory}
-        location={location}
-        match={match}
-        getAccessTypes={getAccessTypes}
-        getProvider={mockGetProvider}
-        getProxyTypes={noop}
-        getRootProxy={noop}
-        getTags={noop}
-        updateFolioTags={noop}
-        {...props}
-      />
-    </Harness>
+  <MemoryRouter initialEntries={['/eholdings/providers/provider-id']}>
+    <Route path="/eholdings/providers/:providerId">
+      <Harness>
+        <ProviderShowRoute
+          accessTypes={accessTypes}
+          proxyTypes={proxyTypes}
+          rootProxy={rootProxy}
+          tagsModel={tagsModel}
+          tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+          model={model}
+          getAccessTypes={getAccessTypes}
+          getProvider={mockGetProvider}
+          getProxyTypes={noop}
+          getRootProxy={noop}
+          getTags={noop}
+          updateFolioTags={noop}
+          {...props}
+        />
+      </Harness>
+    </Route>
   </MemoryRouter>
 );
 
 describe('Given ProviderShowRoute', () => {
+  const mockHistoryReplace = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
+
+    useHistory.mockClear().mockReturnValue({
+      replace: mockHistoryReplace,
+    });
   });
 
   afterEach(cleanup);
@@ -195,12 +164,6 @@ describe('Given ProviderShowRoute', () => {
     await renderProviderShowRoute();
 
     expect(getAccessTypes).toHaveBeenCalled();
-  });
-
-  it('should call getProviderPackages', async () => {
-    await renderProviderShowRoute();
-
-    expect(getProviderPackages).toHaveBeenCalled();
   });
 
   it('should show search input and actions menu within packages accordion', () => {
@@ -225,25 +188,23 @@ describe('Given ProviderShowRoute', () => {
       userEvent.click(packagesSearchSelectionStatusSelected);
       userEvent.selectOptions(packagesSearchContentType, ['ebook']);
 
-      await waitFor(() => expect(getProviderPackages).toHaveBeenCalledWith({
-        providerId: 'provider-id',
-        params: expect.objectContaining({
-          filter: {
-            'access-type': undefined,
-            selected: 'true',
-            tags: undefined,
-            type: 'ebook',
-          },
-          q: 'Test package name',
+      await waitFor(() => expect(useProviderPackages).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          searchParams: expect.objectContaining({
+            q: 'Test package name',
+            filter: expect.objectContaining({
+              selected: 'true',
+              type: 'ebook',
+            }),
+          }),
         }),
-      }));
+      ));
     });
   });
 
   it('should call getProvider', async () => {
     await renderProviderShowRoute({
       match: {
-        ...match,
         params: { providerId: 'other-provider-id' },
       },
     });
@@ -256,9 +217,9 @@ describe('Given ProviderShowRoute', () => {
 
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));
 
-    expect(mockHistory.replace).toHaveBeenCalledWith({
+    expect(mockHistoryReplace).toHaveBeenCalledWith({
       pathname: `/eholdings/providers/${model.id}/edit`,
-      search: location.search,
+      search: '',
       state: {
         eholdings: true,
       },
