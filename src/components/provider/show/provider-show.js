@@ -172,14 +172,10 @@ class ProviderShow extends Component {
   }
 
   renderPackagesList = ({ visibleColumns }) => {
-    const {
-      model,
-      providerPackages,
-    } = this.props;
+    const { providerPackages } = this.props;
 
     return (
       <ProviderPackageList
-        providerId={model.id}
         visibleColumns={visibleColumns}
         providerPackages={providerPackages}
       />

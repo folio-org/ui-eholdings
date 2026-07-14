@@ -20,8 +20,6 @@ jest.mock('../../../../internal-link', () => ({ to, children, className }) => (
   <a href={to} className={className}>{children}</a>
 ));
 
-const testProviderId = 'provider-1';
-
 const testProviderPackagesList = [
   {
     id: 'package-1',
@@ -82,7 +80,6 @@ describe('Given ProviderPackageList', () => {
   const renderProviderPackageList = (props = {}) => render(
     <Harness>
       <ProviderPackageList
-        providerId={testProviderId}
         visibleColumns={visibleColumns}
         providerPackages={{
           data: testProviderPackagesList,
@@ -131,9 +128,9 @@ describe('Given ProviderPackageList', () => {
     const secondPackageLink = screen.getByRole('link', { name: 'Second Package' });
 
     expect(firstPackageLink).toBeInTheDocument();
-    expect(firstPackageLink).toHaveAttribute('href', `/eholdings/providers/${testProviderId}/package-1`);
+    expect(firstPackageLink).toHaveAttribute('href', '/eholdings/packages/package-1');
     expect(secondPackageLink).toBeInTheDocument();
-    expect(secondPackageLink).toHaveAttribute('href', `/eholdings/providers/${testProviderId}/package-2`);
+    expect(secondPackageLink).toHaveAttribute('href', '/eholdings/packages/package-2');
   });
 
   it('should render selected counts', () => {

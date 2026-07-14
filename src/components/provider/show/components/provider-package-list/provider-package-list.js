@@ -24,7 +24,6 @@ import styles from './provider-package-list.css';
 const MAX_HEIGHT = 520;
 
 const propTypes = {
-  providerId: PropTypes.string.isRequired,
   providerPackages: PropTypes.shape({
     data: PropTypes.array.isRequired,
     fetchNextPage: PropTypes.func.isRequired,
@@ -39,7 +38,6 @@ const propTypes = {
 
 const ProviderPackageList = ({
   providerPackages,
-  providerId,
   visibleColumns,
 }) => {
   const intl = useIntl();
@@ -83,7 +81,7 @@ const ProviderPackageList = ({
         <TextLink element="span">
           {({ className }) => (
             <InternalLink
-              to={`/eholdings/providers/${providerId}/${item.id}`}
+              to={`/eholdings/packages/${item.id}`}
               className={className}
             >
               {item.attributes.name}
