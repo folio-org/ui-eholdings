@@ -10,10 +10,10 @@ import {
   defaultKeyboardShortcuts,
 } from '@folio/stripes-components';
 
-import ProviderShow from './provider-show';
 import Harness from '../../../../test/jest/helpers/harness';
 import { collapseAllShortcut } from '../../../../test/jest/utilities';
 import buildStripes from '../../../../test/jest/__mock__/stripesCore.mock';
+import ProviderShow from './provider-show';
 
 jest.mock('./components/provider-information', () => ({ isOpen, onToggle }) => (
   <>
@@ -26,6 +26,10 @@ jest.mock('./components/provider-information', () => ({ isOpen, onToggle }) => (
     {isOpen ? <span>content of ProviderInformation</span> : null}
   </>
 ));
+
+jest.mock('./components/provider-package-list', () => ({
+  ProviderPackageList: () => <div>ProviderPackageList</div>
+}));
 
 jest.mock('./components/provider-settings', () => ({ isOpen }) => (isOpen ? (<span>content of ProviderSettings</span>) : null));
 
@@ -56,12 +60,9 @@ const model = {
 };
 
 const providerPackages = {
-  errors: [],
-  hasFailed: false,
-  hasLoaded: true,
   isLoading: false,
   page: 1,
-  items: [
+  data: [
     {
       id: 'package-id1',
       attributes: {
@@ -82,26 +83,26 @@ const providerPackages = {
   totalResults: 151,
 };
 
+const renderProviderShow = (props = {}) => render(
+  <Harness>
+    <CommandList commands={defaultKeyboardShortcuts}>
+      <ProviderShow
+        fetchPackages={noop}
+        onEdit={noop}
+        updateFolioTags={noop}
+        listType="package"
+        model={model}
+        providerPackages={providerPackages}
+        proxyTypes={{}}
+        rootProxy={{}}
+        {...props}
+      />
+    </CommandList>
+  </Harness>
+);
+
 describe('Given ProviderShow', () => {
   afterEach(cleanup);
-
-  const renderProviderShow = (props = {}) => render(
-    <Harness>
-      <CommandList commands={defaultKeyboardShortcuts}>
-        <ProviderShow
-          fetchPackages={noop}
-          onEdit={noop}
-          updateFolioTags={noop}
-          listType="package"
-          model={model}
-          providerPackages={providerPackages}
-          proxyTypes={{}}
-          rootProxy={{}}
-          {...props}
-        />
-      </CommandList>
-    </Harness>
-  );
 
   it('should show pane title', () => {
     const { getAllByText } = renderProviderShow();
@@ -109,10 +110,10 @@ describe('Given ProviderShow', () => {
     expect(getAllByText('API DEV GOVERNMENT CUSTOMER')).toBeDefined();
   });
 
-  it('should render correct link', () => {
-    const { getByTestId } = renderProviderShow();
+  it('should render ProviderPackageList', () => {
+    const { getByText } = renderProviderShow();
 
-    expect(getByTestId('search-package-list-item-link')).toHaveAttribute('href', '/eholdings/packages/package-id1');
+    expect(getByText('ProviderPackageList')).toBeInTheDocument();
   });
 
   describe('when user has not edit permissions', () => {

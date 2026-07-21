@@ -1,19 +1,22 @@
-import { Component } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { TitleManager } from '@folio/stripes/core';
-
-import isEqual from 'lodash/isEqual';
-import reduce from 'lodash/reduce';
-
+import {
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router';
 import queryString from 'qs';
+
+import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/provider/show';
 import {
   listTypes,
   accessTypesReduxStateShape,
-  PAGE_SIZE,
-  FIRST_PAGE,
   tagPaths,
   searchTypes,
   packageSortFilterConfig,
@@ -22,119 +25,86 @@ import {
 import { SearchSection } from '../../components/search-section';
 import PackageSearchFilters from '../../components/package-search-filters';
 import { contentTypeFilterConfig } from './package-search-filters-config';
+import { useProviderPackages } from '../../hooks';
 
-class ProviderShowRoute extends Component {
-  static propTypes = {
-    accessTypes: accessTypesReduxStateShape.isRequired,
-    clearProviderPackages: PropTypes.func.isRequired,
-    getAccessTypes: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    getProviderPackages: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getRootProxy: PropTypes.func.isRequired,
-    getTags: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    model: PropTypes.object.isRequired,
-    providerPackages: PropTypes.shape({
-      items: PropTypes.arrayOf(PropTypes.shape({
-        attributes: PropTypes.object.isRequired,
-        id: PropTypes.string.isRequired,
-        relationships: PropTypes.object,
-        type: PropTypes.string,
-      })).isRequired,
-      totalResults: PropTypes.number.isRequired,
-    }).isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    rootProxy: PropTypes.object.isRequired,
-    tagsModel: PropTypes.object.isRequired,
-    tagsModelOfAlreadyAddedTags: PropTypes.object,
-    updateFolioTags: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  accessTypes: accessTypesReduxStateShape.isRequired,
+  getAccessTypes: PropTypes.func.isRequired,
+  getProvider: PropTypes.func.isRequired,
+  getProxyTypes: PropTypes.func.isRequired,
+  getRootProxy: PropTypes.func.isRequired,
+  getTags: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+  rootProxy: PropTypes.object.isRequired,
+  tagsModel: PropTypes.object.isRequired,
+  tagsModelOfAlreadyAddedTags: PropTypes.object,
+  updateFolioTags: PropTypes.func.isRequired,
+};
 
-  constructor(props) {
-    super(props);
+const ProviderShowRoute = ({
+  accessTypes,
+  getAccessTypes,
+  getProvider,
+  getProxyTypes,
+  getRootProxy,
+  getTags,
+  model,
+  proxyTypes,
+  rootProxy,
+  tagsModel,
+  tagsModelOfAlreadyAddedTags,
+  updateFolioTags,
+}) => {
+  const history = useHistory();
+  const location = useLocation();
+  const routeParams = useParams();
 
-    const {
-      filterPackages,
-      sort,
+  const {
+    filterPackages,
+    sort,
+    tags,
+    type,
+    'access-type': accessType,
+    selected,
+    searchfield,
+  } = queryString.parse(location.search);
+
+  const [pkgSearchParams, setPkgSearchParams] = useState({
+    q: filterPackages,
+    sort,
+    searchfield,
+    filter: {
       tags,
       type,
-      'access-type': accessType,
       selected,
-      searchfield,
-    } = queryString.parse(props.location.search);
+      'access-type': accessType,
+    },
+  });
 
-    this.state = {
-      pkgSearchParams: {
-        q: filterPackages,
-        sort,
-        searchfield,
-        count: PAGE_SIZE,
-        page: FIRST_PAGE,
-        filter: {
-          tags,
-          type,
-          selected,
-          'access-type': accessType,
-        },
-      },
-    };
-    const { providerId } = props.match.params;
-    props.getProvider(providerId);
-    props.getProxyTypes();
-    props.getRootProxy();
-    props.getTags();
-    props.getAccessTypes();
-  }
+  const { providerId } = routeParams;
 
-  componentDidUpdate(prevProps, prevState) {
-    const {
-      match,
-      getProviderPackages,
-      getProvider,
-    } = this.props;
-    const { pkgSearchParams } = this.state;
-    const { providerId } = match.params;
+  const providerPackages = useProviderPackages({ providerId, searchParams: pkgSearchParams });
 
-    if (providerId !== prevProps.match.params.providerId) {
-      getProvider(providerId);
-    }
+  useEffect(() => {
+    getProvider(providerId);
+    getProxyTypes();
+    getRootProxy();
+    getTags();
+    getAccessTypes();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (pkgSearchParams !== prevState.pkgSearchParams) {
-      getProviderPackages({
-        providerId,
-        params: pkgSearchParams,
-      });
-    }
-  }
-
-  searchPackages = (pkgSearchParams) => {
-    const {
-      location,
-      history,
-      clearProviderPackages,
-    } = this.props;
-
-    const paramDifference = reduce(pkgSearchParams, (result, item, key) => {
-      return isEqual(item, this.state.pkgSearchParams[key]) ? result : result.concat(key);
-    }, []);
-
-    if (paramDifference.length !== 1 && paramDifference[0] !== 'page') {
-      clearProviderPackages();
-    }
-
+  const updatePackageSearchParams = (_pkgSearchParams) => {
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
       ...qs,
-      filterPackages: pkgSearchParams.q,
-      sort: pkgSearchParams.sort,
-      tags: pkgSearchParams.filter?.tags,
-      type: pkgSearchParams.filter?.type,
-      'access-type': pkgSearchParams.filter?.['access-type'],
-      selected: pkgSearchParams.filter?.selected,
-      searchfield: pkgSearchParams.searchfield,
+      filterPackages: _pkgSearchParams.q,
+      sort: _pkgSearchParams.sort,
+      tags: _pkgSearchParams.filter?.tags,
+      type: _pkgSearchParams.filter?.type,
+      'access-type': _pkgSearchParams.filter?.['access-type'],
+      selected: _pkgSearchParams.filter?.selected,
+      searchfield: _pkgSearchParams.searchfield,
     });
 
     history.replace({
@@ -142,38 +112,18 @@ class ProviderShowRoute extends Component {
       search,
     });
 
-    this.setState({
-      pkgSearchParams: {
-        ...pkgSearchParams,
-        count: PAGE_SIZE,
-        page: pkgSearchParams?.page || FIRST_PAGE,
-      },
+    setPkgSearchParams({
+      ..._pkgSearchParams,
     });
   };
 
-  handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
+  const handleAccordionHeaderSearchActionsToggle = useCallback((isActionsDropdownOpen) => {
     if (isActionsDropdownOpen) {
-      this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
+      getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
-  };
+  }, [getTags]);
 
-  fetchPackages = (page) => {
-    const { pkgSearchParams } = this.state;
-    this.searchPackages({ ...pkgSearchParams, page });
-  };
-
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
-  };
-
-  handleEdit = () => {
-    const {
-      history,
-      model,
-      location,
-    } = this.props;
-
+  const handleEdit = () => {
     const editRouteState = {
       pathname: `/eholdings/providers/${model.id}/edit`,
       search: location.search,
@@ -185,7 +135,7 @@ class ProviderShowRoute extends Component {
     history.replace(editRouteState);
   };
 
-  renderSearchSectionFilters = (props) => {
+  const renderSearchSectionFilters = (props) => {
     return (
       <PackageSearchFilters
         searchType={searchTypes.PACKAGES}
@@ -199,64 +149,49 @@ class ProviderShowRoute extends Component {
     );
   };
 
-  render() {
-    const {
-      history,
-      model,
-      proxyTypes,
-      rootProxy,
-      tagsModel,
-      tagsModelOfAlreadyAddedTags,
-      updateFolioTags,
-      accessTypes,
-      providerPackages,
-    } = this.props;
+  return (
+    <TitleManager record={model.name}>
+      <View
+        model={model}
+        tagsModel={tagsModel}
+        providerPackages={providerPackages}
+        proxyTypes={proxyTypes}
+        rootProxy={rootProxy}
+        listType={listTypes.PACKAGES}
+        updateFolioTags={updateFolioTags}
+        renderAccordionHeaderSearch={(props) => (
+          <SearchSection
+            queryProp={pkgSearchParams}
+            tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+            accessTypes={accessTypes}
+            searchType={listTypes.PACKAGES}
+            onFilter={updatePackageSearchParams}
+            onToggleActions={handleAccordionHeaderSearchActionsToggle}
+            renderFilters={renderSearchSectionFilters}
+            {...props}
+          />
+        )}
+        onEdit={handleEdit}
+        isFreshlySaved={
+          history.action === 'REPLACE' &&
+          history.location.state &&
+          history.location.state.isFreshlySaved
+        }
+        isDestroyed={
+          history.action === 'REPLACE' &&
+          history.location.state &&
+          history.location.state.isDestroyed
+        }
+        isNewRecord={
+          history.action === 'REPLACE' &&
+          history.location.state &&
+          history.location.state.isNewRecord
+        }
+      />
+    </TitleManager>
+  );
+};
 
-    const { pkgSearchParams } = this.state;
-
-    return (
-      <TitleManager record={model.name}>
-        <View
-          model={model}
-          tagsModel={tagsModel}
-          providerPackages={providerPackages}
-          fetchPackages={this.fetchPackages}
-          proxyTypes={proxyTypes}
-          rootProxy={rootProxy}
-          listType={listTypes.PACKAGES}
-          updateFolioTags={updateFolioTags}
-          renderAccordionHeaderSearch={(props) => (
-            <SearchSection
-              queryProp={pkgSearchParams}
-              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-              accessTypes={accessTypes}
-              searchType={listTypes.PACKAGES}
-              onFilter={this.searchPackages}
-              onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
-              renderFilters={this.renderSearchSectionFilters}
-              {...props}
-            />
-          )}
-          onEdit={this.handleEdit}
-          isFreshlySaved={
-            history.action === 'REPLACE' &&
-            history.location.state &&
-            history.location.state.isFreshlySaved
-          }
-          isDestroyed={
-            history.action === 'REPLACE' &&
-            history.location.state &&
-            history.location.state.isDestroyed
-          }
-          isNewRecord={
-            history.action === 'REPLACE' &&
-            history.location.state &&
-            history.location.state.isNewRecord
-          }
-        />
-      </TitleManager>
-    );
-  }
-}
+ProviderShowRoute.propTypes = propTypes;
 
 export default ProviderShowRoute;
