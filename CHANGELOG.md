@@ -8,6 +8,7 @@
 * Show `createdDate` when `updatedDate` is not available in Access Status Types metadata. (UIEH-1490)
 * Remove requests with "undefined" UUID are sent when opening eHoldings Knowledge Base credentials settings. (UIEH-1512)
 * Provider Record - Package List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1451)
+* Provider Record - Packages List view  - Change to MCL. (UIEH-1452)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 

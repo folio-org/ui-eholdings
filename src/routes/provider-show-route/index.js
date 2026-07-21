@@ -7,11 +7,7 @@ import Provider from '../../redux/provider';
 import Tag from '../../redux/tag';
 import { ProxyType, RootProxy } from '../../redux/application';
 
-import {
-  getAccessTypes as getAccessTypesAction,
-  getProviderPackages as getProviderPackagesAction,
-  clearProviderPackages as clearProviderPackagesAction,
-} from '../../redux/actions';
+import { getAccessTypes as getAccessTypesAction } from '../../redux/actions';
 
 import { selectPropFromData } from '../../redux/selectors';
 import { tagPaths } from '../../constants/tagPaths';
@@ -34,8 +30,6 @@ export default connect(
     };
   }, {
     getProvider: id => Provider.find(id, { include: 'packages' }),
-    getProviderPackages: getProviderPackagesAction,
-    clearProviderPackages: clearProviderPackagesAction,
     getProxyTypes: () => ProxyType.query(),
     getTags: (params, options) => Tag.query(params, options),
     updateFolioTags: (model) => Tag.create(model),

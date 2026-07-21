@@ -28,6 +28,7 @@ export const PACKAGE_TITLE_LIST_COLUMN_MAPPING = {
 
 export const PROVIDER_PACKAGES_LIST_COLUMNS = {
   STATUS: 'status',
+  PACKAGE_NAME: 'packageName',
   SELECTED_COUNT: 'selectedCount',
   TITLES_COUNT: 'titlesCount',
   CONTENT_TYPE: 'contentType',
@@ -39,16 +40,35 @@ export const PROVIDER_PACKAGES_LIST_COLUMNS = {
 
 export const PROVIDER_PACKAGES_LIST_COLUMN_MAPPING = {
   [PROVIDER_PACKAGES_LIST_COLUMNS.STATUS]: <FormattedMessage id="ui-eholdings.packagesList.status" />,
+  [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_NAME]: <FormattedMessage id="ui-eholdings.packagesList.name" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT]: <FormattedMessage id="ui-eholdings.packagesList.selectedCount" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.TITLES_COUNT]: <FormattedMessage id="ui-eholdings.packagesList.titlesCount" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.contentType" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.CUSTOM_COVERAGE]: <FormattedMessage id="ui-eholdings.packagesList.customCoverage" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.packageType" />,
-  [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.accessStatusType" />,
+  // [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: <FormattedMessage id="ui-eholdings.packagesList.accessStatusType" />,
   [PROVIDER_PACKAGES_LIST_COLUMNS.TAGS]: <FormattedMessage id="ui-eholdings.packagesList.tags" />,
 };
 
 export const COLUMN_MAPPING_BY_LIST_TYPE = {
   [listTypes.TITLES]: PACKAGE_TITLE_LIST_COLUMN_MAPPING,
   [listTypes.PACKAGES]: PROVIDER_PACKAGES_LIST_COLUMN_MAPPING,
+};
+
+// only added definition for PACKAGES list
+// when useColumnManager grabs an object by some other key - it will get undefined
+// and will use keys of columnMapping as default visible columns
+export const DEFAULT_VISIBLE_COLUMNS_BY_LIST_TYPE = {
+  [listTypes.PACKAGES]: [
+    PROVIDER_PACKAGES_LIST_COLUMNS.STATUS,
+    PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_NAME,
+    PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT,
+    PROVIDER_PACKAGES_LIST_COLUMNS.TITLES_COUNT,
+    PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE,
+  ],
+};
+
+export const EXCLUDE_COLUMNS_FROM_ACTION_MENU = {
+  [listTypes.PACKAGES]: [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_NAME],
+  [listTypes.TITLES]: [PACKAGE_TITLES_LIST_COLUMNS.TITLE],
 };

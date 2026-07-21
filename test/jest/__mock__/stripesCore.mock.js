@@ -81,6 +81,16 @@ jest.mock('@folio/stripes/core', () => {
 
   const useStripes = () => STRIPES;
 
+  const useNamespace = () => ['@folio/eholdings'];
+
+  const useOkapiKy = jest.fn().mockReturnValue({
+    get: jest.fn().mockReturnValue({ json: jest.fn().mockResolvedValue({}) }),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+    extend: jest.fn().mockReturnValue(this),
+  });
+
   const useCallout = () => ({
     sendCallout: jest.fn(),
   });
@@ -105,6 +115,8 @@ jest.mock('@folio/stripes/core', () => {
     AppContextMenu,
     useStripes,
     useCallout,
+    useNamespace,
+    useOkapiKy,
     Pluggable,
   };
 }, { virtual: true });

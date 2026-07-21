@@ -16,7 +16,7 @@ import { ClearButton } from '../clear-button';
 import { FILTER_TYPES } from '../../constants';
 import {
   COLUMN_MAPPING_BY_LIST_TYPE,
-  PACKAGE_TITLES_LIST_COLUMNS,
+  EXCLUDE_COLUMNS_FROM_ACTION_MENU,
 } from '../../constants/list-columns';
 
 import styles from './search-form.css';
@@ -215,7 +215,7 @@ const SearchFilters = ({
         prefix={columnManagerPrefix}
         columnMapping={COLUMN_MAPPING_BY_LIST_TYPE[searchType] || {}}
         visibleColumns={visibleColumns}
-        excludeColumns={[PACKAGE_TITLES_LIST_COLUMNS.TITLE]}
+        excludeColumns={EXCLUDE_COLUMNS_FROM_ACTION_MENU[searchType]}
         toggleColumn={toggleColumn}
       />
     );
