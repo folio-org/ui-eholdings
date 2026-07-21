@@ -36,6 +36,13 @@ const usePackageCreate = ({ onSuccess }) => {
 
     attrs.accessTypeId = values.accessTypeId;
 
+    // only send altName property of form field s, and filter out any empty fields, if present
+    attrs.customAltNames = values.customAltNames
+      .map(altNameObj => ({
+        altName: altNameObj.altName,
+      }))
+      .filter(({ altName }) => altName);
+
     return {
       data: {
         attributes: attrs,
