@@ -1,11 +1,21 @@
-import { Component } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
+import {
+  useLocation,
+  useHistory,
+  useParams,
+} from 'react-router';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'qs';
-import isEqual from 'lodash/isEqual';
 
 import { TitleManager } from '@folio/stripes/core';
 
+import View from '../../components/package/show';
+import { useUpdatePackageTitlesSelection } from '../../hooks/use-update-package-titles-selection';
+import { SearchSection } from '../../components/search-section';
+import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
 import {
   listTypes,
@@ -13,242 +23,183 @@ import {
   costPerUse as costPerUseShape,
   PAGE_SIZE,
   FIRST_PAGE,
-  INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE,
   tagPaths,
   titleSortFilterConfig,
   selectionStatusFilterConfig,
   publicationTypeTitlesListFilterConfig,
 } from '../../constants';
 
-import View from '../../components/package/show';
-import { SearchSection } from '../../components/search-section';
-import TitleSearchFilters from '../../components/title-search-filters';
+const propTypes = {
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  clearCostPerUseData: PropTypes.func.isRequired,
+  costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
+  destroyPackage: PropTypes.func.isRequired,
+  getAccessTypes: PropTypes.func.isRequired,
+  getCostPerUse: PropTypes.func.isRequired,
+  getCostPerUsePackageTitles: PropTypes.func.isRequired,
+  getPackage: PropTypes.func.isRequired,
+  getPackageTitles: PropTypes.func.isRequired,
+  getProvider: PropTypes.func.isRequired,
+  getProxyTypes: PropTypes.func.isRequired,
+  getTags: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  packageTitles: PropTypes.shape({
+    items: PropTypes.array.isRequired,
+    totalResults: PropTypes.number.isRequired,
+  }).isRequired,
+  provider: PropTypes.object.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+  removeUpdateRequests: PropTypes.func.isRequired,
+  tagsModel: PropTypes.object.isRequired,
+  tagsModelOfAlreadyAddedTags: PropTypes.object,
+  unloadResources: PropTypes.func.isRequired,
+  updateFolioTags: PropTypes.func.isRequired,
+  updatePackage: PropTypes.func.isRequired,
+};
 
-class PackageShowRoute extends Component {
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    clearCostPerUseData: PropTypes.func.isRequired,
-    costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-    destroyPackage: PropTypes.func.isRequired,
-    getAccessTypes: PropTypes.func.isRequired,
-    getCostPerUse: PropTypes.func.isRequired,
-    getCostPerUsePackageTitles: PropTypes.func.isRequired,
-    getPackage: PropTypes.func.isRequired,
-    getPackageTitles: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    getTags: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    model: PropTypes.object.isRequired,
-    packageTitles: PropTypes.shape({
-      items: PropTypes.array.isRequired,
-      totalResults: PropTypes.number.isRequired,
-    }).isRequired,
-    provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    removeUpdateRequests: PropTypes.func.isRequired,
-    tagsModel: PropTypes.object.isRequired,
-    tagsModelOfAlreadyAddedTags: PropTypes.object,
-    unloadResources: PropTypes.func.isRequired,
-    updateFolioTags: PropTypes.func.isRequired,
-    updatePackage: PropTypes.func.isRequired,
-  };
+const PackageShowRoute = ({
+  accessStatusTypes,
+  clearCostPerUseData,
+  costPerUse,
+  destroyPackage,
+  getAccessTypes,
+  getCostPerUse,
+  getCostPerUsePackageTitles,
+  getPackage,
+  getPackageTitles,
+  getProvider,
+  getProxyTypes,
+  getTags,
+  model,
+  packageTitles,
+  provider,
+  proxyTypes,
+  removeUpdateRequests,
+  tagsModel,
+  tagsModelOfAlreadyAddedTags,
+  unloadResources,
+  updateFolioTags,
+  updatePackage,
+}) => {
+  const history = useHistory();
+  const location = useLocation();
+  const params = useParams();
 
-  constructor(props) {
-    super(props);
+  const {
+    filterTitles,
+    sort,
+    tags,
+    type,
+    'access-type': accessType,
+    selected,
+    searchfield = 'title',
+  } = queryString.parse(location.search.substring(1));
+  const { packageId } = params;
+  const [providerId] = packageId.split('-');
 
-    const {
-      filterTitles,
-      sort,
+  const [pkgSearchParams, setPkgSearchParams] = useState({
+    q: filterTitles,
+    sort,
+    searchfield,
+    count: PAGE_SIZE,
+    page: FIRST_PAGE,
+    filter: {
       tags,
       type,
-      'access-type': accessType,
       selected,
-      searchfield = 'title',
-    } = queryString.parse(props.location.search.substring(1));
+      'access-type': accessType,
+    },
+  });
+  const [isTitlesUpdating, setIsTitlesUpdating] = useState(false);
 
-    this.state = {
-      pkgSearchParams: {
-        q: filterTitles,
-        sort,
-        searchfield,
-        count: PAGE_SIZE,
-        page: FIRST_PAGE,
-        filter: {
-          tags,
-          type,
-          selected,
-          'access-type': accessType,
-        },
-      },
-      isTitlesUpdating: false,
+
+  const getUpdatedTitles = () => {
+    const queryParams = transformQueryParams('titles', pkgSearchParams);
+
+    setIsTitlesUpdating(true);
+
+    getPackageTitles({ packageId, params: queryParams });
+  };
+
+  useEffect(() => {
+    getPackage(packageId);
+    getProxyTypes();
+    getProvider(providerId);
+    getTags();
+    getAccessTypes();
+    getUpdatedTitles();
+
+    return () => {
+      clearCostPerUseData();
     };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const { packageId } = props.match.params;
-    const [providerId] = packageId.split('-');
+  useEffect(() => {
+    if (!packageTitles.isLoading) {
+      setIsTitlesUpdating(false);
+    }
+  }, [packageTitles.isLoading]);
 
-    props.getPackage(packageId);
-    props.getProxyTypes();
-    props.getProvider(providerId);
-    props.getTags();
-    props.getAccessTypes();
-  }
-
-  componentDidMount() {
-    const { match } = this.props;
-    const { packageId } = match.params;
-
-    this.getUpdatedTitles(packageId);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {
-      model: next,
-      match,
-      getPackage,
-      unloadResources,
-      history,
-      location,
-      getPackageTitles,
-      removeUpdateRequests,
-    } = this.props;
-
-    const { pkgSearchParams } = this.state;
-
-    const {
-      model: old,
-      match: oldMatch,
-    } = prevProps;
-
-    const tagsChanged = old.tags.tagList.length !== next.tags.tagList.length;
-    const wasPending = old.update.isPending && !next.update.isPending;
-    const needsUpdate = !isEqual(old, next);
-    const isRejected = next.update.isRejected;
-
-    const wasUnSelected = old.isSelected && !next.isSelected;
-    const isCurrentlySelected = !old.isSelected && next.isSelected;
-    const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
-
-    const { packageId } = match.params;
-
+  useEffect(() => {
     // if package was just added/removed from holdings
     // need to clear 'update' requests for Unsaved Changes Modal to work correctly on Edit
-    if (isFreshlySaved) {
+    if (model.update.isPending && !model.update.isRejected) {
       removeUpdateRequests();
     }
+  }, [removeUpdateRequests, model.update.isPending, model.update.isRejected, model.isSelected]);
 
-    if (!old.destroy.isResolved && next.destroy.isResolved) {
-      // if package was reached based on search
+  useEffect(() => {
+    // if an update just resolved, unfetch the package titles
+    if (model.update.isResolved) {
+      unloadResources(model.resources);
+    }
+  }, [unloadResources, model.update.isResolved, model.resources]);
+
+  useEffect(() => {
+    if (model.destroy.isResolved) {
+      // if package was reached based on search we want to keep the search params
+      // to show search results
       if (location.search) {
         history.replace({
           pathname: '/eholdings',
           search: location.search,
         }, { eholdings: true });
-        // package was reached directly from url not by search
+        // package was reached directly from url not by search, so we can just show the default search page
       } else {
         history.replace('/eholdings?searchType=packages', { eholdings: true });
       }
     }
+  }, [model.destroy.isResolved, history, location.search]);
 
-    if (packageId !== oldMatch.params.packageId) {
-      getPackage(packageId);
-      // if an update just resolved, unfetch the package titles
-    } else if (next.update.isResolved && old.update.isPending && !tagsChanged) {
-      unloadResources(next.resources);
-    }
+  useEffect(() => {
+    const queryParams = transformQueryParams('titles', pkgSearchParams);
 
-    if (!isEqual(pkgSearchParams, prevState.pkgSearchParams)) {
-      const params = transformQueryParams('titles', pkgSearchParams);
+    getPackageTitles({ packageId, params: queryParams });
+  }, [pkgSearchParams, getPackageTitles, packageId]);
 
-      getPackageTitles({ packageId, params });
-    }
-  }
+  const { updateTitles } = useUpdatePackageTitlesSelection({
+    queryParams: transformQueryParams('titles', pkgSearchParams),
+    packageModel: model,
+    setIsTitlesUpdating,
+    packageTitles,
+    getPackageTitles,
+  });
 
-  componentWillUnmount() {
-    this.props.clearCostPerUseData();
-    clearInterval(this.interval);
-  }
-
-  /* This method is common between package-show and package-edit routes
-   * This should be refactored once we can share model between the routes.
-  */
-  addPackageToHoldings = () => {
-    const {
-      model,
-      match,
-      updatePackage,
-    } = this.props;
-
-    const { packageId } = match.params;
-
+  const addPackageToHoldings = () => {
+    // we're mutating a prop here and in a couple of other functions in this file, which is a huuuge no-no
+    // but the model object is not a simple object, but an instance o class, so we can't just
+    // destructure it and update properties of a copy
+    // for now it works fine, but we need to be aware of this
+    // in one of the next PR's we'll get rid of these class instances and use reach-query for CRUD
     model.isSelected = true;
     model.selectedCount = model.titleCount;
     model.allowKbToAddTitles = true;
 
     updatePackage(model);
-    this.updateTitles(packageId);
+    updateTitles(packageId);
   };
 
-  getUpdatedTitles(packageId) {
-    const { getPackageTitles } = this.props;
-    const { pkgSearchParams } = this.state;
-
-    const params = transformQueryParams('titles', pkgSearchParams);
-
-    this.setState(() => {
-      return { isTitlesUpdating: true };
-    });
-
-    getPackageTitles({ packageId, params });
-
-    this.setState(() => {
-      return { isTitlesUpdating: false };
-    });
-  }
-
-  updateTitles(packageId) {
-    const {
-      model,
-      getPackageTitles,
-    } = this.props;
-    const { pkgSearchParams } = this.state;
-
-    const params = transformQueryParams('titles', pkgSearchParams);
-
-    this.setState(() => {
-      return { isTitlesUpdating: true };
-    });
-
-    clearInterval(this.interval);
-
-    this.interval = window.setInterval(() => {
-      const arePackageTitlesUpdated = this.props.packageTitles.items
-        .every(item => item.attributes.isSelected === model.isSelected);
-
-      if (arePackageTitlesUpdated) {
-        window.clearInterval(this.interval);
-
-        this.setState(() => {
-          return { isTitlesUpdating: false };
-        });
-      } else {
-        getPackageTitles({ packageId, params });
-      }
-    }, INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE);
-  }
-
-  toggleSelected = () => {
-    const {
-      model,
-      match,
-      updatePackage,
-      destroyPackage,
-    } = this.props;
-
-    const { packageId } = match.params;
-
+  const toggleSelected = () => {
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
@@ -269,22 +220,11 @@ class PackageShowRoute extends Component {
       }
 
       updatePackage(model);
-      this.updateTitles(packageId);
+      updateTitles();
     }
   };
 
-  fetchPackageTitles = (page) => {
-    const { pkgSearchParams } = this.state;
-
-    this.searchTitles({ ...pkgSearchParams, page });
-  };
-
-  searchTitles = (pkgSearchParams) => {
-    const {
-      location,
-      history,
-    } = this.props;
-
+  const searchTitles = (_params) => {
     const qs = queryString.parse(location.search, { ignoreQueryPrefix: true });
     const search = queryString.stringify({
       ...qs,
@@ -302,50 +242,36 @@ class PackageShowRoute extends Component {
       search,
     });
 
-    this.setState({
-      pkgSearchParams: {
-        ...pkgSearchParams,
-        count: PAGE_SIZE,
-        page: pkgSearchParams?.page || FIRST_PAGE,
-      },
+    setPkgSearchParams({
+      ..._params,
+      count: PAGE_SIZE,
+      page: _params?.page || FIRST_PAGE,
     });
   };
 
-  handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
+  const fetchPackageTitles = (page) => {
+    searchTitles({ ...pkgSearchParams, page });
+  };
+
+  const handleAccordionHeaderSearchActionsToggle = (isActionsDropdownOpen) => {
     if (isActionsDropdownOpen) {
-      this.props.getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
+      getTags(undefined, { path: tagPaths.alreadyAddedToRecords });
     }
   };
 
-  fetchPackageCostPerUse = (filterData) => {
-    const {
-      getCostPerUse,
-      model: { id },
-    } = this.props;
-
-    getCostPerUse(listTypes.PACKAGES, id, filterData);
+  const fetchPackageCostPerUse = (filterData) => {
+    getCostPerUse(listTypes.PACKAGES, model.id, filterData);
   };
 
-  fetchCostPerUsePackageTitles = (filterData) => {
-    const {
-      getCostPerUsePackageTitles,
-      model: { id },
-    } = this.props;
-
-    getCostPerUsePackageTitles(id, filterData);
+  const fetchCostPerUsePackageTitles = (filterData) => {
+    getCostPerUsePackageTitles(model.id, filterData);
   };
 
-  loadMoreCostPerUsePackageTitles = (filterData) => {
-    this.fetchCostPerUsePackageTitles(filterData, true);
+  const loadMoreCostPerUsePackageTitles = (filterData) => {
+    fetchCostPerUsePackageTitles(filterData, true);
   };
 
-  handleEdit = () => {
-    const {
-      history,
-      model,
-      location,
-    } = this.props;
-
+  const handleEdit = () => {
     const editRouteState = {
       pathname: `/eholdings/packages/${model.id}/edit`,
       search: location.search,
@@ -357,22 +283,13 @@ class PackageShowRoute extends Component {
     history.replace(editRouteState);
   };
 
-  toggleTitles = () => {
-    const {
-      getPackageTitles,
-      match,
-    } = this.props;
-    const {
-      pkgSearchParams,
-    } = this.state;
-    const { packageId } = match.params;
+  const toggleTitles = () => {
+    const queryParams = transformQueryParams('titles', pkgSearchParams);
 
-    const params = transformQueryParams('titles', pkgSearchParams);
-
-    getPackageTitles({ packageId, params });
+    getPackageTitles({ packageId, params: queryParams });
   };
 
-  renderSearchSectionFilters = (props) => {
+  const renderSearchSectionFilters = (props) => {
     return (
       <TitleSearchFilters
         availableFilters={[
@@ -385,79 +302,58 @@ class PackageShowRoute extends Component {
     );
   };
 
-  render() {
-    const {
-      history,
-      model,
-      tagsModel,
-      tagsModelOfAlreadyAddedTags,
-      provider,
-      proxyTypes,
-      updateFolioTags,
-      accessStatusTypes,
-      costPerUse,
-      packageTitles,
-    } = this.props;
+  return (
+    <TitleManager record={model.name}>
+      <View
+        model={model}
+        tagsModel={tagsModel}
+        packageTitles={packageTitles}
+        updateFolioTags={updateFolioTags}
+        proxyTypes={proxyTypes}
+        provider={provider}
+        fetchPackageTitles={fetchPackageTitles}
+        fetchPackageCostPerUse={fetchPackageCostPerUse}
+        fetchCostPerUsePackageTitles={fetchCostPerUsePackageTitles}
+        loadMoreCostPerUsePackageTitles={loadMoreCostPerUsePackageTitles}
+        toggleSelected={toggleSelected}
+        addPackageToHoldings={addPackageToHoldings}
+        onEdit={handleEdit}
+        accessStatusTypes={accessStatusTypes}
+        costPerUse={costPerUse}
+        isTitlesUpdating={isTitlesUpdating}
+        pkgSearchParams={pkgSearchParams}
+        onToggleTitles={toggleTitles}
+        isFreshlySaved={
+          location.state &&
+          location.state.isFreshlySaved
+        }
+        isNewRecord={
+          history.action === 'REPLACE' &&
+          location.state &&
+          location.state.isNewRecord
+        }
+        isDestroyed={
+          history.action === 'REPLACE' &&
+          location.state &&
+          location.state.isDestroyed
+        }
+        renderAccordionHeaderSearch={(props) => (
+          <SearchSection
+            queryProp={pkgSearchParams}
+            tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
+            accessTypes={accessStatusTypes}
+            searchType={listTypes.TITLES}
+            onFilter={searchTitles}
+            onToggleActions={handleAccordionHeaderSearchActionsToggle}
+            renderFilters={renderSearchSectionFilters}
+            {...props}
+          />
+        )}
+      />
+    </TitleManager>
+  );
+};
 
-    const {
-      pkgSearchParams,
-      isTitlesUpdating,
-    } = this.state;
-
-    return (
-      <TitleManager record={model.name}>
-        <View
-          model={model}
-          tagsModel={tagsModel}
-          packageTitles={packageTitles}
-          updateFolioTags={updateFolioTags}
-          proxyTypes={proxyTypes}
-          provider={provider}
-          fetchPackageTitles={this.fetchPackageTitles}
-          fetchPackageCostPerUse={this.fetchPackageCostPerUse}
-          fetchCostPerUsePackageTitles={this.fetchCostPerUsePackageTitles}
-          loadMoreCostPerUsePackageTitles={this.loadMoreCostPerUsePackageTitles}
-          toggleSelected={this.toggleSelected}
-          addPackageToHoldings={this.addPackageToHoldings}
-          toggleHidden={this.toggleHidden}
-          customCoverageSubmitted={this.customCoverageSubmitted}
-          toggleAllowKbToAddTitles={this.toggleAllowKbToAddTitles}
-          onEdit={this.handleEdit}
-          accessStatusTypes={accessStatusTypes}
-          costPerUse={costPerUse}
-          isTitlesUpdating={isTitlesUpdating}
-          pkgSearchParams={pkgSearchParams}
-          onToggleTitles={this.toggleTitles}
-          isFreshlySaved={
-            history.location.state &&
-            history.location.state.isFreshlySaved
-          }
-          isNewRecord={
-            history.action === 'REPLACE' &&
-            history.location.state &&
-            history.location.state.isNewRecord
-          }
-          isDestroyed={
-            history.action === 'REPLACE' &&
-            history.location.state &&
-            history.location.state.isDestroyed
-          }
-          renderAccordionHeaderSearch={(props) => (
-            <SearchSection
-              queryProp={pkgSearchParams}
-              tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
-              accessTypes={accessStatusTypes}
-              searchType={listTypes.TITLES}
-              onFilter={this.searchTitles}
-              onToggleActions={this.handleAccordionHeaderSearchActionsToggle}
-              renderFilters={this.renderSearchSectionFilters}
-              {...props}
-            />
-          )}
-        />
-      </TitleManager>
-    );
-  }
-}
+PackageShowRoute.propTypes = propTypes;
 
 export default PackageShowRoute;
