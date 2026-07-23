@@ -268,7 +268,7 @@ const PackageShowRoute = ({
   };
 
   const loadMoreCostPerUsePackageTitles = (filterData) => {
-    fetchCostPerUsePackageTitles(filterData, true);
+    fetchCostPerUsePackageTitles(filterData);
   };
 
   const handleEdit = () => {
@@ -323,19 +323,14 @@ const PackageShowRoute = ({
         isTitlesUpdating={isTitlesUpdating}
         pkgSearchParams={pkgSearchParams}
         onToggleTitles={toggleTitles}
-        isFreshlySaved={
-          location.state &&
-          location.state.isFreshlySaved
-        }
+        isFreshlySaved={location.state?.isFreshlySaved}
         isNewRecord={
           history.action === 'REPLACE' &&
-          location.state &&
-          location.state.isNewRecord
+          location.state?.isNewRecord
         }
         isDestroyed={
           history.action === 'REPLACE' &&
-          location.state &&
-          location.state.isDestroyed
+          location.state?.isDestroyed
         }
         renderAccordionHeaderSearch={(props) => (
           <SearchSection
