@@ -1,4 +1,7 @@
-import { useEffect, useRef } from 'react';
+import {
+  useEffect,
+  useRef,
+} from 'react';
 
 import { INTERVAL_BEFORE_CHECK_FOR_AN_UPDATE } from '../../constants';
 
@@ -11,7 +14,7 @@ export const useUpdatePackageTitlesSelection = ({
 }) => {
   const interval = useRef();
 
-  // the callback inside window.setInterval keeps the old reference to packageTitles in it's closure,
+  // the callback inside window.setInterval keeps the old reference to packageTitles in its closure,
   // so we need to copy over this hook prop to a ref, so that interval callback can access fresh data
   // packageModel is mutated in PackageShowRoute anyways, and we will change that later, but for now we can
   // rely on this mutation to always have fresh data in closures
