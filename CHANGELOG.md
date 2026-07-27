@@ -9,6 +9,7 @@
 * Remove requests with "undefined" UUID are sent when opening eHoldings Knowledge Base credentials settings. (UIEH-1512)
 * Provider Record - Package List Accordion - Improve Visibility of Search Within/Filter/Sort options. (UIEH-1451)
 * Provider Record - Packages List view  - Change to MCL. (UIEH-1452)
+* New Custom Package Detail Record: Add a new field: Custom alternate package names. (UIEH-1496)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 
