@@ -1,36 +1,43 @@
-import { MemoryRouter } from 'react-router';
+import { useLocation } from 'react-router';
 
 import {
   render,
-  cleanup,
   fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageCreateRoute from './package-create-route';
+import { usePackageCreate } from '../../hooks';
 import Harness from '../../../test/jest/helpers/harness';
 
 const mockHistory = {
   replace: jest.fn(),
   goBack: jest.fn(),
+  block: jest.fn().mockReturnValue(jest.fn()),
 };
 
-const location = {
+const mockLocation = {
   pathname: 'pathname',
   search: '',
   hash: '',
 };
 
-const createRequest = {
-  timestamp: 0,
-  type: 'create',
-  params: {},
-  isPending: false,
-  isResolved: false,
-  isRejected: false,
-  records: [],
-  meta: {},
-  errors: [],
-};
+const mockGetAccessTypes = jest.fn();
+const mockCreatePackage = jest.fn();
+
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useHistory: jest.fn(() => mockHistory),
+  useLocation: jest.fn(() => mockLocation),
+}));
+
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  usePackageCreate: jest.fn(() => ({
+    createPackage: mockCreatePackage,
+    isLoading: false,
+    errors: [],
+  })),
+}));
 
 const accessStatusTypes = {
   isDeleted: false,
@@ -40,91 +47,63 @@ const accessStatusTypes = {
   },
 };
 
-const mockGetAccessTypes = jest.fn();
-const mockCreatePackage = jest.fn();
-const mockRemoveCreateRequests = jest.fn();
-
 const getPackageCreateRoute = (props = {}) => (
-  <MemoryRouter>
-    <Harness>
-      <PackageCreateRoute
-        accessStatusTypes={accessStatusTypes}
-        createPackage={mockCreatePackage}
-        createRequest={createRequest}
-        getAccessTypes={mockGetAccessTypes}
-        history={mockHistory}
-        location={location}
-        removeCreateRequests={mockRemoveCreateRequests}
-        {...props}
-      />
-      Page content
-    </Harness>
-  </MemoryRouter>
+  <Harness>
+    <PackageCreateRoute
+      accessStatusTypes={accessStatusTypes}
+      getAccessTypes={mockGetAccessTypes}
+      {...props}
+    />
+    Page content
+  </Harness>
 );
 
 const renderPackageCreateRoute = (props = {}) => render(getPackageCreateRoute(props));
 
 describe('Given PackageCreateRoute', () => {
-  beforeEach(() => {
-    mockGetAccessTypes.mockClear();
-    mockCreatePackage.mockClear();
-    mockRemoveCreateRequests.mockClear();
-    mockHistory.replace.mockClear();
-  });
-
-  afterEach(cleanup);
-  it('should render PackageCreateRoute', async () => {
+  it('should render PackageCreateRoute', () => {
     const { getByText } = renderPackageCreateRoute();
 
     expect(getByText('Page content')).toBeDefined();
   });
 
-  it('should handle getAccessTypes', async () => {
-    await renderPackageCreateRoute({
-      props: { getAccessTypes: mockGetAccessTypes },
-    });
+  it('should handle getAccessTypes', () => {
+    renderPackageCreateRoute();
 
     expect(mockGetAccessTypes).toHaveBeenCalled();
   });
 
-  describe('when request is not resolved', () => {
-    it('should not redirect to new package record', () => {
-      const { rerender } = renderPackageCreateRoute();
+  describe('when the create request has not resolved', () => {
+    it('should not redirect to a new package record', () => {
+      renderPackageCreateRoute();
 
-      rerender(getPackageCreateRoute({
-        createRequest: {
-          ...createRequest,
-          isResolved: false,
-        },
-      }));
-
-      expect(mockHistory.replace).toHaveBeenCalledTimes(0);
+      expect(mockHistory.replace).not.toHaveBeenCalled();
     });
   });
 
-  describe('when request is resolved', () => {
-    it('should redirect to new package record', () => {
-      const { rerender } = renderPackageCreateRoute();
+  describe('when the create request resolves successfully', () => {
+    it('should redirect to the new package record', () => {
+      renderPackageCreateRoute();
 
-      rerender(getPackageCreateRoute({
-        createRequest: {
-          ...createRequest,
-          isResolved: true,
-        },
-      }));
+      const { onSuccess } = usePackageCreate.mock.calls[0][0];
 
-      expect(mockHistory.replace).toHaveBeenCalled();
+      onSuccess({ data: { id: 'new-package-id' } });
+
+      expect(mockHistory.replace).toHaveBeenCalledWith(
+        '/eholdings/packages/new-package-id',
+        { eholdings: true, isNewRecord: true },
+      );
     });
   });
 
   describe('when click on close icon and form is not pristine', () => {
     it('should handle history.goBack', () => {
-      const { getByRole } = renderPackageCreateRoute({
-        location: {
-          ...location,
-          state: { eholdings: true },
-        },
+      useLocation.mockReturnValueOnce({
+        ...mockLocation,
+        state: { eholdings: true },
       });
+
+      const { getByRole } = renderPackageCreateRoute();
 
       const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
 
@@ -138,7 +117,7 @@ describe('Given PackageCreateRoute', () => {
   });
 
   describe('when submit form with some values and click save', () => {
-    it('should handle mockCreatePackage action', async () => {
+    it('should call createPackage from usePackageCreate', () => {
       const {
         getByRole,
         getByText,
@@ -165,8 +144,8 @@ describe('Given PackageCreateRoute', () => {
     });
   });
 
-  describe('when user adds a name, adds and delete date rage and clicks on Save&close button', () => {
-    it('should call updateResource', () => {
+  describe('when user adds a name, adds and delete date range and clicks on Save&close button', () => {
+    it('should call createPackage from usePackageCreate', () => {
       const {
         getByRole,
         getByText,
