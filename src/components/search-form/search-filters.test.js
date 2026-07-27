@@ -42,7 +42,7 @@ const renderSearchFilters = (props = {}) => render(
         }],
       }]}
       onUpdate={mockOnUpdate}
-      searchType="packages"
+      searchType="titles"
       toggleColumn={mockToggleColumn}
       {...props}
     />

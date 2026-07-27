@@ -16,7 +16,7 @@ export default ({ knowledgeBaseApi }) => (action$, state$) => {
   return action$
     .pipe(
       filter(action => action.type === GET_KB_CREDENTIALS_KEY),
-      mergeMap(({ payload: { credentialsId } }) => {
+      mergeMap(({ payload: credentialsId }) => {
         return knowledgeBaseApi
           .getCredentialsKey(state$.value.okapi, credentialsId)
           .pipe(

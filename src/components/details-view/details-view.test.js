@@ -1,13 +1,14 @@
+import { createMemoryHistory } from 'history';
+
 import {
   render,
   fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 
-import { createMemoryHistory } from 'history';
-
 import Harness from '../../../test/jest/helpers/harness';
 
 import DetailsView from './details-view';
+import { listTypes } from '../../constants';
 
 const history = createMemoryHistory();
 
@@ -42,6 +43,7 @@ const getDetailView = props => (
       type="testtype"
       resultsLength={10000}
       goBack={mockGoBack}
+      listType={listTypes.PACKAGES}
       {...props}
     />
   </Harness>
@@ -90,10 +92,9 @@ describe('Given DetailsView', () => {
     it('should display list type accordion', () => {
       const { getByText } = renderDetailsView({
         renderList: mockRenderList,
-        listType: 'testListType',
       });
 
-      expect(getByText('ui-eholdings.listType.testListType')).toBeDefined();
+      expect(getByText('ui-eholdings.listType.packages')).toBeDefined();
     });
 
     describe('when sections are provided', () => {

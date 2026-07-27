@@ -7,10 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import update from 'lodash/fp/update';
 import sortBy from 'lodash/sortBy';
 
-import {
-  IfPermission,
-} from '@folio/stripes/core';
-
+import { IfPermission } from '@folio/stripes/core';
 import {
   Button,
   ButtonGroup,
@@ -26,10 +23,10 @@ import {
   searchTypes,
   accessTypesReduxStateShape,
   searchableIndexes,
-  titleSortFilterConfig,
   selectionStatusFilterConfig,
-  publicationTypeFilterConfig,
+  titleSortFilterConfig,
 } from '../../constants';
+import { publicationTypeFilterConfig } from './search-form-filter-config';
 import { getTagLabelsArr } from '../utilities';
 import TagFilterAccordion from './components/tags-filter-accordion';
 import AccessTypesFilterAccordion from './components/access-types-filter-accordion';

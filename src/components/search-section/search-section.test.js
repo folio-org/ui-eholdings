@@ -10,6 +10,7 @@ import {
 } from '../../constants';
 
 const mockOnFilter = jest.fn();
+const mockRenderFilters = jest.fn().mockReturnValue(<>Filters</>);
 
 const queryProp = {
   searchfield: 'title',
@@ -49,6 +50,7 @@ const renderSearchSection = (props = {}) => render(
     tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
     accessTypes={accessTypes}
     onFilter={mockOnFilter}
+    renderFilters={mockRenderFilters}
     {...props}
   />
 );

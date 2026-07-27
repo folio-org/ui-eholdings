@@ -1,9 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-
 import isEqual from 'lodash/isEqual';
-import queryString from 'qs';
+
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/provider/edit';
@@ -63,11 +62,6 @@ export default class ProviderEditRoute extends Component {
     model.proxy.id = values.proxyId;
     model.providerToken.value = values.providerTokenValue;
     updateProvider(model);
-  };
-
-  getSearchType = () => {
-    const { searchType } = queryString.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    return searchType;
   };
 
   handleCancel = () => {
