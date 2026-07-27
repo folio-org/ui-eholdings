@@ -1,1 +1,1 @@
-export { default } from './package-create';
+export * from './package-create';
