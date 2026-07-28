@@ -70,6 +70,7 @@ const ManagedPackageEdit = ({
     const {
       isSelected,
       customCoverage,
+      customAltNames,
       proxy,
       packageToken,
       visibilityData,
@@ -84,6 +85,7 @@ const ManagedPackageEdit = ({
       customCoverages: [{
         ...customCoverage,
       }],
+      customAltNames,
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       providerTokenValue: provider.providerToken.value,
       packageTokenValue: packageToken.value,

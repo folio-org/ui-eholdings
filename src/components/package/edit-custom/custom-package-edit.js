@@ -78,6 +78,7 @@ const CustomPackageEdit = ({
       customCoverage,
       proxy,
       visibilityData,
+      customAltNames,
     } = model;
 
     const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
@@ -87,6 +88,7 @@ const CustomPackageEdit = ({
       name,
       contentType,
       isSelected,
+      customAltNames,
       customCoverages: [{
         ...customCoverage,
       }],
