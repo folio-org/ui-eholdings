@@ -18,14 +18,14 @@ import {
 import TokenField from '../../../../token';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
-
-import fieldsetStyles from '../../../../fieldset-styles.css';
+import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
 
 import {
   ONE_THIRD_OF_COLUMN_WIDTH,
   QUARTER_OF_COLUMN_WIDTH,
 } from '../../../../../constants';
-import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
+
+import fieldsetStyles from '../../../../fieldset-styles.css';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object,
