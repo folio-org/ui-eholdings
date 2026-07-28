@@ -153,7 +153,7 @@ const getPackageEditRoute = (props = {}) => {
           history={history}
           location={location}
           match={match}
-          model={model} 
+          model={model}
           updateRequest={updateRequest}
           updatePackage={mockUpdatePackage}
           proxyTypes={proxyTypes}
