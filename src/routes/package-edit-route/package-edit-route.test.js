@@ -46,12 +46,15 @@ const match = {
   url: `/eholdings/packages/${packageId}/edit`,
 };
 
-const model = {
+const getModelMock = () => ({
   id: packageId,
   name: 'Test package',
   description: '',
   edition: '',
   contributors: [],
+  customAltNames: [
+    { altName: 'test alt name 1' },
+  ],
   identifiers: [],
   isLoaded: true,
   isLoading: false,
@@ -83,7 +86,7 @@ const model = {
     id: 'proxy-id',
     inherited: false,
   },
-};
+});
 
 const updateRequest = {
   errors: [],
@@ -136,32 +139,39 @@ const mockRemoveUpdateRequests = jest.fn();
 const mockUnloadResources = jest.fn();
 const mockUpdateProvider = jest.fn();
 
-const getPackageEditRoute = (props = {}) => (
-  <MemoryRouter>
-    <Harness>
-      <PackageEditRoute
-        accessStatusTypes={accessStatusTypes}
-        history={history}
-        location={location}
-        match={match}
-        model={model}
-        updateRequest={updateRequest}
-        updatePackage={mockUpdatePackage}
-        proxyTypes={proxyTypes}
-        provider={provider}
-        removeUpdateRequests={mockRemoveUpdateRequests}
-        unloadResources={mockUnloadResources}
-        updateProvider={mockUpdateProvider}
-        getPackage={mockGetPackage}
-        destroyPackage={mockDestroyPackage}
-        getAccessTypes={mockGetAccessTypes}
-        getProvider={mockGetProvider}
-        getProxyTypes={mockGetProxyTypes}
-        {...props}
-      />
-    </Harness>
-  </MemoryRouter>
-);
+let model;
+
+const getPackageEditRoute = (props = {}) => {
+  // the component mutates the model, so we need to get a new model object for each test
+  model = getModelMock();
+
+  return (
+    <MemoryRouter>
+      <Harness>
+        <PackageEditRoute
+          accessStatusTypes={accessStatusTypes}
+          history={history}
+          location={location}
+          match={match}
+          model={model} 
+          updateRequest={updateRequest}
+          updatePackage={mockUpdatePackage}
+          proxyTypes={proxyTypes}
+          provider={provider}
+          removeUpdateRequests={mockRemoveUpdateRequests}
+          unloadResources={mockUnloadResources}
+          updateProvider={mockUpdateProvider}
+          getPackage={mockGetPackage}
+          destroyPackage={mockDestroyPackage}
+          getAccessTypes={mockGetAccessTypes}
+          getProvider={mockGetProvider}
+          getProxyTypes={mockGetProxyTypes}
+          {...props}
+        />
+      </Harness>
+    </MemoryRouter>
+  );
+};
 
 const renderPackageEditRoute = (props) => render(getPackageEditRoute(props));
 
@@ -233,6 +243,29 @@ describe('Given PackageEditRoute', () => {
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(mockUpdatePackage).toHaveBeenCalled();
+    });
+  });
+
+  describe('when editing custom alt names and saving a package', () => {
+    it('should call updatepackage with correct custom alt names', () => {
+      const {
+        getByRole,
+        getAllByRole,
+      } = renderPackageEditRoute();
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
+
+      const newCustomAltNameInput = getAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' })[1];
+      fireEvent.change(newCustomAltNameInput, { target: { value: 'test alt name 2' } });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
+        customAltNames: [
+          { altName: 'test alt name 1' },
+          { altName: 'test alt name 2' },
+        ],
+      }));
     });
   });
 
@@ -325,7 +358,10 @@ describe('Given PackageEditRoute', () => {
   describe('when date range in the "Coverage Settings" section is removed', () => {
     describe('and user clicks Save&Close button', () => {
       it('should update package with the empty customCoverage', () => {
-        const { getByRole } = renderPackageEditRoute({
+        const {
+          getByRole,
+          getAllByRole,
+        } = renderPackageEditRoute({
           model: {
             ...model,
             isSelected: true,
@@ -336,7 +372,9 @@ describe('Given PackageEditRoute', () => {
           },
         });
 
-        fireEvent.click(getByRole('button', { name: 'stripes-components.deleteThisItem' }));
+        // second returned element should be the delete coverage button
+        const deleteCoverageButton = getAllByRole('button', { name: 'stripes-components.deleteThisItem' })[1];
+        fireEvent.click(deleteCoverageButton);
         fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
         expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
