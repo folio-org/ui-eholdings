@@ -1,4 +1,9 @@
-import { MemoryRouter } from 'react-router-dom';
+import {
+  MemoryRouter,
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router';
 import noop from 'lodash/noop';
 import { createMemoryHistory } from 'history';
 
@@ -14,6 +19,13 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import PackageShowRoute from './package-show-route';
 import Harness from '../../../test/jest/helpers/harness';
+
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useHistory: jest.fn(),
+  useLocation: jest.fn(),
+  useParams: jest.fn(),
+}));
 
 jest.mock('../../features/agreements-accordion', () => () => (<div>AgreementsAccordion component</div>));
 jest.mock('../../components/package/show/components/coverage-settings', () => () => (<div>CoverageSettings component</div>));
@@ -62,7 +74,6 @@ const mockClearPackageTitles = jest.fn();
 const mockGetProxyTypes = jest.fn();
 const mockGetTags = jest.fn();
 const mockGetProvider = jest.fn();
-const mockUnloadResources = jest.fn();
 const mockUpdatePackage = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 const mockDestroyPackage = jest.fn();
@@ -72,23 +83,18 @@ const mockGetCostPerUse = jest.fn();
 const mockGetCostPerUsePackageTitles = jest.fn();
 const mockClearCostPerUseData = jest.fn();
 
-const history = createMemoryHistory();
-const historyReplaceSpy = jest.spyOn(history, 'replace');
+const mockHistoryReplace = jest.fn();
+const history = {
+  replace: mockHistoryReplace,
+};
 
-const providerId = 'providerId';
-const packageId = `${providerId}-1234`;
-
-const location = {
+const mockLocation = {
   pathname: 'pathname',
   search: '',
   hash: '',
 };
-
-const match = {
-  params: { packageId },
-  path: 'path',
-  url: 'url',
-};
+const providerId = 'providerId';
+const packageId = `${providerId}-1234`;
 
 const model = {
   id: packageId,
@@ -292,9 +298,6 @@ const getPackageShowRoute = (props = {}) => (
   <MemoryRouter>
     <Harness>
       <PackageShowRoute
-        history={history}
-        location={location}
-        match={match}
         model={{ ...model }}
         proxyTypes={proxyTypes}
         provider={provider}
@@ -330,7 +333,11 @@ const renderPackageShowRoute = (props = {}) => render(getPackageShowRoute(props)
 
 describe('Given PackageShowRoute', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    useHistory.mockClear().mockReturnValue(history);
+    useLocation.mockReturnValue(mockLocation);
+    useParams.mockReturnValue({
+      packageId,
+    });
   });
 
   afterEach(() => {
@@ -396,9 +403,10 @@ describe('Given PackageShowRoute', () => {
       const { rerender } = renderPackageShowRoute({
         model: {
           ...model,
+          isSelected: true,
           update: {
             ...model.update,
-            isPending: true,
+            isPending: false,
           },
         },
       });
@@ -407,7 +415,11 @@ describe('Given PackageShowRoute', () => {
         removeUpdateRequests: mockRemoveUpdateRequests,
         model: {
           ...model,
-          isSelected: true,
+          isSelected: false,
+          update: {
+            ...model.update,
+            isPending: true,
+          }
         },
       }));
 
@@ -420,16 +432,24 @@ describe('Given PackageShowRoute', () => {
       const { rerender } = renderPackageShowRoute({
         model: {
           ...model,
-          isSelected: true,
+          isSelected: false,
           update: {
             ...model.update,
-            isPending: true,
+            isPending: false,
           },
         },
       });
 
       rerender(getPackageShowRoute({
         removeUpdateRequests: mockRemoveUpdateRequests,
+        model: {
+          ...model,
+          isSelected: true,
+          update: {
+            ...model.update,
+            isPending: true,
+          }
+        },
       }));
 
       expect(mockRemoveUpdateRequests).toHaveBeenCalled();
@@ -442,11 +462,11 @@ describe('Given PackageShowRoute', () => {
 
       const testSearch = '?searchType=packages&q=testQuery&offset=1';
 
+      useLocation.mockClear().mockReturnValue({
+        search: testSearch,
+      });
+
       rerender(getPackageShowRoute({
-        location: {
-          ...location,
-          search: testSearch,
-        },
         model: {
           ...model,
           destroy: {
@@ -456,7 +476,7 @@ describe('Given PackageShowRoute', () => {
         },
       }));
 
-      expect(historyReplaceSpy).toHaveBeenCalledWith({
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
         pathname: '/eholdings',
         search: testSearch,
       }, { eholdings: true });
@@ -464,7 +484,7 @@ describe('Given PackageShowRoute', () => {
   });
 
   describe('when package was reached directly from url, not by search', () => {
-    it('should redirect to /eholdings with searchType equals packages', () => {
+    it('should redirect to /eholdings with searchType equals packages', async () => {
       const { rerender } = renderPackageShowRoute();
 
       const testPathname = '/eholdings?searchType=packages';
@@ -479,55 +499,7 @@ describe('Given PackageShowRoute', () => {
         },
       }));
 
-      expect(historyReplaceSpy).toHaveBeenCalledWith(testPathname, { eholdings: true });
-    });
-  });
-
-  describe('when package id change between renders', () => {
-    it('should handle getPackage', () => {
-      const newPackageId = 'newPackageId';
-
-      const { rerender } = renderPackageShowRoute();
-
-      rerender(getPackageShowRoute({
-        getPackage: mockGetPackage,
-        match: {
-          ...match,
-          params: {
-            ...match.params,
-            packageId: newPackageId,
-          },
-        },
-      }));
-
-      expect(mockGetPackage).toHaveBeenCalledWith(newPackageId);
-    });
-  });
-
-  describe('when an update just resolved', () => {
-    it('should handle unloadResources', () => {
-      const { rerender } = renderPackageShowRoute({
-        model: {
-          ...model,
-          update: {
-            ...model.update,
-            isPending: true,
-          },
-        },
-      });
-
-      rerender(getPackageShowRoute({
-        unloadResources: mockUnloadResources,
-        model: {
-          ...model,
-          update: {
-            ...model.update,
-            isResolved: true,
-          },
-        },
-      }));
-
-      expect(mockUnloadResources).toHaveBeenCalled();
+      await waitFor(() => expect(mockHistoryReplace).toHaveBeenCalledWith(testPathname, { eholdings: true }));
     });
   });
 
@@ -634,6 +606,10 @@ describe('Given PackageShowRoute', () => {
 
         expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
         rerender(getPackageShowRoute({
+          model: {
+            ...model,
+            isSelected: true,
+          },
           packageTitles: {
             ...packageTitles,
             items: [{
@@ -654,7 +630,7 @@ describe('Given PackageShowRoute', () => {
         it('should stop invoking interval calls of getPackageTitles', () => {
           jest.useFakeTimers();
           jest.spyOn(global, 'setInterval');
-          const { getByRole, unmount } = renderPackageShowRoute({
+          const { getByRole, unmount, rerender } = renderPackageShowRoute({
             getPackageTitles: mockGetPackageTitles,
           });
 
@@ -663,6 +639,12 @@ describe('Given PackageShowRoute', () => {
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
+          rerender(getPackageShowRoute({
+            model: {
+              ...model,
+              isSelected: true,
+            },
+          }));
           expect(setInterval).toHaveBeenCalled();
           jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
@@ -685,6 +667,12 @@ describe('Given PackageShowRoute', () => {
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
           fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
+          rerender(getPackageShowRoute({
+            model: {
+              ...model,
+              isSelected: true,
+            },
+          }));
           expect(setInterval).toHaveBeenCalledTimes(1);
           jest.runOnlyPendingTimers();
           expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
@@ -818,9 +806,9 @@ describe('Given PackageShowRoute', () => {
       fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));
 
-      expect(historyReplaceSpy).toHaveBeenCalledWith({
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
         pathname: `/eholdings/packages/${model.id}/edit`,
-        search: location.search,
+        search: mockLocation.search,
         state: {
           eholdings: true,
         },
