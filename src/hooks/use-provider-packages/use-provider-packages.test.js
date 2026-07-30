@@ -74,6 +74,22 @@ describe('useProviderPackages', () => {
     expect(mockGet).toHaveBeenCalledWith(`eholdings/providers/${providerId}/packages?q=test&page=1&count=100`);
   });
 
+  it('should format repeatable search parameters correctly', async () => {
+    const { result } = renderHook(() => useProviderPackages({
+      providerId,
+      searchParams: {
+        q: 'test',
+        filter: {
+          tags: ['important', 'urgent'],
+        },
+      },
+    }), { wrapper });
+
+    await act(() => !result.current.isLoading);
+
+    expect(mockGet).toHaveBeenCalledWith(`eholdings/providers/${providerId}/packages?q=test&filter[tags]=important&filter[tags]=urgent&page=1&count=100`);
+  });
+
   describe('when fetching the next page', () => {
     it('should make a request with page parameters equal to 2', async () => {
       const { result } = renderHook(() => useProviderPackages({
