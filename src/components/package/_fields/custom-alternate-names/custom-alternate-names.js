@@ -16,12 +16,18 @@ const MAX_CHARACTER_LENGTH = 300;
 const MAX_ALTERNATE_NAMES = 10;
 
 const validate = (value) => {
-  if (value && value.length > MAX_CHARACTER_LENGTH) {
+  if (value?.length > MAX_CHARACTER_LENGTH) {
     return (
       <FormattedMessage
         id="ui-eholdings.validate.errors.customPackage.customAlternateName.length"
         values={{ amount: MAX_CHARACTER_LENGTH }}
       />
+    );
+  }
+
+  if (value?.includes('"')) {
+    return (
+      <FormattedMessage id="ui-eholdings.validate.errors.customPackage.customAlternateName.doubleQuotes" />
     );
   }
 

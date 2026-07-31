@@ -108,6 +108,21 @@ describe('Given CustomAlternateNames', () => {
     });
   });
 
+  describe('when a name contains a double quote character', () => {
+    it('should display the length validation error', () => {
+      const { getByRole, getByText } = renderCustomAlternateNames();
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
+
+      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+
+      fireEvent.change(input, { target: { value: '"test"' } });
+      fireEvent.blur(input);
+
+      expect(getByText('ui-eholdings.validate.errors.customPackage.customAlternateName.doubleQuotes')).toBeDefined();
+    });
+  });
+
   describe('when the number of alternate names is 10', () => {
     const clickAddButton = (getByRole, times) => {
       const addButton = getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' });
