@@ -5,7 +5,6 @@ import {
   useParams,
 } from 'react-router';
 import noop from 'lodash/noop';
-import { createMemoryHistory } from 'history';
 
 import {
   render,
@@ -14,7 +13,6 @@ import {
   fireEvent,
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
-
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import PackageShowRoute from './package-show-route';
