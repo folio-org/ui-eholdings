@@ -26,7 +26,7 @@ const testProviderPackagesList = [
     attributes: {
       name: 'First Package',
       isSelected: true,
-      selecedCount: 5,
+      selectedCount: 5,
       titleCount: 10,
       contentType: 'Aggregated Full Text',
       customCoverage: {
@@ -47,7 +47,7 @@ const testProviderPackagesList = [
     attributes: {
       name: 'Second Package',
       isSelected: false,
-      selecedCount: 0,
+      selectedCount: 0,
       titleCount: 3,
       contentType: 'Abstract and Index',
       customCoverage: {

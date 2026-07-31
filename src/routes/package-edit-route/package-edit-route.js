@@ -177,6 +177,10 @@ class PackageEditRoute extends Component {
       this.providerEditSubmitted(values);
     }
 
+    if ('customAltNames' in values) {
+      model.customAltNames = values.customAltNames?.map(field => ({ altName: field.altName }));
+    }
+
     model.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
       ? values.accessTypeId
       : null;

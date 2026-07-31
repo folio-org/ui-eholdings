@@ -5,15 +5,20 @@ import hasIn from 'lodash/fp/hasIn';
 import {
   Accordion,
   Headline,
-  KeyValue,
   Icon,
   Row,
   Col,
 } from '@folio/stripes/components';
 
 import ProxyDisplay from '../../../../proxy-display';
-import TokenDisplay from '../../../../token-display';
 import AccessTypeDisplay from '../../../../access-type-display';
+import {
+  AutomaticallySelectTitles,
+  IsHidden,
+  ProviderToken,
+  PackageToken,
+  CustomAlternateNames,
+} from './fields';
 
 import { getAccessTypeId } from '../../../../utilities';
 
@@ -46,7 +51,6 @@ const PackageSettings = ({
   packageSelected,
 }) => {
   const renderPackageSettings = () => {
-    const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
@@ -62,42 +66,17 @@ const PackageSettings = ({
       ? QUARTER_OF_COLUMN_WIDTH
       : MAX_COLUMN_WIDTH;
 
-    const packageAllowedToAddTitlesMessage = packageAllowedToAddTitles
-      ? <FormattedMessage id="ui-eholdings.yes" />
-      : <FormattedMessage id="ui-eholdings.no" />;
-
     return (
       <>
         <Row>
           <Col xs>
             <Row>
               <Col xs={6}>
-                <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
-                  <div data-test-eholdings-package-details-visibility-status>
-                    {!model.visibilityData.isHidden
-                      ? <FormattedMessage id="ui-eholdings.yes" />
-                      : (
-                        <FormattedMessage
-                          id="ui-eholdings.package.visibility.no"
-                          values={{ visibilityMessage }}
-                        />
-                      )
-                    }
-                  </div>
-                </KeyValue>
+                <IsHidden visibilityData={model.visibilityData} />
               </Col>
               {!model.isCustom && (
                 <Col xs={6}>
-                  <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />}>
-                    {packageAllowedToAddTitles !== null
-                      ? (
-                        <div data-test-eholdings-package-details-allow-add-new-titles>
-                          {packageAllowedToAddTitlesMessage}
-                        </div>
-                      )
-                      : <Icon icon="spinner-ellipsis" />
-                    }
-                  </KeyValue>
+                  <AutomaticallySelectTitles packageAllowedToAddTitles={packageAllowedToAddTitles} />
                 </Col>
               )}
             </Row>
@@ -118,45 +97,30 @@ const PackageSettings = ({
               </Col>
               {isAccessStatusTypes && (
                 <Col xsOffset={3} xs={proxyAndAccessStatusTypeColumnWidth}>
-                  <div data-test-eholdings-access-type>
-                    {haveAccessTypesLoaded
-                      ? (
-                        <AccessTypeDisplay
-                          accessTypeId={getAccessTypeId(model)}
-                          accessStatusTypes={accessStatusTypes}
-                        />
-                      )
-                      : <Icon icon="spinner-ellipsis" />
-                    }
-                  </div>
+                  {haveAccessTypesLoaded
+                    ? (
+                      <AccessTypeDisplay
+                        accessTypeId={getAccessTypeId(model)}
+                        accessStatusTypes={accessStatusTypes}
+                      />
+                    )
+                    : <Icon icon="spinner-ellipsis" />
+                  }
                 </Col>
               )}
             </Row>
           </Col>
         </Row>
+        <Row>
+          <Col xs>
+            <CustomAlternateNames customAltNames={model.customAltNames} />
+          </Col>
+        </Row>
         {hasProviderToken && (
-          provider.isLoading
-            ? <Icon icon="spinner-ellipsis" />
-            : (
-              <KeyValue label={<FormattedMessage id="ui-eholdings.provider.token" />}>
-                <TokenDisplay
-                  token={provider.providerToken}
-                  type="provider"
-                />
-              </KeyValue>
-            )
+          <ProviderToken provider={provider} />
         )}
         {hasPackageToken && (
-          model.isLoading
-            ? <Icon icon="spinner-ellipsis" />
-            : (
-              <KeyValue label={<FormattedMessage id="ui-eholdings.package.token" />}>
-                <TokenDisplay
-                  token={model.packageToken}
-                  type="package"
-                />
-              </KeyValue>
-            )
+          <PackageToken packageLoading={model.isLoading} packageToken={model.packageToken} />
         )}
       </>
     );

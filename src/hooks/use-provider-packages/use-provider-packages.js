@@ -3,13 +3,13 @@ import {
   useState,
 } from 'react';
 import { useQuery } from 'react-query';
-import queryString from 'qs';
 
 import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
 
+import { qs } from '../../components/utilities';
 import {
   FIRST_PAGE,
   PAGE_SIZE,
@@ -41,7 +41,7 @@ export const useProviderPackages = ({ providerId, searchParams }) => {
 
   const { data = {}, isFetching } = useQuery(
     [namespace, paramsWithPageAndCount],
-    () => ky.get(`eholdings/providers/${providerId}/packages?${queryString.stringify(paramsWithPageAndCount)}`).json(),
+    () => ky.get(`eholdings/providers/${providerId}/packages?${qs.stringify(paramsWithPageAndCount)}`).json(),
     { keepPreviousData: true },
   );
 

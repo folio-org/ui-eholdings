@@ -90,7 +90,7 @@ const ProviderPackageList = ({
         </TextLink>
       );
     },
-    [PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT]: item => item.attributes.selecedCount,
+    [PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT]: item => item.attributes.selectedCount,
     [PROVIDER_PACKAGES_LIST_COLUMNS.TITLES_COUNT]: item => item.attributes.titleCount,
     [PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE]: item => item.attributes.contentType,
     [PROVIDER_PACKAGES_LIST_COLUMNS.CUSTOM_COVERAGE]: item => {

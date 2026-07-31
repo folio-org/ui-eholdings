@@ -18,14 +18,14 @@ import {
 import TokenField from '../../../../token';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
-
-import fieldsetStyles from '../../../../fieldset-styles.css';
+import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
 
 import {
-  MAX_COLUMN_WIDTH,
   ONE_THIRD_OF_COLUMN_WIDTH,
   QUARTER_OF_COLUMN_WIDTH,
 } from '../../../../../constants';
+
+import fieldsetStyles from '../../../../fieldset-styles.css';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object,
@@ -140,114 +140,95 @@ const EditPackageSettings = ({
 
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
 
-    const packageSettingsColumnWidth = isAccessStatusTypes
-      ? MAX_COLUMN_WIDTH
-      : ONE_THIRD_OF_COLUMN_WIDTH;
-
-    const dropdownColumnWidth = isAccessStatusTypes
-      ? QUARTER_OF_COLUMN_WIDTH
-      : MAX_COLUMN_WIDTH;
-
     return (
       <>
         <Row>
-          <Col xs>
-            <Row>
-              <Col xs={6}>
-                {initialValues.isVisible !== null
-                  ? renderVisibilityRadios()
-                  : (
-                    <div
-                      data-test-eholdings-package-details-visibility
-                      htmlFor="managed-package-details-visibility-switch"
-                    >
-                      <Icon icon="spinner-ellipsis" />
-                    </div>
-                  )
-                }
-              </Col>
-              {!packageIsCustom && (
-                <Col xs={6}>
-                  {initialValues.allowKbToAddTitles !== null
-                    ? renderTitleManagementRadios()
-                    : (
-                      <div
-                        data-test-eholdings-package-details-allow-add-new-titles
-                        htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                      >
-                        <Icon icon="spinner-ellipsis" />
-                      </div>
-                    )
-                  }
-                </Col>
-              )}
-            </Row>
-          </Col>
-          <Col xs={packageSettingsColumnWidth}>
-            <Row>
-              {(proxyTypes.request.isResolved && provider.data.isLoaded)
-                ? (
-                  <Col xs={dropdownColumnWidth}>
-                    <div data-test-eholdings-package-proxy-select-field>
-                      <ProxySelectField
-                        proxyTypes={proxyTypes}
-                        inheritedProxyId={provider.proxy.id}
-                      />
-                    </div>
-                  </Col>
-                ) : (
+          <Col xs={6}>
+            {initialValues.isVisible !== null
+              ? renderVisibilityRadios()
+              : (
+                <div
+                  data-test-eholdings-package-details-visibility
+                  htmlFor="managed-package-details-visibility-switch"
+                >
                   <Icon icon="spinner-ellipsis" />
+                </div>
+              )
+            }
+          </Col>
+          {!packageIsCustom && (
+            <Col xs={6}>
+              {initialValues.allowKbToAddTitles !== null
+                ? renderTitleManagementRadios()
+                : (
+                  <div
+                    data-test-eholdings-package-details-allow-add-new-titles
+                    htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
+                  >
+                    <Icon icon="spinner-ellipsis" />
+                  </div>
                 )
               }
-              {isAccessStatusTypes && (
-                <Col xsOffset={3} xs={dropdownColumnWidth}>
-                  <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                </Col>
-              )}
-            </Row>
+            </Col>
+          )}
+          <Col xs={6}>
+            <CustomAlternateNames />
           </Col>
         </Row>
-        {!packageIsCustom && (
-          <>
-            {supportsProviderTokens && (
-              <fieldset>
-                <Headline
-                  tag="legend"
-                  id="provider-token-label"
-                  className={fieldsetStyles.label}
-                >
-                  <FormattedMessage id="ui-eholdings.provider.token" />
-                </Headline>
-                <TokenField
-                  token={provider.providerToken}
-                  tokenValue={hasProviderTokenValue}
-                  type="provider"
-                  ariaLabelledBy="provider-token-label"
-                />
-              </fieldset>
-            )}
-          </>
+        <Row>
+          {(proxyTypes.request.isResolved && provider.data.isLoaded)
+            ? (
+              <Col xs={isAccessStatusTypes ? QUARTER_OF_COLUMN_WIDTH : ONE_THIRD_OF_COLUMN_WIDTH}>
+                <div data-test-eholdings-package-proxy-select-field>
+                  <ProxySelectField
+                    proxyTypes={proxyTypes}
+                    inheritedProxyId={provider.proxy.id}
+                  />
+                </div>
+              </Col>
+            ) : (
+              <Icon icon="spinner-ellipsis" />
+            )
+          }
+          {isAccessStatusTypes && (
+            <Col xsOffset={QUARTER_OF_COLUMN_WIDTH} xs={QUARTER_OF_COLUMN_WIDTH}>
+              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+            </Col>
+          )}
+        </Row>
+        {!packageIsCustom && supportsProviderTokens && (
+          <fieldset>
+            <Headline
+              tag="legend"
+              id="provider-token-label"
+              className={fieldsetStyles.label}
+            >
+              <FormattedMessage id="ui-eholdings.provider.token" />
+            </Headline>
+            <TokenField
+              token={provider.providerToken}
+              tokenValue={hasProviderTokenValue}
+              type="provider"
+              ariaLabelledBy="provider-token-label"
+            />
+          </fieldset>
         )}
-        {!packageIsCustom && (
-          <>
-            {supportsPackageTokens && (
-              <fieldset>
-                <Headline
-                  tag="legend"
-                  id="package-token-label"
-                  className={fieldsetStyles.label}
-                >
-                  <FormattedMessage id="ui-eholdings.package.token" />
-                </Headline>
-                <TokenField
-                  token={model.packageToken}
-                  tokenValue={hasPackageTokenValue}
-                  type="package"
-                  ariaLabelledBy="package-token-label"
-                />
-              </fieldset>
-            )}
-          </>
+        {!packageIsCustom && supportsPackageTokens && (
+          <fieldset>
+            <Headline
+              tag="legend"
+              id="package-token-label"
+              className={fieldsetStyles.label}
+            >
+              <FormattedMessage id="ui-eholdings.package.token" />
+            </Headline>
+            <TokenField
+              token={model.packageToken}
+              tokenValue={hasPackageTokenValue}
+              type="package"
+              ariaLabelledBy="package-token-label"
+            />
+          </fieldset>
         )}
       </>
     );
