@@ -15,15 +15,13 @@ export const VisibilityEdit = () => {
   const renderFieldGroup = ({ fields }) => (
     <>
       {fields.value.map(({ category }, index) => (
-        <>
-          <Field
-            type="checkbox"
-            component={Checkbox}
-            // format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-            label={<FormattedMessage id={`ui-eholdings.package.visibility.${category}`} />}
-            name={`visibility[${index}].hidden`}
-          />
-        </>
+        <Field
+          key={category}
+          type="checkbox"
+          component={Checkbox}
+          label={<FormattedMessage id={`ui-eholdings.package.visibility.${category}`} />}
+          name={`visibility[${index}].hidden`}
+        />
       ))}
     </>
   );

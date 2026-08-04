@@ -58,10 +58,6 @@ const EditPackageSettings = ({
   const hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
   const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
 
-  const renderVisibilityField = () => {
-    
-  };
-
   const renderTitleManagementRadios = () => {
     return (
       <fieldset

@@ -9,6 +9,7 @@ export const VisibilityView = ({ visibility }) => (
   <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
     {visibility.map(visibilityOption => (
       <Checkbox
+        key={visibilityOption.category}
         label={<FormattedMessage id={`ui-eholdings.package.visibility.${visibilityOption.category}`} />}
         checked={visibilityOption.hidden}
         disabled

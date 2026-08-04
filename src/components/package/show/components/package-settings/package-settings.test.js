@@ -20,10 +20,11 @@ const model = {
   packageToken: {
     prompt: '',
   },
-  visibilityData: {
-    reason: '',
-    isHidden: false,
-  },
+  visibility: [
+    { category: 'PF', hidden: false, reason: '' },
+    { category: 'FTF', hidden: false, reason: '' },
+    { category: 'MARC', hidden: true, reason: '' },
+  ],
   proxy: {
     id: 'proxy-id',
   },
@@ -132,5 +133,29 @@ describe('Given PackageSettings', () => {
   it('should render access types display', () => {
     component = renderPackageSettings();
     expect(component.getByText('Access type display')).toBeDefined();
+  });
+
+  it('should render a visibility checkbox for each visibility option', () => {
+    component = renderPackageSettings();
+
+    expect(component.getByLabelText('ui-eholdings.package.visibility.PF')).toBeDefined();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.FTF')).toBeDefined();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.MARC')).toBeDefined();
+  });
+
+  it('should reflect the hidden state of each visibility option', () => {
+    component = renderPackageSettings();
+
+    expect(component.getByLabelText('ui-eholdings.package.visibility.PF')).not.toBeChecked();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.FTF')).not.toBeChecked();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.MARC')).toBeChecked();
+  });
+
+  it('should disable visibility checkboxes in the view mode', () => {
+    component = renderPackageSettings();
+
+    expect(component.getByLabelText('ui-eholdings.package.visibility.PF')).toBeDisabled();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.FTF')).toBeDisabled();
+    expect(component.getByLabelText('ui-eholdings.package.visibility.MARC')).toBeDisabled();
   });
 });

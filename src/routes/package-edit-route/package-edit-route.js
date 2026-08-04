@@ -112,7 +112,7 @@ class PackageEditRoute extends Component {
     // When de-selecting a managed package
     // need to clear out customizations before sending to server
     model.isSelected = false;
-    model.visibilityData.isHidden = false;
+    model.visibility = [];
     model.customCoverage = {};
     model.allowKbToAddTitles = false;
     model.accessTypeId = null;
@@ -130,8 +130,6 @@ class PackageEditRoute extends Component {
 
   updatePackageValues = (values) => {
     const { model, updatePackage } = this.props;
-
-    console.log(values);
 
     let beginCoverage = '';
     let endCoverage = '';

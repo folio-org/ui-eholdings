@@ -214,7 +214,7 @@ const PackageShowRoute = ({
       }
       // clear out any customizations before sending to server
       if (!model.isSelected) {
-        model.visibilityData.isHidden = false;
+        model.visibility = [];
         model.customCoverage = {};
         model.allowKbToAddTitles = false;
       }
