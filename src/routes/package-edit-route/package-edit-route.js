@@ -131,6 +131,8 @@ class PackageEditRoute extends Component {
   updatePackageValues = (values) => {
     const { model, updatePackage } = this.props;
 
+    console.log(values);
+
     let beginCoverage = '';
     let endCoverage = '';
 
@@ -148,9 +150,7 @@ class PackageEditRoute extends Component {
       model.isSelected = values.isSelected;
     }
 
-    if ('isVisible' in values) {
-      model.visibilityData.isHidden = !values.isVisible;
-    }
+    model.visibility = values.visibility;
 
     if ('allowKbToAddTitles' in values) {
       model.allowKbToAddTitles = values.allowKbToAddTitles;

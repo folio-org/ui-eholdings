@@ -73,7 +73,7 @@ const ManagedPackageEdit = ({
       customAltNames,
       proxy,
       packageToken,
-      visibilityData,
+      visibility,
       allowKbToAddTitles,
     } = model;
 
@@ -89,7 +89,7 @@ const ManagedPackageEdit = ({
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
       providerTokenValue: provider.providerToken.value,
       packageTokenValue: packageToken.value,
-      isVisible: !visibilityData.isHidden,
+      visibility,
       allowKbToAddTitles,
       accessTypeId: getAccessTypeId(model),
     };

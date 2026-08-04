@@ -183,7 +183,10 @@
 
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",
-    "package.visibility": "Show titles in package to patrons",
+    "package.visibility": "Hide/exclude all titles in the package",
+    "package.visibility.PF": "In Publication Finder",
+    "package.visibility.FTF": "In Full Text Finder",
+    "package.visibility.MARC": "In MARC export",
     "package.visibility.no": "No { visibilityMessage }",
     "package.visibility.notSelected": "Add the package to holdings to customize package settings.",
     "package.create.custom": "New custom package",
