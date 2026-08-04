@@ -11,10 +11,10 @@ import {
 
 import fieldsetStyles from '../../../fieldset-styles.css';
 
-export const Visibility = () => {
+export const VisibilityEdit = () => {
   const renderFieldGroup = ({ fields }) => (
     <>
-      {fields.value.map(({ category, reason }, index) => (
+      {fields.value.map(({ category }, index) => (
         <>
           <Field
             type="checkbox"

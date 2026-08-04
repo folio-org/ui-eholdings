@@ -14,10 +14,10 @@ import ProxyDisplay from '../../../../proxy-display';
 import AccessTypeDisplay from '../../../../access-type-display';
 import {
   AutomaticallySelectTitles,
-  IsHidden,
   ProviderToken,
   PackageToken,
   CustomAlternateNames,
+  VisibilityView,
 } from './fields';
 
 import { getAccessTypeId } from '../../../../utilities';
@@ -72,7 +72,7 @@ const PackageSettings = ({
           <Col xs>
             <Row>
               <Col xs={6}>
-                <IsHidden visibilityData={model.visibilityData} />
+                <VisibilityView visibility={model.visibility} />
               </Col>
               {!model.isCustom && (
                 <Col xs={6}>

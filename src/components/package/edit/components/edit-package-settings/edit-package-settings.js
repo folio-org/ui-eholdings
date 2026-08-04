@@ -19,7 +19,7 @@ import TokenField from '../../../../token';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
-import { Visibility } from '../../../_fields/visibility';
+import { VisibilityEdit } from '../../../_fields/visibility-edit';
 
 import {
   ONE_THIRD_OF_COLUMN_WIDTH,
@@ -109,7 +109,7 @@ const EditPackageSettings = ({
       <>
         <Row>
           <Col xs={6}>
-            <Visibility />
+            <VisibilityEdit />
           </Col>
           {!packageIsCustom && (
             <Col xs={6}>
