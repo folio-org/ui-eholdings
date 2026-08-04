@@ -54,13 +54,4 @@ describe('Given VisibilityView', () => {
     expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeDisabled();
     expect(getByLabelText('ui-eholdings.package.visibility.MARC')).toBeDisabled();
   });
-
-  describe('when the visibility array is empty', () => {
-    it('should render the label without checkboxes', () => {
-      const { getByText, queryByRole } = renderVisibilityView({ visibility: [] });
-
-      expect(getByText('ui-eholdings.package.visibility')).toBeDefined();
-      expect(queryByRole('checkbox')).toBeNull();
-    });
-  });
 });

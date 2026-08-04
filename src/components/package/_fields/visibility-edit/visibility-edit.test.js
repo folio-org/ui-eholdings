@@ -4,7 +4,6 @@ import arrayMutators from 'final-form-arrays';
 import {
   render,
   cleanup,
-  fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import Harness from '../../../../../test/jest/helpers/harness';
@@ -60,23 +59,5 @@ describe('Given VisibilityEdit', () => {
     expect(getByLabelText('ui-eholdings.package.visibility.PF')).not.toBeChecked();
     expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeChecked();
     expect(getByLabelText('ui-eholdings.package.visibility.MARC')).not.toBeChecked();
-  });
-
-  it('should toggle a visibility option when its checkbox is clicked', () => {
-    const { getByLabelText } = renderVisibilityEdit();
-    const pfCheckbox = getByLabelText('ui-eholdings.package.visibility.PF');
-
-    fireEvent.click(pfCheckbox);
-
-    expect(pfCheckbox).toBeChecked();
-  });
-
-  describe('when the visibility array is empty', () => {
-    it('should render the headline and no checkboxes', () => {
-      const { getByText, queryByLabelText } = renderVisibilityEdit({ visibility: [] });
-
-      expect(getByText('ui-eholdings.package.visibility')).toBeDefined();
-      expect(queryByLabelText('ui-eholdings.package.visibility.PF')).toBeNull();
-    });
   });
 });

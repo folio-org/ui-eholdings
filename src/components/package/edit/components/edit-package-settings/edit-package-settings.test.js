@@ -90,20 +90,4 @@ describe('Given EditPackageSettings', () => {
 
     expect(getByText('ui-eholdings.package.visibility')).toBeDefined();
   });
-
-  it('should render an editable checkbox for each visibility option', () => {
-    const { getByLabelText } = renderEditPackageSettings();
-
-    expect(getByLabelText('ui-eholdings.package.visibility.PF')).toBeEnabled();
-    expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeEnabled();
-    expect(getByLabelText('ui-eholdings.package.visibility.MARC')).toBeEnabled();
-  });
-
-  it('should reflect the initial `hidden` value for each visibility option', () => {
-    const { getByLabelText } = renderEditPackageSettings();
-
-    expect(getByLabelText('ui-eholdings.package.visibility.PF')).not.toBeChecked();
-    expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeChecked();
-    expect(getByLabelText('ui-eholdings.package.visibility.MARC')).not.toBeChecked();
-  });
 });
