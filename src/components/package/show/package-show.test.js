@@ -58,7 +58,11 @@ const testModel = {
   providerName: 'Provider name',
   selectedCount: 223,
   titleCount: 223,
-  visibilityData: {},
+  visibility: [
+    { category: 'PF', hidden: false, reason: '' },
+    { category: 'FTF', hidden: false, reason: '' },
+    { category: 'MARC', hidden: false, reason: '' },
+  ],
   allowKbToAddTitles: true,
   isPartiallySelected: false,
   proxy: {},

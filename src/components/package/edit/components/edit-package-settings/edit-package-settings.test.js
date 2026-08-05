@@ -14,8 +14,13 @@ jest.mock('../../../../proxy-select', () => () => <div>Proxy select</div>);
 describe('Given EditPackageSettings', () => {
   const mockOnToggle = jest.fn();
   const mockOnSubmit = jest.fn();
+  const visibility = [
+    { category: 'PF', hidden: false, reason: '' },
+    { category: 'FTF', hidden: true, reason: '' },
+    { category: 'MARC', hidden: false, reason: '' },
+  ];
   const initialValues = {
-    isVisible: true,
+    visibility,
   };
 
   const renderEditPackageSettings = (props = {}) => render(
@@ -34,9 +39,7 @@ describe('Given EditPackageSettings', () => {
               packageSelected
               initialValues={initialValues}
               model={{
-                visibilityData: {
-                  isHidden: false,
-                },
+                visibility,
               }}
               proxyTypes={{
                 request: {
@@ -80,5 +83,11 @@ describe('Given EditPackageSettings', () => {
 
       expect(getByText('ui-eholdings.package.packageSettings.notSelected')).toBeDefined();
     });
+  });
+
+  it('should render the visibility section headline', () => {
+    const { getByText } = renderEditPackageSettings();
+
+    expect(getByText('ui-eholdings.package.visibility')).toBeDefined();
   });
 });

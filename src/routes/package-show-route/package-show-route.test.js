@@ -131,9 +131,11 @@ const model = {
     isResolved: false,
     errors: [],
   },
-  visibilityData: {
-    isHidden: false,
-  },
+  visibility: [
+    { category: 'PF', hidden: false, reason: '' },
+    { category: 'FTF', hidden: false, reason: '' },
+    { category: 'MARC', hidden: false, reason: '' },
+  ],
   proxy: {
     id: 'proxy-id',
     inherited: false,

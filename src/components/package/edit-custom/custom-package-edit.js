@@ -77,7 +77,7 @@ const CustomPackageEdit = ({
       isSelected,
       customCoverage,
       proxy,
-      visibilityData,
+      visibility,
       customAltNames,
     } = model;
 
@@ -93,7 +93,7 @@ const CustomPackageEdit = ({
         ...customCoverage,
       }],
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
-      isVisible: !visibilityData.isHidden,
+      visibility,
       accessTypeId: getAccessTypeId(model),
     };
   }, [model, proxyTypes]);

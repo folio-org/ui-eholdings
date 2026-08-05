@@ -112,7 +112,7 @@ class PackageEditRoute extends Component {
     // When de-selecting a managed package
     // need to clear out customizations before sending to server
     model.isSelected = false;
-    model.visibilityData.isHidden = false;
+    model.visibility = [];
     model.customCoverage = {};
     model.allowKbToAddTitles = false;
     model.accessTypeId = null;
@@ -148,9 +148,7 @@ class PackageEditRoute extends Component {
       model.isSelected = values.isSelected;
     }
 
-    if ('isVisible' in values) {
-      model.visibilityData.isHidden = !values.isVisible;
-    }
+    model.visibility = values.visibility;
 
     if ('allowKbToAddTitles' in values) {
       model.allowKbToAddTitles = values.allowKbToAddTitles;

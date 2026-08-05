@@ -11,6 +11,7 @@
 * Provider Record - Packages List view  - Change to MCL. (UIEH-1452)
 * New Custom Package Detail Record: Add a new field: Custom alternate package names. (UIEH-1496)
 * View/Edit Package Detail Record: Add a new field: Custom alternate package names. (UIEH-1502)
+* *BREAKING* eHoldings Package record - Show additional visibility fields. (UIEH-1500)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 

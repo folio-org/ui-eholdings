@@ -11,7 +11,7 @@ class Package {
   selectedCount = 0;
   titleCount = 0;
   customCoverage = {};
-  visibilityData = {};
+  visibility = [];
   resources = hasMany();
   isCustom = false;
   packageType = '';
@@ -41,7 +41,7 @@ class Package {
         allowKbToAddTitles: this.allowKbToAddTitles,
         contentType: this.contentType,
         customCoverage: this.customCoverage,
-        visibilityData: this.visibilityData,
+        visibility: this.visibility,
         isCustom: this.isCustom,
         proxy: this.proxy,
         packageToken: this.packageToken,

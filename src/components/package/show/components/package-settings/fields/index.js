@@ -1,4 +1,4 @@
-export * from './is-hidden';
+export * from './visibility-view';
 export * from './automatically-select-titles';
 export * from './provider-token';
 export * from './package-token';

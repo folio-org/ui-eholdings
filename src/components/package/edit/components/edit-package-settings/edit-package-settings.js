@@ -19,6 +19,7 @@ import TokenField from '../../../../token';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
+import { VisibilityEdit } from '../../../_fields/visibility-edit';
 
 import {
   ONE_THIRD_OF_COLUMN_WIDTH,
@@ -52,50 +53,10 @@ const EditPackageSettings = ({
   accessStatusTypes = {},
   model,
 }) => {
-  const visibilityMessage = model.visibilityData.reason && `(${model.visibilityData.reason})`;
   const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
   const supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
   const hasProviderTokenValue = provider && provider.isLoaded && provider.providerToken && provider.providerToken.value;
   const hasPackageTokenValue = model && model.isLoaded && model.packageToken && model.packageToken.value;
-
-  const renderVisibilityRadios = () => {
-    return (
-      <fieldset
-        data-test-eholdings-package-visibility-field
-        className={fieldsetStyles.fieldset}
-      >
-        <Headline
-          tag="legend"
-          className={fieldsetStyles.label}
-        >
-          <FormattedMessage id="ui-eholdings.package.visibility" />
-        </Headline>
-        <Field
-          component={RadioButton}
-          format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-          label={<FormattedMessage id="ui-eholdings.yes" />}
-          name="isVisible"
-          parse={value => value === 'true'}
-          type="radio"
-          value="true"
-        />
-        <Field
-          component={RadioButton}
-          format={value => typeof value !== 'undefined' && value !== null && value.toString()}
-          label={
-            <FormattedMessage
-              id="ui-eholdings.package.visibility.no"
-              values={{ visibilityMessage }}
-            />
-          }
-          name="isVisible"
-          parse={value => value === 'true'}
-          type="radio"
-          value="false"
-        />
-      </fieldset>
-    );
-  };
 
   const renderTitleManagementRadios = () => {
     return (
@@ -144,17 +105,7 @@ const EditPackageSettings = ({
       <>
         <Row>
           <Col xs={6}>
-            {initialValues.isVisible !== null
-              ? renderVisibilityRadios()
-              : (
-                <div
-                  data-test-eholdings-package-details-visibility
-                  htmlFor="managed-package-details-visibility-switch"
-                >
-                  <Icon icon="spinner-ellipsis" />
-                </div>
-              )
-            }
+            <VisibilityEdit />
           </Col>
           {!packageIsCustom && (
             <Col xs={6}>
