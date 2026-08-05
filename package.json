@@ -95,7 +95,7 @@
       }
     ],
     "okapiInterfaces": {
-      "eholdings": "4.0",
+      "eholdings": "4.0 5.0",
       "tags": "1.0"
     },
     "optionalOkapiInterfaces": {
