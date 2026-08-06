@@ -39,7 +39,7 @@ const EditResourceSettings = ({
 }) => {
   const renderFields = (resourceIsCustom && resourceSelected) || !resourceIsCustom;
   const hasInheritedProxy = hasIn(model, 'package.proxy.id');
-  const visibilityMessage = model.package.visibilityData.isHidden
+  const visibilityMessage = model.package.visibilityData?.isHidden
     ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
     : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 
