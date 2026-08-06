@@ -40,7 +40,7 @@ const ResourceSettings = ({
   accessStatusTypes,
   proxyTypes,
 }) => {
-  const visibilityMessage = model.package.visibilityData.isHidden
+  const visibilityMessage = model.package.visibilityData?.isHidden
     ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
     : model.visibilityData.reason && `(${model.visibilityData.reason})`;
 

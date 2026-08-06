@@ -84,7 +84,7 @@ const SearchPackageListItem = ({
             </span>
           }
 
-          {item.visibilityData.isHidden && <HiddenLabel />}
+          {item.visibilityData?.isHidden && <HiddenLabel />}
 
           {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>
