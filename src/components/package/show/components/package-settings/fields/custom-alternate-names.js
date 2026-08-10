@@ -1,6 +1,9 @@
 import { FormattedMessage } from 'react-intl';
 
-import { KeyValue, NoValue } from '@folio/stripes/components';
+import {
+  KeyValue,
+  NoValue,
+} from '@folio/stripes/components';
 
 export const CustomAlternateNames = ({ customAltNames = [] }) => {
   const value = customAltNames.length
