@@ -162,8 +162,7 @@ const SearchFilters = ({
           dataOptions={options}
           validationEnabled={false}
           value={activeFilters[name] || defaultValue}
-          onChange={(e) => {
-            const { value } = e.target;
+          onChange={(value) => {
             const replaced = {
               ...activeFilters,
               // if this option is a default, clear the filter

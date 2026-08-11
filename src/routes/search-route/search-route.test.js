@@ -266,11 +266,22 @@ describe('Given SearchRoute', () => {
       expect(getByTestId('packages-search-filters')).toBeDefined();
     });
 
-    it('should render PackagesSearchList', () => {
+    it('should render PackagesSearchList with only a query', () => {
       const { getByTestId } = renderSearchRoute({
         location: {
           ...location,
           search: '?searchType=packages&q=a',
+        },
+      });
+
+      expect(getByTestId('packages')).toBeDefined();
+    });
+
+    it('should render PackagesSearchList with only a filter', () => {
+      const { getByTestId } = renderSearchRoute({
+        location: {
+          ...location,
+          search: '?searchType=packages&filter[a]=b',
         },
       });
 

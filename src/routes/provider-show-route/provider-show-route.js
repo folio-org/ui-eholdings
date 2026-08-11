@@ -19,12 +19,12 @@ import {
   accessTypesReduxStateShape,
   tagPaths,
   searchTypes,
-  contentTypeFilterConfig,
   packageSortFilterConfig,
   selectionStatusFilterConfig,
 } from '../../constants';
 import { SearchSection } from '../../components/search-section';
 import PackageSearchFilters from '../../components/package-search-filters';
+import { contentTypeFilterConfig } from './package-search-filters-config';
 import { useProviderPackages } from '../../hooks';
 
 const propTypes = {
