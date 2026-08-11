@@ -462,7 +462,7 @@ class SearchRoute extends Component {
       'access-type': accessType,
     } = filter;
 
-    if (params.q || tags || accessType) {
+    if (params.q || params.filter || tags || accessType) {
       if (searchType === searchTypes.PROVIDERS) {
         return <ProviderSearchList {...props} />;
       } else if (searchType === searchTypes.PACKAGES) {
