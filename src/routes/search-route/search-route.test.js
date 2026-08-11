@@ -277,11 +277,22 @@ describe('Given SearchRoute', () => {
       expect(getByTestId('packages')).toBeDefined();
     });
 
-    it('should render PackagesSearchList with only a filter', () => {
+    it('should render PackagesSearchList with only a content type filter', () => {
       const { getByTestId } = renderSearchRoute({
         location: {
           ...location,
-          search: '?searchType=packages&filter[a]=b',
+          search: '?searchType=packages&filter[type]=b',
+        },
+      });
+
+      expect(getByTestId('packages')).toBeDefined();
+    });
+
+    it('should render PackagesSearchList with only a selection filter', () => {
+      const { getByTestId } = renderSearchRoute({
+        location: {
+          ...location,
+          search: '?searchType=packages&filter[selected]=b',
         },
       });
 
@@ -363,6 +374,17 @@ describe('Given SearchRoute', () => {
       });
 
       expect(getByTestId('titles')).toBeDefined();
+    });
+
+    it('should not render TitlesSearchList for filter without query', () => {
+      const { queryByTestId } = renderSearchRoute({
+        location: {
+          ...location,
+          search: '?searchType=titles&filter[type]=a',
+        },
+      });
+
+      expect(queryByTestId('titles')).toBeNull();
     });
 
     describe('when loaded more then 100 records and click on next button', () => {
