@@ -76,18 +76,6 @@ const SearchFilters = ({
     });
   };
 
-  const typeRenderer = (type, filterProps) => {
-    switch(type) {
-      case FILTER_TYPES.SELECT:
-        return renderSingleSelect(filterProps);
-      case FILTER_TYPES.SELECTION:
-        return renderSingleSelection(filterProps);
-      case FILTER_TYPES.CHECKBOX:
-      default:
-        return renderRadioGroup(filterProps);
-    }
-  };
-
   const renderSingleSelect = ({ name, options, accordionLabelId, defaultValue }) => {
     return (
       <div
@@ -152,7 +140,7 @@ const SearchFilters = ({
     );
   };
 
-  const renderSingleSelection= ({ name, options, accordionLabelId, defaultValue }) => {
+  const renderSingleSelection = ({ name, options, accordionLabelId, defaultValue }) => {
     return (
       <div
         role="radiogroup"
@@ -175,6 +163,18 @@ const SearchFilters = ({
         />
       </div>
     );
+  };
+
+  const typeRenderer = (type, filterProps) => {
+    switch (type) {
+      case FILTER_TYPES.SELECT:
+        return renderSingleSelect(filterProps);
+      case FILTER_TYPES.SELECTION:
+        return renderSingleSelection(filterProps);
+      case FILTER_TYPES.CHECKBOX:
+      default:
+        return renderRadioGroup(filterProps);
+    }
   };
 
   const renderFilters = () => {
