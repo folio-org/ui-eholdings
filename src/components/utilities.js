@@ -110,7 +110,7 @@ export const processErrors = ({ request, update, destroy }) => {
     id: `error-${timestamp}-${index}`
   }));
 
-  const hasErrors = update.isRejected || request.isRejected || destroy.isRejected;
+  const hasErrors = update?.isRejected || request?.isRejected || destroy?.isRejected;
   const putErrors = hasErrors ? processErrorsSet(update) : [];
   const getErrors = hasErrors ? processErrorsSet(request) : [];
   const destroyErrors = hasErrors ? processErrorsSet(destroy) : [];

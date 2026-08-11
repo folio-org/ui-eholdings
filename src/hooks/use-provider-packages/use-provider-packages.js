@@ -16,7 +16,7 @@ import {
 } from '../../constants';
 
 export const useProviderPackages = ({ providerId, searchParams }) => {
-  const namespace = useNamespace();
+  const [namespace] = useNamespace({ key: 'provider-packages' });
   const ky = useOkapiKy().extend({
     headers: {
       Accept: '*/*',

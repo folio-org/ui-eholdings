@@ -37,15 +37,16 @@ const propTypes = {
   goBack: PropTypes.func.isRequired,
   handleExpandAll: PropTypes.func,
   history: ReactRouterPropTypes.history.isRequired,
+  isLoaded: PropTypes.bool,
   lastMenu: PropTypes.node,
   listSectionId: PropTypes.string,
   listType: PropTypes.node,
   location: PropTypes.object.isRequired,
   model: PropTypes.shape({
-    isLoaded: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    request: PropTypes.object.isRequired,
+    isLoaded: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    name: PropTypes.string,
+    request: PropTypes.object,
   }).isRequired,
   onCancel: PropTypes.func,
   onListToggle: PropTypes.func,
@@ -103,10 +104,10 @@ const DetailsView = ({
 
   useEffect(() => {
     // if the model just finished loading focus the heading
-    if (props.model.isLoaded) {
+    if (props.model.isLoaded || props.isLoaded) {
       $heading.current.focus();
     }
-  }, [props.model.isLoaded]);
+  }, [props.model.isLoaded, props.isLoaded]);
 
   const columnMapping = COLUMN_MAPPING_BY_LIST_TYPE[props.listType] || {};
   const { visibleColumns, toggleColumn } = useColumnManager(
@@ -289,7 +290,7 @@ const DetailsView = ({
             data-test-eholdings-detail-pane-contents
             data-testid="scroll-container"
           >
-            {model.isLoaded
+            {model.isLoaded || props.isLoaded
               ? renderItemData()
               : indicateItemIsNotLoaded()
             }

@@ -22,15 +22,16 @@ import {
 } from './fields';
 import { getAccessTypeId } from '../../../../utilities';
 import { accessTypesReduxStateShape } from '../../../../../constants';
+import { useProvider } from '../../../../../hooks';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   packageAllowedToAddTitles: PropTypes.bool.isRequired,
   packageSelected: PropTypes.bool.isRequired,
-  provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
 };
 
@@ -38,17 +39,19 @@ const PackageSettings = ({
   isOpen,
   onToggle,
   model,
+  isLoading,
   proxyTypes,
-  provider,
   accessStatusTypes,
   packageAllowedToAddTitles,
   packageSelected,
 }) => {
+  const { data: provider, isLoading: isProviderLoading } = useProvider({ providerId: model.providerId });
+
   const renderPackageSettings = () => {
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
-    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
+    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && !isLoading && !isProviderLoading;
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
 
