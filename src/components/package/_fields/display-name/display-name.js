@@ -43,7 +43,7 @@ export const DisplayName = () => {
       component={TextField}
       label={label}
       validate={validate}
-      ariaLabel={<FormattedMessage id="ui-eholdings.label.displayName" />}
+      ariaLabel={labelText}
     />
   );
 };
