@@ -1,9 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 
-import {
-  KeyValue,
-  NoValue,
-} from '@folio/stripes/components';
+import { KeyValue } from '@folio/stripes/components';
 
 export const PackageDisplayName = ({ packageDisplayName }) => (
   <KeyValue
