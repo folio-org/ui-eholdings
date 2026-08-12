@@ -20,9 +20,9 @@ import {
   VisibilityView,
   PackageDisplayName,
 } from './fields';
+import { useProvider } from '../../../../../hooks';
 import { getAccessTypeId } from '../../../../utilities';
 import { accessTypesReduxStateShape } from '../../../../../constants';
-import { useProvider } from '../../../../../hooks';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,

@@ -17,7 +17,7 @@ export const usePackage = ({ packageId }) => {
   // in case if two instances of this hook are called with int packageId and string packageId
   // we want to keep the query key consistent so request results can be reused without extra requests
   const packageIdString = String(packageId);
-  const { data = {}, isFetching } = useQuery(
+  const { data = {}, isFetching, isFetched } = useQuery(
     [namespace, packageIdString],
     () => ky.get(`eholdings/packages/${packageIdString}`).json(),
     { enabled: Boolean(packageIdString) },
@@ -40,6 +40,7 @@ export const usePackage = ({ packageId }) => {
 
   return {
     isLoading: isFetching,
+    isLoaded: isFetched,
     data: packageData,
   };
 };

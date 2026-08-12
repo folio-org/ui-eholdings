@@ -59,7 +59,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.element,
     PropTypes.node,
-  ]).isRequired,
+  ]),
   renderAccordionHeaderSearch: PropTypes.func,
   renderList: PropTypes.func,
   resultsLength: PropTypes.number,
@@ -84,7 +84,7 @@ const DetailsView = ({
   const {
     type,
     model,
-    paneTitle,
+    paneTitle = '',
     actionMenu,
     lastMenu,
     footer,
@@ -249,7 +249,7 @@ const DetailsView = ({
     return request.isRejected
       ? (
         <p data-test-eholdings-details-view-error={type}>
-          {request.errors[0].title}
+          {request?.errors[0].title}
         </p>
       )
       : <Icon icon="spinner-ellipsis" />;

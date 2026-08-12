@@ -16,7 +16,10 @@ import {
   IfInterface,
 } from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-import { Button, LoadingView } from '@folio/stripes/components';
+import {
+  Button,
+  LoadingView,
+} from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
 import Toaster from '../../toaster';
@@ -65,6 +68,7 @@ const propTypes = {
   fetchPackageTitles: PropTypes.func.isRequired,
   isDestroyed: PropTypes.bool,
   isFreshlySaved: PropTypes.bool,
+  isLoaded: PropTypes.bool,
   isLoading: PropTypes.bool,
   isNewRecord: PropTypes.bool,
   isTitlesUpdating: PropTypes.bool,
@@ -89,6 +93,7 @@ const PackageShow = ({
   fetchPackageCostPerUse,
   fetchPackageTitles,
   isDestroyed,
+  isLoaded,
   isLoading,
   isFreshlySaved,
   isNewRecord,
@@ -462,7 +467,7 @@ const PackageShow = ({
       <DetailsView
         type="package"
         model={model}
-        isLoaded={!isLoading}
+        isLoaded={isLoaded}
         key={model.id}
         paneTitle={model.name}
         actionMenu={getActionMenu()}

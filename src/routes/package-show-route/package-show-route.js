@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -18,6 +19,12 @@ import { SearchSection } from '../../components/search-section';
 import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
 import {
+  usePackage,
+  usePackageDelete,
+  usePackageUpdate,
+  useProvider,
+} from '../../hooks';
+import {
   listTypes,
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
@@ -28,7 +35,6 @@ import {
   selectionStatusFilterConfig,
   publicationTypeTitlesListFilterConfig,
 } from '../../constants';
-import { usePackage, usePackageDelete, usePackageUpdate, useProvider } from '../../hooks';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -97,9 +103,27 @@ const PackageShowRoute = ({
   });
   const [isTitlesUpdating, setIsTitlesUpdating] = useState(false);
 
+  const onPackageDeleteSuccess = useCallback(() => {
+    // if package was reached based on search we want to keep the search params
+    // to show search results
+    if (location.search) {
+      history.replace({
+        pathname: '/eholdings',
+        search: location.search,
+      }, { eholdings: true });
+      // package was reached directly from url not by search, so we can just show the default search page
+    } else {
+      history.replace('/eholdings?searchType=packages', { eholdings: true });
+    }
+  }, [history, location.search]);
+
   const { data: provider } = useProvider({ providerId });
-  const { data: model, isLoading: isPackageLoading } = usePackage({ packageId });
-  const { deletePackage } = usePackageDelete({ onSuccess: () => {} });
+  const {
+    data: model,
+    isLoading: isPackageLoading,
+    isLoaded: isPackageLoaded,
+  } = usePackage({ packageId });
+  const { deletePackage } = usePackageDelete({ onSuccess: onPackageDeleteSuccess });
   const { updatePackage } = usePackageUpdate({ packageId, onSuccess: () => {} });
 
   const getUpdatedTitles = () => {
@@ -128,22 +152,6 @@ const PackageShowRoute = ({
   }, [packageTitles.isLoading]);
 
   useEffect(() => {
-    if (model.destroy?.isResolved) {
-      // if package was reached based on search we want to keep the search params
-      // to show search results
-      if (location.search) {
-        history.replace({
-          pathname: '/eholdings',
-          search: location.search,
-        }, { eholdings: true });
-        // package was reached directly from url not by search, so we can just show the default search page
-      } else {
-        history.replace('/eholdings?searchType=packages', { eholdings: true });
-      }
-    }
-  }, [model.destroy?.isResolved, history, location.search]);
-
-  useEffect(() => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
 
     getPackageTitles({ packageId, params: queryParams });
@@ -158,11 +166,6 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    // we're mutating a prop here and in a couple of other functions in this file, which is a huuuge no-no
-    // but the model object is not a simple object, but an instance o class, so we can't just
-    // destructure it and update properties of a copy
-    // for now it works fine, but we need to be aware of this
-    // in one of the next PR's we'll get rid of these class instances and use reach-query for CRUD
     const updatedModel = {
       ...model,
       isSelected: true,
@@ -282,6 +285,7 @@ const PackageShowRoute = ({
       <View
         model={model}
         isLoading={isPackageLoading}
+        isLoaded={isPackageLoaded}
         tagsModel={tagsModel}
         packageTitles={packageTitles}
         updateFolioTags={updateFolioTags}
