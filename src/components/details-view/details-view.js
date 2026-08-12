@@ -37,7 +37,6 @@ const propTypes = {
   goBack: PropTypes.func.isRequired,
   handleExpandAll: PropTypes.func,
   history: ReactRouterPropTypes.history.isRequired,
-  isLoaded: PropTypes.bool,
   lastMenu: PropTypes.node,
   listSectionId: PropTypes.string,
   listType: PropTypes.node,
@@ -104,10 +103,10 @@ const DetailsView = ({
 
   useEffect(() => {
     // if the model just finished loading focus the heading
-    if (props.model.isLoaded || props.isLoaded) {
+    if (props.model.isLoaded) {
       $heading.current.focus();
     }
-  }, [props.model.isLoaded, props.isLoaded]);
+  }, [props.model.isLoaded]);
 
   const columnMapping = COLUMN_MAPPING_BY_LIST_TYPE[props.listType] || {};
   const { visibleColumns, toggleColumn } = useColumnManager(
@@ -290,7 +289,7 @@ const DetailsView = ({
             data-test-eholdings-detail-pane-contents
             data-testid="scroll-container"
           >
-            {model.isLoaded || props.isLoaded
+            {model.isLoaded
               ? renderItemData()
               : indicateItemIsNotLoaded()
             }

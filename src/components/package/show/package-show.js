@@ -68,8 +68,6 @@ const propTypes = {
   fetchPackageTitles: PropTypes.func.isRequired,
   isDestroyed: PropTypes.bool,
   isFreshlySaved: PropTypes.bool,
-  isLoaded: PropTypes.bool,
-  isLoading: PropTypes.bool,
   isNewRecord: PropTypes.bool,
   isTitlesUpdating: PropTypes.bool,
   loadMoreCostPerUsePackageTitles: PropTypes.func.isRequired,
@@ -93,8 +91,6 @@ const PackageShow = ({
   fetchPackageCostPerUse,
   fetchPackageTitles,
   isDestroyed,
-  isLoaded,
-  isLoading,
   isFreshlySaved,
   isNewRecord,
   isTitlesUpdating,
@@ -330,7 +326,6 @@ const PackageShow = ({
           isOpen={sections.packageShowSettings}
           onToggle={handleSectionToggle}
           model={model}
-          isLoading={isLoading}
           proxyTypes={proxyTypes}
           accessStatusTypes={accessStatusTypes}
           packageAllowedToAddTitles={packageAllowedToAddTitles}
@@ -450,7 +445,7 @@ const PackageShow = ({
     });
   }
 
-  if (isLoading) {
+  if (model.isLoading) {
     return <LoadingView />;
   }
 
@@ -467,7 +462,6 @@ const PackageShow = ({
       <DetailsView
         type="package"
         model={model}
-        isLoaded={isLoaded}
         key={model.id}
         paneTitle={model.name}
         actionMenu={getActionMenu()}

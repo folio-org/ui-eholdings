@@ -57,6 +57,7 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
   const {
     mutate,
     isLoading,
+    isError,
   } = useMutation({
     mutationFn: (json) => {
       return ky.put(`eholdings/packages/${packageIdString}`, { body: JSON.stringify(json) }).json();
@@ -87,5 +88,6 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
     updatePackage,
     isLoading,
     errors,
+    isError,
   };
 };

@@ -13,6 +13,8 @@ export const usePackageDelete = ({ onSuccess }) => {
   const {
     mutate,
     isLoading,
+    isError,
+    error,
   } = useMutation({
     mutationFn: (packageId) => {
       return ky.delete(`eholdings/packages/${packageId}`)
@@ -30,5 +32,7 @@ export const usePackageDelete = ({ onSuccess }) => {
   return {
     deletePackage,
     isLoading,
+    isError,
+    error,
   };
 };

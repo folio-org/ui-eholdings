@@ -39,7 +39,6 @@ const PackageSettings = ({
   isOpen,
   onToggle,
   model,
-  isLoading,
   proxyTypes,
   accessStatusTypes,
   packageAllowedToAddTitles,
@@ -51,7 +50,7 @@ const PackageSettings = ({
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
-    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && !isLoading && !isProviderLoading;
+    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && !model.isLoading && !isProviderLoading;
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
 

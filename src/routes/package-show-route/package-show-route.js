@@ -19,10 +19,8 @@ import { SearchSection } from '../../components/search-section';
 import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
 import {
-  usePackage,
-  usePackageDelete,
-  usePackageUpdate,
   useProvider,
+  usePackageModel,
 } from '../../hooks';
 import {
   listTypes,
@@ -119,12 +117,14 @@ const PackageShowRoute = ({
 
   const { data: provider } = useProvider({ providerId });
   const {
-    data: model,
-    isLoading: isPackageLoading,
-    isLoaded: isPackageLoaded,
-  } = usePackage({ packageId });
-  const { deletePackage } = usePackageDelete({ onSuccess: onPackageDeleteSuccess });
-  const { updatePackage } = usePackageUpdate({ packageId, onSuccess: () => {} });
+    model,
+    deletePackage,
+    updatePackage,
+  } = usePackageModel({
+    packageId,
+    onDeleteSuccess: onPackageDeleteSuccess,
+    onUpdateSuccess: () => {},
+  });
 
   const getUpdatedTitles = () => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
@@ -284,8 +284,6 @@ const PackageShowRoute = ({
     <TitleManager record={model.name}>
       <View
         model={model}
-        isLoading={isPackageLoading}
-        isLoaded={isPackageLoaded}
         tagsModel={tagsModel}
         packageTitles={packageTitles}
         updateFolioTags={updateFolioTags}
