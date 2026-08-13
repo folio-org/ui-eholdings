@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
@@ -9,12 +10,12 @@ export const usePackageDelete = ({ onSuccess }) => {
       'Accept': 'application/vnd.api+json',
     },
   });
+  const [errors, setErrors] = useState([]);
 
   const {
     mutate,
     isLoading,
     isError,
-    error,
   } = useMutation({
     mutationFn: (packageId) => {
       return ky.delete(`eholdings/packages/${packageId}`)
@@ -22,6 +23,17 @@ export const usePackageDelete = ({ onSuccess }) => {
         .then(res => {
           onSuccess(res);
         });
+    },
+    onError: async (error) => {
+      try {
+        const body = await error.response.json();
+        // for some reason `error` property of the mutation object is not being set
+        // returning or throwing an error doesn't set it, so we'll just resort to having a separate
+        // state for errors
+        setErrors(body.errors);
+      } catch (e) {
+        setErrors([]);
+      }
     },
   });
 
@@ -33,6 +45,6 @@ export const usePackageDelete = ({ onSuccess }) => {
     deletePackage,
     isLoading,
     isError,
-    error,
+    errors,
   };
 };

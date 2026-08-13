@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import {
-  usePackage,
-  usePackageDelete,
-  usePackageUpdate,
-  usePackageCreate,
-} from '..';
+
+import { usePackage } from '../use-package';
+import { usePackageDelete } from '../use-package-delete';
+import { usePackageUpdate } from '../use-package-update';
+import { usePackageCreate } from '../use-package-create';
 
 export const usePackageModel = ({
   packageId,
@@ -16,12 +15,12 @@ export const usePackageModel = ({
     isLoading: isPackageLoading,
     isLoaded: isPackageLoaded,
     isError: isFetchError,
-    error: fetchError,
+    errors: fetchErrors,
   } = usePackage({ packageId });
   const {
     deletePackage,
     isError: isDeleteError,
-    error: deleteError,
+    errors: deleteErrors,
   } = usePackageDelete({ onSuccess: onDeleteSuccess });
   const {
     updatePackage,
@@ -32,7 +31,6 @@ export const usePackageModel = ({
   const {
     createPackage,
     isLoading: isPackageCreateLoading,
-    errors: packageCreateErrors,
   } = usePackageCreate({
     onSuccess: onCreateSuccess,
   });
@@ -40,11 +38,11 @@ export const usePackageModel = ({
   const model = useMemo(() => ({
     ...data,
     isLoading: isPackageLoading,
-    isLoaded: isPackageLoaded,
+    isLoaded: isPackageLoaded && !isFetchError,
     request: {
       isPending: isPackageLoading,
       isRejected: isFetchError,
-      errors: [{ title: fetchError }],
+      errors: fetchErrors,
     },
     update: {
       isPending: isUpdateLoading,
@@ -54,9 +52,9 @@ export const usePackageModel = ({
     destroy: {
       isPending: isPackageCreateLoading,
       isRejected: isDeleteError,
-      errors: [{ title: deleteError }],
+      errors: deleteErrors,
     },
-  }), [data, deleteError, fetchError, isDeleteError, isFetchError, isPackageLoading, isPackageCreateLoading, isUpdateError, isUpdateLoading, updateErrors]);
+  }), [data, deleteErrors, fetchErrors, isDeleteError, isFetchError, isPackageLoading, isPackageLoaded, isPackageCreateLoading, isUpdateError, isUpdateLoading, updateErrors]);
 
   return {
     model,
