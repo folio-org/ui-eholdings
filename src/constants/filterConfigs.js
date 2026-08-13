@@ -34,7 +34,6 @@ export const selectionStatusDefaultFilterOption = selectionStatusFilterOptions.A
 
 export const FILTER_TYPES = {
   SELECT: 'select',
-  SELECTION: 'selection',
   CHECKBOX: 'checkbox',
 };
 
@@ -92,7 +91,7 @@ export const titleSortFilterConfig = {
 };
 
 export const contentTypeFilterConfig = {
-  type: FILTER_TYPES.SELECTION,
+  type: FILTER_TYPES.SELECT,
   name: 'type',
   label: <FormattedMessage id="ui-eholdings.package.contentType" />,
   defaultValue: 'all',
