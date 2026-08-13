@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   useMutation,
   useQueryClient,
@@ -10,12 +9,13 @@ import {
 } from '@folio/stripes/core';
 import { dayjs } from '@folio/stripes/components';
 
+import { useBackendResponseErrors } from '../use-backend-response-errors';
 import { serializePackageAttributes } from '../../utils/serialize-package';
 
 export const usePackageUpdate = ({ packageId, onSuccess }) => {
   const [namespace] = useNamespace({ key: 'package' });
   const queryClient = useQueryClient();
-  const [errors, setErrors] = useState([]);
+  const { onError, errors } = useBackendResponseErrors();
 
   const ky = useOkapiKy().extend({
     headers: {
@@ -66,17 +66,7 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
       await queryClient.invalidateQueries({ queryKey: [namespace, packageIdString] });
       onSuccess(res);
     },
-    onError: async (error) => {
-      try {
-        const body = await error.response.json();
-        // for some reason `error` property of the mutation object is not being set
-        // returning or throwing an error doesn't set it, so we'll just resort to having a separate
-        // state for errors
-        setErrors(body.errors);
-      } catch (e) {
-        setErrors([]);
-      }
-    },
+    onError,
   });
 
   const updatePackage = (values) => {

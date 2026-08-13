@@ -413,12 +413,9 @@ const PackageShow = ({
       buttonCancel: <FormattedMessage id="ui-eholdings.package.modal.buttonCancel" />
     };
 
-  console.log(model);
   const toasts = [
     ...processErrors(model),
   ];
-
-  console.log(toasts);
 
   // if coming from creating a new custom package, show a success toast
   if (isNewRecord) {
