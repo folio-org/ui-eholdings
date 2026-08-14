@@ -14,13 +14,13 @@ import queryString from 'qs';
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/package/show';
-import { useUpdatePackageTitlesSelection } from '../../hooks/use-update-package-titles-selection';
 import { SearchSection } from '../../components/search-section';
 import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
 import {
   useProvider,
   usePackageModel,
+  useUpdatePackageTitlesSelection,
 } from '../../hooks';
 import {
   listTypes,
@@ -182,7 +182,7 @@ const PackageShowRoute = ({
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
-      deletePackage(model);
+      deletePackage(packageId);
     } else {
       updatedModel.isSelected = !model.isSelected;
       updatedModel.selectedCount = model.isSelected ? model.titleCount : 0;

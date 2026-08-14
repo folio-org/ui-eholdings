@@ -8,7 +8,6 @@ import noop from 'lodash/noop';
 
 import {
   render,
-  cleanup,
   act,
   fireEvent,
   waitFor,
@@ -16,6 +15,10 @@ import {
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import PackageShowRoute from './package-show-route';
+import {
+  usePackageModel,
+  useUpdatePackageTitlesSelection,
+} from '../../hooks';
 import Harness from '../../../test/jest/helpers/harness';
 
 jest.mock('react-router', () => ({
@@ -67,19 +70,17 @@ jest.mock('../../features/usage-consolidation-accordion', () => ({
 ));
 
 const mockGetPackageTitles = jest.fn();
-const mockGetPackage = jest.fn();
 const mockClearPackageTitles = jest.fn();
 const mockGetProxyTypes = jest.fn();
 const mockGetTags = jest.fn();
-const mockGetProvider = jest.fn();
 const mockUpdatePackage = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 const mockDestroyPackage = jest.fn();
-const mockRemoveUpdateRequests = jest.fn();
 const mockGetAccessTypes = jest.fn();
 const mockGetCostPerUse = jest.fn();
 const mockGetCostPerUsePackageTitles = jest.fn();
 const mockClearCostPerUseData = jest.fn();
+const mockUpdateTitles = jest.fn();
 
 const mockHistoryReplace = jest.fn();
 const history = {
@@ -107,8 +108,8 @@ const model = {
   },
   isLoaded: true,
   isLoading: false,
-  isCustom: false,
-  isSelected: false,
+  isCustom: true,
+  isSelected: true,
   isPeerReviewed: false,
   allowKbToAddTitles: false,
   titleCount: 100,
@@ -164,20 +165,6 @@ const proxyTypes = {
   },
   request: {
     isResolved: true,
-  },
-};
-
-const provider = {
-  id: providerId,
-  data: {
-    isLoaded: true,
-    isLoading: false,
-  },
-  providerToken: {
-    prompt: '',
-  },
-  proxy: {
-    id: 'proxy-id',
   },
 };
 
@@ -298,9 +285,7 @@ const getPackageShowRoute = (props = {}) => (
   <MemoryRouter>
     <Harness>
       <PackageShowRoute
-        model={{ ...model }}
         proxyTypes={proxyTypes}
-        provider={provider}
         tagsModel={tagsModel}
         tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
         resolver={resolver}
@@ -308,16 +293,10 @@ const getPackageShowRoute = (props = {}) => (
         costPerUse={costPerUse}
         packageTitles={packageTitles}
         getPackageTitles={noop}
-        getPackage={noop}
         clearPackageTitles={noop}
         getProxyTypes={noop}
         getTags={noop}
-        getProvider={noop}
-        unloadResources={noop}
-        updatePackage={noop}
         updateFolioTags={noop}
-        destroyPackage={noop}
-        removeUpdateRequests={noop}
         getAccessTypes={noop}
         getCostPerUse={noop}
         getCostPerUsePackageTitles={noop}
@@ -333,15 +312,22 @@ const renderPackageShowRoute = (props = {}) => render(getPackageShowRoute(props)
 
 describe('Given PackageShowRoute', () => {
   beforeEach(() => {
+    mockHistoryReplace.mockClear();
     useHistory.mockClear().mockReturnValue(history);
     useLocation.mockReturnValue(mockLocation);
     useParams.mockReturnValue({
       packageId,
     });
-  });
-
-  afterEach(() => {
-    cleanup();
+    usePackageModel.mockClear().mockImplementation(({ onDeleteSuccess }) => {
+      return {
+        model,
+        updatePackage: mockUpdatePackage,
+        deletePackage: mockDestroyPackage.mockImplementation(() => onDeleteSuccess()),
+      };
+    });
+    useUpdatePackageTitlesSelection.mockClear().mockReturnValue({
+      updateTitles: mockUpdateTitles,
+    });
   });
 
   it('should render PackageShowRoute', () => {
@@ -350,28 +336,12 @@ describe('Given PackageShowRoute', () => {
     expect(getByText('PackageShowRoute component')).toBeDefined();
   });
 
-  it('should handle getPackage', () => {
-    renderPackageShowRoute({
-      getPackage: mockGetPackage,
-    });
-
-    expect(mockGetPackage).toHaveBeenCalledWith(packageId);
-  });
-
   it('should handle getProxyTypes', () => {
     renderPackageShowRoute({
       getProxyTypes: mockGetProxyTypes,
     });
 
     expect(mockGetProxyTypes).toHaveBeenCalled();
-  });
-
-  it('should handle getProvider', () => {
-    renderPackageShowRoute({
-      getProvider: mockGetProvider,
-    });
-
-    expect(mockGetProvider).toHaveBeenCalledWith(providerId);
   });
 
   it('should handle getTags', () => {
@@ -398,83 +368,19 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetPackageTitles).toHaveBeenCalled();
   });
 
-  describe('when package was selected and is freshly saved', () => {
-    it('should handle removeUpdateRequests', () => {
-      const { rerender } = renderPackageShowRoute({
-        model: {
-          ...model,
-          isSelected: true,
-          update: {
-            ...model.update,
-            isPending: false,
-          },
-        },
-      });
-
-      rerender(getPackageShowRoute({
-        removeUpdateRequests: mockRemoveUpdateRequests,
-        model: {
-          ...model,
-          isSelected: false,
-          update: {
-            ...model.update,
-            isPending: true,
-          }
-        },
-      }));
-
-      expect(mockRemoveUpdateRequests).toHaveBeenCalled();
-    });
-  });
-
-  describe('when package was unselected and is freshly saved', () => {
-    it('should handle removeUpdateRequests', () => {
-      const { rerender } = renderPackageShowRoute({
-        model: {
-          ...model,
-          isSelected: false,
-          update: {
-            ...model.update,
-            isPending: false,
-          },
-        },
-      });
-
-      rerender(getPackageShowRoute({
-        removeUpdateRequests: mockRemoveUpdateRequests,
-        model: {
-          ...model,
-          isSelected: true,
-          update: {
-            ...model.update,
-            isPending: true,
-          }
-        },
-      }));
-
-      expect(mockRemoveUpdateRequests).toHaveBeenCalled();
-    });
-  });
-
   describe('when package was reached based on search', () => {
     it('should redirect to /eholdings with location.search parameters', () => {
-      const { rerender } = renderPackageShowRoute();
-
       const testSearch = '?searchType=packages&q=testQuery&offset=1';
 
       useLocation.mockClear().mockReturnValue({
         search: testSearch,
       });
 
-      rerender(getPackageShowRoute({
-        model: {
-          ...model,
-          destroy: {
-            ...model.destroy,
-            isResolved: true,
-          },
-        },
-      }));
+      const { getAllByRole, getByRole } = renderPackageShowRoute();
+
+      fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }));
 
       expect(mockHistoryReplace).toHaveBeenCalledWith({
         pathname: '/eholdings',
@@ -485,21 +391,17 @@ describe('Given PackageShowRoute', () => {
 
   describe('when package was reached directly from url, not by search', () => {
     it('should redirect to /eholdings with searchType equals packages', async () => {
-      const { rerender } = renderPackageShowRoute();
+      useLocation.mockClear().mockReturnValue({
+        search: '',
+      });
 
-      const testPathname = '/eholdings?searchType=packages';
+      const { getAllByRole, getByRole } = renderPackageShowRoute();
 
-      rerender(getPackageShowRoute({
-        model: {
-          ...model,
-          destroy: {
-            ...model.destroy,
-            isResolved: true,
-          },
-        },
-      }));
+      fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }));
 
-      await waitFor(() => expect(mockHistoryReplace).toHaveBeenCalledWith(testPathname, { eholdings: true }));
+      expect(mockHistoryReplace).toHaveBeenCalledWith('/eholdings?searchType=packages', { eholdings: true });
     });
   });
 
@@ -564,147 +466,41 @@ describe('Given PackageShowRoute', () => {
     });
   });
 
-  describe('when add package to holdings', () => {
-    it('should handle updatePackage', () => {
-      const { getByRole } = renderPackageShowRoute({
-        updatePackage: mockUpdatePackage,
+  describe('when adding package to holdings', () => {
+    beforeEach(() => {
+      usePackageModel.mockClear().mockReturnValue({
         model: {
           ...model,
-          update: {
-            ...model.update,
-            isResolved: true,
-          },
+          isSelected: false,
         },
+        updatePackage: mockUpdatePackage,
       });
+    });
+
+    it('should call updatePackage and updateTitles', () => {
+      const { getByRole } = renderPackageShowRoute();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
       expect(mockUpdatePackage).toHaveBeenCalled();
-    });
-
-    describe('when package titles are updated', () => {
-      it('should call getPackageTitles until resources select status is updated', async () => {
-        jest.useFakeTimers();
-        const { getByRole, rerender } = renderPackageShowRoute({
-          getPackageTitles: mockGetPackageTitles,
-        });
-
-        mockGetPackageTitles.mockClear();
-
-        fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
-        fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
-
-        rerender(getPackageShowRoute({
-          model: {
-            ...model,
-            isSelected: true,
-          },
-        }));
-
-        jest.runOnlyPendingTimers();
-
-        expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-        rerender(getPackageShowRoute({
-          model: {
-            ...model,
-            isSelected: true,
-          },
-          packageTitles: {
-            ...packageTitles,
-            items: [{
-              ...resource,
-              attributes: {
-                ...resource.attributes,
-                isSelected: true,
-              },
-            }],
-          },
-        }));
-
-        jest.runOnlyPendingTimers();
-        expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-      });
-
-      describe('and a user navigates to another route', () => {
-        it('should stop invoking interval calls of getPackageTitles', () => {
-          jest.useFakeTimers();
-          jest.spyOn(global, 'setInterval');
-          const { getByRole, unmount, rerender } = renderPackageShowRoute({
-            getPackageTitles: mockGetPackageTitles,
-          });
-
-          mockGetPackageTitles.mockClear();
-
-          fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
-          fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
-
-          rerender(getPackageShowRoute({
-            model: {
-              ...model,
-              isSelected: true,
-            },
-          }));
-          expect(setInterval).toHaveBeenCalled();
-          jest.runOnlyPendingTimers();
-          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-          unmount();
-          jest.runOnlyPendingTimers();
-          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-        });
-      });
-
-      describe('and a user tries to update the package titles again', () => {
-        it('should stop firing previous interval calls of getPackageTitles', async () => {
-          jest.useFakeTimers();
-          jest.spyOn(global, 'setInterval');
-          const { getByRole, getByTestId, rerender } = renderPackageShowRoute({
-            getPackageTitles: mockGetPackageTitles,
-          });
-
-          mockGetPackageTitles.mockClear();
-
-          fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
-          fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
-
-          rerender(getPackageShowRoute({
-            model: {
-              ...model,
-              isSelected: true,
-            },
-          }));
-          expect(setInterval).toHaveBeenCalledTimes(1);
-          jest.runOnlyPendingTimers();
-          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-
-          rerender(getPackageShowRoute({
-            model: {
-              ...model,
-              isSelected: true,
-            },
-          }));
-
-          fireEvent.click(getByTestId('ui-eholdings.package.removeFromHoldings'));
-          fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
-
-          expect(setInterval).toHaveBeenCalledTimes(2);
-          jest.runOnlyPendingTimers();
-          expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
-        });
-      });
+      expect(mockUpdateTitles).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('when remove package from holdings', () => {
+  describe('when removing package from holdings', () => {
     describe('when model is not custom', () => {
       it('should handle updatePackage', () => {
-        const { getAllByRole, getByRole } = renderPackageShowRoute({
-          updatePackage: mockUpdatePackage,
+        usePackageModel.mockClear().mockReturnValue({
           model: {
             ...model,
             isSelected: true,
+            isCustom: false,
           },
+          updatePackage: mockUpdatePackage,
         });
+
+        const { getAllByRole, getByRole } = renderPackageShowRoute();
 
         fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.removeFromHoldings' }));
@@ -716,14 +512,17 @@ describe('Given PackageShowRoute', () => {
 
     describe('when model is custom', () => {
       it('should handle destroyPackage', () => {
-        const { getByRole, getAllByRole } = renderPackageShowRoute({
-          destroyPackage: mockDestroyPackage,
+        usePackageModel.mockClear().mockReturnValue({
           model: {
             ...model,
             isSelected: true,
             isCustom: true,
           },
+          updatePackage: mockUpdatePackage,
+          deletePackage: mockDestroyPackage,
         });
+
+        const { getByRole, getAllByRole } = renderPackageShowRoute();
 
         fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
@@ -766,10 +565,6 @@ describe('Given PackageShowRoute', () => {
     it('should handle getCostPerUsePackageTitles', () => {
       const { getByText } = renderPackageShowRoute({
         getCostPerUsePackageTitles: mockGetCostPerUsePackageTitles,
-        model: {
-          ...model,
-          isSelected: true,
-        },
       });
 
       fireEvent.click(getByText('Fetch cost per use package titles'));
@@ -782,10 +577,6 @@ describe('Given PackageShowRoute', () => {
     it('should handle getCostPerUsePackageTitles', () => {
       const { getByText } = renderPackageShowRoute({
         getCostPerUsePackageTitles: mockGetCostPerUsePackageTitles,
-        model: {
-          ...model,
-          isSelected: true,
-        },
       });
 
       fireEvent.click(getByText('Load more cost per use package titles'));
@@ -796,12 +587,7 @@ describe('Given PackageShowRoute', () => {
 
   describe('when click on Edit button', () => {
     it('should redirect to edit package page', () => {
-      const { getByRole, getAllByRole } = renderPackageShowRoute({
-        model: {
-          ...model,
-          isSelected: true,
-        },
-      });
+      const { getByRole, getAllByRole } = renderPackageShowRoute();
 
       fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));

@@ -193,7 +193,6 @@ const PackageShow = ({
 
     return (
       <Button
-        data-test-eholdings-package-remove-from-holdings-action
         buttonStyle="dropdownItem fullWidth"
         data-testid={translationId}
         onClick={() => {
@@ -233,7 +232,6 @@ const PackageShow = ({
     return (
       <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
         <Button
-          data-test-eholdings-package-add-to-holdings-action
           data-testid="add-to-holdings-dropdown-button"
           buttonStyle="dropdownItem fullWidth"
           onClick={() => {

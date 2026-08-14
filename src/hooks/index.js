@@ -15,3 +15,4 @@ export * from './use-package-update';
 export * from './use-package-delete';
 export * from './use-package';
 export * from './use-provider';
+export * from './use-update-package-titles-selection';
