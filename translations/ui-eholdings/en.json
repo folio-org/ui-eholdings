@@ -170,6 +170,7 @@
     "package.modal.header.isCustom": "Delete custom package",
     "package.name": "Name",
     "package.name.isRequired": "Name *",
+    "package.packageAccess": "Package access",
     "package.packageAllowToAddTitles": "Automatically select new titles",
     "package.packageAllowToAddTitles.notSelected": "Knowledge base does not automatically select titles.",
     "package.packageInformation": "Package information",
@@ -493,6 +494,8 @@
     "filter.filterType.packages": "Filter packages",
     "filter.filterType.titles": "Filter titles",
     "filter.togglePane": "Toggle filters pane",
+    "filter.packageAccess.public": "Public",
+    "filter.packageAccess.controlled": "Controlled",
 
     "navModal.modalLabel": "Confirm navigation",
     "navModal.continueLabel": "Continue without saving",

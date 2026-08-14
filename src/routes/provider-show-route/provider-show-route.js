@@ -21,6 +21,7 @@ import {
   searchTypes,
   packageSortFilterConfig,
   selectionStatusFilterConfig,
+  packageAccessFilterConfig,
 } from '../../constants';
 import { SearchSection } from '../../components/search-section';
 import PackageSearchFilters from '../../components/package-search-filters';
@@ -143,6 +144,7 @@ const ProviderShowRoute = ({
           packageSortFilterConfig,
           selectionStatusFilterConfig,
           contentTypeFilterConfig,
+          packageAccessFilterConfig,
         ]}
         {...props}
       />

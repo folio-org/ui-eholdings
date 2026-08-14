@@ -4,6 +4,7 @@ import {
   packageSortFilterConfig,
   selectionStatusFilterConfig,
   contentTypeFilterConfig,
+  packageAccessFilterConfig,
 } from '../constants';
 /**
  * Renders search filters with specific package filters.
@@ -21,6 +22,7 @@ function PackageSearchFilters(props) {
         packageSortFilterConfig,
         selectionStatusFilterConfig,
         contentTypeFilterConfig,
+        packageAccessFilterConfig,
       ]}
       {...props}
     />
