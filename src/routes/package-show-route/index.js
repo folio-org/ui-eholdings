@@ -1,9 +1,6 @@
 import { connect } from 'react-redux';
 import { createResolver } from '../../redux';
 import { ProxyType } from '../../redux/application';
-import Package from '../../redux/package';
-import Provider from '../../redux/provider';
-import Resource from '../../redux/resource';
 import { selectPropFromData } from '../../redux/selectors';
 import {
   getAccessTypes as getAccessTypesAction,
