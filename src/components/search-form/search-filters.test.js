@@ -22,10 +22,10 @@ const renderSearchFilters = (props = {}) => render(
         name: 'sort',
         defaultValue: 'relevance',
         options: [{
-          label: 'Relevance-label',
+          labelId: 'Relevance-label',
           value: 'relevance',
         }, {
-          label: 'Package-label',
+          labelId: 'Package-label',
           value: 'package',
         }],
       }, {
@@ -34,11 +34,23 @@ const renderSearchFilters = (props = {}) => render(
         name: 'publicationType',
         defaultValue: 'all',
         options: [{
-          label: 'All-label',
+          labelId: 'All-label',
           value: 'all',
         }, {
-          label: 'Book-label',
+          labelId: 'Book-label',
           value: 'book',
+        }],
+      }, {
+        type: FILTER_TYPES.SELECTION,
+        label: 'Content-type',
+        name: 'contentType',
+        defaultValue: 'some',
+        options: [{
+          labelId: 'Some-label',
+          value: 'some',
+        }, {
+          labelId: 'Journal-label',
+          value: 'journal',
         }],
       }]}
       onUpdate={mockOnUpdate}
@@ -60,6 +72,8 @@ describe('Given SearchFilters', () => {
     const { getByText } = renderSearchFilters();
 
     expect(getByText('Sort-label')).toBeDefined();
+    expect(getByText('Publication-type')).toBeDefined();
+    expect(getByText('Content-type')).toBeDefined();
   });
 
   describe('when editing checkbox filter value', () => {
@@ -79,6 +93,18 @@ describe('Given SearchFilters', () => {
       fireEvent.change(getByRole('combobox'), { target: { value: 'book' } });
 
       expect(mockOnUpdate).toHaveBeenCalledWith(expect.objectContaining({ publicationType: 'book' }));
+    });
+  });
+
+  describe('when editing selection filter value', () => {
+    it('should call onUpdate', () => {
+      const { getByRole, getByText } = renderSearchFilters();
+
+      fireEvent.click(getByText('Content-type'));
+      fireEvent.click(getByText('stripes-components.selection.controlLabel'));
+      fireEvent.click(getByRole('option', { name : 'Journal-label' }));
+
+      expect(mockOnUpdate).toHaveBeenCalledWith(expect.objectContaining({ contentType: 'journal' }));
     });
   });
 
