@@ -28,6 +28,12 @@ export const selectionStatusFilterOptions = {
   FALSE: 'false',
 };
 
+export const packageAccessFilterOptions = {
+  ALL: 'all',
+  PUBLIC: 'public',
+  CONTROLLED: 'controlled',
+};
+
 export const EBSCO_PROVIDER_ID = 19;
 
 export const selectionStatusDefaultFilterOption = selectionStatusFilterOptions.ALL;
@@ -106,5 +112,26 @@ export const contentTypeFilterConfig = {
     { labelId: 'ui-eholdings.filter.contentType.print', value: 'print' },
     { labelId: 'ui-eholdings.filter.contentType.streaming_media', value: 'streamingmedia' },
     { labelId: 'ui-eholdings.filter.contentType.unknown', value: 'unknown' }
-  ]
+  ],
+};
+
+export const packageAccessFilterConfig = {
+  type: FILTER_TYPES.CHECKBOX,
+  name: 'access',
+  label: <FormattedMessage id="ui-eholdings.package.packageAccess" />,
+  defaultValue: packageAccessFilterOptions.ALL,
+  options: [
+    {
+      labelId: 'ui-eholdings.filter.all',
+      value: packageAccessFilterOptions.ALL,
+    },
+    {
+      labelId: 'ui-eholdings.filter.packageAccess.public',
+      value: packageAccessFilterOptions.PUBLIC,
+    },
+    {
+      labelId: 'ui-eholdings.filter.packageAccess.controlled',
+      value: packageAccessFilterOptions.CONTROLLED,
+    },
+  ],
 };

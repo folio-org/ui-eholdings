@@ -299,6 +299,17 @@ describe('Given SearchRoute', () => {
       expect(getByTestId('packages')).toBeDefined();
     });
 
+    it('should render PackagesSearchList with only an access filter', () => {
+      const { getByTestId } = renderSearchRoute({
+        location: {
+          ...location,
+          search: '?searchType=packages&filter[access]=b',
+        },
+      });
+
+      expect(getByTestId('packages')).toBeDefined();
+    });
+
     describe('when enter the value to search field and click on search', () => {
       it('should handle history push', () => {
         const {
