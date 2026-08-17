@@ -39,11 +39,11 @@ export const useProviderPackages = ({ providerId, searchParams }) => {
     count: PAGE_SIZE,
   };
 
-  const { data = {}, isFetching } = useQuery(
-    [namespace, paramsWithPageAndCount],
-    () => ky.get(`eholdings/providers/${providerId}/packages?${qs.stringify(paramsWithPageAndCount)}`).json(),
-    { keepPreviousData: true },
-  );
+  const { data = {}, isFetching } = useQuery({
+    queryKey: [namespace, paramsWithPageAndCount],
+    queryFn: () => ky.get(`eholdings/providers/${providerId}/packages?${qs.stringify(paramsWithPageAndCount)}`).json(),
+    keepPreviousData: true,
+  });
 
   return {
     isLoading: isFetching,

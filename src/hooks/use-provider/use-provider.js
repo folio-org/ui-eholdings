@@ -18,11 +18,11 @@ export const useProvider = ({ providerId }) => {
   // we want to keep the query key consistent so request results can be reused without extra requests
   const providerIdString = String(providerId);
 
-  const { data = {}, isFetching } = useQuery(
-    [namespace, providerIdString],
-    () => ky.get(`eholdings/providers/${providerIdString}`).json(),
-    { enabled: Boolean(providerIdString) },
-  );
+  const { data = {}, isFetching } = useQuery({
+    queryKey: [namespace, providerIdString],
+    queryFn: () => ky.get(`eholdings/providers/${providerIdString}`).json(),
+    enabled: Boolean(providerIdString),
+  });
 
   /* response structure
     {
