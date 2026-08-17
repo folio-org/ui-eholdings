@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { filter } from 'funcadelic';
 import noop from 'lodash/noop';
@@ -9,6 +10,7 @@ import {
   Label,
   RadioButton,
   Select,
+  Selection,
 } from '@folio/stripes/components';
 import { ColumnManagerMenu } from '@folio/stripes/smart-components';
 
@@ -54,6 +56,7 @@ const SearchFilters = ({
   toggleColumn = noop,
   hasColumnManager = false,
 }) => {
+  const { formatMessage } = useIntl();
   const labelRef = useRef(null);
   const columnManagerPrefix = `eholdings-${searchType}`;
 
@@ -137,15 +140,57 @@ const SearchFilters = ({
     );
   };
 
+  const renderSingleSelection = ({ name, options, accordionLabelId, defaultValue }) => {
+    return (
+      <div
+        role="radiogroup"
+        aria-labelledby={accordionLabelId}
+      >
+        <Selection
+          dataOptions={options}
+          validationEnabled={false}
+          value={activeFilters[name] || defaultValue}
+          onChange={(value) => {
+            const replaced = {
+              ...activeFilters,
+              // if this option is a default, clear the filter
+              [name]: value === defaultValue ? undefined : value
+            };
+            const withoutDefault = filter(item => item.value !== undefined, replaced);
+
+            return onUpdate(withoutDefault);
+          }}
+        />
+      </div>
+    );
+  };
+
+  const typeRenderer = (type, filterProps) => {
+    switch (type) {
+      case FILTER_TYPES.SELECT:
+        return renderSingleSelect(filterProps);
+      case FILTER_TYPES.SELECTION:
+        return renderSingleSelection(filterProps);
+      case FILTER_TYPES.CHECKBOX:
+      default:
+        return renderRadioGroup(filterProps);
+    }
+  };
+
   const renderFilters = () => {
     return (
       <>
         {availableFilters.map(({ type, name, label, defaultValue, options }) => {
           const accordionLabelId = `filter-${searchType}-${name}-label`;
 
+          const labelledOptions = options?.map((o) => ({
+            ...o,
+            label: formatMessage({ id: o.labelId }),
+          }));
+
           const filterProps = {
             name,
-            options,
+            options: labelledOptions,
             accordionLabelId,
             defaultValue,
             label,
@@ -173,10 +218,7 @@ const SearchFilters = ({
                     onClick={() => handleClearButtonClick(accordionLabelId, name)}
                   />
                 </div>
-                {type === FILTER_TYPES.SELECT
-                  ? renderSingleSelect(filterProps)
-                  : renderRadioGroup(filterProps)
-                }
+                {typeRenderer(type, filterProps)}
               </div>
             );
           }
@@ -198,10 +240,7 @@ const SearchFilters = ({
               id={`filter-${searchType}-${name}`}
               className={styles['search-filter-accordion']}
             >
-              {type === FILTER_TYPES.SELECT
-                ? renderSingleSelect(filterProps)
-                : renderRadioGroup(filterProps)
-              }
+              {typeRenderer(type, filterProps)}
             </Accordion>
           );
         })}
