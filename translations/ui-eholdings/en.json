@@ -226,6 +226,7 @@
     "package.toast.isFreshlySaved": "Package saved. Note: A proxy or token update may take a few minutes and may require refreshing page.",
     "package.token.addToken": "Add a package level token",
     "package.customAltNames": "Custom alternate names",
+    "package.packageDisplayName": "Package display name",
 
     "resource.modal.header": "Remove title from holdings?",
     "resource.show.modal.header": "Remove resource from holdings?",
@@ -434,6 +435,7 @@
     "label.titleType": "Title type",
     "label.description": "Description",
     "label.name": "Name",
+    "label.displayName": "Package display name",
     "label.addCustomAlternateName": "Add name",
     "label.customAlternateName": "Custom alternate name",
     "label.name.isRequired": "Name *",
@@ -506,6 +508,7 @@
     "validate.errors.title.description.length": "The value entered exceeds the {amount} character limit. Please enter a value that does not exceed {amount} characters.",
     "validate.errors.customPackage.name": "Custom packages must have a name.",
     "validate.errors.customPackage.name.length": "Must not exceed {amount} characters.",
+    "validate.errors.customPackage.displayName.length": "{amount} character limit has been exceeded. Please revise the name.",
     "validate.errors.customPackage.customAlternateName.length": "{amount} character limit has been exceeded. Please revise the name.",
     "validate.errors.customPackage.customAlternateName.doubleQuotes": "Double quotes are an invalid character. Please revise the name.",
     "validate.errors.coverageStatement.length": "Statement must be 350 characters or less.",
