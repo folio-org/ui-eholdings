@@ -5,6 +5,7 @@ class Package {
   providerId = null;
   providerName = '';
   customAltNames = [];
+  customDisplayName = '';
   isSelected = false;
   allowKbToAddTitles = null; // This could default to false after RM API starts sending this attribute in packages list to mod-kb-ebsco
   contentType = '';
@@ -48,6 +49,7 @@ class Package {
         isFullPackage: this.isSelected && !this.isPartiallySelected,
         accessTypeId: this.accessTypeId,
         customAltNames: this.customAltNames,
+        customDisplayName: this.customDisplayName,
       };
     }
 

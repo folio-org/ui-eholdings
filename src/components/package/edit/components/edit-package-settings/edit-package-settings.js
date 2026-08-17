@@ -20,13 +20,10 @@ import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
-
-import {
-  ONE_THIRD_OF_COLUMN_WIDTH,
-  QUARTER_OF_COLUMN_WIDTH,
-} from '../../../../../constants';
+import { DisplayName } from '../../../_fields/display-name';
 
 import fieldsetStyles from '../../../../fieldset-styles.css';
+import packageEditStyles from '../../../package-edit.css';
 
 const propTypes = {
   accessStatusTypes: PropTypes.object,
@@ -103,12 +100,12 @@ const EditPackageSettings = ({
 
     return (
       <>
-        <Row>
-          <Col xs={6}>
+        <Row className={packageEditStyles.row}>
+          <Col xs={3}>
             <VisibilityEdit />
           </Col>
           {!packageIsCustom && (
-            <Col xs={6}>
+            <Col xs={3}>
               {initialValues.allowKbToAddTitles !== null
                 ? renderTitleManagementRadios()
                 : (
@@ -122,14 +119,9 @@ const EditPackageSettings = ({
               }
             </Col>
           )}
-          <Col xs={6}>
-            <CustomAlternateNames />
-          </Col>
-        </Row>
-        <Row>
           {(proxyTypes.request.isResolved && provider.data.isLoaded)
             ? (
-              <Col xs={isAccessStatusTypes ? QUARTER_OF_COLUMN_WIDTH : ONE_THIRD_OF_COLUMN_WIDTH}>
+              <Col xs={3}>
                 <div data-test-eholdings-package-proxy-select-field>
                   <ProxySelectField
                     proxyTypes={proxyTypes}
@@ -142,10 +134,18 @@ const EditPackageSettings = ({
             )
           }
           {isAccessStatusTypes && (
-            <Col xsOffset={QUARTER_OF_COLUMN_WIDTH} xs={QUARTER_OF_COLUMN_WIDTH}>
+            <Col xs={3}>
               <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
             </Col>
           )}
+        </Row>
+        <Row className={packageEditStyles.row}>
+          <Col xs={3}>
+            <DisplayName />
+          </Col>
+          <Col xs={3}>
+            <CustomAlternateNames />
+          </Col>
         </Row>
         {!packageIsCustom && supportsProviderTokens && (
           <fieldset>

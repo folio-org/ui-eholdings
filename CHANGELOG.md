@@ -13,7 +13,8 @@
 * View/Edit Package Detail Record: Add a new field: Custom alternate package names. (UIEH-1502)
 * *BREAKING* eHoldings Package record - Show additional visibility fields. (UIEH-1500)
 * Change package type facet to searchable selection, and use all filters for search regardless of query presence (UIEH-1527)
-* Add package access filter to package search and provider package search. (UIEH-1527)
+* View/Edit Package Detail Record: Add a Package Display Name field. (UIEH-1501)
+* Add package access filter to package search and provider package search. (UIEH-1526)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 
