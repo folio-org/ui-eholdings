@@ -23,17 +23,16 @@ import { useCallout } from '@folio/stripes/core';
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import { CustomAlternateNames } from '../_fields/custom-alternate-names';
+import { DisplayName } from '../_fields/display-name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import AccessTypeEditSection from '../../access-type-edit-section';
-
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import { accessTypesReduxStateShape } from '../../../constants';
 
 import styles from './package-create.css';
-import { DisplayName } from '../_fields/display-name';
 
 const initialValues = {
   name: '',
