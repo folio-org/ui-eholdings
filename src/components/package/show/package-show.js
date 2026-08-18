@@ -16,7 +16,10 @@ import {
   IfInterface,
 } from '@folio/stripes/core';
 import { NotesSmartAccordion } from '@folio/stripes/smart-components';
-import { Button } from '@folio/stripes/components';
+import {
+  Button,
+  LoadingView,
+} from '@folio/stripes/components';
 
 import DetailsView from '../../details-view';
 import Toaster from '../../toaster';
@@ -73,7 +76,6 @@ const propTypes = {
   onToggleTitles: PropTypes.func.isRequired,
   packageTitles: PropTypes.object.isRequired,
   pkgSearchParams: PropTypes.object.isRequired,
-  provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
   renderAccordionHeaderSearch: PropTypes.func,
   tagsModel: PropTypes.object,
@@ -96,7 +98,6 @@ const PackageShow = ({
   model,
   onEdit,
   packageTitles,
-  provider,
   proxyTypes,
   renderAccordionHeaderSearch,
   tagsModel,
@@ -192,7 +193,6 @@ const PackageShow = ({
 
     return (
       <Button
-        data-test-eholdings-package-remove-from-holdings-action
         buttonStyle="dropdownItem fullWidth"
         data-testid={translationId}
         onClick={() => {
@@ -232,7 +232,6 @@ const PackageShow = ({
     return (
       <IfPermission perm={PACKAGE_TITLE_SELECT_UNSELECT_PERMISSION}>
         <Button
-          data-test-eholdings-package-add-to-holdings-action
           data-testid="add-to-holdings-dropdown-button"
           buttonStyle="dropdownItem fullWidth"
           onClick={() => {
@@ -326,7 +325,6 @@ const PackageShow = ({
           onToggle={handleSectionToggle}
           model={model}
           proxyTypes={proxyTypes}
-          provider={provider}
           accessStatusTypes={accessStatusTypes}
           packageAllowedToAddTitles={packageAllowedToAddTitles}
           packageSelected={packageSelected}
@@ -443,6 +441,10 @@ const PackageShow = ({
       message: <FormattedMessage id="ui-eholdings.package.toast.isFreshlySaved" />,
       type: 'success',
     });
+  }
+
+  if (model.isLoading) {
+    return <LoadingView />;
   }
 
   return (

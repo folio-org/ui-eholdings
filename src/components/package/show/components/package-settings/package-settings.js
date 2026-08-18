@@ -20,17 +20,18 @@ import {
   VisibilityView,
   PackageDisplayName,
 } from './fields';
+import { useProvider } from '../../../../../hooks';
 import { getAccessTypeId } from '../../../../utilities';
 import { accessTypesReduxStateShape } from '../../../../../constants';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   packageAllowedToAddTitles: PropTypes.bool.isRequired,
   packageSelected: PropTypes.bool.isRequired,
-  provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
 };
 
@@ -39,16 +40,17 @@ const PackageSettings = ({
   onToggle,
   model,
   proxyTypes,
-  provider,
   accessStatusTypes,
   packageAllowedToAddTitles,
   packageSelected,
 }) => {
+  const { data: provider, isLoading: isProviderLoading } = useProvider({ providerId: model.providerId });
+
   const renderPackageSettings = () => {
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
-    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
+    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && !model.isLoading && !isProviderLoading;
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
 

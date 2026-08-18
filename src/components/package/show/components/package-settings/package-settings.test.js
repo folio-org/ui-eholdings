@@ -39,17 +39,6 @@ const model = {
   },
 };
 
-const provider = {
-  isLoaded: true,
-  isLoading: false,
-  providerToken: {
-    prompt: '',
-  },
-  proxy: {
-    id: 'proxy-id',
-  },
-};
-
 const proxyTypes = {
   request: {
     isResolved: true,
@@ -93,7 +82,6 @@ describe('Given PackageSettings', () => {
         model={model}
         packageAllowedToAddTitles
         packageSelected
-        provider={provider}
         proxyTypes={proxyTypes}
         accessStatusTypes={accessStatusTypes}
         {...props}

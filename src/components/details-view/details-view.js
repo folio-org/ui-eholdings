@@ -42,10 +42,10 @@ const propTypes = {
   listType: PropTypes.node,
   location: PropTypes.object.isRequired,
   model: PropTypes.shape({
-    isLoaded: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    request: PropTypes.object.isRequired,
+    isLoaded: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    name: PropTypes.string,
+    request: PropTypes.object,
   }).isRequired,
   onCancel: PropTypes.func,
   onListToggle: PropTypes.func,
@@ -58,7 +58,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.element,
     PropTypes.node,
-  ]).isRequired,
+  ]),
   renderAccordionHeaderSearch: PropTypes.func,
   renderList: PropTypes.func,
   resultsLength: PropTypes.number,
@@ -83,7 +83,7 @@ const DetailsView = ({
   const {
     type,
     model,
-    paneTitle,
+    paneTitle = '',
     actionMenu,
     lastMenu,
     footer,
@@ -248,7 +248,7 @@ const DetailsView = ({
     return request.isRejected
       ? (
         <p data-test-eholdings-details-view-error={type}>
-          {request.errors[0].title}
+          {request?.errors[0].title}
         </p>
       )
       : <Icon icon="spinner-ellipsis" />;
