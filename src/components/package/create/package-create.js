@@ -15,6 +15,8 @@ import {
   Pane,
   Paneset,
   PaneFooter,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 import { useCallout } from '@folio/stripes/core';
 
@@ -31,6 +33,7 @@ import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 import { accessTypesReduxStateShape } from '../../../constants';
 
 import styles from './package-create.css';
+import { DisplayName } from '../_fields/display-name';
 
 const initialValues = {
   name: '',
@@ -161,7 +164,14 @@ const PackageCreate = ({
                       label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}
                       separator={false}
                     >
-                      <CustomAlternateNames />
+                      <Row>
+                        <Col xs={4}>
+                          <DisplayName />
+                        </Col>
+                        <Col xs={4}>
+                          <CustomAlternateNames />
+                        </Col>
+                      </Row>
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}

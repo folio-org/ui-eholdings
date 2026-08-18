@@ -79,6 +79,12 @@ describe('PackageCreate', () => {
     expect(getByRole('textbox', { name: 'ui-eholdings.label.name' })).toBeDefined();
   });
 
+  it('should display input for package display name', () => {
+    const { getByRole } = renderPackageCreate();
+
+    expect(getByRole('textbox', { name: 'ui-eholdings.label.displayName' })).toBeDefined();
+  });
+
   it('should display dropdown field for package content type', () => {
     const { getByRole } = renderPackageCreate();
 
