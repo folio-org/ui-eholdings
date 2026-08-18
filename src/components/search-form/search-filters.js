@@ -10,7 +10,6 @@ import {
   Label,
   RadioButton,
   Select,
-  Selection,
 } from '@folio/stripes/components';
 import { ColumnManagerMenu } from '@folio/stripes/smart-components';
 
@@ -140,37 +139,10 @@ const SearchFilters = ({
     );
   };
 
-  const renderSingleSelection = ({ name, options, accordionLabelId, defaultValue }) => {
-    return (
-      <div
-        role="radiogroup"
-        aria-labelledby={accordionLabelId}
-      >
-        <Selection
-          dataOptions={options}
-          validationEnabled={false}
-          value={activeFilters[name] || defaultValue}
-          onChange={(value) => {
-            const replaced = {
-              ...activeFilters,
-              // if this option is a default, clear the filter
-              [name]: value === defaultValue ? undefined : value
-            };
-            const withoutDefault = filter(item => item.value !== undefined, replaced);
-
-            return onUpdate(withoutDefault);
-          }}
-        />
-      </div>
-    );
-  };
-
   const typeRenderer = (type, filterProps) => {
     switch (type) {
       case FILTER_TYPES.SELECT:
         return renderSingleSelect(filterProps);
-      case FILTER_TYPES.SELECTION:
-        return renderSingleSelection(filterProps);
       case FILTER_TYPES.CHECKBOX:
       default:
         return renderRadioGroup(filterProps);

@@ -462,10 +462,11 @@ class SearchRoute extends Component {
       'access-type': accessType,
       'type': contentType,
       selected = '',
+      access = ''
     } = filter;
 
     const isSearching = params.q || tags || accessType;
-    const isPackageSearching = searchType === searchTypes.PACKAGES && (selected || contentType);
+    const isPackageSearching = searchType === searchTypes.PACKAGES && (selected || contentType || access);
 
     if (isSearching || isPackageSearching) {
       if (searchType === searchTypes.PROVIDERS) {
