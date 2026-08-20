@@ -15,17 +15,19 @@ import {
   Pane,
   Paneset,
   PaneFooter,
+  Row,
+  Col,
 } from '@folio/stripes/components';
 import { useCallout } from '@folio/stripes/core';
 
 import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import { CustomAlternateNames } from '../_fields/custom-alternate-names';
+import { DisplayName } from '../_fields/display-name';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
 import AccessTypeEditSection from '../../access-type-edit-section';
-
 import KeyShortcutsWrapper from '../../key-shortcuts-wrapper';
 
 import { accessTypesReduxStateShape } from '../../../constants';
@@ -161,7 +163,14 @@ const PackageCreate = ({
                       label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}
                       separator={false}
                     >
-                      <CustomAlternateNames />
+                      <Row>
+                        <Col xs={4}>
+                          <DisplayName />
+                        </Col>
+                        <Col xs={4}>
+                          <CustomAlternateNames />
+                        </Col>
+                      </Row>
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}

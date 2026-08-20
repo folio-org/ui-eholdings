@@ -4,6 +4,8 @@ import { useMutation } from 'react-query';
 import { useOkapiKy } from '@folio/stripes/core';
 import { dayjs } from '@folio/stripes/components';
 
+import { serializePackageAttributes } from '../../utils/serialize-package';
+
 const usePackageCreate = ({ onSuccess }) => {
   const [errors, setErrors] = useState([]);
 
@@ -15,7 +17,7 @@ const usePackageCreate = ({ onSuccess }) => {
   });
 
   const formatValuesIntoPackageData = (values) => {
-    const attrs = {};
+    const attrs = serializePackageAttributes(values);
 
     if (values?.customCoverages?.[0]) {
       attrs.customCoverage = {
