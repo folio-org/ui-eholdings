@@ -1,4 +1,9 @@
 import { MemoryRouter } from 'react-router-dom';
+import {
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router';
 
 import {
   render,
@@ -7,43 +12,17 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageEditRoute from './package-edit-route';
+import { usePackageModel } from '../../hooks';
 import Harness from '../../../test/jest/helpers/harness';
 
-const provider = {
-  id: 'providerid',
-  isLoading: false,
-  providerToken: {
-    value: 'provider-token',
-    prompt: '',
-  },
-  data: {
-    isLoaded: true,
-    isLoading: false,
-  },
-  proxy: {
-    id: 'proxy-id',
-  },
-};
+const packageId = 'providerid-titleid';
 
-const packageId = `${provider.id}-titleid`;
+const mockHistoryReplace = jest.fn();
 
-const history = {
-  replace: jest.fn(),
-};
-
-const location = {
+const mockLocation = {
   pathname: 'pathname',
   search: '?searchType=packages&q=test&offset=1',
   hash: '',
-};
-
-const match = {
-  isExact: true,
-  params: {
-    packageId,
-  },
-  path: '/eholdings/packages/:packageId/edit',
-  url: `/eholdings/packages/${packageId}/edit`,
 };
 
 const getModelMock = () => ({
@@ -90,13 +69,6 @@ const getModelMock = () => ({
   },
 });
 
-const updateRequest = {
-  errors: [],
-  isResolved: true,
-  isPending: false,
-  timestamp: 0,
-};
-
 const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
@@ -131,42 +103,20 @@ const proxyTypes = {
   },
 };
 
-const mockGetPackage = jest.fn();
-const mockDestroyPackage = jest.fn();
+const mockDeletePackage = jest.fn();
 const mockGetAccessTypes = jest.fn();
-const mockGetProvider = jest.fn();
 const mockGetProxyTypes = jest.fn();
 const mockUpdatePackage = jest.fn();
 const mockRemoveUpdateRequests = jest.fn();
-const mockUnloadResources = jest.fn();
-const mockUpdateProvider = jest.fn();
-
-let model;
 
 const getPackageEditRoute = (props = {}) => {
-  // the component mutates the model, so we need to get a new model object for each test
-  model = getModelMock();
-
   return (
     <MemoryRouter>
       <Harness>
         <PackageEditRoute
           accessStatusTypes={accessStatusTypes}
-          history={history}
-          location={location}
-          match={match}
-          model={model}
-          updateRequest={updateRequest}
-          updatePackage={mockUpdatePackage}
           proxyTypes={proxyTypes}
-          provider={provider}
-          removeUpdateRequests={mockRemoveUpdateRequests}
-          unloadResources={mockUnloadResources}
-          updateProvider={mockUpdateProvider}
-          getPackage={mockGetPackage}
-          destroyPackage={mockDestroyPackage}
           getAccessTypes={mockGetAccessTypes}
-          getProvider={mockGetProvider}
           getProxyTypes={mockGetProxyTypes}
           {...props}
         />
@@ -180,6 +130,19 @@ const renderPackageEditRoute = (props) => render(getPackageEditRoute(props));
 describe('Given PackageEditRoute', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    useHistory.mockClear().mockReturnValue({
+      replace: mockHistoryReplace,
+      block: jest.fn().mockReturnValue(jest.fn()),
+    });
+    useParams.mockClear().mockReturnValue({
+      packageId,
+    });
+    useLocation.mockClear().mockReturnValue(mockLocation);
+    usePackageModel.mockClear().mockReturnValue({
+      updatePackage: mockUpdatePackage,
+      deletePackage: mockDeletePackage,
+      model: getModelMock(),
+    });
   });
 
   afterEach(cleanup);
@@ -187,49 +150,31 @@ describe('Given PackageEditRoute', () => {
   it('should request all data', async () => {
     await renderPackageEditRoute();
 
-    expect(mockGetPackage).toHaveBeenCalledWith(packageId);
     expect(mockGetProxyTypes).toHaveBeenCalled();
-    expect(mockGetProvider).toHaveBeenCalledWith(provider.id);
     expect(mockGetAccessTypes).toHaveBeenCalled();
   });
 
-  describe('when package is destroyed', () => {
-    it('should redirect back to search page', async () => {
-      const { rerender } = await renderPackageEditRoute();
-
-      rerender(getPackageEditRoute({
-        model: {
-          ...model,
-          destroy: {
-            isResolved: true,
-            errors: [],
-          },
-        },
-      }));
-
-      expect(history.replace).toHaveBeenCalledWith({
-        pathname: '/eholdings',
-        search: location.search,
-      }, { eholdings: true });
+  describe('when package is deleted', () => {
+    beforeEach(() => {
+      usePackageModel.mockClear().mockImplementation(({ onDeleteSuccess }) => {
+        return {
+          model: getModelMock(),
+          deletePackage: () => onDeleteSuccess(),
+        };
+      });
     });
-  });
 
-  describe('when packageId in url has changed', () => {
-    it('should handle getpackage', async () => {
-      const newpackageId = 'new-test-package-id';
+    it('should redirect back to search page', async () => {
+      const { getAllByRole, getByRole } = await renderPackageEditRoute();
 
-      const { rerender } = await renderPackageEditRoute();
+      fireEvent.click(getAllByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' })[0]);
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }));
 
-      rerender(getPackageEditRoute({
-        match: {
-          ...match,
-          params: {
-            packageId: newpackageId,
-          },
-        },
-      }));
-
-      expect(mockGetPackage).toHaveBeenCalledWith(newpackageId);
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
+        pathname: '/eholdings',
+        search: mockLocation.search,
+      }, { eholdings: true });
     });
   });
 
@@ -282,69 +227,51 @@ describe('Given PackageEditRoute', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.icon.closeX' }));
 
-      expect(history.replace).toHaveBeenCalled();
+      expect(mockHistoryReplace).toHaveBeenCalled();
     });
   });
 
   describe('when package is not pending anymore and needs update', () => {
+    beforeEach(() => {
+      usePackageModel.mockClear().mockImplementation(({ onUpdateSuccess }) => {
+        return {
+          model: getModelMock(),
+          updatePackage: () => onUpdateSuccess(),
+        };
+      });
+    });
+
     it('should redirect to the view package page', () => {
-      const { rerender } = renderPackageEditRoute({
-        model: {
-          ...model,
-          update: {
-            ...model.update,
-            isPending: true,
-          },
-        },
-      });
+      const { getByRole } = renderPackageEditRoute();
 
-      rerender(getPackageEditRoute());
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
 
-      expect(history.replace).toHaveBeenCalled();
-    });
-  });
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
-  describe('when model is not loaded', () => {
-    describe('when request is not rejected', () => {
-      it('should show spinner', () => {
-        const { container } = renderPackageEditRoute({
-          model: {
-            ...model,
-            isLoaded: false,
-          },
-        });
-
-        expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
-      });
-    });
-
-    describe('when request is rejected', () => {
-      it('should display an error', () => {
-        const { getByText } = renderPackageEditRoute({
-          model: {
-            ...model,
-            isLoaded: false,
-            request: {
-              ...model.request,
-              errors: [{ title: 'Error title' }],
-              isRejected: true,
-            },
-          },
-        });
-
-        expect(getByText('Error title')).toBeDefined();
-      });
+      expect(mockHistoryReplace).toHaveBeenCalledWith(expect.objectContaining({
+        pathname: `/eholdings/packages/${packageId}`,
+        search: mockLocation.search,
+        state: { eholdings: true, isFreshlySaved: true }
+      }));
     });
   });
 
   describe('when package is added to holdings', () => {
-    it('should update package', () => {
-      const { getByText } = renderPackageEditRoute({
-        model: {
-          ...model,
-          isSelected: false,
-        },
+    const model = {
+      ...getModelMock(),
+      isSelected: false,
+    };
+
+    beforeEach(() => {
+      usePackageModel.mockClear().mockReturnValue({
+        model,
+        updatePackage: mockUpdatePackage,
       });
+    });
+
+    it('should update package', () => {
+      const { getByText } = renderPackageEditRoute();
 
       fireEvent.click(getByText('ui-eholdings.addPackageToHoldings'));
 
@@ -359,20 +286,25 @@ describe('Given PackageEditRoute', () => {
 
   describe('when date range in the "Coverage Settings" section is removed', () => {
     describe('and user clicks Save&Close button', () => {
-      it('should update package with the empty customCoverage', () => {
-        const {
-          getByRole,
-          getAllByRole,
-        } = renderPackageEditRoute({
+      beforeEach(() => {
+        usePackageModel.mockClear().mockReturnValue({
           model: {
-            ...model,
+            ...getModelMock(),
             isSelected: true,
             customCoverage: {
               beginCoverage: '2023-10-30',
               endCoverage: '2023-10-31',
             },
           },
+          updatePackage: mockUpdatePackage,
         });
+      });
+
+      it('should update package with the empty customCoverage', () => {
+        const {
+          getByRole,
+          getAllByRole,
+        } = renderPackageEditRoute();
 
         // second returned element should be the delete coverage button
         const deleteCoverageButton = getAllByRole('button', { name: 'stripes-components.deleteThisItem' })[1];
@@ -387,39 +319,58 @@ describe('Given PackageEditRoute', () => {
   });
 
   describe('when a custom package is deselected', () => {
-    it('should call destroyPackage', () => {
+    const model = {
+      ...getModelMock(),
+      isCustom: true,
+      isSelected: true,
+    };
+
+    beforeEach(() => {
+      usePackageModel.mockClear().mockReturnValue({
+        model,
+        deletePackage: mockDeletePackage,
+        updatePackage: mockUpdatePackage,
+      });
+    });
+
+    it('should call deletePackage', () => {
       const { getByText } = renderPackageEditRoute();
 
       fireEvent.click(getByText('ui-eholdings.package.deletePackage'));
       fireEvent.click(getByText('ui-eholdings.package.modal.buttonConfirm.isCustom'));
 
-      expect(mockDestroyPackage).toHaveBeenCalled();
+      expect(mockDeletePackage).toHaveBeenCalled();
     });
   });
 
   describe('when a managed package is deselected', () => {
-    it('should call destroyPackage', () => {
-      const { getByText } = renderPackageEditRoute({
-        model: {
-          ...model,
-          isCustom: false,
-        },
+    const model = {
+      ...getModelMock(),
+      isCustom: false,
+      isSelected: true,
+    };
+
+    beforeEach(() => {
+      usePackageModel.mockClear().mockReturnValue({
+        model,
+        updatePackage: mockUpdatePackage,
       });
+    });
+
+    it('should call updatePackage', () => {
+      const { getByText } = renderPackageEditRoute();
 
       fireEvent.click(getByText('ui-eholdings.package.removeFromHoldings'));
       fireEvent.click(getByText('ui-eholdings.package.modal.buttonConfirm'));
 
-      expect(mockUpdatePackage).toHaveBeenCalled();
-    });
-  });
-
-  describe('when component is unmounted', () => {
-    it('should handle removeUpdateRequests', async () => {
-      const { unmount } = await renderPackageEditRoute();
-
-      unmount();
-
-      expect(mockRemoveUpdateRequests).toHaveBeenCalled();
+      expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
+        ...model,
+        isSelected: false,
+        visibility: [],
+        customCoverage: {},
+        allowKbToAddTitles: false,
+        accessTypeId: null,
+      }));
     });
   });
 });

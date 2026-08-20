@@ -89,13 +89,13 @@ const ManagedPackageEdit = ({
       customAltNames,
       customDisplayName,
       proxyId: (matchingProxy?.id || proxy.id).toLowerCase(),
-      providerTokenValue: provider.providerToken.value,
-      packageTokenValue: packageToken.value,
+      providerTokenValue: provider.providerToken?.value,
+      packageTokenValue: packageToken?.value,
       visibility,
       allowKbToAddTitles,
       accessTypeId: getAccessTypeId(model),
     };
-  }, [model, provider.providerToken.value, proxyTypes]);
+  }, [model, provider.providerToken?.value, proxyTypes]);
 
   const [showSelectionModal, setShowSelectionModal] = useState(false);
   const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
@@ -112,7 +112,7 @@ const ManagedPackageEdit = ({
   });
   const editFormRef = useRef(null);
 
-  const isProxyTypesLoaded = proxyTypes.request.isResolved && provider.data.isLoaded;
+  const isProxyTypesLoaded = proxyTypes.request.isResolved && provider.isLoaded;
 
   useEffect(() => {
     if (isProxyTypesLoaded) {
@@ -120,17 +120,21 @@ const ManagedPackageEdit = ({
     }
   }, [isProxyTypesLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken.value;
+  const providerTokenWasLoaded = !initialValues.providerTokenValue && provider.providerToken?.value;
   const selectionStatusChanged = model.isSelected !== initialValues.isSelected;
 
-  if (selectionStatusChanged || providerTokenWasLoaded) {
-    setInitialValues(getInitialValues());
-    setPackageSelected(model.isSelected);
-  }
+  useEffect(() => {
+    if (selectionStatusChanged || providerTokenWasLoaded) {
+      setInitialValues(getInitialValues());
+      setPackageSelected(model.isSelected);
+    }
+  }, [getInitialValues, model.isSelected, providerTokenWasLoaded, selectionStatusChanged, setPackageSelected]);
 
-  if (model.update.errors.length) {
-    setShowSelectionModal(false);
-  }
+  useEffect(() => {
+    if (model.update.errors.length) {
+      setShowSelectionModal(false);
+    }
+  }, [model.update.errors.length]);
 
   const handleOnSubmit = (values, allowSubmit = allowFormToSubmit) => {
     if (allowSubmit === false && values.isSelected === false) {

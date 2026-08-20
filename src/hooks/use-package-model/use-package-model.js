@@ -9,6 +9,7 @@ export const usePackageModel = ({
   packageId,
   onDeleteSuccess,
   onCreateSuccess,
+  onUpdateSuccess,
 }) => {
   const {
     data,
@@ -27,7 +28,7 @@ export const usePackageModel = ({
     isLoading: isUpdateLoading,
     isError: isUpdateError,
     errors: updateErrors,
-  } = usePackageUpdate({ packageId, onSuccess: () => {} });
+  } = usePackageUpdate({ packageId, onSuccess: onUpdateSuccess });
   const {
     createPackage,
     isLoading: isPackageCreateLoading,

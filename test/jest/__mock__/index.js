@@ -1,5 +1,6 @@
 import './currencyData.mock';
 import './reactIntl.mock';
+import './reactRouter.mock';
 import './stripesComponents.mock';
 import './stripesConfig.mock';
 import './stripesCore.mock';
