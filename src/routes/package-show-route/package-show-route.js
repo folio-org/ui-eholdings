@@ -195,6 +195,7 @@ const PackageShowRoute = ({
       if (!updatedModel.isSelected) {
         updatedModel.customCoverage = {};
         updatedModel.allowKbToAddTitles = false;
+        updatedModel.visibility = null;
       }
 
       updatePackage(updatedModel);

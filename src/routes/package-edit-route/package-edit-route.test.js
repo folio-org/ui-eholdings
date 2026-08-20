@@ -366,7 +366,7 @@ describe('Given PackageEditRoute', () => {
       expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
         ...model,
         isSelected: false,
-        visibility: [],
+        visibility: null,
         customCoverage: {},
         allowKbToAddTitles: false,
         accessTypeId: null,

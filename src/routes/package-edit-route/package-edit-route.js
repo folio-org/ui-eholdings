@@ -73,8 +73,14 @@ const PackageEditRoute = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const providerEditSubmitted = (values) => {
-    provider.providerToken.value = values.providerTokenValue;
-    updateProvider(provider);
+    const attrs = {
+      providerToken: {
+        ...provider.providerToken,
+        value: values.providerTokenValue,
+      },
+    };
+
+    updateProvider(attrs);
   };
 
   const deselectPackage = () => {
@@ -82,7 +88,7 @@ const PackageEditRoute = ({
     // When de-selecting a managed package
     // need to clear out customizations before sending to server
     attrs.isSelected = false;
-    attrs.visibility = [];
+    attrs.visibility = null;
     attrs.customCoverage = {};
     attrs.allowKbToAddTitles = false;
     attrs.accessTypeId = null;
@@ -101,13 +107,37 @@ const PackageEditRoute = ({
   const updatePackageValues = (values) => {
     const attrs = { ...model };
 
+    if ('isSelected' in values) {
+      attrs.isSelected = values.isSelected;
+    }
+
+    attrs.visibility = values.visibility;
+
+    if ('allowKbToAddTitles' in values) {
+      attrs.allowKbToAddTitles = values.allowKbToAddTitles;
+    }
+
+    if ('name' in values) {
+      attrs.name = values.name;
+    }
+
+    if ('contentType' in values) {
+      attrs.contentType = values.contentType;
+    }
+
     if ('proxyId' in values) {
-      attrs.proxy.id = values.proxyId;
-      attrs.proxy.inherited = false;
+      attrs.proxy = {
+        ...(attrs.proxy),
+        id: values.proxyId,
+        inherited: false,
+      };
     }
 
     if ('packageTokenValue' in values) {
-      attrs.packageToken.value = values.packageTokenValue;
+      attrs.packageToken = {
+        ...(attrs.packageToken || {}),
+        value: values.packageTokenValue,
+      };
     }
 
     if ('providerTokenValue' in values) {
