@@ -35,7 +35,7 @@ describe('Given CustomAlternateNames', () => {
       fireEvent.change(input, { target: { value: 'a'.repeat(301) } });
       fireEvent.blur(input);
 
-      expect(getByText('ui-eholdings.validate.errors.package.displayName.length')).toBeDefined();
+      expect(getByText('ui-eholdings.validate.errors.customPackage.displayName.length')).toBeDefined();
     });
   });
 
@@ -48,7 +48,7 @@ describe('Given CustomAlternateNames', () => {
       fireEvent.change(input, { target: { value: 'a'.repeat(300) } });
       fireEvent.blur(input);
 
-      expect(queryByText('ui-eholdings.validate.errors.package.displayName.length')).toBeNull();
+      expect(queryByText('ui-eholdings.validate.errors.customPackage.displayName.length')).toBeNull();
     });
   });
 });
