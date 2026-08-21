@@ -1,4 +1,4 @@
-export const serializePackageAttributes = (values) => {
+export const serializePackageAttributes = (values = {}) => {
   return {
     name: values.name,
     isSelected: values.isSelected,

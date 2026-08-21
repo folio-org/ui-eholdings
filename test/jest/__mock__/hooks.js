@@ -3,8 +3,10 @@ jest.mock('../../../src/hooks', () => ({
   useProvider: jest.fn().mockReturnValue({
     isLoaded: true,
     isLoading: false,
+    id: 'providerid',
     data: {
       providerToken: {
+        value: 'provider-token',
         prompt: 'proxy-prompt',
       },
       proxy: {

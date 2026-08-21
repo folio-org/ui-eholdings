@@ -5,6 +5,8 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 
+import { useBackendResponseErrors } from '../use-backend-response-errors';
+
 export const useProvider = ({ providerId }) => {
   const [namespace] = useNamespace({ key: 'provider' });
   const ky = useOkapiKy().extend({
@@ -13,15 +15,22 @@ export const useProvider = ({ providerId }) => {
       'Accept': 'application/vnd.api+json',
     },
   });
+  const { onError, errors } = useBackendResponseErrors();
 
   // in case if two instances of this hook are called with int providerId and string providerId
   // we want to keep the query key consistent so request results can be reused without extra requests
-  const providerIdString = String(providerId);
+  const providerIdString = providerId && String(providerId);
 
-  const { data = {}, isFetching } = useQuery({
+  const {
+    data = {},
+    isFetching,
+    isFetched,
+    isError,
+  } = useQuery({
     queryKey: [namespace, providerIdString],
     queryFn: () => ky.get(`eholdings/providers/${providerIdString}`).json(),
     enabled: Boolean(providerIdString),
+    onError,
   });
 
   /* response structure
@@ -41,6 +50,9 @@ export const useProvider = ({ providerId }) => {
 
   return {
     isLoading: isFetching,
+    isLoaded: isFetched,
+    isError,
+    errors,
     data: providerData,
   };
 };

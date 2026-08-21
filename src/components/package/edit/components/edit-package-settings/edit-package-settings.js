@@ -119,7 +119,7 @@ const EditPackageSettings = ({
               }
             </Col>
           )}
-          {(proxyTypes.request.isResolved && provider.data.isLoaded)
+          {(proxyTypes.request.isResolved && provider.isLoaded)
             ? (
               <Col xs={3}>
                 <div data-test-eholdings-package-proxy-select-field>

@@ -135,6 +135,39 @@ describe('Given PackageEdit', () => {
     expect(a11yResults.violations.length).toEqual(0);
   });
 
+  describe('when model is not loaded', () => {
+    describe('when request is not rejected', () => {
+      it('should show spinner', () => {
+        const { container } = renderPackageEdit({
+          model: {
+            ...model,
+            isLoaded: false,
+          },
+        });
+
+        expect(container.querySelector('.icon-spinner-ellipsis')).toBeDefined();
+      });
+    });
+
+    describe('when request is rejected', () => {
+      it('should display an error', () => {
+        const { getByText } = renderPackageEdit({
+          model: {
+            ...model,
+            isLoaded: false,
+            request: {
+              ...model.request,
+              errors: [{ title: 'Error title' }],
+              isRejected: true,
+            },
+          },
+        });
+
+        expect(getByText('Error title')).toBeDefined();
+      });
+    });
+  });
+
   it('should render coverage settings', () => {
     const { getByText } = renderPackageEdit();
 

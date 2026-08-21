@@ -1,233 +1,192 @@
-import { Component } from 'react';
+import {
+  useCallback,
+  useEffect,
+} from 'react';
+import {
+  useParams,
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import isEqual from 'lodash/isEqual';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
-import { dayjs } from '@folio/stripes/components';
 
 import View from '../../components/package/package-edit';
-
+import {
+  usePackageModel,
+  useProviderModel,
+} from '../../hooks';
 import {
   accessTypes,
   accessTypesReduxStateShape,
 } from '../../constants';
 
-class PackageEditRoute extends Component {
-  static propTypes = {
-    accessStatusTypes: accessTypesReduxStateShape.isRequired,
-    destroyPackage: PropTypes.func.isRequired,
-    getAccessTypes: PropTypes.func.isRequired,
-    getPackage: PropTypes.func.isRequired,
-    getProvider: PropTypes.func.isRequired,
-    getProxyTypes: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    model: PropTypes.object.isRequired,
-    provider: PropTypes.object.isRequired,
-    proxyTypes: PropTypes.object.isRequired,
-    removeUpdateRequests: PropTypes.func.isRequired,
-    unloadResources: PropTypes.func.isRequired,
-    updatePackage: PropTypes.func.isRequired,
-    updateProvider: PropTypes.func.isRequired
-  };
+const propTypes = {
+  accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  getAccessTypes: PropTypes.func.isRequired,
+  getProxyTypes: PropTypes.func.isRequired,
+  proxyTypes: PropTypes.object.isRequired,
+};
 
-  constructor(props) {
-    super(props);
-    const { packageId } = props.match.params;
-    const [providerId] = packageId.split('-');
-    props.getPackage(packageId);
-    props.getProxyTypes();
-    props.getProvider(providerId);
-    props.getAccessTypes();
-  }
+const PackageEditRoute = ({
+  accessStatusTypes,
+  getAccessTypes,
+  getProxyTypes,
+  proxyTypes,
+}) => {
+  const { packageId } = useParams();
+  const history = useHistory();
+  const location = useLocation();
+  const [providerId] = packageId.split('-');
 
-  componentDidUpdate(prevProps) {
-    const {
-      model: next,
-      match,
-      getPackage,
-      unloadResources,
-      history,
-      location
-    } = this.props;
-    const {
-      model: old,
-      match: oldMatch
-    } = prevProps;
-    const { packageId } = match.params;
-
-    if (!prevProps.model.destroy.isResolved && next.destroy.isResolved) {
-      // if package was reached based on search
-      if (location.search) {
-        history.replace({
-          pathname: '/eholdings',
-          search: this.props.location.search
-        }, { eholdings: true });
-        // package was reached directly from url not by search
-      } else {
-        history.replace('/eholdings?searchType=packages', { eholdings: true });
-      }
-    }
-
-    if (packageId !== oldMatch.params.packageId) {
-      getPackage(packageId);
-      // if an update just resolved, unfetch the package titles
-    } else if (next.update.isResolved && old.update.isPending) {
-      unloadResources(next.resources);
-    }
-
-    const wasPending = prevProps.model.update.isPending && !next.update.isPending;
-    const needsUpdate = !isEqual(prevProps.model, next);
-    const isRejected = this.props.model.update.isRejected;
-
-    const wasUnSelected = prevProps.model.isSelected && !next.isSelected;
-    const isCurrentlySelected = prevProps.model.isSelected && next.isSelected;
-    const isFreshlySaved = wasPending && needsUpdate && !isRejected && (wasUnSelected || isCurrentlySelected);
-
-    if (isFreshlySaved || (next.isLoaded && !next.isSelected)) {
+  const handlePackageDeleteSuccess = useCallback(() => {
+    if (location.search) {
       history.replace({
-        pathname: `/eholdings/packages/${next.id}`,
-        search: this.props.location.search,
-        state: { eholdings: true, isFreshlySaved }
-      });
+        pathname: '/eholdings',
+        search: location.search
+      }, { eholdings: true });
+      // package was reached directly from url not by search
+    } else {
+      history.replace('/eholdings?searchType=packages', { eholdings: true });
     }
-  }
+  }, [history, location.search]);
 
-  componentWillUnmount() {
-    this.props.removeUpdateRequests();
-  }
+  const handlePackageUpdateSuccess = useCallback(() => {
+    history.replace({
+      pathname: `/eholdings/packages/${packageId}`,
+      search: location.search,
+      state: { eholdings: true, isFreshlySaved: true }
+    });
+  }, [history, location.search, packageId]);
 
-  providerEditSubmitted = (values) => {
-    const { provider, updateProvider } = this.props;
-    provider.providerToken.value = values.providerTokenValue;
-    updateProvider(provider);
-  };
+  const { model, deletePackage, updatePackage } = usePackageModel({
+    packageId,
+    onDeleteSuccess: handlePackageDeleteSuccess,
+    onUpdateSuccess: handlePackageUpdateSuccess,
+  });
+  const { model: provider, updateProvider } = useProviderModel({ providerId });
 
-  deselectPackage = () => {
-    const { model, updatePackage } = this.props;
+  useEffect(() => {
+    getProxyTypes();
+    getAccessTypes();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // When de-selecting a managed package
-    // need to clear out customizations before sending to server
-    model.isSelected = false;
-    model.visibility = [];
-    model.customCoverage = {};
-    model.allowKbToAddTitles = false;
-    model.accessTypeId = null;
-    updatePackage(model);
-  };
-
-  selectPackage = () => {
-    const { model, updatePackage } = this.props;
-
-    model.isSelected = true;
-    model.allowKbToAddTitles = true;
-    model.customCoverage = {};
-    updatePackage(model);
-  };
-
-  updatePackageValues = (values) => {
-    const { model, updatePackage } = this.props;
-
-    let beginCoverage = '';
-    let endCoverage = '';
-
-    if (values.customCoverages[0]) {
-      beginCoverage = !values.customCoverages[0].beginCoverage ? '' : dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD');
-      endCoverage = !values.customCoverages[0].endCoverage ? '' : dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD');
-    }
-
-    model.customCoverage = {
-      beginCoverage,
-      endCoverage
+  const providerEditSubmitted = (values) => {
+    const attrs = {
+      providerToken: {
+        ...provider.providerToken,
+        value: values.providerTokenValue,
+      },
     };
 
+    updateProvider(attrs);
+  };
+
+  const deselectPackage = () => {
+    const attrs = { ...model };
+    // When de-selecting a managed package
+    // need to clear out customizations before sending to server
+    attrs.isSelected = false;
+    attrs.visibility = null;
+    attrs.customCoverage = {};
+    attrs.allowKbToAddTitles = false;
+    attrs.accessTypeId = null;
+    updatePackage(attrs);
+  };
+
+  const selectPackage = () => {
+    const attrs = { ...model };
+
+    attrs.isSelected = true;
+    attrs.allowKbToAddTitles = true;
+    attrs.customCoverage = {};
+    updatePackage(attrs);
+  };
+
+  const updatePackageValues = (values) => {
+    const attrs = { ...model };
+
     if ('isSelected' in values) {
-      model.isSelected = values.isSelected;
+      attrs.isSelected = values.isSelected;
     }
 
-    model.visibility = values.visibility;
+    attrs.visibility = values.visibility;
 
     if ('allowKbToAddTitles' in values) {
-      model.allowKbToAddTitles = values.allowKbToAddTitles;
+      attrs.allowKbToAddTitles = values.allowKbToAddTitles;
     }
 
     if ('name' in values) {
-      model.name = values.name;
+      attrs.name = values.name;
     }
 
     if ('contentType' in values) {
-      model.contentType = values.contentType;
+      attrs.contentType = values.contentType;
     }
 
     if ('proxyId' in values) {
-      model.proxy.id = values.proxyId;
-      model.proxy.inherited = false;
+      attrs.proxy = {
+        ...(attrs.proxy),
+        id: values.proxyId,
+        inherited: false,
+      };
     }
 
     if ('packageTokenValue' in values) {
-      model.packageToken.value = values.packageTokenValue;
+      attrs.packageToken = {
+        ...attrs.packageToken,
+        value: values.packageTokenValue,
+      };
     }
 
     if ('providerTokenValue' in values) {
-      this.providerEditSubmitted(values);
+      providerEditSubmitted(values);
     }
 
-    if ('customAltNames' in values) {
-      model.customAltNames = values.customAltNames?.map(field => ({ altName: field.altName }));
-    }
+    attrs.customDisplayName = values.customDisplayName || '';
+    attrs.customAltNames = values.customAltNames;
 
-    model.customDisplayName = values.customDisplayName || '';
-
-    model.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
+    attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
       ? values.accessTypeId
       : null;
 
-    updatePackage(model);
+    updatePackage(attrs);
   };
 
-  packageEditSubmitted = (values) => {
-    const { model, destroyPackage } = this.props;
+  const packageEditSubmitted = (values) => {
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && values.isSelected === false) {
-      destroyPackage(model);
+      deletePackage(packageId);
       return;
     }
 
     if (values.isSelected === false) {
-      this.deselectPackage();
+      deselectPackage();
       return;
     }
 
     if (values.isSelected && !values.customCoverages) {
-      this.selectPackage();
+      selectPackage();
       return;
     }
 
-    this.updatePackageValues(values);
+    updatePackageValues(values);
   };
 
   /* This method is common between package-show and package-edit routes
    * This should be refactored once we can share model between the routes.
   */
-  addPackageToHoldings = () => {
-    const { model, updatePackage } = this.props;
-    model.isSelected = true;
-    model.selectedCount = model.titleCount;
-    model.allowKbToAddTitles = true;
-    updatePackage(model);
+  const addPackageToHoldings = () => {
+    const attrs = { ...model };
+    attrs.isSelected = true;
+    attrs.selectedCount = model.titleCount;
+    attrs.allowKbToAddTitles = true;
+    updatePackage(attrs);
   };
 
-  handleCancel = () => {
-    const {
-      history,
-      model,
-      location,
-    } = this.props;
-
+  const handleCancel = () => {
     const viewRouteState = {
       pathname: `/eholdings/packages/${model.id}`,
       search: location.search,
@@ -239,32 +198,25 @@ class PackageEditRoute extends Component {
     history.replace(viewRouteState);
   };
 
-  render() {
-    const {
-      model,
-      proxyTypes,
-      provider,
-      accessStatusTypes,
-    } = this.props;
+  return (
+    <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
+      {([pageTitle]) => (
+        <TitleManager record={pageTitle}>
+          <View
+            model={model}
+            proxyTypes={proxyTypes}
+            provider={provider}
+            onSubmit={packageEditSubmitted}
+            onCancel={handleCancel}
+            addPackageToHoldings={addPackageToHoldings}
+            accessStatusTypes={accessStatusTypes}
+          />
+        </TitleManager>
+      )}
+    </FormattedMessage>
+  );
+};
 
-    return (
-      <FormattedMessage id="ui-eholdings.label.editLink" values={{ name: model.name }}>
-        {([pageTitle]) => (
-          <TitleManager record={pageTitle}>
-            <View
-              model={model}
-              proxyTypes={proxyTypes}
-              provider={provider}
-              onSubmit={this.packageEditSubmitted}
-              onCancel={this.handleCancel}
-              addPackageToHoldings={this.addPackageToHoldings}
-              accessStatusTypes={accessStatusTypes}
-            />
-          </TitleManager>
-        )}
-      </FormattedMessage>
-    );
-  }
-}
+PackageEditRoute.propTypes = propTypes;
 
 export default PackageEditRoute;

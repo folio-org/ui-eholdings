@@ -61,10 +61,8 @@ const model = {
 };
 
 const provider = {
-  data: {
-    isLoaded: true,
-    isLoading: false,
-  },
+  isLoaded: true,
+  isLoading: false,
   providerToken: {
     value: '',
   },
@@ -237,9 +235,7 @@ describe('Given ManagedPackageEdit', () => {
         },
         provider: {
           ...provider,
-          data: {
-            isLoaded: false,
-          },
+          isLoaded: false,
         },
       });
 
@@ -259,9 +255,7 @@ describe('Given ManagedPackageEdit', () => {
           },
           provider: {
             ...provider,
-            data: {
-              isLoaded: true,
-            },
+            isLoaded: true,
             providerToken: {
               value: 'provider-token-value',
             },

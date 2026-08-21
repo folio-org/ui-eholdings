@@ -18,9 +18,9 @@ import { SearchSection } from '../../components/search-section';
 import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
 import {
-  useProvider,
   usePackageModel,
   useUpdatePackageTitlesSelection,
+  useProviderModel,
 } from '../../hooks';
 import {
   listTypes,
@@ -115,7 +115,7 @@ const PackageShowRoute = ({
     }
   }, [history, location.search]);
 
-  const { data: provider } = useProvider({ providerId });
+  const { model: provider } = useProviderModel({ providerId });
   const {
     model,
     deletePackage,
@@ -195,6 +195,7 @@ const PackageShowRoute = ({
       if (!updatedModel.isSelected) {
         updatedModel.customCoverage = {};
         updatedModel.allowKbToAddTitles = false;
+        updatedModel.visibility = null;
       }
 
       updatePackage(updatedModel);
