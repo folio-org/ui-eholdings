@@ -135,7 +135,7 @@ const PackageEditRoute = ({
 
     if ('packageTokenValue' in values) {
       attrs.packageToken = {
-        ...(attrs.packageToken || {}),
+        ...attrs.packageToken,
         value: values.packageTokenValue,
       };
     }

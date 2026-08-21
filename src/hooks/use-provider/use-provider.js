@@ -6,7 +6,6 @@ import {
 } from '@folio/stripes/core';
 
 import { useBackendResponseErrors } from '../use-backend-response-errors';
-import { serializeProviderAttributes } from '../../utils/serialize-provider';
 
 export const useProvider = ({ providerId }) => {
   const [namespace] = useNamespace({ key: 'provider' });

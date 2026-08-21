@@ -6,7 +6,6 @@ import {
 } from '@folio/stripes/core';
 
 import { useBackendResponseErrors } from '../use-backend-response-errors';
-import { serializePackageAttributes } from '../../utils/serialize-package';
 
 export const usePackage = ({ packageId }) => {
   const [namespace] = useNamespace({ key: 'package' });
