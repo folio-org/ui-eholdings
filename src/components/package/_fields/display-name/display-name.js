@@ -5,7 +5,7 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { TextField } from '@folio/stripes/components';
+import { TextArea } from '@folio/stripes/components';
 
 const MAX_CHARACTER_LENGTH = 300;
 
@@ -15,7 +15,7 @@ const validate = (value) => {
   if (value?.length > MAX_CHARACTER_LENGTH) {
     errors = (
       <FormattedMessage
-        id="ui-eholdings.validate.errors.package.displayName.length"
+        id="ui-eholdings.validate.errors.customPackage.displayName.length"
         values={{ amount: MAX_CHARACTER_LENGTH }}
       />
     );
@@ -40,7 +40,7 @@ export const DisplayName = () => {
     <Field
       name="customDisplayName"
       type="text"
-      component={TextField}
+      component={TextArea}
       label={label}
       validate={validate}
       ariaLabel={labelText}
