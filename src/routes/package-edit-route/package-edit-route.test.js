@@ -107,7 +107,6 @@ const mockDeletePackage = jest.fn();
 const mockGetAccessTypes = jest.fn();
 const mockGetProxyTypes = jest.fn();
 const mockUpdatePackage = jest.fn();
-const mockRemoveUpdateRequests = jest.fn();
 
 const getPackageEditRoute = (props = {}) => {
   return (
