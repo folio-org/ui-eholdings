@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -8,8 +8,9 @@ import {
 import isEqual from 'lodash/isEqual';
 
 import {
-  TextField,
+  InfoPopover,
   RepeatableField,
+  TextArea,
 } from '@folio/stripes/components';
 
 const MAX_CHARACTER_LENGTH = 300;
@@ -44,13 +45,22 @@ const CustomAlternateNames = () => {
       <Field
         name={`${repeatableFieldName}.altName`}
         type="text"
-        component={TextField}
-        label={fieldLabel}
+        component={TextArea}
         ariaLabel={fieldLabel}
         validate={validate}
       />
     );
   }, [intl]);
+
+  const repeatableFieldLegend = useMemo(() => (
+    <>
+      <FormattedMessage id="ui-eholdings.label.customAlternateName" />
+      <InfoPopover
+        iconSize="small"
+        content={intl.formatMessage({ id: 'ui-eholdings.label.customAlternateNames.infoPopover' })}
+      />
+    </>
+  ), [intl]);
 
   const renderRepeatableField = useCallback(({ fields }) => {
     const addLabel = intl.formatMessage({ id: 'ui-eholdings.label.addCustomAlternateName' });
@@ -65,15 +75,18 @@ const CustomAlternateNames = () => {
 
     return (
       <RepeatableField
+        legend={repeatableFieldLegend}
         addLabel={addLabel}
         fields={fields}
         canAdd={fields.length < MAX_ALTERNATE_NAMES}
         onAdd={addCustomAlternateName}
         onRemove={(index) => fields.remove(index)}
         renderField={renderField}
+        hasMargin={false}
+        hasRemoveButtonMargin={false}
       />
     );
-  }, [intl, renderField]);
+  }, [intl, renderField, repeatableFieldLegend]);
 
   return (
     <FieldArray
