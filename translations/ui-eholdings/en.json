@@ -437,7 +437,7 @@
     "label.description": "Description",
     "label.name": "Name",
     "label.displayName": "Package display name",
-    "label.addCustomAlternateName": "Add name",
+    "label.addCustomAlternateName": "Add alternate name",
     "label.customAlternateName": "Custom alternate name",
     "label.customAlternateNames.infoPopover": "Add familiar alternate names to help staff and patrons easily search for and find packages.",
     "label.name.isRequired": "Name *",
