@@ -183,10 +183,12 @@ describe('Given ProviderShowRoute', () => {
       const packagesSearchContentType = within(
         getByRole('radiogroup', { name: 'ui-eholdings.package.contentType' })
       ).getByRole('combobox');
+      const packageSearchPackageAccessPublic = getByLabelText('ui-eholdings.filter.packageAccess.public');
 
       fireEvent.change(packagesSearchBox, { target: { value: 'Test package name' } });
       userEvent.click(packagesSearchSelectionStatusSelected);
       userEvent.selectOptions(packagesSearchContentType, ['ebook']);
+      userEvent.click(packageSearchPackageAccessPublic);
 
       await waitFor(() => expect(useProviderPackages).toHaveBeenLastCalledWith(
         expect.objectContaining({
@@ -195,6 +197,7 @@ describe('Given ProviderShowRoute', () => {
             filter: expect.objectContaining({
               selected: 'true',
               type: 'ebook',
+              access: 'public',
             }),
           }),
         }),

@@ -79,6 +79,7 @@ const CustomPackageEdit = ({
       proxy,
       visibility,
       customAltNames,
+      customDisplayName,
     } = model;
 
     const proxyTypesRecords = getProxyTypesRecords(proxyTypes);
@@ -89,6 +90,7 @@ const CustomPackageEdit = ({
       contentType,
       isSelected,
       customAltNames,
+      customDisplayName,
       customCoverages: [{
         ...customCoverage,
       }],
@@ -114,12 +116,14 @@ const CustomPackageEdit = ({
   });
   const editFormRef = useRef(null);
 
-  if (model.isSelected !== initialValues.isSelected) {
-    setInitialValues(getInitialValues());
-    setPackageSelected(model.isSelected);
-  }
+  useEffect(() => {
+    if (model.isSelected !== initialValues.isSelected) {
+      setInitialValues(getInitialValues());
+      setPackageSelected(model.isSelected);
+    }
+  }, [model.isSelected, initialValues.isSelected, setInitialValues, setPackageSelected, getInitialValues]);
 
-  const isProxyTypesLoaded = proxyTypes.request.isResolved && provider.data.isLoaded;
+  const isProxyTypesLoaded = proxyTypes.request.isResolved && provider.isLoaded;
 
   useEffect(() => {
     if (isProxyTypesLoaded) {
@@ -127,9 +131,11 @@ const CustomPackageEdit = ({
     }
   }, [isProxyTypesLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (model.destroy.errors.length) {
-    setShowSelectionModal(false);
-  }
+  useEffect(() => {
+    if (model.destroy.errors.length) {
+      setShowSelectionModal(false);
+    }
+  }, [model.destroy.errors.length]);
 
   const cancelSelectionToggle = (change) => {
     setShowSelectionModal(false);

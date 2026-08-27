@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -13,10 +14,14 @@ import queryString from 'qs';
 import { TitleManager } from '@folio/stripes/core';
 
 import View from '../../components/package/show';
-import { useUpdatePackageTitlesSelection } from '../../hooks/use-update-package-titles-selection';
 import { SearchSection } from '../../components/search-section';
 import TitleSearchFilters from '../../components/title-search-filters';
 import { transformQueryParams } from '../../components/utilities';
+import {
+  usePackageModel,
+  useUpdatePackageTitlesSelection,
+  useProviderModel,
+} from '../../hooks';
 import {
   listTypes,
   accessTypesReduxStateShape,
@@ -33,53 +38,37 @@ const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   clearCostPerUseData: PropTypes.func.isRequired,
   costPerUse: costPerUseShape.CostPerUseReduxStateShape.isRequired,
-  destroyPackage: PropTypes.func.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
   getCostPerUse: PropTypes.func.isRequired,
   getCostPerUsePackageTitles: PropTypes.func.isRequired,
-  getPackage: PropTypes.func.isRequired,
   getPackageTitles: PropTypes.func.isRequired,
-  getProvider: PropTypes.func.isRequired,
   getProxyTypes: PropTypes.func.isRequired,
   getTags: PropTypes.func.isRequired,
-  model: PropTypes.object.isRequired,
   packageTitles: PropTypes.shape({
     items: PropTypes.array.isRequired,
     totalResults: PropTypes.number.isRequired,
   }).isRequired,
-  provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
-  removeUpdateRequests: PropTypes.func.isRequired,
   tagsModel: PropTypes.object.isRequired,
   tagsModelOfAlreadyAddedTags: PropTypes.object,
-  unloadResources: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,
-  updatePackage: PropTypes.func.isRequired,
 };
 
 const PackageShowRoute = ({
   accessStatusTypes,
   clearCostPerUseData,
   costPerUse,
-  destroyPackage,
   getAccessTypes,
   getCostPerUse,
   getCostPerUsePackageTitles,
-  getPackage,
   getPackageTitles,
-  getProvider,
   getProxyTypes,
   getTags,
-  model,
   packageTitles,
-  provider,
   proxyTypes,
-  removeUpdateRequests,
   tagsModel,
   tagsModelOfAlreadyAddedTags,
-  unloadResources,
   updateFolioTags,
-  updatePackage,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -112,6 +101,30 @@ const PackageShowRoute = ({
   });
   const [isTitlesUpdating, setIsTitlesUpdating] = useState(false);
 
+  const onPackageDeleteSuccess = useCallback(() => {
+    // if package was reached based on search we want to keep the search params
+    // to show search results
+    if (location.search) {
+      history.replace({
+        pathname: '/eholdings',
+        search: location.search,
+      }, { eholdings: true });
+      // package was reached directly from url not by search, so we can just show the default search page
+    } else {
+      history.replace('/eholdings?searchType=packages', { eholdings: true });
+    }
+  }, [history, location.search]);
+
+  const { model: provider } = useProviderModel({ providerId });
+  const {
+    model,
+    deletePackage,
+    updatePackage,
+  } = usePackageModel({
+    packageId,
+    onDeleteSuccess: onPackageDeleteSuccess,
+    onUpdateSuccess: () => {},
+  });
 
   const getUpdatedTitles = () => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
@@ -122,9 +135,7 @@ const PackageShowRoute = ({
   };
 
   useEffect(() => {
-    getPackage(packageId);
     getProxyTypes();
-    getProvider(providerId);
     getTags();
     getAccessTypes();
     getUpdatedTitles();
@@ -141,37 +152,6 @@ const PackageShowRoute = ({
   }, [packageTitles.isLoading]);
 
   useEffect(() => {
-    // if package was just added/removed from holdings
-    // need to clear 'update' requests for Unsaved Changes Modal to work correctly on Edit
-    if (model.update.isPending && !model.update.isRejected) {
-      removeUpdateRequests();
-    }
-  }, [removeUpdateRequests, model.update.isPending, model.update.isRejected, model.isSelected]);
-
-  useEffect(() => {
-    // if an update just resolved, unfetch the package titles
-    if (model.update.isResolved) {
-      unloadResources(model.resources);
-    }
-  }, [unloadResources, model.update.isResolved, model.resources]);
-
-  useEffect(() => {
-    if (model.destroy.isResolved) {
-      // if package was reached based on search we want to keep the search params
-      // to show search results
-      if (location.search) {
-        history.replace({
-          pathname: '/eholdings',
-          search: location.search,
-        }, { eholdings: true });
-        // package was reached directly from url not by search, so we can just show the default search page
-      } else {
-        history.replace('/eholdings?searchType=packages', { eholdings: true });
-      }
-    }
-  }, [model.destroy.isResolved, history, location.search]);
-
-  useEffect(() => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
 
     getPackageTitles({ packageId, params: queryParams });
@@ -186,40 +166,39 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    // we're mutating a prop here and in a couple of other functions in this file, which is a huuuge no-no
-    // but the model object is not a simple object, but an instance o class, so we can't just
-    // destructure it and update properties of a copy
-    // for now it works fine, but we need to be aware of this
-    // in one of the next PR's we'll get rid of these class instances and use reach-query for CRUD
-    model.isSelected = true;
-    model.selectedCount = model.titleCount;
-    model.allowKbToAddTitles = true;
+    const updatedModel = {
+      ...model,
+      isSelected: true,
+      selectedCount: model.titleCount,
+      allowKbToAddTitles: true,
+    };
 
-    updatePackage(model);
+    updatePackage(updatedModel);
     updateTitles(packageId);
   };
 
   const toggleSelected = () => {
+    const updatedModel = { ...model };
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
-      destroyPackage(model);
+      deletePackage(packageId);
     } else {
-      model.isSelected = !model.isSelected;
-      model.selectedCount = model.isSelected ? model.titleCount : 0;
+      updatedModel.isSelected = !model.isSelected;
+      updatedModel.selectedCount = model.isSelected ? model.titleCount : 0;
 
       // If package is selected, allowKbToAddTitles should be true
-      if (model.isSelected) {
-        model.allowKbToAddTitles = true;
+      if (updatedModel.isSelected) {
+        updatedModel.allowKbToAddTitles = true;
       }
       // clear out any customizations before sending to server
-      if (!model.isSelected) {
-        model.visibility = [];
-        model.customCoverage = {};
-        model.allowKbToAddTitles = false;
+      if (!updatedModel.isSelected) {
+        updatedModel.customCoverage = {};
+        updatedModel.allowKbToAddTitles = false;
+        updatedModel.visibility = null;
       }
 
-      updatePackage(model);
+      updatePackage(updatedModel);
       updateTitles();
     }
   };

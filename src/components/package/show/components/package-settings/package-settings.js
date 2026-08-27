@@ -18,25 +18,20 @@ import {
   PackageToken,
   CustomAlternateNames,
   VisibilityView,
+  PackageDisplayName,
 } from './fields';
-
+import { useProvider } from '../../../../../hooks';
 import { getAccessTypeId } from '../../../../utilities';
-
-import {
-  accessTypesReduxStateShape,
-  MAX_COLUMN_WIDTH,
-  ONE_THIRD_OF_COLUMN_WIDTH,
-  QUARTER_OF_COLUMN_WIDTH,
-} from '../../../../../constants';
+import { accessTypesReduxStateShape } from '../../../../../constants';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   packageAllowedToAddTitles: PropTypes.bool.isRequired,
   packageSelected: PropTypes.bool.isRequired,
-  provider: PropTypes.object.isRequired,
   proxyTypes: PropTypes.object.isRequired,
 };
 
@@ -45,74 +40,60 @@ const PackageSettings = ({
   onToggle,
   model,
   proxyTypes,
-  provider,
   accessStatusTypes,
   packageAllowedToAddTitles,
   packageSelected,
 }) => {
+  const { data: provider, isLoading: isProviderLoading } = useProvider({ providerId: model.providerId });
+
   const renderPackageSettings = () => {
     const hasProxy = hasIn('proxy.id', model);
     const hasProviderToken = hasIn('providerToken.prompt', provider);
     const hasPackageToken = hasIn('packageToken.prompt', model);
-    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && model.isLoaded && provider.isLoaded;
+    const isProxyAvailable = hasProxy && proxyTypes.request.isResolved && !model.isLoading && !isProviderLoading;
     const haveAccessTypesLoaded = !accessStatusTypes?.isLoading && !model.isLoading;
     const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
-
-    const packageSettingsColumnWidth = isAccessStatusTypes
-      ? MAX_COLUMN_WIDTH
-      : ONE_THIRD_OF_COLUMN_WIDTH;
-
-    const proxyAndAccessStatusTypeColumnWidth = isAccessStatusTypes
-      ? QUARTER_OF_COLUMN_WIDTH
-      : MAX_COLUMN_WIDTH;
 
     return (
       <>
         <Row>
-          <Col xs>
-            <Row>
-              <Col xs={6}>
-                <VisibilityView visibility={model.visibility} />
-              </Col>
-              {!model.isCustom && (
-                <Col xs={6}>
-                  <AutomaticallySelectTitles packageAllowedToAddTitles={packageAllowedToAddTitles} />
-                </Col>
-              )}
-            </Row>
+          <Col xs={3}>
+            <VisibilityView visibility={model.visibility} />
           </Col>
-          <Col xs={packageSettingsColumnWidth}>
-            <Row>
-              <Col xs={proxyAndAccessStatusTypeColumnWidth}>
-                {isProxyAvailable
-                  ? (
-                    <ProxyDisplay
-                      proxy={model.proxy}
-                      proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
-                      inheritedProxyId={provider?.proxy?.id || ''}
-                    />
-                  )
-                  : <Icon icon="spinner-ellipsis" />
-                }
-              </Col>
-              {isAccessStatusTypes && (
-                <Col xsOffset={3} xs={proxyAndAccessStatusTypeColumnWidth}>
-                  {haveAccessTypesLoaded
-                    ? (
-                      <AccessTypeDisplay
-                        accessTypeId={getAccessTypeId(model)}
-                        accessStatusTypes={accessStatusTypes}
-                      />
-                    )
-                    : <Icon icon="spinner-ellipsis" />
-                  }
-                </Col>
-              )}
-            </Row>
+          <Col xs={3}>
+            {!model.isCustom && (
+              <AutomaticallySelectTitles packageAllowedToAddTitles={packageAllowedToAddTitles} />
+            )}
           </Col>
-        </Row>
-        <Row>
-          <Col xs>
+          <Col xs={3}>
+            {isProxyAvailable
+              ? (
+                <ProxyDisplay
+                  proxy={model.proxy}
+                  proxyTypesRecords={proxyTypes.resolver.state.proxyTypes.records}
+                  inheritedProxyId={provider?.proxy?.id || ''}
+                />
+              )
+              : <Icon icon="spinner-ellipsis" />
+            }
+          </Col>
+          {isAccessStatusTypes && (
+            <Col xs={3}>
+              {haveAccessTypesLoaded
+                ? (
+                  <AccessTypeDisplay
+                    accessTypeId={getAccessTypeId(model)}
+                    accessStatusTypes={accessStatusTypes}
+                  />
+                )
+                : <Icon icon="spinner-ellipsis" />
+              }
+            </Col>
+          )}
+          <Col xs={3}>
+            <PackageDisplayName packageDisplayName={model.customDisplayName} />
+          </Col>
+          <Col xs={3}>
             <CustomAlternateNames customAltNames={model.customAltNames} />
           </Col>
         </Row>
