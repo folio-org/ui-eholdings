@@ -16,6 +16,7 @@
 * View/Edit Package Detail Record: Add a Package Display Name field. (UIEH-1501)
 * Add package access filter to package search and provider package search. (UIEH-1526)
 * Create/Edit Custom Package Detail Record: Add a Package display name field. (UIEH-1499)
+* Custom alternate names field and labels updates. (UIEH-1535)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 
