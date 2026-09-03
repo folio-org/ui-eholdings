@@ -41,11 +41,11 @@ describe('Given CustomAlternateNames', () => {
         queryAllByRole,
       } = renderCustomAlternateNames();
 
-      expect(queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' })).toHaveLength(0);
+      expect(queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' })).toHaveLength(0);
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
 
-      expect(queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' })).toHaveLength(1);
+      expect(queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' })).toHaveLength(1);
     });
   });
 
@@ -62,7 +62,7 @@ describe('Given CustomAlternateNames', () => {
       fireEvent.click(addButton);
       fireEvent.click(addButton);
 
-      const [firstInput, secondInput] = getAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+      const [firstInput, secondInput] = getAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
 
       fireEvent.change(firstInput, { target: { value: 'First alt name' } });
       fireEvent.change(secondInput, { target: { value: 'Second alt name' } });
@@ -71,7 +71,7 @@ describe('Given CustomAlternateNames', () => {
 
       fireEvent.click(firstDeleteButton);
 
-      const remainingInputs = queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+      const remainingInputs = queryAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
 
       expect(remainingInputs).toHaveLength(1);
       expect(remainingInputs[0]).toHaveValue('Second alt name');
@@ -84,7 +84,7 @@ describe('Given CustomAlternateNames', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
 
-      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
 
       fireEvent.change(input, { target: { value: 'a'.repeat(301) } });
       fireEvent.blur(input);
@@ -99,7 +99,7 @@ describe('Given CustomAlternateNames', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
 
-      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
 
       fireEvent.change(input, { target: { value: 'a'.repeat(300) } });
       fireEvent.blur(input);
@@ -114,7 +114,7 @@ describe('Given CustomAlternateNames', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
 
-      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' });
+      const input = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
 
       fireEvent.change(input, { target: { value: '"test"' } });
       fireEvent.blur(input);

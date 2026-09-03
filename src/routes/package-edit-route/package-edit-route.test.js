@@ -201,7 +201,7 @@ describe('Given PackageEditRoute', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
 
-      const newCustomAltNameInput = getAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateName' })[1];
+      const newCustomAltNameInput = getAllByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' })[1];
       fireEvent.change(newCustomAltNameInput, { target: { value: 'test alt name 2' } });
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));

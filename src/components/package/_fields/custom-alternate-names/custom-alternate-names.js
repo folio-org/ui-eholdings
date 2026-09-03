@@ -39,7 +39,7 @@ const CustomAlternateNames = () => {
   const intl = useIntl();
 
   const renderField = useCallback((repeatableFieldName) => {
-    const fieldLabel = intl.formatMessage({ id: 'ui-eholdings.label.customAlternateName' });
+    const fieldLabel = intl.formatMessage({ id: 'ui-eholdings.label.customAlternateNames' });
 
     return (
       <Field
@@ -54,7 +54,7 @@ const CustomAlternateNames = () => {
 
   const repeatableFieldLegend = useMemo(() => (
     <>
-      <FormattedMessage id="ui-eholdings.label.customAlternateName" />
+      <FormattedMessage id="ui-eholdings.label.customAlternateNames" />
       <InfoPopover
         iconSize="small"
         content={intl.formatMessage({ id: 'ui-eholdings.label.customAlternateNames.infoPopover' })}
