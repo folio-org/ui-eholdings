@@ -437,6 +437,7 @@
     "label.description": "Description",
     "label.name": "Name",
     "label.displayName": "Package display name",
+    "label.displayName.infoPopover": "Customize the name of the package as it appears in Publication Finder, Full Text Finder Link Resolver, and your MARC export records. If there is a value in this field it will overwrite the managed package name in those products, and it will appear in parentheses adjacent to the managed package name in eholdings app search results.",
     "label.addCustomAlternateName": "Add alternate name",
     "label.customAlternateNames": "Custom alternate names",
     "label.customAlternateNames.infoPopover": "Add familiar alternate names to help staff and patrons easily search for and find packages.",
