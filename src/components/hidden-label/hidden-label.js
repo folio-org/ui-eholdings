@@ -15,7 +15,7 @@ const messageFromVisibility = (visibility) => {
   const messageId = tooltipMessageIds[hiddenCount];
   const categoryLabels = {};
   hiddenCategories.forEach((hiddenCategory, idx) => {
-    categoryLabels[`category${idx+1}`] = <FormattedMessage id={categoryLabelMessageId(hiddenCategory.category)} />;
+    categoryLabels[`category${idx + 1}`] = <FormattedMessage id={categoryLabelMessageId(hiddenCategory.category)} />;
   });
   return <FormattedMessage id={messageId} values={categoryLabels} />;
 };
@@ -27,11 +27,14 @@ const HiddenLabel = ({
   return (
     <Tooltip
       id={id}
-      text={messageFromVisibility(visibility)}>
+      text={messageFromVisibility(visibility)}
+    >
       {({ ref, ariaIds }) => (
-        <Icon icon="eye-closed"
+        <Icon
+          icon="eye-closed"
           ref={ref}
-          aria-labelledby={ariaIds.text}>
+          aria-labelledby={ariaIds.text}
+        >
           <span data-test-hidden-label>
             <FormattedMessage id="ui-eholdings.hidden" />
           </span>
@@ -42,7 +45,7 @@ const HiddenLabel = ({
 };
 
 HiddenLabel.propTypes = {
-  id: PropTypes.String,
+  id: PropTypes.string,
   visibility: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string,
     hidden: PropTypes.bool,

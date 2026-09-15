@@ -58,7 +58,7 @@ const SearchPackageListItem = ({
           tag={headingLevel || 'h3'}
         >
           {packageName || item.name}
-          {!!item.customDisplayName && 
+          {!!item.customDisplayName &&
             <em> ({item.customDisplayName})</em>
           }
         </Headline>
@@ -99,8 +99,8 @@ SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
   item: PropTypes.shape({
-    isSelected: PropTypes.bool,
     customDisplayName: PropTypes.string,
+    isSelected: PropTypes.bool,
     name: PropTypes.string,
     providerName: PropTypes.string,
     selectedCount: PropTypes.number,
