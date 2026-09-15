@@ -5,7 +5,10 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { TextArea } from '@folio/stripes/components';
+import {
+  InfoPopover,
+  TextArea,
+} from '@folio/stripes/components';
 
 const MAX_CHARACTER_LENGTH = 300;
 
@@ -29,12 +32,15 @@ export const DisplayName = () => {
 
   const labelText = intl.formatMessage({ id: 'ui-eholdings.label.displayName' });
 
-  // later label will contain a Popover component
   const label = useMemo(() => (
     <>
       {labelText}
+      <InfoPopover
+        iconSize="small"
+        content={intl.formatMessage({ id: 'ui-eholdings.label.displayName.infoPopover' })}
+      />
     </>
-  ), [labelText]);
+  ), [labelText, intl]);
 
   return (
     <Field
