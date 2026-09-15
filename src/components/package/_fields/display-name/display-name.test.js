@@ -25,7 +25,7 @@ const renderDisplayName = () => render(
   </Harness>
 );
 
-describe('Given CustomAlternateNames', () => {
+describe('Given DisplayNames', () => {
   describe('when a name exceeds the maximum length', () => {
     it('should display the length validation error', () => {
       const { getByRole, getByText } = renderDisplayName();
@@ -49,6 +49,19 @@ describe('Given CustomAlternateNames', () => {
       fireEvent.blur(input);
 
       expect(queryByText('ui-eholdings.validate.errors.customPackage.displayName.length')).toBeNull();
+    });
+  });
+
+  describe('when rendered', () => {
+    it('infotip is shown when icon clicked', () => {
+      const { getByRole, getByText } = renderDisplayName();
+
+      const infotipButton = getByRole('button');
+      expect(infotipButton).toBeInTheDocument();
+
+      fireEvent.click(infotipButton);
+
+      expect(getByText('ui-eholdings.label.displayName.infoPopover')).toBeInTheDocument();
     });
   });
 });
