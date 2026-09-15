@@ -9,7 +9,7 @@ import {
 import { Headline } from '@folio/stripes/components';
 
 import InternalLink from '../internal-link';
-import HiddenLabel from '../hidden-label';
+import PackageHiddenLabel from '../package-hidden-label';
 import SelectedLabel from '../selected-label';
 import TagsLabel from '../tags-label';
 
@@ -58,7 +58,7 @@ const SearchPackageListItem = ({
           tag={headingLevel || 'h3'}
         >
           {packageName || item.name}
-          {!!item.customDisplayName &&
+          {item.customDisplayName &&
             <em> ({item.customDisplayName})</em>
           }
         </Headline>
@@ -87,7 +87,7 @@ const SearchPackageListItem = ({
             </span>
           }
 
-          {item.visibility?.some(category => category.hidden) && <HiddenLabel id={item.id} visibility={item.visibility} />}
+          <PackageHiddenLabel id={item.id} visibility={item.visibility} />
 
           {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>
