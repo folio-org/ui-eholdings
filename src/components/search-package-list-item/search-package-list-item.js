@@ -58,6 +58,9 @@ const SearchPackageListItem = ({
           tag={headingLevel || 'h3'}
         >
           {packageName || item.name}
+          {!!item.customDisplayName && 
+            <em> ({item.customDisplayName})</em>
+          }
         </Headline>
 
         {showProviderName &&
@@ -84,7 +87,7 @@ const SearchPackageListItem = ({
             </span>
           }
 
-          {item.visibilityData?.isHidden && <HiddenLabel />}
+          {item.visibility?.some(category => category.hidden) && <HiddenLabel id={item.id} visibility={item.visibility} />}
 
           {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>
@@ -97,6 +100,7 @@ SearchPackageListItem.propTypes = {
   headingLevel: PropTypes.string,
   item: PropTypes.shape({
     isSelected: PropTypes.bool,
+    customDisplayName: PropTypes.string,
     name: PropTypes.string,
     providerName: PropTypes.string,
     selectedCount: PropTypes.number,
@@ -104,9 +108,10 @@ SearchPackageListItem.propTypes = {
       tagList: PropTypes.arrayOf(PropTypes.string),
     }),
     titleCount: PropTypes.number,
-    visibilityData: PropTypes.shape({
-      isHidden: PropTypes.bool,
-    }),
+    visibility: PropTypes.arrayOf(PropTypes.shape({
+      category: PropTypes.string,
+      hidden: PropTypes.bool,
+    })),
   }),
   link: PropTypes.oneOfType([
     PropTypes.string,
