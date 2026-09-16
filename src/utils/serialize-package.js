@@ -7,6 +7,7 @@ export const serializePackageAttributes = (values = {}) => {
     customCoverage: values.customCoverage,
     visibility: values.visibility,
     isCustom: values.isCustom,
+    isFreeAccess: values.isFreeAccess,
     proxy: values.proxy,
     packageToken: values.packageToken,
     isFullPackage: values.isSelected && !values.isPartiallySelected,
