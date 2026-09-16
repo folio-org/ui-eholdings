@@ -171,10 +171,6 @@ const PACKAGE_EXPORT_FIELDS = [
     label: 'ui-eholdings.exportPackageResources.fields.package.customCoverage'
   },
   {
-    value: 'packageShowToPatrons',
-    label: 'ui-eholdings.exportPackageResources.fields.package.showToPatrons'
-  },
-  {
     value: 'packageAutomaticallySelect',
     label: 'ui-eholdings.exportPackageResources.fields.package.automaticallySelectTitles'
   },
@@ -185,6 +181,46 @@ const PACKAGE_EXPORT_FIELDS = [
   {
     value: 'packageAccessStatusType',
     label: 'ui-eholdings.exportPackageResources.fields.package.accessStatusType'
+  },
+  {
+    value: 'packageDisplayName',
+    label: 'ui-eholdings.exportPackageResources.fields.package.displayName'
+  },
+  {
+    value: 'managedAlternativeNames',
+    label: 'ui-eholdings.exportPackageResources.fields.package.managedAlternativeNames'
+  },
+  {
+    value: 'customAlternativeNames',
+    label: 'ui-eholdings.exportPackageResources.fields.package.customAlternativeNames'
+  },
+  {
+    value: 'managedDescription',
+    label: 'ui-eholdings.exportPackageResources.fields.package.managedDescription'
+  },
+  {
+    value: 'customDescription',
+    label: 'ui-eholdings.exportPackageResources.fields.package.customDescription'
+  },
+  {
+    value: 'packageAccess',
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageAccess'
+  },
+  {
+    value: 'packageUrl',
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageUrl'
+  },
+  {
+    value: 'hideInPublicationFinder',
+    label: 'ui-eholdings.exportPackageResources.fields.package.hideInPublicationFinder'
+  },
+  {
+    value: 'hideInFullTextFinder',
+    label: 'ui-eholdings.exportPackageResources.fields.package.hideInFullTextFinder'
+  },
+  {
+    value: 'excludeFromMARCExport',
+    label: 'ui-eholdings.exportPackageResources.fields.package.excludeFromMARCExport'
   },
   {
     value: 'packageTags',
@@ -207,54 +243,8 @@ export const FIELDS_BY_RECORD_TYPE = {
 
 // some fields, like customLabels should be sent to backend like several combined fields: customValue1, customValue2 etc
 export const PAYLOAD_READY_FIELDS_BY_RECORD_TYPE = {
-  [RECORD_TYPES.PACKAGE]: {
-    providerLevelToken: () => ['providerLevelToken'],
-    packageLevelToken: () => ['packageLevelToken'],
-    providerName: () => ['providerName'],
-    providerId: () => ['providerId'],
-    packageName: () => ['packageName'],
-    packageId: () => ['packageId'],
-    packageType: () => ['packageType'],
-    packageContentType: () => ['packageContentType'],
-    packageHoldingsStatus: () => ['packageHoldingsStatus'],
-    packageCustomCoverage: () => ['packageCustomCoverage'],
-    packageShowToPatrons: () => ['packageShowToPatrons'],
-    packageAutomaticallySelect: () => ['packageAutomaticallySelect'],
-    packageProxy: () => ['packageProxy'],
-    packageAccessStatusType: () => ['packageAccessStatusType'],
-    packageTags: () => ['packageTags'],
-    packageAgreements: () => ['packageAgreements'],
-    packageNotes: () => ['packageNotes'],
-  },
+  [RECORD_TYPES.PACKAGE]: {},
   [RECORD_TYPES.RESOURCE]: {
-    titleName: () => ['titleName'],
-    alternateTitles: () => ['alternateTitles'],
-    titleId: () => ['titleId'],
-    publicationType: () => ['publicationType'],
-    titleType: () => ['titleType'],
-    titleHoldingsStatus: () => ['titleHoldingsStatus'],
-    titleShowToPatrons: () => ['titleShowToPatrons'],
-    managedCoverage: () => ['managedCoverage'],
-    managedEmbargo: () => ['managedEmbargo'],
-    customCoverage: () => ['customCoverage'],
-    customEmbargo: () => ['customEmbargo'],
-    coverageStatement: () => ['coverageStatement'],
-    titleProxy: () => ['titleProxy'],
-    url: () => ['url'],
-    titleAccessStatusType: () => ['titleAccessStatusType'],
-    titleTags: () => ['titleTags'],
-    contributors: () => ['contributors'],
-    edition: () => ['edition'],
-    publisher: () => ['publisher'],
-    ISSNPrint: () => ['ISSNPrint'],
-    ISSNOnline: () => ['ISSNOnline'],
-    ISBNPrint: () => ['ISBNPrint'],
-    ISBNOnline: () => ['ISBNOnline'],
-    subjects: () => ['subjects'],
-    peerReviewed: () => ['peerReviewed'],
-    description: () => ['description'],
     customLabel: () => ['customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5'],
-    titleAgreements: () => ['titleAgreements'],
-    titleNotes: () => ['titleNotes'],
   },
 };

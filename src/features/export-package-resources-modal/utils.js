@@ -5,7 +5,7 @@ import sortBy from 'lodash/sortBy';
 import { PAYLOAD_READY_FIELDS_BY_RECORD_TYPE } from './constants';
 
 export const formatExportFieldsPayload = (fields, recordType) => {
-  return flatten(fields.map(field => PAYLOAD_READY_FIELDS_BY_RECORD_TYPE[recordType][field]?.() || []));
+  return flatten(fields.map(field => PAYLOAD_READY_FIELDS_BY_RECORD_TYPE[recordType][field]?.() || [field]));
 };
 
 export const sortAlphabetically = (options) => sortBy(options, option => option.label.toLowerCase());
