@@ -32,7 +32,7 @@ export const PackageAccess = () => {
       </Headline>
       <Field
         component={RadioButton}
-        format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+        format={value => value?.toString()}
         label={<FormattedMessage id="ui-eholdings.package.controlled" />}
         name="isFreeAccess"
         parse={value => value === 'true'}
@@ -41,7 +41,7 @@ export const PackageAccess = () => {
       />
       <Field
         component={RadioButton}
-        format={value => typeof value !== 'undefined' && value !== null && value.toString()}
+        format={value => value?.toString()}
         label={<FormattedMessage id="ui-eholdings.package.public" />}
         name="isFreeAccess"
         parse={value => value === 'true'}
