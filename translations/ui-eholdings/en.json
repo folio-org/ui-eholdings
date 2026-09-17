@@ -183,6 +183,7 @@
     "package.name": "Name",
     "package.name.isRequired": "Name *",
     "package.packageAccess": "Package access",
+    "package.packageAccess.infoPopover": "Indicate whether the package is Public (free access) or Controlled (paid access).",
     "package.packageAllowToAddTitles": "Automatically select new titles",
     "package.packageAllowToAddTitles.notSelected": "Knowledge base does not automatically select titles.",
     "package.packageInformation": "Package information",
@@ -202,6 +203,8 @@
     "package.visibility.MARC": "In MARC export",
     "package.visibility.no": "No { visibilityMessage }",
     "package.visibility.notSelected": "Add the package to holdings to customize package settings.",
+    "package.controlled": "Controlled",
+    "package.public": "Public",
     "package.create.custom": "New custom package",
 
     "package.modalMessageHeader.isCustom": "Delete custom package",
