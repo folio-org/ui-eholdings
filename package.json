@@ -148,7 +148,9 @@
       },
       {
         "permissionName": "ui-eholdings.app.view",
-        "replaces": ["ui-eholdings.app.enabled"],
+        "replaces": [
+          "ui-eholdings.app.enabled"
+        ],
         "subPermissions": [
           "module.eholdings.enabled"
         ],
@@ -226,7 +228,9 @@
       {
         "permissionName": "ui-eholdings.package-title.select-unselect.execute",
         "displayName": "eHoldings: Can select/unselect packages and titles to/from your holdings",
-        "replaces": ["ui-eholdings.package-title.select-unselect"],
+        "replaces": [
+          "ui-eholdings.package-title.select-unselect"
+        ],
         "visible": true,
         "subPermissions": [
           "module.eholdings.enabled",
@@ -249,7 +253,9 @@
       {
         "permissionName": "ui-eholdings.titles-packages.create-delete.manage",
         "displayName": "eHoldings: Can create and delete custom packages and titles",
-        "replaces": ["ui-eholdings.titles-packages.create-delete"],
+        "replaces": [
+          "ui-eholdings.titles-packages.create-delete"
+        ],
         "visible": true,
         "subPermissions": [
           "module.eholdings.enabled",
@@ -366,5 +372,6 @@
         ]
       }
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
