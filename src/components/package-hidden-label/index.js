@@ -1,1 +1,1 @@
-export { default } from './package-hidden-label';
+export { PackageHiddenLabel } from './package-hidden-label';

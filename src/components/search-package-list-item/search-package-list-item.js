@@ -9,7 +9,7 @@ import {
 import { Headline } from '@folio/stripes/components';
 
 import InternalLink from '../internal-link';
-import PackageHiddenLabel from '../package-hidden-label';
+import { PackageHiddenLabel } from '../package-hidden-label';
 import SelectedLabel from '../selected-label';
 import TagsLabel from '../tags-label';
 
@@ -59,7 +59,7 @@ const SearchPackageListItem = ({
         >
           {packageName || item.name}
           {item.customDisplayName &&
-            <em> ({item.customDisplayName})</em>
+            <>{' '}<em>({item.customDisplayName})</em></>
           }
         </Headline>
 

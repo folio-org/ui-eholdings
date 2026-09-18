@@ -1,6 +1,6 @@
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 
-import PackageHiddenLabel from './package-hidden-label';
+import { PackageHiddenLabel } from './package-hidden-label';
 
 const CATEGORIES = {
   PF: 'PF',
@@ -29,42 +29,54 @@ describe('Given PackageHiddenLabel', () => {
   const allHidden = [pfHidden, ftfHidden, marcHidden];
 
   describe('basic rendering', () => {
-    it('does not render when an empty argument is passed in', () => {
-      const { queryByText } = render(<PackageHiddenLabel visibility={[]} id={id} />);
+    describe('when an empty argument is passed in', () => {
+      it('does not render', () => {
+        const { queryByText } = render(<PackageHiddenLabel visibility={[]} id={id} />);
 
-      expect(queryByText('ui-eholdings.hidden')).not.toBeInTheDocument();
+        expect(queryByText('ui-eholdings.hidden')).not.toBeInTheDocument();
+      });
     });
 
-    it('does not render when all are visible', () => {
-      const { queryByText } = render(<PackageHiddenLabel visibility={allVisible} id={id} />);
+    describe('when all categories are visible', () => {
+      it('does not render', () => {
+        const { queryByText } = render(<PackageHiddenLabel visibility={allVisible} id={id} />);
 
-      expect(queryByText('ui-eholdings.hidden')).not.toBeInTheDocument();
+        expect(queryByText('ui-eholdings.hidden')).not.toBeInTheDocument();
+      });
     });
 
-    it('does render when at least one is hidden', () => {
-      const { getByText } = render(<PackageHiddenLabel visibility={allHidden} id={id} />);
+    describe('when at least one category is hidden', () => {
+      it('does render', () => {
+        const { getByText } = render(<PackageHiddenLabel visibility={allHidden} id={id} />);
 
-      expect(getByText('ui-eholdings.hidden')).toBeInTheDocument();
+        expect(getByText('ui-eholdings.hidden')).toBeInTheDocument();
+      });
     });
   });
 
   describe('tooltip messages', () => {
-    it('renders correctly for one hidden category', () => {
-      const { getByRole } = render(<PackageHiddenLabel visibility={[pfHidden, ftfVisible, marcVisible]} id={id} />);
+    describe('when one category is hidden', () => {
+      it('renders the appropriate message', () => {
+        const { getByRole } = render(<PackageHiddenLabel visibility={[pfHidden, ftfVisible, marcVisible]} id={id} />);
 
-      expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenSingleCategory');
+        expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenSingleCategory');
+      });
     });
 
-    it('renders correctly for two hidden categories', () => {
-      const { getByRole } = render(<PackageHiddenLabel visibility={[pfHidden, ftfHidden, marcVisible]} id={id} />);
+    describe('when two categories are hidden', () => {
+      it('renders the appropriate message', () => {
+        const { getByRole } = render(<PackageHiddenLabel visibility={[pfHidden, ftfHidden, marcVisible]} id={id} />);
 
-      expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenDualCategories');
+        expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenDualCategories');
+      });
     });
 
-    it('renders correctly for three hidden categories', () => {
-      const { getByRole } = render(<PackageHiddenLabel visibility={allHidden} id={id} />);
+    describe('when three categories are hidden', () => {
+      it('renders the appropriate message', () => {
+        const { getByRole } = render(<PackageHiddenLabel visibility={allHidden} id={id} />);
 
-      expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenTripleCategories');
+        expect(getByRole('tooltip')).toHaveTextContent('ui-eholdings.hiddenTripleCategories');
+      });
     });
   });
 });

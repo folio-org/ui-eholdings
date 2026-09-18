@@ -1,12 +1,9 @@
 import { FormattedMessage } from 'react-intl';
-
-import { Icon, Tooltip } from '@folio/stripes/components';
 import PropTypes from 'prop-types';
 
+import { Icon, Tooltip } from '@folio/stripes/components';
+
 const tooltipMessageIds = [null, 'ui-eholdings.hiddenSingleCategory', 'ui-eholdings.hiddenDualCategories', 'ui-eholdings.hiddenTripleCategories'];
-const categoryLabelMessageId = (category) => {
-  return `ui-eholdings.hiddenCategory.${category}`;
-};
 
 const messageFromVisibility = (visibility) => {
   const hiddenCategories = visibility.filter(category => category.hidden);
@@ -14,12 +11,12 @@ const messageFromVisibility = (visibility) => {
   const messageId = tooltipMessageIds[hiddenCount];
   const categoryLabels = {};
   hiddenCategories.forEach((hiddenCategory, idx) => {
-    categoryLabels[`category${idx + 1}`] = <FormattedMessage id={categoryLabelMessageId(hiddenCategory.category)} />;
+    categoryLabels[`category${idx + 1}`] = <FormattedMessage id={`ui-eholdings.hiddenCategory.${hiddenCategory.category}`} />;
   });
   return <FormattedMessage id={messageId} values={categoryLabels} />;
 };
 
-const PackageHiddenLabel = ({
+export const PackageHiddenLabel = ({
   id,
   visibility
 }) => {
@@ -60,5 +57,3 @@ PackageHiddenLabel.propTypes = {
     hidden: PropTypes.bool,
   })),
 };
-
-export default PackageHiddenLabel;
