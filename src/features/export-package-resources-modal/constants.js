@@ -184,7 +184,7 @@ const PACKAGE_EXPORT_FIELDS = [
   },
   {
     value: 'packageDisplayName',
-    label: 'ui-eholdings.exportPackageResources.fields.package.displayName'
+    label: 'ui-eholdings.exportPackageResources.fields.package.packageDisplayName'
   },
   {
     value: 'managedAlternativeNames',
