@@ -16,6 +16,7 @@
 * View/Edit Package Detail Record: Add a Package Display Name field. (UIEH-1501)
 * Add package access filter to package search and provider package search. (UIEH-1526)
 * Create/Edit Custom Package Detail Record: Add a Package display name field. (UIEH-1499)
+* Add Connected Tasks/Jobs to eHoldings record views. (UIEH-1575)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 
