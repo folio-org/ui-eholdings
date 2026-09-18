@@ -18,6 +18,8 @@
 * Create/Edit Custom Package Detail Record: Add a Package display name field. (UIEH-1499)
 * Custom alternate names field and labels updates. (UIEH-1535)
 * Add Package display name field infotip. (UIEH-1561)
+* eholdings export: Add additional package fields. (UIEH-1505)
+* Create/Edit Custom Package Detail Record: Add a new field: Package access. (UIEH-1498)
 * Update package result display to include package display name and tooltip details for package hidden settings. (UIEH-1507)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
