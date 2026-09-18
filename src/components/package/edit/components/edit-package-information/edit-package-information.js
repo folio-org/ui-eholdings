@@ -10,6 +10,7 @@ import {
 
 import NameField from '../../../_fields/name';
 import ContentTypeField from '../../../_fields/content-type';
+import { PackageAccess } from '../../../_fields/package-access';
 
 const propTypes = {
   getSectionHeader: PropTypes.func.isRequired,
@@ -52,6 +53,7 @@ const EditPackageInformation = ({
             </div>
           </KeyValue>
         )}
+      <PackageAccess />
     </Accordion>
   );
 };

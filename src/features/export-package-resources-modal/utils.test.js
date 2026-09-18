@@ -10,10 +10,10 @@ describe('ExportPackageResourcesModal utils', () => {
       });
     });
 
-    describe('when some fields are not defined in a constant', () => {
-      it('should return correct mapped values', () => {
-        expect(utils.formatExportFieldsPayload(['providerName', 'nonExistingField', 'packageAgreements'], RECORD_TYPES.PACKAGE))
-          .toEqual(['providerName', 'packageAgreements']);
+    describe('when a field is mapped to multiple values', () => {
+      it('should return all mapped values', () => {
+        expect(utils.formatExportFieldsPayload(['customLabel'], RECORD_TYPES.RESOURCE))
+          .toEqual(['customValue1', 'customValue2', 'customValue3', 'customValue4', 'customValue5']);
       });
     });
   });

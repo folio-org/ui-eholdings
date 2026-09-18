@@ -24,6 +24,7 @@ import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import { CustomAlternateNames } from '../_fields/custom-alternate-names';
 import { DisplayName } from '../_fields/display-name';
+import { PackageAccess } from '../_fields/package-access';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
@@ -37,6 +38,7 @@ import styles from './package-create.css';
 const initialValues = {
   name: '',
   contentType: 'Unknown',
+  isFreeAccess: false,
   customCoverages: [],
 };
 
@@ -158,6 +160,7 @@ const PackageCreate = ({
                       <NameField />
                       <ContentTypeField />
                       <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                      <PackageAccess />
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}

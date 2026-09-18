@@ -144,6 +144,7 @@ const PackageEditRoute = ({
       providerEditSubmitted(values);
     }
 
+    attrs.isFreeAccess = values.isFreeAccess;
     attrs.customDisplayName = values.customDisplayName || '';
     attrs.customAltNames = values.customAltNames;
 

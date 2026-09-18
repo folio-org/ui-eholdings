@@ -16,7 +16,19 @@
 * View/Edit Package Detail Record: Add a Package Display Name field. (UIEH-1501)
 * Add package access filter to package search and provider package search. (UIEH-1526)
 * Create/Edit Custom Package Detail Record: Add a Package display name field. (UIEH-1499)
+* Custom alternate names field and labels updates. (UIEH-1535)
+* Add Package display name field infotip. (UIEH-1561)
+* eholdings export: Add additional package fields. (UIEH-1505)
+* Create/Edit Custom Package Detail Record: Add a new field: Package access. (UIEH-1498)
 * Add Connected Tasks/Jobs to eHoldings record views. (UIEH-1575)
+
+## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
+
+* Show `createdDate` when `updatedDate` is not available in Access Status Types metadata. (UIEH-1490)
+
+## [11.1.2] (https://github.com/folio-org/ui-eholdings/tree/v11.1.2) (2026-06-30)
+
+* Show createdDate when updatedDate is not available in Access Status Types metadata. (UIEH-1490)
 
 ## [11.1.1] (https://github.com/folio-org/ui-eholdings/tree/v11.1.1) (2026-05-28)
 
