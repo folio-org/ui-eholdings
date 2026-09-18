@@ -67,9 +67,9 @@ const RouteHistoryContextProvider = ({ children }) => {
 
     if (!isListenerRegistered()) {
       // don't unlisten so we can record navigation in other apps
-      history.listen((_location) => {
+      history.listen((_location, navigationAction) => {
         updateRouteHistory(routeHistory => {
-          routeHistory.unshift(_location);
+          routeHistory.unshift({ ..._location, navigationAction });
           return routeHistory;
         });
       });
@@ -103,8 +103,8 @@ const RouteHistoryContextProvider = ({ children }) => {
   }, [history]);
 
   const contextValue = {
+    getRouteHistory,
     navigateBack,
-    routeHistory: getRouteHistory(),
   };
 
   return (

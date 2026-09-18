@@ -20,6 +20,7 @@
 * Add Package display name field infotip. (UIEH-1561)
 * eholdings export: Add additional package fields. (UIEH-1505)
 * Create/Edit Custom Package Detail Record: Add a new field: Package access. (UIEH-1498)
+* Add Connected Tasks/Jobs to eHoldings record views. (UIEH-1575)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 

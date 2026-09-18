@@ -102,7 +102,7 @@ jest.mock('@folio/stripes/core', () => {
 
   const Pluggable = jest.fn(({ renderTrigger }) => {
     const buttonRef = { current: null };
-    return renderTrigger({ buttonRef });
+    return renderTrigger ? renderTrigger({ buttonRef }) : null;
   });
 
   STRIPES.connect = stripesConnect;

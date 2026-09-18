@@ -1,5 +1,6 @@
 import { createMemoryHistory } from 'history';
 
+import { Pluggable } from '@folio/stripes/core';
 import {
   render,
   fireEvent,
@@ -32,8 +33,8 @@ const model = {
 
 const mockGoBack = jest.fn();
 
-const getDetailView = props => (
-  <Harness>
+const getDetailView = (props, harnessProps) => (
+  <Harness {...harnessProps}>
     <DetailsView
       bodyContent={<div>Body content</div>}
       history={history}
@@ -49,8 +50,8 @@ const getDetailView = props => (
   </Harness>
 );
 
-const renderDetailsView = (props = {}) => render(
-  getDetailView(props),
+const renderDetailsView = (props = {}, harnessProps = {}) => render(
+  getDetailView(props, harnessProps),
 );
 
 describe('Given DetailsView', () => {
@@ -58,6 +59,42 @@ describe('Given DetailsView', () => {
 
   beforeEach(() => {
     mockGoBack.mockClear();
+    Pluggable.mockClear();
+  });
+
+  [
+    ['provider', 'providers', 'eholdingsProvider'],
+    ['package', 'packages', 'eholdingsPackage'],
+    ['title', 'titles', 'eholdingsTitle'],
+  ].forEach(([type, pathSegment, recordType]) => {
+    it(`shows the Connected Tasks/Jobs button and pane for ${type}`, () => {
+      const recordId = `${type}-1`;
+      const search = '?searchType=providers&layer=connected-tasks-jobs';
+      const recordHistory = createMemoryHistory({
+        initialEntries: [`/eholdings/${pathSegment}/${recordId}${search}`],
+      });
+
+      renderDetailsView({
+        location: recordHistory.location,
+        model: { ...model, id: recordId },
+        type,
+      }, { history: recordHistory });
+
+      const pluginProps = Pluggable.mock.calls.map(([props]) => props);
+
+      ['ConnectedTasksJobsButton', 'ConnectedTasksJobsPane'].forEach(componentType => {
+        expect(pluginProps).toEqual(expect.arrayContaining([
+          expect.objectContaining({
+            componentType,
+            recordId,
+            recordObject: { name: model.name },
+            recordType,
+            recordUrl: `/eholdings/${pathSegment}/${recordId}${search}`,
+            type: 'task-list',
+          }),
+        ]));
+      });
+    });
   });
 
   it('should render DetailsView component', () => {
