@@ -35,14 +35,16 @@ const isCrossAppReturnToRecord = (historyEntries, pageIndex, recordPathname) => 
 
 const getActiveHistoryEntries = (historyEntries) => {
   const activeEntries = [];
+  let index = 0;
 
-  for (let index = 0; index < historyEntries.length; index += 1) {
-    const entry = historyEntries[index];
+  while (index < historyEntries.length) {
+    const currentIndex = index;
+    const entry = historyEntries[currentIndex];
     let originalIndex = -1;
 
     if (entry.navigationAction === 'POP' && entry.key) {
       originalIndex = historyEntries.findIndex((olderEntry, olderIndex) => (
-        olderIndex > index
+        olderIndex > currentIndex
         && olderEntry.key === entry.key
         && olderEntry.navigationAction !== 'POP'
       ));
@@ -50,9 +52,10 @@ const getActiveHistoryEntries = (historyEntries) => {
 
     if (originalIndex !== -1) {
       // Visits between a POP and its original entry are no longer behind us.
-      index = originalIndex - 1;
+      index = originalIndex;
     } else {
       activeEntries.push(entry);
+      index += 1;
     }
   }
 
