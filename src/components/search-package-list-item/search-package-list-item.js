@@ -9,7 +9,7 @@ import {
 import { Headline } from '@folio/stripes/components';
 
 import InternalLink from '../internal-link';
-import HiddenLabel from '../hidden-label';
+import { PackageHiddenLabel } from '../package-hidden-label';
 import SelectedLabel from '../selected-label';
 import TagsLabel from '../tags-label';
 
@@ -58,6 +58,9 @@ const SearchPackageListItem = ({
           tag={headingLevel || 'h3'}
         >
           {packageName || item.name}
+          {item.customDisplayName &&
+            <>{' '}<em>({item.customDisplayName})</em></>
+          }
         </Headline>
 
         {showProviderName &&
@@ -84,7 +87,7 @@ const SearchPackageListItem = ({
             </span>
           }
 
-          {item.visibilityData?.isHidden && <HiddenLabel />}
+          <PackageHiddenLabel id={item.id} visibility={item.visibility} />
 
           {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>
@@ -96,6 +99,7 @@ SearchPackageListItem.propTypes = {
   active: PropTypes.bool,
   headingLevel: PropTypes.string,
   item: PropTypes.shape({
+    customDisplayName: PropTypes.string,
     isSelected: PropTypes.bool,
     name: PropTypes.string,
     providerName: PropTypes.string,
@@ -104,9 +108,10 @@ SearchPackageListItem.propTypes = {
       tagList: PropTypes.arrayOf(PropTypes.string),
     }),
     titleCount: PropTypes.number,
-    visibilityData: PropTypes.shape({
-      isHidden: PropTypes.bool,
-    }),
+    visibility: PropTypes.arrayOf(PropTypes.shape({
+      category: PropTypes.string,
+      hidden: PropTypes.bool,
+    })),
   }),
   link: PropTypes.oneOfType([
     PropTypes.string,

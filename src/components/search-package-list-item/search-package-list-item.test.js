@@ -10,7 +10,6 @@ import { createMemoryHistory } from 'history';
 import SearchPackageListItem from './search-package-list-item';
 
 jest.mock('../tags-label', () => () => (<div>TagsLabel component</div>));
-jest.mock('../hidden-label', () => () => (<div>HiddenLabel component</div>));
 
 const routerHistory = createMemoryHistory();
 
@@ -27,9 +26,23 @@ const testBasicProps = {
     providerName: 'test-provider-name',
     isSelected: true,
     titleCount: 1,
-    visibilityData: {
-      isHidden: false,
-    },
+    visibility: [
+      {
+        category: 'PF',
+        reason: '',
+        hidden: false,
+      },
+      {
+        category: 'FTF',
+        reason: '',
+        hidden: false,
+      },
+      {
+        category: 'MARC',
+        reason: '',
+        hidden: false,
+      },
+    ],
     tags: {
       tagList: testTags,
     },
@@ -40,9 +53,24 @@ const testFullProps = {
   ...testBasicProps,
   item: {
     ...testBasicProps.item,
-    visibilityData: {
-      isHidden: true,
-    }
+    customDisplayName: 'custom-name',
+    visibility: [
+      {
+        category: 'PF',
+        reason: '',
+        hidden: false,
+      },
+      {
+        category: 'FTF',
+        reason: '',
+        hidden: true,
+      },
+      {
+        category: 'MARC',
+        reason: '',
+        hidden: true,
+      },
+    ],
   },
   showProviderName: true,
   showTitleCount: true,
@@ -77,6 +105,12 @@ describe('Given SearchPackageListItem', () => {
     expect(mockOnClick).not.toBeCalled();
   });
 
+  it('should not render HiddenLabel component', () => {
+    const { queryByText } = renderSearchPackageListItem(testBasicProps);
+
+    expect(queryByText('ui-eholdings.hidden')).toBeNull();
+  });
+
   it('should invoke onClick callback', () => {
     const testPropsWithOnClick = {
       ...testBasicProps,
@@ -88,6 +122,13 @@ describe('Given SearchPackageListItem', () => {
     fireEvent.click(screen.getByRole('link', { name: /test-package-name/ }));
 
     expect(mockOnClick).toBeCalled();
+  });
+
+  it('should display package display name alongside name', () => {
+    const { getByText } = renderSearchPackageListItem(testFullProps);
+
+    expect(getByText('test-package-name')).toBeDefined();
+    expect(getByText('(custom-name)')).toBeDefined();
   });
 
   it('should display provider name', () => {
@@ -105,7 +146,7 @@ describe('Given SearchPackageListItem', () => {
   it('should render HiddenLabel component', () => {
     const { getByText } = renderSearchPackageListItem(testFullProps);
 
-    expect(getByText('HiddenLabel component')).toBeDefined();
+    expect(getByText('ui-eholdings.hidden')).toBeDefined();
   });
 
   it('should render TagsLabel component', () => {
