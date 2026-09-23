@@ -581,7 +581,7 @@ export function epic(action$, state$) {
       }
 
       // request which rejects when not OK
-      const promise = fetch(url, { headers, method, body, credentials: 'include' })
+      const promise = fetch(url, { headers, method, body, credentials: 'same-origin' })
         .then(response => Promise.all([response.ok, parseResponseBody(response), response.status]))
         .then(([ok, responseBody, status]) => (ok
           ? { status, responseBody }
