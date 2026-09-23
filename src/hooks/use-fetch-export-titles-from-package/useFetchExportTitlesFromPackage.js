@@ -46,7 +46,7 @@ const useFetchExportTitlesFromPackage = ({
     });
 
     try {
-      const response = await fetch(url, { headers, credentials: 'include' });
+      const response = await fetch(url, { headers });
 
       if (response.status === 504) {
         throw new Error('timeout');
