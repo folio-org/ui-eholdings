@@ -21,6 +21,7 @@ import {
   accessTypes,
   accessTypesReduxStateShape,
 } from '../../constants';
+import { omit } from 'lodash';
 
 const EMPTY_PARAGRAPH = '<p></p>';
 
@@ -86,24 +87,11 @@ const PackageEditRoute = ({
   };
 
   const deselectPackage = () => {
-    const attrs = { ...model };
-    // When de-selecting a managed package
-    // need to clear out customizations before sending to server
-    attrs.isSelected = false;
-    attrs.visibility = null;
-    attrs.customCoverage = {};
-    attrs.allowKbToAddTitles = false;
-    attrs.accessTypeId = null;
-    updatePackage(attrs);
+    model.deselect();
   };
 
   const selectPackage = () => {
-    const attrs = { ...model };
-
-    attrs.isSelected = true;
-    attrs.allowKbToAddTitles = true;
-    attrs.customCoverage = {};
-    updatePackage(attrs);
+    model.select();
   };
 
   const updatePackageValues = (values) => {
@@ -195,7 +183,7 @@ const PackageEditRoute = ({
    * This should be refactored once we can share model between the routes.
   */
   const addPackageToHoldings = () => {
-    const attrs = { ...model };
+    const attrs = omit(model, ['isFreeAccess']);
     attrs.isSelected = true;
     attrs.selectedCount = model.titleCount;
     attrs.allowKbToAddTitles = true;
