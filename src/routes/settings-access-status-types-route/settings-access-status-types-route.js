@@ -37,10 +37,8 @@ const SettingsAccessStatusTypesRoute = ({
       return;
     }
 
-    if (!data) {
-      getAccessTypes(params.kbId);
-    }
-  }, [data, getAccessTypes, params.kbId, hasPermToView]);
+    getAccessTypes(params.kbId);
+  }, [getAccessTypes, params.kbId, hasPermToView]);
 
   const pageLabel = intl.formatMessage({ id: 'ui-eholdings.label.settings' });
   const recordLabel = intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' });
