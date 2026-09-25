@@ -89,4 +89,60 @@ describe('helpers', () => {
       });
     });
   });
+
+  describe('mergeAttributes', () => {
+    describe('when an existing attribute has a new incoming value', () => {
+      it('should overwrite existing with incoming', () => {
+        const existing = { name: 'Old Name' };
+        const incoming = { name: 'New Name' };
+
+        expect(helpers.mergeAttributes(existing, incoming)).toEqual({ name: 'New Name' });
+      });
+    });
+
+    describe('when an existing attribute is absent from incoming data', () => {
+      it('should carry forward the existing attribute', () => {
+        const existing = { name: 'Old Name', contentType: 'E-Book' };
+        const incoming = { name: 'Old Name' };
+
+        expect(helpers.mergeAttributes(existing, incoming)).toEqual({
+          name: 'Old Name',
+          contentType: 'E-Book',
+        });
+      });
+    });
+
+    describe('when customDisplayName is absent in incoming data', () => {
+      it('should not carry forward customDisplayName', () => {
+        const existing = { name: 'Package Name', customDisplayName: 'Old Custom Name' };
+        const incoming = { name: 'Package Name' };
+
+        expect(helpers.mergeAttributes(existing, incoming)).toEqual({
+          name: 'Package Name',
+        });
+      });
+    });
+
+    describe('when an incoming customDisplayName has an updated value', () => {
+      it('should use the incoming value', () => {
+        const existing = { customDisplayName: 'Old Custom Name' };
+        const incoming = { customDisplayName: 'New Custom Name' };
+
+        expect(helpers.mergeAttributes(existing, incoming)).toEqual({
+          customDisplayName: 'New Custom Name',
+        });
+      });
+    });
+
+    describe('when a user defined field is absent in incoming data', () => {
+      it('should not carry forward the user defined field', () => {
+        const existing = { name: 'Package Name', userDefinedField1: 'Old Label' };
+        const incoming = { name: 'Package Name' };
+
+        expect(helpers.mergeAttributes(existing, incoming)).toEqual({
+          name: 'Package Name',
+        });
+      });
+    });
+  });
 });
