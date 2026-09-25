@@ -12,8 +12,10 @@ import {
   Icon,
   IconButton,
   Pane,
+  PaneMenu,
   Paneset,
 } from '@folio/stripes/components';
+import { Pluggable } from '@folio/stripes/core';
 import { useColumnManager } from '@folio/stripes/smart-components';
 
 import { withHistoryBack } from '../../hooks';
@@ -23,6 +25,12 @@ import { COLUMN_MAPPING_BY_LIST_TYPE, DEFAULT_VISIBLE_COLUMNS_BY_LIST_TYPE } fro
 import styles from './details-view.css';
 
 const cx = classNames.bind(styles);
+
+const CONNECTED_RECORD_TYPES_BY_VIEW = {
+  provider: 'eholdingsProvider',
+  package: 'eholdingsPackage',
+  title: 'eholdingsTitle',
+};
 
 const propTypes = {
   accordionHeaderLoading: PropTypes.bool,
@@ -42,6 +50,7 @@ const propTypes = {
   listType: PropTypes.node,
   location: PropTypes.object.isRequired,
   model: PropTypes.shape({
+    id: PropTypes.string,
     isLoaded: PropTypes.bool,
     isLoading: PropTypes.bool,
     name: PropTypes.string,
@@ -87,7 +96,17 @@ const DetailsView = ({
     actionMenu,
     lastMenu,
     footer,
+    location,
   } = props;
+  const recordType = CONNECTED_RECORD_TYPES_BY_VIEW[type];
+
+  const connectedTasksJobsProps = recordType && {
+    recordId: model.id || '',
+    recordObject: { name: model.name },
+    recordType,
+    recordUrl: `${location.pathname}${location.search || ''}`,
+    type: 'task-list',
+  };
 
   // used to focus the heading when the model loads
   const $heading = useRef(null);
@@ -281,7 +300,15 @@ const DetailsView = ({
               {paneTitle}
             </span>
           }
-          lastMenu={lastMenu}
+          lastMenu={connectedTasksJobsProps ? (
+            <PaneMenu>
+              {lastMenu}
+              <Pluggable
+                {...connectedTasksJobsProps}
+                componentType="ConnectedTasksJobsButton"
+              />
+            </PaneMenu>
+          ) : lastMenu}
           aria-labelledby={paneTitleId}
         >
           <div
@@ -295,6 +322,12 @@ const DetailsView = ({
             }
           </div>
         </Pane>
+        {connectedTasksJobsProps && (
+          <Pluggable
+            {...connectedTasksJobsProps}
+            componentType="ConnectedTasksJobsPane"
+          />
+        )}
       </Paneset>
     </div>
   );
