@@ -12,9 +12,5 @@ module.exports = {
     ...config.setupFiles,
     path.join(__dirname, './test/jest/setup-tests.js'),
   ],
-  setupFilesAfterEnv: [
-    ...config.setupFilesAfterEnv,
-    path.join(__dirname, './test/jest/jest.setup.js'),
-  ],
   transformIgnorePatterns: [combinedModules],
 };
