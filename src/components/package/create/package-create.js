@@ -26,6 +26,7 @@ import { CustomAlternateNames } from '../_fields/custom-alternate-names';
 import { DisplayName } from '../_fields/display-name';
 import { PackageUrl } from '../_fields/package-url/package-url';
 import { PackageAccess } from '../_fields/package-access';
+import { CustomDescription } from '../_fields/custom-description';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
 import NavigationModal from '../../navigation-modal';
@@ -41,6 +42,7 @@ const initialValues = {
   contentType: 'Unknown',
   isFreeAccess: false,
   customCoverages: [],
+  CustomDescription: '',
 };
 
 const focusOnErrors = createFocusDecorator();
@@ -176,6 +178,11 @@ const PackageCreate = ({
                         </Col>
                         <Col xs={4}>
                           <PackageUrl />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={9}>
+                          <CustomDescription />
                         </Col>
                       </Row>
                     </DetailsViewSection>
