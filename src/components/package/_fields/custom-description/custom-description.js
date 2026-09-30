@@ -22,7 +22,7 @@ const validate = (value) => {
     );
   }
 
-  return null;
+  return undefined;
 };
 
 const CustomDescription = () => {
@@ -48,7 +48,6 @@ const CustomDescription = () => {
       component={Editor}
       label={label}
       validate={validate}
-      validationEnabled
     />
   );
 };
