@@ -23,6 +23,7 @@ const mockPut = jest.fn();
 const mockExtend = jest.fn(() => ({ put: mockPut }));
 
 const providerId = 'test-id';
+const packagesSelected = 3;
 
 describe('Given useProviderUpdate', () => {
   beforeEach(() => {
@@ -34,7 +35,11 @@ describe('Given useProviderUpdate', () => {
 
   describe('when updateProvider is called', () => {
     it('should call PUT with correct providerId', async () => {
-      const { result } = renderHook(() => useProviderUpdate({ providerId, onSuccess: jest.fn() }), { wrapper });
+      const { result } = renderHook(() => useProviderUpdate({
+        providerId,
+        packagesSelected,
+        onSuccess: jest.fn(),
+      }), { wrapper });
 
       result.current.updateProvider({});
 
@@ -42,7 +47,11 @@ describe('Given useProviderUpdate', () => {
     });
 
     it('should call PUT with correct body', async () => {
-      const { result } = renderHook(() => useProviderUpdate({ providerId, onSuccess: jest.fn() }), { wrapper });
+      const { result } = renderHook(() => useProviderUpdate({
+        providerId,
+        packagesSelected,
+        onSuccess: jest.fn(),
+      }), { wrapper });
 
       const formValues = {
         providerToken: {
@@ -54,6 +63,7 @@ describe('Given useProviderUpdate', () => {
         data: {
           id: providerId,
           attributes: {
+            packagesSelected,
             providerToken: {
               value: 'token-value',
             },
@@ -67,6 +77,17 @@ describe('Given useProviderUpdate', () => {
       await waitFor(() => expect(mockPut.mock.calls[0][1]).toEqual({
         body: expectedBodyJson,
       }));
+    });
+
+    describe('when packagesSelected is not available', () => {
+      it('should throw and not send a PUT request', () => {
+        const { result } = renderHook(() => useProviderUpdate({ providerId, onSuccess: jest.fn() }), { wrapper });
+
+        expect(() => result.current.updateProvider({ providerToken: { value: 'token-value' } }))
+          .toThrow('packagesSelected is not available');
+
+        expect(mockPut).not.toHaveBeenCalled();
+      });
     });
   });
 });

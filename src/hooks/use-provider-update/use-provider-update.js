@@ -11,7 +11,11 @@ import {
 
 import { useBackendResponseErrors } from '../use-backend-response-errors';
 
-export const useProviderUpdate = ({ providerId, onSuccess = noop }) => {
+export const useProviderUpdate = ({
+  providerId,
+  packagesSelected,
+  onSuccess = noop,
+}) => {
   const [namespace] = useNamespace({ key: 'provider' });
   const queryClient = useQueryClient();
   const { onError, errors } = useBackendResponseErrors();
@@ -26,7 +30,7 @@ export const useProviderUpdate = ({ providerId, onSuccess = noop }) => {
   const providerIdString = String(providerId);
 
   const formatValuesIntoProviderData = (values) => {
-    const attrs = { ...values };
+    const attrs = { packagesSelected, ...values };
 
     return {
       data: {
@@ -53,6 +57,11 @@ export const useProviderUpdate = ({ providerId, onSuccess = noop }) => {
   });
 
   const updateProvider = (values) => {
+    // backend ignores the update without packagesSelected, so interrupt flow if absent
+    if (packagesSelected == null) {
+      throw new Error('Cannot update provider: packagesSelected is not available');
+    }
+
     const data = formatValuesIntoProviderData(values);
     mutate(data);
   };
