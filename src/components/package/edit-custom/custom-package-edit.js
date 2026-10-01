@@ -80,6 +80,7 @@ const CustomPackageEdit = ({
       visibility,
       customAltNames,
       customDisplayName,
+      url,
       isFreeAccess,
     } = model;
 
@@ -93,6 +94,7 @@ const CustomPackageEdit = ({
       isFreeAccess,
       customAltNames,
       customDisplayName,
+      url,
       customCoverages: [{
         ...customCoverage,
       }],
