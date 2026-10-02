@@ -24,6 +24,7 @@ import DetailsViewSection from '../../details-view-section';
 import NameField from '../_fields/name';
 import { CustomAlternateNames } from '../_fields/custom-alternate-names';
 import { DisplayName } from '../_fields/display-name';
+import { PackageUrl } from '../_fields/package-url/package-url';
 import { PackageAccess } from '../_fields/package-access';
 import CoverageFields from '../_fields/custom-coverage';
 import ContentTypeField from '../_fields/content-type';
@@ -172,6 +173,9 @@ const PackageCreate = ({
                         </Col>
                         <Col xs={4}>
                           <CustomAlternateNames />
+                        </Col>
+                        <Col xs={4}>
+                          <PackageUrl />
                         </Col>
                       </Row>
                     </DetailsViewSection>
