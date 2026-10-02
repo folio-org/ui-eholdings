@@ -9,7 +9,6 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { getAccessTypeId } from '../../components/utilities';
 import { usePackage } from './use-package';
 
 const queryClient = new QueryClient();
@@ -38,7 +37,7 @@ describe('Given usePackage', () => {
     await waitFor(() => expect(mockGet).toHaveBeenCalledWith(`eholdings/packages/${packageId}`));
   });
 
-  it('should expose the raw resource so relationships such as accessType are available', async () => {
+  it('should expose relationships', async () => {
     const resource = {
       id: '1-2',
       attributes: { name: 'Test package' },
@@ -53,6 +52,6 @@ describe('Given usePackage', () => {
 
     expect(result.current.data.name).toBe('Test package');
     expect(result.current.data.id).toBe('1-2');
-    expect(getAccessTypeId(result.current.data)).toBe('access-type-id');
+    expect(result.current.data.relationships.accessType.data.id).toBe('access-type-id');
   });
 });
