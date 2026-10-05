@@ -147,9 +147,11 @@ const EditPackageSettings = ({
           <Col xs={3}>
             <CustomAlternateNames />
           </Col>
-          <Col xs={3}>
-            <PackageUrl />
-          </Col>
+          {packageIsCustom && (
+            <Col xs={3}>
+              <PackageUrl />
+            </Col>
+          )}
         </Row>
         {!packageIsCustom && supportsProviderTokens && (
           <fieldset>

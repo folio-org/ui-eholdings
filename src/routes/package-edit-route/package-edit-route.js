@@ -125,6 +125,12 @@ const PackageEditRoute = ({
       attrs.contentType = values.contentType;
     }
 
+    if ('url' in values) {
+      attrs.url = values.url;
+    } else {
+      delete attrs.url;
+    }
+
     if ('proxyId' in values) {
       attrs.proxy = {
         ...(attrs.proxy),
@@ -146,7 +152,6 @@ const PackageEditRoute = ({
 
     attrs.isFreeAccess = values.isFreeAccess;
     attrs.customDisplayName = values.customDisplayName || '';
-    attrs.url = values.url || '';
     attrs.customAltNames = values.customAltNames;
     attrs.customCoverages = values.customCoverages;
 
