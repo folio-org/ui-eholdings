@@ -19,7 +19,11 @@ export const useProviderModel = ({
     isLoading: isUpdateLoading,
     isError: isUpdateError,
     errors: updateErrors,
-  } = useProviderUpdate({ providerId, onSuccess: onUpdateSuccess });
+  } = useProviderUpdate({
+    providerId,
+    packagesSelected: data?.packagesSelected,
+    onSuccess: onUpdateSuccess,
+  });
 
   const model = useMemo(() => ({
     ...data,
