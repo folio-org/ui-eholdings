@@ -283,6 +283,40 @@ describe('Given PackageEditRoute', () => {
     });
   });
 
+  describe('when adding a custom coverage date in the "Coverage Settings" section', () => {
+    describe('and user clicks Save&Close button', () => {
+      beforeEach(() => {
+        usePackageModel.mockClear().mockReturnValue({
+          model: {
+            ...getModelMock(),
+            isSelected: true,
+            customCoverage: {},
+          },
+          updatePackage: mockUpdatePackage,
+        });
+      });
+
+      it('should update package with the added customCoverage', () => {
+        const { getByRole } = renderPackageEditRoute();
+
+        const startCoverageField = getByRole('textbox', { name: 'ui-eholdings.date.startDate' });
+        const endCoverageField = getByRole('textbox', { name: 'ui-eholdings.date.endDate' });
+
+        fireEvent.change(startCoverageField, { target: { value: '01/01/2026' } });
+        fireEvent.change(endCoverageField, { target: { value: '01/02/2026' } });
+
+        fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+        expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
+          customCoverages: [{
+            beginCoverage: '2026-01-01',
+            endCoverage: '2026-01-02',
+          }],
+        }));
+      });
+    });
+  });
+
   describe('when date range in the "Coverage Settings" section is removed', () => {
     describe('and user clicks Save&Close button', () => {
       beforeEach(() => {
