@@ -22,6 +22,9 @@
 * Create/Edit Custom Package Detail Record: Add a new field: Package access. (UIEH-1498)
 * Update package result display to include package display name and tooltip details for package hidden settings. (UIEH-1507)
 * Add Connected Tasks/Jobs to eHoldings record views. (UIEH-1575)
+* Create/Edit Custom Package Detail Record: Add a Package URL field. (UIEH-1497)
+* Fix Cannot add custom coverage dates to eHoldings package. (UIEH-1562)
+* Fix cannot change provider token from package. (UIEH-1563)
 * Edit Managed Package Detail Record: Add a new field: Custom description. (UIEH-1504)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)

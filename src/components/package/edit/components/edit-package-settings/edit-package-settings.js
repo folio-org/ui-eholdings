@@ -22,6 +22,7 @@ import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
 import { CustomDescription } from '../../../_fields/custom-description';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
 import { DisplayName } from '../../../_fields/display-name';
+import { PackageUrl } from '../../../_fields/package-url/package-url';
 
 import fieldsetStyles from '../../../../fieldset-styles.css';
 import packageEditStyles from '../../../package-edit.css';
@@ -146,6 +147,9 @@ const EditPackageSettings = ({
           </Col>
           <Col xs={3}>
             <CustomAlternateNames />
+          </Col>
+          <Col xs={3}>
+            <PackageUrl />
           </Col>
         </Row>
         <Row className={packageEditStyles.row}>

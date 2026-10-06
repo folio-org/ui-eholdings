@@ -146,8 +146,10 @@ const PackageEditRoute = ({
 
     attrs.isFreeAccess = values.isFreeAccess;
     attrs.customDisplayName = values.customDisplayName || '';
+    attrs.url = values.url || '';
     attrs.customAltNames = values.customAltNames;
     attrs.customDescription = values.customDescription;
+    attrs.customCoverages = values.customCoverages;
 
     attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
       ? values.accessTypeId

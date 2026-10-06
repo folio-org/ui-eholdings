@@ -15,5 +15,6 @@ export const serializePackageAttributes = (values = {}) => {
     customAltNames: values.customAltNames,
     customDisplayName: values.customDisplayName,
     customDescription: values.customDescription,
+    url: values.url,
   };
 };
