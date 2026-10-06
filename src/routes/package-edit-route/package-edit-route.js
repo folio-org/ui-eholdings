@@ -22,6 +22,8 @@ import {
   accessTypesReduxStateShape,
 } from '../../constants';
 
+const EMPTY_PARAGRAPH = '<p></p>';
+
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
@@ -153,6 +155,12 @@ const PackageEditRoute = ({
     attrs.isFreeAccess = values.isFreeAccess;
     attrs.customDisplayName = values.customDisplayName || '';
     attrs.customAltNames = values.customAltNames;
+    attrs.customDescription = values.customDescription;
+
+    if (attrs.customDescription === EMPTY_PARAGRAPH) {
+      delete attrs.customDescription;
+    }
+
     attrs.customCoverages = values.customCoverages;
 
     attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
