@@ -162,8 +162,6 @@ const PackageCreate = ({
                     >
                       <NameField />
                       <ContentTypeField />
-                      <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-                      <PackageAccess />
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.package.packageSettings" />}
@@ -171,8 +169,23 @@ const PackageCreate = ({
                     >
                       <Row>
                         <Col xs={4}>
+                          <PackageAccess />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={4}>
+                          <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={4}>
                           <DisplayName />
                         </Col>
+                        <Col xs={4}>
+                          <span>Package URL placeholder</span>
+                        </Col>
+                      </Row>
+                      <Row>
                         <Col xs={4}>
                           <CustomAlternateNames />
                         </Col>
