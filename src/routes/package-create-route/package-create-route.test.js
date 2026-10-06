@@ -6,8 +6,12 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageCreateRoute from './package-create-route';
+import { CustomDescription } from '../../components/package/_fields/custom-description';
 import { usePackageCreate } from '../../hooks';
+
 import Harness from '../../../test/jest/helpers/harness';
+import { Field } from 'react-final-form';
+import { TextArea } from '@folio/stripes/components';
 
 const mockHistory = {
   replace: jest.fn(),
@@ -39,6 +43,12 @@ jest.mock('../../hooks', () => ({
   })),
 }));
 
+// the real CustomDescription uses a wysiwyg Editor component, but user interactions in a test environment
+// seem to not work, so here we're going to mock it with a regular textarea to test integration
+jest.mock('../../components/package/_fields/custom-description', () => ({
+  CustomDescription: jest.fn(),
+}));
+
 const accessStatusTypes = {
   isDeleted: false,
   isLoading: false,
@@ -61,6 +71,18 @@ const getPackageCreateRoute = (props = {}) => (
 const renderPackageCreateRoute = (props = {}) => render(getPackageCreateRoute(props));
 
 describe('Given PackageCreateRoute', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    CustomDescription.mockReturnValue(
+      <Field
+        name="customDescription"
+        type="text"
+        component={TextArea}
+        label="customDescription"
+      />
+    );
+  });
+
   it('should render PackageCreateRoute', () => {
     const { getByText } = renderPackageCreateRoute();
 
@@ -155,6 +177,10 @@ describe('Given PackageCreateRoute', () => {
 
       fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
 
+      const customDescriptionInput = getByRole('textbox', { name: 'customDescription' });
+
+      fireEvent.change(customDescriptionInput, { target: { value: 'New custom description' } });
+
       const addCoverageSettingsButton = getByText('ui-eholdings.package.coverage.addDateRange');
 
       fireEvent.click(addCoverageSettingsButton);
@@ -164,7 +190,12 @@ describe('Given PackageCreateRoute', () => {
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
-      expect(mockCreatePackage).toHaveBeenCalled();
+      expect(mockCreatePackage.mock.calls[0][0]).toEqual(expect.objectContaining({
+        contentType: 'Unknown',
+        customDescription: 'New custom description',
+        isFreeAccess: false,
+        name: 'New package name',
+      }));
     });
   });
 });
