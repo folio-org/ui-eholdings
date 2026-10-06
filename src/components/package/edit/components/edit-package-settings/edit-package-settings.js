@@ -148,9 +148,11 @@ const EditPackageSettings = ({
           <Col xs={3}>
             <CustomAlternateNames />
           </Col>
-          <Col xs={3}>
-            <PackageUrl />
-          </Col>
+          {packageIsCustom && (
+            <Col xs={3}>
+              <PackageUrl />
+            </Col>
+          )}
         </Row>
         <Row className={packageEditStyles.row}>
           <Col xsOffset={3} xs={9}>
