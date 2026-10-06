@@ -36,4 +36,22 @@ describe('Given usePackage', () => {
 
     await waitFor(() => expect(mockGet).toHaveBeenCalledWith(`eholdings/packages/${packageId}`));
   });
+
+  it('should expose relationships', async () => {
+    const resource = {
+      id: '1-2',
+      attributes: { name: 'Test package' },
+      relationships: { accessType: { data: { id: 'access-type-id' } } },
+    };
+
+    mockGet.mockReturnValueOnce({ json: jest.fn().mockResolvedValue({ data: resource }) });
+
+    const { result } = renderHook(() => usePackage({ packageId: 'with-relationships' }), { wrapper });
+
+    await waitFor(() => expect(result.current.isLoaded).toBe(true));
+
+    expect(result.current.data.name).toBe('Test package');
+    expect(result.current.data.id).toBe('1-2');
+    expect(result.current.data.relationships.accessType.data.id).toBe('access-type-id');
+  });
 });

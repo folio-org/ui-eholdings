@@ -163,7 +163,8 @@ export const getEntityTags = (entityModel) => {
  * @param {Object} resourceModel - entity model that has resource relationship info
  */
 export const getAccessTypeId = (resourceModel) => {
-  return get(resourceModel, 'data.relationships.accessType.data.id');
+  return get(resourceModel, 'data.relationships.accessType.data.id') ||
+    get(resourceModel, 'relationships.accessType.data.id');
 };
 
 /**
