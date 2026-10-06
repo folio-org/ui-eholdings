@@ -19,6 +19,7 @@ import TokenField from '../../../../token';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
+import { CustomDescription } from '../../../_fields/custom-description';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
 import { DisplayName } from '../../../_fields/display-name';
 import { PackageUrl } from '../../../_fields/package-url/package-url';
@@ -147,8 +148,15 @@ const EditPackageSettings = ({
           <Col xs={3}>
             <CustomAlternateNames />
           </Col>
-          <Col xs={3}>
-            <PackageUrl />
+          {packageIsCustom && (
+            <Col xs={3}>
+              <PackageUrl />
+            </Col>
+          )}
+        </Row>
+        <Row className={packageEditStyles.row}>
+          <Col xsOffset={3} xs={9}>
+            <CustomDescription />
           </Col>
         </Row>
         {!packageIsCustom && supportsProviderTokens && (

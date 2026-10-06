@@ -190,6 +190,27 @@ describe('Given PackageEditRoute', () => {
 
       expect(mockUpdatePackage).toHaveBeenCalled();
     });
+
+    it('should not send the previous URL when the URL field is cleared', () => {
+      usePackageModel.mockReturnValue({
+        updatePackage: mockUpdatePackage,
+        deletePackage: mockDeletePackage,
+        model: {
+          ...getModelMock(),
+          url: 'https://old.example.com',
+        },
+      });
+
+      const { getByRole } = renderPackageEditRoute();
+      const packageUrlInput = getByRole('textbox', { name: 'ui-eholdings.label.packageUrl' });
+
+      fireEvent.change(packageUrlInput, { target: { value: '' } });
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdatePackage).toHaveBeenCalledWith(expect.not.objectContaining({
+        url: 'https://old.example.com',
+      }));
+    });
   });
 
   describe('when editing custom alt names and saving a package', () => {

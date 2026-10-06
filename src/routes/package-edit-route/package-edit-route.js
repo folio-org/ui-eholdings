@@ -22,6 +22,8 @@ import {
   accessTypesReduxStateShape,
 } from '../../constants';
 
+const EMPTY_PARAGRAPH = '<p></p>';
+
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   getAccessTypes: PropTypes.func.isRequired,
@@ -125,6 +127,12 @@ const PackageEditRoute = ({
       attrs.contentType = values.contentType;
     }
 
+    if ('url' in values) {
+      attrs.url = values.url;
+    } else {
+      delete attrs.url;
+    }
+
     if ('proxyId' in values) {
       attrs.proxy = {
         ...(attrs.proxy),
@@ -146,8 +154,13 @@ const PackageEditRoute = ({
 
     attrs.isFreeAccess = values.isFreeAccess;
     attrs.customDisplayName = values.customDisplayName || '';
-    attrs.url = values.url || '';
     attrs.customAltNames = values.customAltNames;
+    attrs.customDescription = values.customDescription;
+
+    if (attrs.customDescription === EMPTY_PARAGRAPH) {
+      delete attrs.customDescription;
+    }
+
     attrs.customCoverages = values.customCoverages;
 
     attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
