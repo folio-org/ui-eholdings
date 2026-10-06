@@ -42,7 +42,7 @@ const initialValues = {
   contentType: 'Unknown',
   isFreeAccess: false,
   customCoverages: [],
-  CustomDescription: '',
+  customDescription: '',
 };
 
 const focusOnErrors = createFocusDecorator();
