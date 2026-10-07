@@ -48,6 +48,7 @@ export const DisplayName = () => {
       type="text"
       component={TextArea}
       label={label}
+      rows={1}
       validate={validate}
       ariaLabel={labelText}
     />
