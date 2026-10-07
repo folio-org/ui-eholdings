@@ -12,8 +12,6 @@ import { CustomDescription } from '../../components/package/_fields/custom-descr
 import { usePackageCreate } from '../../hooks';
 
 import Harness from '../../../test/jest/helpers/harness';
-import { Field } from 'react-final-form';
-import { TextArea } from '@folio/stripes/components';
 
 const mockHistory = {
   replace: jest.fn(),
