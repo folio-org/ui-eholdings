@@ -1,5 +1,6 @@
 import {
   handleSaveKeyFormSubmit,
+  getAccessTypeId,
   getAccessTypeIdsAndNames,
   filterCountFromQuery,
   getMatchedStringInUTF8,
@@ -19,6 +20,55 @@ describe('utilities', () => {
 
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(formRef.dispatchEvent).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getAccessTypeId', () => {
+    describe('when using Redux shape', () => {
+      it('should return correct access type ID', () => {
+        const data = {
+          data: {
+            attributes: {},
+            relationships: {
+              accessType: {
+                data: {
+                  id: 'access-type-id'
+                },
+              },
+            },
+          },
+        };
+
+        expect(getAccessTypeId(data)).toEqual('access-type-id');
+      });
+    });
+
+    describe('when using React Query shape', () => {
+      it('should return correct access type ID', () => {
+        const data = {
+          relationships: {
+            accessType: {
+              data: {
+                id: 'access-type-id'
+              },
+            },
+          },
+        };
+
+        expect(getAccessTypeId(data)).toEqual('access-type-id');
+      });
+    });
+
+    describe('when unrecognized', () => {
+      it('should return undefined', () => {
+        const data = {
+          accessType: {
+            id: 'access-type-id'
+          },
+        };
+
+        expect(getAccessTypeId(data)).toBeUndefined();
+      });
     });
   });
 

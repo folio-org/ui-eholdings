@@ -185,6 +185,11 @@ const PackageCreate = ({
                           <CustomDescription />
                         </Col>
                       </Row>
+                      <Row>
+                        <Col xs={9}>
+                          <CustomDescription />
+                        </Col>
+                      </Row>
                     </DetailsViewSection>
                     <DetailsViewSection
                       label={<FormattedMessage id="ui-eholdings.label.coverageSettings" />}

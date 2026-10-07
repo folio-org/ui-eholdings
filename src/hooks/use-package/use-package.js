@@ -34,6 +34,10 @@ export const usePackage = ({ packageId }) => {
         id: providerId+packageId
         attributes: {
           ...rest of attributes
+        },
+        relationships: {
+          accessType: { data: { id } },
+          ...
         }
       }
     }
@@ -41,6 +45,7 @@ export const usePackage = ({ packageId }) => {
   const packageData = {
     ...data.data?.attributes,
     id: data.data?.id,
+    relationships: data.data?.relationships,
   };
 
   return {
