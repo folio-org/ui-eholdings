@@ -46,6 +46,7 @@ export const usePackage = ({ packageId }) => {
     ...data.data?.attributes,
     id: data.data?.id,
     relationships: data.data?.relationships,
+    type: 'packages',
   };
 
   return {
