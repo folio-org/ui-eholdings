@@ -174,14 +174,14 @@ const PackageCreate = ({
                           <DisplayName />
                         </Col>
                         <Col xs={4}>
-                          <CustomAlternateNames />
-                        </Col>
-                        <Col xs={4}>
                           <PackageUrl />
                         </Col>
                       </Row>
                       <Row>
-                        <Col xs={9}>
+                        <Col xs={4}>
+                          <CustomAlternateNames />
+                        </Col>
+                        <Col xs={8}>
                           <CustomDescription />
                         </Col>
                       </Row>
