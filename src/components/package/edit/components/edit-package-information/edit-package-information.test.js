@@ -75,6 +75,18 @@ describe('Given EditPackageInformation', () => {
     expect(getByText('Package information')).toBeDefined();
   });
 
+  it('should render access status types when available', () => {
+    const { getByText } = renderEditPackageInformation({
+      accessStatusTypes: {
+        items: {
+          data: [{ id: 'access-status-type-id' }],
+        },
+      },
+    });
+
+    expect(getByText('Access status types')).toBeDefined();
+  });
+
   describe('when package is not selected', () => {
     it('should render name and content type as text', () => {
       const { getByText } = renderEditPackageInformation({

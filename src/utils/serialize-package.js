@@ -1,5 +1,5 @@
 export const serializePackageAttributes = (values = {}) => {
-  return {
+  const attributes = {
     name: values.name,
     isSelected: values.isSelected,
     allowKbToAddTitles: values.allowKbToAddTitles,
@@ -7,7 +7,6 @@ export const serializePackageAttributes = (values = {}) => {
     customCoverage: values.customCoverage,
     visibility: values.visibility,
     isCustom: values.isCustom,
-    isFreeAccess: values.isFreeAccess,
     proxy: values.proxy,
     packageToken: values.packageToken,
     isFullPackage: values.isSelected && !values.isPartiallySelected,
@@ -15,6 +14,12 @@ export const serializePackageAttributes = (values = {}) => {
     customAltNames: values.customAltNames,
     customDisplayName: values.customDisplayName,
     customDescription: values.customDescription,
-    url: values.url,
   };
+
+  if (values.isCustom) {
+    attributes.url = values.url;
+    attributes.isFreeAccess = values.isFreeAccess;
+  }
+
+  return attributes;
 };

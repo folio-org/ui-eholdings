@@ -1,6 +1,7 @@
 import {
   render,
   cleanup,
+  fireEvent,
 } from '@folio/jest-config-stripes/testing-library/react';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
@@ -89,5 +90,23 @@ describe('Given EditPackageSettings', () => {
     const { getByText } = renderEditPackageSettings();
 
     expect(getByText('ui-eholdings.package.visibility')).toBeDefined();
+  });
+
+  it('should render custom package fields for custom packages', () => {
+    const {
+      container,
+      getByRole,
+    } = renderEditPackageSettings({ packageIsCustom: true });
+
+    expect(getByRole('textbox', { name: 'ui-eholdings.label.packageUrl' })).toBeDefined();
+    fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
+    expect(getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' })).toBeDefined();
+    expect(container.querySelector('[contenteditable="true"]')).not.toBeNull();
+  });
+
+  it('should not render the URL field for managed packages', () => {
+    const managedPackageView = renderEditPackageSettings();
+
+    expect(managedPackageView.container.querySelector('textarea[name="url"]')).toBeNull();
   });
 });

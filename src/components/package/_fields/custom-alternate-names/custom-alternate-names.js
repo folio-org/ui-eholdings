@@ -13,6 +13,8 @@ import {
   TextArea,
 } from '@folio/stripes/components';
 
+import styles from './custom-alternate-names.css';
+
 const MAX_CHARACTER_LENGTH = 300;
 const MAX_ALTERNATE_NAMES = 10;
 
@@ -42,13 +44,16 @@ const CustomAlternateNames = () => {
     const fieldLabel = intl.formatMessage({ id: 'ui-eholdings.label.customAlternateNames' });
 
     return (
-      <Field
-        name={`${repeatableFieldName}.altName`}
-        type="text"
-        component={TextArea}
-        ariaLabel={fieldLabel}
-        validate={validate}
-      />
+      <div className={styles.customAlternateName}>
+        <Field
+          name={`${repeatableFieldName}.altName`}
+          type="text"
+          component={TextArea}
+          ariaLabel={fieldLabel}
+          rows={1}
+          validate={validate}
+        />
+      </div>
     );
   }, [intl]);
 
