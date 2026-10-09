@@ -87,7 +87,7 @@ class TagsAccordion extends Component {
 
 export default connect(
   (store, ownProps) => ({
-    entityTags: selectEntityTags(ownProps.model.type, ownProps.model.id, store),
+    entityTags: ownProps.entityTags ?? selectEntityTags(ownProps.model.type, ownProps.model.id, store),
   }), {
     updateEntityTags: updateEntityTagsAction,
   }

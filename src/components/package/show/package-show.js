@@ -317,6 +317,7 @@ const PackageShow = ({
           onToggle={handleSectionToggle}
           open={sections.packageShowTags}
           tagsModel={tagsModel}
+          entityTags={model.tags?.tagList ?? []}
           updateFolioTags={updateFolioTags}
         />
 
