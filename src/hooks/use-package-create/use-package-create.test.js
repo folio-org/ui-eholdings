@@ -146,6 +146,25 @@ describe('Given usePackageCreate', () => {
     });
   });
 
+  describe('when customDescription is an empty string', () => {
+    it('should not add it to the body', async () => {
+      mockPost.mockReturnValue({ json: jest.fn().mockResolvedValue({}) });
+
+      const { result } = renderHook(() => usePackageCreate({ onSuccess: jest.fn() }), { wrapper });
+
+      result.current.createPackage({
+        ...packageFormValues,
+        customDescription: '',
+      });
+
+      await waitFor(() => expect(mockPost).toHaveBeenCalled());
+
+      const body = JSON.parse(mockPost.mock.calls[0][1].body);
+
+      expect(body.data.attributes.customDescription).toBeUndefined();
+    });
+  });
+
   describe('when name and contentType are not provided', () => {
     it('should omit those attributes from the payload', async () => {
       mockPost.mockReturnValue({ json: jest.fn().mockResolvedValue({}) });

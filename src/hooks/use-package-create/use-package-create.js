@@ -36,6 +36,11 @@ const usePackageCreate = ({ onSuccess }) => {
       attrs.contentType = values.contentType;
     }
 
+    // customDescription must not be empty
+    if (!attrs.customDescription?.length) {
+      delete attrs.customDescription;
+    }
+
     attrs.accessTypeId = values.accessTypeId;
 
     // only send altName property of form field s, and filter out any empty fields, if present

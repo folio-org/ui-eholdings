@@ -34,6 +34,7 @@ export const PackageUrl = () => {
       type="text"
       component={TextArea}
       label={labelText}
+      rows={1}
       validate={validate}
       ariaLabel={labelText}
     />

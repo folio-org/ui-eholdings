@@ -28,6 +28,7 @@
 * Edit Managed Package Detail Record: Add a new field: Custom description. (UIEH-1504)
 * Create/Edit Custom Package Detail Record: Add a new field: Custom description. (UIEH-1495)
 * Fix access status type value not used when editing package. (UIEH-1564)
+* Edit Custom Package Detail Record - List of fields. (UIEH-1537)
 * Reorder fields on the Create Custom Package page. (UIEH-1536)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
