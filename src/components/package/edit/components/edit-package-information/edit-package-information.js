@@ -12,7 +12,10 @@ import NameField from '../../../_fields/name';
 import ContentTypeField from '../../../_fields/content-type';
 import { PackageAccess } from '../../../_fields/package-access';
 
+import AccessTypeEditSection from '../../../../access-type-edit-section';
+
 const propTypes = {
+  accessStatusTypes: PropTypes.object,
   getSectionHeader: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   model: PropTypes.object.isRequired,
@@ -26,7 +29,10 @@ const EditPackageInformation = ({
   onToggle,
   packageSelected,
   model,
+  accessStatusTypes = {},
 }) => {
+  const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
+
   return (
     <Accordion
       label={getSectionHeader('ui-eholdings.label.packageInformation')}
@@ -53,6 +59,9 @@ const EditPackageInformation = ({
             </div>
           </KeyValue>
         )}
+      {isAccessStatusTypes && (
+        <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+      )}
       <PackageAccess />
     </Accordion>
   );

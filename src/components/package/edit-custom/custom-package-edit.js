@@ -255,6 +255,7 @@ const CustomPackageEdit = ({
                       onToggle={handleSectionToggle}
                       getSectionHeader={getSectionHeader}
                       packageSelected={packageSelected}
+                      accessStatusTypes={accessStatusTypes}
                       model={model}
                     />
                     <EditPackageSettings
@@ -267,7 +268,6 @@ const CustomPackageEdit = ({
                       proxyTypes={proxyTypes}
                       provider={provider}
                       packageIsCustom
-                      accessStatusTypes={accessStatusTypes}
                     />
 
                     <EditCoverageSettings

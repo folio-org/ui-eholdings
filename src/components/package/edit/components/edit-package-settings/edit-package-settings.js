@@ -16,7 +16,6 @@ import {
 } from '@folio/stripes/components';
 
 import TokenField from '../../../../token';
-import AccessTypeEditSection from '../../../../access-type-edit-section';
 import ProxySelectField from '../../../../proxy-select';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
 import { CustomDescription } from '../../../_fields/custom-description';
@@ -28,7 +27,6 @@ import fieldsetStyles from '../../../../fieldset-styles.css';
 import packageEditStyles from '../../../package-edit.css';
 
 const propTypes = {
-  accessStatusTypes: PropTypes.object,
   getSectionHeader: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
@@ -49,7 +47,6 @@ const EditPackageSettings = ({
   proxyTypes,
   provider,
   packageIsCustom = false,
-  accessStatusTypes = {},
   model,
 }) => {
   const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
@@ -98,8 +95,6 @@ const EditPackageSettings = ({
       return <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>;
     }
 
-    const isAccessStatusTypes = accessStatusTypes?.items?.data?.length > 0;
-
     return (
       <>
         <Row className={packageEditStyles.row}>
@@ -135,18 +130,10 @@ const EditPackageSettings = ({
               <Icon icon="spinner-ellipsis" />
             )
           }
-          {isAccessStatusTypes && (
-            <Col xs={3}>
-              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
-            </Col>
-          )}
         </Row>
         <Row className={packageEditStyles.row}>
           <Col xs={3}>
             <DisplayName />
-          </Col>
-          <Col xs={3}>
-            <CustomAlternateNames />
           </Col>
           {packageIsCustom && (
             <Col xs={3}>
@@ -155,7 +142,10 @@ const EditPackageSettings = ({
           )}
         </Row>
         <Row className={packageEditStyles.row}>
-          <Col xsOffset={3} xs={9}>
+          <Col xs={3}>
+            <CustomAlternateNames />
+          </Col>
+          <Col xs={9}>
             <CustomDescription />
           </Col>
         </Row>
