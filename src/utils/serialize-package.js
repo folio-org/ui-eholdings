@@ -14,12 +14,9 @@ export const serializePackageAttributes = (values = {}) => {
     customAltNames: values.customAltNames,
     customDisplayName: values.customDisplayName,
     customDescription: values.customDescription,
+    url: values.url,
+    isFreeAccess: values.isFreeAccess,
   };
-
-  if (values.isCustom) {
-    attributes.url = values.url;
-    attributes.isFreeAccess = values.isFreeAccess;
-  }
 
   return attributes;
 };

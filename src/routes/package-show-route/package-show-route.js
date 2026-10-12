@@ -33,7 +33,6 @@ import {
   selectionStatusFilterConfig,
   publicationTypeTitlesListFilterConfig,
 } from '../../constants';
-import { omit } from 'lodash';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -120,7 +119,6 @@ const PackageShowRoute = ({
   const {
     model,
     deletePackage,
-    updatePackage,
   } = usePackageModel({
     packageId,
     onDeleteSuccess: onPackageDeleteSuccess,
@@ -167,7 +165,7 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    model.addToHoldings();
+    model.select();
     updateTitles(packageId);
   };
 

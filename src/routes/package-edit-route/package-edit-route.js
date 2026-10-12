@@ -21,9 +21,6 @@ import {
   accessTypes,
   accessTypesReduxStateShape,
 } from '../../constants';
-import { omit } from 'lodash';
-
-const EMPTY_PARAGRAPH = '<p></p>';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -95,7 +92,7 @@ const PackageEditRoute = ({
   };
 
   const updatePackageValues = (values) => {
-    const attrs = { ...model };
+    const attrs = {};
 
     if ('isSelected' in values) {
       attrs.isSelected = values.isSelected;
@@ -115,7 +112,7 @@ const PackageEditRoute = ({
       attrs.contentType = values.contentType;
     }
 
-    if ('url' in values) {
+    if (values.url?.trim().length) {
       attrs.url = values.url;
     } else {
       delete attrs.url;
@@ -140,12 +137,17 @@ const PackageEditRoute = ({
       providerEditSubmitted(values);
     }
 
+    attrs.isCustom = model.isCustom;
     attrs.isFreeAccess = values.isFreeAccess;
-    attrs.customDisplayName = values.customDisplayName || '';
     attrs.customAltNames = values.customAltNames;
+    attrs.customDisplayName = values.customDisplayName?.trim();
     attrs.customDescription = values.customDescription;
 
-    if (attrs.customDescription === EMPTY_PARAGRAPH) {
+    if (!attrs.customDisplayName?.length) {
+      delete attrs.customDisplayName;
+    }
+
+    if (!attrs.customDescription?.length) {
       delete attrs.customDescription;
     }
 
@@ -183,11 +185,7 @@ const PackageEditRoute = ({
    * This should be refactored once we can share model between the routes.
   */
   const addPackageToHoldings = () => {
-    const attrs = omit(model, ['isFreeAccess']);
-    attrs.isSelected = true;
-    attrs.selectedCount = model.titleCount;
-    attrs.allowKbToAddTitles = true;
-    updatePackage(attrs);
+    model.select();
   };
 
   const handleCancel = () => {

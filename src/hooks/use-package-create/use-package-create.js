@@ -36,6 +36,17 @@ const usePackageCreate = ({ onSuccess }) => {
       attrs.contentType = values.contentType;
     }
 
+    if (attrs.url?.trim().length) {
+      attrs.url = values.url;
+    } else {
+      delete attrs.url;
+    }
+
+    // customDisplayName must not be empty
+    if (!attrs.customDisplayName?.trim().length) {
+      delete attrs.customDisplayName;
+    }
+
     // customDescription must not be empty
     if (!attrs.customDescription?.length) {
       delete attrs.customDescription;
@@ -48,7 +59,7 @@ const usePackageCreate = ({ onSuccess }) => {
       ?.map(altNameObj => ({
         altName: altNameObj.altName,
       }))
-      .filter(({ altName }) => altName);
+      .filter(({ altName }) => altName?.length);
 
     return {
       data: {

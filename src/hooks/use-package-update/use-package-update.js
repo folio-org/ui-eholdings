@@ -43,7 +43,7 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
       ?.map(altNameObj => ({
         altName: altNameObj.altName,
       }))
-      .filter(({ altName }) => altName);
+      .filter(({ altName }) => altName?.length);
 
     return {
       data: {

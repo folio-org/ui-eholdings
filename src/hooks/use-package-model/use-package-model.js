@@ -38,7 +38,7 @@ export const usePackageModel = ({
   });
 
   const selectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess']);
+    const attrs = omit(data, ['isFreeAccess', 'url']);
 
     attrs.selectedCount = attrs.titleCount;
     attrs.isSelected = true;
@@ -48,7 +48,7 @@ export const usePackageModel = ({
   }, [data, updatePackage]);
 
   const deselectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess']);
+    const attrs = omit(data, ['isFreeAccess', 'url']);
     // When de-selecting a managed package
     // need to clear out customizations before sending to server
     attrs.isSelected = false;
@@ -61,7 +61,7 @@ export const usePackageModel = ({
 
   const addToHoldings = useCallback(() => {
     const updatedModel = {
-      ...omit(data, ['isFreeAccess']),
+      ...omit(data, ['isFreeAccess', 'url']),
       isSelected: true,
       selectedCount: data.titleCount,
       allowKbToAddTitles: true,
