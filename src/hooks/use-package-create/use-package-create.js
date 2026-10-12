@@ -17,7 +17,7 @@ const usePackageCreate = ({ onSuccess }) => {
   });
 
   const formatValuesIntoPackageData = (values) => {
-    const attrs = serializePackageAttributes(values);
+    const attrs = serializePackageAttributes(values, true);
 
     if (values?.customCoverages?.[0]) {
       attrs.customCoverage = {
