@@ -81,6 +81,7 @@ const propTypes = {
   tagsModel: PropTypes.object,
   toggleSelected: PropTypes.func.isRequired,
   updateFolioTags: PropTypes.func.isRequired,
+  updatePackageTags: PropTypes.func,
 };
 
 const PackageShow = ({
@@ -103,6 +104,7 @@ const PackageShow = ({
   tagsModel,
   toggleSelected,
   updateFolioTags,
+  updatePackageTags,
   pkgSearchParams,
   onToggleTitles,
 }) => {
@@ -318,6 +320,7 @@ const PackageShow = ({
           open={sections.packageShowTags}
           tagsModel={tagsModel}
           entityTags={model.tags?.tagList ?? []}
+          updateEntityTags={updatePackageTags && ((_type, { data }) => updatePackageTags(data))}
           updateFolioTags={updateFolioTags}
         />
 

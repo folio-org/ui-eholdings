@@ -86,9 +86,16 @@ class TagsAccordion extends Component {
 }
 
 export default connect(
+  // entityTags and updateEntityTags are for React Query types.
+  // Anything else should skip those props, falling back to Redux.
   (store, ownProps) => ({
     entityTags: ownProps.entityTags ?? selectEntityTags(ownProps.model.type, ownProps.model.id, store),
-  }), {
-    updateEntityTags: updateEntityTagsAction,
-  }
+  }),
+  { updateEntityTags: updateEntityTagsAction },
+  (stateProps, dispatchProps, ownProps) => ({
+    ...ownProps,
+    ...dispatchProps,
+    ...stateProps,
+    updateEntityTags: ownProps.updateEntityTags ?? dispatchProps.updateEntityTags,
+  })
 )(TagsAccordion);

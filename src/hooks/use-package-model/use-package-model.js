@@ -4,6 +4,7 @@ import { usePackage } from '../use-package';
 import { usePackageDelete } from '../use-package-delete';
 import { usePackageUpdate } from '../use-package-update';
 import { usePackageCreate } from '../use-package-create';
+import { usePackageTagsUpdate } from '../use-package-tags-update';
 
 export const usePackageModel = ({
   packageId,
@@ -29,6 +30,7 @@ export const usePackageModel = ({
     isError: isUpdateError,
     errors: updateErrors,
   } = usePackageUpdate({ packageId, onSuccess: onUpdateSuccess });
+  const { updatePackageTags } = usePackageTagsUpdate({ packageId });
   const {
     createPackage,
     isLoading: isPackageCreateLoading,
@@ -61,6 +63,7 @@ export const usePackageModel = ({
     model,
     deletePackage,
     updatePackage,
+    updatePackageTags,
     createPackage,
   };
 };
