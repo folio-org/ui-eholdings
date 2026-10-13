@@ -22,4 +22,15 @@ describe('serializePackageAttributes', () => {
     expect(attributes).not.toHaveProperty('url');
     expect(attributes).not.toHaveProperty('isFreeAccess');
   });
+
+  it('includes URL and free access when creating a managed package', () => {
+    const attributes = serializePackageAttributes({
+      isCustom: false,
+      url: 'https://example.com',
+      isFreeAccess: true,
+    }, true);
+
+    expect(attributes.url).toBe('https://example.com');
+    expect(attributes.isFreeAccess).toBe(true);
+  });
 });
