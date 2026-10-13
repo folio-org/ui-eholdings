@@ -119,6 +119,8 @@ const PackageShowRoute = ({
   const {
     model,
     deletePackage,
+    selectPackage,
+    deselectPackage,
   } = usePackageModel({
     packageId,
     onDeleteSuccess: onPackageDeleteSuccess,
@@ -165,7 +167,7 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    model.select();
+    selectPackage();
     updateTitles(packageId);
   };
 
@@ -176,9 +178,9 @@ const PackageShowRoute = ({
       deletePackage(packageId);
     } else {
       if (model.isSelected) {
-        model.deselect();
+        deselectPackage();
       } else {
-        model.select();
+        selectPackage();
       }
 
       updateTitles();

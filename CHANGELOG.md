@@ -32,6 +32,7 @@
 * Reorder fields on the Create Custom Package page. (UIEH-1536)
 * Fix error when selecting managed packages. (UIEH-1577)
 * Remove package customDisplayName and url when a value is just empty spaces (UIEH-1588)
+* Update provider token when the value is cleared. (UIEH-1587)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 

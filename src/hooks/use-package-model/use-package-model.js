@@ -59,17 +59,6 @@ export const usePackageModel = ({
     updatePackage(attrs);
   }, [data, updatePackage]);
 
-  const addToHoldings = useCallback(() => {
-    const updatedModel = {
-      ...omit(data, ['isFreeAccess', 'url']),
-      isSelected: true,
-      selectedCount: data.titleCount,
-      allowKbToAddTitles: true,
-    };
-
-    updatePackage(updatedModel);
-  }, [data, updatePackage]);
-
   const model = useMemo(() => ({
     ...data,
     isLoading: isPackageLoading,
@@ -89,9 +78,6 @@ export const usePackageModel = ({
       isRejected: isDeleteError,
       errors: deleteErrors,
     },
-    select: selectPackage,
-    deselect: deselectPackage,
-    addToHoldings,
   }), [
     data,
     deleteErrors,
@@ -104,9 +90,6 @@ export const usePackageModel = ({
     isUpdateError,
     isUpdateLoading,
     updateErrors,
-    selectPackage,
-    deselectPackage,
-    addToHoldings,
   ]);
 
   return {
@@ -114,5 +97,7 @@ export const usePackageModel = ({
     deletePackage,
     updatePackage,
     createPackage,
+    selectPackage,
+    deselectPackage,
   };
 };

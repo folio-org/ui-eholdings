@@ -97,6 +97,8 @@ const proxyTypes = {
   },
 };
 
+const mockDeselectPackage = jest.fn();
+
 const getManagedPackageEdit = props => (
   <Harness>
     <ManagedPackageEdit
@@ -107,6 +109,7 @@ const getManagedPackageEdit = props => (
       onSubmit={() => {}}
       provider={provider}
       proxyTypes={proxyTypes}
+      deselectPackage={mockDeselectPackage}
       {...props}
     />
   </Harness>
@@ -362,7 +365,7 @@ describe('Given ManagedPackageEdit', () => {
     });
   });
 
-  describe('when click Remove from holdings option under Actions menu', () => {
+  describe('when clicking Remove from holdings option under Actions menu', () => {
     it('should display Selection Modal', () => {
       const {
         getByRole,
@@ -394,16 +397,14 @@ describe('Given ManagedPackageEdit', () => {
   });
 
   describe('when confirm removing package from holdings', () => {
-    it('should handle onSubmit', () => {
-      const { getByRole } = renderManagedPackageEdit({
-        onSubmit: mockOnSubmit,
-      });
+    it('should call deselectPackage', () => {
+      const { getByRole } = renderManagedPackageEdit();
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.removeFromHoldings' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
 
-      expect(mockOnSubmit).toHaveBeenCalled();
+      expect(mockDeselectPackage).toHaveBeenCalledWith(model.id);
     });
   });
 

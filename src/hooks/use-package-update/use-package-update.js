@@ -7,7 +7,6 @@ import {
   useNamespace,
   useOkapiKy,
 } from '@folio/stripes/core';
-import { dayjs } from '@folio/stripes/components';
 
 import { useBackendResponseErrors } from '../use-backend-response-errors';
 import { serializePackageAttributes } from '../../utils/serialize-package';
@@ -28,22 +27,6 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
 
   const formatValuesIntoPackageData = (values) => {
     const attrs = serializePackageAttributes(values);
-
-    if (values?.customCoverages?.[0]) {
-      attrs.customCoverage = {
-        beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
-          dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
-        endCoverage: !values.customCoverages[0].endCoverage ? '' :
-          dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
-      };
-    }
-
-    // only send altName property of form fields, and filter out any empty fields, if present
-    attrs.customAltNames = values.customAltNames
-      ?.map(altNameObj => ({
-        altName: altNameObj.altName,
-      }))
-      .filter(({ altName }) => altName?.length);
 
     return {
       data: {

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { TitleManager } from '@folio/stripes/core';
+import { dayjs } from '@folio/stripes/components';
 
 import View from '../../components/package/package-edit';
 import {
@@ -60,7 +61,13 @@ const PackageEditRoute = ({
     });
   }, [history, location.search, packageId]);
 
-  const { model, deletePackage, updatePackage } = usePackageModel({
+  const {
+    model,
+    deletePackage,
+    updatePackage,
+    selectPackage,
+    deselectPackage,
+  } = usePackageModel({
     packageId,
     onDeleteSuccess: handlePackageDeleteSuccess,
     onUpdateSuccess: handlePackageUpdateSuccess,
@@ -72,7 +79,7 @@ const PackageEditRoute = ({
     getAccessTypes();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const providerEditSubmitted = (values) => {
+  const updateProviderToken = (values) => {
     const attrs = {
       providerToken: {
         ...provider.providerToken,
@@ -81,14 +88,6 @@ const PackageEditRoute = ({
     };
 
     updateProvider(attrs);
-  };
-
-  const deselectPackage = () => {
-    model.deselect();
-  };
-
-  const selectPackage = () => {
-    model.select();
   };
 
   const updatePackageValues = (values) => {
@@ -120,38 +119,51 @@ const PackageEditRoute = ({
 
     if ('proxyId' in values) {
       attrs.proxy = {
-        ...(attrs.proxy),
+        ...(model.proxy),
         id: values.proxyId,
         inherited: false,
       };
     }
 
-    if ('packageTokenValue' in values) {
+    if (values.packageTokenValue !== model.packageTokenValue) {
       attrs.packageToken = {
-        ...attrs.packageToken,
+        ...model.packageToken,
         value: values.packageTokenValue,
       };
     }
 
-    if ('providerTokenValue' in values) {
-      providerEditSubmitted(values);
+    if (values.providerTokenValue !== provider.providerToken.value) {
+      updateProviderToken(values);
     }
 
     attrs.isCustom = model.isCustom;
     attrs.isFreeAccess = values.isFreeAccess;
-    attrs.customAltNames = values.customAltNames;
-    attrs.customDisplayName = values.customDisplayName?.trim();
-    attrs.customDescription = values.customDescription;
 
-    if (!attrs.customDisplayName?.length) {
-      delete attrs.customDisplayName;
+    // only send altName property of form fields, and filter out any empty fields, if present
+    attrs.customAltNames = values.customAltNames
+      ?.map(altNameObj => ({
+        altName: altNameObj.altName,
+      }))
+      .filter(({ altName }) => altName?.trim().length);
+
+    // customDisplayName must not be empty
+    if (values.customDisplayName?.trim().length) {
+      attrs.customDisplayName = values.customDisplayName;
     }
 
-    if (!attrs.customDescription?.length) {
-      delete attrs.customDescription;
+    // customDescription must not be empty
+    if (values.customDescription?.trim().length) {
+      attrs.customDescription = values.customDescription;
     }
 
-    attrs.customCoverages = values.customCoverages;
+    if (values?.customCoverages?.[0]) {
+      attrs.customCoverage = {
+        beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
+          dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
+        endCoverage: !values.customCoverages[0].endCoverage ? '' :
+          dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
+      };
+    }
 
     attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
       ? values.accessTypeId
@@ -161,31 +173,7 @@ const PackageEditRoute = ({
   };
 
   const packageEditSubmitted = (values) => {
-    // if the package is custom setting the holding status to false
-    // or deselecting the package will delete the package from holdings
-    if (model.isCustom && values.isSelected === false) {
-      deletePackage(packageId);
-      return;
-    }
-
-    if (values.isSelected === false) {
-      deselectPackage();
-      return;
-    }
-
-    if (values.isSelected && !values.customCoverages) {
-      selectPackage();
-      return;
-    }
-
     updatePackageValues(values);
-  };
-
-  /* This method is common between package-show and package-edit routes
-   * This should be refactored once we can share model between the routes.
-  */
-  const addPackageToHoldings = () => {
-    model.select();
   };
 
   const handleCancel = () => {
@@ -210,7 +198,9 @@ const PackageEditRoute = ({
             provider={provider}
             onSubmit={packageEditSubmitted}
             onCancel={handleCancel}
-            addPackageToHoldings={addPackageToHoldings}
+            addPackageToHoldings={selectPackage}
+            deletePackage={deletePackage}
+            deselectPackage={deselectPackage}
             accessStatusTypes={accessStatusTypes}
           />
         </TitleManager>
