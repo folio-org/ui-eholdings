@@ -91,11 +91,6 @@ const accessStatusTypes = {
 
 const provider = {
   id: 'provider-id',
-  providerToken: {
-    prompt: 'prompt',
-    helpText: 'helpText',
-    value: 'token-value',
-  },
   proxy: {},
   isLoaded: true,
 };
@@ -230,6 +225,19 @@ describe('Given PackageEditRoute', () => {
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(mockUpdatePackage).toHaveBeenCalled();
+    });
+
+    it('should not update the provider', () => {
+      const { getByRole } = renderPackageEditRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+      fireEvent.blur(packageNameInput);
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdateProvider).not.toHaveBeenCalled();
     });
 
     it('should not send the previous URL when the URL field is cleared', () => {
@@ -471,6 +479,22 @@ describe('Given PackageEditRoute', () => {
         model,
         updatePackage: mockUpdatePackage,
         deselectPackage: mockPackageDeselect,
+      });
+
+      const providerWithToken = {
+        id: 'provider-id',
+        proxy: {},
+        providerToken: {
+          prompt: 'prompt',
+          helpText: 'helpText',
+          value: 'token-value',
+        },
+        isLoaded: true,
+      };
+
+      useProviderModel.mockClear().mockReturnValue({
+        updateProvider: mockUpdateProvider,
+        model: providerWithToken,
       });
     });
 

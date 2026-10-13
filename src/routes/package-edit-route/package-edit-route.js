@@ -132,7 +132,7 @@ const PackageEditRoute = ({
       };
     }
 
-    if (values.providerTokenValue !== provider.providerToken.value) {
+    if (values.providerTokenValue !== provider.providerToken?.value) {
       updateProviderToken(values);
     }
 
