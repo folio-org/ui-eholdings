@@ -1,4 +1,4 @@
-export const serializePackageAttributes = (values = {}) => {
+export const serializePackageAttributes = (values = {}, isCreate = false) => {
   const attributes = {
     name: values.name,
     isSelected: values.isSelected,
@@ -16,7 +16,7 @@ export const serializePackageAttributes = (values = {}) => {
     customDescription: values.customDescription,
   };
 
-  if (values.isCustom) {
+  if (values.isCustom || isCreate) {
     attributes.url = values.url;
     attributes.isFreeAccess = values.isFreeAccess;
   }
