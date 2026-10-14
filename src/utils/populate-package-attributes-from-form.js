@@ -47,7 +47,6 @@ export const populatePackageAttributesFromForm = (values, model = {}) => {
   }
 
   attrs.isCustom = model?.isCustom;
-  attrs.isPartiallySelected = model?.isPartiallySelected;
   attrs.isFreeAccess = values.isFreeAccess;
 
   // only send altName property of form fields, and filter out any empty fields, if present

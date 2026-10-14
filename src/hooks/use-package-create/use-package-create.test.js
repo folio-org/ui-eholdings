@@ -31,7 +31,7 @@ const packageFormValues = {
   name: 'New package',
   contentType: 'Book',
   accessTypeId: 'access-type-id',
-  customCoverage: {},
+  customCoverages: [],
   customAltNames: [],
 };
 
@@ -60,7 +60,6 @@ describe('Given usePackageCreate', () => {
               name: 'New package',
               contentType: 'Book',
               accessTypeId: 'access-type-id',
-              customCoverage: {},
               customAltNames: [],
             },
             type: 'packages',
