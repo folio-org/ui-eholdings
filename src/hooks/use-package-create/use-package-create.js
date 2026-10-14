@@ -16,7 +16,7 @@ const usePackageCreate = ({ onSuccess }) => {
   });
 
   const formatValuesIntoPackageData = (values) => {
-    const attrs = serializePackageAttributes(values);
+    const attrs = serializePackageAttributes(values, true);
 
     return {
       data: {
