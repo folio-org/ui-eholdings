@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
 
-import { serializePackageAttributes } from '../../utils/serialize-package';
+import { addComputedPackageAttributes } from '../../utils/add-computed-package-attributes';
 
 const usePackageCreate = ({ onSuccess }) => {
   const [errors, setErrors] = useState([]);
@@ -16,7 +16,7 @@ const usePackageCreate = ({ onSuccess }) => {
   });
 
   const formatValuesIntoPackageData = (values) => {
-    const attrs = serializePackageAttributes(values, true);
+    const attrs = addComputedPackageAttributes(values, true);
 
     return {
       data: {

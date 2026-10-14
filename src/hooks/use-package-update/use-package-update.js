@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/core';
 
 import { useBackendResponseErrors } from '../use-backend-response-errors';
-import { serializePackageAttributes } from '../../utils/serialize-package';
+import { addComputedPackageAttributes } from '../../utils/add-computed-package-attributes';
 
 export const usePackageUpdate = ({ packageId, onSuccess }) => {
   const [namespace] = useNamespace({ key: 'package' });
@@ -26,7 +26,7 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
   const packageIdString = String(packageId);
 
   const formatValuesIntoPackageData = (values) => {
-    const attrs = serializePackageAttributes(values);
+    const attrs = addComputedPackageAttributes(values);
 
     return {
       data: {
