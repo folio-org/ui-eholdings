@@ -17,10 +17,7 @@ import {
   usePackageModel,
   useProviderModel,
 } from '../../hooks';
-import {
-  accessTypes,
-  accessTypesReduxStateShape,
-} from '../../constants';
+import { accessTypesReduxStateShape } from '../../constants';
 import { populatePackageAttributesFromForm } from '../../utils/populate-package-attributes-from-form';
 
 const propTypes = {

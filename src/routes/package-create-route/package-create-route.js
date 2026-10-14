@@ -7,7 +7,6 @@ import {
 } from 'react-router';
 
 import { TitleManager } from '@folio/stripes/core';
-import { dayjs } from '@folio/stripes/components';
 
 import { PackageCreate } from '../../components/package/create';
 import { usePackageCreate } from '../../hooks';
