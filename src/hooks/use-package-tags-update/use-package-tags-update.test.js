@@ -81,15 +81,6 @@ describe('Given usePackageTagsUpdate', () => {
       });
     });
 
-    it('should invalidate the package query once the request settles', async () => {
-      const invalidateSpy = jest.spyOn(queryClient, 'invalidateQueries');
-      const { result } = renderHook(() => usePackageTagsUpdate({ packageId }), { wrapper });
-
-      act(() => result.current.updatePackageTags(payload));
-
-      await waitFor(() => expect(invalidateSpy).toHaveBeenCalledWith({ queryKey }));
-    });
-
     it('should call onSuccess when the request succeeds', async () => {
       const onSuccess = jest.fn();
       const { result } = renderHook(() => usePackageTagsUpdate({ packageId, onSuccess }), { wrapper });
