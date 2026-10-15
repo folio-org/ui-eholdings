@@ -11,6 +11,7 @@ import { TitleManager } from '@folio/stripes/core';
 import { PackageCreate } from '../../components/package/create';
 import { usePackageCreate } from '../../hooks';
 import { accessTypesReduxStateShape } from '../../constants';
+import { populatePackageAttributesFromForm } from '../../utils/populate-package-attributes-from-form';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -39,6 +40,12 @@ const PackageCreateRoute = ({
     onSuccess: handleCreateSuccess,
   });
 
+  const handleSubmit = (values) => {
+    const attrs = populatePackageAttributesFromForm(values);
+
+    createPackage(attrs);
+  };
+
   useEffect(() => {
     getAccessTypes();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -48,7 +55,7 @@ const PackageCreateRoute = ({
       {([pageTitle]) => (
         <TitleManager record={pageTitle}>
           <PackageCreate
-            onSubmit={createPackage}
+            onSubmit={handleSubmit}
             onCancel={location.state?.eholdings ? () => history.goBack() : null}
             accessStatusTypes={accessStatusTypes}
             isPackageCreateLoading={isPackageCreateLoading}

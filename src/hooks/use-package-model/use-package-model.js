@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { omit } from 'lodash';
 
 import { usePackage } from '../use-package';
 import { usePackageDelete } from '../use-package-delete';
@@ -36,6 +37,28 @@ export const usePackageModel = ({
     onSuccess: onCreateSuccess,
   });
 
+  const selectPackage = useCallback(() => {
+    const attrs = omit(data, ['isFreeAccess', 'url']);
+
+    attrs.selectedCount = attrs.titleCount;
+    attrs.isSelected = true;
+    attrs.allowKbToAddTitles = true;
+    attrs.customCoverage = {};
+    updatePackage(attrs);
+  }, [data, updatePackage]);
+
+  const deselectPackage = useCallback(() => {
+    const attrs = omit(data, ['isFreeAccess', 'url']);
+    // When de-selecting a managed package
+    // need to clear out customizations before sending to server
+    attrs.isSelected = false;
+    attrs.visibility = null;
+    attrs.customCoverage = {};
+    attrs.allowKbToAddTitles = false;
+    attrs.accessTypeId = null;
+    updatePackage(attrs);
+  }, [data, updatePackage]);
+
   const model = useMemo(() => ({
     ...data,
     isLoading: isPackageLoading,
@@ -55,12 +78,26 @@ export const usePackageModel = ({
       isRejected: isDeleteError,
       errors: deleteErrors,
     },
-  }), [data, deleteErrors, fetchErrors, isDeleteError, isFetchError, isPackageLoading, isPackageLoaded, isPackageCreateLoading, isUpdateError, isUpdateLoading, updateErrors]);
+  }), [
+    data,
+    deleteErrors,
+    fetchErrors,
+    isDeleteError,
+    isFetchError,
+    isPackageLoading,
+    isPackageLoaded,
+    isPackageCreateLoading,
+    isUpdateError,
+    isUpdateLoading,
+    updateErrors,
+  ]);
 
   return {
     model,
     deletePackage,
     updatePackage,
     createPackage,
+    selectPackage,
+    deselectPackage,
   };
 };

@@ -51,6 +51,7 @@ const focusOnErrors = createFocusDecorator();
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   addPackageToHoldings: PropTypes.func.isRequired,
+  deletePackage: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -66,6 +67,7 @@ const CustomPackageEdit = ({
   onSubmit,
   accessStatusTypes,
   addPackageToHoldings,
+  deletePackage,
 }) => {
   const stripes = useStripes();
   const intl = useIntl();
@@ -107,9 +109,8 @@ const CustomPackageEdit = ({
   }, [model, proxyTypes]);
 
   const [showSelectionModal, setShowSelectionModal] = useState(false);
-  const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
   const [packageSelected, setPackageSelected] = useStateCallback(model.isSelected);
-  const [formValues, setFormValues] = useStateCallback({});
+  const [, setFormValues] = useStateCallback({});
   const [initialValues, setInitialValues] = useState(getInitialValues());
   const [sections, {
     handleSectionToggle,
@@ -143,31 +144,16 @@ const CustomPackageEdit = ({
     }
   }, [model.destroy.errors.length]);
 
-  const cancelSelectionToggle = (change) => {
+  const cancelSelectionToggle = () => {
     setShowSelectionModal(false);
-    setPackageSelected(true, () => change('isSelected', true));
   };
 
-  const handleOnSubmit = (values, allowSubmit = allowFormToSubmit) => {
-    if (allowSubmit === false && values.isSelected === false) {
-      setShowSelectionModal(true);
-      setFormValues(values);
-    } else {
-      setAllowFormToSubmit(false);
-      setFormValues({}, () => onSubmit(values));
-    }
-  };
-
-  const handleDeleteAction = () => {
-    setFormValues({
-      isSelected: false,
-    }, (newFormValues) => handleOnSubmit(newFormValues));
+  const handleOnSubmit = (values) => {
+    setFormValues({}, () => onSubmit(values));
   };
 
   const commitSelectionToggle = () => {
-    setAllowFormToSubmit({
-      allowFormToSubmit: true
-    }, () => handleOnSubmit(formValues, true));
+    deletePackage(model.id);
   };
 
   const getSectionHeader = (translationKey) => {
@@ -193,7 +179,7 @@ const CustomPackageEdit = ({
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          handleDeleteAction();
+          setShowSelectionModal(true);
         }}
       >
         <FormattedMessage id="ui-eholdings.package.deletePackage" />

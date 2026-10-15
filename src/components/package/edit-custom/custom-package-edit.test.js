@@ -102,6 +102,8 @@ const proxyTypes = {
   },
 };
 
+const mockDeletePackage = jest.fn();
+
 const renderCustomPackageEdit = (props = {}) => render(
   <Harness>
     <CustomPackageEdit
@@ -112,6 +114,7 @@ const renderCustomPackageEdit = (props = {}) => render(
       onSubmit={noop}
       accessStatusTypes={accessStatusTypes}
       addPackageToHoldings={noop}
+      deletePackage={mockDeletePackage}
       {...props}
     />
   </Harness>
@@ -165,6 +168,18 @@ describe('Given CustomPackageEdit', () => {
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
 
       expect(getByTestId('eholdings-confirmation-modal')).toBeDefined();
+    });
+
+    describe('when confirming package deletion', () => {
+      it('should call deletePackage', () => {
+        const { getByRole } = renderCustomPackageEdit();
+
+        fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.deletePackage' }));
+        fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm.isCustom' }));
+
+        expect(mockDeletePackage).toHaveBeenCalledWith(model.id);
+      });
     });
   });
 

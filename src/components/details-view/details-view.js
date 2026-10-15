@@ -267,7 +267,7 @@ const DetailsView = ({
     return request.isRejected
       ? (
         <p data-test-eholdings-details-view-error={type}>
-          {request?.errors[0].title}
+          {request?.errors[0]?.title}
         </p>
       )
       : <Icon icon="spinner-ellipsis" />;

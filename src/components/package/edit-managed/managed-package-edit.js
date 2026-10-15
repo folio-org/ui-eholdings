@@ -47,6 +47,7 @@ const focusOnErrors = createFocusDecorator();
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
   addPackageToHoldings: PropTypes.func.isRequired,
+  deselectPackage: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -57,6 +58,7 @@ const propTypes = {
 const ManagedPackageEdit = ({
   accessStatusTypes,
   addPackageToHoldings,
+  deselectPackage,
   model,
   onCancel,
   onSubmit,
@@ -100,9 +102,8 @@ const ManagedPackageEdit = ({
   }, [model, provider.providerToken?.value, proxyTypes]);
 
   const [showSelectionModal, setShowSelectionModal] = useState(false);
-  const [allowFormToSubmit, setAllowFormToSubmit] = useStateCallback(false);
   const [packageSelected, setPackageSelected] = useStateCallback(model.isSelected);
-  const [formValues, setFormValues] = useStateCallback({});
+  const [, setFormValues] = useStateCallback({});
   const [initialValues, setInitialValues] = useState(getInitialValues());
   const [sections, {
     handleSectionToggle,
@@ -138,29 +139,16 @@ const ManagedPackageEdit = ({
     }
   }, [model.update.errors.length]);
 
-  const handleOnSubmit = (values, allowSubmit = allowFormToSubmit) => {
-    if (allowSubmit === false && values.isSelected === false) {
-      setShowSelectionModal(true);
-      setFormValues(values);
-    } else {
-      setAllowFormToSubmit(false);
-      setFormValues({}, () => onSubmit(values));
-    }
-  };
-
-  const handleDeselectionAction = () => {
-    setFormValues({
-      isSelected: false,
-    }, (newFormValues) => handleOnSubmit(newFormValues));
+  const handleOnSubmit = (values) => {
+    setFormValues({}, () => onSubmit(values));
   };
 
   const commitSelectionToggle = () => {
-    setAllowFormToSubmit(true, () => handleOnSubmit(formValues, true));
+    deselectPackage(model.id);
   };
 
-  const cancelSelectionToggle = (change) => {
+  const cancelSelectionToggle = () => {
     setShowSelectionModal(false);
-    setPackageSelected(true, () => change('isSelected', true));
   };
 
   const getSectionHeader = (translationKey) => {
@@ -181,7 +169,7 @@ const ManagedPackageEdit = ({
         buttonStyle="dropdownItem fullWidth"
         onClick={() => {
           onToggle();
-          handleDeselectionAction();
+          setShowSelectionModal(true);
         }}
       >
         <FormattedMessage id="ui-eholdings.package.removeFromHoldings" />

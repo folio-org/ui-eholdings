@@ -17,12 +17,8 @@ import {
   usePackageModel,
   useProviderModel,
 } from '../../hooks';
-import {
-  accessTypes,
-  accessTypesReduxStateShape,
-} from '../../constants';
-
-const EMPTY_PARAGRAPH = '<p></p>';
+import { accessTypesReduxStateShape } from '../../constants';
+import { populatePackageAttributesFromForm } from '../../utils/populate-package-attributes-from-form';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -62,7 +58,13 @@ const PackageEditRoute = ({
     });
   }, [history, location.search, packageId]);
 
-  const { model, deletePackage, updatePackage } = usePackageModel({
+  const {
+    model,
+    deletePackage,
+    updatePackage,
+    selectPackage,
+    deselectPackage,
+  } = usePackageModel({
     packageId,
     onDeleteSuccess: handlePackageDeleteSuccess,
     onUpdateSuccess: handlePackageUpdateSuccess,
@@ -74,7 +76,7 @@ const PackageEditRoute = ({
     getAccessTypes();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const providerEditSubmitted = (values) => {
+  const updateProviderToken = (values) => {
     const attrs = {
       providerToken: {
         ...provider.providerToken,
@@ -85,121 +87,18 @@ const PackageEditRoute = ({
     updateProvider(attrs);
   };
 
-  const deselectPackage = () => {
-    const attrs = { ...model };
-    // When de-selecting a managed package
-    // need to clear out customizations before sending to server
-    attrs.isSelected = false;
-    attrs.visibility = null;
-    attrs.customCoverage = {};
-    attrs.allowKbToAddTitles = false;
-    attrs.accessTypeId = null;
-    updatePackage(attrs);
-  };
-
-  const selectPackage = () => {
-    const attrs = { ...model };
-
-    attrs.isSelected = true;
-    attrs.allowKbToAddTitles = true;
-    attrs.customCoverage = {};
-    updatePackage(attrs);
-  };
-
   const updatePackageValues = (values) => {
-    const attrs = { ...model };
+    const attrs = populatePackageAttributesFromForm(values, model);
 
-    if ('isSelected' in values) {
-      attrs.isSelected = values.isSelected;
+    if (values.providerTokenValue !== provider.providerToken?.value) {
+      updateProviderToken(values);
     }
-
-    attrs.visibility = values.visibility;
-
-    if ('allowKbToAddTitles' in values) {
-      attrs.allowKbToAddTitles = values.allowKbToAddTitles;
-    }
-
-    if ('name' in values) {
-      attrs.name = values.name;
-    }
-
-    if ('contentType' in values) {
-      attrs.contentType = values.contentType;
-    }
-
-    if ('url' in values) {
-      attrs.url = values.url;
-    } else {
-      delete attrs.url;
-    }
-
-    if ('proxyId' in values) {
-      attrs.proxy = {
-        ...(attrs.proxy),
-        id: values.proxyId,
-        inherited: false,
-      };
-    }
-
-    if ('packageTokenValue' in values) {
-      attrs.packageToken = {
-        ...attrs.packageToken,
-        value: values.packageTokenValue,
-      };
-    }
-
-    if ('providerTokenValue' in values) {
-      providerEditSubmitted(values);
-    }
-
-    attrs.isFreeAccess = values.isFreeAccess;
-    attrs.customDisplayName = values.customDisplayName || '';
-    attrs.customAltNames = values.customAltNames;
-    attrs.customDescription = values.customDescription;
-
-    if (attrs.customDescription === EMPTY_PARAGRAPH) {
-      delete attrs.customDescription;
-    }
-
-    attrs.customCoverages = values.customCoverages;
-
-    attrs.accessTypeId = values.accessTypeId !== accessTypes.ACCESS_TYPE_NONE_ID
-      ? values.accessTypeId
-      : null;
 
     updatePackage(attrs);
   };
 
   const packageEditSubmitted = (values) => {
-    // if the package is custom setting the holding status to false
-    // or deselecting the package will delete the package from holdings
-    if (model.isCustom && values.isSelected === false) {
-      deletePackage(packageId);
-      return;
-    }
-
-    if (values.isSelected === false) {
-      deselectPackage();
-      return;
-    }
-
-    if (values.isSelected && !values.customCoverages) {
-      selectPackage();
-      return;
-    }
-
     updatePackageValues(values);
-  };
-
-  /* This method is common between package-show and package-edit routes
-   * This should be refactored once we can share model between the routes.
-  */
-  const addPackageToHoldings = () => {
-    const attrs = { ...model };
-    attrs.isSelected = true;
-    attrs.selectedCount = model.titleCount;
-    attrs.allowKbToAddTitles = true;
-    updatePackage(attrs);
   };
 
   const handleCancel = () => {
@@ -224,7 +123,9 @@ const PackageEditRoute = ({
             provider={provider}
             onSubmit={packageEditSubmitted}
             onCancel={handleCancel}
-            addPackageToHoldings={addPackageToHoldings}
+            addPackageToHoldings={selectPackage}
+            deletePackage={deletePackage}
+            deselectPackage={deselectPackage}
             accessStatusTypes={accessStatusTypes}
           />
         </TitleManager>

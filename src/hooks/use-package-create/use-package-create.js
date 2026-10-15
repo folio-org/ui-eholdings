@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { useOkapiKy } from '@folio/stripes/core';
-import { dayjs } from '@folio/stripes/components';
 
 import { serializePackageAttributes } from '../../utils/serialize-package';
 
@@ -18,37 +17,6 @@ const usePackageCreate = ({ onSuccess }) => {
 
   const formatValuesIntoPackageData = (values) => {
     const attrs = serializePackageAttributes(values, true);
-
-    if (values?.customCoverages?.[0]) {
-      attrs.customCoverage = {
-        beginCoverage: !values.customCoverages[0].beginCoverage ? '' :
-          dayjs.utc(values.customCoverages[0].beginCoverage).format('YYYY-MM-DD'),
-        endCoverage: !values.customCoverages[0].endCoverage ? '' :
-          dayjs.utc(values.customCoverages[0].endCoverage).format('YYYY-MM-DD')
-      };
-    }
-
-    if ('name' in values) {
-      attrs.name = values.name;
-    }
-
-    if ('contentType' in values) {
-      attrs.contentType = values.contentType;
-    }
-
-    // customDescription must not be empty
-    if (!attrs.customDescription?.length) {
-      delete attrs.customDescription;
-    }
-
-    attrs.accessTypeId = values.accessTypeId;
-
-    // only send altName property of form field s, and filter out any empty fields, if present
-    attrs.customAltNames = values.customAltNames
-      ?.map(altNameObj => ({
-        altName: altNameObj.altName,
-      }))
-      .filter(({ altName }) => altName);
 
     return {
       data: {
