@@ -61,7 +61,6 @@ export const usePackageTagsUpdate = ({ packageId, onSuccess } = {}) => {
 
       onError(error);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
     onSuccess,
   });
 
