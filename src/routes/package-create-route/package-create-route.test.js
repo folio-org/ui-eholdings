@@ -198,4 +198,74 @@ describe('Given PackageCreateRoute', () => {
       }));
     });
   });
+
+  describe('when customCoverages contains a date range', () => {
+    it('should format the dates using YYYY-MM-DD', async () => {
+      const {
+        getByRole,
+        getByText,
+      } = renderPackageCreateRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+
+      const addCoverageSettingsButton = getByText('ui-eholdings.package.coverage.addDateRange');
+
+      fireEvent.click(addCoverageSettingsButton);
+
+      const startCoverageField = getByRole('textbox', { name: 'ui-eholdings.date.startDate' });
+      const endCoverageField = getByRole('textbox', { name: 'ui-eholdings.date.endDate' });
+
+      fireEvent.change(startCoverageField, { target: { value: '01/01/2026' } });
+      fireEvent.change(endCoverageField, { target: { value: '01/02/2026' } });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockCreatePackage.mock.calls[0][0]).toEqual(expect.objectContaining({
+        contentType: 'Unknown',
+        isFreeAccess: false,
+        name: 'New package name',
+        customCoverage: {
+          beginCoverage: '2026-01-01',
+          endCoverage: '2026-01-02',
+        },
+      }));
+    });
+  });
+
+  describe('when customDisplayName, customDescription, url contain empty entries', () => {
+    it('should filter out the empty entries', async () => {
+      const { getByRole } = renderPackageCreateRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+
+      const customDescriptionInput = getByRole('textbox', { name: 'customDescription' });
+      fireEvent.change(customDescriptionInput, { target: { value: '   ' } });
+
+      const customDisplayNameInput = getByRole('textbox', { name: 'ui-eholdings.label.displayName' });
+      fireEvent.change(customDisplayNameInput, { target: { value: '   ' } });
+
+      const urlInput = getByRole('textbox', { name: 'ui-eholdings.label.packageUrl' });
+      fireEvent.change(urlInput, { target: { value: '   ' } });
+
+      const addAltNameBtn = getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' });
+      fireEvent.click(addAltNameBtn);
+
+      const customAltNameInput = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
+      fireEvent.change(customAltNameInput, { target: { value: '   ' } });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockCreatePackage.mock.calls[0][0]).toEqual({
+        accessTypeId: undefined,
+        contentType: 'Unknown',
+        isFreeAccess: false,
+        name: 'New package name',
+        customAltNames: [],
+      });
+    });
+  });
 });

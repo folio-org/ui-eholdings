@@ -6,6 +6,9 @@ const additionalModules = [
 ].join('|');
 const combinedModules = config.transformIgnorePatterns[0].replace(')', `|${additionalModules})`);
 
+// we don't want any funny business with timezones when running tests locally or in CI pipelines
+process.env.TZ = 'UTC';
+
 module.exports = {
   ...config,
   setupFiles: [

@@ -119,8 +119,9 @@ const PackageShowRoute = ({
   const {
     model,
     deletePackage,
-    updatePackage,
     updatePackageTags,
+    selectPackage,
+    deselectPackage,
   } = usePackageModel({
     packageId,
     onDeleteSuccess: onPackageDeleteSuccess,
@@ -167,39 +168,22 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    const updatedModel = {
-      ...model,
-      isSelected: true,
-      selectedCount: model.titleCount,
-      allowKbToAddTitles: true,
-    };
-
-    updatePackage(updatedModel);
+    selectPackage();
     updateTitles(packageId);
   };
 
   const toggleSelected = () => {
-    const updatedModel = { ...model };
     // if the package is custom setting the holding status to false
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
       deletePackage(packageId);
     } else {
-      updatedModel.isSelected = !model.isSelected;
-      updatedModel.selectedCount = model.isSelected ? model.titleCount : 0;
-
-      // If package is selected, allowKbToAddTitles should be true
-      if (updatedModel.isSelected) {
-        updatedModel.allowKbToAddTitles = true;
-      }
-      // clear out any customizations before sending to server
-      if (!updatedModel.isSelected) {
-        updatedModel.customCoverage = {};
-        updatedModel.allowKbToAddTitles = false;
-        updatedModel.visibility = null;
+      if (model.isSelected) {
+        deselectPackage();
+      } else {
+        selectPackage();
       }
 
-      updatePackage(updatedModel);
       updateTitles();
     }
   };
