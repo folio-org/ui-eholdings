@@ -37,7 +37,7 @@ describe('Given usePackage', () => {
     await waitFor(() => expect(mockGet).toHaveBeenCalledWith(`eholdings/packages/${packageId}`));
   });
 
-  it('should expose relationships', async () => {
+  it('should expose relationships and type', async () => {
     const resource = {
       id: '1-2',
       attributes: { name: 'Test package' },
@@ -53,5 +53,6 @@ describe('Given usePackage', () => {
     expect(result.current.data.name).toBe('Test package');
     expect(result.current.data.id).toBe('1-2');
     expect(result.current.data.relationships.accessType.data.id).toBe('access-type-id');
+    expect(result.current.data.type).toBe('packages');
   });
 });

@@ -119,6 +119,7 @@ const PackageShowRoute = ({
   const {
     model,
     deletePackage,
+    updatePackageTags,
     selectPackage,
     deselectPackage,
   } = usePackageModel({
@@ -272,6 +273,7 @@ const PackageShowRoute = ({
         tagsModel={tagsModel}
         packageTitles={packageTitles}
         updateFolioTags={updateFolioTags}
+        updatePackageTags={updatePackageTags}
         proxyTypes={proxyTypes}
         provider={provider}
         fetchPackageTitles={fetchPackageTitles}
