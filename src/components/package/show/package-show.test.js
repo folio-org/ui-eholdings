@@ -41,6 +41,7 @@ const testCostPerUse = {
 
 const testModel = {
   id: '19-6581',
+  type: 'packages',
   isLoading: false,
   isLoaded: true,
   isSaving: false,
@@ -67,7 +68,7 @@ const testModel = {
   isPartiallySelected: false,
   proxy: {},
   tags: {
-    tagsList: [],
+    tagList: [],
   },
   packageToken: {},
   accessTypeId: null,
@@ -193,6 +194,56 @@ describe('Given PackageShow', () => {
     const { getByText } = renderPackageShow();
 
     expect(getByText('ui-eholdings.tags')).toBeDefined();
+  });
+
+  describe('when the model has tags', () => {
+    const modelWithTags = {
+      ...testModel,
+      tags: { tagList: ['tag-1', 'tag-2'] },
+    };
+
+    it('should render them in the Tags accordion', () => {
+      const { getAllByText } = renderPackageShow({ model: modelWithTags });
+
+      expect(getAllByText('tag-1')).toBeDefined();
+      expect(getAllByText('tag-2')).toBeDefined();
+    });
+
+    it('should call updatePackageTags with the tags payload when a tag is added', () => {
+      const mockUpdatePackageTags = jest.fn();
+      const { getByLabelText, container } = renderPackageShow({
+        model: modelWithTags,
+        updatePackageTags: mockUpdatePackageTags,
+      });
+      fireEvent.click(getByLabelText('stripes-smart-components.tagsTextArea'));
+
+      const input = container.querySelector('#packageShowTags input');
+
+      fireEvent.click(input);
+      fireEvent.change(input, { target: { value: 'tag-3' } });
+      fireEvent.keyDown(input, {
+        key: 'Enter',
+        keyCode: 'Enter',
+        which: 13,
+      });
+
+      expect(mockUpdatePackageTags).toHaveBeenCalledWith({
+        type: 'tags',
+        attributes: {
+          name: 'Test name',
+          tags: { tagList: ['tag-1', 'tag-2', 'tag-3'] },
+          contentType: 'Book',
+        },
+      });
+    });
+  });
+
+  describe('when the model has no tags', () => {
+    it('should not throw', () => {
+      const { tags, ...modelWithoutTags } = testModel;
+
+      expect(() => renderPackageShow({ model: modelWithoutTags })).not.toThrow();
+    });
   });
 
   it('should render PackageSettings', () => {

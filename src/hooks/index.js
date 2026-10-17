@@ -12,6 +12,7 @@ export * from './use-provider-packages';
 export * from './use-package-model';
 export * from './use-package-create';
 export * from './use-package-update';
+export * from './use-package-tags-update';
 export * from './use-package-delete';
 export * from './use-package';
 export * from './use-provider';
