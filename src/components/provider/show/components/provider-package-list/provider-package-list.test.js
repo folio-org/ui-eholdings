@@ -34,9 +34,11 @@ const testProviderPackagesList = [
         endCoverage: '2021-12-31',
       },
       packageType: 'Complete',
-      visibilityData: {
-        isHidden: false,
-      },
+      visibility: [
+        { category: 'PF', hidden: false, reason: '' },
+        { category: 'FTF', hidden: false, reason: '' },
+        { category: 'MARC', hidden: false, reason: '' },
+      ],
       tags: {
         tagList: ['tag-1', 'tag-2'],
       },
@@ -55,9 +57,11 @@ const testProviderPackagesList = [
         endCoverage: '2022-12-31',
       },
       packageType: 'Partial',
-      visibilityData: {
-        isHidden: true,
-      },
+      visibility: [
+        { category: 'PF', hidden: true, reason: '' },
+        { category: 'FTF', hidden: true, reason: '' },
+        { category: 'MARC', hidden: true, reason: '' },
+      ],
       tags: {
         tagList: ['tag-3'],
       },
