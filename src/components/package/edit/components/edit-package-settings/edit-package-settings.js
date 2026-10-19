@@ -13,11 +13,16 @@ import {
   RadioButton,
   Row,
   Col,
+  KeyValue,
+  Editor,
 } from '@folio/stripes/components';
 
 import TokenField from '../../../../token';
+import ExternalLink from '../../../../external-link';
 import ProxySelectField from '../../../../proxy-select';
+import AccessTypeEditSection from '../../../../access-type-edit-section';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
+import { AlternateNames } from '../../../show/components/package-settings/fields';
 import { CustomDescription } from '../../../_fields/custom-description';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
 import { DisplayName } from '../../../_fields/display-name';
@@ -48,6 +53,7 @@ const EditPackageSettings = ({
   provider,
   packageIsCustom = false,
   model,
+  accessStatusTypes,
 }) => {
   const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
   const supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
@@ -90,6 +96,23 @@ const EditPackageSettings = ({
     );
   };
 
+  const renderProxySelectField = () => {
+    if (proxyTypes.request.isResolved && provider.isLoaded) {
+      return (
+        <Col xs={3}>
+          <div data-test-eholdings-package-proxy-select-field>
+            <ProxySelectField
+              proxyTypes={proxyTypes}
+              inheritedProxyId={provider.proxy.id}
+            />
+          </div>
+        </Col>
+      );
+    } else {
+      return <Icon icon="spinner-ellipsis" />;
+    }
+  };
+
   const renderAccordionContent = () => {
     if (packageIsCustom && !packageSelected) {
       return <p><FormattedMessage id="ui-eholdings.package.packageSettings.notSelected" /></p>;
@@ -116,31 +139,54 @@ const EditPackageSettings = ({
               }
             </Col>
           )}
-          {(proxyTypes.request.isResolved && provider.isLoaded)
-            ? (
-              <Col xs={3}>
-                <div data-test-eholdings-package-proxy-select-field>
-                  <ProxySelectField
-                    proxyTypes={proxyTypes}
-                    inheritedProxyId={provider.proxy.id}
-                  />
-                </div>
-              </Col>
-            ) : (
-              <Icon icon="spinner-ellipsis" />
-            )
-          }
+          {packageIsCustom && renderProxySelectField()}
         </Row>
+        {!packageIsCustom && (
+          <Row className={packageEditStyles.row}>
+            {!packageIsCustom && renderProxySelectField()}
+            <Col xs={3}>
+              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+            </Col>
+          </Row>
+        )}
         <Row className={packageEditStyles.row}>
           <Col xs={3}>
             <DisplayName />
           </Col>
-          {packageIsCustom && (
+          {packageIsCustom ? (
             <Col xs={3}>
               <PackageUrl />
             </Col>
+          ) : (
+            <Col xs={3}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.label.packageUrl" />}>
+                {model.url ? (
+                  <ExternalLink
+                    href={model.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ) : '-'}
+              </KeyValue>
+            </Col>
           )}
         </Row>
+        {!packageIsCustom && (
+          <Row className={packageEditStyles.row}>
+            <Col xs={3}>
+              <AlternateNames customAltNames={model.managedAltNames} />
+            </Col>
+            <Col xs={9}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.package.managedDescription" />}>
+                <Editor
+                  value={model.managedDescription}
+                  readOnly
+                  modules={{ toolbar: false }}
+                />
+              </KeyValue>
+            </Col>
+          </Row>
+        )}
         <Row className={packageEditStyles.row}>
           <Col xs={3}>
             <CustomAlternateNames />

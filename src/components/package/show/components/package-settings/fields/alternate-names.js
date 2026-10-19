@@ -5,7 +5,10 @@ import {
   NoValue,
 } from '@folio/stripes/components';
 
-export const CustomAlternateNames = ({ customAltNames = [] }) => {
+export const AlternateNames = ({
+  customAltNames = [],
+  isCustomPackage = false,
+}) => {
   const value = customAltNames.length
     ? customAltNames.map(({ altName }) => (
       <>
@@ -14,9 +17,14 @@ export const CustomAlternateNames = ({ customAltNames = [] }) => {
       </>
     ))
     : <NoValue />;
+
   return (
     <KeyValue
-      label={<FormattedMessage id="ui-eholdings.package.customAltNames" />}
+      label={(
+        <FormattedMessage
+          id={`ui-eholdings.package.${isCustomPackage ? 'customAltNames' : 'managedAltNames'}`}
+        />
+      )}
       value={value}
     />
   );

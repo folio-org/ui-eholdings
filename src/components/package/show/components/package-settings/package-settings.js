@@ -16,7 +16,7 @@ import {
   AutomaticallySelectTitles,
   ProviderToken,
   PackageToken,
-  CustomAlternateNames,
+  AlternateNames,
   VisibilityView,
   PackageDisplayName,
 } from './fields';
@@ -94,7 +94,10 @@ const PackageSettings = ({
             <PackageDisplayName packageDisplayName={model.customDisplayName} />
           </Col>
           <Col xs={3}>
-            <CustomAlternateNames customAltNames={model.customAltNames} />
+            <AlternateNames
+              customAltNames={model.customAltNames}
+              isCustomPackage={model.isCustom}
+            />
           </Col>
         </Row>
         {hasProviderToken && (
