@@ -12,6 +12,19 @@ import EditPackageSettings from './edit-package-settings';
 
 jest.mock('../../../../proxy-select', () => () => <div>Proxy select</div>);
 jest.mock('../../../../access-type-edit-section', () => () => <div>Access type edit section</div>);
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  Editor: ({ value, readOnly, modules }) => (
+    <div
+      data-testid={readOnly ? 'managed-description-editor' : undefined}
+      data-read-only={String(readOnly)}
+      data-toolbar={String(modules?.toolbar)}
+      contentEditable={!readOnly}
+    >
+      {value}
+    </div>
+  ),
+}));
 
 describe('Given EditPackageSettings', () => {
   const mockOnToggle = jest.fn();
@@ -126,8 +139,11 @@ describe('Given EditPackageSettings', () => {
     expect(managedPackageView.getByRole('link', { name: /https:\/\/example\.com/ })).toHaveAttribute('href', 'https://example.com');
     expect(managedPackageView.getByText('Managed alternate name')).toBeDefined();
     expect(managedPackageView.getByText('ui-eholdings.package.managedDescription')).toBeDefined();
-    expect(managedPackageView.container.querySelector('.ql-editor').textContent).toContain('Managed description');
-    expect(managedPackageView.container.querySelector('.ql-editor')).toHaveAttribute('contenteditable', 'false');
+    const descriptionEditor = managedPackageView.getByTestId('managed-description-editor');
+
+    expect(descriptionEditor).toHaveTextContent('<p>Managed description</p>');
+    expect(descriptionEditor).toHaveAttribute('data-read-only', 'true');
+    expect(descriptionEditor).toHaveAttribute('data-toolbar', 'false');
   });
 
   it('should not render managed-only fields for custom packages', () => {
