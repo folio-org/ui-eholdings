@@ -62,10 +62,7 @@ const EditPackageSettings = ({
 
   const renderTitleManagementRadios = () => {
     return (
-      <fieldset
-        data-test-eholdings-allow-kb-to-add-titles-radios
-        className={fieldsetStyles.fieldset}
-      >
+      <fieldset className={fieldsetStyles.fieldset}>
         <Headline
           tag="legend"
           className={fieldsetStyles.label}
@@ -73,7 +70,6 @@ const EditPackageSettings = ({
           <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
         </Headline>
         <Field
-          data-test-eholdings-allow-kb-to-add-titles-radio-yes
           component={RadioButton}
           format={value => typeof value !== 'undefined' && value !== null && value.toString()}
           label={<FormattedMessage id="ui-eholdings.yes" />}
@@ -83,7 +79,6 @@ const EditPackageSettings = ({
           value="true"
         />
         <Field
-          data-test-eholdings-allow-kb-to-add-titles-radio-no
           component={RadioButton}
           format={value => typeof value !== 'undefined' && value !== null && value.toString()}
           label={<FormattedMessage id="ui-eholdings.no" />}
@@ -100,12 +95,10 @@ const EditPackageSettings = ({
     if (proxyTypes.request.isResolved && provider.isLoaded) {
       return (
         <Col xs={3}>
-          <div data-test-eholdings-package-proxy-select-field>
-            <ProxySelectField
-              proxyTypes={proxyTypes}
-              inheritedProxyId={provider.proxy.id}
-            />
-          </div>
+          <ProxySelectField
+            proxyTypes={proxyTypes}
+            inheritedProxyId={provider.proxy.id}
+          />
         </Col>
       );
     } else {
@@ -129,10 +122,7 @@ const EditPackageSettings = ({
               {initialValues.allowKbToAddTitles !== null
                 ? renderTitleManagementRadios()
                 : (
-                  <div
-                    data-test-eholdings-package-details-allow-add-new-titles
-                    htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                  >
+                  <div htmlFor="managed-package-details-toggle-allow-add-new-titles-switch">
                     <Icon icon="spinner-ellipsis" />
                   </div>
                 )
@@ -174,7 +164,7 @@ const EditPackageSettings = ({
         {!packageIsCustom && (
           <Row className={packageEditStyles.row}>
             <Col xs={3}>
-              <AlternateNames customAltNames={model.managedAltNames} />
+              <AlternateNames altNames={model.managedAltNames} />
             </Col>
             <Col xs={9}>
               <KeyValue label={<FormattedMessage id="ui-eholdings.package.managedDescription" />}>

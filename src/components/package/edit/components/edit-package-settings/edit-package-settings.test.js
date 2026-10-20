@@ -16,10 +16,10 @@ jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
   Editor: ({ value, readOnly, modules }) => (
     <div
-      data-testid={readOnly ? 'managed-description-editor' : undefined}
-      data-read-only={String(readOnly)}
+      role="textbox"
+      aria-label={readOnly ? 'Managed description' : 'Custom description'}
+      aria-readonly={String(readOnly)}
       data-toolbar={String(modules?.toolbar)}
-      contentEditable={!readOnly}
     >
       {value}
     </div>
@@ -105,23 +105,20 @@ describe('Given EditPackageSettings', () => {
   });
 
   it('should render custom package fields for custom packages', () => {
-    const {
-      container,
-      getByRole,
-    } = renderEditPackageSettings({ packageIsCustom: true });
+    const { getByRole, getByText } = renderEditPackageSettings({ packageIsCustom: true });
 
     expect(getByRole('textbox', { name: 'ui-eholdings.label.packageUrl' })).toBeDefined();
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.label.addCustomAlternateName' }));
     expect(getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' })).toBeDefined();
-    expect(container.querySelector('[contenteditable="true"]')).not.toBeNull();
-    expect(container.querySelector('[data-test-eholdings-package-proxy-select-field]')).not.toBeNull();
+    expect(getByRole('textbox', { name: 'Custom description' })).toBeDefined();
+    expect(getByText('Proxy select')).toBeDefined();
   });
 
   it('should render managed package settings', () => {
     const managedPackageView = renderEditPackageSettings();
 
-    expect(managedPackageView.container.querySelector('textarea[name="url"]')).toBeNull();
-    expect(managedPackageView.container.querySelector('[data-test-eholdings-package-proxy-select-field]')).not.toBeNull();
+    expect(managedPackageView.queryByRole('textbox', { name: 'ui-eholdings.label.packageUrl' })).toBeNull();
+    expect(managedPackageView.getByText('Proxy select')).toBeDefined();
     expect(managedPackageView.getByText('Access type edit section')).toBeDefined();
     expect(managedPackageView.getByText('ui-eholdings.package.managedAltNames')).toBeDefined();
   });
@@ -139,10 +136,10 @@ describe('Given EditPackageSettings', () => {
     expect(managedPackageView.getByRole('link', { name: /https:\/\/example\.com/ })).toHaveAttribute('href', 'https://example.com');
     expect(managedPackageView.getByText('Managed alternate name')).toBeDefined();
     expect(managedPackageView.getByText('ui-eholdings.package.managedDescription')).toBeDefined();
-    const descriptionEditor = managedPackageView.getByTestId('managed-description-editor');
+    const descriptionEditor = managedPackageView.getByRole('textbox', { name: 'Managed description' });
 
     expect(descriptionEditor).toHaveTextContent('<p>Managed description</p>');
-    expect(descriptionEditor).toHaveAttribute('data-read-only', 'true');
+    expect(descriptionEditor).toHaveAttribute('aria-readonly', 'true');
     expect(descriptionEditor).toHaveAttribute('data-toolbar', 'false');
   });
 

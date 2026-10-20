@@ -10,7 +10,7 @@ import { AlternateNames } from './alternate-names';
 const renderAlternateNames = (props = {}) => render(
   <Harness>
     <AlternateNames
-      customAltNames={[
+      altNames={[
         { altName: 'Alternate name one' },
         { altName: 'Alternate name two' },
       ]}

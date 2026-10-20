@@ -95,7 +95,7 @@ const PackageSettings = ({
           </Col>
           <Col xs={3}>
             <AlternateNames
-              customAltNames={model.customAltNames}
+              altNames={model.customAltNames}
               isCustomPackage={model.isCustom}
             />
           </Col>

@@ -6,11 +6,11 @@ import {
 } from '@folio/stripes/components';
 
 export const AlternateNames = ({
-  customAltNames = [],
+  altNames = [],
   isCustomPackage = false,
 }) => {
-  const value = customAltNames.length
-    ? customAltNames.map(({ altName }) => (
+  const value = altNames.length
+    ? altNames.map(({ altName }) => (
       <>
         {altName}
         <br />
