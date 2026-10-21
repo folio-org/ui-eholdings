@@ -364,7 +364,7 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetAccessTypes).toHaveBeenCalled();
   });
 
-  it.only('should handle getPackageTitles after delay before update', () => {
+  it('should handle getPackageTitles after delay before update', () => {
     renderPackageShowRoute({
       getPackageTitles: mockGetPackageTitles,
     });
