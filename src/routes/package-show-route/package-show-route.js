@@ -128,19 +128,10 @@ const PackageShowRoute = ({
     onUpdateSuccess: () => {},
   });
 
-  const getUpdatedTitles = () => {
-    const queryParams = transformQueryParams('titles', pkgSearchParams);
-
-    setIsTitlesUpdating(true);
-
-    getPackageTitles({ packageId, params: queryParams });
-  };
-
   useEffect(() => {
     getProxyTypes();
     getTags();
     getAccessTypes();
-    getUpdatedTitles();
 
     return () => {
       clearCostPerUseData();
