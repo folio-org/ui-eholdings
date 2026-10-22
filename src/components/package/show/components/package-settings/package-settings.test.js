@@ -123,6 +123,23 @@ describe('Given PackageSettings', () => {
     expect(component.getByText('Access type display')).toBeDefined();
   });
 
+  it('should render the managed alternate names label for managed packages', () => {
+    component = renderPackageSettings();
+
+    expect(component.getByText('ui-eholdings.package.managedAltNames')).toBeDefined();
+  });
+
+  it('should render the custom alternate names label for custom packages', () => {
+    component = renderPackageSettings({
+      model: {
+        ...model,
+        isCustom: true,
+      },
+    });
+
+    expect(component.getByText('ui-eholdings.package.customAltNames')).toBeDefined();
+  });
+
   it('should render a visibility checkbox for each visibility option', () => {
     component = renderPackageSettings();
 

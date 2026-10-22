@@ -34,6 +34,7 @@
 * Remove package customDisplayName and url when a value is just empty spaces (UIEH-1588)
 * Update provider token when the value is cleared. (UIEH-1587)
 * Provider > List of Packages - update package hidden labels to use new visibility data. (UIEH-1557)
+* Edit Managed Package Detail Record - List of fields. (UIEH-1534)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 
