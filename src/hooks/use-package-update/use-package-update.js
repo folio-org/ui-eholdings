@@ -39,6 +39,7 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
 
   const {
     mutate,
+    mutateAsync,
     isLoading,
     isError,
   } = useMutation({
@@ -57,8 +58,15 @@ export const usePackageUpdate = ({ packageId, onSuccess }) => {
     mutate(data);
   };
 
+  const updatePackageAsync = (values) => {
+    const data = formatValuesIntoPackageData(values);
+
+    return mutateAsync(data);
+  };
+
   return {
     updatePackage,
+    updatePackageAsync,
     isLoading,
     errors,
     isError,

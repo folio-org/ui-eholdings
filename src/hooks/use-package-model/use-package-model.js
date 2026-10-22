@@ -27,6 +27,7 @@ export const usePackageModel = ({
   } = usePackageDelete({ onSuccess: onDeleteSuccess });
   const {
     updatePackage,
+    updatePackageAsync,
     isLoading: isUpdateLoading,
     isError: isUpdateError,
     errors: updateErrors,
@@ -46,8 +47,9 @@ export const usePackageModel = ({
     attrs.isSelected = true;
     attrs.allowKbToAddTitles = true;
     attrs.customCoverage = {};
-    updatePackage(attrs);
-  }, [data, updatePackage]);
+
+    return updatePackageAsync(attrs);
+  }, [data, updatePackageAsync]);
 
   const deselectPackage = useCallback(() => {
     const attrs = omit(data, ['isFreeAccess', 'url']);
@@ -58,8 +60,9 @@ export const usePackageModel = ({
     attrs.customCoverage = {};
     attrs.allowKbToAddTitles = false;
     attrs.accessTypeId = null;
-    updatePackage(attrs);
-  }, [data, updatePackage]);
+
+    return updatePackageAsync(attrs);
+  }, [data, updatePackageAsync]);
 
   const model = useMemo(() => ({
     ...data,
@@ -98,6 +101,7 @@ export const usePackageModel = ({
     model,
     deletePackage,
     updatePackage,
+    updatePackageAsync,
     updatePackageTags,
     createPackage,
     selectPackage,
