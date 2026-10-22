@@ -15,6 +15,7 @@ import {
   Col,
   KeyValue,
   Editor,
+  NoValue,
 } from '@folio/stripes/components';
 
 import TokenField from '../../../../token';
@@ -156,7 +157,7 @@ const EditPackageSettings = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   />
-                ) : '-'}
+                ) : <NoValue />}
               </KeyValue>
             </Col>
           )}
