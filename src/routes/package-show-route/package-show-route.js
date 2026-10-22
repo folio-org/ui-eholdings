@@ -147,6 +147,7 @@ const PackageShowRoute = ({
   useEffect(() => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
 
+    setIsTitlesUpdating(true);
     getPackageTitles({ packageId, params: queryParams });
   }, [pkgSearchParams, getPackageTitles, packageId]);
 
