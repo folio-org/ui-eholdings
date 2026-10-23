@@ -117,13 +117,13 @@ const PackageSettings = ({
           <Col xs={3}>
             <AlternateNames
               altNames={model.customAltNames}
-              isCustomPackage
+              isCustomField
             />
           </Col>
           <Col xs={9}>
             <Description
               description={model.customDescription}
-              isCustomPackage
+              isCustomField
             />
           </Col>
         </Row>

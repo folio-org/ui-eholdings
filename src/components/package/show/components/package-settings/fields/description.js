@@ -8,12 +8,12 @@ import {
 
 export const Description = ({
   description,
-  isCustomPackage = false,
+  isCustomField = false,
 }) => (
   <KeyValue
     label={(
       <FormattedMessage
-        id={`ui-eholdings.${isCustomPackage ? 'label.customDescription' : 'package.managedDescription'}`}
+        id={`ui-eholdings.${isCustomField ? 'label.customDescription' : 'package.managedDescription'}`}
       />
     )}
   >

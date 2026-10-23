@@ -43,7 +43,7 @@ describe('Given Description', () => {
   it('should render the custom description label for custom packages', () => {
     const { getByRole, getByText } = renderDescription({
       description: '<p>Custom description</p>',
-      isCustomPackage: true,
+      isCustomField: true,
     });
 
     expect(getByText('ui-eholdings.label.customDescription')).toBeDefined();

@@ -7,7 +7,7 @@ import {
 
 export const AlternateNames = ({
   altNames = [],
-  isCustomPackage = false,
+  isCustomField = false,
 }) => {
   const value = altNames.length
     ? altNames.map(({ altName }) => (
@@ -22,7 +22,7 @@ export const AlternateNames = ({
     <KeyValue
       label={(
         <FormattedMessage
-          id={`ui-eholdings.package.${isCustomPackage ? 'customAltNames' : 'managedAltNames'}`}
+          id={`ui-eholdings.package.${isCustomField ? 'customAltNames' : 'managedAltNames'}`}
         />
       )}
       value={value}
