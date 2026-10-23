@@ -62,7 +62,7 @@ const selectedFilters = (selected, visibility) => ({
   ...(visibility && { visibility }),
 });
 
-export const selectionStatusFilterConfig = {
+export const selectionStatusVisibilityFilterConfig = {
   type: FILTER_TYPES.SELECTION,
   name: 'selectedVisibilityStatus',
   label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
@@ -115,6 +115,30 @@ export const selectionStatusFilterConfig = {
       ],
     },
   ],
+};
+
+export const selectionStatusFilterConfig = {
+  type: FILTER_TYPES.SELECT,
+  name: 'selectedVisibilityStatus',
+  label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
+  options: simpleOptions('selected', selectionStatusFilterOptions.ALL, [
+    {
+      labelId: 'ui-eholdings.filter.all',
+      value: selectionStatusFilterOptions.ALL,
+    },
+    {
+      labelId: 'ui-eholdings.selected',
+      value: selectionStatusFilterOptions.TRUE,
+    },
+    {
+      labelId: 'ui-eholdings.notSelected',
+      value: selectionStatusFilterOptions.FALSE,
+    },
+    {
+      labelId: 'ui-eholdings.label.orderedThrough',
+      value: selectionStatusFilterOptions.ORDERED,
+    },
+  ]),
 };
 
 export const publicationTypeTitlesListFilterConfig = {

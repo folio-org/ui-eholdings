@@ -20,7 +20,7 @@ import {
   tagPaths,
   searchTypes,
   packageSortFilterConfig,
-  selectionStatusFilterConfig,
+  selectionStatusVisibilityFilterConfig,
   contentTypeFilterConfig,
   packageAccessFilterConfig,
 } from '../../constants';
@@ -142,7 +142,7 @@ const ProviderShowRoute = ({
         searchType={searchTypes.PACKAGES}
         availableFilters={[
           packageSortFilterConfig,
-          selectionStatusFilterConfig,
+          selectionStatusVisibilityFilterConfig,
           contentTypeFilterConfig,
           packageAccessFilterConfig,
         ]}
