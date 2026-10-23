@@ -1,3 +1,10 @@
+// this function, at this moment, exists to add the `isFullPackage` property
+// which doesn't exist as a form input value, but is determined from other properties
+// as well as removing some managed properties like `isAvailableForSelection`, `managedDescription` etc
+// which shouldn't be sent to BE as they're not editable
+
+// any formatting changes to editable values should be done in `populatePackageAttributesFromForm` function
+
 export const serializePackageAttributes = (values = {}) => {
   const attributes = {
     name: values.name,
@@ -14,12 +21,9 @@ export const serializePackageAttributes = (values = {}) => {
     customAltNames: values.customAltNames,
     customDisplayName: values.customDisplayName,
     customDescription: values.customDescription,
+    url: values.url,
+    isFreeAccess: values.isFreeAccess,
   };
-
-  if (values.isCustom) {
-    attributes.url = values.url;
-    attributes.isFreeAccess = values.isFreeAccess;
-  }
 
   return attributes;
 };

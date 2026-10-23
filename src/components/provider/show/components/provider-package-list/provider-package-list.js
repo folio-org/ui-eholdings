@@ -8,9 +8,9 @@ import {
   MCLPagingTypes,
   MultiColumnList,
   TextLink,
-  Tooltip,
 } from '@folio/stripes/components';
 
+import { PackageHiddenLabel } from '../../../../package-hidden-label';
 import SelectedLabel from '../../../../selected-label';
 import InternalLink from '../../../../internal-link';
 import CoverageDateList from '../../../../coverage-date-list';
@@ -68,11 +68,7 @@ const ProviderPackageList = ({
       return (
         <div className={styles.statusCellWrapper}>
           <SelectedLabel isSelected={item.attributes.isSelected} />
-          {item.attributes.visibilityData?.isHidden && (
-            <Tooltip text={intl.formatMessage({ id: 'ui-eholdings.packagesList.hidden' })}>
-              {({ ref, ariaIds }) => <Icon icon="eye-closed" ref={ref} aria-labelledby={ariaIds.text} />}
-            </Tooltip>
-          )}
+          <PackageHiddenLabel visibility={item.attributes.visibility} />
         </div>
       );
     },
@@ -107,7 +103,7 @@ const ProviderPackageList = ({
   };
 
   const columnWidths = useMemo(() => ({
-    [PROVIDER_PACKAGES_LIST_COLUMNS.STATUS]: '11%',
+    [PROVIDER_PACKAGES_LIST_COLUMNS.STATUS]: '17%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_NAME]: '25%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.SELECTED_COUNT]: '10%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.TITLES_COUNT]: '10%',

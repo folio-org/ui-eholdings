@@ -13,11 +13,17 @@ import {
   RadioButton,
   Row,
   Col,
+  KeyValue,
+  Editor,
+  NoValue,
 } from '@folio/stripes/components';
 
 import TokenField from '../../../../token';
+import ExternalLink from '../../../../external-link';
 import ProxySelectField from '../../../../proxy-select';
+import AccessTypeEditSection from '../../../../access-type-edit-section';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
+import { AlternateNames } from '../../../show/components/package-settings/fields';
 import { CustomDescription } from '../../../_fields/custom-description';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
 import { DisplayName } from '../../../_fields/display-name';
@@ -48,6 +54,7 @@ const EditPackageSettings = ({
   provider,
   packageIsCustom = false,
   model,
+  accessStatusTypes,
 }) => {
   const supportsProviderTokens = provider && provider.isLoaded && provider.providerToken && provider.providerToken.prompt;
   const supportsPackageTokens = model && model.isLoaded && model.packageToken && model.packageToken.prompt;
@@ -56,10 +63,7 @@ const EditPackageSettings = ({
 
   const renderTitleManagementRadios = () => {
     return (
-      <fieldset
-        data-test-eholdings-allow-kb-to-add-titles-radios
-        className={fieldsetStyles.fieldset}
-      >
+      <fieldset className={fieldsetStyles.fieldset}>
         <Headline
           tag="legend"
           className={fieldsetStyles.label}
@@ -67,7 +71,6 @@ const EditPackageSettings = ({
           <FormattedMessage id="ui-eholdings.package.packageAllowToAddTitles" />
         </Headline>
         <Field
-          data-test-eholdings-allow-kb-to-add-titles-radio-yes
           component={RadioButton}
           format={value => typeof value !== 'undefined' && value !== null && value.toString()}
           label={<FormattedMessage id="ui-eholdings.yes" />}
@@ -77,7 +80,6 @@ const EditPackageSettings = ({
           value="true"
         />
         <Field
-          data-test-eholdings-allow-kb-to-add-titles-radio-no
           component={RadioButton}
           format={value => typeof value !== 'undefined' && value !== null && value.toString()}
           label={<FormattedMessage id="ui-eholdings.no" />}
@@ -88,6 +90,21 @@ const EditPackageSettings = ({
         />
       </fieldset>
     );
+  };
+
+  const renderProxySelectField = () => {
+    if (proxyTypes.request.isResolved && provider.isLoaded) {
+      return (
+        <Col xs={3}>
+          <ProxySelectField
+            proxyTypes={proxyTypes}
+            inheritedProxyId={provider.proxy.id}
+          />
+        </Col>
+      );
+    } else {
+      return <Icon icon="spinner-ellipsis" />;
+    }
   };
 
   const renderAccordionContent = () => {
@@ -106,41 +123,61 @@ const EditPackageSettings = ({
               {initialValues.allowKbToAddTitles !== null
                 ? renderTitleManagementRadios()
                 : (
-                  <div
-                    data-test-eholdings-package-details-allow-add-new-titles
-                    htmlFor="managed-package-details-toggle-allow-add-new-titles-switch"
-                  >
+                  <div htmlFor="managed-package-details-toggle-allow-add-new-titles-switch">
                     <Icon icon="spinner-ellipsis" />
                   </div>
                 )
               }
             </Col>
           )}
-          {(proxyTypes.request.isResolved && provider.isLoaded)
-            ? (
-              <Col xs={3}>
-                <div data-test-eholdings-package-proxy-select-field>
-                  <ProxySelectField
-                    proxyTypes={proxyTypes}
-                    inheritedProxyId={provider.proxy.id}
-                  />
-                </div>
-              </Col>
-            ) : (
-              <Icon icon="spinner-ellipsis" />
-            )
-          }
+          {packageIsCustom && renderProxySelectField()}
         </Row>
+        {!packageIsCustom && (
+          <Row className={packageEditStyles.row}>
+            {!packageIsCustom && renderProxySelectField()}
+            <Col xs={3}>
+              <AccessTypeEditSection accessStatusTypes={accessStatusTypes} />
+            </Col>
+          </Row>
+        )}
         <Row className={packageEditStyles.row}>
           <Col xs={3}>
             <DisplayName />
           </Col>
-          {packageIsCustom && (
+          {packageIsCustom ? (
             <Col xs={3}>
               <PackageUrl />
             </Col>
+          ) : (
+            <Col xs={3}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.label.packageUrl" />}>
+                {model.url ? (
+                  <ExternalLink
+                    href={model.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ) : <NoValue />}
+              </KeyValue>
+            </Col>
           )}
         </Row>
+        {!packageIsCustom && (
+          <Row className={packageEditStyles.row}>
+            <Col xs={3}>
+              <AlternateNames altNames={model.managedAltNames} />
+            </Col>
+            <Col xs={9}>
+              <KeyValue label={<FormattedMessage id="ui-eholdings.package.managedDescription" />}>
+                <Editor
+                  value={model.managedDescription}
+                  readOnly
+                  modules={{ toolbar: false }}
+                />
+              </KeyValue>
+            </Col>
+          </Row>
+        )}
         <Row className={packageEditStyles.row}>
           <Col xs={3}>
             <CustomAlternateNames />

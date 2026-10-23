@@ -76,6 +76,8 @@ const mockGetTags = jest.fn();
 const mockUpdatePackage = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 const mockDestroyPackage = jest.fn();
+const mockPackageSelect = jest.fn().mockResolvedValue();
+const mockPackageDeselect = jest.fn().mockResolvedValue();
 const mockGetAccessTypes = jest.fn();
 const mockGetCostPerUse = jest.fn();
 const mockGetCostPerUsePackageTitles = jest.fn();
@@ -323,6 +325,8 @@ describe('Given PackageShowRoute', () => {
         model,
         updatePackage: mockUpdatePackage,
         deletePackage: mockDestroyPackage.mockImplementation(() => onDeleteSuccess()),
+        selectPackage: mockPackageSelect,
+        deselectPackage: mockPackageDeselect,
       };
     });
     useUpdatePackageTitlesSelection.mockClear().mockReturnValue({
@@ -365,7 +369,7 @@ describe('Given PackageShowRoute', () => {
       getPackageTitles: mockGetPackageTitles,
     });
 
-    expect(mockGetPackageTitles).toHaveBeenCalled();
+    expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
   });
 
   describe('when package was reached based on search', () => {
@@ -474,23 +478,24 @@ describe('Given PackageShowRoute', () => {
           isSelected: false,
         },
         updatePackage: mockUpdatePackage,
+        selectPackage: mockPackageSelect,
       });
     });
 
-    it('should call updatePackage and updateTitles', () => {
+    it('should select package and updateTitles', async () => {
       const { getByRole } = renderPackageShowRoute();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
-      expect(mockUpdatePackage).toHaveBeenCalled();
-      expect(mockUpdateTitles).toHaveBeenCalledTimes(1);
+      expect(mockPackageSelect).toHaveBeenCalled();
+      waitFor(() => expect(mockUpdateTitles).toHaveBeenCalledTimes(1));
     });
   });
 
   describe('when removing package from holdings', () => {
     describe('when model is not custom', () => {
-      it('should handle updatePackage', () => {
+      it('should deselect package', () => {
         usePackageModel.mockClear().mockReturnValue({
           model: {
             ...model,
@@ -498,6 +503,7 @@ describe('Given PackageShowRoute', () => {
             isCustom: false,
           },
           updatePackage: mockUpdatePackage,
+          deselectPackage: mockPackageDeselect,
         });
 
         const { getAllByRole, getByRole } = renderPackageShowRoute();
@@ -506,7 +512,7 @@ describe('Given PackageShowRoute', () => {
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.removeFromHoldings' }));
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.package.modal.buttonConfirm' }));
 
-        expect(mockUpdatePackage).toHaveBeenCalled();
+        expect(mockPackageDeselect).toHaveBeenCalled();
       });
     });
 

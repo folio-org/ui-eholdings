@@ -30,6 +30,12 @@
 * Fix access status type value not used when editing package. (UIEH-1564)
 * Edit Custom Package Detail Record - List of fields. (UIEH-1537)
 * Reorder fields on the Create Custom Package page. (UIEH-1536)
+* Fix error when selecting managed packages. (UIEH-1577)
+* Remove package customDisplayName and url when a value is just empty spaces (UIEH-1588)
+* Update provider token when the value is cleared. (UIEH-1587)
+* Provider > List of Packages - update package hidden labels to use new visibility data. (UIEH-1557)
+* Edit Managed Package Detail Record - List of fields. (UIEH-1534)
+* Remove duplicate request to /resources endpoint on mount. (UIEH-1542)
 * Add visibility filter as a partner to selection status filter. (UIEH-1528)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)

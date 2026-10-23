@@ -14,6 +14,14 @@ jest.mock('../../../src/hooks', () => ({
       },
     },
   }),
+  useProviderModel: jest.fn().mockReturnValue({
+    model: {},
+    isLoaded: true,
+    isLoading: false,
+    request: {},
+    update: {},
+    destroy: {},
+  }),
   usePackageModel: jest.fn().mockReturnValue({
     model: {},
     isLoaded: true,

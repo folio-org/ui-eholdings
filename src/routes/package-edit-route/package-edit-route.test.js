@@ -4,7 +4,9 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
+import { Field } from 'react-final-form';
 
+import { TextArea } from '@folio/stripes-components';
 import {
   render,
   cleanup,
@@ -12,8 +14,18 @@ import {
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import PackageEditRoute from './package-edit-route';
-import { usePackageModel } from '../../hooks';
+import { CustomDescription } from '../../components/package/_fields/custom-description';
+import {
+  usePackageModel,
+  useProviderModel,
+} from '../../hooks';
 import Harness from '../../../test/jest/helpers/harness';
+
+// the real CustomDescription uses a wysiwyg Editor component, but user interactions in a test environment
+// seem to not work, so here we're going to mock it with a regular textarea to test integration
+jest.mock('../../components/package/_fields/custom-description', () => ({
+  CustomDescription: jest.fn(),
+}));
 
 const packageId = 'providerid-titleid';
 
@@ -77,6 +89,12 @@ const accessStatusTypes = {
   },
 };
 
+const provider = {
+  id: 'provider-id',
+  proxy: {},
+  isLoaded: true,
+};
+
 const proxyTypes = {
   request: {
     isResolved: true,
@@ -107,6 +125,9 @@ const mockDeletePackage = jest.fn();
 const mockGetAccessTypes = jest.fn();
 const mockGetProxyTypes = jest.fn();
 const mockUpdatePackage = jest.fn();
+const mockPackageSelect = jest.fn();
+const mockPackageDeselect = jest.fn();
+const mockUpdateProvider = jest.fn();
 
 const getPackageEditRoute = (props = {}) => {
   return (
@@ -140,8 +161,23 @@ describe('Given PackageEditRoute', () => {
     usePackageModel.mockClear().mockReturnValue({
       updatePackage: mockUpdatePackage,
       deletePackage: mockDeletePackage,
+      selectPackage: mockPackageSelect,
+      deselectPackage: mockPackageDeselect,
       model: getModelMock(),
     });
+    useProviderModel.mockClear().mockReturnValue({
+      updateProvider: mockUpdateProvider,
+      model: provider,
+    });
+
+    CustomDescription.mockReturnValue(
+      <Field
+        name="customDescription"
+        type="text"
+        component={TextArea}
+        label="customDescription"
+      />
+    );
   });
 
   afterEach(cleanup);
@@ -189,6 +225,19 @@ describe('Given PackageEditRoute', () => {
       fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
       expect(mockUpdatePackage).toHaveBeenCalled();
+    });
+
+    it('should not update the provider', () => {
+      const { getByRole } = renderPackageEditRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+      fireEvent.blur(packageNameInput);
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdateProvider).not.toHaveBeenCalled();
     });
 
     it('should not send the previous URL when the URL field is cleared', () => {
@@ -286,7 +335,7 @@ describe('Given PackageEditRoute', () => {
     beforeEach(() => {
       usePackageModel.mockClear().mockReturnValue({
         model,
-        updatePackage: mockUpdatePackage,
+        selectPackage: mockPackageSelect,
       });
     });
 
@@ -295,12 +344,7 @@ describe('Given PackageEditRoute', () => {
 
       fireEvent.click(getByText('ui-eholdings.addPackageToHoldings'));
 
-      expect(mockUpdatePackage).toHaveBeenCalledWith({
-        ...model,
-        isSelected: true,
-        selectedCount: model.titleCount,
-        allowKbToAddTitles: true,
-      });
+      expect(mockPackageSelect).toHaveBeenCalled();
     });
   });
 
@@ -329,10 +373,10 @@ describe('Given PackageEditRoute', () => {
         fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
         expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
-          customCoverages: [{
+          customCoverage: {
             beginCoverage: '2026-01-01',
             endCoverage: '2026-01-02',
-          }],
+          },
         }));
       });
     });
@@ -365,9 +409,110 @@ describe('Given PackageEditRoute', () => {
         fireEvent.click(deleteCoverageButton);
         fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
 
-        expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
-          customCoverage: {},
-        }));
+        expect(mockUpdatePackage.mock.calls[0][0].customCoverage).toBeUndefined();
+      });
+    });
+  });
+
+  describe('when customDisplayName, customDescription, url contain empty entries', () => {
+    it('should filter out the empty entries', async () => {
+      const { getByRole } = renderPackageEditRoute();
+
+      const packageNameInput = getByRole('textbox', { name: 'ui-eholdings.label.name' });
+
+      fireEvent.change(packageNameInput, { target: { value: 'New package name' } });
+
+      const customDescriptionInput = getByRole('textbox', { name: 'customDescription' });
+      fireEvent.change(customDescriptionInput, { target: { value: '   ' } });
+
+      const customDisplayNameInput = getByRole('textbox', { name: 'ui-eholdings.label.displayName' });
+      fireEvent.change(customDisplayNameInput, { target: { value: '   ' } });
+
+      const urlInput = getByRole('textbox', { name: 'ui-eholdings.label.packageUrl' });
+      fireEvent.change(urlInput, { target: { value: '   ' } });
+
+      const customAltNameInput = getByRole('textbox', { name: 'ui-eholdings.label.customAlternateNames' });
+      fireEvent.change(customAltNameInput, { target: { value: '   ' } });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdatePackage.mock.calls[0][0]).toEqual({
+        accessTypeId: undefined,
+        name: 'New package name',
+        customAltNames: [],
+        customCoverage: {
+          beginCoverage: '',
+          endCoverage: '',
+        },
+        isCustom: true,
+        isSelected: true,
+        proxy: {
+          id: 'proxy-id',
+          inherited: false,
+        },
+        visibility: [{
+          category: 'PF',
+          hidden: false,
+          reason: '',
+        }, {
+          category: 'FTF',
+          hidden: false,
+          reason: '',
+        }, {
+          category: 'MARC',
+          hidden: false,
+          reason: '',
+        }],
+      });
+    });
+  });
+
+  describe('when provider token is updated', () => {
+    const model = {
+      ...getModelMock(),
+      isCustom: false,
+      isSelected: true,
+    };
+
+    beforeEach(() => {
+      usePackageModel.mockClear().mockReturnValue({
+        model,
+        updatePackage: mockUpdatePackage,
+        deselectPackage: mockPackageDeselect,
+      });
+
+      const providerWithToken = {
+        id: 'provider-id',
+        proxy: {},
+        providerToken: {
+          prompt: 'prompt',
+          helpText: 'helpText',
+          value: 'token-value',
+        },
+        isLoaded: true,
+      };
+
+      useProviderModel.mockClear().mockReturnValue({
+        updateProvider: mockUpdateProvider,
+        model: providerWithToken,
+      });
+    });
+
+    it('should update the provider', async () => {
+      const { getByRole } = renderPackageEditRoute();
+
+      const providerTokenInput = getByRole('textbox', { name: 'ui-eholdings.provider.token' });
+
+      fireEvent.change(providerTokenInput, { target: { value: '' } });
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.saveAndClose' }));
+
+      expect(mockUpdateProvider).toHaveBeenCalledWith({
+        providerToken: {
+          prompt: 'prompt',
+          helpText: 'helpText',
+          value: undefined,
+        },
       });
     });
   });
@@ -408,23 +553,17 @@ describe('Given PackageEditRoute', () => {
       usePackageModel.mockClear().mockReturnValue({
         model,
         updatePackage: mockUpdatePackage,
+        deselectPackage: mockPackageDeselect,
       });
     });
 
-    it('should call updatePackage', () => {
+    it('should call deselectPackage', () => {
       const { getByText } = renderPackageEditRoute();
 
       fireEvent.click(getByText('ui-eholdings.package.removeFromHoldings'));
       fireEvent.click(getByText('ui-eholdings.package.modal.buttonConfirm'));
 
-      expect(mockUpdatePackage).toHaveBeenCalledWith(expect.objectContaining({
-        ...model,
-        isSelected: false,
-        visibility: null,
-        customCoverage: {},
-        allowKbToAddTitles: false,
-        accessTypeId: null,
-      }));
+      expect(mockPackageDeselect).toHaveBeenCalled();
     });
   });
 });
