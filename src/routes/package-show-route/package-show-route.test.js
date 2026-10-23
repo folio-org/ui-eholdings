@@ -76,8 +76,8 @@ const mockGetTags = jest.fn();
 const mockUpdatePackage = jest.fn();
 const mockUpdateFolioTags = jest.fn();
 const mockDestroyPackage = jest.fn();
-const mockPackageSelect = jest.fn();
-const mockPackageDeselect = jest.fn();
+const mockPackageSelect = jest.fn().mockResolvedValue();
+const mockPackageDeselect = jest.fn().mockResolvedValue();
 const mockGetAccessTypes = jest.fn();
 const mockGetCostPerUse = jest.fn();
 const mockGetCostPerUsePackageTitles = jest.fn();
@@ -369,7 +369,7 @@ describe('Given PackageShowRoute', () => {
       getPackageTitles: mockGetPackageTitles,
     });
 
-    expect(mockGetPackageTitles).toHaveBeenCalled();
+    expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
   });
 
   describe('when package was reached based on search', () => {
@@ -482,14 +482,14 @@ describe('Given PackageShowRoute', () => {
       });
     });
 
-    it('should select package and updateTitles', () => {
+    it('should select package and updateTitles', async () => {
       const { getByRole } = renderPackageShowRoute();
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.addPackageToHoldings' }));
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.selectPackage.confirmationModal.confirmationButtonText' }));
 
       expect(mockPackageSelect).toHaveBeenCalled();
-      expect(mockUpdateTitles).toHaveBeenCalledTimes(1);
+      waitFor(() => expect(mockUpdateTitles).toHaveBeenCalledTimes(1));
     });
   });
 
