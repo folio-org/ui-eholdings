@@ -36,6 +36,7 @@
 * Provider > List of Packages - update package hidden labels to use new visibility data. (UIEH-1557)
 * Edit Managed Package Detail Record - List of fields. (UIEH-1534)
 * Remove duplicate request to /resources endpoint on mount. (UIEH-1542)
+* View Managed Package Detail Record - List of fields. (UIEH-1503)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 
