@@ -128,19 +128,10 @@ const PackageShowRoute = ({
     onUpdateSuccess: () => {},
   });
 
-  const getUpdatedTitles = () => {
-    const queryParams = transformQueryParams('titles', pkgSearchParams);
-
-    setIsTitlesUpdating(true);
-
-    getPackageTitles({ packageId, params: queryParams });
-  };
-
   useEffect(() => {
     getProxyTypes();
     getTags();
     getAccessTypes();
-    getUpdatedTitles();
 
     return () => {
       clearCostPerUseData();
@@ -156,6 +147,7 @@ const PackageShowRoute = ({
   useEffect(() => {
     const queryParams = transformQueryParams('titles', pkgSearchParams);
 
+    setIsTitlesUpdating(true);
     getPackageTitles({ packageId, params: queryParams });
   }, [pkgSearchParams, getPackageTitles, packageId]);
 
@@ -168,8 +160,7 @@ const PackageShowRoute = ({
   });
 
   const addPackageToHoldings = () => {
-    selectPackage();
-    updateTitles(packageId);
+    selectPackage().then(() => updateTitles());
   };
 
   const toggleSelected = () => {
@@ -177,14 +168,10 @@ const PackageShowRoute = ({
     // or deselecting the package will delete the package from holdings
     if (model.isCustom && !model.isSelected === false) {
       deletePackage(packageId);
+    } else if (model.isSelected) {
+      deselectPackage().then(() => updateTitles());
     } else {
-      if (model.isSelected) {
-        deselectPackage();
-      } else {
-        selectPackage();
-      }
-
-      updateTitles();
+      selectPackage().then(() => updateTitles());
     }
   };
 
