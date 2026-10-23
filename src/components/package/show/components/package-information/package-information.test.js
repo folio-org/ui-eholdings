@@ -11,7 +11,7 @@ describe('Given PackageInformation', () => {
   let component;
   const onToggleMock = jest.fn();
 
-  const renderPackageInformation = (props = {}) => render(
+  const renderPackageInformation = ({ model = {}, ...props } = {}) => render(
     <Harness>
       <PackageInformation
         isOpen
@@ -23,6 +23,7 @@ describe('Given PackageInformation', () => {
           packageType: 'complete',
           selectedCount: 10,
           titleCount: 20,
+          ...model,
         }}
         {...props}
       />
@@ -62,6 +63,24 @@ describe('Given PackageInformation', () => {
   it('should display content type', () => {
     component = renderPackageInformation();
     expect(component.getByTestId('package-details-titles-total').textContent).toBe('20');
+  });
+
+  it('should display free access when isFreeAccess is true', () => {
+    component = renderPackageInformation({ model: { isFreeAccess: true } });
+
+    expect(component.getByText('ui-eholdings.package.public')).toBeDefined();
+  });
+
+  it('should display controlled access when isFreeAccess is false', () => {
+    component = renderPackageInformation({ model: { isFreeAccess: false } });
+
+    expect(component.getByText('ui-eholdings.package.controlled')).toBeDefined();
+  });
+
+  it.each([undefined, null])('should display NoValue when isFreeAccess is %s', (isFreeAccess) => {
+    component = renderPackageInformation({ model: { isFreeAccess } });
+
+    expect(component.getByText('NoValue')).toBeDefined();
   });
 
   describe('when package does not have content type', () => {
