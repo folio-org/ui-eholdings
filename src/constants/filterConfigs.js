@@ -118,8 +118,8 @@ export const selectionStatusVisibilityFilterConfig = {
 };
 
 export const selectionStatusFilterConfig = {
-  type: FILTER_TYPES.SELECT,
-  name: 'selectedVisibilityStatus',
+  type: FILTER_TYPES.CHECKBOX,
+  name: 'selected',
   label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
   options: simpleOptions('selected', selectionStatusFilterOptions.ALL, [
     {
