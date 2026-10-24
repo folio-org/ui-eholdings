@@ -81,6 +81,7 @@ const PackageShowRoute = ({
     type,
     'access-type': accessType,
     selected,
+    visibility,
     searchfield = 'title',
   } = queryString.parse(location.search.substring(1));
   const { packageId } = params;
@@ -96,6 +97,7 @@ const PackageShowRoute = ({
       tags,
       type,
       selected,
+      visibility,
       'access-type': accessType,
     },
   });
@@ -185,6 +187,7 @@ const PackageShowRoute = ({
       type: pkgSearchParams.filter?.type,
       'access-type': pkgSearchParams.filter?.['access-type'],
       selected: pkgSearchParams.filter?.selected,
+      visibility: pkgSearchParams.filter?.visibility,
       searchfield: pkgSearchParams.searchfield,
     });
 

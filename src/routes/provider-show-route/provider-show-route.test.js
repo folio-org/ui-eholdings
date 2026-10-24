@@ -174,20 +174,20 @@ describe('Given ProviderShowRoute', () => {
 
   describe('when entering some value in the search input and filters', () => {
     it('should perform package search with correct parameters', async () => {
-      const { getByRole, getByLabelText } = renderProviderShowRoute();
+      const { getByRole, getByLabelText, findByRole } = renderProviderShowRoute();
 
       fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
 
       const packagesSearchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
-      const packagesSearchSelectionStatusSelected = getByLabelText('ui-eholdings.selected');
       const packagesSearchContentType = within(
         getByRole('radiogroup', { name: 'ui-eholdings.package.contentType' })
       ).getByRole('combobox');
       const packageSearchPackageAccessPublic = getByLabelText('ui-eholdings.filter.packageAccess.public');
 
       fireEvent.change(packagesSearchBox, { target: { value: 'Test package name' } });
-      userEvent.click(packagesSearchSelectionStatusSelected);
-      userEvent.selectOptions(packagesSearchContentType, ['ebook']);
+      fireEvent.click(getByRole('button', { name: /ui-eholdings.filter.all/ }));
+      fireEvent.click(await findByRole('option', { name: 'ui-eholdings.selected' }));
+      userEvent.selectOptions(packagesSearchContentType, ['ui-eholdings.filter.contentType.ebook']);
       userEvent.click(packageSearchPackageAccessPublic);
 
       await waitFor(() => expect(useProviderPackages).toHaveBeenLastCalledWith(

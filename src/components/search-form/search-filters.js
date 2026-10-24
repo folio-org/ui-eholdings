@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { filter } from 'funcadelic';
+import omit from 'lodash/omit';
 import noop from 'lodash/noop';
 
 import {
@@ -10,6 +10,7 @@ import {
   Label,
   RadioButton,
   Select,
+  Selection,
 } from '@folio/stripes/components';
 import { ColumnManagerMenu } from '@folio/stripes/smart-components';
 
@@ -22,16 +23,24 @@ import {
 
 import styles from './search-form.css';
 
+const optionShape = PropTypes.shape({
+  filters: PropTypes.objectOf(PropTypes.string).isRequired,
+  isDefault: PropTypes.bool,
+  labelId: PropTypes.string.isRequired,
+});
+
+const optionGroupShape = PropTypes.shape({
+  labelId: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(optionShape).isRequired,
+});
+
 const propTypes = {
   activeFilters: PropTypes.object, // { filterName: filterValue }
   availableFilters: PropTypes.arrayOf(PropTypes.shape({
-    defaultValue: PropTypes.string,
     label: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.node.isRequired,
-      value: PropTypes.string.isRequired,
-    })).isRequired,
+    options: PropTypes.arrayOf(PropTypes.oneOfType([optionShape, optionGroupShape])).isRequired,
+    type: PropTypes.oneOf(Object.values(FILTER_TYPES)),
   })).isRequired,
   closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -41,6 +50,36 @@ const propTypes = {
   searchType: PropTypes.string.isRequired,
   toggleColumn: PropTypes.func,
   visibleColumns: PropTypes.arrayOf(PropTypes.string),
+};
+
+const toDataOptions = (options, formatMessage) => options.map(({ labelId, options: groupOptions, ...option }) => {
+  const label = formatMessage({ id: labelId });
+
+  // Use the labelID as a unique, stable control identifier
+  return groupOptions
+    ? { label, options: toDataOptions(groupOptions, formatMessage) }
+    : { ...option, label, value: labelId };
+});
+
+const flattenOptions = (dataOptions) => dataOptions.flatMap(option => option.options ?? [option]);
+
+const isCurrentOption = (option, ownedKeys, activeFilters) => {
+  return ownedKeys.every(key => option.filters[key] === activeFilters[key]);
+};
+
+const filterOptionsByContains = (filterValue, dataOptions = []) => {
+  const needle = filterValue.toLowerCase();
+  const matches = ({ label }) => label.toLowerCase().includes(needle);
+
+  return dataOptions.reduce((result, option) => {
+    if (!option.options) {
+      return matches(option) ? [...result, option] : result;
+    }
+
+    const options = option.options.filter(matches);
+
+    return options.length ? [...result, { ...option, options }] : result;
+  }, []);
 };
 
 const SearchFilters = ({
@@ -59,15 +98,8 @@ const SearchFilters = ({
   const labelRef = useRef(null);
   const columnManagerPrefix = `eholdings-${searchType}`;
 
-  const handleClearFilter = (name) => {
-    onUpdate({
-      ...activeFilters,
-      [name]: undefined,
-    });
-  };
-
-  const handleClearButtonClick = (labelId, name) => {
-    handleClearFilter(name);
+  const handleClearButtonClick = (labelId, onClear) => {
+    onClear();
 
     // focus on the default option
     setTimeout(() => {
@@ -75,7 +107,23 @@ const SearchFilters = ({
     });
   };
 
-  const renderSingleSelect = ({ name, options, accordionLabelId, defaultValue }) => {
+  const renderSingleSelection = ({ options, current, accordionLabelId, onSelect }) => {
+    return (
+      <div
+        role="radiogroup"
+        aria-labelledby={accordionLabelId}
+      >
+        <Selection
+          dataOptions={options}
+          value={current.value}
+          onChange={onSelect}
+          onFilter={filterOptionsByContains}
+        />
+      </div>
+    );
+  };
+
+  const renderSingleSelect = ({ options, current, accordionLabelId, onSelect }) => {
     return (
       <div
         role="radiogroup"
@@ -84,31 +132,21 @@ const SearchFilters = ({
         <Select
           dataOptions={options}
           validationEnabled={false}
-          value={activeFilters[name] || defaultValue}
-          onChange={(e) => {
-            const { value } = e.target;
-            const replaced = {
-              ...activeFilters,
-              // if this option is a default, clear the filter
-              [name]: value === defaultValue ? undefined : value
-            };
-            const withoutDefault = filter(item => item.value !== undefined, replaced);
-
-            return onUpdate(withoutDefault);
-          }}
+          value={current.value}
+          onChange={(e) => onSelect(e.target.value)}
         />
       </div>
     );
   };
 
-  const renderRadioGroup = ({ name, options, accordionLabelId, defaultValue }) => {
+  const renderRadioGroup = ({ name, options, current, accordionLabelId, onSelect }) => {
     return (
       <div
         role="radiogroup"
         aria-labelledby={accordionLabelId}
       >
         {options.map(({ label: radioBtnLabel, value }, i) => {
-          const isChecked = value === (activeFilters[name] || defaultValue);
+          const isChecked = value === current.value;
 
           return (
             <RadioButton
@@ -122,16 +160,7 @@ const SearchFilters = ({
               value={value}
               checked={isChecked}
               disabled={disabled}
-              onChange={() => {
-                const replaced = {
-                  ...activeFilters,
-                  // if this option is a default, clear the filter
-                  [name]: value === defaultValue ? undefined : value
-                };
-                const withoutDefault = filter(item => item.value !== undefined, replaced);
-
-                return onUpdate(withoutDefault);
-              }}
+              onChange={() => onSelect(value)}
             />
           );
         })}
@@ -143,34 +172,53 @@ const SearchFilters = ({
     switch (type) {
       case FILTER_TYPES.SELECT:
         return renderSingleSelect(filterProps);
+      case FILTER_TYPES.SELECTION:
+        return renderSingleSelection(filterProps);
       case FILTER_TYPES.CHECKBOX:
       default:
         return renderRadioGroup(filterProps);
     }
   };
 
+  const findOptionByValue = (leaves, value) => leaves.find(option => option.value === value);
+
   const renderFilters = () => {
     return (
       <>
-        {availableFilters.map(({ type, name, label, defaultValue, options }) => {
+        {availableFilters.map(({ type, name, label, options }) => {
           const accordionLabelId = `filter-${searchType}-${name}-label`;
 
-          const labelledOptions = options?.map((o) => ({
-            ...o,
-            label: formatMessage({ id: o.labelId }),
-          }));
+          const dataOptions = toDataOptions(options, formatMessage);
+          const leaves = flattenOptions(dataOptions);
+          // every filter this control can set; they're all reset whenever the selection changes
+          const ownedKeys = [...new Set(leaves.flatMap(({ filters }) => Object.keys(filters)))];
+          const current = leaves.find(option => isCurrentOption(option, ownedKeys, activeFilters))
+            ?? leaves.find(({ isDefault }) => isDefault);
+
+          const handleClear = () => onUpdate(omit(activeFilters, ownedKeys));
+
+          const handleSelect = (value) => {
+            const selected = findOptionByValue(leaves, value);
+
+            onUpdate({
+              ...omit(activeFilters, ownedKeys),
+              // if this option is a default, clear the filters
+              ...(selected.isDefault ? {} : selected.filters),
+            });
+          };
 
           const filterProps = {
             name,
-            options: labelledOptions,
+            options: dataOptions,
+            current,
             accordionLabelId,
-            defaultValue,
+            onSelect: handleSelect,
             label,
           };
 
-          if (!hasAccordion) {
-            const hasSelectedOption = ![undefined, defaultValue].includes(activeFilters[name]);
+          const hasSelectedOption = !current.isDefault;
 
+          if (!hasAccordion) {
             return (
               <div
                 key={name}
@@ -187,7 +235,7 @@ const SearchFilters = ({
                     show={hasSelectedOption}
                     label={label}
                     className={styles.clearButton}
-                    onClick={() => handleClearButtonClick(accordionLabelId, name)}
+                    onClick={() => handleClearButtonClick(accordionLabelId, handleClear)}
                   />
                 </div>
                 {typeRenderer(type, filterProps)}
@@ -207,8 +255,8 @@ const SearchFilters = ({
               separator={false}
               closedByDefault={closedByDefault}
               header={FilterAccordionHeader}
-              displayClearButton={!!activeFilters[name] && activeFilters[name] !== defaultValue}
-              onClearFilter={() => handleClearFilter(name)}
+              displayClearButton={hasSelectedOption}
+              onClearFilter={handleClear}
               id={`filter-${searchType}-${name}`}
               className={styles['search-filter-accordion']}
             >
