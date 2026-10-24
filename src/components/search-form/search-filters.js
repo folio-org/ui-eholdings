@@ -180,6 +180,8 @@ const SearchFilters = ({
     }
   };
 
+  const findOptionByValue = (leaves, value) => leaves.find(option => option.value === value);
+
   const renderFilters = () => {
     return (
       <>
@@ -196,7 +198,7 @@ const SearchFilters = ({
           const handleClear = () => onUpdate(omit(activeFilters, ownedKeys));
 
           const handleSelect = (value) => {
-            const selected = leaves.find(option => option.value === value);
+            const selected = findOptionByValue(leaves, value);
 
             onUpdate({
               ...omit(activeFilters, ownedKeys),
