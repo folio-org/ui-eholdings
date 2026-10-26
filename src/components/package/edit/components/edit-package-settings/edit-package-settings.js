@@ -14,7 +14,6 @@ import {
   Row,
   Col,
   KeyValue,
-  Editor,
   NoValue,
 } from '@folio/stripes/components';
 
@@ -23,7 +22,10 @@ import ExternalLink from '../../../../external-link';
 import ProxySelectField from '../../../../proxy-select';
 import AccessTypeEditSection from '../../../../access-type-edit-section';
 import { CustomAlternateNames } from '../../../_fields/custom-alternate-names';
-import { AlternateNames } from '../../../show/components/package-settings/fields';
+import {
+  AlternateNames,
+  Description,
+} from '../../../show/components/package-settings/fields';
 import { CustomDescription } from '../../../_fields/custom-description';
 import { VisibilityEdit } from '../../../_fields/visibility-edit';
 import { DisplayName } from '../../../_fields/display-name';
@@ -168,13 +170,7 @@ const EditPackageSettings = ({
               <AlternateNames altNames={model.managedAltNames} />
             </Col>
             <Col xs={9}>
-              <KeyValue label={<FormattedMessage id="ui-eholdings.package.managedDescription" />}>
-                <Editor
-                  value={model.managedDescription}
-                  readOnly
-                  modules={{ toolbar: false }}
-                />
-              </KeyValue>
+              <Description description={model.managedDescription} />
             </Col>
           </Row>
         )}

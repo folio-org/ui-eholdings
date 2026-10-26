@@ -19,6 +19,8 @@ import {
   AlternateNames,
   VisibilityView,
   PackageDisplayName,
+  PackageUrl,
+  Description,
 } from './fields';
 import { useProvider } from '../../../../../hooks';
 import { getAccessTypeId } from '../../../../utilities';
@@ -65,6 +67,8 @@ const PackageSettings = ({
               <AutomaticallySelectTitles packageAllowedToAddTitles={packageAllowedToAddTitles} />
             )}
           </Col>
+        </Row>
+        <Row>
           <Col xs={3}>
             {isProxyAvailable
               ? (
@@ -90,13 +94,36 @@ const PackageSettings = ({
               }
             </Col>
           )}
+        </Row>
+        <Row>
           <Col xs={3}>
             <PackageDisplayName packageDisplayName={model.customDisplayName} />
           </Col>
           <Col xs={3}>
+            <PackageUrl url={model.url} />
+          </Col>
+        </Row>
+        {!model.isCustom && (
+          <Row>
+            <Col xs={3}>
+              <AlternateNames altNames={model.managedAltNames} />
+            </Col>
+            <Col xs={9}>
+              <Description description={model.managedDescription} />
+            </Col>
+          </Row>
+        )}
+        <Row>
+          <Col xs={3}>
             <AlternateNames
               altNames={model.customAltNames}
-              isCustomPackage={model.isCustom}
+              isCustomField
+            />
+          </Col>
+          <Col xs={9}>
+            <Description
+              description={model.customDescription}
+              isCustomField
             />
           </Col>
         </Row>

@@ -10,6 +10,7 @@ import {
   KeyValue,
   Row,
   Col,
+  NoValue,
 } from '@folio/stripes/components';
 
 import InternalLink from '../../../../internal-link';
@@ -99,6 +100,16 @@ const PackageInformation = ({
           >
             <FormattedNumber value={model.titleCount} />
           </div>
+        </KeyValue>
+      </Col>
+
+      <Col xs={4}>
+        <KeyValue label={<FormattedMessage id="ui-eholdings.package.packageAccess" />}>
+          {model.isFreeAccess == null
+            ? <NoValue />
+            : model.isFreeAccess
+              ? <FormattedMessage id="ui-eholdings.package.public" />
+              : <FormattedMessage id="ui-eholdings.package.controlled" />}
         </KeyValue>
       </Col>
     </Row>
