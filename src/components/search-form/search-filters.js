@@ -109,8 +109,8 @@ const SearchFilters = ({
 
   const renderSingleSelection = ({ options, current, accordionLabelId, onSelect }) => {
     return (
-      <div
-        role="group" // NOSONAR - no element is more appropriate
+      <div // NOSONAR - no element is more appropriate
+        role="group"
         aria-labelledby={accordionLabelId}
       >
         <Selection
@@ -125,8 +125,8 @@ const SearchFilters = ({
 
   const renderSingleSelect = ({ options, current, accordionLabelId, onSelect }) => {
     return (
-      <div
-        role="group" // NOSONAR - no element is more appropriate
+      <div // NOSONAR - no element is more appropriate
+        role="group"
         aria-labelledby={accordionLabelId}
       >
         <Select
