@@ -1,0 +1,11 @@
+.editor {
+  background-color: transparent;
+
+  :global .ql-container {
+    border: 0;
+  }
+
+  :global .ql-editor {
+    padding: 0;
+  }
+}

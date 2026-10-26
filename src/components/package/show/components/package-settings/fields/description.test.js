@@ -9,12 +9,13 @@ import { Description } from './description';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
-  Editor: ({ value, readOnly, modules }) => (
+  Editor: ({ value, readOnly, modules, editorClassName }) => (
     <div
       role="textbox"
       aria-label="Description"
       aria-readonly={String(readOnly)}
       data-toolbar={String(modules?.toolbar)}
+      className={editorClassName}
     >
       {value}
     </div>
@@ -38,6 +39,7 @@ describe('Given Description', () => {
     expect(editor).toHaveTextContent('<p>Managed description</p>');
     expect(editor).toHaveAttribute('aria-readonly', 'true');
     expect(editor).toHaveAttribute('data-toolbar', 'false');
+    expect(editor).toHaveClass('editor');
   });
 
   it('should render the custom description label for custom packages', () => {
