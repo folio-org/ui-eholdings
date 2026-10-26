@@ -186,7 +186,7 @@ describe('Given ProviderShowRoute', () => {
 
       fireEvent.change(packagesSearchBox, { target: { value: 'Test package name' } });
       fireEvent.click(getByRole('button', { name: /ui-eholdings.filter.all/ }));
-      fireEvent.click(await findByRole('option', { name: 'ui-eholdings.selected' }));
+      fireEvent.click(await findByRole('option', { name: 'ui-eholdings.label.hiddenSomewhere' }));
       userEvent.selectOptions(packagesSearchContentType, ['ui-eholdings.filter.contentType.ebook']);
       userEvent.click(packageSearchPackageAccessPublic);
 
@@ -196,6 +196,7 @@ describe('Given ProviderShowRoute', () => {
             q: 'Test package name',
             filter: expect.objectContaining({
               selected: 'true',
+              visibility: 'hiddenSomewhere',
               type: 'ebook',
               access: 'public',
             }),
