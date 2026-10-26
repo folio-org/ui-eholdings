@@ -13,6 +13,20 @@ jest.mock('../../../../proxy-display', () => () => <span>Proxy display</span>);
 
 jest.mock('../../../../token-display', () => ({ type }) => <span>{type} token display</span>);
 
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  Editor: ({ value, readOnly, modules }) => (
+    <div
+      role="textbox"
+      aria-label={value}
+      aria-readonly={String(readOnly)}
+      data-toolbar={String(modules?.toolbar)}
+    >
+      {value}
+    </div>
+  ),
+}));
+
 const model = {
   isLoading: false,
   isLoaded: true,
@@ -138,6 +152,23 @@ describe('Given PackageSettings', () => {
     });
 
     expect(component.getByText('ui-eholdings.package.customAltNames')).toBeDefined();
+  });
+
+  it('should render package URL and managed and custom descriptions from the model', () => {
+    component = renderPackageSettings({
+      model: {
+        ...model,
+        url: 'https://example.com',
+        managedDescription: '<p>Managed description</p>',
+        customDescription: '<p>Custom description</p>',
+      },
+    });
+
+    expect(component.getByRole('link', { name: 'https://example.com' })).toHaveAttribute('href', 'https://example.com');
+    expect(component.getByText('ui-eholdings.package.managedDescription')).toBeDefined();
+    expect(component.getByText('ui-eholdings.label.customDescription')).toBeDefined();
+    expect(component.getByRole('textbox', { name: '<p>Managed description</p>' })).toHaveAttribute('aria-readonly', 'true');
+    expect(component.getByRole('textbox', { name: '<p>Custom description</p>' })).toHaveAttribute('aria-readonly', 'true');
   });
 
   it('should render a visibility checkbox for each visibility option', () => {

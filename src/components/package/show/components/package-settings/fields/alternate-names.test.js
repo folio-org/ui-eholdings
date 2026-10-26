@@ -31,7 +31,7 @@ describe('Given AlternateNames', () => {
   });
 
   it('should render the custom label for custom packages', () => {
-    const { container, getByText } = renderAlternateNames({ isCustomPackage: true });
+    const { container, getByText } = renderAlternateNames({ isCustomField: true });
 
     expect(getByText('ui-eholdings.package.customAltNames')).toBeDefined();
     expect(container.textContent).toContain('Alternate name one');

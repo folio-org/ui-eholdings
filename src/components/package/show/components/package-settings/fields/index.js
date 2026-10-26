@@ -4,3 +4,5 @@ export * from './provider-token';
 export * from './package-token';
 export * from './alternate-names';
 export * from './package-display-name';
+export * from './package-url';
+export * from './description';
