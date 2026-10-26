@@ -69,6 +69,7 @@ const ProviderShowRoute = ({
     'access-type': accessType,
     selected,
     searchfield,
+    visibility,
   } = queryString.parse(location.search);
 
   const [pkgSearchParams, setPkgSearchParams] = useState({
@@ -79,6 +80,7 @@ const ProviderShowRoute = ({
       tags,
       type,
       selected,
+      visibility,
       'access-type': accessType,
     },
   });
@@ -105,6 +107,7 @@ const ProviderShowRoute = ({
       type: _pkgSearchParams.filter?.type,
       'access-type': _pkgSearchParams.filter?.['access-type'],
       selected: _pkgSearchParams.filter?.selected,
+      visibility: _pkgSearchParams.filter?.visibility,
       searchfield: _pkgSearchParams.searchfield,
     });
 

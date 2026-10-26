@@ -134,10 +134,6 @@ export const selectionStatusFilterConfig = {
       labelId: 'ui-eholdings.notSelected',
       value: selectionStatusFilterOptions.FALSE,
     },
-    {
-      labelId: 'ui-eholdings.label.orderedThrough',
-      value: selectionStatusFilterOptions.ORDERED,
-    },
   ]),
 };
 
