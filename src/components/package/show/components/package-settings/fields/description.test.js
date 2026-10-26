@@ -9,13 +9,13 @@ import { Description } from './description';
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
-  Editor: ({ value, readOnly, modules, editorClassName }) => (
+  Editor: ({ value, readOnly, modules, className }) => (
     <div
       role="textbox"
       aria-label="Description"
       aria-readonly={String(readOnly)}
       data-toolbar={String(modules?.toolbar)}
-      className={editorClassName}
+      className={className}
     >
       {value}
     </div>
