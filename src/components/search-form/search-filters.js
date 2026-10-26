@@ -193,7 +193,8 @@ const SearchFilters = ({
           // every filter this control can set; they're all reset whenever the selection changes
           const ownedKeys = [...new Set(leaves.flatMap(({ filters }) => Object.keys(filters)))];
           const current = leaves.find(option => isCurrentOption(option, ownedKeys, activeFilters))
-            ?? leaves.find(({ isDefault }) => isDefault);
+            ?? leaves.find(({ isDefault }) => isDefault)
+            ?? { isDefault: true };
 
           const handleClear = () => onUpdate(omit(activeFilters, ownedKeys));
 
