@@ -1,5 +1,5 @@
 import { MemoryRouter, Route } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { createMemoryHistory } from 'react-router/node_modules/history';
 import noop from 'lodash/noop';
 
 import {
@@ -20,7 +20,8 @@ const mockGetProvider = jest.fn();
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
-  useHistory: jest.fn(),
+  useHistory: jest.requireActual('react-router').useHistory,
+  useLocation: jest.requireActual('react-router').useLocation,
   useParams: jest.fn().mockReturnValue({ providerId: 'provider-id' }),
 }));
 
@@ -123,10 +124,12 @@ const tagsModelOfAlreadyAddedTags = {
   },
 };
 
+let history;
+
 const renderProviderShowRoute = (props = {}) => render(
   <MemoryRouter initialEntries={['/eholdings/providers/provider-id']}>
     <Route path="/eholdings/providers/:providerId">
-      <Harness>
+      <Harness history={history}>
         <ProviderShowRoute
           accessTypes={accessTypes}
           proxyTypes={proxyTypes}
@@ -148,14 +151,11 @@ const renderProviderShowRoute = (props = {}) => render(
 );
 
 describe('Given ProviderShowRoute', () => {
-  const mockHistoryReplace = jest.fn();
-
   beforeEach(() => {
     jest.clearAllMocks();
 
-    useHistory.mockClear().mockReturnValue({
-      replace: mockHistoryReplace,
-    });
+    history = createMemoryHistory();
+    jest.spyOn(history, 'replace');
   });
 
   afterEach(cleanup);
@@ -180,7 +180,7 @@ describe('Given ProviderShowRoute', () => {
 
       const packagesSearchBox = getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' });
       const packagesSearchContentType = within(
-        getByRole('radiogroup', { name: 'ui-eholdings.package.contentType' })
+        getByRole('group', { name: 'ui-eholdings.package.contentType' })
       ).getByRole('combobox');
       const packageSearchPackageAccessPublic = getByLabelText('ui-eholdings.filter.packageAccess.public');
 
@@ -221,7 +221,7 @@ describe('Given ProviderShowRoute', () => {
 
     fireEvent.click(getByRole('button', { name: 'ui-eholdings.actionMenu.edit' }));
 
-    expect(mockHistoryReplace).toHaveBeenCalledWith({
+    expect(history.replace).toHaveBeenCalledWith({
       pathname: `/eholdings/providers/${model.id}/edit`,
       search: '',
       state: {

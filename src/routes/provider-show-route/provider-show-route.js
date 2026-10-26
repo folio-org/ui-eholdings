@@ -1,7 +1,7 @@
 import {
   useCallback,
   useEffect,
-  useState,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -70,9 +70,10 @@ const ProviderShowRoute = ({
     selected,
     searchfield,
     visibility,
-  } = queryString.parse(location.search);
+    access,
+  } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
-  const [pkgSearchParams, setPkgSearchParams] = useState({
+  const pkgSearchParams = useMemo(() => ({
     q: filterPackages,
     sort,
     searchfield,
@@ -81,9 +82,10 @@ const ProviderShowRoute = ({
       type,
       selected,
       visibility,
+      access,
       'access-type': accessType,
     },
-  });
+  }), [filterPackages, sort, searchfield, tags, type, selected, visibility, access, accessType]);
 
   const { providerId } = routeParams;
 
@@ -108,16 +110,13 @@ const ProviderShowRoute = ({
       'access-type': _pkgSearchParams.filter?.['access-type'],
       selected: _pkgSearchParams.filter?.selected,
       visibility: _pkgSearchParams.filter?.visibility,
+      access: _pkgSearchParams.filter?.access,
       searchfield: _pkgSearchParams.searchfield,
     });
 
     history.replace({
       ...location,
       search,
-    });
-
-    setPkgSearchParams({
-      ..._pkgSearchParams,
     });
   };
 

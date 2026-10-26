@@ -76,7 +76,7 @@ const filterOptionsByContains = (filterValue, dataOptions = []) => {
       return matches(option) ? [...result, option] : result;
     }
 
-    const options = option.options.filter(matches);
+    const options = matches(option) ? option.options : option.options.filter(matches);
 
     return options.length ? [...result, { ...option, options }] : result;
   }, []);
@@ -101,7 +101,7 @@ const SearchFilters = ({
   const handleClearButtonClick = (labelId, onClear) => {
     onClear();
 
-    // focus on the default option
+    // focus on the default option for radio output
     setTimeout(() => {
       document.querySelector(`[aria-labelledby="${labelId}"] input[tabindex="0"]`)?.focus();
     });
@@ -110,7 +110,7 @@ const SearchFilters = ({
   const renderSingleSelection = ({ options, current, accordionLabelId, onSelect }) => {
     return (
       <div
-        role="radiogroup"
+        role="group"
         aria-labelledby={accordionLabelId}
       >
         <Selection
@@ -126,7 +126,7 @@ const SearchFilters = ({
   const renderSingleSelect = ({ options, current, accordionLabelId, onSelect }) => {
     return (
       <div
-        role="radiogroup"
+        role="group"
         aria-labelledby={accordionLabelId}
       >
         <Select
@@ -192,14 +192,18 @@ const SearchFilters = ({
           const leaves = flattenOptions(dataOptions);
           // every filter this control can set; they're all reset whenever the selection changes
           const ownedKeys = [...new Set(leaves.flatMap(({ filters }) => Object.keys(filters)))];
-          const current = leaves.find(option => isCurrentOption(option, ownedKeys, activeFilters))
+          const matched = leaves.find(option => isCurrentOption(option, ownedKeys, activeFilters));
+          const current = matched
             ?? leaves.find(({ isDefault }) => isDefault)
             ?? { isDefault: true };
+          const hasUnmatchedFilters = !matched && ownedKeys.some(key => activeFilters[key] !== undefined);
 
           const handleClear = () => onUpdate(omit(activeFilters, ownedKeys));
 
           const handleSelect = (value) => {
             const selected = findOptionByValue(leaves, value);
+
+            if (!selected) return;
 
             onUpdate({
               ...omit(activeFilters, ownedKeys),
@@ -217,7 +221,7 @@ const SearchFilters = ({
             label,
           };
 
-          const hasSelectedOption = !current.isDefault;
+          const hasSelectedOption = !current.isDefault || hasUnmatchedFilters;
 
           if (!hasAccordion) {
             return (
