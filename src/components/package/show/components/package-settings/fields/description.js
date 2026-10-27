@@ -6,6 +6,8 @@ import {
   KeyValue,
 } from '@folio/stripes/components';
 
+import styles from './description.css';
+
 export const Description = ({
   description,
   isCustomField = false,
@@ -22,6 +24,7 @@ export const Description = ({
         value={description}
         readOnly
         modules={{ toolbar: false }}
+        className={styles.editor}
       />
     ) : <NoValue />}
   </KeyValue>
