@@ -26,8 +26,7 @@
   "devDependencies": {
     "@folio/eslint-config-stripes": "^8.0.0",
     "@folio/jest-config-stripes": "^3.0.0",
-    "@folio/stripes": "^10.2.0",
-    "@folio/stripes-components": "^13.1.0",
+    "@folio/stripes": "^10.1.0",
     "@folio/stripes-cli": "^4.0.0",
     "@folio/stripes-core": "^11.1.0",
     "axe-core": "~4.1.4",

@@ -3,9 +3,9 @@
     background-color: transparent;
     border: 0;
   }
+}
 
-  & :global .tiptap {
-    padding: 0;
-    resize: none;
-  }
+[class~="tiptap"] {
+  padding: 0;
+  resize: none;
 }
