@@ -1,8 +1,11 @@
 .editor {
-  background-color: transparent;
-  border: 0;
-
-  :global .tiptap {
-    padding: 0;
+  & > div {
+    background-color: transparent;
+    border: 0;
   }
+}
+
+[class~="tiptap"] {
+  padding: 0;
+  resize: none;
 }
