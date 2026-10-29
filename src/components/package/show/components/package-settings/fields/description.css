@@ -8,4 +8,8 @@
 [class~="tiptap"] {
   padding: 0;
   resize: none;
+
+  & > * {
+    margin-top: 0;
+  }
 }
