@@ -359,7 +359,7 @@ describe('Given SearchRoute', () => {
 
         fireEvent.click(getAllByTestId('search-package-list-item-link')[0]);
 
-        expect(mockHistory.push).toBeCalled();
+        expect(mockHistory.push).toHaveBeenCalled();
       });
     });
   });

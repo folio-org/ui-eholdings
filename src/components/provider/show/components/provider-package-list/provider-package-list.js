@@ -10,7 +10,7 @@ import {
   TextLink,
 } from '@folio/stripes/components';
 
-import { PackageHiddenLabel } from '../../../../package-hidden-label';
+import { HiddenLabel } from '../../../../hidden-label';
 import SelectedLabel from '../../../../selected-label';
 import InternalLink from '../../../../internal-link';
 import CoverageDateList from '../../../../coverage-date-list';
@@ -68,7 +68,7 @@ const ProviderPackageList = ({
       return (
         <div className={styles.statusCellWrapper}>
           <SelectedLabel isSelected={item.attributes.isSelected} />
-          <PackageHiddenLabel visibility={item.attributes.visibility} />
+          <HiddenLabel visibility={item.attributes.visibility} />
         </div>
       );
     },

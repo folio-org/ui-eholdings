@@ -148,7 +148,7 @@ describe('Given SettingsAssignedUsers', () => {
         fireEvent.click(getByRole('button', { name: confirmButton }));
 
         expect(queryByTestId('unassign-user-confirmation-modal')).toBeNull();
-        expect(mockOnDeleteUser).toBeCalled();
+        expect(mockOnDeleteUser).toHaveBeenCalled();
       });
     });
   });
@@ -171,7 +171,7 @@ describe('Given SettingsAssignedUsers', () => {
 
       fireEvent.click(getByText('ui-eholdings.settings.assignedUsers.pluginButtonMessage'));
 
-      expect(mockOnSelectUser).toBeCalled();
+      expect(mockOnSelectUser).toHaveBeenCalled();
     });
   });
 });

@@ -96,7 +96,7 @@ describe('Given HoldingStatus', () => {
 
       fireEvent.click(getByTestId('resource-add-to-holdings-button'));
 
-      expect(handleToggleResourceHoldingsMock).toBeCalled();
+      expect(handleToggleResourceHoldingsMock).toHaveBeenCalled();
     });
   });
 });
