@@ -98,7 +98,7 @@ const SettingsAccessStatusTypes = ({
   };
 
   // eslint-disable-next-line react/prop-types
-  const renderField = ({ fieldIndex, rowIndex, name }, validate) => {
+  const renderField = ({ fieldIndex, rowIndex, name, fieldProps }, getValidate) => {
     const dataAttr = { [`data-test-settings-access-type-${name}-field`]: true };
     const isNameField = name === 'name';
     const labelTranslationId = isNameField
@@ -115,7 +115,8 @@ const SettingsAccessStatusTypes = ({
             <Field
               component={TextField}
               name={`items[${rowIndex}].attributes.${name}`}
-              validate={validate}
+              validate={getValidate(rowIndex)}
+              {...(fieldProps?.error && { error: fieldProps.error })}
               marginBottom0
               fullWidth
               autoFocus={isNameField}
@@ -147,7 +148,7 @@ const SettingsAccessStatusTypes = ({
     onDelete(selectedStatusType, kbId);
   };
 
-  const nameValidation = (value) => {
+  const getNameError = (value, items, rowIndex) => {
     if (!value) {
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.type.validation" />;
     }
@@ -159,12 +160,18 @@ const SettingsAccessStatusTypes = ({
       />;
     }
 
-    if (value && accessTypesData.items.find(accessType => accessType.attributes.name === value)) {
+    const isDuplicate = items.some(
+      (item, index) => index !== rowIndex && item.attributes?.name === value,
+    );
+
+    if (isDuplicate) {
       return <FormattedMessage id="ui-eholdings.settings.accessStatusTypes.validation.duplicate" />;
     }
 
-    return null;
+    return undefined;
   };
+
+  const nameValidation = rowIndex => (value, allValues) => getNameError(value, allValues?.items ?? [], rowIndex);
 
   const descriptionValidation = (value) => {
     if (value && value.length > SETTINGS_ACCESS_STATUS_TYPES_DESCRIPTION_MAX_LENGTH) {
@@ -174,8 +181,20 @@ const SettingsAccessStatusTypes = ({
       />;
     }
 
-    return null;
+    return undefined;
   };
+
+  const validateItems = ({ items }) => ({
+    items: items.map((item, index) => {
+      const name = getNameError(item.attributes?.name, items, index);
+      const description = descriptionValidation(item.attributes?.description);
+
+      return {
+        ...(name && { name }),
+        ...(description && { description }),
+      };
+    }),
+  });
 
   const sortedItems = sortBy(accessTypesData?.items || [], [(item) => item.attributes.name.toLowerCase()]);
 
@@ -243,7 +262,7 @@ const SettingsAccessStatusTypes = ({
         createButtonLabel={intl.formatMessage({ id: 'ui-eholdings.new' })}
         fieldComponents={{
           name: item => renderField(item, nameValidation),
-          description: item => renderField(item, descriptionValidation),
+          description: item => renderField(item, () => descriptionValidation),
         }}
         formatter={formatter}
         label={intl.formatMessage({ id: 'ui-eholdings.settings.accessStatusTypes' })}
@@ -251,6 +270,7 @@ const SettingsAccessStatusTypes = ({
         onDelete={showConfirmDialog}
         onSubmit={noop}
         onUpdate={onUpdateItem}
+        validate={validateItems}
         readOnlyFields={['lastUpdated', 'records']}
         visibleFields={['name', 'description', 'lastUpdated', 'records']}
         actionSuppression={{
