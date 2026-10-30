@@ -8,12 +8,12 @@ import {
   MCLPagingTypes,
   MultiColumnList,
   TextLink,
-  Tooltip,
 } from '@folio/stripes/components';
 
 import SelectedLabel from '../../../../selected-label';
 import InternalLink from '../../../../internal-link';
 import CoverageDateList from '../../../../coverage-date-list';
+import { HiddenLabel } from '../../../../hidden-label';
 import {
   PACKAGE_TITLE_LIST_COLUMN_MAPPING,
   PACKAGE_TITLES_LIST_COLUMNS,
@@ -60,14 +60,7 @@ const PackageTitleList = ({
       return (
         <div className={styles.statusCellWrapper}>
           <SelectedLabel isSelected={item.attributes.isSelected} />
-          {item.attributes.visibilityData?.isHidden && (
-            <Tooltip
-              text={intl.formatMessage({ id: 'ui-eholdings.titlesList.hidden' })}
-              id="resource-hidden-tooltip"
-            >
-              {({ ref, ariaIds }) => <Icon icon="eye-closed" ref={ref} aria-labelledby={ariaIds.text} />}
-            </Tooltip>
-          )}
+          <HiddenLabel visibility={item.attributes.visibility} />
         </div>
       );
     },
@@ -134,7 +127,7 @@ const PackageTitleList = ({
   };
 
   const columnWidths = useMemo(() => ({
-    [PACKAGE_TITLES_LIST_COLUMNS.STATUS]: '11%',
+    [PACKAGE_TITLES_LIST_COLUMNS.STATUS]: '15%',
     [PACKAGE_TITLES_LIST_COLUMNS.TITLE]: '25%',
     [PACKAGE_TITLES_LIST_COLUMNS.MANAGED_COVERAGE]: '16%',
     [PACKAGE_TITLES_LIST_COLUMNS.CUSTOM_COVERAGE]: '17%',

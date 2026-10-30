@@ -64,7 +64,7 @@ describe('Given ApplicationRoute', () => {
     it('should call status endpoint', () => {
       renderApplicationRoute();
 
-      expect(mockGetBackendStatus).toBeCalledTimes(1);
+      expect(mockGetBackendStatus).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -74,7 +74,7 @@ describe('Given ApplicationRoute', () => {
         showSettings: true,
       });
 
-      expect(mockGetBackendStatus).not.toBeCalled();
+      expect(mockGetBackendStatus).not.toHaveBeenCalled();
     });
   });
 
@@ -82,7 +82,7 @@ describe('Given ApplicationRoute', () => {
     it('should call kb credentials endpoint', () => {
       renderApplicationRoute();
 
-      expect(mockGetKbCredentials).toBeCalledTimes(1);
+      expect(mockGetKbCredentials).toHaveBeenCalledTimes(1);
     });
   });
 

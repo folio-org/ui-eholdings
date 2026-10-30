@@ -102,7 +102,7 @@ describe('Given SearchPackageListItem', () => {
     renderSearchPackageListItem(testBasicProps);
     fireEvent.click(screen.getByRole('link', { name: /test-package-name/ }));
 
-    expect(mockOnClick).not.toBeCalled();
+    expect(mockOnClick).not.toHaveBeenCalled();
   });
 
   it('should not render HiddenLabel component', () => {
@@ -121,7 +121,7 @@ describe('Given SearchPackageListItem', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /test-package-name/ }));
 
-    expect(mockOnClick).toBeCalled();
+    expect(mockOnClick).toHaveBeenCalled();
   });
 
   it('should display package display name alongside name', () => {

@@ -28,12 +28,12 @@ describe('Given Toast', () => {
 
     renderToast();
 
-    expect(mockOnClose).not.toBeCalled();
+    expect(mockOnClose).not.toHaveBeenCalled();
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 5000);
 
     jest.runAllTimers();
 
-    expect(mockOnClose).toBeCalled();
+    expect(mockOnClose).toHaveBeenCalled();
     expect(mockOnClose).toHaveBeenCalledTimes(1);
 
     jest.useRealTimers();
@@ -74,6 +74,6 @@ describe('Given Toast', () => {
 
     fireEvent.click(screen.getByTestId('toast-close-btn'));
 
-    expect(mockOnClose).toBeCalled();
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });

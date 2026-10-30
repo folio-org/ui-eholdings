@@ -94,7 +94,7 @@ describe('Given ToggleSwitch', () => {
 
     fireEvent.click(screen.getByTestId('toggle-switch-checkbox'));
 
-    expect(mockInputOnChange).toBeCalled();
+    expect(mockInputOnChange).toHaveBeenCalled();
   });
 
   it('should invoke onChange callback', () => {
@@ -102,6 +102,6 @@ describe('Given ToggleSwitch', () => {
 
     fireEvent.click(screen.getByTestId('toggle-switch-checkbox'));
 
-    expect(mockOnChange).toBeCalled();
+    expect(mockOnChange).toHaveBeenCalled();
   });
 });

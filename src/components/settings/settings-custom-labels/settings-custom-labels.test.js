@@ -177,7 +177,7 @@ describe('Given SettingsCustomLabels', () => {
       fireEvent.click(getByTestId('customLabel1-publication-finder'));
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
-      expect(mockUpdateCustomLabels).toBeCalled();
+      expect(mockUpdateCustomLabels).toHaveBeenCalled();
     });
   });
 
@@ -197,7 +197,7 @@ describe('Given SettingsCustomLabels', () => {
 
       fireEvent.click(modalConfirmButton);
 
-      expect(mockUpdateCustomLabels).toBeCalled();
+      expect(mockUpdateCustomLabels).toHaveBeenCalled();
     });
   });
 
@@ -215,7 +215,7 @@ describe('Given SettingsCustomLabels', () => {
         }),
       );
 
-      expect(mockConfirmUpdate).toBeCalled();
+      expect(mockConfirmUpdate).toHaveBeenCalled();
     });
 
     it('should show success toast message', () => {

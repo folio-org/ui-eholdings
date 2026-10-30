@@ -96,7 +96,7 @@ describe('Given UsageConsolidationAccordion', () => {
 
       fireEvent.click(getByText('ui-eholdings.usageConsolidation'));
 
-      expect(mockOnToggle).toBeCalled();
+      expect(mockOnToggle).toHaveBeenCalled();
     });
   });
 
@@ -114,7 +114,7 @@ describe('Given UsageConsolidationAccordion', () => {
 
       fireEvent.click(getByTestId('usage-consolidation-header-info-popover'));
 
-      expect(mockOnToggle).not.toBeCalled();
+      expect(mockOnToggle).not.toHaveBeenCalled();
     });
   });
 
@@ -133,7 +133,7 @@ describe('Given UsageConsolidationAccordion', () => {
 
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.usageConsolidation.filters.view' }));
 
-      expect(mockOnFilterSubmit).toBeCalled();
+      expect(mockOnFilterSubmit).toHaveBeenCalled();
     });
   });
 
@@ -218,7 +218,7 @@ describe('Given UsageConsolidationAccordion', () => {
         fireEvent.click(getByRole('button', { name: 'ui-eholdings.usageConsolidation.summary.actions' }));
         fireEvent.click(getByRole('menuitem', { name: 'ui-eholdings.usageConsolidation.summary.actions.view' }));
 
-        expect(mockOnViewTitles).toBeCalled();
+        expect(mockOnViewTitles).toHaveBeenCalled();
       });
     });
   });

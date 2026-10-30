@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import isEmpty from 'lodash/isEmpty';
 
 import { Headline } from '@folio/stripes/components';
 
 import InternalLink from '../internal-link';
 import IdentifiersList from '../identifiers-list';
 import ContributorsList from '../contributors-list';
-import TagsLabel from '../tags-label';
 
 import styles from './title-list-item.css';
-import HiddenLabel from '../hidden-label';
-import SelectedLabel from '../selected-label/selected-label';
 
 const cx = classNames.bind(styles);
 const CONTRIBUTORS_LIMIT = 3;
@@ -20,7 +16,6 @@ const TitleListItem = ({
   item,
   link,
   active,
-  showSelected,
   showPublisherAndType,
   showContributors,
   showIdentifiers,
@@ -36,7 +31,6 @@ const TitleListItem = ({
     ? (
       <div
         className={cx('skeleton', {
-          'is-selected-visible': showSelected,
           'is-publisher-and-type-visible': showPublisherAndType
         })}
         data-testid="skeleton-element"
@@ -102,16 +96,6 @@ const TitleListItem = ({
             displayInline
           />
         )}
-
-        {showSelected && (
-          <div className={cx('itemMetadata')}>
-            <SelectedLabel isSelected={item.isSelected} />
-
-            {item.visibilityData?.isHidden && <HiddenLabel />}
-
-            {!isEmpty(item.tags?.tagList) && <TagsLabel tagList={item.tags?.tagList} />}
-          </div>
-        )}
       </InternalLink>
     );
 };
@@ -129,16 +113,9 @@ TitleListItem.propTypes = {
       subtype: PropTypes.string,
       type: PropTypes.string,
     })),
-    isSelected: PropTypes.bool,
     name: PropTypes.string,
     publicationType: PropTypes.string,
     publisherName: PropTypes.string,
-    tags: PropTypes.shape({
-      tagList: PropTypes.arrayOf(PropTypes.string),
-    }),
-    visibilityData: PropTypes.shape({
-      isHidden: PropTypes.bool,
-    }),
   }),
   link: PropTypes.oneOfType([
     PropTypes.string,
@@ -148,7 +125,6 @@ TitleListItem.propTypes = {
   showContributors: PropTypes.bool,
   showIdentifiers: PropTypes.bool,
   showPublisherAndType: PropTypes.bool,
-  showSelected: PropTypes.bool,
 };
 
 export default TitleListItem;

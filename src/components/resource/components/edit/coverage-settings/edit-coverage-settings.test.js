@@ -144,7 +144,7 @@ describe('Given EditCoverageSettings', () => {
       fireEvent.blur(endDateInput);
       fireEvent.click(getByText('Submit'));
 
-      expect(onSubmitMock).toBeCalled();
+      expect(onSubmitMock).toHaveBeenCalled();
     });
   });
 
