@@ -1,13 +1,12 @@
 import { FormattedMessage } from 'react-intl';
 
-import { FILTER_TYPES } from '../../constants';
+import { FILTER_TYPES, simpleOptions } from '../../constants';
 
 export const publicationTypeFilterConfig = {
   type: FILTER_TYPES.CHECKBOX,
   name: 'type',
   label: <FormattedMessage id="ui-eholdings.label.publicationType" />,
-  defaultValue: 'all',
-  options: [
+  options: simpleOptions('type', 'all', [
     { labelId: 'ui-eholdings.filter.all', value: 'all' },
     { labelId: 'ui-eholdings.filter.pubType.audiobook', value: 'audiobook' },
     { labelId: 'ui-eholdings.filter.pubType.book', value: 'book' },
@@ -23,5 +22,5 @@ export const publicationTypeFilterConfig = {
     { labelId: 'ui-eholdings.filter.pubType.thesis_dissertation', value: 'thesisdissertation' },
     { labelId: 'ui-eholdings.filter.pubType.website', value: 'website' },
     { labelId: 'ui-eholdings.filter.pubType.unspecified', value: 'unspecified' }
-  ]
+  ]),
 };

@@ -38,6 +38,7 @@
 * Remove duplicate request to /resources endpoint on mount. (UIEH-1542)
 * View Managed Package Detail Record - List of fields. (UIEH-1503)
 * Package Details > Titles Accordion List> Update the Hidden indicator hover text. (UIEH-1522)
+* Add visibility filter as a partner to selection status filter. (UIEH-1528)
 * Fix incorrect validation behavior for access status type settings. (UIEH-1514)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
