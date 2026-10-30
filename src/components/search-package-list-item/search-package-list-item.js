@@ -9,7 +9,7 @@ import {
 import { Headline } from '@folio/stripes/components';
 
 import InternalLink from '../internal-link';
-import { PackageHiddenLabel } from '../package-hidden-label';
+import { HiddenLabel } from '../hidden-label';
 import SelectedLabel from '../selected-label';
 import TagsLabel from '../tags-label';
 
@@ -87,7 +87,7 @@ const SearchPackageListItem = ({
             </span>
           }
 
-          <PackageHiddenLabel id={item.id} visibility={item.visibility} />
+          <HiddenLabel id={item.id} visibility={item.visibility} />
 
           {(showTags && !isEmpty(item.tags.tagList)) && <TagsLabel tagList={item.tags.tagList} />}
         </div>

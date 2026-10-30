@@ -241,7 +241,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(saveButton);
 
-      expect(mockOnCreate).toBeCalled();
+      expect(mockOnCreate).toHaveBeenCalled();
     });
   });
 
@@ -287,7 +287,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(saveButton);
 
-      expect(mockOnUpdate).toBeCalled();
+      expect(mockOnUpdate).toHaveBeenCalled();
     });
   });
 
@@ -442,7 +442,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(confirmationModalDeleteButton);
 
-      expect(mockOnDelete).toBeCalled();
+      expect(mockOnDelete).toHaveBeenCalled();
     });
 
     it('should handle confirmDelete and show success toast message', () => {
@@ -462,7 +462,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(confirmationModalDeleteButton);
 
-      expect(mockOnDelete).toBeCalled();
+      expect(mockOnDelete).toHaveBeenCalled();
 
       rerender(
         getSettingsAccessStatusTypes({
@@ -481,7 +481,7 @@ describe('Given SettingsAccessStatusTypes', () => {
         }),
       );
 
-      expect(mockConfirmDelete).toBeCalled();
+      expect(mockConfirmDelete).toHaveBeenCalled();
       expect(getByText('ui-eholdings.settings.accessStatusTypes.delete.toast')).toBeDefined();
     });
   });

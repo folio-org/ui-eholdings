@@ -96,7 +96,7 @@ describe('Given PackageFilterModal', () => {
       fireEvent.click(getByText('name-3'));
       fireEvent.click(getByText('ui-eholdings.filter.search'));
 
-      expect(mockOnSubmit).toBeCalledWith([{ id: 'id-3', packageName: 'name-3' }], 1);
+      expect(mockOnSubmit).toHaveBeenCalledWith([{ id: 'id-3', packageName: 'name-3' }], 1);
     });
   });
 });

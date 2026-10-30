@@ -64,7 +64,7 @@ describe('Given ProviderListItem', () => {
 
     fireEvent.click(getByRole('link', { name: /test-provider-name/ }));
 
-    expect(mockOnClick).not.toBeCalled();
+    expect(mockOnClick).not.toHaveBeenCalled();
   });
 
   it('should invoke onClick callback', () => {
@@ -77,6 +77,6 @@ describe('Given ProviderListItem', () => {
 
     fireEvent.click(getByRole('link', { name: /test-provider-name/ }));
 
-    expect(mockOnClick).toBeCalled();
+    expect(mockOnClick).toHaveBeenCalled();
   });
 });

@@ -345,7 +345,7 @@ describe('Given ResourceEdit', () => {
           fireEvent.change(getByLabelText('Label 1'), { target: { value: '123' } });
           fireEvent.click(getByText('stripes-components.saveAndClose'));
 
-          expect(onSubmitMock).toBeCalled();
+          expect(onSubmitMock).toHaveBeenCalled();
         });
       });
     });

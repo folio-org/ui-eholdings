@@ -164,7 +164,7 @@ describe('Given AgreementsAccordion', () => {
 
       fireEvent.click(getByText('ui-eholdings.agreements'));
 
-      expect(mockOnToggle).toBeCalledTimes(1);
+      expect(mockOnToggle).toHaveBeenCalledTimes(1);
     });
   });
 

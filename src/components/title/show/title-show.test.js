@@ -532,7 +532,7 @@ describe('Given TitleShow', () => {
         fireEvent.click(getByText('ui-eholdings.selected'));
         fireEvent.click(getByText('ui-eholdings.filter.search'));
 
-        expect(historyReplaceSpy).toBeCalled();
+        expect(historyReplaceSpy).toHaveBeenCalled();
       });
     });
   });

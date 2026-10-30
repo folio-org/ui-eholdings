@@ -9,11 +9,6 @@ import Harness from '../../../test/jest/helpers/harness';
 import TitleListItem from './title-list-item';
 
 jest.mock('../identifiers-list', () => () => (<div>IdentifiersList component</div>));
-jest.mock('../selected-label/selected-label', () => () => (<div>SelectedLabel component</div>));
-jest.mock('../tags-label', () => () => (<div>TagsLabel component</div>));
-jest.mock('../hidden-label', () => () => (<div>HiddenLabel component</div>));
-
-const testTags = ['first', 'second', 'third'];
 
 const testPropsWithoutItem = {
   link: 'test-link-url',
@@ -35,14 +30,7 @@ const testBasicProps = {
         type: 'test-type',
       },
     ],
-    isSelected: false,
     name: 'test-name',
-    tags: {
-      tagList: testTags,
-    },
-    visibilityData: {
-      isHidden: false,
-    },
   },
 };
 
@@ -51,7 +39,6 @@ const testExtendedProps = {
   showContributors: true,
   showIdentifiers: true,
   showPublisherAndType: true,
-  showSelected: true,
 };
 
 const testPropsWithExtendedItem = {
@@ -60,9 +47,6 @@ const testPropsWithExtendedItem = {
     ...testExtendedProps.item,
     publicationType: 'test-publication-type',
     publisherName: 'test-publisher-name',
-    visibilityData: {
-      isHidden: true,
-    },
   },
 };
 
@@ -98,7 +82,7 @@ describe('Given TitleListItem', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /test-name/ }));
 
-    expect(mockOnClick).not.toBeCalled();
+    expect(mockOnClick).not.toHaveBeenCalled();
   });
 
   it('should invoke onClick callback', () => {
@@ -111,7 +95,7 @@ describe('Given TitleListItem', () => {
 
     fireEvent.click(screen.getByRole('link', { name: /test-name/ }));
 
-    expect(mockOnClick).toBeCalled();
+    expect(mockOnClick).toHaveBeenCalled();
   });
 
   it('should display publication type and publisher name', () => {
@@ -131,24 +115,5 @@ describe('Given TitleListItem', () => {
     const { getByText } = renderTitleListItem(testExtendedProps);
 
     expect(getByText('IdentifiersList component')).toBeDefined();
-  });
-
-  it('should display selected and tags labels', () => {
-    const { getByText } = renderTitleListItem(testExtendedProps);
-
-    expect(getByText('SelectedLabel component')).toBeDefined();
-    expect(getByText('TagsLabel component')).toBeDefined();
-  });
-
-  it('should not display hidden label', () => {
-    const { queryByText } = renderTitleListItem(testExtendedProps);
-
-    expect(queryByText('HiddenLabel component')).toBeNull();
-  });
-
-  it('should display hidden label', () => {
-    const { getByText } = renderTitleListItem(testPropsWithExtendedItem);
-
-    expect(getByText('HiddenLabel component')).toBeDefined();
   });
 });

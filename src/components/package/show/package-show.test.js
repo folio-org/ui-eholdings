@@ -321,7 +321,7 @@ describe('Given PackageShow', () => {
         fireEvent.click(getByText('ui-eholdings.package.removeFromHoldings'));
         fireEvent.click(getByText('ui-eholdings.package.modal.buttonConfirm'));
 
-        expect(mockToggleSelected).toBeCalledTimes(1);
+        expect(mockToggleSelected).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -454,7 +454,7 @@ describe('Given PackageShow', () => {
         fireEvent.click(getByTestId('add-to-holdings-button'));
         fireEvent.click(getByTestId('selection-modal-confirm-button'));
 
-        expect(mockAddPackageToHoldings).toBeCalledTimes(1);
+        expect(mockAddPackageToHoldings).toHaveBeenCalledTimes(1);
       });
     });
   });

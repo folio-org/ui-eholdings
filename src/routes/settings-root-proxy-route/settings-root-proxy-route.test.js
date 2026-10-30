@@ -153,7 +153,7 @@ describe('Given SettingsRootProxyRoute', () => {
 
       fireEvent.click(getByText('SettingsRootProxyRoute'));
 
-      expect(mockUpdateRootProxy).toBeCalledWith({
+      expect(mockUpdateRootProxy).toHaveBeenCalledWith({
         id: 'rootProxy',
         attributes: {
           id: 'rootProxy',
