@@ -51,19 +51,6 @@
   background-size: 20em 1.1em;
   background-position: 0 0.1em;
 
-  &.is-selected-visible {
-    /* 1. name  2. selected */
-    background-image:
-      linear-gradient(#eee, #eee 0.9em, transparent 0.9em),
-      linear-gradient(#eee, #eee 0.8em, transparent 0.8em);
-    background-size:
-      14rem var(--font-size-medium),
-      5rem var(--font-size-small);
-    background-position:
-      0 0.4rem,
-      0 1.67rem;
-  }
-
   &.is-publisher-and-type-visible {
     /* 1. name  2. type and publisher */
     background-image:

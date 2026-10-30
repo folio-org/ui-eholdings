@@ -1,1 +1,1 @@
-export { default } from './hidden-label';
+export { HiddenLabel } from './hidden-label';

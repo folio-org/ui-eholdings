@@ -93,7 +93,7 @@ describe('Given Tags', () => {
         which: 13,
       });
 
-      expect(mockUpdateEntityTags).toBeCalledWith('model-type', {
+      expect(mockUpdateEntityTags).toHaveBeenCalledWith('model-type', {
         id: 'model-id',
         data: {
           attributes: {
@@ -127,7 +127,7 @@ describe('Given Tags', () => {
         which: 13,
       });
 
-      expect(mockUpdateFolioTags).toBeCalledWith({
+      expect(mockUpdateFolioTags).toHaveBeenCalledWith({
         label: 'new-tag',
         description: 'new-tag',
       });
@@ -145,7 +145,7 @@ describe('Given Tags', () => {
 
       fireEvent.click(getAllByText('-')[0]);
 
-      expect(mockUpdateEntityTags).toBeCalledWith('model-type', {
+      expect(mockUpdateEntityTags).toHaveBeenCalledWith('model-type', {
         id: 'model-id',
         data: {
           attributes: {

@@ -142,7 +142,7 @@ describe('Given DetailsView', () => {
           renderList: mockRenderList,
         });
 
-        expect(mockRenderList).toBeCalled();
+        expect(mockRenderList).toHaveBeenCalled();
       });
 
       it('should display collapse all button', () => {
@@ -286,7 +286,7 @@ describe('Given DetailsView', () => {
 
       fireEvent.click(closeIcon);
 
-      expect(mockGoBack).toBeCalled();
+      expect(mockGoBack).toHaveBeenCalled();
     });
   });
 });
