@@ -99,7 +99,7 @@ const PackageSettings = ({
           <Col xs={3}>
             <PackageDisplayName packageDisplayName={model.customDisplayName} />
           </Col>
-          <Col xs={3}>
+          <Col xs={9}>
             <PackageUrl url={model.url} />
           </Col>
         </Row>
