@@ -151,7 +151,7 @@ const EditPackageSettings = ({
               <PackageUrl />
             </Col>
           ) : (
-            <Col xs={3}>
+            <Col xs={9}>
               <KeyValue label={<FormattedMessage id="ui-eholdings.label.packageUrl" />}>
                 {model.url ? (
                   <ExternalLink
