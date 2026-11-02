@@ -353,7 +353,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
-      expect(onUpdate).not.toBeCalled();
+      expect(onUpdate).not.toHaveBeenCalled();
     });
 
     it('should show a duplicate error when a new item uses the name of an existing item', () => {
@@ -377,7 +377,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
-      expect(onCreate).not.toBeCalled();
+      expect(onCreate).not.toHaveBeenCalled();
     });
 
     it('should show a duplicate error and not save when a new item is saved without being touched', () => {
@@ -397,7 +397,7 @@ describe('Given SettingsAccessStatusTypes', () => {
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
       expect(getByText(duplicateMessage)).toBeDefined();
-      expect(onCreate).not.toBeCalled();
+      expect(onCreate).not.toHaveBeenCalled();
     });
 
     it('should not show a duplicate error when a new item uses a unique name', () => {
@@ -421,7 +421,7 @@ describe('Given SettingsAccessStatusTypes', () => {
 
       fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
 
-      expect(onCreate).toBeCalled();
+      expect(onCreate).toHaveBeenCalled();
     });
   });
 
