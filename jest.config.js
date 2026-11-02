@@ -1,19 +1,15 @@
-const path = require('path');
-const config = require('@folio/jest-config-stripes');
+import path from 'node:path';
+import jcs from '@folio/jest-config-stripes';
 
-const additionalModules = [
-  'keyboardjs',
-].join('|');
-const combinedModules = config.transformIgnorePatterns[0].replace(')', `|${additionalModules})`);
+const { config } = jcs;
 
 // we don't want any funny business with timezones when running tests locally or in CI pipelines
 process.env.TZ = 'UTC';
 
-module.exports = {
+export default {
   ...config,
   setupFiles: [
     ...config.setupFiles,
-    path.join(__dirname, './test/jest/setup-tests.js'),
+    path.join(import.meta.dirname, './test/jest/setup-tests.js'),
   ],
-  transformIgnorePatterns: [combinedModules],
 };

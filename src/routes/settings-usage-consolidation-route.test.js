@@ -15,6 +15,7 @@ import {
   getUcCredentials,
   getUcCredentialsClientId,
   getUcCredentialsClientSecret,
+  getUsageConsolidation,
   getUsageConsolidationKey,
   patchUsageConsolidation,
   postUsageConsolidation,
@@ -25,15 +26,15 @@ const fakeAction = { type: 'FAKE_ACTION' };
 
 jest.mock('../redux/actions', () => ({
   ...jest.requireActual('../redux/actions'),
-  getUsageConsolidation: jest.fn().mockReturnValue(fakeAction),
-  getUsageConsolidationKey: jest.fn().mockReturnValue(fakeAction),
-  patchUsageConsolidation: jest.fn().mockReturnValue(fakeAction),
-  postUsageConsolidation: jest.fn().mockReturnValue(fakeAction),
-  getCurrencies: jest.fn().mockReturnValue(fakeAction),
-  getUcCredentials: jest.fn().mockReturnValue(fakeAction),
-  getUcCredentialsClientId: jest.fn().mockReturnValue(fakeAction),
-  getUcCredentialsClientSecret: jest.fn().mockReturnValue(fakeAction),
-  updateUcCredentials: jest.fn().mockReturnValue(fakeAction),
+  getUsageConsolidation: jest.fn(),
+  getUsageConsolidationKey: jest.fn(),
+  patchUsageConsolidation: jest.fn(),
+  postUsageConsolidation: jest.fn(),
+  getCurrencies: jest.fn(),
+  getUcCredentials: jest.fn(),
+  getUcCredentialsClientId: jest.fn(),
+  getUcCredentialsClientSecret: jest.fn(),
+  updateUcCredentials: jest.fn(),
 }));
 
 const currencies = {
@@ -109,6 +110,15 @@ const renderSettingsUsageConsolidationRoute = ({ harnessProps = {}, props = {} }
 describe('Given SettingsUsageConsolidationRoute', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    getUsageConsolidation.mockClear().mockReturnValue(fakeAction);
+    getUsageConsolidationKey.mockClear().mockReturnValue(fakeAction);
+    patchUsageConsolidation.mockClear().mockReturnValue(fakeAction);
+    postUsageConsolidation.mockClear().mockReturnValue(fakeAction);
+    getCurrencies.mockClear().mockReturnValue(fakeAction);
+    getUcCredentials.mockClear().mockReturnValue(fakeAction);
+    getUcCredentialsClientId.mockClear().mockReturnValue(fakeAction);
+    getUcCredentialsClientSecret.mockClear().mockReturnValue(fakeAction);
+    updateUcCredentials.mockClear().mockReturnValue(fakeAction);
   });
 
   afterEach(cleanup);
