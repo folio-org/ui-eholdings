@@ -2,7 +2,7 @@ import SearchFilters from './search-form/search-filters';
 import {
   searchTypes,
   packageSortFilterConfig,
-  selectionStatusFilterConfig,
+  selectionStatusVisibilityFilterConfig,
   contentTypeFilterConfig,
   packageAccessFilterConfig,
 } from '../constants';
@@ -20,7 +20,7 @@ function PackageSearchFilters(props) {
       searchType={searchTypes.PACKAGES}
       availableFilters={[
         packageSortFilterConfig,
-        selectionStatusFilterConfig,
+        selectionStatusVisibilityFilterConfig,
         contentTypeFilterConfig,
         packageAccessFilterConfig,
       ]}

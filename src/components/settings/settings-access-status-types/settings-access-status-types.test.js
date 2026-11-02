@@ -291,6 +291,140 @@ describe('Given SettingsAccessStatusTypes', () => {
     });
   });
 
+  describe('when validating access status type name uniqueness', () => {
+    const duplicateMessage = 'ui-eholdings.settings.accessStatusTypes.validation.duplicate';
+    const nameInputLabel = 'ui-eholdings.settings.accessStatusTypes.type';
+    const twoItemsData = {
+      ...accessTypesData,
+      items: [
+        accessTypesData.items[0],
+        {
+          ...accessTypesData.items[0],
+          id: 'test-id-2',
+          attributes: {
+            ...accessTypesData.items[0].attributes,
+            name: 'another-access-type',
+          },
+        },
+      ],
+    };
+
+    it('should not show a duplicate error when editing an item without changing its name', () => {
+      const {
+        getByRole,
+        queryByText,
+      } = renderSettingsAccessStatusTypes({});
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.editThisItem' }));
+
+      const nameInput = getByRole('textbox', { name: nameInputLabel });
+
+      fireEvent.focus(nameInput);
+      fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
+      fireEvent.blur(nameInput);
+
+      expect(queryByText(duplicateMessage)).toBeNull();
+    });
+
+    it('should show a duplicate error when editing an item to the name of another item', () => {
+      const onUpdate = jest.fn();
+      const {
+        getAllByRole,
+        getByRole,
+        getByText,
+      } = renderSettingsAccessStatusTypes({
+        props: {
+          accessTypesData: twoItemsData,
+          onUpdate,
+        },
+      });
+
+      const [firstEditButton] = getAllByRole('button', { name: 'stripes-components.editThisItem' });
+
+      fireEvent.click(firstEditButton);
+
+      const nameInput = getByRole('textbox', { name: nameInputLabel });
+
+      fireEvent.focus(nameInput);
+      fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
+      fireEvent.blur(nameInput);
+
+      expect(getByText(duplicateMessage)).toBeDefined();
+
+      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
+
+      expect(onUpdate).not.toBeCalled();
+    });
+
+    it('should show a duplicate error when a new item uses the name of an existing item', () => {
+      const onCreate = jest.fn();
+      const {
+        getByRole,
+        getByText,
+      } = renderSettingsAccessStatusTypes({
+        props: { onCreate },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
+
+      const nameInput = getByRole('textbox', { name: nameInputLabel });
+
+      fireEvent.focus(nameInput);
+      fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
+      fireEvent.blur(nameInput);
+
+      expect(getByText(duplicateMessage)).toBeDefined();
+
+      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
+
+      expect(onCreate).not.toBeCalled();
+    });
+
+    it('should show a duplicate error and not save when a new item is saved without being touched', () => {
+      const onCreate = jest.fn();
+      const {
+        getByRole,
+        getByText,
+      } = renderSettingsAccessStatusTypes({
+        props: { onCreate },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
+
+      const nameInput = getByRole('textbox', { name: nameInputLabel });
+
+      fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
+      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
+
+      expect(getByText(duplicateMessage)).toBeDefined();
+      expect(onCreate).not.toBeCalled();
+    });
+
+    it('should not show a duplicate error when a new item uses a unique name', () => {
+      const onCreate = jest.fn();
+      const {
+        getByRole,
+        queryByText,
+      } = renderSettingsAccessStatusTypes({
+        props: { onCreate },
+      });
+
+      fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
+
+      const nameInput = getByRole('textbox', { name: nameInputLabel });
+
+      fireEvent.focus(nameInput);
+      fireEvent.change(nameInput, { target: { value: 'unique-name' } });
+      fireEvent.blur(nameInput);
+
+      expect(queryByText(duplicateMessage)).toBeNull();
+
+      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
+
+      expect(onCreate).toBeCalled();
+    });
+  });
+
   describe('when delete access status type', () => {
     it('should handle onDelete', () => {
       const {

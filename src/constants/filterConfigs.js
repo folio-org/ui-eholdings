@@ -1,31 +1,46 @@
 import { FormattedMessage } from 'react-intl';
 
+// Make an options list with simple one-to-one filters given a value for each option.
+export const simpleOptions = (name, defaultValue, options) => options.map(({ labelId, value }) => ({
+  labelId,
+  filters: { [name]: value },
+  isDefault: value === defaultValue,
+}));
+
 export const baseSortFilterConfig = {
   name: 'sort',
   label: <FormattedMessage id="ui-eholdings.label.sortOptions" />,
-  defaultValue: 'relevance',
 };
 
 export const providerSortFilterConfig = {
   ...baseSortFilterConfig,
-  options: [
+  options: simpleOptions('sort', 'relevance', [
     { labelId: 'ui-eholdings.filter.sortOptions.relevance', value: 'relevance' },
     { labelId: 'ui-eholdings.label.provider', value: 'name' }
-  ],
+  ]),
 };
 
 export const packageSortFilterConfig = {
   ...baseSortFilterConfig,
-  options: [
+  options: simpleOptions('sort', 'relevance', [
     { labelId: 'ui-eholdings.filter.sortOptions.relevance', value: 'relevance' },
     { labelId: 'ui-eholdings.label.package', value: 'name' }
-  ],
+  ]),
 };
 
 export const selectionStatusFilterOptions = {
   ALL: 'all',
   TRUE: 'true',
   FALSE: 'false',
+  ORDERED: 'ebsco',
+};
+
+export const visibilityStatusFilterOptions = {
+  VISIBLE_SOMEWHERE: 'visibleSomewhere',
+  HIDDEN_SOMEWHERE: 'hiddenSomewhere',
+  HIDDEN_PF: 'hiddenInPF',
+  HIDDEN_FTF: 'hiddenInFTF',
+  HIDDEN_MARC: 'hiddenInMARC',
 };
 
 export const packageAccessFilterOptions = {
@@ -36,19 +51,77 @@ export const packageAccessFilterOptions = {
 
 export const EBSCO_PROVIDER_ID = 19;
 
-export const selectionStatusDefaultFilterOption = selectionStatusFilterOptions.ALL;
-
 export const FILTER_TYPES = {
   SELECT: 'select',
+  SELECTION: 'selection',
   CHECKBOX: 'checkbox',
+};
+
+const selectedFilters = (selected, visibility) => ({
+  selected,
+  ...(visibility && { visibility }),
+});
+
+export const selectionStatusVisibilityFilterConfig = {
+  type: FILTER_TYPES.SELECTION,
+  name: 'selectedVisibilityStatus',
+  label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
+  options: [
+    {
+      labelId: 'ui-eholdings.label.selectionStatus',
+      options: [
+        {
+          labelId: 'ui-eholdings.filter.all',
+          filters: {},
+          isDefault: true,
+        },
+        {
+          labelId: 'ui-eholdings.selected',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE),
+        },
+        {
+          labelId: 'ui-eholdings.notSelected',
+          filters: selectedFilters(selectionStatusFilterOptions.FALSE),
+        },
+        {
+          labelId: 'ui-eholdings.label.orderedThrough',
+          filters: selectedFilters(selectionStatusFilterOptions.ORDERED),
+        },
+      ],
+    },
+    {
+      labelId: 'ui-eholdings.label.visibilityStatus',
+      options: [
+        {
+          labelId: 'ui-eholdings.label.visibleSomewhere',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE, visibilityStatusFilterOptions.VISIBLE_SOMEWHERE),
+        },
+        {
+          labelId: 'ui-eholdings.label.hiddenSomewhere',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE, visibilityStatusFilterOptions.HIDDEN_SOMEWHERE),
+        },
+        {
+          labelId: 'ui-eholdings.label.hiddenPF',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE, visibilityStatusFilterOptions.HIDDEN_PF),
+        },
+        {
+          labelId: 'ui-eholdings.label.hiddenFTF',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE, visibilityStatusFilterOptions.HIDDEN_FTF),
+        },
+        {
+          labelId: 'ui-eholdings.label.hiddenMARC',
+          filters: selectedFilters(selectionStatusFilterOptions.TRUE, visibilityStatusFilterOptions.HIDDEN_MARC),
+        },
+      ],
+    },
+  ],
 };
 
 export const selectionStatusFilterConfig = {
   type: FILTER_TYPES.CHECKBOX,
   name: 'selected',
   label: <FormattedMessage id="ui-eholdings.label.selectionStatus" />,
-  defaultValue: selectionStatusDefaultFilterOption,
-  options: [
+  options: simpleOptions('selected', selectionStatusFilterOptions.ALL, [
     {
       labelId: 'ui-eholdings.filter.all',
       value: selectionStatusFilterOptions.ALL,
@@ -61,15 +134,14 @@ export const selectionStatusFilterConfig = {
       labelId: 'ui-eholdings.notSelected',
       value: selectionStatusFilterOptions.FALSE,
     },
-  ]
+  ]),
 };
 
 export const publicationTypeTitlesListFilterConfig = {
   type: FILTER_TYPES.SELECT,
   name: 'type',
   label: <FormattedMessage id="ui-eholdings.label.publicationType" />,
-  defaultValue: 'all',
-  options: [
+  options: simpleOptions('type', 'all', [
     { labelId: 'ui-eholdings.filter.all', value: 'all' },
     { labelId: 'ui-eholdings.filter.pubType.audiobook', value: 'audiobook' },
     { labelId: 'ui-eholdings.filter.pubType.book', value: 'book' },
@@ -85,23 +157,22 @@ export const publicationTypeTitlesListFilterConfig = {
     { labelId: 'ui-eholdings.filter.pubType.thesis_dissertation', value: 'thesisdissertation' },
     { labelId: 'ui-eholdings.filter.pubType.website', value: 'website' },
     { labelId: 'ui-eholdings.filter.pubType.unspecified', value: 'unspecified' }
-  ]
+  ]),
 };
 
 export const titleSortFilterConfig = {
   ...baseSortFilterConfig,
-  options: [
+  options: simpleOptions('sort', 'relevance', [
     { labelId: 'ui-eholdings.filter.sortOptions.relevance', value: 'relevance' },
     { labelId: 'ui-eholdings.label.title', value: 'name' }
-  ],
+  ]),
 };
 
 export const contentTypeFilterConfig = {
   type: FILTER_TYPES.SELECT,
   name: 'type',
   label: <FormattedMessage id="ui-eholdings.package.contentType" />,
-  defaultValue: 'all',
-  options: [
+  options: simpleOptions('type', 'all', [
     { labelId: 'ui-eholdings.filter.all', value: 'all' },
     { labelId: 'ui-eholdings.filter.contentType.aggregated', value: 'aggregatedfulltext' },
     { labelId: 'ui-eholdings.filter.contentType.abstract', value: 'abstractandindex' },
@@ -112,15 +183,14 @@ export const contentTypeFilterConfig = {
     { labelId: 'ui-eholdings.filter.contentType.print', value: 'print' },
     { labelId: 'ui-eholdings.filter.contentType.streaming_media', value: 'streamingmedia' },
     { labelId: 'ui-eholdings.filter.contentType.unknown', value: 'unknown' }
-  ],
+  ]),
 };
 
 export const packageAccessFilterConfig = {
   type: FILTER_TYPES.CHECKBOX,
   name: 'access',
   label: <FormattedMessage id="ui-eholdings.package.packageAccess" />,
-  defaultValue: packageAccessFilterOptions.ALL,
-  options: [
+  options: simpleOptions('access', packageAccessFilterOptions.ALL, [
     {
       labelId: 'ui-eholdings.filter.all',
       value: packageAccessFilterOptions.ALL,
@@ -133,5 +203,5 @@ export const packageAccessFilterConfig = {
       labelId: 'ui-eholdings.filter.packageAccess.controlled',
       value: packageAccessFilterOptions.CONTROLLED,
     },
-  ],
+  ]),
 };

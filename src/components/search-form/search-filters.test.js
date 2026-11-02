@@ -2,6 +2,7 @@ import {
   render,
   cleanup,
   fireEvent,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import Harness from '../../../test/jest/helpers/harness';
@@ -20,25 +21,25 @@ const renderSearchFilters = (props = {}) => render(
       availableFilters={[{
         label: 'Sort-label',
         name: 'sort',
-        defaultValue: 'relevance',
         options: [{
           labelId: 'Relevance-label',
-          value: 'relevance',
+          filters: { sort: 'relevance' },
+          isDefault: true,
         }, {
           labelId: 'Package-label',
-          value: 'package',
+          filters: { sort: 'package' },
         }],
       }, {
         type: FILTER_TYPES.SELECT,
         label: 'Publication-type',
         name: 'publicationType',
-        defaultValue: 'all',
         options: [{
           labelId: 'All-label',
-          value: 'all',
+          filters: { publicationType: 'all' },
+          isDefault: true,
         }, {
           labelId: 'Book-label',
-          value: 'book',
+          filters: { publicationType: 'book' },
         }],
       }]}
       onUpdate={mockOnUpdate}
@@ -77,9 +78,77 @@ describe('Given SearchFilters', () => {
     it('should call onUpdate', () => {
       const { getByRole } = renderSearchFilters();
 
-      fireEvent.change(getByRole('combobox'), { target: { value: 'book' } });
+      fireEvent.change(getByRole('combobox'), { target: { value: 'Book-label' } });
 
       expect(mockOnUpdate).toHaveBeenCalledWith(expect.objectContaining({ publicationType: 'book' }));
+    });
+  });
+
+  describe('when an option sets several filters', () => {
+    const availableFilters = [{
+      type: FILTER_TYPES.SELECT,
+      label: 'Status-label',
+      name: 'status',
+      options: [
+        { labelId: 'All-label', filters: {}, isDefault: true },
+        { labelId: 'Selected-label', filters: { selected: 'true' } },
+        { labelId: 'Hidden-label', filters: { selected: 'true', visibility: 'hiddenInPF' } },
+      ],
+    }];
+
+    it('should apply all of them and keep unrelated filters', () => {
+      const { getByRole } = renderSearchFilters({ availableFilters, activeFilters: { q: 'abc' } });
+
+      fireEvent.change(getByRole('combobox'), { target: { value: 'Hidden-label' } });
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc', selected: 'true', visibility: 'hiddenInPF' });
+    });
+
+    it('should clear the stale filter when switching to an option with fewer filters', () => {
+      const { getByRole } = renderSearchFilters({
+        availableFilters,
+        activeFilters: { selected: 'true', visibility: 'hiddenInPF' },
+      });
+
+      fireEvent.change(getByRole('combobox'), { target: { value: 'Selected-label' } });
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ selected: 'true' });
+    });
+
+    it('should clear all of them when switching to the default option', () => {
+      const { getByRole } = renderSearchFilters({
+        availableFilters,
+        activeFilters: { q: 'abc', selected: 'true', visibility: 'hiddenInPF' },
+      });
+
+      fireEvent.change(getByRole('combobox'), { target: { value: 'All-label' } });
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc' });
+    });
+  });
+
+  describe('when filtering a Selection filter', () => {
+    const availableFilters = [{
+      type: FILTER_TYPES.SELECTION,
+      label: 'Status-label',
+      name: 'status',
+      options: [
+        { labelId: 'All-label', filters: {}, isDefault: true },
+        { labelId: 'Hidden-label', filters: { selected: 'true', visibility: 'hiddenInPF' } },
+      ],
+    }];
+
+    it('should match options containing the text, not only starting with it', async () => {
+      const { getByRole, getByPlaceholderText, getAllByRole } = renderSearchFilters({ availableFilters });
+
+      fireEvent.click(getByRole('button', { name: /All-label/ }));
+      fireEvent.change(getByPlaceholderText('stripes-components.selection.filterOptionsPlaceholder'), {
+        target: { value: 'idden' },
+      });
+
+      await waitFor(() => {
+        expect(getAllByRole('option').map(o => o.textContent)).toEqual(['Hidden-label']);
+      });
     });
   });
 

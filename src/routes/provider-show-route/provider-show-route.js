@@ -1,7 +1,7 @@
 import {
   useCallback,
   useEffect,
-  useState,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -20,7 +20,7 @@ import {
   tagPaths,
   searchTypes,
   packageSortFilterConfig,
-  selectionStatusFilterConfig,
+  selectionStatusVisibilityFilterConfig,
   contentTypeFilterConfig,
   packageAccessFilterConfig,
 } from '../../constants';
@@ -69,9 +69,11 @@ const ProviderShowRoute = ({
     'access-type': accessType,
     selected,
     searchfield,
-  } = queryString.parse(location.search);
+    visibility,
+    access,
+  } = queryString.parse(location.search, { ignoreQueryPrefix: true });
 
-  const [pkgSearchParams, setPkgSearchParams] = useState({
+  const pkgSearchParams = useMemo(() => ({
     q: filterPackages,
     sort,
     searchfield,
@@ -79,9 +81,11 @@ const ProviderShowRoute = ({
       tags,
       type,
       selected,
+      visibility,
+      access,
       'access-type': accessType,
     },
-  });
+  }), [filterPackages, sort, searchfield, tags, type, selected, visibility, access, accessType]);
 
   const { providerId } = routeParams;
 
@@ -105,16 +109,14 @@ const ProviderShowRoute = ({
       type: _pkgSearchParams.filter?.type,
       'access-type': _pkgSearchParams.filter?.['access-type'],
       selected: _pkgSearchParams.filter?.selected,
+      visibility: _pkgSearchParams.filter?.visibility,
+      access: _pkgSearchParams.filter?.access,
       searchfield: _pkgSearchParams.searchfield,
     });
 
     history.replace({
       ...location,
       search,
-    });
-
-    setPkgSearchParams({
-      ..._pkgSearchParams,
     });
   };
 
@@ -142,7 +144,7 @@ const ProviderShowRoute = ({
         searchType={searchTypes.PACKAGES}
         availableFilters={[
           packageSortFilterConfig,
-          selectionStatusFilterConfig,
+          selectionStatusVisibilityFilterConfig,
           contentTypeFilterConfig,
           packageAccessFilterConfig,
         ]}

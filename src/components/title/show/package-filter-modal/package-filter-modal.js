@@ -77,7 +77,7 @@ const PackageFilterModal = ({
         return true;
       }
 
-      return searchFilters.selected === selectionStatusFilterOptions.EBSCO
+      return searchFilters.selected === selectionStatusFilterOptions.ORDERED
         ? isSelected && providerId === EBSCO_PROVIDER_ID
         : searchFilters.selected === isSelected.toString();
     };
