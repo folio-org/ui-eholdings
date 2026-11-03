@@ -194,6 +194,7 @@ describe('Given ProviderShowRoute', () => {
         expect.objectContaining({
           searchParams: expect.objectContaining({
             q: 'Test package name',
+            include: 'accessType',
             filter: expect.objectContaining({
               selected: 'true',
               visibility: 'hiddenSomewhere',

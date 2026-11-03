@@ -25,10 +25,12 @@ import {
   DOMAIN_NAME,
   paths,
   RECORDS_EDIT_PERMISSION,
+  accessTypesReduxStateShape,
 } from '../../../constants';
 
 class ProviderShow extends Component {
   static propTypes = {
+    accessTypes: accessTypesReduxStateShape.isRequired,
     isFreshlySaved: PropTypes.bool,
     listType: PropTypes.string.isRequired,
     model: PropTypes.object.isRequired,
@@ -178,6 +180,7 @@ class ProviderShow extends Component {
       <ProviderPackageList
         visibleColumns={visibleColumns}
         providerPackages={providerPackages}
+        accessTypes={this.props.accessTypes}
       />
     );
   };

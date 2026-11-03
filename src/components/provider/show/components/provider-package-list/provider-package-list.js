@@ -18,12 +18,14 @@ import {
   PROVIDER_PACKAGES_LIST_COLUMN_MAPPING,
   PROVIDER_PACKAGES_LIST_COLUMNS,
 } from '../../../../../constants/list-columns';
+import { accessTypesReduxStateShape } from '../../../../../constants';
 
 import styles from './provider-package-list.css';
 
 const MAX_HEIGHT = 520;
 
 const propTypes = {
+  accessTypes: accessTypesReduxStateShape,
   providerPackages: PropTypes.shape({
     data: PropTypes.array.isRequired,
     fetchNextPage: PropTypes.func.isRequired,
@@ -38,6 +40,7 @@ const propTypes = {
 
 const ProviderPackageList = ({
   providerPackages,
+  accessTypes,
   visibleColumns,
 }) => {
   const intl = useIntl();
@@ -95,6 +98,13 @@ const ProviderPackageList = ({
       );
     },
     [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_TYPE]: item => item.attributes.packageType,
+    [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: item => {
+      const accessTypeId = item.relationships?.accessType?.data?.id;
+      const accessTypeName =
+        accessTypes?.items?.data?.find(({ id }) => id === accessTypeId)?.attributes.name;
+
+      return accessTypeName || '';
+    },
     [PROVIDER_PACKAGES_LIST_COLUMNS.TAGS]: item => {
       const { tagList } = item.attributes.tags;
 
@@ -110,6 +120,7 @@ const ProviderPackageList = ({
     [PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE]: '15%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.CUSTOM_COVERAGE]: '17%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_TYPE]: '12%',
+    [PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE]: '16%',
     [PROVIDER_PACKAGES_LIST_COLUMNS.TAGS]: '12%',
   }), []);
 
