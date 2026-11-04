@@ -43,6 +43,11 @@ const testProviderPackagesList = [
         tagList: ['tag-1', 'tag-2'],
       },
     },
+    relationships: {
+      accessType: {
+        data: { id: 'access-type-1' },
+      },
+    },
   },
   {
     id: 'package-2',
@@ -77,14 +82,28 @@ const visibleColumns = [
   PROVIDER_PACKAGES_LIST_COLUMNS.CONTENT_TYPE,
   PROVIDER_PACKAGES_LIST_COLUMNS.CUSTOM_COVERAGE,
   PROVIDER_PACKAGES_LIST_COLUMNS.PACKAGE_TYPE,
+  PROVIDER_PACKAGES_LIST_COLUMNS.ACCESS_STATUS_TYPE,
   PROVIDER_PACKAGES_LIST_COLUMNS.TAGS,
 ];
+
+const accessTypes = {
+  isDeleted: false,
+  isLoading: false,
+  items: {
+    data: [{
+      id: 'access-type-1',
+      type: 'accessTypes',
+      attributes: { name: 'Academic Access' },
+    }],
+  },
+};
 
 describe('Given ProviderPackageList', () => {
   const renderProviderPackageList = (props = {}) => render(
     <Harness>
       <ProviderPackageList
         visibleColumns={visibleColumns}
+        accessTypes={accessTypes}
         providerPackages={{
           data: testProviderPackagesList,
           page: 1,
@@ -176,6 +195,12 @@ describe('Given ProviderPackageList', () => {
 
     expect(screen.getByText('Complete')).toBeInTheDocument();
     expect(screen.getByText('Partial')).toBeInTheDocument();
+  });
+
+  it('should render access type name from access types state by relationship id', () => {
+    renderProviderPackageList();
+
+    expect(screen.getByText('Academic Access')).toBeInTheDocument();
   });
 
   it('should render tags joined by comma', () => {

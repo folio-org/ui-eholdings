@@ -74,6 +74,19 @@ describe('useProviderPackages', () => {
     expect(mockGet).toHaveBeenCalledWith(`eholdings/providers/${providerId}/packages?q=test&page=1&count=100`);
   });
 
+  it('should include accessType as a top-level query parameter', async () => {
+    const { result } = renderHook(() => useProviderPackages({
+      providerId,
+      searchParams: {
+        include: 'accessType',
+      },
+    }), { wrapper });
+
+    await act(() => !result.current.isLoading);
+
+    expect(mockGet).toHaveBeenCalledWith(`eholdings/providers/${providerId}/packages?include=accessType&page=1&count=100`);
+  });
+
   it('should format repeatable search parameters correctly', async () => {
     const { result } = renderHook(() => useProviderPackages({
       providerId,

@@ -77,6 +77,7 @@ const ProviderShowRoute = ({
     q: filterPackages,
     sort,
     searchfield,
+    include: 'accessType',
     filter: {
       tags,
       type,
@@ -158,6 +159,7 @@ const ProviderShowRoute = ({
       <View
         model={model}
         tagsModel={tagsModel}
+        accessTypes={accessTypes}
         providerPackages={providerPackages}
         proxyTypes={proxyTypes}
         rootProxy={rootProxy}

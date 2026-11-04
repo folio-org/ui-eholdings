@@ -92,6 +92,11 @@ const renderProviderShow = (props = {}) => render(
         updateFolioTags={noop}
         listType="package"
         model={model}
+        accessTypes={{
+          isDeleted: false,
+          isLoading: false,
+          items: { data: [] },
+        }}
         providerPackages={providerPackages}
         proxyTypes={{}}
         rootProxy={{}}
