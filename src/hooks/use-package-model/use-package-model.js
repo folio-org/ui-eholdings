@@ -22,6 +22,7 @@ export const usePackageModel = ({
   } = usePackage({ packageId });
   const {
     deletePackage,
+    isLoading: isPackageDeleteLoading,
     isError: isDeleteError,
     errors: deleteErrors,
   } = usePackageDelete({ onSuccess: onDeleteSuccess });
@@ -33,10 +34,7 @@ export const usePackageModel = ({
     errors: updateErrors,
   } = usePackageUpdate({ packageId, onSuccess: onUpdateSuccess });
   const { updatePackageTags } = usePackageTagsUpdate({ packageId });
-  const {
-    createPackage,
-    isLoading: isPackageCreateLoading,
-  } = usePackageCreate({
+  const { createPackage } = usePackageCreate({
     onSuccess: onCreateSuccess,
   });
 
@@ -56,7 +54,7 @@ export const usePackageModel = ({
       errors: updateErrors,
     },
     destroy: {
-      isPending: isPackageCreateLoading,
+      isPending: isPackageDeleteLoading,
       isRejected: isDeleteError,
       errors: deleteErrors,
     },
@@ -68,14 +66,20 @@ export const usePackageModel = ({
     isFetchError,
     isPackageLoading,
     isPackageLoaded,
-    isPackageCreateLoading,
+    isPackageDeleteLoading,
     isUpdateError,
     isUpdateLoading,
     updateErrors,
   ]);
 
+  const omitNonPackageDataPropertiesFromModel = (_model) => {
+    const propsToOmit = ['isLoading', 'isLoaded', 'request', 'update', 'destroy'];
+
+    return omit(_model, propsToOmit);
+  };
+
   const selectPackage = useCallback(() => {
-    const attrs = omit(model, ['isFreeAccess', 'url']);
+    const attrs = omit(omitNonPackageDataPropertiesFromModel(model), ['isFreeAccess', 'url']);
 
     attrs.selectedCount = attrs.titleCount;
     attrs.isSelected = true;
@@ -86,7 +90,7 @@ export const usePackageModel = ({
   }, [model, updatePackageAsync]);
 
   const deselectPackage = useCallback(() => {
-    const attrs = omit(model, ['isFreeAccess', 'url']);
+    const attrs = omit(omitNonPackageDataPropertiesFromModel(model), ['isFreeAccess', 'url']);
     // When de-selecting a managed package
     // need to clear out customizations before sending to server
     attrs.isSelected = false;
