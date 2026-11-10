@@ -40,32 +40,9 @@ export const usePackageModel = ({
     onSuccess: onCreateSuccess,
   });
 
-  const selectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess', 'url']);
-
-    attrs.selectedCount = attrs.titleCount;
-    attrs.isSelected = true;
-    attrs.allowKbToAddTitles = true;
-    attrs.customCoverage = {};
-
-    return updatePackageAsync(attrs);
-  }, [data, updatePackageAsync]);
-
-  const deselectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess', 'url']);
-    // When de-selecting a managed package
-    // need to clear out customizations before sending to server
-    attrs.isSelected = false;
-    attrs.visibility = null;
-    attrs.customCoverage = {};
-    attrs.allowKbToAddTitles = false;
-    attrs.accessTypeId = null;
-
-    return updatePackageAsync(attrs);
-  }, [data, updatePackageAsync]);
-
   const model = useMemo(() => ({
     ...data,
+    isPartiallySelected: data?.selectedCount > 0 && data?.selectedCount !== data?.titleCount,
     isLoading: isPackageLoading,
     isLoaded: isPackageLoaded && !isFetchError,
     request: {
@@ -96,6 +73,30 @@ export const usePackageModel = ({
     isUpdateLoading,
     updateErrors,
   ]);
+
+  const selectPackage = useCallback(() => {
+    const attrs = omit(model, ['isFreeAccess', 'url']);
+
+    attrs.selectedCount = attrs.titleCount;
+    attrs.isSelected = true;
+    attrs.allowKbToAddTitles = true;
+    attrs.customCoverage = {};
+
+    return updatePackageAsync(attrs);
+  }, [model, updatePackageAsync]);
+
+  const deselectPackage = useCallback(() => {
+    const attrs = omit(model, ['isFreeAccess', 'url']);
+    // When de-selecting a managed package
+    // need to clear out customizations before sending to server
+    attrs.isSelected = false;
+    attrs.visibility = null;
+    attrs.customCoverage = {};
+    attrs.allowKbToAddTitles = false;
+    attrs.accessTypeId = null;
+
+    return updatePackageAsync(attrs);
+  }, [model, updatePackageAsync]);
 
   return {
     model,
