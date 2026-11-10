@@ -5,20 +5,10 @@ import {
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {
-  SearchField,
-  Select
-} from '@folio/stripes/components';
+import { SearchField } from '@folio/stripes/components';
 
 import { ActionMenu } from './action-menu';
-import {
-  titleSearchableIndexes,
-  searchTypes,
-  packageSearchableIndexes,
-  packageSearchModes,
-  titleSearchModes,
-  DEFAULT_SEARCH_MODE,
-} from '../../constants';
+import { SearchModifiers } from '../search-modifiers';
 import {
   filterCountFromQuery,
   normalize,
@@ -176,78 +166,13 @@ const SearchSection = ({
 
   return (
     <div className={styles.container}>
-      {searchType === searchTypes.TITLES && (
-        <>
-          <Select
-            marginBottom0
-            onChange={handleSearchFieldChange}
-            value={query.searchfield}
-            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
-            data-testid="field-to-search-select"
-          >
-            {Object.values(titleSearchableIndexes).map(value => (
-              <option
-                key={value}
-                value={value}
-              >
-                {intl.formatMessage({ id: `ui-eholdings.label.${value}` })}
-              </option>
-            ))}
-          </Select>
-          <Select
-            onChange={handleChangeSearchMode}
-            value={query.searchmode || DEFAULT_SEARCH_MODE}
-            marginBottom0
-            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
-            data-testid="search-mode-select"
-          >
-            {Object.values(titleSearchModes).map(value => (
-              <option
-                key={value}
-                value={value}
-              >
-                {intl.formatMessage({ id: `ui-eholdings.label.searchModes.${value}` })}
-              </option>
-            ))}
-          </Select>
-        </>
-      )}
-      {searchType === searchTypes.PACKAGES && (
-        <>
-          <Select
-            marginBottom0
-            onChange={handleSearchFieldChange}
-            value={query.searchfield}
-            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
-            data-testid="field-to-search-select"
-          >
-            {Object.values(packageSearchableIndexes).map(value => (
-              <option
-                key={value}
-                value={value}
-              >
-                {intl.formatMessage({ id: `ui-eholdings.label.packageIndex.${value}` })}
-              </option>
-            ))}
-          </Select>
-          <Select
-            onChange={handleChangeSearchMode}
-            value={query.searchmode || DEFAULT_SEARCH_MODE}
-            marginBottom0
-            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
-            data-testid="search-mode-select"
-          >
-            {Object.values(packageSearchModes).map(value => (
-              <option
-                key={value}
-                value={value}
-              >
-                {intl.formatMessage({ id: `ui-eholdings.label.searchModes.${value}` })}
-              </option>
-            ))}
-          </Select>
-        </>
-      )}
+      <SearchModifiers
+        searchType={searchType}
+        searchField={query.searchfield}
+        searchMode={query.searchmode}
+        onFieldChange={handleSearchFieldChange}
+        onModeChange={handleChangeSearchMode}
+      />
       <form
         onSubmit={handleSearchSubmit}
         aria-labelledby={searchType + '-tab'}

@@ -14,7 +14,11 @@ import {
 
 import {
   DEFAULT_SEARCH_MODE,
+  packageSearchableIndexes,
+  packageSearchModes,
   searchTypes,
+  titleSearchableIndexes,
+  titleSearchModes,
   USER_DEFINED_FIELD_REGEX,
 } from '../constants';
 
@@ -119,6 +123,19 @@ export const processErrors = ({ request, update, destroy }) => {
   return [...putErrors, ...getErrors, ...destroyErrors];
 };
 
+const SEARCHABLE_OPTIONS = {
+  [searchTypes.TITLES]: {
+    fields: Object.values(titleSearchableIndexes),
+    defaultField: titleSearchableIndexes.TITLE,
+    modes: Object.values(titleSearchModes),
+  },
+  [searchTypes.PACKAGES]: {
+    fields: Object.values(packageSearchableIndexes),
+    defaultField: packageSearchableIndexes.NAME,
+    modes: Object.values(packageSearchModes),
+  },
+};
+
 /**
  * Transforms UI params into the params the backend expects:
  *   q=<query>&q[field]=<field to search>&q[type]=<searching mode>
@@ -129,14 +146,16 @@ export const processErrors = ({ request, update, destroy }) => {
  * @param {Object} params - query param object
  */
 export function transformQueryParams(searchType, params) {
-  if (searchType === 'titles' || searchType === 'packages') {
+  const options = SEARCHABLE_OPTIONS[searchType];
+
+  if (options) {
     const {
       searchfield,
       searchmode,
       ...searchParams
     } = params;
 
-    let field = searchfield || 'name';
+    let field = options.fields.includes(searchfield) ? searchfield : options.defaultField;
 
     if (searchType === 'titles' && field === 'title') {
       field = 'name';
@@ -149,7 +168,7 @@ export function transformQueryParams(searchType, params) {
     return {
       ...searchParams,
       'q[field]': field,
-      'q[type]': searchmode || DEFAULT_SEARCH_MODE,
+      'q[type]': options.modes.includes(searchmode) ? searchmode : DEFAULT_SEARCH_MODE,
     };
   }
   return params;
