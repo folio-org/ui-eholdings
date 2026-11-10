@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  DEFAULT_SEARCH_MODE,
   searchTypes,
   USER_DEFINED_FIELD_REGEX,
 } from '../constants';
@@ -119,32 +120,36 @@ export const processErrors = ({ request, update, destroy }) => {
 };
 
 /**
- * Transforms UI params into search params
+ * Transforms UI params into the params the backend expects:
+ *   q=<query>&q[field]=<field to search>&q[type]=<searching mode>
  *
- * @param {Object} parms - query param object
+ * The UI keeps field and type in the URL as `searchfield` and `searchmode`
+ *
+ * @param {String} searchType - resource being searched
+ * @param {Object} params - query param object
  */
 export function transformQueryParams(searchType, params) {
-  if (searchType === 'titles') {
+  if (searchType === 'titles' || searchType === 'packages') {
     const {
-      q,
-      filter = {},
+      searchfield,
+      searchmode,
       ...searchParams
     } = params;
 
-    let { searchfield = 'name' } = params;
+    let field = searchfield || 'name';
 
-    if (searchfield === 'title') {
-      searchfield = 'name';
+    if (searchType === 'titles' && field === 'title') {
+      field = 'name';
     }
 
-    const searchfilter = {
-      ...filter,
-      [searchfield]: q
-    };
+    if (!searchParams.q) {
+      return searchParams;
+    }
 
     return {
       ...searchParams,
-      filter: searchfilter
+      'q[field]': field,
+      'q[type]': searchmode || DEFAULT_SEARCH_MODE,
     };
   }
   return params;
@@ -340,6 +345,7 @@ export const normalize = (query = {}) => {
     },
     q: query.q || '',
     searchfield: query.searchfield,
+    searchmode: query.searchmode,
     sort: query.sort,
   };
 };

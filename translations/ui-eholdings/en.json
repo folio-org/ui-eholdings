@@ -493,6 +493,15 @@
     "label.hiddenPF": "Hidden in Publication Finder",
     "label.hiddenFTF": "Hidden in Full Text Finder Resolver",
     "label.hiddenMARC": "Excluded from MARC export",
+    "label.packageIndex.keyword": "Keyword",
+    "label.packageIndex.name": "Package name",
+    "label.searchModes.advanced": "Advanced",
+    "label.searchModes.any": "Contains any",
+    "label.searchModes.beginswith": "Begins with",
+    "label.searchModes.contains": "Contains all",
+    "label.searchModes.exactmatch": "Exact match",
+    "label.searchModes.exactphrase": "Exact phrase",
+    "label.searchModes.proximity": "Proximity",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
@@ -608,6 +617,7 @@
     "search.searchByTagsOnly" : "Search by tags only",
     "search.searchByAccessTypeOnly" : "Search by access status types only",
     "search.selectFieldToSearch" : "Select a field to search",
+    "search.selectSearchMode": "Select a search mode",
 
     "date.present": "Present",
     "date.startDate": "Start date",

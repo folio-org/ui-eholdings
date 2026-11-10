@@ -194,6 +194,8 @@ describe('Given ProviderShowRoute', () => {
         expect.objectContaining({
           searchParams: expect.objectContaining({
             q: 'Test package name',
+            'q[field]': 'name',
+            'q[type]': 'advanced',
             include: 'accessType',
             filter: expect.objectContaining({
               selected: 'true',
@@ -204,6 +206,30 @@ describe('Given ProviderShowRoute', () => {
           }),
         }),
       ));
+    });
+  });
+
+  describe('when search mode is changed', () => {
+    it('should perform package search with the selected mode', async () => {
+      const { getByRole, getByTestId } = renderProviderShowRoute();
+
+      fireEvent.click(getByRole('button', { name: 'stripes-components.paneMenuActionsToggleLabel' }));
+      fireEvent.change(getByTestId('search-mode-select'), { target: { value: 'exactmatch' } });
+      fireEvent.change(
+        getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }),
+        { target: { value: 'Test package name' } },
+      );
+      fireEvent.submit(getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }).closest('form'));
+
+      await waitFor(() => expect(useProviderPackages).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          searchParams: expect.objectContaining({
+            q: 'Test package name',
+            'q[type]': 'exactmatch',
+          }),
+        }),
+      ));
+      expect(history.location.search).toContain('searchmode=exactmatch');
     });
   });
 

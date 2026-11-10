@@ -20,10 +20,14 @@ import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
 import {
-  searchTypes,
   accessTypesReduxStateShape,
-  searchableIndexes,
+  DEFAULT_SEARCH_MODE,
+  packageSearchableIndexes,
+  packageSearchModes,
+  searchTypes,
   selectionStatusFilterConfig,
+  titleSearchableIndexes,
+  titleSearchModes,
   titleSortFilterConfig,
 } from '../../constants';
 import { publicationTypeFilterConfig } from './search-form-filter-config';
@@ -63,7 +67,8 @@ class SearchForm extends Component {
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
-    onSearchFieldChange: PropTypes.func,
+    onSearchFieldChange: PropTypes.func.isRequired,
+    onSearchModeChange: PropTypes.func.isRequired,
     onStandaloneFilterChange: PropTypes.func.isRequired,
     onStandaloneFilterToggle: PropTypes.func.isRequired,
     packagesFacetCollection: PropTypes.object,
@@ -78,6 +83,7 @@ class SearchForm extends Component {
       filter: PropTypes.object,
       q: PropTypes.string,
       searchfield: PropTypes.string,
+      searchmode: PropTypes.string,
       tags: PropTypes.arrayOf(PropTypes.string),
     }),
     searchString: PropTypes.string,
@@ -87,6 +93,7 @@ class SearchForm extends Component {
       providers: PropTypes.string.isRequired,
       titles: PropTypes.string.isRequired
     }),
+    searchMode: PropTypes.string,
     sort: PropTypes.string,
     tagsModelOfAlreadyAddedTags: PropTypes.object,
     titlesFacets: PropTypes.object,
@@ -157,6 +164,10 @@ class SearchForm extends Component {
 
   handleChangeIndex = (e) => {
     this.props.onSearchFieldChange(e.target.value);
+  };
+
+  handleChangeSearchMode = (e) => {
+    this.props.onSearchModeChange(e.target.value);
   };
 
   /**
@@ -276,6 +287,7 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
+      searchMode,
       sort,
       searchByTagsEnabled,
       searchByAccessTypesEnabled,
@@ -322,25 +334,92 @@ class SearchForm extends Component {
               {([placeholder]) => (
                 <>
                   {(searchType === searchTypes.TITLES) && (
-                    <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
-                      {([ariaLabel]) => (
-                        <Select
-                          onChange={this.handleChangeIndex}
-                          value={searchField}
-                          aria-label={ariaLabel}
-                          data-testid="field-to-search-select"
-                        >
-                          {Object.values(searchableIndexes).map(value => (
-                            <FormattedMessage
-                              id={`ui-eholdings.label.${value}`}
-                              key={value}
-                            >
-                              {(label) => <option value={value}>{label}</option>}
-                            </FormattedMessage>
-                          ))}
-                        </Select>
-                      )}
-                    </FormattedMessage>
+                    <>
+                      <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
+                        {([ariaLabel]) => (
+                          <Select
+                            onChange={this.handleChangeIndex}
+                            value={searchField || titleSearchableIndexes.TITLE}
+                            marginBottom0
+                            aria-label={ariaLabel}
+                            data-testid="field-to-search-select"
+                          >
+                            {Object.values(titleSearchableIndexes).map(value => (
+                              <FormattedMessage
+                                id={`ui-eholdings.label.${value}`}
+                                key={value}
+                              >
+                                {(label) => <option value={value}>{label}</option>}
+                              </FormattedMessage>
+                            ))}
+                          </Select>
+                        )}
+                      </FormattedMessage>
+                      <FormattedMessage id="ui-eholdings.search.selectSearchMode">
+                        {([ariaLabel]) => (
+                          <Select
+                            onChange={this.handleChangeSearchMode}
+                            value={searchMode || DEFAULT_SEARCH_MODE}
+                            marginBottom0
+                            aria-label={ariaLabel}
+                            data-testid="search-mode-select"
+                          >
+                            {Object.values(titleSearchModes).map(value => (
+                              <FormattedMessage
+                                id={`ui-eholdings.label.searchModes.${value}`}
+                                key={value}
+                              >
+                                {(label) => <option value={value}>{label}</option>}
+                              </FormattedMessage>
+                            ))}
+                          </Select>
+                        )}
+                      </FormattedMessage>
+                    </>
+                  )}
+                  {(searchType === searchTypes.PACKAGES) && (
+                    <>
+                      <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
+                        {([ariaLabel]) => (
+                          <Select
+                            onChange={this.handleChangeIndex}
+                            value={searchField || packageSearchableIndexes.NAME}
+                            marginBottom0
+                            aria-label={ariaLabel}
+                            data-testid="field-to-search-select"
+                          >
+                            {Object.values(packageSearchableIndexes).map(value => (
+                              <FormattedMessage
+                                id={`ui-eholdings.label.packageIndex.${value}`}
+                                key={value}
+                              >
+                                {(label) => <option value={value}>{label}</option>}
+                              </FormattedMessage>
+                            ))}
+                          </Select>
+                        )}
+                      </FormattedMessage>
+                      <FormattedMessage id="ui-eholdings.search.selectSearchMode">
+                        {([ariaLabel]) => (
+                          <Select
+                            onChange={this.handleChangeSearchMode}
+                            value={searchMode || DEFAULT_SEARCH_MODE}
+                            marginBottom0
+                            aria-label={ariaLabel}
+                            data-testid="search-mode-select"
+                          >
+                            {Object.values(packageSearchModes).map(value => (
+                              <FormattedMessage
+                                id={`ui-eholdings.label.searchModes.${value}`}
+                                key={value}
+                              >
+                                {(label) => <option value={value}>{label}</option>}
+                              </FormattedMessage>
+                            ))}
+                          </Select>
+                        )}
+                      </FormattedMessage>
+                    </>
                   )}
                   <FormattedMessage id="ui-eholdings.search.enterYourSearch">
                     {([ariaLabel]) => (

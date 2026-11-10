@@ -12,8 +12,12 @@ import {
 
 import { ActionMenu } from './action-menu';
 import {
-  searchableIndexes,
+  titleSearchableIndexes,
   searchTypes,
+  packageSearchableIndexes,
+  packageSearchModes,
+  titleSearchModes,
+  DEFAULT_SEARCH_MODE,
 } from '../../constants';
 import {
   filterCountFromQuery,
@@ -107,6 +111,13 @@ const SearchSection = ({
     }));
   };
 
+  const handleChangeSearchMode = (e) => {
+    setQuery(cur => normalize({
+      ...cur,
+      searchmode: e.target.value,
+    }));
+  };
+
   const handleSearchQueryChange = e => {
     setQuery(cur => ({
       ...cur,
@@ -153,6 +164,7 @@ const SearchSection = ({
         sort,
         filter,
         searchfield: cur.searchfield,
+        searchmode: cur.searchmode,
         q: cur.q,
       });
 
@@ -165,22 +177,76 @@ const SearchSection = ({
   return (
     <div className={styles.container}>
       {searchType === searchTypes.TITLES && (
-        <Select
-          marginBottom0
-          onChange={handleSearchFieldChange}
-          value={query.searchfield}
-          aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
-          data-testid="field-to-search-select"
-        >
-          {Object.values(searchableIndexes).map(value => (
-            <option
-              key={value}
-              value={value}
-            >
-              {intl.formatMessage({ id: `ui-eholdings.label.${value}` })}
-            </option>
-          ))}
-        </Select>
+        <>
+          <Select
+            marginBottom0
+            onChange={handleSearchFieldChange}
+            value={query.searchfield}
+            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
+            data-testid="field-to-search-select"
+          >
+            {Object.values(titleSearchableIndexes).map(value => (
+              <option
+                key={value}
+                value={value}
+              >
+                {intl.formatMessage({ id: `ui-eholdings.label.${value}` })}
+              </option>
+            ))}
+          </Select>
+          <Select
+            onChange={handleChangeSearchMode}
+            value={query.searchmode || DEFAULT_SEARCH_MODE}
+            marginBottom0
+            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
+            data-testid="search-mode-select"
+          >
+            {Object.values(titleSearchModes).map(value => (
+              <option
+                key={value}
+                value={value}
+              >
+                {intl.formatMessage({ id: `ui-eholdings.label.searchModes.${value}` })}
+              </option>
+            ))}
+          </Select>
+        </>
+      )}
+      {searchType === searchTypes.PACKAGES && (
+        <>
+          <Select
+            marginBottom0
+            onChange={handleSearchFieldChange}
+            value={query.searchfield}
+            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
+            data-testid="field-to-search-select"
+          >
+            {Object.values(packageSearchableIndexes).map(value => (
+              <option
+                key={value}
+                value={value}
+              >
+                {intl.formatMessage({ id: `ui-eholdings.label.packageIndex.${value}` })}
+              </option>
+            ))}
+          </Select>
+          <Select
+            onChange={handleChangeSearchMode}
+            value={query.searchmode || DEFAULT_SEARCH_MODE}
+            marginBottom0
+            aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
+            data-testid="search-mode-select"
+          >
+            {Object.values(packageSearchModes).map(value => (
+              <option
+                key={value}
+                value={value}
+              >
+                {intl.formatMessage({ id: `ui-eholdings.label.searchModes.${value}` })}
+              </option>
+            ))}
+          </Select>
+        </>
       )}
       <form
         onSubmit={handleSearchSubmit}

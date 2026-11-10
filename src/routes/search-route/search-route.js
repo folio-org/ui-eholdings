@@ -81,6 +81,7 @@ class SearchRoute extends Component {
       submittedSearchFilters: params.filter || {},
       draftSearchFilters: params.filter,
       searchField: params.searchfield,
+      searchMode: params.searchmode,
       hideFilters: false,
       searchByTagsEnabled: false,
       searchByAccessTypesEnabled: false,
@@ -120,6 +121,7 @@ class SearchRoute extends Component {
           ? params.filter
           : prevState.draftSearchFilters,
         searchField: params.searchfield,
+        searchMode: params.searchmode,
         submittedSearchString: params.q,
         draftSearchString: searchTypeChanged
           ? params.q
@@ -220,6 +222,10 @@ class SearchRoute extends Component {
   handleSearchFieldChange = searchField => {
     this.setState({ searchField });
   };
+
+  handleSearchModeChange = searchMode => {
+    this.setState({ searchMode });
+  }
 
   updateFilters = fn => this.setState(({ hideFilters }) => ({
     hideFilters: fn(hideFilters),
@@ -347,7 +353,7 @@ class SearchRoute extends Component {
       // So this request is for records and the second one is for facets.
       this.props.searchTitles(searchParams);
 
-      if (searchParams.filter.packageIds) {
+      if (searchParams.filter?.packageIds) {
         defer(() => {
           this.props.searchTitles({
             ...searchParams,
@@ -368,12 +374,14 @@ class SearchRoute extends Component {
       submittedSearchFilters,
       sort,
       searchField,
+      searchMode,
     } = this.state;
 
     const params = {
       q: submittedSearchString,
       filter: submittedSearchFilters,
       searchfield: searchField,
+      searchmode: searchMode,
       sort,
       offset: FIRST_PAGE,
     };
@@ -501,6 +509,7 @@ class SearchRoute extends Component {
       draftSearchString,
       draftSearchFilters,
       searchField,
+      searchMode,
       hideFilters,
       searchByTagsEnabled,
       searchByAccessTypesEnabled,
@@ -542,6 +551,7 @@ class SearchRoute extends Component {
                     searchString={draftSearchString}
                     searchFilter={draftSearchFilters}
                     searchField={searchField}
+                    searchMode={searchMode}
                     searchByTagsEnabled={searchByTagsEnabled}
                     searchByAccessTypesEnabled={searchByAccessTypesEnabled}
                     tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
@@ -550,6 +560,7 @@ class SearchRoute extends Component {
                     isLoading={(!!params.q && !results.hasLoaded) || packagesFacetCollection.isLoading}
                     onSearch={this.handleSearchButtonClick}
                     onSearchFieldChange={this.handleSearchFieldChange}
+                    onSearchModeChange={this.handleSearchModeChange}
                     onFilterChange={this.handleFilterChange}
                     onSearchChange={this.handleSearchChange}
                     onStandaloneFilterChange={this.handleStandaloneFilterChange}

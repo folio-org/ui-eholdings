@@ -434,16 +434,50 @@ describe('Given PackageShowRoute', () => {
           count: 100,
           filter: {
             'access-type': undefined,
-            name: 'Title name',
             selected: undefined,
             tags: undefined,
             type: undefined,
+            visibility: undefined,
           },
           page: 1,
-          searchfield: 'title',
+          q: 'Title name',
+          'q[field]': 'name',
+          'q[type]': 'advanced',
           sort: undefined,
         },
       });
+    });
+
+    it('should send the search mode from the url', async () => {
+      useLocation.mockReturnValue({
+        ...mockLocation,
+        search: '?filterTitles=Title%20name&searchmode=exactmatch',
+      });
+
+      renderPackageShowRoute({ getPackageTitles: mockGetPackageTitles });
+
+      expect(mockGetPackageTitles).toHaveBeenCalledWith(expect.objectContaining({
+        params: expect.objectContaining({
+          q: 'Title name',
+          'q[field]': 'name',
+          'q[type]': 'exactmatch',
+        }),
+      }));
+    });
+
+    it('should keep the search mode in the url when searching', async () => {
+      useLocation.mockReturnValue({ ...mockLocation, search: '?searchmode=exactmatch' });
+
+      const { getByRole } = renderPackageShowRoute({ getPackageTitles: mockGetPackageTitles });
+
+      await userEvent.type(
+        getByRole('searchbox', { name: 'ui-eholdings.search.enterYourSearch' }),
+        'Title name{enter}',
+      );
+
+      expect(mockHistoryReplace).toHaveBeenCalledWith(expect.objectContaining({
+        search: expect.stringContaining('searchmode=exactmatch'),
+      }));
     });
 
     describe('when packages are being fetched', () => {

@@ -83,6 +83,7 @@ const PackageShowRoute = ({
     selected,
     visibility,
     searchfield = 'title',
+    searchmode,
   } = queryString.parse(location.search.substring(1));
   const { packageId } = params;
   const [providerId] = packageId.split('-');
@@ -91,6 +92,7 @@ const PackageShowRoute = ({
     q: filterTitles,
     sort,
     searchfield,
+    searchmode,
     count: PAGE_SIZE,
     page: FIRST_PAGE,
     filter: {
@@ -189,6 +191,7 @@ const PackageShowRoute = ({
       selected: pkgSearchParams.filter?.selected,
       visibility: pkgSearchParams.filter?.visibility,
       searchfield: pkgSearchParams.searchfield,
+      searchmode: pkgSearchParams.searchmode,
     });
 
     history.replace({
