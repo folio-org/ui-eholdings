@@ -20,6 +20,7 @@ const EMPTY_OBJECT = {};
 
 const propTypes = {
   accessTypes: PropTypes.object.isRequired,
+  hideSearchMode: PropTypes.bool,
   onFilter: PropTypes.func.isRequired,
   onToggleActions: PropTypes.func.isRequired,
   packagesFacetCollection: PropTypes.object,
@@ -40,6 +41,7 @@ const SearchSection = ({
   queryProp,
   tagsModelOfAlreadyAddedTags,
   accessTypes,
+  hideSearchMode = false,
   params = EMPTY_OBJECT,
   prevDataOfOptedPackage = EMPTY_OBJECT,
   results = EMPTY_OBJECT,
@@ -170,6 +172,7 @@ const SearchSection = ({
         searchType={searchType}
         searchField={query.searchfield}
         searchMode={query.searchmode}
+        hideSearchMode={hideSearchMode}
         onFieldChange={handleSearchFieldChange}
         onModeChange={handleChangeSearchMode}
       />

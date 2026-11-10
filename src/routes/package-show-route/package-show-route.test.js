@@ -442,13 +442,12 @@ describe('Given PackageShowRoute', () => {
           page: 1,
           q: 'Title name',
           'q[field]': 'name',
-          'q[type]': 'advanced',
           sort: undefined,
         },
       });
     });
 
-    it('should send the search mode from the url', async () => {
+    it('should not send the search mode to the backend', async () => {
       useLocation.mockReturnValue({
         ...mockLocation,
         search: '?filterTitles=Title%20name&searchmode=exactmatch',
@@ -457,10 +456,8 @@ describe('Given PackageShowRoute', () => {
       renderPackageShowRoute({ getPackageTitles: mockGetPackageTitles });
 
       expect(mockGetPackageTitles).toHaveBeenCalledWith(expect.objectContaining({
-        params: expect.objectContaining({
-          q: 'Title name',
-          'q[field]': 'name',
-          'q[type]': 'exactmatch',
+        params: expect.not.objectContaining({
+          'q[type]': expect.anything(),
         }),
       }));
     });

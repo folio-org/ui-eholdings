@@ -149,14 +149,14 @@ const PackageShowRoute = ({
   }, [packageTitles.isLoading]);
 
   useEffect(() => {
-    const queryParams = transformQueryParams('titles', pkgSearchParams);
+    const queryParams = transformQueryParams('titles', pkgSearchParams, { omitSearchMode: true });
 
     setIsTitlesUpdating(true);
     getPackageTitles({ packageId, params: queryParams });
   }, [pkgSearchParams, getPackageTitles, packageId]);
 
   const { updateTitles } = useUpdatePackageTitlesSelection({
-    queryParams: transformQueryParams('titles', pkgSearchParams),
+    queryParams: transformQueryParams('titles', pkgSearchParams, { omitSearchMode: true }),
     packageModel: model,
     setIsTitlesUpdating,
     packageTitles,
@@ -296,6 +296,7 @@ const PackageShowRoute = ({
             tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
             accessTypes={accessStatusTypes}
             searchType={listTypes.TITLES}
+            hideSearchMode
             onFilter={searchTitles}
             onToggleActions={handleAccordionHeaderSearchActionsToggle}
             renderFilters={renderSearchSectionFilters}

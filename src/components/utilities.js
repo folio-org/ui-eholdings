@@ -144,8 +144,11 @@ const SEARCHABLE_OPTIONS = {
  *
  * @param {String} searchType - resource being searched
  * @param {Object} params - query param object
+ * @param {Object} [config]
+ * @param {Boolean} [config.omitSearchMode] - TEMPORARY: skip `q[type]` for endpoints whose backend
+ *   doesn't support search mode yet (package titles). Remove once the backend supports it.
  */
-export function transformQueryParams(searchType, params) {
+export function transformQueryParams(searchType, params, { omitSearchMode = false } = {}) {
   const options = SEARCHABLE_OPTIONS[searchType];
 
   if (options) {
@@ -165,11 +168,16 @@ export function transformQueryParams(searchType, params) {
       return searchParams;
     }
 
-    return {
+    const transformed = {
       ...searchParams,
       'q[field]': field,
-      'q[type]': options.modes.includes(searchmode) ? searchmode : DEFAULT_SEARCH_MODE,
     };
+
+    if (!omitSearchMode) {
+      transformed['q[type]'] = options.modes.includes(searchmode) ? searchmode : DEFAULT_SEARCH_MODE;
+    }
+
+    return transformed;
   }
   return params;
 }

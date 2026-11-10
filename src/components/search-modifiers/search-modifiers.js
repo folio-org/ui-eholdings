@@ -30,6 +30,7 @@ const SEARCH_OPTIONS = {
 const SEARCH_MODE_LABEL_PREFIX = 'ui-eholdings.label.searchModes';
 
 export const SearchModifiers = ({
+  hideSearchMode = false,
   searchType,
   searchField,
   searchMode,
@@ -63,20 +64,23 @@ export const SearchModifiers = ({
       >
         {renderOptions(options.fields, options.fieldLabelPrefix)}
       </Select>
-      <Select
-        marginBottom0
-        onChange={onModeChange}
-        value={searchMode || DEFAULT_SEARCH_MODE}
-        aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
-        data-testid="search-mode-select"
-      >
-        {renderOptions(options.modes, SEARCH_MODE_LABEL_PREFIX)}
-      </Select>
+      {!hideSearchMode && (
+        <Select
+          marginBottom0
+          onChange={onModeChange}
+          value={searchMode || DEFAULT_SEARCH_MODE}
+          aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectSearchMode' })}
+          data-testid="search-mode-select"
+        >
+          {renderOptions(options.modes, SEARCH_MODE_LABEL_PREFIX)}
+        </Select>
+      )}
     </>
   );
 };
 
 SearchModifiers.propTypes = {
+  hideSearchMode: PropTypes.bool,
   onFieldChange: PropTypes.func.isRequired,
   onModeChange: PropTypes.func.isRequired,
   searchField: PropTypes.string,
