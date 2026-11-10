@@ -7,6 +7,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   isEqual,
+  isEmpty,
   hasIn,
   omit,
   defer,
@@ -32,6 +33,16 @@ import {
   FIRST_PAGE,
   tagPaths,
 } from '../../constants';
+
+const buildSearchParams = (searchType, params, { omitPackageIds = false } = {}) => {
+  const { filter, ...rest } = transformQueryParams(searchType, params);
+  const nextFilter = omitPackageIds ? omit(filter, 'packageIds') : filter;
+
+  return {
+    ...rest,
+    filter: isEmpty(nextFilter) ? undefined : nextFilter,
+  };
+};
 
 class SearchRoute extends Component {
   static propTypes = {
@@ -240,40 +251,33 @@ class SearchRoute extends Component {
     const { resolver } = this.props;
     const { searchType, params } = this.state;
     const { offset = 0, ...queryParams } = params;
-    const searchParams = transformQueryParams(searchType, queryParams);
 
     return resolver.query(searchType, {
-      filter: undefined,
-      ...searchParams,
+      ...buildSearchParams(searchType, queryParams),
       page: offset,
     });
   }
 
   getPackagesFacetCollection = () => {
-    const {
-      resolver,
-    } = this.props;
-    const {
-      searchType,
-      params,
-    } = this.state;
-    const {
-      offset = 0,
-      ...queryParams
-    } = params;
-    const searchParams = transformQueryParams(searchType, queryParams);
+    const { resolver } = this.props;
+    const { searchType, params } = this.state;
 
-    let collection = {};
-
-    if (searchType === 'titles' && params.q) {
-      collection = resolver.query(searchType, {
-        ...searchParams,
-        filter: omit(searchParams.filter, 'packageIds'),
-        page: offset,
-      });
+    if (searchType !== searchTypes.TITLES || !params.q) {
+      return {};
     }
 
-    return collection;
+    // The facet request only differs from the main one when a package is selected.
+    // Otherwise it IS the main request, so don't look up a second, possibly mismatching one.
+    if (!params.filter?.packageIds) {
+      return this.getResults();
+    }
+
+    const { offset = 0, ...queryParams } = params;
+
+    return resolver.query(searchType, {
+      ...buildSearchParams(searchType, queryParams, { omitPackageIds: true }),
+      page: offset,
+    });
   };
 
   /**
@@ -341,7 +345,7 @@ class SearchRoute extends Component {
   search(params) {
     const { searchType } = this.state;
     const searchParams = {
-      ...transformQueryParams(searchType, params),
+      ...buildSearchParams(searchType, params),
       count: PAGE_SIZE,
     };
 
@@ -356,8 +360,8 @@ class SearchRoute extends Component {
       if (searchParams.filter?.packageIds) {
         defer(() => {
           this.props.searchTitles({
-            ...searchParams,
-            filter: omit(searchParams.filter, 'packageIds'),
+            ...buildSearchParams(searchType, params, { omitPackageIds: true }),
+            count: PAGE_SIZE,
           });
         });
       }
