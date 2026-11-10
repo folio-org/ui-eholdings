@@ -15,10 +15,19 @@ describe('Given ResourceSettings', () => {
   const onToggleMock = jest.fn();
 
   const defaultPackage = {
-    visibilityData: {
+    visibility: [{
+      category: 'PF',
+      hidden: false,
       reason: '',
-      isHidden: false,
-    },
+    }, {
+      category: 'FTF',
+      hidden: false,
+      reason: '',
+    }, {
+      category: 'MARC',
+      hidden: false,
+      reason: '',
+    }],
     isCustom: true,
     proxy: {
       id: 'proxy-id',
@@ -26,10 +35,19 @@ describe('Given ResourceSettings', () => {
   };
 
   const defaultModel = {
-    visibilityData: {
+    visibility: [{
+      category: 'PF',
+      hidden: false,
       reason: '',
-      isHidden: false,
-    },
+    }, {
+      category: 'FTF',
+      hidden: false,
+      reason: '',
+    }, {
+      category: 'MARC',
+      hidden: false,
+      reason: '',
+    }],
     isLoading: false,
     url: 'some-url',
     title: {
@@ -84,7 +102,6 @@ describe('Given ResourceSettings', () => {
             },
           },
         }}
-        resourceSelected
         model={defaultModel}
         {...props}
       />
@@ -101,28 +118,10 @@ describe('Given ResourceSettings', () => {
     expect(component.getByText('ui-eholdings.resource.resourceSettings')).toBeDefined();
   });
 
-  describe('when resource is hidden', () => {
-    it('should display resource hidden message', () => {
-      component = renderResourceSettings({
-        model: {
-          ...defaultModel,
-          visibilityData: {
-            isHidden: true,
-            reason: 'reason',
-          },
-        },
-      });
-      expect(component.getByTestId('resource-show-visibility').textContent).toEqual('ui-eholdings.package.visibility.no');
-    });
-  });
+  it('should display resource visibility section', () => {
+    component = renderResourceSettings();
 
-  describe('when resource is not selected', () => {
-    it('should display resource hidden message', () => {
-      component = renderResourceSettings({
-        resourceSelected: false,
-      });
-      expect(component.getByTestId('resource-show-visibility').textContent).toEqual('ui-eholdings.package.visibility.no');
-    });
+    expect(component.getByText('ui-eholdings.resource.visibility')).toBeInTheDocument();
   });
 
   describe('when package is custom', () => {

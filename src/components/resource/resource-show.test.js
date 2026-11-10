@@ -161,9 +161,19 @@ const renderResourceShow = ({
               reason: '',
             },
           },
-          visibilityData: {
-            isHidden: false,
-          },
+          visibility: [{
+            category: 'PF',
+            hidden: false,
+            reason: '',
+          }, {
+            category: 'FTF',
+            hidden: false,
+            reason: '',
+          }, {
+            category: 'MARC',
+            hidden: false,
+            reason: '',
+          }],
           managedCoverages: [],
           customCoverages: [],
           destroy: {
