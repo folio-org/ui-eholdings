@@ -1,7 +1,4 @@
-import {
-  renderHook,
-  waitFor,
-} from '@folio/jest-config-stripes/testing-library/react';
+import { renderHook } from '@folio/jest-config-stripes/testing-library/react';
 
 import { usePackageModel } from './use-package-model';
 import { usePackage } from '../use-package';
