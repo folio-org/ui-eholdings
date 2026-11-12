@@ -372,6 +372,23 @@ describe('Given PackageShowRoute', () => {
     expect(mockGetPackageTitles).toHaveBeenCalledTimes(1);
   });
 
+  describe('when the URL contains an access filter', () => {
+    it('should pass it to getPackageTitles', () => {
+      useLocation.mockReturnValue({ ...mockLocation, search: '?access=public' });
+
+      renderPackageShowRoute({
+        getPackageTitles: mockGetPackageTitles,
+      });
+
+      expect(mockGetPackageTitles).toHaveBeenCalledWith({
+        packageId,
+        params: expect.objectContaining({
+          filter: expect.objectContaining({ access: 'public' }),
+        }),
+      });
+    });
+  });
+
   describe('when package was reached based on search', () => {
     it('should redirect to /eholdings with location.search parameters', () => {
       const testSearch = '?searchType=packages&q=testQuery&offset=1';
