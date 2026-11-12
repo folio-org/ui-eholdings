@@ -13,7 +13,12 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  DEFAULT_SEARCH_MODE,
+  packageSearchableIndexes,
+  packageSearchModes,
   searchTypes,
+  titleSearchableIndexes,
+  titleSearchModes,
   USER_DEFINED_FIELD_REGEX,
 } from '../constants';
 
@@ -118,34 +123,61 @@ export const processErrors = ({ request, update, destroy }) => {
   return [...putErrors, ...getErrors, ...destroyErrors];
 };
 
+const SEARCHABLE_OPTIONS = {
+  [searchTypes.TITLES]: {
+    fields: Object.values(titleSearchableIndexes),
+    defaultField: titleSearchableIndexes.TITLE,
+    modes: Object.values(titleSearchModes),
+  },
+  [searchTypes.PACKAGES]: {
+    fields: Object.values(packageSearchableIndexes),
+    defaultField: packageSearchableIndexes.NAME,
+    modes: Object.values(packageSearchModes),
+  },
+};
+
 /**
- * Transforms UI params into search params
+ * Transforms UI params into the params the backend expects:
+ *   q=<query>&q[field]=<field to search>&q[type]=<searching mode>
  *
- * @param {Object} parms - query param object
+ * The UI keeps field and type in the URL as `searchfield` and `searchmode`
+ *
+ * @param {String} searchType - resource being searched
+ * @param {Object} params - query param object
+ * @param {Object} [config]
+ * @param {Boolean} [config.omitSearchMode] - TEMPORARY: skip `q[type]` for endpoints whose backend
+ *   doesn't support search mode yet (package titles). Remove once the backend supports it.
  */
-export function transformQueryParams(searchType, params) {
-  if (searchType === 'titles') {
+export function transformQueryParams(searchType, params, { omitSearchMode = false } = {}) {
+  const options = SEARCHABLE_OPTIONS[searchType];
+
+  if (options) {
     const {
-      q,
-      filter = {},
+      searchfield,
+      searchmode,
       ...searchParams
     } = params;
 
-    let { searchfield = 'name' } = params;
+    let field = options.fields.includes(searchfield) ? searchfield : options.defaultField;
 
-    if (searchfield === 'title') {
-      searchfield = 'name';
+    if (searchType === 'titles' && field === 'title') {
+      field = 'name';
     }
 
-    const searchfilter = {
-      ...filter,
-      [searchfield]: q
+    if (!searchParams.q) {
+      return searchParams;
+    }
+
+    const transformed = {
+      ...searchParams,
+      'q[field]': field,
     };
 
-    return {
-      ...searchParams,
-      filter: searchfilter
-    };
+    if (!omitSearchMode) {
+      transformed['q[type]'] = options.modes.includes(searchmode) ? searchmode : DEFAULT_SEARCH_MODE;
+    }
+
+    return transformed;
   }
   return params;
 }
@@ -340,6 +372,7 @@ export const normalize = (query = {}) => {
     },
     q: query.q || '',
     searchfield: query.searchfield,
+    searchmode: query.searchmode,
     sort: query.sort,
   };
 };

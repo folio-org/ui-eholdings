@@ -5,16 +5,10 @@ import {
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {
-  SearchField,
-  Select
-} from '@folio/stripes/components';
+import { SearchField } from '@folio/stripes/components';
 
 import { ActionMenu } from './action-menu';
-import {
-  searchableIndexes,
-  searchTypes,
-} from '../../constants';
+import { SearchModifiers } from '../search-modifiers';
 import {
   filterCountFromQuery,
   normalize,
@@ -26,6 +20,7 @@ const EMPTY_OBJECT = {};
 
 const propTypes = {
   accessTypes: PropTypes.object.isRequired,
+  hideSearchMode: PropTypes.bool,
   onFilter: PropTypes.func.isRequired,
   onToggleActions: PropTypes.func.isRequired,
   packagesFacetCollection: PropTypes.object,
@@ -46,6 +41,7 @@ const SearchSection = ({
   queryProp,
   tagsModelOfAlreadyAddedTags,
   accessTypes,
+  hideSearchMode = false,
   params = EMPTY_OBJECT,
   prevDataOfOptedPackage = EMPTY_OBJECT,
   results = EMPTY_OBJECT,
@@ -107,6 +103,13 @@ const SearchSection = ({
     }));
   };
 
+  const handleChangeSearchMode = (e) => {
+    setQuery(cur => normalize({
+      ...cur,
+      searchmode: e.target.value,
+    }));
+  };
+
   const handleSearchQueryChange = e => {
     setQuery(cur => ({
       ...cur,
@@ -153,6 +156,7 @@ const SearchSection = ({
         sort,
         filter,
         searchfield: cur.searchfield,
+        searchmode: cur.searchmode,
         q: cur.q,
       });
 
@@ -164,24 +168,14 @@ const SearchSection = ({
 
   return (
     <div className={styles.container}>
-      {searchType === searchTypes.TITLES && (
-        <Select
-          marginBottom0
-          onChange={handleSearchFieldChange}
-          value={query.searchfield}
-          aria-label={intl.formatMessage({ id: 'ui-eholdings.search.selectFieldToSearch' })}
-          data-testid="field-to-search-select"
-        >
-          {Object.values(searchableIndexes).map(value => (
-            <option
-              key={value}
-              value={value}
-            >
-              {intl.formatMessage({ id: `ui-eholdings.label.${value}` })}
-            </option>
-          ))}
-        </Select>
-      )}
+      <SearchModifiers
+        searchType={searchType}
+        searchField={query.searchfield}
+        searchMode={query.searchmode}
+        hideSearchMode={hideSearchMode}
+        onFieldChange={handleSearchFieldChange}
+        onModeChange={handleChangeSearchMode}
+      />
       <form
         onSubmit={handleSearchSubmit}
         aria-labelledby={searchType + '-tab'}

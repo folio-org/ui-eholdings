@@ -8,7 +8,7 @@ import noop from 'lodash/noop';
 import Harness from '../../../test/jest/helpers/harness';
 import {
   searchTypes,
-  searchableIndexes,
+  titleSearchableIndexes,
 } from '../../constants';
 import SearchForm from './search-form';
 
@@ -106,7 +106,7 @@ describe('Given SearchForm', () => {
         });
 
         fireEvent.change(getByTestId('field-to-search-select'), {
-          target: { value: searchableIndexes.ISNX, },
+          target: { value: titleSearchableIndexes.ISNX, },
         });
 
         expect(mockOnSearchFieldChange).toHaveBeenCalled();

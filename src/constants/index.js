@@ -30,7 +30,6 @@ export { default as CONTRIBUTOR_FIELD_VALUE_MAX_LENGTH } from './contributorFiel
 export { default as IDENTIFIERS_FIELDS_VALUE_MAX_LENGTH } from './identifiersFieldsValueMaxLength';
 export { default as apiEndpointsOptions } from './apiEndpointsOptions';
 export { default as KB_NAME_VALUE_MAX_LENGTH } from './kbNameValueMaxLength';
-export { default as searchableIndexes } from './searchableIndexes';
 export { default as flattenedIdentifiers } from './flattenedIdentifiers';
 export * from './packageAndResourceSettings';
 export * from './filterConfigs';
@@ -42,3 +41,8 @@ export * from './permissionNames';
 export * from './querySearchListParams';
 export * from './overCount';
 export * from './tagPaths';
+export * from './packageSearchableIndexes';
+export * from './defaultSearchMode';
+export * from './packageSearchModes';
+export * from './titleSearchableIndexes';
+export * from './titleSearchModes';
