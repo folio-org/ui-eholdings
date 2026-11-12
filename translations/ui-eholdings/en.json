@@ -157,6 +157,11 @@
     "exportPackageResources.fields.all": "Export all fields",
     "exportPackageResources.fields.selected": "Export selected fields",
 
+    "visibility.PF": "In Publication Finder",
+    "visibility.FTF": "In Full Text Finder",
+    "visibility.MARC": "In MARC export",
+    "visibility.no": "No { visibilityMessage }",
+
     "package.actionMenu.edit": "Edit",
     "package.actionMenu.exportToCSV": "Export package (CSV)",
     "package.addToHoldings": "Add to holdings",
@@ -198,10 +203,6 @@
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",
     "package.visibility": "Hide/exclude all titles in the package",
-    "package.visibility.PF": "In Publication Finder",
-    "package.visibility.FTF": "In Full Text Finder",
-    "package.visibility.MARC": "In MARC export",
-    "package.visibility.no": "No { visibilityMessage }",
     "package.visibility.notSelected": "Add the package to holdings to customize package settings.",
     "package.controlled": "Controlled",
     "package.public": "Public",
@@ -280,6 +281,8 @@
     "resource.coverage.notSelected": "Add the resource to holdings to customize coverage.",
     "resource.coverage.noCustomizations": "No coverage customizations set.",
     "resource.toast.isFreshlySaved": "Title was updated.",
+    
+    "resource.visibility": "Hide/exclude title",
     "resource.visibilityData.isHidden": "(All titles in this package are hidden)",
 
     "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage.",

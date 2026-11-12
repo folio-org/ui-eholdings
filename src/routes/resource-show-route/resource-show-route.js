@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+
 import { TitleManager } from '@folio/stripes/core';
 import { Icon } from '@folio/stripes/components';
 
 import View from '../../components/resource/resource-show';
-
 import {
   accessTypesReduxStateShape,
   costPerUse as costPerUseShape,
@@ -129,7 +129,12 @@ class ResourceShowRoute extends Component {
       destroyResource(model);
     } else if (model.isSelected === false) {
       // clear out any customizations before sending to server
-      model.visibilityData.isHidden = false;
+
+      // TODO: remove this once Resource Edit page has the new Hide/exclude title field
+      if (model.visibilityData) {
+        model.visibilityData.isHidden = false;
+      }
+      model.visibility = [];
       model.customCoverages = [];
       model.coverageStatement = '';
       model.customEmbargoPeriod = {};

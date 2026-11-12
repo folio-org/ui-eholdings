@@ -20,8 +20,6 @@ const mockGetProvider = jest.fn();
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
-  useHistory: jest.requireActual('react-router').useHistory,
-  useLocation: jest.requireActual('react-router').useLocation,
   useParams: jest.fn().mockReturnValue({ providerId: 'provider-id' }),
 }));
 

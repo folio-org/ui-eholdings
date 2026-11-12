@@ -19,7 +19,7 @@ export const VisibilityEdit = () => {
           key={category}
           type="checkbox"
           component={Checkbox}
-          label={<FormattedMessage id={`ui-eholdings.package.visibility.${category}`} />}
+          label={<FormattedMessage id={`ui-eholdings.visibility.${category}`} />}
           name={`visibility[${index}].hidden`}
         />
       ))}
