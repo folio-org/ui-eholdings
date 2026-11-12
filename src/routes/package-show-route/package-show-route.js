@@ -85,6 +85,7 @@ const PackageShowRoute = ({
     visibility,
     access,
     searchfield = 'title',
+    searchmode,
   } = queryString.parse(location.search.substring(1));
   const { packageId } = params;
   const [providerId] = packageId.split('-');
@@ -93,6 +94,7 @@ const PackageShowRoute = ({
     q: filterTitles,
     sort,
     searchfield,
+    searchmode,
     count: PAGE_SIZE,
     page: FIRST_PAGE,
     filter: {
@@ -150,14 +152,14 @@ const PackageShowRoute = ({
   }, [packageTitles.isLoading]);
 
   useEffect(() => {
-    const queryParams = transformQueryParams('titles', pkgSearchParams);
+    const queryParams = transformQueryParams('titles', pkgSearchParams, { omitSearchMode: true });
 
     setIsTitlesUpdating(true);
     getPackageTitles({ packageId, params: queryParams });
   }, [pkgSearchParams, getPackageTitles, packageId]);
 
   const { updateTitles } = useUpdatePackageTitlesSelection({
-    queryParams: transformQueryParams('titles', pkgSearchParams),
+    queryParams: transformQueryParams('titles', pkgSearchParams, { omitSearchMode: true }),
     packageModel: model,
     setIsTitlesUpdating,
     packageTitles,
@@ -193,6 +195,7 @@ const PackageShowRoute = ({
       visibility: pkgSearchParams.filter?.visibility,
       access: pkgSearchParams.filter?.access,
       searchfield: pkgSearchParams.searchfield,
+      searchmode: pkgSearchParams.searchmode,
     });
 
     history.replace({
@@ -298,6 +301,7 @@ const PackageShowRoute = ({
             tagsModelOfAlreadyAddedTags={tagsModelOfAlreadyAddedTags}
             accessTypes={accessStatusTypes}
             searchType={listTypes.TITLES}
+            hideSearchMode
             onFilter={searchTitles}
             onToggleActions={handleAccordionHeaderSearchActionsToggle}
             renderFilters={renderSearchSectionFilters}

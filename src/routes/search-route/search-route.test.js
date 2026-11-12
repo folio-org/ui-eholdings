@@ -1,11 +1,13 @@
 import { MemoryRouter } from 'react-router-dom';
 import noop from 'lodash/noop';
+import isEqual from 'lodash/isEqual';
 
 import {
   render,
   cleanup,
   act,
   fireEvent,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import SearchRoute from './search-route';
@@ -440,6 +442,68 @@ describe('Given SearchRoute', () => {
         fireEvent.click(getByTestId('next-button'));
 
         expect(mockSearchTitles).toHaveBeenCalled();
+      });
+    });
+
+    describe('when searching titles by a lone query string', () => {
+      it('should look up the same request that is dispatched, so loading state can clear', () => {
+        const mockSearchTitles = jest.fn();
+        const query = jest.fn(getCollection);
+
+        const { getByTestId } = renderSearchRoute({
+          searchTitles: mockSearchTitles,
+          resolver: { query },
+          location: { ...location, search: '?searchType=titles&q=a' },
+        });
+
+        fireEvent.click(getByTestId('next-button'));
+
+        const { count, page, ...dispatched } = mockSearchTitles.mock.calls[0][0];
+
+        expect(dispatched.filter).toBeUndefined();
+
+        // every lookup (results + packages facet) must match the dispatched request
+        query.mock.calls.forEach(([, lookup]) => {
+          const { page: lookupPage, ...lookupParams } = lookup;
+
+          expect(lookupParams).toEqual(dispatched);
+        });
+      });
+    });
+
+    describe('when a package filter is selected', () => {
+      it('should dispatch and look up the facet request without packageIds', async () => {
+        const mockSearchTitles = jest.fn();
+        const query = jest.fn(getCollection);
+
+        const { getByTestId } = renderSearchRoute({
+          searchTitles: mockSearchTitles,
+          resolver: { query },
+          location: { ...location, search: '?searchType=titles&q=a&filter[packageIds]=4591' },
+        });
+
+        fireEvent.click(getByTestId('next-button'));
+
+        // the facet request is dispatched deferred
+        await waitFor(() => expect(mockSearchTitles).toHaveBeenCalledTimes(2));
+
+        const [mainCall, facetCall] = mockSearchTitles.mock.calls.map(([p]) => p);
+
+        expect(mainCall.filter).toEqual({ packageIds: '4591' });
+        expect(facetCall.filter).toBeUndefined();
+
+        const { count, page: facetPage, ...facetParams } = facetCall;
+        const { count: mainCount, page: mainPage, filter, ...mainParams } = mainCall;
+
+        // facet differs from the main request only by the dropped packageIds
+        expect(facetParams).toEqual({ ...mainParams, filter: undefined });
+
+        // and the facet lookup matches the dispatched facet request
+        expect(query.mock.calls.some(([, lookup]) => {
+          const { page, ...rest } = lookup;
+
+          return isEqual(rest, facetParams);
+        })).toBe(true);
       });
     });
 

@@ -12,19 +12,22 @@ import {
 
 import ProxyDisplay from '../../../../proxy-display';
 import AccessTypeDisplay from '../../../../access-type-display';
+import { VisibilityView } from '../../../../visibility-view';
 import {
   AutomaticallySelectTitles,
   ProviderToken,
   PackageToken,
   AlternateNames,
-  VisibilityView,
   PackageDisplayName,
   PackageUrl,
   Description,
 } from './fields';
 import { useProvider } from '../../../../../hooks';
 import { getAccessTypeId } from '../../../../utilities';
-import { accessTypesReduxStateShape } from '../../../../../constants';
+import {
+  accessTypesReduxStateShape,
+  entityTypes,
+} from '../../../../../constants';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -60,7 +63,7 @@ const PackageSettings = ({
       <>
         <Row>
           <Col xs={3}>
-            <VisibilityView visibility={model.visibility} />
+            <VisibilityView visibility={model.visibility} recordType={entityTypes.PACKAGE} />
           </Col>
           <Col xs={3}>
             {!model.isCustom && (

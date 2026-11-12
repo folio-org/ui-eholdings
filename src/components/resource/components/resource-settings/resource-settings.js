@@ -11,12 +11,14 @@ import {
 } from '@folio/stripes/components';
 
 import AccessTypeDisplay from '../../../access-type-display';
+import { VisibilityView } from '../../../visibility-view';
 import ProxyDisplay from '../../../proxy-display';
 import ExternalLink from '../../../external-link/external-link';
-
-import { accessTypesReduxStateShape } from '../../../../constants';
-
 import { getAccessTypeId } from '../../../utilities';
+import {
+  accessTypesReduxStateShape,
+  entityTypes,
+} from '../../../../constants';
 
 const propTypes = {
   accessStatusTypes: accessTypesReduxStateShape.isRequired,
@@ -36,14 +38,9 @@ const ResourceSettings = ({
   isOpen,
   onToggle,
   model,
-  resourceSelected,
   accessStatusTypes,
   proxyTypes,
 }) => {
-  const visibilityMessage = model.package.visibilityData?.isHidden
-    ? <FormattedMessage id="ui-eholdings.resource.visibilityData.isHidden" />
-    : model.visibilityData.reason && `(${model.visibilityData.reason})`;
-
   const hasInheritedProxy = !!model.package?.proxy?.id;
   const hasProxiedUrl = !!model.proxy?.proxiedUrl;
 
@@ -63,22 +60,7 @@ const ResourceSettings = ({
     >
       <Row>
         <Col {...COL_SIZES}>
-          <KeyValue label={<FormattedMessage id="ui-eholdings.label.showToPatrons" />}>
-            <div
-              data-test-eholdings-resource-show-visibility
-              data-testid="resource-show-visibility"
-            >
-              {(model.visibilityData.isHidden || !resourceSelected)
-                ? (
-                  <FormattedMessage
-                    id="ui-eholdings.package.visibility.no"
-                    values={{ visibilityMessage }}
-                  />
-                )
-                : <FormattedMessage id="ui-eholdings.yes" />
-              }
-            </div>
-          </KeyValue>
+          <VisibilityView visibility={model.visibility} recordType={entityTypes.RESOURCE} />
         </Col>
         {model.url && (
           <Col {...COL_SIZES}>

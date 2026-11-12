@@ -157,6 +157,11 @@
     "exportPackageResources.fields.all": "Export all fields",
     "exportPackageResources.fields.selected": "Export selected fields",
 
+    "visibility.PF": "In Publication Finder",
+    "visibility.FTF": "In Full Text Finder",
+    "visibility.MARC": "In MARC export",
+    "visibility.no": "No { visibilityMessage }",
+
     "package.actionMenu.edit": "Edit",
     "package.actionMenu.exportToCSV": "Export package (CSV)",
     "package.addToHoldings": "Add to holdings",
@@ -198,10 +203,6 @@
     "package.titlesSelected": "Titles selected",
     "package.totalTitles": "Total titles",
     "package.visibility": "Hide/exclude all titles in the package",
-    "package.visibility.PF": "In Publication Finder",
-    "package.visibility.FTF": "In Full Text Finder",
-    "package.visibility.MARC": "In MARC export",
-    "package.visibility.no": "No { visibilityMessage }",
     "package.visibility.notSelected": "Add the package to holdings to customize package settings.",
     "package.controlled": "Controlled",
     "package.public": "Public",
@@ -280,6 +281,8 @@
     "resource.coverage.notSelected": "Add the resource to holdings to customize coverage.",
     "resource.coverage.noCustomizations": "No coverage customizations set.",
     "resource.toast.isFreshlySaved": "Title was updated.",
+    
+    "resource.visibility": "Hide/exclude title",
     "resource.visibilityData.isHidden": "(All titles in this package are hidden)",
 
     "package-resource.coverageDates.savingWillRemove": "No date ranges set. Saving will remove custom coverage.",
@@ -493,6 +496,15 @@
     "label.hiddenPF": "Hidden in Publication Finder",
     "label.hiddenFTF": "Hidden in Full Text Finder Resolver",
     "label.hiddenMARC": "Excluded from MARC export",
+    "label.packageIndex.keyword": "Keyword",
+    "label.packageIndex.name": "Package name",
+    "label.searchModes.advanced": "Advanced",
+    "label.searchModes.any": "Contains any",
+    "label.searchModes.beginswith": "Begins with",
+    "label.searchModes.contains": "Contains all",
+    "label.searchModes.exactmatch": "Exact match",
+    "label.searchModes.exactphrase": "Exact phrase",
+    "label.searchModes.proximity": "Proximity",
 
     "filter.all": "All",
     "filter.sortOptions.relevance": "Relevance",
@@ -608,6 +620,7 @@
     "search.searchByTagsOnly" : "Search by tags only",
     "search.searchByAccessTypeOnly" : "Search by access status types only",
     "search.selectFieldToSearch" : "Select a field to search",
+    "search.selectSearchMode": "Select a search mode",
 
     "date.present": "Present",
     "date.startDate": "Start date",

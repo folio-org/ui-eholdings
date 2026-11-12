@@ -13,22 +13,21 @@ import {
   ButtonGroup,
   FilterAccordionHeader,
   SearchField,
-  Select,
 } from '@folio/stripes/components';
 
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
 import TitleSearchFilters from '../title-search-filters';
 import {
-  searchTypes,
   accessTypesReduxStateShape,
-  searchableIndexes,
+  searchTypes,
   selectionStatusFilterConfig,
   titleSortFilterConfig,
   packageAccessFilterConfig,
 } from '../../constants';
 import { publicationTypeFilterConfig } from './search-form-filter-config';
 import { getTagLabelsArr } from '../utilities';
+import { SearchModifiers } from '../search-modifiers';
 import TagFilterAccordion from './components/tags-filter-accordion';
 import AccessTypesFilterAccordion from './components/access-types-filter-accordion';
 
@@ -65,7 +64,8 @@ class SearchForm extends Component {
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
-    onSearchFieldChange: PropTypes.func,
+    onSearchFieldChange: PropTypes.func.isRequired,
+    onSearchModeChange: PropTypes.func.isRequired,
     onStandaloneFilterChange: PropTypes.func.isRequired,
     onStandaloneFilterToggle: PropTypes.func.isRequired,
     packagesFacetCollection: PropTypes.object,
@@ -80,8 +80,10 @@ class SearchForm extends Component {
       filter: PropTypes.object,
       q: PropTypes.string,
       searchfield: PropTypes.string,
+      searchmode: PropTypes.string,
       tags: PropTypes.arrayOf(PropTypes.string),
     }),
+    searchMode: PropTypes.string,
     searchString: PropTypes.string,
     searchType: PropTypes.oneOf(validSearchTypes).isRequired,
     searchTypeUrls: PropTypes.shape({
@@ -159,6 +161,10 @@ class SearchForm extends Component {
 
   handleChangeIndex = (e) => {
     this.props.onSearchFieldChange(e.target.value);
+  };
+
+  handleChangeSearchMode = (e) => {
+    this.props.onSearchModeChange(e.target.value);
   };
 
   /**
@@ -278,6 +284,7 @@ class SearchForm extends Component {
       searchField,
       searchFilter,
       searchString,
+      searchMode,
       sort,
       searchByTagsEnabled,
       searchByAccessTypesEnabled,
@@ -323,27 +330,13 @@ class SearchForm extends Component {
             <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
               {([placeholder]) => (
                 <>
-                  {(searchType === searchTypes.TITLES) && (
-                    <FormattedMessage id="ui-eholdings.search.selectFieldToSearch">
-                      {([ariaLabel]) => (
-                        <Select
-                          onChange={this.handleChangeIndex}
-                          value={searchField}
-                          aria-label={ariaLabel}
-                          data-testid="field-to-search-select"
-                        >
-                          {Object.values(searchableIndexes).map(value => (
-                            <FormattedMessage
-                              id={`ui-eholdings.label.${value}`}
-                              key={value}
-                            >
-                              {(label) => <option value={value}>{label}</option>}
-                            </FormattedMessage>
-                          ))}
-                        </Select>
-                      )}
-                    </FormattedMessage>
-                  )}
+                  <SearchModifiers
+                    searchType={searchType}
+                    searchField={searchField}
+                    searchMode={searchMode}
+                    onFieldChange={this.handleChangeIndex}
+                    onModeChange={this.handleChangeSearchMode}
+                  />
                   <FormattedMessage id="ui-eholdings.search.enterYourSearch">
                     {([ariaLabel]) => (
                       <SearchField

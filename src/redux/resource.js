@@ -15,6 +15,7 @@ class Resource {
   customCoverages = [];
   managedEmbargoPeriod = {};
   customEmbargoPeriod = {};
+  visibility = [];
   visibilityData = {};
   coverageStatement = '';
   proxy = {};
@@ -66,6 +67,7 @@ class Resource {
         customCoverages: this.customCoverages,
         managedEmbargoPeriod: this.managedEmbargoPeriod,
         customEmbargoPeriod: this.customEmbargoPeriod,
+        visibility: this.visibility,
         visibilityData: this.visibilityData,
         coverageStatement: this.coverageStatement,
         proxy: this.proxy,

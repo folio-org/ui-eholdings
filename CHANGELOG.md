@@ -41,6 +41,9 @@
 * Add visibility filter as a partner to selection status filter. (UIEH-1528)
 * Fix incorrect validation behavior for access status type settings. (UIEH-1514)
 * Provider Record - Packages List MCL view - Add Access status type column. (UIEH-1524)
+* View Title + Package (aka Resources) Detail Record > Replace Show to patrons field with Hide/exclude title field. (UIEH-1539)
+* Add a search mode dropdown for main title search. (UIEH-1566)
+* Add a search field and mode dropdown for package search. (UIEH-1567)
 * Add package access filter for title search. (UIEH-1518)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)

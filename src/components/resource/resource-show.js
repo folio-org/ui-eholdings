@@ -252,7 +252,6 @@ const ResourceShow = ({
               isOpen={sections.resourceShowSettings}
               onToggle={handleSectionToggle}
               model={model}
-              resourceSelected={resourceSelected}
               accessStatusTypes={accessStatusTypes}
               proxyTypes={proxyTypes}
             />
