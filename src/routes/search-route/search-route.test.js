@@ -400,6 +400,34 @@ describe('Given SearchRoute', () => {
       expect(queryByTestId('titles')).toBeNull();
     });
 
+    it('should not render TitlesSearchList for only an access filter', () => {
+      const { queryByTestId } = renderSearchRoute({
+        location: {
+          ...location,
+          search: '?searchType=titles&filter[access]=public',
+        },
+      });
+
+      expect(queryByTestId('titles')).toBeNull();
+    });
+
+    it('should pass the access filter to searchTitles', () => {
+      const mockSearchTitles = jest.fn();
+      const { getByTestId } = renderSearchRoute({
+        searchTitles: mockSearchTitles,
+        location: {
+          ...location,
+          search: '?searchType=titles&q=a&filter[access]=public',
+        },
+      });
+
+      fireEvent.click(getByTestId('next-button'));
+
+      expect(mockSearchTitles).toHaveBeenCalledWith(expect.objectContaining({
+        filter: expect.objectContaining({ access: 'public' }),
+      }));
+    });
+
     describe('when loaded more then 100 records and click on next button', () => {
       it('should handle searchTitles action', () => {
         const mockSearchTitles = jest.fn();

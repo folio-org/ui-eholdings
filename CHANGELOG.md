@@ -44,6 +44,7 @@
 * View Title + Package (aka Resources) Detail Record > Replace Show to patrons field with Hide/exclude title field. (UIEH-1539)
 * Add a search mode dropdown for main title search. (UIEH-1566)
 * Add a search field and mode dropdown for package search. (UIEH-1567)
+* Add package access filter for title search. (UIEH-1518)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 

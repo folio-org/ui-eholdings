@@ -23,6 +23,7 @@ import {
   searchTypes,
   selectionStatusFilterConfig,
   titleSortFilterConfig,
+  packageAccessFilterConfig,
 } from '../../constants';
 import { publicationTypeFilterConfig } from './search-form-filter-config';
 import { getTagLabelsArr } from '../utilities';
@@ -47,6 +48,7 @@ const searchFiltersComponents = {
         titleSortFilterConfig,
         selectionStatusFilterConfig,
         publicationTypeFilterConfig,
+        packageAccessFilterConfig,
       ]}
       {...props}
     />

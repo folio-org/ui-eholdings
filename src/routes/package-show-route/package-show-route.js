@@ -32,6 +32,7 @@ import {
   titleSortFilterConfig,
   selectionStatusFilterConfig,
   publicationTypeTitlesListFilterConfig,
+  packageAccessFilterConfig,
 } from '../../constants';
 
 const propTypes = {
@@ -82,6 +83,7 @@ const PackageShowRoute = ({
     'access-type': accessType,
     selected,
     visibility,
+    access,
     searchfield = 'title',
     searchmode,
   } = queryString.parse(location.search.substring(1));
@@ -100,6 +102,7 @@ const PackageShowRoute = ({
       type,
       selected,
       visibility,
+      access,
       'access-type': accessType,
     },
   });
@@ -190,6 +193,7 @@ const PackageShowRoute = ({
       'access-type': pkgSearchParams.filter?.['access-type'],
       selected: pkgSearchParams.filter?.selected,
       visibility: pkgSearchParams.filter?.visibility,
+      access: pkgSearchParams.filter?.access,
       searchfield: pkgSearchParams.searchfield,
       searchmode: pkgSearchParams.searchmode,
     });
@@ -253,6 +257,7 @@ const PackageShowRoute = ({
           titleSortFilterConfig,
           selectionStatusFilterConfig,
           publicationTypeTitlesListFilterConfig,
+          packageAccessFilterConfig,
         ]}
         {...props}
       />
