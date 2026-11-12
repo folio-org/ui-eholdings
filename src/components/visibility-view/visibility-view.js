@@ -5,12 +5,12 @@ import {
   KeyValue,
 } from '@folio/stripes/components';
 
-export const VisibilityView = ({ visibility }) => (
-  <KeyValue label={<FormattedMessage id="ui-eholdings.package.visibility" />}>
+export const VisibilityView = ({ visibility, recordType }) => (
+  <KeyValue label={<FormattedMessage id={`ui-eholdings.${recordType}.visibility`} />}>
     {visibility.map(visibilityOption => (
       <Checkbox
         key={visibilityOption.category}
-        label={<FormattedMessage id={`ui-eholdings.package.visibility.${visibilityOption.category}`} />}
+        label={<FormattedMessage id={`ui-eholdings.visibility.${visibilityOption.category}`} />}
         checked={visibilityOption.hidden}
         disabled
       />

@@ -78,10 +78,19 @@ const model = {
   package: {
     name: 'Test package',
     isCustom: false,
-    visibilityData: {
-      isHidden: false,
+    visibility: [{
+      category: 'PF',
+      hidden: false,
       reason: '',
-    },
+    }, {
+      category: 'FTF',
+      hidden: false,
+      reason: '',
+    }, {
+      category: 'MARC',
+      hidden: false,
+      reason: '',
+    }],
   },
   title: {
     name: 'Test resource',
@@ -111,9 +120,19 @@ const model = {
     isResolved: false,
     errors: [],
   },
-  visibilityData: {
-    isHidden: false,
-  },
+  visibility: [{
+    category: 'PF',
+    hidden: false,
+    reason: '',
+  }, {
+    category: 'FTF',
+    hidden: false,
+    reason: '',
+  }, {
+    category: 'MARC',
+    hidden: false,
+    reason: '',
+  }],
   proxy: {
     id: 'proxy-id',
     inherited: true,

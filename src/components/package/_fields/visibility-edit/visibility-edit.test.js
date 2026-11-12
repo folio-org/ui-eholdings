@@ -48,16 +48,16 @@ describe('Given VisibilityEdit', () => {
   it('should render a checkbox for each visibility option', () => {
     const { getByLabelText } = renderVisibilityEdit();
 
-    expect(getByLabelText('ui-eholdings.package.visibility.PF')).toBeDefined();
-    expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeDefined();
-    expect(getByLabelText('ui-eholdings.package.visibility.MARC')).toBeDefined();
+    expect(getByLabelText('ui-eholdings.visibility.PF')).toBeDefined();
+    expect(getByLabelText('ui-eholdings.visibility.FTF')).toBeDefined();
+    expect(getByLabelText('ui-eholdings.visibility.MARC')).toBeDefined();
   });
 
   it('should reflect the initial `hidden` value for each option', () => {
     const { getByLabelText } = renderVisibilityEdit();
 
-    expect(getByLabelText('ui-eholdings.package.visibility.PF')).not.toBeChecked();
-    expect(getByLabelText('ui-eholdings.package.visibility.FTF')).toBeChecked();
-    expect(getByLabelText('ui-eholdings.package.visibility.MARC')).not.toBeChecked();
+    expect(getByLabelText('ui-eholdings.visibility.PF')).not.toBeChecked();
+    expect(getByLabelText('ui-eholdings.visibility.FTF')).toBeChecked();
+    expect(getByLabelText('ui-eholdings.visibility.MARC')).not.toBeChecked();
   });
 });

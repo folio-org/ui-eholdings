@@ -22,6 +22,7 @@ export const usePackageModel = ({
   } = usePackage({ packageId });
   const {
     deletePackage,
+    isLoading: isPackageDeleteLoading,
     isError: isDeleteError,
     errors: deleteErrors,
   } = usePackageDelete({ onSuccess: onDeleteSuccess });
@@ -33,39 +34,13 @@ export const usePackageModel = ({
     errors: updateErrors,
   } = usePackageUpdate({ packageId, onSuccess: onUpdateSuccess });
   const { updatePackageTags } = usePackageTagsUpdate({ packageId });
-  const {
-    createPackage,
-    isLoading: isPackageCreateLoading,
-  } = usePackageCreate({
+  const { createPackage } = usePackageCreate({
     onSuccess: onCreateSuccess,
   });
 
-  const selectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess', 'url']);
-
-    attrs.selectedCount = attrs.titleCount;
-    attrs.isSelected = true;
-    attrs.allowKbToAddTitles = true;
-    attrs.customCoverage = {};
-
-    return updatePackageAsync(attrs);
-  }, [data, updatePackageAsync]);
-
-  const deselectPackage = useCallback(() => {
-    const attrs = omit(data, ['isFreeAccess', 'url']);
-    // When de-selecting a managed package
-    // need to clear out customizations before sending to server
-    attrs.isSelected = false;
-    attrs.visibility = null;
-    attrs.customCoverage = {};
-    attrs.allowKbToAddTitles = false;
-    attrs.accessTypeId = null;
-
-    return updatePackageAsync(attrs);
-  }, [data, updatePackageAsync]);
-
   const model = useMemo(() => ({
     ...data,
+    isPartiallySelected: data?.selectedCount > 0 && data?.selectedCount !== data?.titleCount,
     isLoading: isPackageLoading,
     isLoaded: isPackageLoaded && !isFetchError,
     request: {
@@ -79,7 +54,7 @@ export const usePackageModel = ({
       errors: updateErrors,
     },
     destroy: {
-      isPending: isPackageCreateLoading,
+      isPending: isPackageDeleteLoading,
       isRejected: isDeleteError,
       errors: deleteErrors,
     },
@@ -91,11 +66,41 @@ export const usePackageModel = ({
     isFetchError,
     isPackageLoading,
     isPackageLoaded,
-    isPackageCreateLoading,
+    isPackageDeleteLoading,
     isUpdateError,
     isUpdateLoading,
     updateErrors,
   ]);
+
+  const omitNonPackageDataPropertiesFromModel = (_model) => {
+    const propsToOmit = ['isLoading', 'isLoaded', 'request', 'update', 'destroy'];
+
+    return omit(_model, propsToOmit);
+  };
+
+  const selectPackage = useCallback(() => {
+    const attrs = omit(omitNonPackageDataPropertiesFromModel(model), ['isFreeAccess', 'url']);
+
+    attrs.selectedCount = attrs.titleCount;
+    attrs.isSelected = true;
+    attrs.allowKbToAddTitles = true;
+    attrs.customCoverage = {};
+
+    return updatePackageAsync(attrs);
+  }, [model, updatePackageAsync]);
+
+  const deselectPackage = useCallback(() => {
+    const attrs = omit(omitNonPackageDataPropertiesFromModel(model), ['isFreeAccess', 'url']);
+    // When de-selecting a managed package
+    // need to clear out customizations before sending to server
+    attrs.isSelected = false;
+    attrs.visibility = null;
+    attrs.customCoverage = {};
+    attrs.allowKbToAddTitles = false;
+    attrs.accessTypeId = null;
+
+    return updatePackageAsync(attrs);
+  }, [model, updatePackageAsync]);
 
   return {
     model,
