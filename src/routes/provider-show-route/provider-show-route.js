@@ -26,6 +26,7 @@ import {
 } from '../../constants';
 import { SearchSection } from '../../components/search-section';
 import PackageSearchFilters from '../../components/package-search-filters';
+import { transformQueryParams } from '../../components/utilities';
 import { useProviderPackages } from '../../hooks';
 
 const propTypes = {
@@ -69,6 +70,7 @@ const ProviderShowRoute = ({
     'access-type': accessType,
     selected,
     searchfield,
+    searchmode,
     visibility,
     access,
   } = queryString.parse(location.search, { ignoreQueryPrefix: true });
@@ -77,6 +79,7 @@ const ProviderShowRoute = ({
     q: filterPackages,
     sort,
     searchfield,
+    searchmode,
     include: 'accessType',
     filter: {
       tags,
@@ -86,11 +89,13 @@ const ProviderShowRoute = ({
       access,
       'access-type': accessType,
     },
-  }), [filterPackages, sort, searchfield, tags, type, selected, visibility, access, accessType]);
+  }), [filterPackages, sort, searchfield, searchmode, tags, type, selected, visibility, access, accessType]);
 
   const { providerId } = routeParams;
 
-  const providerPackages = useProviderPackages({ providerId, searchParams: pkgSearchParams });
+  const packagesRequestParams = useMemo(() => transformQueryParams('packages', pkgSearchParams), [pkgSearchParams]);
+
+  const providerPackages = useProviderPackages({ providerId, searchParams: packagesRequestParams });
 
   useEffect(() => {
     getProvider(providerId);
@@ -113,6 +118,7 @@ const ProviderShowRoute = ({
       visibility: _pkgSearchParams.filter?.visibility,
       access: _pkgSearchParams.filter?.access,
       searchfield: _pkgSearchParams.searchfield,
+      searchmode: _pkgSearchParams.searchmode,
     });
 
     history.replace({

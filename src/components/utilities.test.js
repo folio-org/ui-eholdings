@@ -4,6 +4,7 @@ import {
   getAccessTypeIdsAndNames,
   filterCountFromQuery,
   getMatchedStringInUTF8,
+  transformQueryParams,
 } from './utilities';
 
 describe('utilities', () => {
@@ -156,6 +157,64 @@ describe('utilities', () => {
 
         expect(resultString).toEqual('');
       });
+    });
+  });
+
+  describe('transformQueryParams', () => {
+    it('should send field and mode as q[field] and q[type]', () => {
+      expect(transformQueryParams('packages', {
+        q: 'abc',
+        searchfield: 'keyword',
+        searchmode: 'exactmatch',
+        sort: 'name',
+      })).toEqual({
+        q: 'abc',
+        'q[field]': 'keyword',
+        'q[type]': 'exactmatch',
+        sort: 'name',
+      });
+    });
+
+    it('should use the defaults when field and mode are missing', () => {
+      expect(transformQueryParams('packages', { q: 'abc' })).toEqual({
+        q: 'abc',
+        'q[field]': 'name',
+        'q[type]': 'advanced',
+      });
+    });
+
+    it('should send the title field as name', () => {
+      expect(transformQueryParams('titles', { q: 'abc', searchfield: 'title' })).toEqual(
+        expect.objectContaining({ 'q[field]': 'name' })
+      );
+    });
+
+    it('should keep title only fields and modes for titles', () => {
+      expect(transformQueryParams('titles', { q: 'abc', searchfield: 'isxn', searchmode: 'proximity' })).toEqual(
+        expect.objectContaining({ 'q[field]': 'isxn', 'q[type]': 'proximity' })
+      );
+    });
+
+    it('should fall back to the defaults for a field and mode not valid for packages', () => {
+      expect(transformQueryParams('packages', { q: 'abc', searchfield: 'isxn', searchmode: 'proximity' })).toEqual(
+        expect.objectContaining({ 'q[field]': 'name', 'q[type]': 'advanced' })
+      );
+    });
+
+    it('should fall back to the defaults for a field and mode not valid for titles', () => {
+      expect(transformQueryParams('titles', { q: 'abc', searchfield: 'keyword', searchmode: 'bogus' })).toEqual(
+        expect.objectContaining({ 'q[field]': 'name', 'q[type]': 'advanced' })
+      );
+    });
+
+    it('should not add field or mode without a query', () => {
+      expect(transformQueryParams('packages', { searchfield: 'keyword', searchmode: 'any' })).toEqual({});
+    });
+
+    it('should leave other search types untouched', () => {
+      const params = { q: 'abc', searchfield: 'name' };
+
+      expect(transformQueryParams('providers', params)).toBe(params);
     });
   });
 });
