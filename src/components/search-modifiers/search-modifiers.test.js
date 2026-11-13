@@ -76,6 +76,28 @@ describe('SearchModifiers', () => {
     });
   });
 
+  describe('when search type is packages', () => {
+    it('should provide package name and keyword options', () => {
+      const { getByTestId, getByRole } = renderSelects({ searchType: searchTypes.PACKAGES });
+
+      expect(optionValues(getByTestId('field-to-search-select'))).toEqual(['name', 'keyword']);
+      expect(getByRole('option', { name: 'ui-eholdings.label.packageIndex.name' })).toBeInTheDocument();
+      expect(getByRole('option', { name: 'ui-eholdings.label.packageIndex.keyword' })).toBeInTheDocument();
+    });
+  });
+
+  describe('when the search mode is hidden', () => {
+    it('should render the field selector without the mode selector', () => {
+      const { getByTestId, queryByTestId } = renderSelects({
+        hideSearchMode: true,
+        searchType: searchTypes.TITLES,
+      });
+
+      expect(getByTestId('field-to-search-select')).toBeInTheDocument();
+      expect(queryByTestId('search-mode-select')).not.toBeInTheDocument();
+    });
+  });
+
   describe('when search type has no field or mode options', () => {
     it('should render nothing', () => {
       const { queryByTestId } = renderSelects({ searchType: searchTypes.PROVIDERS });
