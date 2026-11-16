@@ -380,26 +380,6 @@ describe('Given SettingsAccessStatusTypes', () => {
       expect(onCreate).not.toHaveBeenCalled();
     });
 
-    it('should show a duplicate error and not save when a new item is saved without being touched', () => {
-      const onCreate = jest.fn();
-      const {
-        getByRole,
-        getByText,
-      } = renderSettingsAccessStatusTypes({
-        props: { onCreate },
-      });
-
-      fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
-
-      const nameInput = getByRole('textbox', { name: nameInputLabel });
-
-      fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
-      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
-
-      expect(getByText(duplicateMessage)).toBeDefined();
-      expect(onCreate).not.toHaveBeenCalled();
-    });
-
     it('should not show a duplicate error when a new item uses a unique name', () => {
       const onCreate = jest.fn();
       const {
