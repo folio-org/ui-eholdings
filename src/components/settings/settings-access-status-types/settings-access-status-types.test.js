@@ -395,9 +395,8 @@ describe('Given SettingsAccessStatusTypes', () => {
       const saveButton = getByRole('button', { name: 'stripes-core.button.save' });
 
       fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
-      expect(saveButton).toBeEnabled();
-      fireEvent.click(saveButton);
 
+      expect(saveButton).toBeDisabled();
       expect(getByText(duplicateMessage)).toBeDefined();
       expect(onCreate).not.toHaveBeenCalled();
     });
