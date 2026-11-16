@@ -498,7 +498,7 @@
     "label.hiddenMARC": "Excluded from MARC export",
     "label.packageIndex.keyword": "Keyword",
     "label.packageIndex.name": "Package name",
-    "label.searchModes.advanced": "Advanced",
+    "label.searchModes.advanced": "Advanced search",
     "label.searchModes.any": "Contains any",
     "label.searchModes.beginswith": "Begins with",
     "label.searchModes.contains": "Contains all",

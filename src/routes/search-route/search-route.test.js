@@ -331,6 +331,60 @@ describe('Given SearchRoute', () => {
 
         expect(mockHistory.push).toHaveBeenCalled();
       });
+
+      it('should apply a changed search field only when the search is submitted', () => {
+        mockHistory.push.mockClear();
+        const {
+          getByPlaceholderText,
+          getByTestId,
+          getByText,
+        } = renderSearchRoute({
+          location: {
+            ...location,
+            search: '?searchType=packages',
+          },
+        });
+
+        fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+          target: { value: 'package' },
+        });
+        fireEvent.change(getByTestId('field-to-search-select'), {
+          target: { value: 'keyword' },
+        });
+
+        expect(mockHistory.push).not.toHaveBeenCalled();
+
+        fireEvent.click(getByText('ui-eholdings.label.search'));
+
+        expect(mockHistory.push).toHaveBeenCalledWith(expect.stringContaining('searchfield=keyword'));
+      });
+
+      it('should apply a changed search mode only when the search is submitted', () => {
+        mockHistory.push.mockClear();
+        const {
+          getByPlaceholderText,
+          getByTestId,
+          getByText,
+        } = renderSearchRoute({
+          location: {
+            ...location,
+            search: '?searchType=packages',
+          },
+        });
+
+        fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+          target: { value: 'package' },
+        });
+        fireEvent.change(getByTestId('search-mode-select'), {
+          target: { value: 'exactmatch' },
+        });
+
+        expect(mockHistory.push).not.toHaveBeenCalled();
+
+        fireEvent.click(getByText('ui-eholdings.label.search'));
+
+        expect(mockHistory.push).toHaveBeenCalledWith(expect.stringContaining('searchmode=exactmatch'));
+      });
     });
 
     describe('when loaded more then 100 records and click on next button', () => {

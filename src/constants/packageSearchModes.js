@@ -1,8 +1,8 @@
 export const packageSearchModes = {
   ADVANCED: 'advanced',
-  ANY: 'any',
   BEGINS_WITH: 'beginswith',
   CONTAINS: 'contains',
+  ANY: 'any',
   EXACT_MATCH: 'exactmatch',
   EXACT_PHRASE: 'exactphrase',
 };

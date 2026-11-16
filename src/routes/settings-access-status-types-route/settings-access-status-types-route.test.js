@@ -107,7 +107,7 @@ describe('Given SettingsAccessStatusTypesRoute', () => {
         },
         accessTypes: {
           items: {
-            data: null,
+            data: [],
           },
           errors: [],
         },
