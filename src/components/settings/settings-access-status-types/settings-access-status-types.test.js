@@ -392,9 +392,11 @@ describe('Given SettingsAccessStatusTypes', () => {
       fireEvent.click(getByRole('button', { name: 'ui-eholdings.new' }));
 
       const nameInput = getByRole('textbox', { name: nameInputLabel });
+      const saveButton = getByRole('button', { name: 'stripes-core.button.save' });
 
       fireEvent.change(nameInput, { target: { value: 'test-access-type' } });
-      fireEvent.click(getByRole('button', { name: 'stripes-core.button.save' }));
+      expect(saveButton).toBeEnabled();
+      fireEvent.click(saveButton);
 
       expect(getByText(duplicateMessage)).toBeDefined();
       expect(onCreate).not.toHaveBeenCalled();

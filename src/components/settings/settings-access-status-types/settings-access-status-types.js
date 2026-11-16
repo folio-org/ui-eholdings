@@ -225,10 +225,18 @@ const SettingsAccessStatusTypes = ({
   const isMaxAccessTypesNumberReached = accessTypesData?.items?.length >= MAX_ACCESS_STATUS_TYPES_COUNT;
   const isCreateButtonDisabled = isMaxAccessTypesNumberReached || !canCreateAndEdit;
   const isListEditable = canDelete || canCreateAndEdit;
+  const isDuplicateName = (item) => {
+    const name = item.attributes?.name;
+
+    return Boolean(name && (accessTypesData?.items ?? []).some(
+      existingItem => existingItem.id !== item.id && existingItem.attributes?.name === name,
+    ));
+  };
 
   const actionProps = {
     create: isCreateButtonDisabled ? () => ({ disabled: true }) : {},
     delete: item => ({ onClick: () => showConfirmDialog(item.id) }),
+    save: item => (isDuplicateName(item) ? { disabled: false } : {}),
   };
 
   return (
