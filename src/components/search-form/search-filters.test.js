@@ -7,7 +7,7 @@ import {
 
 import Harness from '../../../test/jest/helpers/harness';
 import SearchFilters from './search-filters';
-import { FILTER_TYPES } from '../../constants';
+import { FILTER_TYPES, packageAccessFilterConfig } from '../../constants';
 
 const mockOnUpdate = jest.fn();
 const mockToggleColumn = jest.fn();
@@ -122,6 +122,29 @@ describe('Given SearchFilters', () => {
       });
 
       fireEvent.change(getByRole('combobox'), { target: { value: 'All-label' } });
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc' });
+    });
+  });
+
+  describe('when using the package access filter', () => {
+    const availableFilters = [packageAccessFilterConfig];
+
+    it('should set the access filter when choosing a specific option', () => {
+      const { getByLabelText } = renderSearchFilters({ availableFilters, activeFilters: { q: 'abc' } });
+
+      fireEvent.click(getByLabelText('ui-eholdings.filter.packageAccess.public'));
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc', access: 'public' });
+    });
+
+    it('should remove the access filter when choosing the default option', () => {
+      const { getByLabelText } = renderSearchFilters({
+        availableFilters,
+        activeFilters: { q: 'abc', access: 'public' },
+      });
+
+      fireEvent.click(getByLabelText('ui-eholdings.filter.all'));
 
       expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc' });
     });

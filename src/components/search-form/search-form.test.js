@@ -97,6 +97,13 @@ describe('Given SearchForm', () => {
       expect(getByTestId('field-to-search-select'));
     });
 
+    it('should show the package access filter', () => {
+      const { getByText, getByLabelText } = renderSearchForm({ searchType: searchTypes.TITLES });
+
+      expect(getByText('ui-eholdings.package.packageAccess')).toBeDefined();
+      expect(getByLabelText('ui-eholdings.filter.packageAccess.controlled')).toBeDefined();
+    });
+
     describe('when change search select value', () => {
       it('should handle onSearchFieldChange action', () => {
         const mockOnSearchFieldChange = jest.fn();
