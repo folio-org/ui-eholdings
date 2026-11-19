@@ -161,6 +161,7 @@
     "visibility.FTF": "In Full Text Finder",
     "visibility.MARC": "In MARC export",
     "visibility.no": "No { visibilityMessage }",
+    "visibility.setByPackage": "(Set by package)",
 
     "package.actionMenu.edit": "Edit",
     "package.actionMenu.exportToCSV": "Export package (CSV)",
