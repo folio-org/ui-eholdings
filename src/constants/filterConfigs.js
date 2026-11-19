@@ -137,7 +137,7 @@ export const selectionStatusFilterConfig = {
   ]),
 };
 
-export const publicationTypeTitlesListFilterConfig = {
+export const publicationTypeFilterConfig = {
   type: FILTER_TYPES.SELECT,
   name: 'type',
   label: <FormattedMessage id="ui-eholdings.label.publicationType" />,

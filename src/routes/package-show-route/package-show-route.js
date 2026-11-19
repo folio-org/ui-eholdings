@@ -31,7 +31,7 @@ import {
   tagPaths,
   titleSortFilterConfig,
   selectionStatusFilterConfig,
-  publicationTypeTitlesListFilterConfig,
+  publicationTypeFilterConfig,
   packageAccessFilterConfig,
 } from '../../constants';
 
@@ -256,7 +256,7 @@ const PackageShowRoute = ({
         availableFilters={[
           titleSortFilterConfig,
           selectionStatusFilterConfig,
-          publicationTypeTitlesListFilterConfig,
+          publicationTypeFilterConfig,
           packageAccessFilterConfig,
         ]}
         {...props}
