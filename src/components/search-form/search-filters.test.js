@@ -7,7 +7,11 @@ import {
 
 import Harness from '../../../test/jest/helpers/harness';
 import SearchFilters from './search-filters';
-import { FILTER_TYPES, packageAccessFilterConfig } from '../../constants';
+import {
+  FILTER_TYPES,
+  packageAccessFilterConfig,
+  publicationTypeFilterConfig,
+} from '../../constants';
 
 const mockOnUpdate = jest.fn();
 const mockToggleColumn = jest.fn();
@@ -145,6 +149,29 @@ describe('Given SearchFilters', () => {
       });
 
       fireEvent.click(getByLabelText('ui-eholdings.filter.all'));
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc' });
+    });
+  });
+
+  describe('when using the publication type filter', () => {
+    const availableFilters = [publicationTypeFilterConfig];
+
+    it('should set the type filter when choosing a specific option', () => {
+      const { getByRole } = renderSearchFilters({ availableFilters, activeFilters: { q: 'abc' } });
+
+      fireEvent.change(getByRole('combobox'), { target: { value: 'ui-eholdings.filter.pubType.book' } });
+
+      expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc', type: 'book' });
+    });
+
+    it('should remove the type filter when choosing the default option', () => {
+      const { getByRole } = renderSearchFilters({
+        availableFilters,
+        activeFilters: { q: 'abc', type: 'book' },
+      });
+
+      fireEvent.change(getByRole('combobox'), { target: { value: 'ui-eholdings.filter.all' } });
 
       expect(mockOnUpdate).toHaveBeenCalledWith({ q: 'abc' });
     });
