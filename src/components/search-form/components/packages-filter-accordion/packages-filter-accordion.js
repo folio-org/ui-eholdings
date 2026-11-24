@@ -9,6 +9,8 @@ import {
 
 import FacetOptionFormatter from '../../../facet-option-formatter';
 
+import styles from '../../search-form.css';
+
 const propTypes = {
   activeFilters: PropTypes.object.isRequired,
   dataOptions: PropTypes.array.isRequired,
@@ -54,6 +56,7 @@ const PackagesFilterAccordion = ({
         header={FilterAccordionHeader}
         displayClearButton={!!packageId}
         onClearFilter={handleUpdate}
+        className={styles['search-filter-accordion']}
       >
         <Selection
           id="packagesFilterSelect"

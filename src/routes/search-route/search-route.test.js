@@ -315,7 +315,7 @@ describe('Given SearchRoute', () => {
     describe('when enter the value to search field and click on search', () => {
       it('should handle history push', () => {
         const {
-          getByPlaceholderText,
+          getByLabelText,
           getByText,
         } = renderSearchRoute({
           location: {
@@ -324,7 +324,7 @@ describe('Given SearchRoute', () => {
           },
         });
 
-        fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+        fireEvent.change(getByLabelText('ui-eholdings.search.enterYourSearch'), {
           target: { value: 'package' },
         });
         fireEvent.click(getByText('ui-eholdings.label.search'));
@@ -335,7 +335,7 @@ describe('Given SearchRoute', () => {
       it('should apply a changed search field only when the search is submitted', () => {
         mockHistory.push.mockClear();
         const {
-          getByPlaceholderText,
+          getByLabelText,
           getByTestId,
           getByText,
         } = renderSearchRoute({
@@ -345,7 +345,7 @@ describe('Given SearchRoute', () => {
           },
         });
 
-        fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+        fireEvent.change(getByLabelText('ui-eholdings.search.enterYourSearch'), {
           target: { value: 'package' },
         });
         fireEvent.change(getByTestId('field-to-search-select'), {
@@ -362,7 +362,7 @@ describe('Given SearchRoute', () => {
       it('should apply a changed search mode only when the search is submitted', () => {
         mockHistory.push.mockClear();
         const {
-          getByPlaceholderText,
+          getByLabelText,
           getByTestId,
           getByText,
         } = renderSearchRoute({
@@ -372,7 +372,7 @@ describe('Given SearchRoute', () => {
           },
         });
 
-        fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+        fireEvent.change(getByLabelText('ui-eholdings.search.enterYourSearch'), {
           target: { value: 'package' },
         });
         fireEvent.change(getByTestId('search-mode-select'), {
@@ -584,6 +584,67 @@ describe('Given SearchRoute', () => {
       rerender(getComponent(props));
 
       expect(PackagesFilter).toHaveBeenLastCalledWith(expect.objectContaining(expectedProps), {});
+    });
+  });
+
+  describe('reset all', () => {
+    const resetLabel = 'stripes-smart-components.resetAll';
+    const renderPackages = (search = '?searchType=packages') => renderSearchRoute({
+      location: { ...location, search },
+    });
+
+    beforeEach(() => {
+      mockHistory.push.mockClear();
+    });
+
+    it('should be disabled with default search state', () => {
+      const { getByText } = renderPackages();
+
+      expect(getByText(resetLabel).closest('button')).toBeDisabled();
+    });
+
+    it('should be enabled when a search string is entered', () => {
+      const { getByText, getByLabelText } = renderPackages();
+
+      fireEvent.change(getByLabelText('ui-eholdings.search.enterYourSearch'), {
+        target: { value: 'package' },
+      });
+
+      expect(getByText(resetLabel).closest('button')).toBeEnabled();
+    });
+
+    it('should be enabled when the url contains submitted params', () => {
+      const { getByText } = renderPackages('?searchType=packages&q=a');
+
+      expect(getByText(resetLabel).closest('button')).toBeEnabled();
+    });
+
+    it('should be enabled when only a search mode is selected', () => {
+      const { getByText, getByTestId } = renderPackages();
+
+      fireEvent.change(getByTestId('search-mode-select'), {
+        target: { value: 'exactphrase' },
+      });
+
+      expect(getByText(resetLabel).closest('button')).toBeEnabled();
+    });
+
+    it('should push the default url for the current search type when clicked', () => {
+      const { getByText } = renderPackages('?searchType=packages&q=a');
+
+      fireEvent.click(getByText(resetLabel));
+
+      expect(mockHistory.push).toHaveBeenCalledWith('/eholdings?searchType=packages');
+    });
+
+    it('should clear the search field when clicked', () => {
+      const { getByText, getByLabelText } = renderPackages();
+      const input = getByLabelText('ui-eholdings.search.enterYourSearch');
+
+      fireEvent.change(input, { target: { value: 'package' } });
+      fireEvent.click(getByText(resetLabel));
+
+      expect(input).toHaveValue('');
     });
   });
 

@@ -55,6 +55,7 @@ const renderSearchForm = (props = {}) => render(
     <SearchForm
       accessTypesStoreData={accessTypesStoreData}
       onFilterChange={noop}
+      onResetAll={noop}
       onSearch={noop}
       onSearchChange={noop}
       onStandaloneFilterChange={noop}
@@ -167,12 +168,12 @@ describe('Given SearchForm', () => {
   describe('when search field filled with value', () => {
     it('should handle onSearchChange action', () => {
       const mockOnSearchChange = jest.fn();
-      const { getByPlaceholderText } = renderSearchForm({
+      const { getByLabelText } = renderSearchForm({
         onSearchChange: mockOnSearchChange,
         searchType: searchTypes.PACKAGES,
       });
 
-      fireEvent.change(getByPlaceholderText('ui-eholdings.search.searchType.packages'), {
+      fireEvent.change(getByLabelText('ui-eholdings.search.enterYourSearch'), {
         target: { value: 'package' },
       });
 
@@ -192,6 +193,34 @@ describe('Given SearchForm', () => {
 
         expect(mockOnSearch).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('reset all button', () => {
+    const resetLabel = 'stripes-smart-components.resetAll';
+
+    it('should be disabled when canReset is false', () => {
+      const { getByText } = renderSearchForm({ canReset: false });
+
+      expect(getByText(resetLabel).closest('button')).toBeDisabled();
+    });
+
+    it('should be enabled when canReset is true', () => {
+      const { getByText } = renderSearchForm({ canReset: true });
+
+      expect(getByText(resetLabel).closest('button')).toBeEnabled();
+    });
+
+    it('should call onResetAll when clicked', () => {
+      const mockOnResetAll = jest.fn();
+      const { getByText } = renderSearchForm({
+        canReset: true,
+        onResetAll: mockOnResetAll,
+      });
+
+      fireEvent.click(getByText(resetLabel));
+
+      expect(mockOnResetAll).toHaveBeenCalledTimes(1);
     });
   });
 });

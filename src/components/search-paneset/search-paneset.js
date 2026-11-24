@@ -13,6 +13,7 @@ import {
   PaneMenu,
   Pane,
   Paneset,
+  Icon,
 } from '@folio/stripes/components';
 import {
   CollapseFilterPaneButton,
@@ -169,6 +170,9 @@ const SearchPaneset = ({
               data-test-eholdings-pre-search-pane
             >
               <div className={styles['pre-search-pane-content-label']}>
+                <span className={styles['pre-search-pane-content-icon']}>
+                  <Icon icon="arrow-left" />
+                </span>
                 <p>
                   <FormattedMessage id="ui-eholdings.search.enterQuery" />
                 </p>

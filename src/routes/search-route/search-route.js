@@ -406,7 +406,7 @@ class SearchRoute extends Component {
   };
 
   /**
-   * Handles updating the pffset query param in our URL. The
+   * Handles updating the offset query param in our URL. The
    * QueryList component will trigger this method when scrolling
    * @param {Number} offset - the read offset the QueryList component
    * has been scrolled to
@@ -415,6 +415,14 @@ class SearchRoute extends Component {
     const { params } = this.state;
 
     this.updateURLParams({ ...params, offset });
+  };
+
+  /**
+   * Handles resetting search state to all defaults.
+   */
+  handleResetAll = () => {
+    this.setState({ draftSearchString: '', draftSearchFilters: undefined });
+    this.props.history.push(this.buildSearchUrl('/eholdings', {}));
   };
 
   /**
@@ -526,6 +534,10 @@ class SearchRoute extends Component {
       q: params.q,
       filter: params.filter,
     });
+    const canReset = !!draftSearchString ||
+      !isEmpty(draftSearchFilters) ||
+      !isEmpty(params) ||
+      !!searchField || !!searchMode || !!sort;
 
     return (
       <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
@@ -562,6 +574,7 @@ class SearchRoute extends Component {
                     accessTypesStoreData={accessTypes}
                     searchTypeUrls={this.getSearchTypeUrls()}
                     isLoading={(!!params.q && !results.hasLoaded) || packagesFacetCollection.isLoading}
+                    canReset={canReset}
                     onSearch={this.handleSearchButtonClick}
                     onSearchFieldChange={this.handleSearchFieldChange}
                     onSearchModeChange={this.handleSearchModeChange}
@@ -569,6 +582,7 @@ class SearchRoute extends Component {
                     onSearchChange={this.handleSearchChange}
                     onStandaloneFilterChange={this.handleStandaloneFilterChange}
                     onStandaloneFilterToggle={this.toggleFilter}
+                    onResetAll={this.handleResetAll}
                   />
                 )}
               />

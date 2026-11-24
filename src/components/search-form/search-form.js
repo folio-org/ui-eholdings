@@ -14,6 +14,7 @@ import {
   FilterAccordionHeader,
   SearchField,
 } from '@folio/stripes/components';
+import { SearchAndSortResetButton } from '@folio/stripes/smart-components';
 
 import ProviderSearchFilters from '../provider-search-filters';
 import PackageSearchFilters from '../package-search-filters';
@@ -58,10 +59,12 @@ const searchFiltersComponents = {
 class SearchForm extends Component {
   static propTypes = {
     accessTypesStoreData: accessTypesReduxStateShape.isRequired,
+    canReset: PropTypes.bool,
     displaySearchButton: PropTypes.bool,
     displaySearchTypeSwitcher: PropTypes.bool,
     isLoading: PropTypes.bool,
     onFilterChange: PropTypes.func.isRequired,
+    onResetAll: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onSearchFieldChange: PropTypes.func.isRequired,
@@ -97,6 +100,7 @@ class SearchForm extends Component {
   };
 
   static defaultProps = {
+    canReset: false,
     displaySearchTypeSwitcher: true,
     displaySearchButton: true,
     isLoading: false,
@@ -126,6 +130,10 @@ class SearchForm extends Component {
     }
   }
 
+  resetSearchToDefaultState() {
+    this.props.onResetAll();
+  }
+
   toggleSection = ({ id }) => {
     const newState = update(`sections.${id}`, value => !value, this.state);
 
@@ -139,10 +147,6 @@ class SearchForm extends Component {
 
   handleChangeSearch = (e) => {
     this.props.onSearchChange(e.target.value);
-  };
-
-  handleClearSearch = () => {
-    this.props.onSearchChange('');
   };
 
   handleUpdateFilter = (filter) => {
@@ -279,6 +283,7 @@ class SearchForm extends Component {
       displaySearchTypeSwitcher,
       isLoading,
       displaySearchButton,
+      canReset,
       prevDataOfOptedPackage,
       results,
       searchField,
@@ -327,34 +332,30 @@ class SearchForm extends Component {
           id="search-form"
         >
           <div data-test-search-field>
-            <FormattedMessage id={`ui-eholdings.search.searchType.${searchType}`}>
-              {([placeholder]) => (
-                <>
-                  <SearchModifiers
-                    searchType={searchType}
-                    searchField={searchField}
-                    searchMode={searchMode}
-                    onFieldChange={this.handleChangeIndex}
-                    onModeChange={this.handleChangeSearchMode}
-                  />
-                  <FormattedMessage id="ui-eholdings.search.enterYourSearch">
-                    {([ariaLabel]) => (
-                      <SearchField
-                        id="eholdings-search"
-                        name="search"
-                        inputRef={this.searchField}
-                        autoFocus
-                        onChange={this.handleChangeSearch}
-                        onClear={this.handleClearSearch}
-                        value={searchString}
-                        placeholder={placeholder}
-                        loading={isLoading}
-                        disabled={standaloneFiltersEnabled}
-                        ariaLabel={ariaLabel}
-                      />
-                    )}
-                  </FormattedMessage>
-                </>
+            <SearchModifiers
+              searchType={searchType}
+              searchField={searchField}
+              searchMode={searchMode}
+              onFieldChange={this.handleChangeIndex}
+              onModeChange={this.handleChangeSearchMode}
+            />
+            <FormattedMessage id="ui-eholdings.search.enterYourSearch">
+              {([ariaLabel]) => (
+                <SearchField
+                  id="eholdings-search"
+                  name="search"
+                  inputRef={this.searchField}
+                  inputType="textarea"
+                  autoFocus
+                  lockWidth
+                  newLineOnShiftEnter
+                  onSubmitSearch={this.handleSearchSubmit}
+                  onChange={this.handleChangeSearch}
+                  value={searchString}
+                  loading={isLoading}
+                  disabled={standaloneFiltersEnabled}
+                  ariaLabel={ariaLabel}
+                />
               )}
             </FormattedMessage>
           </div>
@@ -371,6 +372,11 @@ class SearchForm extends Component {
               <FormattedMessage id="ui-eholdings.label.search" />
             </Button>
           )}
+          <SearchAndSortResetButton
+            label={<FormattedMessage id="stripes-smart-components.resetAll" />}
+            disabled={!canReset}
+            onClick={() => this.resetSearchToDefaultState()}
+          />
           {Filters && (
             <div role="tablist">
               <IfPermission perm="ui-tags.all">

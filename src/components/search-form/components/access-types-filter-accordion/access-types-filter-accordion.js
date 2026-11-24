@@ -10,7 +10,7 @@ import { AccessTypesFilter } from '../../../access-type-filter';
 import { getAccessTypesList } from '../../../utilities';
 import { accessTypesReduxStateShape } from '../../../../constants';
 
-import styles from './access-types-filter-accordion.css';
+import styles from '../../search-form.css';
 
 const propTypes = {
   accessTypesStoreData: accessTypesReduxStateShape.isRequired,

@@ -9,7 +9,7 @@ import {
 import { TagsFilter } from '../../../tags-filter';
 import { getTagsList } from '../../../utilities';
 
-import styles from './tags-filter-accordion.css';
+import styles from '../../search-form.css';
 
 const propTypes = {
   dataOptions: PropTypes.arrayOf(PropTypes.shape({

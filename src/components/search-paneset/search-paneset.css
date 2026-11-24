@@ -19,3 +19,7 @@
   height: 100%;
   font-size: var(--font-size-large);
 }
+
+.pre-search-pane-content-icon {
+  margin: 0 8px 0 0;
+}
