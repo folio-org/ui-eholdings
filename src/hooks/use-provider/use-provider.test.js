@@ -36,4 +36,13 @@ describe('Given useProvider', () => {
 
     await waitFor(() => expect(mockGet).toHaveBeenCalledWith(`eholdings/providers/${providerId}`));
   });
+
+  describe('when several hooks are rendered at about the same time', () => {
+    it('should send only a single request', async () => {
+      renderHook(() => useProvider({ providerId }), { wrapper });
+      renderHook(() => useProvider({ providerId }), { wrapper });
+
+      await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(1));
+    });
+  });
 });
