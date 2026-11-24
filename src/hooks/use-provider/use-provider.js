@@ -31,6 +31,7 @@ export const useProvider = ({ providerId }) => {
     queryFn: () => ky.get(`eholdings/providers/${providerIdString}`).json(),
     enabled: Boolean(providerIdString),
     onError,
+    staleTime: 2000, // prevent multiple requests from same page that are within 2 seconds of each other
   });
 
   /* response structure

@@ -48,6 +48,7 @@
 * Packages search : Add a fielded search options select. (UIEH-1573)
 * Add package access filter for title search. (UIEH-1518)
 * Update title search publication type filter to select. (UIEH-1565)
+* Prevent identical requests to /eholdings/providers/ sent when viewing Package details pane. (UIEH-1589)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 
