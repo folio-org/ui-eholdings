@@ -25,8 +25,8 @@ import {
   selectionStatusFilterConfig,
   titleSortFilterConfig,
   packageAccessFilterConfig,
+  publicationTypeFilterConfig,
 } from '../../constants';
-import { publicationTypeFilterConfig } from './search-form-filter-config';
 import { getTagLabelsArr } from '../utilities';
 import { SearchModifiers } from '../search-modifiers';
 import TagFilterAccordion from './components/tags-filter-accordion';

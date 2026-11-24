@@ -6,6 +6,7 @@ import {
 import Harness from '../../../test/jest/helpers/harness';
 
 import { VisibilityView } from './visibility-view';
+import { entityTypes } from '../../constants';
 
 const visibility = [
   { category: 'PF', hidden: false, reason: '' },
@@ -54,5 +55,15 @@ describe('Given VisibilityView', () => {
     expect(getByLabelText('ui-eholdings.visibility.PF')).toBeDisabled();
     expect(getByLabelText('ui-eholdings.visibility.FTF')).toBeDisabled();
     expect(getByLabelText('ui-eholdings.visibility.MARC')).toBeDisabled();
+  });
+
+  describe('when recordType is resource', () => {
+    it('should render (Set by package) message for hidden options', () => {
+      const { getAllByText } = renderVisibilityView({
+        recordType: entityTypes.RESOURCE,
+      });
+
+      expect(getAllByText('ui-eholdings.visibility.setByPackage').length).toEqual(1);
+    });
   });
 });

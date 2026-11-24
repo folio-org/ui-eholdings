@@ -47,7 +47,8 @@
 * Fix Access status types of 1st Knowledge Base are displayed when switching to 2nd Knowledge Base. (UIEH-1538)
 * Packages search : Add a fielded search options select. (UIEH-1573)
 * Add package access filter for title search. (UIEH-1518)
-* Update search UX (UIEH-1545, UIEH-1554)
+* Update title search publication type filter to select. (UIEH-1565)
+* Update search UX for visuals and Reset All button (UIEH-1545, UIEH-1554)
 
 ## [11.1.3] (https://github.com/folio-org/ui-eholdings/tree/v11.1.3) (2026-08-12)
 

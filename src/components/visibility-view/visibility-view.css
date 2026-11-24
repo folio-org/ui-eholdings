@@ -1,0 +1,7 @@
+@import "@folio/stripes-components/lib/variables";
+
+.setByPackageMessage {
+  margin-left: 5px;
+  font-weight: var(--text-weight-regular);
+  font-style: italic;
+}
